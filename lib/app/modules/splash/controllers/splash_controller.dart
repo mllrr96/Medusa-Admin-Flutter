@@ -13,7 +13,7 @@ class SplashController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    Timer(const Duration(seconds: 2), () => Get.offAllNamed(Routes.DASHBOARD));
+    Timer(const Duration(seconds: 2), () => Get.offAllNamed(Routes.SIGN_IN));
   }
 
   @override

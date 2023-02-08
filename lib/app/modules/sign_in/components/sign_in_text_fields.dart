@@ -49,7 +49,6 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             const SizedBox(
               width: 16,
             ),
-
             //password textField
             Expanded(
               child: TextField(
@@ -78,7 +77,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                         },
                         icon: Icon(
                           obscureText ? Icons.visibility : Icons.visibility_off,
-                          color:Get.isDarkMode ?  Colors.white70 : Colors.black54,
+                          color: Get.isDarkMode ? Colors.white70 : Colors.black54,
                         )),
                     border: InputBorder.none),
               ),
