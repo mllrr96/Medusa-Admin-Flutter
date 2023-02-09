@@ -12,13 +12,13 @@ dependencies:
   get: ^4.6.5
   # -------------------
   google_fonts: ^4.0.3
-
+  dio: ^4.0.6
   # UI packages
   # -------------------
   adaptive_dialog: ^1.8.2
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
-  flutter_svg: ^1.1.6
+  flutter_svg: ^2.0.0+1
 
   # Storage packages
   # -------------------
@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies: 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
   flutter_test: 
     sdk: flutter
 

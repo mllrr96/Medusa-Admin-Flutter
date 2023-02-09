@@ -2,12 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/colors.dart';
-import '../utils/fonts.dart';
-import '../utils/styles.dart';
 
 class AppTheme {
   static final light = ThemeData(
-      // primaryColor: const Color(0xff373FB9),
       useMaterial3: true,
       primaryColor: ColorManager.primary,
       brightness: Brightness.light,
@@ -19,12 +16,14 @@ class AppTheme {
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
-      appBarTheme: appbarTheme(),
+      appBarTheme: const AppBarTheme(
+        elevation: 0.0,
+        centerTitle: true,
+      ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
           primaryColor: ColorManager.primary,
         ),
-        brightness: Brightness.light,
         primaryColor: ColorManager.primary,
       ),
       inputDecorationTheme: const InputDecorationTheme(
@@ -65,7 +64,10 @@ class AppTheme {
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
       cardColor: const Color(0xff242527),
-      appBarTheme: appbarTheme(),
+      appBarTheme: const AppBarTheme(
+        elevation: 0.0,
+        centerTitle: true,
+      ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
           primaryColor: ColorManager.primary,
@@ -111,13 +113,6 @@ ButtonThemeData buttonTheme() {
     disabledColor: ColorManager.grey1,
     buttonColor: ColorManager.primary,
     splashColor: ColorManager.primary,
-  );
-}
-
-AppBarTheme appbarTheme() {
-  return AppBarTheme(
-    elevation: 0.0,
-    centerTitle: true,
   );
 }
 

@@ -16,8 +16,3 @@ enum AppearanceMode {
   dark,
 }
 
-enum OrderStatus {
-  delivered,
-  canceled,
-  upcoming,
-}

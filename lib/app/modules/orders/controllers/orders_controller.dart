@@ -1,11 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/repository/orders.dart';
 
-class OrdersController extends GetxController {
-  //TODO: Implement OrdersController
+import '../../../data/models/res/orders.dart';
 
-  final count = 0.obs;
+class OrdersController extends GetxController with StateMixin<UserOrdersRes> {
+  OrdersController({required this.ordersRepository});
+  OrdersRepository ordersRepository;
+
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    await loadOrders();
     super.onInit();
   }
 
@@ -19,5 +24,16 @@ class OrdersController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> loadOrders() async {
+    change(null, status: RxStatus.loading());
+    try {
+      final result = await ordersRepository.retrieveOrders();
+      if (result != null) {
+        change(result, status: RxStatus.success());
+      }
+    } catch (e) {
+      change(null, status: RxStatus.error('Error'));
+      debugPrint(e.toString());
+    }
+  }
 }

@@ -9,8 +9,14 @@ class OrdersView extends GetView<OrdersController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Orders')),
-      body: const SafeArea(child: Center(child: Text('Orders'))),
-    );
+        appBar: AppBar(title: const Text('Orders')),
+        body: SafeArea(
+          child: controller.obx(
+            (orders) => const Text(''),
+            onLoading: const Center(child: CircularProgressIndicator.adaptive()),
+            onError: (e) => const Text('Error'),
+            onEmpty: const Text('Empty'),
+          ),
+        ));
   }
 }

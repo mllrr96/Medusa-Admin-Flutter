@@ -140,6 +140,7 @@ class EmailTextField extends StatelessWidget {
                 controller: controller,
                 cursorColor: Get.isDarkMode ? Colors.white70 : Colors.blueGrey,
                 keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
                 onChanged: onChanged,
                 style: GoogleFonts.inter(
                   fontSize: 14.0,
