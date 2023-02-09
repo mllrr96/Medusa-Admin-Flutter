@@ -27,10 +27,11 @@ class User {
     firstName = json['first_name'];
     lastName = json['last_name'];
     apiToken = json['api_token'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
-    metadata = json['metadata'] ?? <String, dynamic>{};
+    // createdAt = DateTime.tryParse(json['created_at'] ?? {});
+    // updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
+    // deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
+    print(json['metadata']);
+    // metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

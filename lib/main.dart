@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/dio_service.dart';
@@ -25,13 +26,14 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      builder: EasyLoading.init(),
     );
   }
 }
 
 Future<void> initServices() async {
   debugPrint('starting services ...');
-  await Get.putAsync(() => DioService().init());
+  // await Get.putAsync(() => DioService().init());
 
   // Get.put(ThemeService());
   debugPrint('All services started...');

@@ -11,14 +11,15 @@ dependencies:
   # -------------------
   get: ^4.6.5
   # -------------------
-  google_fonts: ^4.0.3
-  dio: ^4.0.6
+
+
   # UI packages
   # -------------------
   adaptive_dialog: ^1.8.2
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
   flutter_svg: ^2.0.0+1
+  infinite_scroll_pagination: ^3.2.0
 
   # Storage packages
   # -------------------
@@ -26,6 +27,10 @@ dependencies:
   path_provider: ^2.0.12
   cached_network_image: ^3.2.3
   # -------------------
+
+  google_fonts: ^4.0.3
+  dio: ^4.0.6
+  dartz: ^0.10.1
 
   flutter: 
     sdk: flutter

@@ -34,7 +34,11 @@ class AppPages {
     GetPage(
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
-      binding: DashboardBinding(),
+      bindings : [
+        DashboardBinding(),
+        OrdersBinding(),
+        ProductsBinding(),
+      ]
     ),
     GetPage(
       name: _Paths.SPLASH,

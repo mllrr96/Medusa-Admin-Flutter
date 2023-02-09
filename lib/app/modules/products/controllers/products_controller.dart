@@ -1,11 +1,22 @@
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
+
+import '../../../data/models/store/product.dart';
 
 class ProductsController extends GetxController {
-  //TODO: Implement ProductsController
+  ProductsController({required this.productsRepository});
+  ProductsRepository productsRepository;
+  final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final int _pageSize = 20;
+  ViewOptions viewOptions = ViewOptions.grid;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
     super.onInit();
   }
 
@@ -19,5 +30,31 @@ class ProductsController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void changeViewOption() {
+    switch (viewOptions) {
+      case ViewOptions.list:
+        viewOptions = ViewOptions.grid;
+        break;
+      case ViewOptions.grid:
+        viewOptions = ViewOptions.list;
+        break;
+    }
+    update();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final productRes = await productsRepository
+          .list(queryParams: {'offset': pagingController.itemList?.length ?? 0, 'limit': _pageSize});
+      final isLastPage = productRes!.products!.length < _pageSize;
+      if (isLastPage) {
+        pagingController.appendLastPage(productRes.products!);
+      } else {
+        final nextPageKey = pageKey + productRes.products!.length;
+        pagingController.appendPage(productRes.products!, nextPageKey);
+      }
+    } catch (error) {
+      pagingController.error = error;
+    }
+  }
 }

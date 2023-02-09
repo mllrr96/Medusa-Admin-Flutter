@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/modules/sign_in/components/sign_in_button.dart';
 import 'package:medusa_admin/app/modules/sign_in/components/sign_in_text_fields.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../controllers/sign_in_controller.dart';
 
@@ -26,14 +25,15 @@ class SignInView extends GetView<SignInController> {
                   Text('Log in to your account below', style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
+              errorMessage(errorMessage: controller.errorMessage, context: context, emptyChildHeight: 0),
               const SizedBox(height: 36.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   children: [
-                    EmailTextField(controller: TextEditingController()),
+                    EmailTextField(controller: controller.emailCtrl),
                     const SizedBox(height: 12.0),
-                    PasswordTextField(controller: TextEditingController()),
+                    PasswordTextField(controller: controller.passwordCtrl),
                   ],
                 ),
               ),
@@ -49,7 +49,7 @@ class SignInView extends GetView<SignInController> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: SignInButton(
-                  onPress: () => Get.offAllNamed(Routes.DASHBOARD),
+                  onPress: () async => await controller.signIn(),
                   label: 'Continue',
                   buttonWidth: double.maxFinite,
                 ),

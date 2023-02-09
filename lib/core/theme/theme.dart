@@ -41,10 +41,11 @@ class AppTheme {
         displayLarge: GoogleFonts.cabin(color: Colors.black, fontSize: 26.0),
         bodyLarge: GoogleFonts.cabin(color: Colors.black, fontSize: 22.0),
         bodyMedium: GoogleFonts.cabin(color: Colors.black, fontSize: 20.0),
-        titleMedium: GoogleFonts.cabin(color: Colors.black, fontSize: 14.0),
-        titleSmall: GoogleFonts.cabin(color: Colors.black, fontSize: 16.0),
+
+        titleLarge: GoogleFonts.cabin(color: Colors.black, fontSize: 18.0),
+        titleMedium: GoogleFonts.cabin(color: Colors.black, fontSize: 16.0),
+        titleSmall: GoogleFonts.cabin(color: Colors.black, fontSize: 14.0),
         // Search delegate text field
-        titleLarge: GoogleFonts.cabin(color: Colors.black, fontSize: 16.0),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
@@ -94,10 +95,11 @@ class AppTheme {
         displayLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 26.0),
         bodyLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 22.0),
         bodyMedium: GoogleFonts.cabin(color: Colors.white, fontSize: 20.0),
-        titleMedium: GoogleFonts.cabin(color: Colors.white, fontSize: 14.0),
-        titleSmall: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
-        // Search delegate text field
-        titleLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
+
+
+        titleLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 18.0),
+        titleMedium: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
+        titleSmall: GoogleFonts.cabin(color: Colors.white, fontSize: 14.0),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(

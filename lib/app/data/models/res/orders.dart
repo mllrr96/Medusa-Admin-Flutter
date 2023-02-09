@@ -19,9 +19,16 @@ class UserOrdersRes {
   int? count, limit, offset;
 
   UserOrdersRes.fromJson(json) {
-    List<Map<String, dynamic>> ordersAsMap = json['orders'];
+    List<dynamic> ordersAsMap = json['orders'];
+
+    List<Map<String, dynamic>> ordersAsListMap = [];
+
+    for (var element in ordersAsMap) {
+      ordersAsListMap.add(Map<String, dynamic>.from(element));
+    }
+
     List<Order> orders = [];
-    for (var order in ordersAsMap) {
+    for (var order in ordersAsListMap) {
       orders.add(Order.fromJson(order));
     }
     this.orders = orders;

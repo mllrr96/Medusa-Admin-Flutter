@@ -1,24 +1,77 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import '../../../../core/utils/enums.dart';
 import '../controllers/products_controller.dart';
 
-class ProductsView extends GetView<ProductsController> {
+class ProductsView extends StatelessWidget {
   const ProductsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Products'),
-        centerTitle: true,
+    return GetBuilder<ProductsController>(
+      builder: (controller) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Products'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                  onPressed: () => controller.changeViewOption(),
+                  icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.add))
+            ],
+          ),
+          body: SafeArea(
+            child: controller.viewOptions == ViewOptions.grid
+                ? buildGridProducts(controller)
+                : buildListProducts(controller),
+          ),
+        );
+      },
+    );
+  }
+
+  PagedGridView<int, Product> buildGridProducts(ProductsController controller) {
+    return PagedGridView(
+      pagingController: controller.pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Product>(
+          itemBuilder: (context, product, index) => Card(
+                child: Column(
+                  children: [
+                    if (product.thumbnail != null)
+                      Expanded(flex: 3, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(product.title!, style: Theme.of(context).textTheme.titleMedium),
+                    )),
+                  ],
+                ),
+              ),
+          firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 100 / 150,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
+        crossAxisCount: 3,
       ),
-      body: Center(
-        child: Text(
-          'ProductsView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+    );
+  }
+
+  PagedListView<int, Product> buildListProducts(ProductsController controller) {
+    return PagedListView(
+      pagingController: controller.pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Product>(
+          itemBuilder: (context, product, index) => ListTile(
+                title: Text(product.title!),
+                subtitle: Text(product.description ?? '', style: Theme.of(context).textTheme.titleSmall),
+                leading: product.thumbnail != null ? CachedNetworkImage(imageUrl: product.thumbnail!) : null,
+              ),
+          firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
     );
   }
 }

@@ -13,9 +13,9 @@ class Item {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['variant_id'] = this.variantId;
-    data['quantity'] = this.quantity;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['variant_id'] = variantId;
+    data['quantity'] = quantity;
     return data;
   }
 }

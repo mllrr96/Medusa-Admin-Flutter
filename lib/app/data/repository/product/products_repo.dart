@@ -1,11 +1,16 @@
 import 'dart:developer';
 
-import '../models/req/store_post_search_req.dart';
-import '../models/res/products.dart';
-import 'base.dart';
+import 'package:dio/dio.dart';
+import 'package:medusa_admin/app/data/repository/product/base_products.dart';
 
-class ProductsRepository extends BaseRepository {
-  ProductsRepository(super.client);
+import '../../../../core/utils/strings.dart';
+import '../../datasource/remote/dio/dio_client.dart';
+import '../../models/req/store_post_search_req.dart';
+import '../../models/res/products.dart';
+import '../base.dart';
+
+class ProductsRepository extends BaseProducts {
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
 
   /// @description Retrieves a list of products
   /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list
@@ -14,9 +19,9 @@ class ProductsRepository extends BaseRepository {
   Future<UserProductsListRes?> list({Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
-        client.options.headers.addAll(customHeaders);
+        _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await client.get(
+      final response = await _dataProvider.dio.get(
         '/admin/products',
         queryParameters: queryParams,
       );
@@ -38,9 +43,9 @@ class ProductsRepository extends BaseRepository {
   Future<UserProductsRes?> retrieve(String id, {Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
-        client.options.headers.addAll(customHeaders);
+        _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await client.get(
+      final response = await _dataProvider.dio.get(
         '/admin/products/$id',
       );
       if (response.statusCode == 200) {
@@ -61,9 +66,9 @@ class ProductsRepository extends BaseRepository {
   Future<UserPostSearchRes?> search({StorePostSearchReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
-        client.options.headers.addAll(customHeaders);
+        _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await client.post('/admin/products/search', data: req);
+      final response = await _dataProvider.dio.post('/admin/products/search', data: req);
       if (response.statusCode == 200) {
         return UserPostSearchRes.fromJson(response.data);
       } else {

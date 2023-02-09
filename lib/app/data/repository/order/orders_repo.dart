@@ -1,11 +1,15 @@
 import 'dart:developer';
 
 
-import '../models/res/orders.dart';
-import 'base.dart';
+import 'package:dio/dio.dart';
+import 'package:medusa_admin/app/data/repository/order/base_orders.dart';
 
-class OrdersRepository extends BaseRepository {
-  OrdersRepository(super.client);
+import '../../../../core/utils/strings.dart';
+import '../../datasource/remote/dio/dio_client.dart';
+import '../../models/res/orders.dart';
+
+class OrdersRepository extends BaseOrders {
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
 
   /// @description Retrieves an order
   /// @param {string} id is required
@@ -14,9 +18,9 @@ class OrdersRepository extends BaseRepository {
   Future<UserOrderRes?> retrieve({required String id, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
-        client.options.headers.addAll(customHeaders);
+        _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await client.get('/admin/orders/$id');
+      final response = await _dataProvider.dio.get('/admin/orders/$id');
       if (response.statusCode == 200) {
         return UserOrderRes.fromJson(response.data);
       } else {
@@ -36,9 +40,9 @@ class OrdersRepository extends BaseRepository {
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
-        client.options.headers.addAll(customHeaders);
+        _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await client.get(
+      final response = await _dataProvider.dio.get(
         '/admin/orders',
         queryParameters: queryParameters,
       );

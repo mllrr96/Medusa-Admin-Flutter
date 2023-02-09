@@ -124,9 +124,9 @@ class Product {
       json['sales_channels']
           .forEach((e) => salesChannels!.add(SalesChannel.fromJson(e)));
     }
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    // createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    // updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    // deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
     metadata = json['metadata'] ?? {};
   }
 
