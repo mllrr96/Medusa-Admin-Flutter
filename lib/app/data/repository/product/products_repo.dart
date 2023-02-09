@@ -1,13 +1,10 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/product/base_products.dart';
-
 import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/req/store_post_search_req.dart';
 import '../../models/res/products.dart';
-import '../base.dart';
 
 class ProductsRepository extends BaseProducts {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
@@ -21,8 +18,8 @@ class ProductsRepository extends BaseProducts {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.get(
-        '/admin/products',
+      final response = await _dataProvider.get(
+        uri: '/admin/products',
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
@@ -45,9 +42,7 @@ class ProductsRepository extends BaseProducts {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.get(
-        '/admin/products/$id',
-      );
+      final response = await _dataProvider.get(uri: '/admin/products/$id');
       if (response.statusCode == 200) {
         return UserProductsRes.fromJson(response.data);
       } else {
@@ -68,7 +63,7 @@ class ProductsRepository extends BaseProducts {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.post('/admin/products/search', data: req);
+      final response = await _dataProvider.post(uri: '/admin/products/search', data: req);
       if (response.statusCode == 200) {
         return UserPostSearchRes.fromJson(response.data);
       } else {

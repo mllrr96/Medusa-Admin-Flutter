@@ -1,15 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 
-class OrdersController extends GetxController with StateMixin<List<Order>> {
+class OrdersController extends GetxController {
   OrdersController({required this.ordersRepository});
   OrdersRepository ordersRepository;
 
+  final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final int _pageSize = 20;
   @override
   Future<void> onInit() async {
-    await loadOrders();
+    pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
     super.onInit();
   }
 
@@ -23,18 +28,19 @@ class OrdersController extends GetxController with StateMixin<List<Order>> {
   //   super.onClose();
   // }
 
-  Future<void> loadOrders() async {
-    change(null, status: RxStatus.loading());
+  Future<void> _fetchPage(int pageKey) async {
     try {
-      final result = await ordersRepository.retrieveOrders();
-      if (result != null && result.orders != null && result.orders!.isNotEmpty) {
-        change(result.orders, status: RxStatus.success());
+      final productRes = await ordersRepository
+          .retrieveOrders(queryParameters: {'offset': pagingController.itemList?.length ?? 0, 'limit': _pageSize});
+      final isLastPage = productRes!.orders!.length < _pageSize;
+      if (isLastPage) {
+        pagingController.appendLastPage(productRes.orders!);
       } else {
-        change(null, status: RxStatus.empty());
+        final nextPageKey = pageKey + productRes.orders!.length;
+        pagingController.appendPage(productRes.orders!, nextPageKey);
       }
-    } catch (e) {
-      change(null, status: RxStatus.error('Error'));
-      debugPrint(e.toString());
+    } catch (error) {
+      pagingController.error = 'Error loading orders';
     }
   }
 }

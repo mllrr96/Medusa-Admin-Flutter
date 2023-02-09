@@ -1,6 +1,5 @@
 import 'index.dart';
 
-
 class Order {
   String? id;
   OrderStatus status = OrderStatus.pending;
@@ -167,7 +166,7 @@ class Order {
       json['gift_card_transactions'].forEach((e) => giftCardTransactions!.add(GiftCardTransaction.fromJson(e)));
     }
     canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
-    noNotification = json['no_notification'];
+    noNotification = json['no_notification'] ?? false;
     idempotencyKey = json['idempotency_key'];
     externalId = json['external_id'];
     salesChannelId = json['sales_channel_id'];

@@ -65,7 +65,7 @@ class Address {
     countryCode = json['country_code'];
     province = json['province'];
     postalCode = json['postal_code'];
-    phone = json['phone'];
+    phone = int.tryParse(json['phone']);
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');

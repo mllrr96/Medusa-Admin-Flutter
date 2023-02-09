@@ -1,6 +1,5 @@
 import 'index.dart';
 
-
 class ShippingOption {
   String? id;
   String? name;
@@ -48,29 +47,24 @@ class ShippingOption {
     regionId = json['region_id'];
     region = json['region'] != null ? Region.fromJson(json['region']) : null;
     profileId = json['profile_id'];
-    profile = json['profile'] != null
-        ? ShippingProfile.fromJson(json['profile'])
-        : null;
+    profile = json['profile'] != null ? ShippingProfile.fromJson(json['profile']) : null;
     providerId = json['provider_id'];
-    provider = json['provider'] != null
-        ? FulfillmentProvider.fromJson(json['provider'])
-        : null;
-    priceType = json['price_type'] != null
-        ? ShippingOptionPriceType.values
-            .firstWhere((e) => e.value == json['price_type'])
-        : null;
+    provider = json['provider'] != null ? FulfillmentProvider.fromJson(json['provider']) : null;
+    // priceType = json['price_type'] != null
+    //     ? ShippingOptionPriceType.values
+    //         .firstWhere((e) => e.value == json['price_type'])
+    //     : null;
     amount = json['amount'];
     isReturn = json['is_return'];
     if (json['requirements'] != null) {
       requirements = <ShippingOptionRequirement>[];
-      json['requirements'].forEach((e) => requirements!
-          .add(ShippingOptionRequirement.fromJson(json['requirements'])));
+      json['requirements'].forEach((e) => requirements!.add(ShippingOptionRequirement.fromJson(json['requirements'])));
     }
     data = json['data'];
     includesTax = json['includes_tax'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
     metadata = json['metadata'] ?? <String, dynamic>{};
   }
 

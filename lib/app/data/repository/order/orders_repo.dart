@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/order/base_orders.dart';
 
@@ -20,7 +19,7 @@ class OrdersRepository extends BaseOrders {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.get('/admin/orders/$id');
+      final response = await _dataProvider.get(uri: '/admin/orders/$id');
       if (response.statusCode == 200) {
         return UserOrderRes.fromJson(response.data);
       } else {
@@ -42,8 +41,8 @@ class OrdersRepository extends BaseOrders {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.get(
-        '/admin/orders',
+      final response = await _dataProvider.get(
+        uri: '/admin/orders',
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {

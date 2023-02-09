@@ -52,7 +52,7 @@ class AppTheme {
           foregroundColor: ColorManager.primary, // This is a custom color variable
         ),
       ),
-      expansionTileTheme: const ExpansionTileThemeData(iconColor: Colors.black));
+      expansionTileTheme: const ExpansionTileThemeData(iconColor: Colors.black, backgroundColor: CupertinoColors.white));
 
   static final dark = ThemeData(
       useMaterial3: true,
@@ -106,7 +106,7 @@ class AppTheme {
           foregroundColor: ColorManager.primary, // This is a custom color variable
         ),
       ),
-      expansionTileTheme: const ExpansionTileThemeData(iconColor: Colors.white));
+      expansionTileTheme: const ExpansionTileThemeData(iconColor: Colors.white, backgroundColor: Color(0xff242527)));
 }
 
 ButtonThemeData buttonTheme() {
