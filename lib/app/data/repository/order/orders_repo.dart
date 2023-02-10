@@ -14,12 +14,12 @@ class OrdersRepository extends BaseOrders {
   /// @param {string} id is required
   /// @param customHeaders
   /// @return {ResponsePromise<UserOrderRes?>}
-  Future<UserOrderRes?> retrieve({required String id, Map<String, dynamic>? customHeaders}) async {
+  Future<UserOrderRes?> retrieve({required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/admin/orders/$id');
+      final response = await _dataProvider.get(uri: '/admin/orders/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return UserOrderRes.fromJson(response.data);
       } else {

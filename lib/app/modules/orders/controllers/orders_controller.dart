@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -18,20 +17,13 @@ class OrdersController extends GetxController {
     super.onInit();
   }
 
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
-  //
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
-
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final productRes = await ordersRepository
-          .retrieveOrders(queryParameters: {'offset': pagingController.itemList?.length ?? 0, 'limit': _pageSize});
+      final productRes = await ordersRepository.retrieveOrders(queryParameters: {
+        'offset': pagingController.itemList?.length ?? 0,
+        'limit': _pageSize,
+        'expand': 'items,cart'
+      });
       final isLastPage = productRes!.orders!.length < _pageSize;
       if (isLastPage) {
         pagingController.appendLastPage(productRes.orders!);

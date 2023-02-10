@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
 import '../../../../core/utils/enums.dart';
 import '../controllers/products_controller.dart';
 
@@ -18,11 +18,12 @@ class ProductsView extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Products'),
             centerTitle: true,
+            leading: IconButton(
+                onPressed: () => controller.changeViewOption(),
+                icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
             actions: [
-              IconButton(
-                  onPressed: () => controller.changeViewOption(),
-                  icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.add))
+              IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
             ],
           ),
           body: SafeArea(
@@ -38,6 +39,7 @@ class ProductsView extends StatelessWidget {
   PagedGridView<int, Product> buildGridProducts(ProductsController controller) {
     return PagedGridView(
       pagingController: controller.pagingController,
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       builderDelegate: PagedChildBuilderDelegate<Product>(
           itemBuilder: (context, product, index) => Card(
                 child: Column(

@@ -13,13 +13,14 @@ class OrdersView extends GetView<OrdersController> {
     return Scaffold(
       appBar: AppBar(title: const Text('Orders')),
       body: SafeArea(
-        child: PagedListView(
+        child: PagedListView.separated(
           padding: const EdgeInsets.all(12.0),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Order>(
               itemBuilder: (context, order, index) => OrderCard(order),
               firstPageProgressIndicatorBuilder: (context) =>
                   const Center(child: CircularProgressIndicator.adaptive())),
+          separatorBuilder: (_, __) => const SizedBox(height: 12.0),
         ),
       ),
     );

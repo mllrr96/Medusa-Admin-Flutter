@@ -16,7 +16,7 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(Routes.ORDER_DETAILS, arguments:  [order]),
+      onTap: () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
@@ -29,14 +29,11 @@ class OrderCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '#${order.displayId}',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
+                    Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 2.0),
                     Text(
-                      order.canceledAt != null
-                          ? 'on ${DateFormat.MEd().format(order.canceledAt!)} at ${DateFormat.jm().format(order.canceledAt!)}'
+                      order.cart!.createdAt != null
+                          ? 'on ${DateFormat.MEd().format(order.cart!.createdAt!)} at ${DateFormat.jm().format(order.cart!.createdAt!)}'
                           : '',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),

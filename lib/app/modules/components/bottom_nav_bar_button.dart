@@ -42,10 +42,10 @@ class BottomNavigationBarButton extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(color: backgroundColor ?? ColorManager.white, height: MediaQuery.of(context).padding.bottom / 2),
+          Container(color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom / 2),
           Container(
             decoration: BoxDecoration(
-              color: backgroundColor ?? ColorManager.white,
+              color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor,
               // boxShadow: noShadow ? null : [boxShadow],
             ),
             height: containerHeight ?? kContainerHeight,
@@ -64,17 +64,17 @@ class BottomNavigationBarButton extends StatelessWidget {
               ),
             ),
           ),
-          Container(color: backgroundColor ?? ColorManager.white, height: MediaQuery.of(context).padding.bottom),
+          Container(color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom),
         ],
       );
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(color: backgroundColor ?? ColorManager.white, height: MediaQuery.of(context).padding.bottom / 2),
+        Container(color: backgroundColor ??Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom / 2),
         Container(
           decoration: BoxDecoration(
-            color: backgroundColor ?? ColorManager.white,
+            color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor,
             // boxShadow:noShadow ? null : [boxShadow],
           ),
           height: containerHeight ?? kContainerHeight,
@@ -91,7 +91,7 @@ class BottomNavigationBarButton extends StatelessWidget {
             ),
           ),
         ),
-        Container(color: backgroundColor ?? ColorManager.white, height: MediaQuery.of(context).padding.bottom),
+        Container(color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom),
       ],
     );
   }
