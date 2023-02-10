@@ -28,7 +28,8 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     change(null, status: RxStatus.loading());
     try {
       final result = await ordersRepository.retrieve(
-          id: orderId, queryParameters: {'expand': 'customer,items,payments,fulfillments,cart,shipping_methods,currency'});
+          id: orderId,
+          queryParameters: {'expand': 'customer,items,payments,fulfillments,cart,shipping_methods,currency,shipping_address,billing_address'});
       if (result != null && result.order != null) {
         change(result.order!, status: RxStatus.success());
         update();

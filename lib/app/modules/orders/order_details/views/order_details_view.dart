@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
 
 import '../../../../data/models/store/order.dart';
+import '../../components/order_card.dart';
 import '../controllers/order_details_controller.dart';
 
 class OrderDetailsView extends StatelessWidget {
@@ -53,96 +55,105 @@ class OrderDetailsView extends StatelessWidget {
               buttonColor: Colors.redAccent),
           body: SafeArea(
             child: controller.obx(
-                (order) => ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                            color: Theme.of(context).expansionTileTheme.backgroundColor,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text('#${order!.displayId!}', style: Theme.of(context).textTheme.titleLarge),
-                                          IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
-                                        ],
-                                      ),
-                                      if (order.cart != null && order.cart!.completedAt != null)
-                                        Text(
-                                            'on ${DateFormat.MEd().format(order.cart!.completedAt!)} at ${DateFormat.jm().format(order.cart!.completedAt!)}')
-                                    ],
-                                  ),
-                                  Text(order.status.name, style: Theme.of(context).textTheme.titleLarge)
-                                ],
-                              ),
-                              const Divider(height: 4),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
-                                      Text('07812357633', style: Theme.of(context).textTheme.titleMedium),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text('Payment',
-                                          style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
-                                      Text('Manual', style: Theme.of(context).textTheme.titleMedium),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        space,
-                        buildSummeryExpansionTile(order, mediumTextStyle!),
-                        space,
-                        ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: const Text('Payment'),
-                          trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                        ),
-                        space,
-                        ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: const Text('Fulfillment'),
-                          trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                        ),
-                        space,
-                        ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: const Text('Customer'),
-                          trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                        ),
-                        space,
-                        ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: const Text('Timeline'),
-                          trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                        ),
-                      ],
-                    ),
-                onEmpty: const Center(child: Text('No order details found')),
-                onError: (e) => const Center(child: Text('Error loading order details')),
-                onLoading: const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )),
+              (order) => ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                children: [
+                  buildOrderOverview(context, order!),
+                  space,
+                  buildSummeryExpansionTile(order, mediumTextStyle!),
+                  space,
+                  ExpansionTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: const Text('Payment'),
+                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  ),
+                  space,
+                  ExpansionTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: const Text('Fulfillment'),
+                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  ),
+                  space,
+                  ExpansionTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: const Text('Customer'),
+                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  ),
+                  space,
+                  ExpansionTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: const Text('Timeline'),
+                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  ),
+                ],
+              ),
+              onEmpty: const Center(child: Text('No order details found')),
+              onError: (e) => const Center(child: Text('Error loading order details')),
+              onLoading: const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
           ),
         );
       },
+    );
+  }
+
+  Container buildOrderOverview(BuildContext context, Order? order) {
+    print(order?.billingAddress?.toJson());
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        color: Theme.of(context).expansionTileTheme.backgroundColor,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text('#${order!.displayId!}', style: Theme.of(context).textTheme.titleLarge),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
+                    ],
+                  ),
+                  if (order.cart != null && order.cart!.completedAt != null)
+                    Text(
+                      'on ${DateFormat.MEd().format(order.cart!.completedAt!)} at ${DateFormat.jm().format(order.cart!.completedAt!)}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    )
+                ],
+              ),
+              OrderStatusLabel(orderStatus: order.status),
+            ],
+          ),
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                  if (order.billingAddress != null)
+                    Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('Payment', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
+                  Text('Manual', style: Theme.of(context).textTheme.titleMedium),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -155,14 +166,33 @@ class OrderDetailsView extends StatelessWidget {
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [
           ListView.builder(
-            shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: order.items!.length,
-              itemBuilder: (context, index) =>
-          ListTile(
-            title: Text(order.items![index].title!),
-          )
-          ),
+              itemBuilder: (context, index) {
+                final item = order.items![index];
+                return ListTile(
+                  leading: SizedBox(height: 50, width: 50, child: CachedNetworkImage(imageUrl: item.thumbnail!)),
+                  title: Text(item.title!),
+                  subtitle: Text(
+                    item.variant?.title ?? '',
+                    style: mediumTextStyle.copyWith(fontSize: 14),
+                  ),
+                  trailing: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(order.currency!.symbol.toString() + item.unitPrice!.toString(), style: mediumTextStyle),
+                          Text(' x ${item.quantity!}', style: mediumTextStyle),
+                        ],
+                      ),
+                      Text(order.currency!.symbol.toString() + item.total!.toString(), style: mediumTextStyle),
+                    ],
+                  ),
+                );
+              }),
           Column(
             children: [
               Row(
@@ -192,8 +222,7 @@ class OrderDetailsView extends StatelessWidget {
                   ),
                 ],
               ),
-              if (order.taxTotal != null && order.taxTotal! != 0)
-                space,
+              if (order.taxTotal != null && order.taxTotal! != 0) space,
               if (order.taxTotal != null && order.taxTotal! != 0)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
