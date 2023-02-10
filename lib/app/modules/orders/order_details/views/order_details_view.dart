@@ -24,10 +24,6 @@ class OrderDetailsView extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Order Details'),
             centerTitle: true,
-            actions: [
-              if (GetPlatform.isIOS) CupertinoButton(child: const Text('Edit Order'), onPressed: () {}),
-              if (GetPlatform.isAndroid) TextButton(child: const Text('Edit Order'), onPressed: () {})
-            ],
           ),
           bottomNavigationBar: BottomNavigationBarButton(
               onPress: controller.state != null
@@ -60,13 +56,9 @@ class OrderDetailsView extends StatelessWidget {
                 children: [
                   buildOrderOverview(context, order!),
                   space,
-                  buildSummeryExpansionTile(order, mediumTextStyle!),
+                  buildSummeryExpansionTile(order, mediumTextStyle!, context),
                   space,
-                  ExpansionTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: const Text('Payment'),
-                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                  ),
+                  buildPaymentExpansionTile(order, context),
                   space,
                   ExpansionTile(
                     controlAffinity: ListTileControlAffinity.leading,
@@ -74,11 +66,7 @@ class OrderDetailsView extends StatelessWidget {
                     trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                   ),
                   space,
-                  ExpansionTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: const Text('Customer'),
-                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                  ),
+                  buildCustomerExpansionTile(order, context),
                   space,
                   ExpansionTile(
                     controlAffinity: ListTileControlAffinity.leading,
@@ -99,8 +87,135 @@ class OrderDetailsView extends StatelessWidget {
     );
   }
 
+  ExpansionTile buildCustomerExpansionTile(Order order, BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    print(order.shippingAddress?.toJson());
+    return ExpansionTile(
+      controlAffinity: ListTileControlAffinity.leading,
+      title: const Text('Customer'),
+      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  CircleAvatar(child: Text(order.email![0])),
+                  const SizedBox(width: 14.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${order.shippingAddress?.firstName ?? ''} ${order.shippingAddress?.lastName ?? ''}',
+                            style: mediumTextStyle),
+                        Text(
+                            '${order.shippingAddress?.province ?? ''}, ${order.shippingAddress?.countryCode?.toUpperCase() ?? ''}',
+                            style: mediumTextStyle)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                  if (order.billingAddress != null)
+                    Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12.0),
+        IntrinsicHeight(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Shipping', style: mediumTextStyle),
+                  const SizedBox(height: 5.0),
+                  Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                      '${order.shippingAddress?.postalCode ?? ''} ${order.shippingAddress?.province ?? ''} ${order.shippingAddress?.countryCode ?? ''}',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ],
+              ),
+              const VerticalDivider(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Billing', style: mediumTextStyle),
+                  const SizedBox(height: 5.0),
+                  Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                      '${order.billingAddress?.postalCode ?? ''} ${order.billingAddress?.province ?? ''} ${order.billingAddress?.countryCode ?? ''}',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  ExpansionTile buildPaymentExpansionTile(Order order, BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    return ExpansionTile(
+      controlAffinity: ListTileControlAffinity.leading,
+      title: const Text('Payment'),
+      trailing: GetPlatform.isAndroid
+          ? TextButton(onPressed: () {}, child: const Text('Refund'))
+          : CupertinoButton(
+              padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      children: [
+        const Divider(height: 0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(order.paymentStatus.name.capitalize!, style: mediumTextStyle),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  order.payments!.first.id!,
+                  style: mediumTextStyle,
+                ),
+                Text(
+                    'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
+                    style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54))
+              ],
+            ),
+            const SizedBox(height: 12.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Total', style: mediumTextStyle.copyWith(fontSize: 20)),
+                Text(order.payments!.first.amount!.toString(), style: mediumTextStyle.copyWith(fontSize: 20))
+              ],
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
   Container buildOrderOverview(BuildContext context, Order? order) {
-    print(order?.billingAddress?.toJson());
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -157,12 +272,17 @@ class OrderDetailsView extends StatelessWidget {
     );
   }
 
-  ExpansionTile buildSummeryExpansionTile(Order order, TextStyle mediumTextStyle) {
+  ExpansionTile buildSummeryExpansionTile(Order order, TextStyle mediumTextStyle, BuildContext context) {
     const space = SizedBox(height: 5.0);
     return ExpansionTile(
         controlAffinity: ListTileControlAffinity.leading,
         title: const Text('Summery'),
-        trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+        trailing: GetPlatform.isAndroid
+            ? TextButton(onPressed: () {}, child: const Text('Edit Order'))
+            : CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
+                onPressed: () {}),
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [
           ListView.builder(

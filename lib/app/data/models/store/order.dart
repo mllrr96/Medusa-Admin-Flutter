@@ -181,6 +181,10 @@ class Order {
     refundableAmount = json['refundable_amount'];
     giftCardTotal = json['gift_card_total'];
     giftCardTaxTotal = json['gift_card_tax_total'];
+    if (json['payments'] != null) {
+      payments = [];
+      json['payments'].forEach((e) => payments!.add(Payment.fromJson(e)));
+    }
   }
 
   Map<String, dynamic> toJson() {
