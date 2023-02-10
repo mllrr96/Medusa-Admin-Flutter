@@ -1,5 +1,5 @@
-
 import '../store/product.dart';
+import '../store/product_variant.dart';
 import 'common.dart';
 
 class UserProductsListRes extends PaginatedResponse {
@@ -48,6 +48,25 @@ class UserPostSearchRes {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['hits'] = hits;
+    return data;
+  }
+}
+
+class UserVariantsRes {
+  List<ProductVariant>? variants;
+
+  UserVariantsRes.fromJson(json) {
+    if (json['variants'] != null) {
+      variants = <ProductVariant>[];
+      json['variants'].forEach((v) {
+        variants?.add(ProductVariant.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['variants'] = variants?.map((e) => e.toJson()).toList() ?? [];
     return data;
   }
 }

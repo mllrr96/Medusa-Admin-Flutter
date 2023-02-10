@@ -34,35 +34,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             children: [
               buildProductOverview(context, product),
               space,
-              ExpansionTile(
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
-                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                expandedAlignment: Alignment.centerLeft,
-                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Size', style: mediumTextStyle),
-                      if (product!.variants != null)
-                        Wrap(
-                          spacing: 8.0,
-                          children: product.variants!
-                              .map((e) => Chip(label: Text(e.title ?? '', style: smallTextStyle)))
-                              .toList(),
-                        ),
-                    ],
-                  ),
-                  space,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Product Variants (${product.variants?.length ?? ''})', style: mediumTextStyle),
-                    ],
-                  ),
-                ],
-              ),
+              buildVariantsExpansionTile(context, product),
             ],
           ),
           onError: (e) => const Center(child: Text('Error loading product')),
@@ -71,6 +43,97 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           ),
         ),
       ),
+    );
+  }
+
+  ExpansionTile buildVariantsExpansionTile(BuildContext context, Product? product) {
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    const space = SizedBox(height: 12.0);
+    return ExpansionTile(
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
+      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+      expandedAlignment: Alignment.centerLeft,
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (product!.options != null)
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: product.options!.length,
+                itemBuilder: (context, index) {
+                  final option = product.options![index];
+                  print(option.toJson());
+                  return Text('');
+                },
+              ),
+            // Do not remove the row
+            Row(
+              children: [
+                Text(product.options?[0].title ?? 'Sized', style: mediumTextStyle),
+              ],
+            ),
+            if (product.variants != null)
+              Wrap(
+                spacing: 8.0,
+                children:
+                    product.variants!.map((e) => Chip(label: Text(e.title ?? '', style: smallTextStyle))).toList(),
+              ),
+          ],
+        ),
+        space,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text('Product Variants (${product.variants?.length ?? ''})', style: mediumTextStyle),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Center(child: Text('Title', style: smallTextStyle))),
+                Expanded(child: Center(child: Text('SKU', style: smallTextStyle))),
+                Expanded(child: Center(child: Text('EAN', style: smallTextStyle))),
+                Expanded(
+                  child: Text('Inventory', style: smallTextStyle),
+                )
+              ],
+            ),
+            const Divider(),
+            if (product.variants != null)
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: product.variants!.length,
+                  itemBuilder: (context, index) {
+                    final variant = product.variants![index];
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Center(child: Text(variant.title ?? '-', style: smallTextStyle))),
+                        Expanded(child: Center(child: Text(variant.sku ?? '-', style: smallTextStyle))),
+                        Expanded(child: Center(child: Text(variant.ean ?? '-', style: smallTextStyle))),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Center(child: Text(variant.inventoryQuantity?.toString() ?? '-', style: smallTextStyle)),
+                              IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  })
+          ],
+        ),
+      ],
     );
   }
 

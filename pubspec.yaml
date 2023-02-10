@@ -23,6 +23,11 @@ dependencies:
   intl: ^0.17.0
   pull_to_refresh: ^2.0.0
 
+
+  # Miscellaneous packages
+  # -------------------
+  equatable: ^2.0.5
+  copy_with_extension_gen: ^5.0.0
   # Storage packages
   # -------------------
   shared_preferences: ^2.0.17
@@ -39,6 +44,8 @@ dependencies:
 
 dev_dependencies: 
   flutter_lints: ^2.0.1
+  build_runner: any
+  copy_with_extension_gen: ^5.0.0
   flutter_test: 
     sdk: flutter
 

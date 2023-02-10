@@ -54,6 +54,27 @@ class ProductsRepository extends BaseProducts {
     }
   }
 
+  /// @description Retrieves a single Product
+  /// @param {string} id is required
+  /// @param customHeaders
+  /// @return {ResponsePromise<StoreProductsRes>}
+  Future<UserVariantsRes?> retrieveVariants({Map<String, dynamic>? customHeaders,Map<String, dynamic>? queryParameters}) async {
+    try {
+      if (customHeaders != null) {
+        _dataProvider.dio.options.headers.addAll(customHeaders);
+      }
+      final response = await _dataProvider.get(uri: '/admin/variants', queryParameters: queryParameters);
+      if (response.statusCode == 200) {
+        return UserVariantsRes.fromJson(response.data);
+      } else {
+        throw response.statusCode!;
+      }
+    } catch (error, stackTrace) {
+      log(error.toString(), stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
   /// @description Searches for products
   /// @param {StorePostSearchReq} searchOptions is required
   /// @param customHeaders
