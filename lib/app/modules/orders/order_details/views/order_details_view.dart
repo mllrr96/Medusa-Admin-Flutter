@@ -89,11 +89,20 @@ class OrderDetailsView extends StatelessWidget {
 
   ExpansionTile buildCustomerExpansionTile(Order order, BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    print(order.shippingAddress?.toJson());
     return ExpansionTile(
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Customer'),
-      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+      trailing: IconButton(
+          onPressed: () async {
+            await showModalActionSheet(context: context, actions: <SheetAction>[
+              const SheetAction(label: 'Go to Customer', icon: Icons.person),
+              const SheetAction(label: 'Transfer Ownership'),
+              const SheetAction(label: 'Edit Shipping Address'),
+              const SheetAction(label: 'Edit Billing Address'),
+              const SheetAction(label: 'Edit Email Address'),
+            ]);
+          },
+          icon: const Icon(Icons.more_horiz)),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
         Row(

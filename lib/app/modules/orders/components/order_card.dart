@@ -9,14 +9,15 @@ import '../../../data/models/store/order.dart';
 class OrderCard extends StatelessWidget {
   const OrderCard(
     this.order, {
-    Key? key,
+    Key? key, this.onTap,
   }) : super(key: key);
   final Order order;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
+      onTap:onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(

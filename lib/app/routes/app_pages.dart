@@ -14,6 +14,8 @@ import '../modules/orders/order_details/views/order_details_view.dart';
 import '../modules/pricing/bindings/pricing_binding.dart';
 import '../modules/pricing/views/pricing_view.dart';
 import '../modules/products/bindings/products_binding.dart';
+import '../modules/products/product_details/bindings/product_details_binding.dart';
+import '../modules/products/product_details/views/product_details_view.dart';
 import '../modules/products/views/products_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
@@ -32,26 +34,30 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(name: _Paths.DASHBOARD, page: () => const DashboardView(), bindings: [
-      DashboardBinding(),
-      OrdersBinding(),
-      ProductsBinding(),
-    ], children: [
-      GetPage(
-        name: _Paths.ORDER_DETAILS,
-        page: () => const OrderDetailsView(),
-        binding: OrderDetailsBinding(),
-      ),
-    ]),
+    GetPage(
+        name: _Paths.DASHBOARD,
+        page: () => const DashboardView(),
+        bindings: [
+          DashboardBinding(),
+          OrdersBinding(),
+          ProductsBinding(),
+        ],
+        children: [
+          GetPage(
+            name: _Paths.ORDER_DETAILS,
+            page: () => const OrderDetailsView(),
+            binding: OrderDetailsBinding(),
+          ),
+          GetPage(
+            name: _Paths.PRODUCT_DETAILS,
+            page: () => const ProductDetailsView(),
+            binding: ProductDetailsBinding(),
+          ),
+        ]),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
       binding: SplashBinding(),
-    ),
-    GetPage(
-      name: _Paths.PRODUCTS,
-      page: () => const ProductsView(),
-      binding: ProductsBinding(),
     ),
     GetPage(
       name: _Paths.CUSTOMERS,

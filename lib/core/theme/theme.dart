@@ -17,7 +17,8 @@ class AppTheme {
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
       appBarTheme: const AppBarTheme(
-        elevation: 0.0,
+        // elevation: 0.0,
+        backgroundColor: CupertinoColors.white,
         centerTitle: true,
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
@@ -66,7 +67,8 @@ class AppTheme {
       ),
       cardColor: const Color(0xff242527),
       appBarTheme: const AppBarTheme(
-        elevation: 0.0,
+        // elevation: 0.0,
+        backgroundColor: Color(0xff242527),
         centerTitle: true,
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(

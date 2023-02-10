@@ -37,12 +37,12 @@ class ProductsRepository extends BaseProducts {
   /// @param {string} id is required
   /// @param customHeaders
   /// @return {ResponsePromise<StoreProductsRes>}
-  Future<UserProductsRes?> retrieve(String id, {Map<String, dynamic>? customHeaders}) async {
+  Future<UserProductsRes?> retrieve(String id, {Map<String, dynamic>? customHeaders,Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/admin/products/$id');
+      final response = await _dataProvider.get(uri: '/admin/products/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return UserProductsRes.fromJson(response.data);
       } else {
