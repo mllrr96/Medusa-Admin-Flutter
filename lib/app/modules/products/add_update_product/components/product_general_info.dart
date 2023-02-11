@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 
-class GeneralInformation extends StatelessWidget {
-  const GeneralInformation({Key? key}) : super(key: key);
+class ProductGeneralInformation extends StatelessWidget {
+  const ProductGeneralInformation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +19,14 @@ class GeneralInformation extends StatelessWidget {
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
         Text('To start selling, all you need is a name and a price.',
-            style: mediumTextStyle!.copyWith(color: lightWhite)),
+            style: smallTextStyle!.copyWith(color: lightWhite)),
         space,
         ProductTextField(
             label: 'Title', hintText: 'Winter Jacket', controller: TextEditingController(), required: true),
         ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
         Text(
             'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
-            style: mediumTextStyle.copyWith(color: lightWhite)),
+            style: smallTextStyle.copyWith(color: lightWhite)),
         space,
         ProductTextField(label: 'Handle', hintText: '/winter-jacket', controller: TextEditingController()),
         ProductTextField(label: 'Material', hintText: '100% cotton', controller: TextEditingController()),
@@ -37,19 +37,17 @@ class GeneralInformation extends StatelessWidget {
             controller: TextEditingController()),
         Text(
             'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
-            style: mediumTextStyle.copyWith(color: lightWhite)),
+            style: smallTextStyle.copyWith(color: lightWhite)),
         space,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          Text('Discountable', style: largeTextStyle),
-          Switch.adaptive(
-              activeColor: ColorManager.primary,
-              value: true, onChanged: (val){})
-        ],),
-        Text(
-            'When unchecked discounts will not be applied to this product.',
-            style: mediumTextStyle.copyWith(color: lightWhite)),
+            Text('Discountable', style: largeTextStyle),
+            Switch.adaptive(activeColor: ColorManager.primary, value: true, onChanged: (val) {})
+          ],
+        ),
+        Text('When unchecked discounts will not be applied to this product.',
+            style: smallTextStyle.copyWith(color: lightWhite)),
       ],
     );
   }
@@ -66,6 +64,7 @@ class ProductTextField extends StatelessWidget {
     this.keyboardType,
     this.hintText,
     this.maxLines = 1,
+    this.onChanged,
   });
   final bool required;
   final String label;
@@ -75,6 +74,7 @@ class ProductTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +84,15 @@ class ProductTextField extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(label, style: smallTextStyle),
-            if (required) Text('*', style: smallTextStyle!.copyWith(color: Colors.red)),
+            Text(label, style: mediumTextStyle),
+            if (required) Text('*', style: mediumTextStyle!.copyWith(color: Colors.red)),
           ],
         ),
         const SizedBox(height: 6.0),
         TextFormField(
           controller: controller,
           textInputAction: textInputAction,
+          onChanged: onChanged,
           textCapitalization: textCapitalization,
           keyboardType: keyboardType,
           maxLines: maxLines,
