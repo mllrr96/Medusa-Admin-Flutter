@@ -22,9 +22,9 @@ class SalesChannel {
     name = json['name'];
     description = json['description'];
     isDisabled = json['is_disabled'];
-    // createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    // updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    // deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
   }
 
   Map<String, dynamic> toJson() {

@@ -1,12 +1,8 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/products/product_details/components/product_details_components.dart';
 
 import '../controllers/product_details_controller.dart';
-import 'package:medusa_admin/app/data/models/store/product.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
   const ProductDetailsView({Key? key}) : super(key: key);

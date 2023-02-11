@@ -17,7 +17,9 @@ abstract class Routes {
   static const SIGN_IN = _Paths.SIGN_IN;
   static const ORDER_DETAILS = _Paths.DASHBOARD + _Paths.ORDER_DETAILS;
   static const PRODUCT_DETAILS = _Paths.DASHBOARD + _Paths.PRODUCT_DETAILS;
-  static const ADD_UPDATE_PRODUCT = _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
+  static const ADD_UPDATE_PRODUCT =
+      _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
+  static const STORE_DETAILS = _Paths.DASHBOARD + _Paths.STORE_DETAILS;
 }
 
 abstract class _Paths {
@@ -35,4 +37,5 @@ abstract class _Paths {
   static const ORDER_DETAILS = '/order-details';
   static const PRODUCT_DETAILS = '/product-details';
   static const ADD_UPDATE_PRODUCT = '/add-update-product';
+  static const STORE_DETAILS = '/store-details';
 }

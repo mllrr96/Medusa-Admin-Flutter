@@ -67,7 +67,7 @@ class ProductTextField extends StatelessWidget {
     this.keyboardType,
     this.hintText,
     this.maxLines = 1,
-    this.onChanged,
+    this.onChanged, this.width, this.lightLabelColor = false,
   });
   final bool required;
   final String label;
@@ -78,32 +78,38 @@ class ProductTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
   final void Function(String)? onChanged;
+  final double? width;
+  final bool lightLabelColor;
 
   @override
   Widget build(BuildContext context) {
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return Column(
       children: [
         Row(
           children: [
-            Text(label, style: mediumTextStyle),
+            Text(label, style:  mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite: null)),
             if (required) Text('*', style: mediumTextStyle!.copyWith(color: Colors.red)),
           ],
         ),
         const SizedBox(height: 6.0),
-        TextFormField(
-          controller: controller,
-          textInputAction: textInputAction,
-          onChanged: onChanged,
-          textCapitalization: textCapitalization,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          style: mediumTextStyle,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.0)),
+        SizedBox(
+          width: width,
+          child: TextFormField(
+            controller: controller,
+            textInputAction: textInputAction,
+            onChanged: onChanged,
+            textCapitalization: textCapitalization,
+            keyboardType: keyboardType,
+            maxLines: maxLines,
+            style: mediumTextStyle,
+            decoration: InputDecoration(
+              hintText: hintText,
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+              ),
             ),
           ),
         ),

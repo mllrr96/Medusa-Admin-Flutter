@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -105,18 +106,19 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                 )),
           if (GetPlatform.isIOS)
             CupertinoButton(
-                onPressed: () {
-                  showCupertinoModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => ProductAddVariant(currencies: controller.currencies),
-                  );
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [Icon(Icons.add), Text('Add a variant')],
-                )),
+              onPressed: () {
+                showCupertinoModalBottomSheet(
+                  expand: true,
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => ProductAddVariant(currencies: StoreService.store.currencies ?? []),
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [Icon(Icons.add), Text('Add a variant')],
+              ),
+            ),
         ],
       ),
     );

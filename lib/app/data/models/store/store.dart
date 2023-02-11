@@ -38,18 +38,19 @@ class Store extends Equatable {
       });
     }
     return Store(
-        id: json['id'],
-        name: json['name'],
-        defaultCurrencyCode: json['default_currency_code'],
-        defaultCurrency: json['default_currency'] != null ? Currency.fromJson(json['default_currency']) : null,
-        currencies: currencies,
-        swapLinkTemplate: json['swap_link_template'],
-        paymentLinkTemplate: json['payment_link_template'],
-        inviteLinkTemplate: json['invite_link_template'],
-        metadata: json['metadata'],
-        defaultSalesChannelId: json['default_sales_channel_id'],
-        defaultSalesChannel:
-            json['default_sales_channel'] != null ? SalesChannel.fromJson(json['default_sales_channel']) : null);
+      id: json['id'],
+      name: json['name'],
+      defaultCurrencyCode: json['default_currency_code'],
+      defaultCurrency: json['default_currency'] != null ? Currency.fromJson(json['default_currency']) : null,
+      currencies: currencies,
+      swapLinkTemplate: json['swap_link_template'],
+      paymentLinkTemplate: json['payment_link_template'],
+      inviteLinkTemplate: json['invite_link_template'],
+      metadata: json['metadata'],
+      defaultSalesChannelId: json['default_sales_channel_id'],
+      defaultSalesChannel:
+          json['default_sales_channel'] != null ? SalesChannel.fromJson(json['default_sales_channel']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -69,6 +70,33 @@ class Store extends Equatable {
     data['default_sales_channel'] = defaultSalesChannel?.toJson() ?? {};
     return data;
   }
+
+  Store copyWith({
+    String? id,
+    String? name,
+    String? defaultCurrencyCode,
+    String? swapLinkTemplate,
+    String? paymentLinkTemplate,
+    String? inviteLinkTemplate,
+    String? defaultSalesChannelId,
+    Currency? defaultCurrency,
+    List<Currency>? currencies,
+    Map<String, dynamic>? metadata,
+    SalesChannel? defaultSalesChannel,
+  }) =>
+      Store(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        defaultCurrencyCode: defaultCurrencyCode ?? this.defaultCurrencyCode,
+        defaultCurrency: defaultCurrency ?? this.defaultCurrency,
+        currencies: currencies ?? this.currencies,
+        swapLinkTemplate: swapLinkTemplate ?? this.swapLinkTemplate,
+        paymentLinkTemplate: paymentLinkTemplate ?? this.paymentLinkTemplate,
+        inviteLinkTemplate: inviteLinkTemplate ?? this.inviteLinkTemplate,
+        metadata: metadata ?? this.metadata,
+        defaultSalesChannel: defaultSalesChannel ?? this.defaultSalesChannel,
+        defaultSalesChannelId: defaultSalesChannelId ?? this.defaultSalesChannelId,
+      );
 
   @override
   List<Object?> get props => [

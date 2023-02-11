@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/currency.dart';
 
 class ProductAddVariant extends StatelessWidget {
@@ -106,7 +107,6 @@ class ProductAddVariant extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                               color: Theme.of(context).scaffoldBackgroundColor,
-
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                             child: Row(
@@ -117,7 +117,9 @@ class ProductAddVariant extends StatelessWidget {
                                     children: [
                                       Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
                                       SizedBox(width: 12.0),
-                                      Expanded(child: Text(currency.name ?? '', style: mediumTextStyle!.copyWith(color: lightWhite)))
+                                      Expanded(
+                                          child: Text(currency.name ?? '',
+                                              style: mediumTextStyle!.copyWith(color: lightWhite)))
                                     ],
                                   ),
                                 ),
@@ -126,10 +128,10 @@ class ProductAddVariant extends StatelessWidget {
                                   child: TextField(
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      suffixIcon:
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 10),
-                                              child: Text(currency.symbol ?? '', style: mediumTextStyle.copyWith(color: lightWhite))),
+                                      suffixIcon: Padding(
+                                          padding: const EdgeInsets.only(right: 10),
+                                          child: Text(currency.symbol ?? '',
+                                              style: mediumTextStyle.copyWith(color: lightWhite))),
                                       suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
                                       hintText: '-',
                                       border: const OutlineInputBorder(
@@ -149,6 +151,147 @@ class ProductAddVariant extends StatelessWidget {
                   ],
                 ),
               ),
+              space,
+              Theme(
+                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  expandedAlignment: Alignment.centerLeft,
+                  childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                  title: Text('Stock & Inventory', style: largeTextStyle),
+                  children: [
+                    Text('Configure the inventory and stock for this variant.',
+                        style: smallTextStyle.copyWith(color: lightWhite)),
+                    space,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Manage inventory', style: largeTextStyle),
+                        Switch.adaptive(
+                          value: true,
+                          onChanged: (val) {},
+                          activeColor: ColorManager.primary,
+                        )
+                      ],
+                    ),
+                    Text('When checked Medusa will regulate the inventory when orders and returns are made.',
+                        style: smallTextStyle.copyWith(color: lightWhite)),
+                    space,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Allow backorders', style: largeTextStyle),
+                        Switch.adaptive(value: false, onChanged: (val) {}, activeColor: ColorManager.primary)
+                      ],
+                    ),
+                    Text('When checked the product will be available for purchase despite the product being sold out',
+                        style: smallTextStyle.copyWith(color: lightWhite)),
+                    space,
+                    ProductTextField(
+                      label: 'Stock keeping unit (SKU)',
+                      controller: TextEditingController(),
+                      hintText: 'SUN-G, JK1234...',
+                    ),
+                    ProductTextField(
+                      label: 'Quantity in stock',
+                      controller: TextEditingController(),
+                    ),
+                    ProductTextField(
+                      label: 'EAN (Barcode)',
+                      controller: TextEditingController(),
+                      hintText: '123456789123...',
+                    ),
+                    ProductTextField(
+                      label: 'UPC (Barcode)',
+                      controller: TextEditingController(),
+                      hintText: '023456789104',
+                    ),
+                    ProductTextField(
+                      label: 'Barcode',
+                      controller: TextEditingController(),
+                      hintText: '123456789104...',
+                    ),
+                  ],
+                ),
+              ),
+              space,
+              Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    expandedAlignment: Alignment.centerLeft,
+                    childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                    title: Text('Shipping', style: largeTextStyle),
+                    children: [
+                      Text(
+                          'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
+                          style: smallTextStyle.copyWith(color: lightWhite)),
+                      space,
+                      Row(
+                        children: [
+                          Text('Dimensions', style: largeTextStyle),
+                        ],
+                      ),
+                      space,
+                      Text('Configure to calculate the most accurate shipping rates.',
+                          style: smallTextStyle.copyWith(color: lightWhite)),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ProductTextField(
+                              label: 'Width',
+                              controller: TextEditingController(),
+                              width: Get.width / 3,
+                              hintText: '100...'),
+                          ProductTextField(
+                              label: 'Length',
+                              controller: TextEditingController(),
+                              width: Get.width / 3,
+                              hintText: '100...'),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ProductTextField(
+                              label: 'Height',
+                              controller: TextEditingController(),
+                              width: Get.width / 3,
+                              hintText: '100...'),
+                          ProductTextField(
+                              label: 'Weight',
+                              controller: TextEditingController(),
+                              width: Get.width / 3,
+                              hintText: '100...'),
+                        ],
+                      ),
+                      space,
+                      Row(
+                        children: [
+                          Text('Customs', style: largeTextStyle),
+                        ],
+                      ),
+                      space,
+                      Text('Configure if you are shipping internationally.',
+                          style: smallTextStyle.copyWith(color: lightWhite)),
+                      space,
+                      ProductTextField(
+                        label: 'MID Code',
+                        controller: TextEditingController(),
+                        hintText: 'XDSKLAD9999...',
+                      ),
+                      ProductTextField(
+                        label: 'HS Code',
+                        controller: TextEditingController(),
+                        hintText: 'BDJSK39277W...',
+                      ),
+                      ProductTextField(
+                        label: 'Country of origin',
+                        controller: TextEditingController(),
+                        hintText: 'Country of origin',
+                      ),
+                    ],
+                  ))
             ],
           )),
         ),

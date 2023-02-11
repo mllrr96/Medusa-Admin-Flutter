@@ -18,8 +18,9 @@ import '../modules/products/add_update_product/views/add_update_product_view.dar
 import '../modules/products/bindings/products_binding.dart';
 import '../modules/products/product_details/bindings/product_details_binding.dart';
 import '../modules/products/product_details/views/product_details_view.dart';
-import '../modules/products/views/products_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
+import '../modules/settings/store_details/bindings/store_details_binding.dart';
+import '../modules/settings/store_details/views/store_details_view.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/sign_in/bindings/sign_in_binding.dart';
 import '../modules/sign_in/views/sign_in_view.dart';
@@ -60,6 +61,11 @@ class AppPages {
             page: () => const AddUpdateProductView(),
             binding: AddUpdateProductBinding(),
             fullscreenDialog: true,
+          ),
+          GetPage(
+            name: _Paths.STORE_DETAILS,
+            page: () => const StoreDetailsView(),
+            binding: StoreDetailsBinding(),
           ),
         ]),
     GetPage(

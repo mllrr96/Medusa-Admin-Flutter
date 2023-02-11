@@ -24,16 +24,10 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-           child: Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-             child: Column(
-                children: [
-                  ProductGeneralInformation(),
-                  space,
-                  ProductOrganize(),
-                  space,
-                  ProductVariants()
-                ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+              child: Column(
+                children: [ProductGeneralInformation(), space, ProductOrganize(), space, ProductVariants()],
               ),
             ),
           ),

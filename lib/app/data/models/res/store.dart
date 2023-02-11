@@ -5,6 +5,6 @@ class UserStoreRes {
   final Store store;
 
   factory UserStoreRes.fromJson(Map<String, dynamic> json) {
-    return UserStoreRes(store: Store.fromJson(json));
+    return UserStoreRes(store: Store.fromJson(json['store']));
   }
 }

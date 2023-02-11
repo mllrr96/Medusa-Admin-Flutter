@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -34,6 +35,7 @@ class SettingsView extends GetView<SettingsController> {
               SettingsTile.navigation(
                 leading: Icon(Icons.store, color: ColorManager.primary),
                 title: const Text('Store Details'),
+                onPressed: (_)=> Get.toNamed(Routes.STORE_DETAILS),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.attach_money, color: ColorManager.primary),
