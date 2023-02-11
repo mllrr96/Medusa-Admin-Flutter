@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,14 @@ class ProductsView extends StatelessWidget {
                 icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
+              IconButton(
+                  onPressed: () async {
+                    final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                      const SheetAction(label: 'Export Products'),
+                      const SheetAction(label: 'Import Products'),
+                    ]);
+                  },
+                  icon: const Icon(Icons.more_horiz))
             ],
           ),
           body: SafeArea(
@@ -42,9 +50,9 @@ class ProductsView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       builderDelegate: PagedChildBuilderDelegate<Product>(
           itemBuilder: (context, product, index) => GestureDetector(
-            onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
-            child: Card(
-              child: Column(
+                onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
+                child: Card(
+                  child: Column(
                     children: [
                       if (product.thumbnail != null)
                         Expanded(flex: 3, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
@@ -56,7 +64,7 @@ class ProductsView extends StatelessWidget {
                     ],
                   ),
                 ),
-          ),
+              ),
           firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 100 / 150,
@@ -72,7 +80,7 @@ class ProductsView extends StatelessWidget {
       pagingController: controller.pagingController,
       builderDelegate: PagedChildBuilderDelegate<Product>(
           itemBuilder: (context, product, index) => ListTile(
-            onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
+                onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
                 title: Text(product.title!),
                 subtitle: Text(product.status.name.capitalize ?? product.status.name,
                     style: Theme.of(context).textTheme.titleSmall),

@@ -1,6 +1,7 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/product_details_controller.dart';
@@ -11,10 +12,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
@@ -37,132 +35,11 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               space,
               buildVariantsExpansionTile(context, product),
               space,
-              ExpansionTile(
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text('Attributes', style: Theme.of(context).textTheme.bodyLarge),
-                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                expandedAlignment: Alignment.centerLeft,
-                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Dimensions', style: mediumTextStyle),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('Height', style: mediumTextStyle!.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product!.height?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('Width', style: mediumTextStyle.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product.width?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('Length', style: mediumTextStyle.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product.length?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('Weight', style: mediumTextStyle.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product.weight?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                      space,
-                      Text('Customs', style: mediumTextStyle),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('MID Code', style: mediumTextStyle.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product.midCode?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text('HS Code', style: mediumTextStyle.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product.hsCode?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Text('Country of origin', style: mediumTextStyle.copyWith(color: lightWhite))),
-                          Expanded(
-                              flex: 2,
-                              child: Text(product.originCountry?.toString() ?? '-',
-                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
-                        ],
-                      ),
-                      space,
-                    ],
-                  )
-                ],
-              ),
+              buildAttributesExpansionTile(context, product),
               space,
-              ExpansionTile(
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text('Thumbnail', style: Theme.of(context).textTheme.bodyLarge),
-                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                children: [
-                  if (product.thumbnail != null)
-                    SizedBox(height: 120, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
-                  space,
-                ],
-              ),
+              buildThumbnailExpansionTile(context, product),
               space,
-              ExpansionTile(
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
-                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                children: [
-                  if (product.images != null)
-                    Wrap(
-                        spacing: 10.0,
-                        runSpacing: 10.0,
-                        children: product.images!
-                            .map((e) => SizedBox(height: 120, width: 90, child: CachedNetworkImage(imageUrl: e.url!)))
-                            .toList()),
-                  space,
-                ],
-              ),
+              buildImagesExpansionTile(context, product),
             ],
           ),
           onError: (e) => const Center(child: Text('Error loading product')),
@@ -174,6 +51,148 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     );
   }
 
+  ExpansionTile buildImagesExpansionTile(BuildContext context, Product? product) {
+    const space = SizedBox(height: 12.0);
+    return ExpansionTile(
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
+      trailing: GetPlatform.isAndroid
+          ? TextButton(onPressed: () {}, child: const Text('Edit'))
+          : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      children: [
+        if (product!.images != null)
+          Wrap(
+              spacing: 10.0,
+              runSpacing: 10.0,
+              children: product.images!
+                  .map((e) => SizedBox(height: 120, width: 90, child: CachedNetworkImage(imageUrl: e.url!)))
+                  .toList()),
+        space,
+      ],
+    );
+  }
+
+  ExpansionTile buildThumbnailExpansionTile(BuildContext context, Product? product) {
+    const space = SizedBox(height: 12.0);
+    return ExpansionTile(
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text('Thumbnail', style: Theme.of(context).textTheme.bodyLarge),
+      trailing: GetPlatform.isAndroid
+          ? TextButton(onPressed: () {}, child: const Text('Edit'))
+          : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      children: [
+        if (product!.thumbnail != null) SizedBox(height: 120, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
+        space,
+      ],
+    );
+  }
+
+  ExpansionTile buildAttributesExpansionTile(BuildContext context, Product? product) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    const space = SizedBox(height: 12.0);
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    return ExpansionTile(
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text('Attributes', style: Theme.of(context).textTheme.bodyLarge),
+      trailing: GetPlatform.isAndroid
+          ? TextButton(onPressed: () {}, child: const Text('Edit'))
+          : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
+      expandedAlignment: Alignment.centerLeft,
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Dimensions', style: mediumTextStyle),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('Height', style: mediumTextStyle!.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product!.height?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('Width', style: mediumTextStyle.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product.width?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('Length', style: mediumTextStyle.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product.length?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('Weight', style: mediumTextStyle.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product.weight?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+            space,
+            Text('Customs', style: mediumTextStyle),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('MID Code', style: mediumTextStyle.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product.midCode?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('HS Code', style: mediumTextStyle.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product.hsCode?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text('Country of origin', style: mediumTextStyle.copyWith(color: lightWhite))),
+                Expanded(
+                    flex: 2,
+                    child: Text(product.originCountry?.toString() ?? '-',
+                        style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+              ],
+            ),
+            space,
+          ],
+        )
+      ],
+    );
+  }
+
   ExpansionTile buildVariantsExpansionTile(BuildContext context, Product? product) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -181,7 +200,15 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     return ExpansionTile(
       controlAffinity: ListTileControlAffinity.leading,
       title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
-      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+      trailing: IconButton(
+          onPressed: () async {
+            final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+              const SheetAction(label: 'Add Variants'),
+              const SheetAction(label: 'Edit Variants'),
+              const SheetAction(label: 'Edit Options'),
+            ]);
+          },
+          icon: const Icon(Icons.more_horiz)),
       expandedAlignment: Alignment.centerLeft,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
@@ -267,9 +294,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   }
 
   Container buildProductOverview(BuildContext context, Product? product) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Container(
@@ -286,7 +311,14 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             children: [
               Expanded(child: Text(product!.title ?? '')),
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                    const SheetAction(label: 'Edit General Information'),
+                    const SheetAction(label: 'Edit Sales Channels'),
+                    const SheetAction(label: 'Delete', isDestructiveAction: true),
+                  ]);
+                  if (result) {}
+                },
                 icon: const Icon(Icons.more_horiz),
               ),
             ],
@@ -325,10 +357,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(child: Text('Type', style: mediumTextStyle.copyWith(color: lightWhite))),
-                  // TODO : Implement product type
                   Expanded(
                       flex: 2,
-                      child: Text('Not implemented yet',
+                      child: Text(product.type?.value ?? '-',
                           style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
                 ],
               ),
