@@ -20,9 +20,9 @@ dependencies:
   flutter_easyloading: ^3.0.5
   flutter_svg: ^2.0.0+1
   infinite_scroll_pagination: ^3.2.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   pull_to_refresh: ^2.0.0
-
+  modal_bottom_sheet: ^3.0.0-pre
 
   # Miscellaneous packages
   # -------------------

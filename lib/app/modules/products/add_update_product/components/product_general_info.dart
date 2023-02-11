@@ -12,43 +12,46 @@ class ProductGeneralInformation extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
-    return ExpansionTile(
-      title: Text('General Information', style: Theme.of(context).textTheme.bodyLarge),
-      initiallyExpanded: true,
-      expandedAlignment: Alignment.centerLeft,
-      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      children: [
-        Text('To start selling, all you need is a name and a price.',
-            style: smallTextStyle!.copyWith(color: lightWhite)),
-        space,
-        ProductTextField(
-            label: 'Title', hintText: 'Winter Jacket', controller: TextEditingController(), required: true),
-        ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
-        Text(
-            'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
-            style: smallTextStyle.copyWith(color: lightWhite)),
-        space,
-        ProductTextField(label: 'Handle', hintText: '/winter-jacket', controller: TextEditingController()),
-        ProductTextField(label: 'Material', hintText: '100% cotton', controller: TextEditingController()),
-        ProductTextField(
-            label: 'Description',
-            hintText: 'A warm and cozy jacket...',
-            maxLines: null,
-            controller: TextEditingController()),
-        Text(
-            'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
-            style: smallTextStyle.copyWith(color: lightWhite)),
-        space,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Discountable', style: largeTextStyle),
-            Switch.adaptive(activeColor: ColorManager.primary, value: true, onChanged: (val) {})
-          ],
-        ),
-        Text('When unchecked discounts will not be applied to this product.',
-            style: smallTextStyle.copyWith(color: lightWhite)),
-      ],
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        title: Text('General Information', style: Theme.of(context).textTheme.bodyLarge),
+        initiallyExpanded: true,
+        expandedAlignment: Alignment.centerLeft,
+        childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+        children: [
+          Text('To start selling, all you need is a name and a price.',
+              style: smallTextStyle!.copyWith(color: lightWhite)),
+          space,
+          ProductTextField(
+              label: 'Title', hintText: 'Winter Jacket', controller: TextEditingController(), required: true),
+          ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
+          Text(
+              'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
+              style: smallTextStyle.copyWith(color: lightWhite)),
+          space,
+          ProductTextField(label: 'Handle', hintText: '/winter-jacket', controller: TextEditingController()),
+          ProductTextField(label: 'Material', hintText: '100% cotton', controller: TextEditingController()),
+          ProductTextField(
+              label: 'Description',
+              hintText: 'A warm and cozy jacket...',
+              maxLines: null,
+              controller: TextEditingController()),
+          Text(
+              'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
+              style: smallTextStyle.copyWith(color: lightWhite)),
+          space,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Discountable', style: largeTextStyle),
+              Switch.adaptive(activeColor: ColorManager.primary, value: true, onChanged: (val) {})
+            ],
+          ),
+          Text('When unchecked discounts will not be applied to this product.',
+              style: smallTextStyle.copyWith(color: lightWhite)),
+        ],
+      ),
     );
   }
 }
