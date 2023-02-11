@@ -1,11 +1,16 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/repository/currency/currency_repo.dart';
+
+import '../../../../data/models/store/currency.dart';
 
 class AddUpdateProductController extends GetxController {
-  //TODO: Implement AddUpdateProductController
+  AddUpdateProductController({required this.currencyRepo});
+  CurrencyRepo currencyRepo;
+  List<Currency> currencies = [];
 
-  final count = 0.obs;
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    await loadCurrencies();
     super.onInit();
   }
 
@@ -19,5 +24,17 @@ class AddUpdateProductController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> loadCurrencies() async {
+    final result = await currencyRepo.retrieve();
+    result.fold((l) {
+      print(l.currencies?.length);
+      if (l.currencies != null && l.currencies!.isNotEmpty) {
+        currencies = l.currencies!;
+      } else {
+        // Handle in case there is no currencies in the store.
+      }
+    }, (r) {
+      // Handle error here.
+    });
+  }
 }

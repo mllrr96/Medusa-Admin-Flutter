@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../controllers/add_update_product_controller.dart';
 
-class ProductVariants extends StatelessWidget {
+class ProductVariants extends GetView<AddUpdateProductController> {
   const ProductVariants({Key? key}) : super(key: key);
 
   @override
@@ -109,7 +110,7 @@ class ProductVariants extends StatelessWidget {
                     expand: true,
                     context: context,
                     backgroundColor: Colors.transparent,
-                    builder: (context) => ModalFit(),
+                    builder: (context) => ProductAddVariant(currencies: controller.currencies),
                   );
                 },
                 child: Row(

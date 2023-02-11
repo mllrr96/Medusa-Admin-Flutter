@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 
 import 'app/routes/app_pages.dart';
 import 'core/theme/theme.dart';

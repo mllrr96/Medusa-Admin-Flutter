@@ -1,23 +1,24 @@
+import 'package:equatable/equatable.dart';
+
 import 'index.dart';
 
+class Store extends Equatable {
+  final String id;
+  final String name;
+  final String defaultCurrencyCode;
+  final Currency? defaultCurrency;
+  final List<Currency>? currencies;
+  final String? swapLinkTemplate;
+  final String? paymentLinkTemplate;
+  final String? inviteLinkTemplate;
+  final Map<String, dynamic>? metadata;
+  final String? defaultSalesChannelId;
+  final SalesChannel? defaultSalesChannel;
 
-class Store {
-  String? id;
-  String? name;
-  String? defaultCurrencyCode;
-  Currency? defaultCurrency;
-  List<Currency>? currencies;
-  String? swapLinkTemplate;
-  String? paymentLinkTemplate;
-  String? inviteLinkTemplate;
-  Map<String, dynamic>? metadata;
-  String? defaultSalesChannelId;
-  SalesChannel? defaultSalesChannel;
-
-  Store({
-    this.id,
-    this.name,
-    this.defaultCurrencyCode,
+  const Store({
+    required this.id,
+    required this.name,
+    required this.defaultCurrencyCode,
     this.defaultCurrency,
     this.currencies,
     this.swapLinkTemplate,
@@ -28,44 +29,59 @@ class Store {
     this.defaultSalesChannel,
   });
 
-  Store.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    defaultCurrencyCode = json['default_currency_code'];
-    defaultCurrency = json['default_currency'] != null
-        ? Currency.fromJson(json['default_currency'])
-        : null;
+  factory Store.fromJson(Map<String, dynamic> json) {
+    List<Currency>? currencies;
     if (json['currencies'] != null) {
-      currencies = <Currency>[];
+      currencies = [];
       json['currencies'].forEach((v) {
-        currencies!.add(new Currency.fromJson(v));
+        currencies!.add(Currency.fromJson(v));
       });
     }
-    swapLinkTemplate = json['swap_link_template'];
-    paymentLinkTemplate = json['payment_link_template'];
-    inviteLinkTemplate = json['invite_link_template'];
-    metadata = json['metadata'];
-    defaultSalesChannelId = json['default_sales_channel_id'];
-    defaultSalesChannel = json['default_sales_channel'] != null
-        ? SalesChannel.fromJson(json['default_sales_channel'])
-        : null;
+    return Store(
+        id: json['id'],
+        name: json['name'],
+        defaultCurrencyCode: json['default_currency_code'],
+        defaultCurrency: json['default_currency'] != null ? Currency.fromJson(json['default_currency']) : null,
+        currencies: currencies,
+        swapLinkTemplate: json['swap_link_template'],
+        paymentLinkTemplate: json['payment_link_template'],
+        inviteLinkTemplate: json['invite_link_template'],
+        metadata: json['metadata'],
+        defaultSalesChannelId: json['default_sales_channel_id'],
+        defaultSalesChannel:
+            json['default_sales_channel'] != null ? SalesChannel.fromJson(json['default_sales_channel']) : null);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['default_currency_code'] = this.defaultCurrencyCode;
-    data['default_currency'] = this.defaultCurrency?.toJson() ?? {};
-    if (this.currencies != null) {
-      data['currencies'] = this.currencies!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['default_currency_code'] = defaultCurrencyCode;
+    data['default_currency'] = defaultCurrency?.toJson() ?? {};
+    if (currencies != null) {
+      data['currencies'] = currencies!.map((v) => v.toJson()).toList();
     }
-    data['swap_link_template'] = this.swapLinkTemplate;
-    data['payment_link_template'] = this.paymentLinkTemplate;
-    data['invite_link_template'] = this.inviteLinkTemplate;
-    data['metadata'] = this.metadata;
-    data['default_sales_channel_id'] = this.defaultSalesChannelId;
-    data['default_sales_channel'] = this.defaultSalesChannel?.toJson() ?? {};
+    data['swap_link_template'] = swapLinkTemplate;
+    data['payment_link_template'] = paymentLinkTemplate;
+    data['invite_link_template'] = inviteLinkTemplate;
+    data['metadata'] = metadata;
+    data['default_sales_channel_id'] = defaultSalesChannelId;
+    data['default_sales_channel'] = defaultSalesChannel?.toJson() ?? {};
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        defaultCurrencyCode,
+        defaultCurrency,
+        currencies,
+        swapLinkTemplate,
+        inviteLinkTemplate,
+        paymentLinkTemplate,
+        metadata,
+        defaultSalesChannel,
+        defaultSalesChannelId
+      ];
 }

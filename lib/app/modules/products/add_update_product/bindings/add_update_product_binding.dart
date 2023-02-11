@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/repository/currency/currency_repo.dart';
 
 import '../controllers/add_update_product_controller.dart';
 
 class AddUpdateProductBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<AddUpdateProductController>(
-      () => AddUpdateProductController(),
-    );
+    Get.put(AddUpdateProductController(currencyRepo: CurrencyRepo()));
   }
 }
