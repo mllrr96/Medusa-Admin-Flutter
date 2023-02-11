@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -35,6 +36,133 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               buildProductOverview(context, product),
               space,
               buildVariantsExpansionTile(context, product),
+              space,
+              ExpansionTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text('Attributes', style: Theme.of(context).textTheme.bodyLarge),
+                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                expandedAlignment: Alignment.centerLeft,
+                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Dimensions', style: mediumTextStyle),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('Height', style: mediumTextStyle!.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product!.height?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('Width', style: mediumTextStyle.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product.width?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('Length', style: mediumTextStyle.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product.length?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('Weight', style: mediumTextStyle.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product.weight?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                      space,
+                      Text('Customs', style: mediumTextStyle),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('MID Code', style: mediumTextStyle.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product.midCode?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text('HS Code', style: mediumTextStyle.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product.hsCode?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text('Country of origin', style: mediumTextStyle.copyWith(color: lightWhite))),
+                          Expanded(
+                              flex: 2,
+                              child: Text(product.originCountry?.toString() ?? '-',
+                                  style: mediumTextStyle.copyWith(color: lightWhite), textAlign: TextAlign.right)),
+                        ],
+                      ),
+                      space,
+                    ],
+                  )
+                ],
+              ),
+              space,
+              ExpansionTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text('Thumbnail', style: Theme.of(context).textTheme.bodyLarge),
+                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                children: [
+                  if (product.thumbnail != null)
+                    SizedBox(height: 120, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
+                  space,
+                ],
+              ),
+              space,
+              ExpansionTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
+                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                children: [
+                  if (product.images != null)
+                    Wrap(
+                        spacing: 10.0,
+                        runSpacing: 10.0,
+                        children: product.images!
+                            .map((e) => SizedBox(height: 120, width: 90, child: CachedNetworkImage(imageUrl: e.url!)))
+                            .toList()),
+                  space,
+                ],
+              ),
             ],
           ),
           onError: (e) => const Center(child: Text('Error loading product')),
@@ -66,7 +194,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 itemCount: product.options!.length,
                 itemBuilder: (context, index) {
                   final option = product.options![index];
-                  print(option.toJson());
+
+                  // print(option.);
                   return Text('');
                 },
               ),

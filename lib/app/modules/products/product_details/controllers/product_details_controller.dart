@@ -27,6 +27,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
   Future<void> _loadProduct() async {
     change(null, status: RxStatus.loading());
     try {
+      print(_productId);
       final result = await productsRepository
           .retrieve(_productId, queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels'});
       if (result != null && result.product != null) {
@@ -48,9 +49,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
       List<ProductVariant> variants = [];
       for (ProductVariant variant in product.variants!) {
         final result =
-            await productsRepository.retrieveVariants( queryParameters: {
-              'id' : variant.id!,
-              'expand': 'options,prices'});
+            await productsRepository.retrieveVariants(queryParameters: {'id': variant.id!, 'expand': 'options,prices'});
         if (result != null && result.variants != null) {
           variants.addAll(result.variants!.toList());
         }
