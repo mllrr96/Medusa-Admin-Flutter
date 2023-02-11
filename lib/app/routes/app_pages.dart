@@ -13,6 +13,8 @@ import '../modules/orders/order_details/bindings/order_details_binding.dart';
 import '../modules/orders/order_details/views/order_details_view.dart';
 import '../modules/pricing/bindings/pricing_binding.dart';
 import '../modules/pricing/views/pricing_view.dart';
+import '../modules/products/add_update_product/bindings/add_update_product_binding.dart';
+import '../modules/products/add_update_product/views/add_update_product_view.dart';
 import '../modules/products/bindings/products_binding.dart';
 import '../modules/products/product_details/bindings/product_details_binding.dart';
 import '../modules/products/product_details/views/product_details_view.dart';
@@ -53,6 +55,12 @@ class AppPages {
             page: () => const ProductDetailsView(),
             binding: ProductDetailsBinding(),
           ),
+          GetPage(
+            name: _Paths.ADD_UPDATE_PRODUCT,
+            page: () => const AddUpdateProductView(),
+            binding: AddUpdateProductBinding(),
+            fullscreenDialog: true,
+          ),
         ]),
     GetPage(
       name: _Paths.SPLASH,
@@ -89,5 +97,6 @@ class AppPages {
       page: () => const SignInView(),
       binding: SignInBinding(),
     ),
+
   ];
 }

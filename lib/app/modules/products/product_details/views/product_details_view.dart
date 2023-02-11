@@ -317,7 +317,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                     const SheetAction(label: 'Edit Sales Channels'),
                     const SheetAction(label: 'Delete', isDestructiveAction: true),
                   ]);
-                  if (result) {}
                 },
                 icon: const Icon(Icons.more_horiz),
               ),

@@ -23,7 +23,7 @@ class ProductsView extends StatelessWidget {
                 onPressed: () => controller.changeViewOption(),
                 icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
             actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+              IconButton(onPressed: () => Get.toNamed(Routes.ADD_UPDATE_PRODUCT), icon: const Icon(Icons.add)),
               IconButton(
                   onPressed: () async {
                     final result = await showModalActionSheet(context: context, actions: <SheetAction>[
@@ -85,7 +85,16 @@ class ProductsView extends StatelessWidget {
                 subtitle: Text(product.status.name.capitalize ?? product.status.name,
                     style: Theme.of(context).textTheme.titleSmall),
                 leading: product.thumbnail != null ? CachedNetworkImage(imageUrl: product.thumbnail!) : null,
-                trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                trailing: IconButton(
+                    onPressed: () async {
+                      final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                        const SheetAction(label: 'Edit'),
+                        const SheetAction(label: 'Unpublish'),
+                        const SheetAction(label: 'Duplicate'),
+                        const SheetAction(label: 'Delete', isDestructiveAction: true),
+                      ]);
+                    },
+                    icon: const Icon(Icons.more_horiz)),
               ),
           firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
     );
