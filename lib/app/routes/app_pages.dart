@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 
 import '../modules/customers/bindings/customers_binding.dart';
+import '../modules/customers/customer_details/bindings/customer_details_binding.dart';
+import '../modules/customers/customer_details/views/customer_details_view.dart';
 import '../modules/customers/views/customers_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
@@ -44,6 +46,7 @@ class AppPages {
           DashboardBinding(),
           OrdersBinding(),
           ProductsBinding(),
+          CustomersBinding(),
         ],
         children: [
           GetPage(
@@ -66,6 +69,11 @@ class AppPages {
             name: _Paths.STORE_DETAILS,
             page: () => const StoreDetailsView(),
             binding: StoreDetailsBinding(),
+          ),
+          GetPage(
+            name: _Paths.CUSTOMER_DETAILS,
+            page: () => const CustomerDetailsView(),
+            binding: CustomerDetailsBinding(),
           ),
         ]),
     GetPage(

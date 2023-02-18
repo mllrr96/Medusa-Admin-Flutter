@@ -14,7 +14,8 @@ class OrdersRepository extends BaseOrders {
   /// @param {string} id is required
   /// @param customHeaders
   /// @return {ResponsePromise<UserOrderRes?>}
-  Future<UserOrderRes?> retrieve({required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
+  Future<UserOrderRes?> retrieve(
+      {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);

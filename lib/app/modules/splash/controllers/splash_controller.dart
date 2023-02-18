@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/repository/auth/auth_repo.dart';
 import '../../../data/repository/store/store_repo.dart';
 import '../../../data/service/store_service.dart';
 
@@ -12,9 +13,15 @@ class SplashController extends GetxController {
     //TODO: Make the method more robust
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cookie = prefs.getString('Cookie');
+
     if (cookie != null) {
-      await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
-      Get.offAllNamed(Routes.DASHBOARD);
+      try {
+        await AuthRepository().getSession(customHeaders: {'Cookie': cookie});
+        await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
+        Get.offAllNamed(Routes.DASHBOARD);
+      } catch (e) {
+        Get.offAllNamed(Routes.SIGN_IN);
+      }
     } else {
       Get.offAllNamed(Routes.SIGN_IN);
     }

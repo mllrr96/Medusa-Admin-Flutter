@@ -25,30 +25,32 @@ class OrderDetailsView extends StatelessWidget {
             title: const Text('Order Details'),
             centerTitle: true,
           ),
-          bottomNavigationBar: BottomNavigationBarButton(
-              onPress: controller.state != null
-                  ? () async {
-                      final order = controller.state!;
-                      final result = await showTextAnswerDialog(
-                        title: 'Cancel order',
-                        message:
-                            'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
-                        retryMessage:
-                            'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
-                        retryOkLabel: 'Retry',
-                        context: context,
-                        keyword: 'order #${order.displayId!}',
-                        isDestructiveAction: true,
-                        hintText: 'order #${order.displayId!}',
-                        okLabel: 'Yes, confirm',
-                      );
-                      if (result) {
-                        // Delete order
-                      }
-                    }
-                  : null,
-              label: 'Cancel Order',
-              buttonColor: Colors.redAccent),
+          bottomNavigationBar: controller.state != null && controller.state!.status != OrderStatus.canceled
+              ? BottomNavigationBarButton(
+                  onPress: controller.state != null
+                      ? () async {
+                          final order = controller.state!;
+                          final result = await showTextAnswerDialog(
+                            title: 'Cancel order',
+                            message:
+                                'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
+                            retryMessage:
+                                'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
+                            retryOkLabel: 'Retry',
+                            context: context,
+                            keyword: 'order #${order.displayId!}',
+                            isDestructiveAction: true,
+                            hintText: 'order #${order.displayId!}',
+                            okLabel: 'Yes, confirm',
+                          );
+                          if (result) {
+                            // Delete order
+                          }
+                        }
+                      : null,
+                  label: 'Cancel Order',
+                  buttonColor: Colors.redAccent)
+              : null,
           body: SafeArea(
             child: controller.obx(
               (order) => ListView(

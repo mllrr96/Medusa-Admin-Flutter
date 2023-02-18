@@ -20,6 +20,7 @@ abstract class Routes {
   static const ADD_UPDATE_PRODUCT =
       _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
   static const STORE_DETAILS = _Paths.DASHBOARD + _Paths.STORE_DETAILS;
+  static const CUSTOMER_DETAILS = _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS;
 }
 
 abstract class _Paths {
@@ -38,4 +39,5 @@ abstract class _Paths {
   static const PRODUCT_DETAILS = '/product-details';
   static const ADD_UPDATE_PRODUCT = '/add-update-product';
   static const STORE_DETAILS = '/store-details';
+  static const CUSTOMER_DETAILS = '/customer-details';
 }

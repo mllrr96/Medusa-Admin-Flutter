@@ -91,7 +91,7 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                                                 variationsCtrl.text.removeAllWhitespace.split(',');
                                             var variationsValue = <ProductOptionValue>[];
                                             if (variations.isNotEmpty) {
-                                              variations.removeWhere((element) => element == '');
+                                              variations.removeWhere((element) => element.removeAllWhitespace.isEmpty);
                                               for (var element in variations) {
                                                 variationsValue.add(ProductOptionValue(value: element));
                                               }

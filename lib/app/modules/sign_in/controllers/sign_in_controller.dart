@@ -4,6 +4,8 @@ import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../../../data/models/req/user_post_auth_req.dart';
+import '../../../data/repository/store/store_repo.dart';
+import '../../../data/service/store_service.dart';
 import '../../components/easy_loading.dart';
 
 class SignInController extends GetxController {
@@ -38,14 +40,11 @@ class SignInController extends GetxController {
     }
     loading();
     try {
-      final result =
-          await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
-      if (result != null) {
-        Get.offAllNamed(Routes.DASHBOARD);
-        dismissLoading();
-      }
+      await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
+      await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
+      Get.offAllNamed(Routes.DASHBOARD);
+      dismissLoading();
     } catch (e) {
-      // debugPrint(e.toString());
       errorMessage.value = 'Error singing in';
       dismissLoading();
     }

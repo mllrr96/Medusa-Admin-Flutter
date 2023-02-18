@@ -20,7 +20,6 @@ class OrdersView extends GetView<OrdersController> {
           onRefresh: () => controller.pagingController.refresh(),
           header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
           child: PagedListView.separated(
-            shrinkWrap: true,
             padding: const EdgeInsets.all(12.0),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Order>(

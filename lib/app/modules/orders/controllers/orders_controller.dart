@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class OrdersController extends GetxController {
   OrdersController({required this.ordersRepository});
   OrdersRepository ordersRepository;
-  RefreshController refreshController= RefreshController();
+  RefreshController refreshController = RefreshController();
 
   final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
