@@ -13,9 +13,9 @@ class ProductOption {
 
   ProductOption({
     this.id,
-    required this.title,
+     this.title,
     this.values,
-    required this.productId,
+     this.productId,
     this.product,
     this.createdAt,
     this.updatedAt,

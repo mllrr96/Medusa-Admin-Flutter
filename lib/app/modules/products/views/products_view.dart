@@ -84,7 +84,14 @@ class ProductsView extends StatelessWidget {
                 title: Text(product.title!),
                 subtitle: Text(product.status.name.capitalize ?? product.status.name,
                     style: Theme.of(context).textTheme.titleSmall),
-                leading: product.thumbnail != null ? CachedNetworkImage(imageUrl: product.thumbnail!) : null,
+                leading: product.thumbnail != null
+                    ? SizedBox(
+                        width: 45,
+                        child: CachedNetworkImage(
+                          imageUrl: product.thumbnail!,
+                          placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                        ))
+                    : null,
                 trailing: IconButton(
                     onPressed: () async {
                       final result = await showModalActionSheet(context: context, actions: <SheetAction>[

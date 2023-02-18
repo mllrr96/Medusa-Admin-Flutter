@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/data/repository/currency/currency_repo.dart';
 
 import '../../../../data/models/store/currency.dart';
@@ -7,9 +8,15 @@ class AddUpdateProductController extends GetxController {
   AddUpdateProductController({required this.currencyRepo});
   CurrencyRepo currencyRepo;
   List<Currency> currencies = [];
-
+  late Product product;
   @override
   Future<void> onInit() async {
+    if (Get.arguments == null) {
+      product = Product();
+    } else {
+      // Update existing product
+      product = Get.arguments;
+    }
     await loadCurrencies();
     super.onInit();
   }

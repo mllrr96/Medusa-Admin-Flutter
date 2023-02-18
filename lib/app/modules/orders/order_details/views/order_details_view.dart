@@ -133,7 +133,7 @@ class OrderDetailsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
-                  if (order.billingAddress != null)
+                  if (order.billingAddress != null && order.billingAddress!.phone != null)
                     Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
@@ -259,13 +259,15 @@ class OrderDetailsView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
-                  if (order.billingAddress != null)
-                    Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                    if (order.billingAddress != null && order.billingAddress!.phone != null)
+                      Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                  ],
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

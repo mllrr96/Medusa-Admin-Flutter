@@ -15,10 +15,10 @@ class ProductOptionValue {
 
   ProductOptionValue({
     this.id,
-    required this.value,
-    required this.optionId,
+     this.value,
+     this.optionId,
     this.option,
-    required this.variantId,
+     this.variantId,
     this.variant,
     this.createdAt,
     this.updatedAt,
