@@ -21,6 +21,7 @@ abstract class Routes {
       _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
   static const STORE_DETAILS = _Paths.DASHBOARD + _Paths.STORE_DETAILS;
   static const CUSTOMER_DETAILS = _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS;
+  static const CURRENCIES = _Paths.DASHBOARD + _Paths.CURRENCIES;
 }
 
 abstract class _Paths {
@@ -40,4 +41,5 @@ abstract class _Paths {
   static const ADD_UPDATE_PRODUCT = '/add-update-product';
   static const STORE_DETAILS = '/store-details';
   static const CUSTOMER_DETAILS = '/customer-details';
+  static const CURRENCIES = '/currencies';
 }

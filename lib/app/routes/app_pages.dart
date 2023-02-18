@@ -21,6 +21,8 @@ import '../modules/products/bindings/products_binding.dart';
 import '../modules/products/product_details/bindings/product_details_binding.dart';
 import '../modules/products/product_details/views/product_details_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
+import '../modules/settings/currencies/bindings/currencies_binding.dart';
+import '../modules/settings/currencies/views/currencies_view.dart';
 import '../modules/settings/store_details/bindings/store_details_binding.dart';
 import '../modules/settings/store_details/views/store_details_view.dart';
 import '../modules/settings/views/settings_view.dart';
@@ -74,6 +76,11 @@ class AppPages {
             name: _Paths.CUSTOMER_DETAILS,
             page: () => const CustomerDetailsView(),
             binding: CustomerDetailsBinding(),
+          ),
+          GetPage(
+            name: _Paths.CURRENCIES,
+            page: () => const CurrenciesView(),
+            binding: CurrenciesBinding(),
           ),
         ]),
     GetPage(

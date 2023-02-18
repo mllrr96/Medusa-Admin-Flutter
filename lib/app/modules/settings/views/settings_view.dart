@@ -52,6 +52,7 @@ class SettingsView extends GetView<SettingsController> {
               SettingsTile.navigation(
                 leading: Icon(Icons.currency_exchange, color: ColorManager.primary),
                 title: const Text('Currencies'),
+                onPressed: (_) => Get.toNamed(Routes.CURRENCIES),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
