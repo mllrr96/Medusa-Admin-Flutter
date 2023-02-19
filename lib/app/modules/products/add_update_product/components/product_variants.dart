@@ -15,12 +15,10 @@ class ProductVariants extends GetView<AddUpdateProductController> {
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final optionCtrl = TextEditingController();
     final variationsCtrl = TextEditingController();
     const space = SizedBox(height: 12.0);
-    var product = controller.product;
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
@@ -39,19 +37,19 @@ class ProductVariants extends GetView<AddUpdateProductController> {
             ],
           ),
           space,
-          if (product.options != null)
+          if (controller.product.options != null)
             ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => ProductOptionCard(
-                      productOption: product.options![index],
+                      productOption: controller.product.options![index],
                       delete: () {
                         controller.product.options?.removeAt(index);
                         controller.update();
                       },
                     ),
                 separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                itemCount: product.options!.length),
+                itemCount: controller.product.options!.length),
           space,
           if (GetPlatform.isAndroid)
             TextButton(
@@ -86,7 +84,7 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                                         onPressed: () {
                                           if (optionCtrl.text.removeAllWhitespace.isNotEmpty &&
                                               variationsCtrl.text.removeAllWhitespace.isNotEmpty) {
-                                            List<ProductOption>? options = product.options;
+                                            List<ProductOption>? options = controller.product.options;
                                             List<String> variations =
                                                 variationsCtrl.text.removeAllWhitespace.split(',');
                                             var variationsValue = <ProductOptionValue>[];
@@ -103,7 +101,7 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                                             } else {
                                               options = [newOption];
                                             }
-                                            controller.product = product.copyWith(options: options);
+                                            controller.product = controller.product.copyWith(options: options);
                                           } else {
                                             // Show fields are required
                                           }
@@ -143,6 +141,14 @@ class ProductVariants extends GetView<AddUpdateProductController> {
               Text('Product variants', style: largeTextStyle),
             ],
           ),
+          space,
+          if (controller.product.variants != null)
+            ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
+                separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                itemCount: controller.product.variants!.length),
           if (GetPlatform.isAndroid)
             TextButton(
                 onPressed: () {},
@@ -152,11 +158,11 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                 )),
           if (GetPlatform.isIOS)
             CupertinoButton(
-              onPressed: () {
+              onPressed: () async {
                 if (controller.product.options == null) {
                   return;
                 }
-                showCupertinoModalBottomSheet(
+                ProductVariant? result = await showCupertinoModalBottomSheet(
                   expand: true,
                   context: context,
                   backgroundColor: Colors.transparent,
@@ -165,6 +171,16 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                     options: controller.product.options!,
                   ),
                 );
+                if (result != null) {
+                  if (controller.product.variants != null) {
+                    List<ProductVariant> variants = controller.product.variants!;
+                    variants.add(result);
+                    controller.product = controller.product.copyWith(variants: variants);
+                  } else {
+                    controller.product = controller.product.copyWith(variants: [result]);
+                  }
+                }
+                controller.update();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -174,6 +190,59 @@ class ProductVariants extends GetView<AddUpdateProductController> {
         ],
       ),
     );
+  }
+}
+
+class ProductVariantCard extends StatelessWidget {
+  const ProductVariantCard({
+    super.key,
+    required this.variant,
+  });
+
+  final ProductVariant variant;
+
+  @override
+  Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        color: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+              child: Text(
+            variant.title!,
+            style: mediumTextStyle!.copyWith(fontWeight: FontWeight.bold),
+          )),
+          Row(
+            children: [
+              Text(variant.inventoryQuantity?.toString() ?? '', style: mediumTextStyle),
+              const SizedBox(width: 10.0),
+              if (isVariantCompleted(variant)) const Icon(Icons.check_circle, color: Colors.green),
+              if (!isVariantCompleted(variant)) const Icon(Icons.error, color: Colors.orange),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  bool isVariantCompleted(ProductVariant variant) {
+    if (variant.inventoryQuantity == null ||
+        variant.length == null ||
+        variant.width == null ||
+        variant.height == null ||
+        variant.weight == null ||
+        variant.originCountry == null) {
+      return false;
+    }
+
+    return true;
   }
 }
 

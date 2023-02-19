@@ -93,10 +93,6 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                             }
                           });
                         }
-                        print(variantTitle);
-                        print(variantOptions.length);
-
-                        // TODO: complete product variant
                         Get.back(
                           result: ProductVariant(
                             prices: [],
