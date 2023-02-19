@@ -37,7 +37,7 @@ class StoreRepo extends BaseStore {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
     try {
-      final response = await _dataProvider.post(uri: '/admin/store');
+      final response = await _dataProvider.post(uri: '/admin/store', data: storePostReq.toJson());
       if (response.statusCode == 200) {
         return Left(UserStoreRes.fromJson(response.data));
       } else {

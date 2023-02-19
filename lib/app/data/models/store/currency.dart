@@ -1,9 +1,9 @@
 class Currency {
-
   /// The 3 character ISO code for the currency.
   ///
   /// Example: "usd"
   String? code;
+
   /// The symbol used to indicate the currency.
   ///
   /// Example: "$"

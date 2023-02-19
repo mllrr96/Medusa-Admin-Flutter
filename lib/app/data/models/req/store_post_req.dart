@@ -26,13 +26,28 @@ class StorePostReq {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['default_currency_code'] = defaultCurrencyCode;
-    data['swap_link_template'] = swapLinkTemplate;
-    data['payment_link_template'] = paymentLinkTemplate;
-    data['invite_link_template'] = inviteLinkTemplate;
-    data['currencies'] = currencies;
-    data['metadata'] = metadata;
+    if (name != null) {
+      data['name'] = name;
+    }
+    if (defaultCurrencyCode != null) {
+      data['default_currency_code'] = defaultCurrencyCode;
+    }
+    if (swapLinkTemplate != null) {
+      data['swap_link_template'] = swapLinkTemplate;
+    }
+    if (paymentLinkTemplate != null) {
+      data['payment_link_template'] = paymentLinkTemplate;
+    }
+    if (inviteLinkTemplate != null) {
+      data['invite_link_template'] = inviteLinkTemplate;
+    }
+    if (currencies != null) {
+      data['currencies'] = currencies;
+    }
+    if (metadata != null) {
+      data['metadata'] = metadata;
+    }
+
     return data;
   }
 }

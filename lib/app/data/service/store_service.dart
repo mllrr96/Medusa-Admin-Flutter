@@ -28,7 +28,7 @@ class StoreService extends GetxService {
     }
   }
 
-  Future<void> updateStore(Store store) async {
+  void updateStore(Store store)  {
     try {
       _store = store;
     } catch (e) {

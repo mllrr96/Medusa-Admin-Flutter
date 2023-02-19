@@ -28,8 +28,10 @@ class CurrenciesView extends StatelessWidget {
               title: const Text('Currencies'),
               centerTitle: true,
               actions: [
-                if (GetPlatform.isAndroid) TextButton(onPressed: () {}, child: const Text('Save')),
-                if (GetPlatform.isIOS) CupertinoButton(onPressed: () {}, child: const Text('Save')),
+                if (GetPlatform.isAndroid)
+                  TextButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
+                if (GetPlatform.isIOS)
+                  CupertinoButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
