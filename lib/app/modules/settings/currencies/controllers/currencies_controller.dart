@@ -20,7 +20,6 @@ class CurrenciesController extends GetxController {
   void onInit() {
     currencies = StoreService.store.currencies ?? [];
     defaultStoreCurrency = StoreService.store.defaultCurrency!;
-    print(StoreService.store.defaultCurrency);
     super.onInit();
   }
 
@@ -60,6 +59,5 @@ class CurrenciesController extends GetxController {
       debugPrint(r.getMessage());
       EasyLoading.showError('Error updating currencies');
     });
-    dismissLoading();
   }
 }

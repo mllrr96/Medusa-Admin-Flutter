@@ -9,7 +9,6 @@ class ProductGeneralInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     return Theme(
@@ -67,7 +66,7 @@ class ProductTextField extends StatelessWidget {
     this.keyboardType,
     this.hintText,
     this.maxLines = 1,
-    this.onChanged, this.width, this.lightLabelColor = false,
+    this.onChanged, this.width, this.lightLabelColor = false, this.validator,
   });
   final bool required;
   final String label;
@@ -80,18 +79,18 @@ class ProductTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final double? width;
   final bool lightLabelColor;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return Column(
       children: [
         Row(
           children: [
             Text(label, style:  mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite: null)),
-            if (required) Text('*', style: mediumTextStyle!.copyWith(color: Colors.red)),
+            if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
           ],
         ),
         const SizedBox(height: 6.0),
@@ -102,6 +101,7 @@ class ProductTextField extends StatelessWidget {
             textInputAction: textInputAction,
             onChanged: onChanged,
             textCapitalization: textCapitalization,
+            validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
             style: mediumTextStyle,

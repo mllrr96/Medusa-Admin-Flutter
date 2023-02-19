@@ -19,8 +19,10 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
         title: const Text('Store Details'),
         centerTitle: true,
         actions: [
-          if (GetPlatform.isIOS) CupertinoButton(child: const Text('Save'), onPressed: () {}),
-          if (GetPlatform.isAndroid) TextButton(child: const Text('Save'), onPressed: () {}),
+          if (GetPlatform.isIOS)
+            CupertinoButton(child: const Text('Save'), onPressed: () async => await controller.save()),
+          if (GetPlatform.isAndroid)
+            TextButton(child: const Text('Save'), onPressed: () async => await controller.save()),
         ],
       ),
       body: SafeArea(
@@ -30,36 +32,68 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
               padding: const EdgeInsets.all(12.0),
               child: Text('Manage your business details', style: mediumTextStyle!.copyWith(color: lightWhite)),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                color: Theme.of(context).expansionTileTheme.backgroundColor,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('General', style: largeTextStyle),
-                  space,
-                  ProductTextField(label: 'Store Name', controller: controller.storeCtrl),
-                  space,
-                  space,
-                  Text('Advanced settings', style: largeTextStyle),
-                  space,
-                  ProductTextField(
+            Form(
+              key: controller.keyFrom,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                  color: Theme.of(context).expansionTileTheme.backgroundColor,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('General', style: largeTextStyle),
+                    space,
+                    ProductTextField(
+                      label: 'Store Name',
+                      controller: controller.storeCtrl,
+                      validator: (value) {
+                        if (value != null && value.removeAllWhitespace.isEmpty) {
+                          return "Store name can't be empty ";
+                        }
+                        return null;
+                      },
+                    ),
+                    Divider(),
+                    Text('Advanced settings', style: largeTextStyle),
+                    space,
+                    ProductTextField(
                       label: 'Swap link template',
                       controller: controller.swapLinkCtrl,
-                      hintText: 'https://acme.inc/swap={swap_id}'),
-                  ProductTextField(
+                      hintText: 'https://acme.inc/swap={swap_id}',
+                      validator: (value) {
+                        if (value != null && value.removeAllWhitespace.isNotEmpty && !value.isURL) {
+                          return "Invalid URL";
+                        }
+                        return null;
+                      },
+                    ),
+                    ProductTextField(
                       label: 'Draft order link template',
                       controller: controller.draftOrderCtrl,
-                      hintText: 'https://acme.inc/payment={payment_id}'),
-                  ProductTextField(
+                      hintText: 'https://acme.inc/payment={payment_id}',
+                      validator: (value) {
+                        if (value != null && value.removeAllWhitespace.isNotEmpty && !value.isURL) {
+                          return "Invalid URL";
+                        }
+                        return null;
+                      },
+                    ),
+                    ProductTextField(
                       label: 'Invite link template',
                       controller: controller.inviteLinkCtrl,
-                      hintText: 'https://acme.inc/invite?token={invite_token}'),
-                ],
+                      hintText: 'https://acme.inc/invite?token={invite_token}',
+                      validator: (value) {
+                        if (value != null && value.removeAllWhitespace.isNotEmpty && !value.isURL) {
+                          return "Invalid URL";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
