@@ -1,6 +1,5 @@
 import 'index.dart';
 
-
 class ProductOptionValue {
   String? id;
   String? value;
@@ -11,19 +10,19 @@ class ProductOptionValue {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ProductOptionValue({
     this.id,
-     this.value,
-     this.optionId,
+    this.value,
+    this.optionId,
     this.option,
-     this.variantId,
+    this.variantId,
     this.variant,
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ProductOptionValue.fromJson(Map<String, dynamic> json) {
@@ -41,16 +40,35 @@ class ProductOptionValue {
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
-    json['id'] = id;
+    if (id != null) {
+      json['id'] = id;
+    }
     json['value'] = value;
-    json['option_id'] = optionId;
-    json['option'] = option?.toJson() ?? {};
-    json['variant_id'] = variantId;
-    json['variant'] = variant?.toJson() ?? {};
-    json['created_at'] = createdAt.toString();
-    json['updated_at'] = updatedAt.toString();
-    json['deleted_at'] = deletedAt.toString();
-    json['metadata'] = metadata;
+    if (optionId != null) {
+      json['option_id'] = optionId;
+    }
+    if (option != null) {
+      json['option'] = option?.toJson() ?? {};
+    }
+
+    if (variantId != null) {
+      json['variant_id'] = variantId;
+    }
+    if (variant != null) {
+      json['variant'] = variant?.toJson() ?? {};
+    }
+    if (createdAt != null) {
+      json['created_at'] = createdAt.toString();
+    }
+    if (updatedAt != null) {
+      json['updated_at'] = updatedAt.toString();
+    }
+    if (deletedAt != null) {
+      json['deleted_at'] = deletedAt.toString();
+    }
+    if (metadata != null) {
+      json['metadata'] = metadata;
+    }
     return json;
   }
 }

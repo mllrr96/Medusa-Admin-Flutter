@@ -22,7 +22,7 @@ class AddUpdateProductView extends StatelessWidget {
               centerTitle: true,
               actions: [
                 if (GetPlatform.isAndroid) TextButton(onPressed: () {}, child: const Text('Publish')),
-                if (GetPlatform.isIOS) CupertinoButton(onPressed: () {}, child: const Text('Publish')),
+                if (GetPlatform.isIOS) CupertinoButton(onPressed: () async => await controller.addProduct(), child: const Text('Publish')),
               ],
             ),
             body: SafeArea(

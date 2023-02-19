@@ -2,15 +2,17 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../data/models/store/product.dart';
 
 class ProductsController extends GetxController {
   ProductsController({required this.productsRepository});
-  ProductsRepository productsRepository;
+  ProductsRepo productsRepository;
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  ViewOptions viewOptions = ViewOptions.grid;
+  ViewOptions viewOptions = ViewOptions.list;
+  RefreshController refreshController = RefreshController();
 
   @override
   void onInit() {
@@ -53,8 +55,10 @@ class ProductsController extends GetxController {
         final nextPageKey = pageKey + productRes.products!.length;
         pagingController.appendPage(productRes.products!, nextPageKey);
       }
+      refreshController.refreshCompleted();
     } catch (error) {
       pagingController.error = error;
+      refreshController.refreshFailed();
     }
   }
 }

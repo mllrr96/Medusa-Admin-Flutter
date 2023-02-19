@@ -1,12 +1,17 @@
 import 'dart:developer';
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
+import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/base_products.dart';
 import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/req/store_post_search_req.dart';
 import '../../models/res/products.dart';
 
-class ProductsRepository extends BaseProducts {
+class ProductsRepo extends BaseProducts {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
 
   /// @description Retrieves a list of products
@@ -37,7 +42,8 @@ class ProductsRepository extends BaseProducts {
   /// @param {string} id is required
   /// @param customHeaders
   /// @return {ResponsePromise<StoreProductsRes>}
-  Future<UserProductsRes?> retrieve(String id, {Map<String, dynamic>? customHeaders,Map<String, dynamic>? queryParameters}) async {
+  Future<UserProductsRes?> retrieve(String id,
+      {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -58,7 +64,8 @@ class ProductsRepository extends BaseProducts {
   /// @param {string} id is required
   /// @param customHeaders
   /// @return {ResponsePromise<StoreProductsRes>}
-  Future<UserVariantsRes?> retrieveVariants({Map<String, dynamic>? customHeaders,Map<String, dynamic>? queryParameters}) async {
+  Future<UserVariantsRes?> retrieveVariants(
+      {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -93,6 +100,23 @@ class ProductsRepository extends BaseProducts {
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
       rethrow;
+    }
+  }
+
+  Future<Either<Product, Failure>> add({required UserPostProductReq userPostProductReq, Map<String, dynamic>? customHeaders}) async {
+    if (customHeaders != null) {
+      _dataProvider.dio.options.headers.addAll(customHeaders);
+    }
+    try {
+      final response = await _dataProvider.post(uri: '/products', data: userPostProductReq.toJson());
+      if (response.statusCode == 200) {
+        return Left(Product.fromJson(response.data['product']));
+      } else {
+        debugPrint(response.toString());
+        return Right(Failure(error: response.statusMessage));
+      }
+    } catch (e) {
+      return Right(Failure(error: e));
     }
   }
 }

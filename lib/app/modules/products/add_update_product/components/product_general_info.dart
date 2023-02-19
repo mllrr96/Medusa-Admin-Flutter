@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/products/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 
-class ProductGeneralInformation extends StatelessWidget {
+class ProductGeneralInformation extends GetView<AddUpdateProductController> {
   const ProductGeneralInformation({Key? key}) : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class ProductGeneralInformation extends StatelessWidget {
               style: smallTextStyle!.copyWith(color: lightWhite)),
           space,
           ProductTextField(
-              label: 'Title', hintText: 'Winter Jacket', controller: TextEditingController(), required: true),
+              label: 'Title', hintText: 'Winter Jacket', controller: controller.titleCtrl, required: true),
           ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
           Text(
               'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',

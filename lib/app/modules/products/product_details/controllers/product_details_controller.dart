@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 
 class ProductDetailsController extends GetxController with StateMixin<Product> {
   ProductDetailsController({required this.productsRepository});
-  ProductsRepository productsRepository;
+  ProductsRepo productsRepository;
   final String _productId = Get.arguments;
 
   @override

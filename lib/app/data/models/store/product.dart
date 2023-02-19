@@ -176,7 +176,9 @@ class Product extends Equatable {
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();
-    json['metadata'] = metadata;
+    if (metadata != null) {
+      json['metadata'] = metadata;
+    }
     return json;
   }
 

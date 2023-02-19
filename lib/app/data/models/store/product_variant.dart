@@ -1,6 +1,5 @@
 import 'index.dart';
 
-
 class ProductVariant {
   String? id;
   String? title;
@@ -57,11 +56,10 @@ class ProductVariant {
     title = json['title'];
     productId = json['product_id'];
     product = json['product'] != null ? Product.fromJson(json) : null;
-    ;
     if (json['prices'] != null) {
       prices = <MoneyAmount>[];
       json['prices'].forEach((v) {
-        prices!.add(new MoneyAmount.fromJson(v));
+        prices!.add(MoneyAmount.fromJson(v));
       });
     }
     sku = json['sku'];
@@ -83,41 +81,51 @@ class ProductVariant {
     if (json['options'] != null) {
       options = <ProductOptionValue>[];
       json['options'].forEach((v) {
-        options!.add(new ProductOptionValue.fromJson(v));
+        options!.add(ProductOptionValue.fromJson(v));
       });
     }
     metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['product_id'] = this.productId;
-    data['product'] = product?.toJson() ?? {};
-    if (this.prices != null) {
-      data['prices'] = this.prices!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (id != null) {
+      data['id'] = id;
     }
-    data['sku'] = this.sku;
-    data['barcode'] = this.barcode;
-    data['ean'] = this.ean;
-    data['upc'] = this.upc;
-    data['variant_rank'] = this.variantRank;
-    data['inventory_quantity'] = this.inventoryQuantity;
-    data['allow_backorder'] = this.allowBackorder;
-    data['manage_inventory'] = this.manageInventory;
-    data['hs_code'] = this.hsCode;
-    data['origin_country'] = this.originCountry;
-    data['mid_code'] = this.midCode;
-    data['material'] = this.material;
-    data['weight'] = this.weight;
-    data['length'] = this.length;
-    data['height'] = this.height;
-    data['width'] = this.width;
-    if (this.options != null) {
-      data['options'] = this.options!.map((v) => v.toJson()).toList();
+    data['title'] = title;
+    if (productId != null) {
+      data['product_id'] = productId;
     }
-    data['metadata'] = this.metadata;
+    if (product != null) {
+      data['product'] = product?.toJson() ?? {};
+    }
+    if (prices != null) {
+      data['prices'] = prices!.map((v) => v.toJson()).toList();
+    }
+    data['sku'] = sku;
+    data['barcode'] = barcode;
+    data['ean'] = ean;
+    data['upc'] = upc;
+    if (variantRank != null) {
+      data['variant_rank'] = variantRank;
+    }
+    data['inventory_quantity'] = inventoryQuantity;
+    data['allow_backorder'] = allowBackorder;
+    data['manage_inventory'] = manageInventory;
+    data['hs_code'] = hsCode;
+    data['origin_country'] = originCountry;
+    data['mid_code'] = midCode;
+    data['material'] = material;
+    data['weight'] = weight;
+    data['length'] = length;
+    data['height'] = height;
+    data['width'] = width;
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
+    }
+    if (metadata != null) {
+      data['metadata'] = metadata;
+    }
     return data;
   }
 }

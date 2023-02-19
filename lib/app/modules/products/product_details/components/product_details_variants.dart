@@ -40,11 +40,11 @@ final Product product;
                 },
               ),
             // Do not remove the row
-            Row(
-              children: [
-                Text(product.options?[0].title ?? 'Sized', style: mediumTextStyle),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Text(product.options?[0].title ?? 'Sized', style: mediumTextStyle),
+            //   ],
+            // ),
             if (product.variants != null)
               Wrap(
                 spacing: 8.0,

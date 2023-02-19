@@ -17,7 +17,7 @@ class MoneyAmount {
   DateTime? createdAt;
   DateTime? deletedAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata = <String, dynamic>{};
 
   MoneyAmount({
     this.id,
@@ -75,7 +75,9 @@ class MoneyAmount {
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();
+    if(metadata!=null){
     json['metadata'] = metadata;
+    }
     return json;
   }
 }

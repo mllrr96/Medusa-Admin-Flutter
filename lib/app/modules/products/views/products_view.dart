@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../core/utils/enums.dart';
 import '../controllers/products_controller.dart';
 
@@ -35,9 +36,14 @@ class ProductsView extends StatelessWidget {
             ],
           ),
           body: SafeArea(
-            child: controller.viewOptions == ViewOptions.grid
-                ? buildGridProducts(controller)
-                : buildListProducts(controller),
+            child: SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: () => controller.pagingController.refresh(),
+              header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+              child: controller.viewOptions == ViewOptions.grid
+                  ? buildGridProducts(controller)
+                  : buildListProducts(controller),
+            ),
           ),
         );
       },
