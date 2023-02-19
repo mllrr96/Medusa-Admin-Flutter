@@ -12,13 +12,19 @@ dependencies:
   get: ^4.6.5
   # -------------------
 
+  # Image picker packages
+  #--------------------
+  image_picker: ^0.8.6+2
+  image_cropper: ^3.0.1
+  uuid: ^3.0.7
+  #--------------------
 
   # UI packages
   # -------------------
   adaptive_dialog: ^1.8.2
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
-  flutter_svg: ^2.0.0+1
+  flutter_svg: ^2.0.1
   infinite_scroll_pagination: ^3.2.0
   intl: ^0.18.0
   pull_to_refresh: ^2.0.0
@@ -36,7 +42,7 @@ dependencies:
   # -------------------
 
   google_fonts: ^4.0.3
-  dio: ^4.0.6
+  dio: ^5.0.0
   dartz: ^0.10.1
 
   flutter: 
@@ -45,7 +51,7 @@ dependencies:
 dev_dependencies: 
   flutter_lints: ^2.0.1
   build_runner: any
-  copy_with_extension_gen: ^5.0.0
+  #  copy_with_extension_gen: ^5.0.0
   flutter_test: 
     sdk: flutter
 

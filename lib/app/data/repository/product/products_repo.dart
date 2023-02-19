@@ -18,7 +18,7 @@ class ProductsRepo extends BaseProducts {
   /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list
   /// @param customHeaders
   /// @return {ResponsePromise<StoreProductsListRes>}
-  Future<UserProductsListRes?> list({Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
+  Future<Either<UserProductsListRes, Failure>> list({Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -28,13 +28,13 @@ class ProductsRepo extends BaseProducts {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return UserProductsListRes.fromJson(response.data);
+        return left(UserProductsListRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return right(Failure(error: response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+      return right(Failure(error: error));
     }
   }
 

@@ -24,7 +24,15 @@ class ProductsView extends StatelessWidget {
                 onPressed: () => controller.changeViewOption(),
                 icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
             actions: [
-              IconButton(onPressed: () => Get.toNamed(Routes.ADD_UPDATE_PRODUCT), icon: const Icon(Icons.add)),
+              IconButton(
+                  onPressed: () async {
+                    await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+                      if (result != null && result is bool && result == true) {
+                        controller.pagingController.refresh();
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.add)),
               IconButton(
                   onPressed: () async {
                     final result = await showModalActionSheet(context: context, actions: <SheetAction>[

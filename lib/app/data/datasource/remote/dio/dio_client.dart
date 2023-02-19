@@ -12,8 +12,8 @@ class DioClient {
   }) {
     dio
       ..options.baseUrl = baseUrl
-      ..options.connectTimeout = 30000
-      ..options.receiveTimeout = 30000
+      ..options.connectTimeout = const Duration(seconds: 6)
+      ..options.receiveTimeout = const Duration(seconds: 6)
       ..httpClientAdapter
       ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();

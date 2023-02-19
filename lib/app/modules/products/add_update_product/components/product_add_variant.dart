@@ -51,7 +51,10 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
             return false;
           }
           final result = await showOkCancelAlertDialog(
-              context: context, title: 'Discard changes?', message: 'Are you sure you want to discard changes?');
+              context: context,
+              title: 'Discard changes?',
+              message: 'Are you sure you want to discard changes?',
+              isDestructiveAction: true);
           switch (result) {
             case OkCancelResult.ok:
               return true;
@@ -274,20 +277,6 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                             NumericTextField(
                               controller: quantityCtrl,
                               label: 'Quantity in stock',
-                              onPlusPressed: () {
-                                int? stock = int.tryParse(quantityCtrl.text.removeAllWhitespace);
-                                if (stock != null) {
-                                  quantityCtrl.text = (stock + 1).toString();
-                                } else {
-                                  quantityCtrl.text = 1.toString();
-                                }
-                              },
-                              onMinusPressed: () {
-                                int? stock = int.tryParse(quantityCtrl.text.removeAllWhitespace);
-                                if (stock != null && stock != 0) {
-                                  quantityCtrl.text = (stock - 1).toString();
-                                }
-                              },
                             ),
                             space,
                             ProductTextField(
@@ -492,8 +481,35 @@ class NumericTextField extends StatelessWidget {
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(onPressed: onMinusPressed, icon: const Icon(Icons.remove)),
-                  IconButton(onPressed: onPlusPressed, icon: const Icon(Icons.add)),
+                  // TODO: see if InkWell or GestureDetector is better than IconButton (too much padding, looks bad on small phones e.g. iPhone X)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: InkWell(
+                        // padding: EdgeInsets.zero,
+                        onTap: onMinusPressed ??
+                            () {
+                              int? stock = int.tryParse(controller.text.removeAllWhitespace);
+                              if (stock != null && stock != 0) {
+                                controller.text = (stock - 1).toString();
+                              }
+                            },
+                        child: const Icon(Icons.remove)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: InkWell(
+                        // padding: EdgeInsets.zero,
+                        onTap: onPlusPressed ??
+                            () {
+                              int? stock = int.tryParse(controller.text.removeAllWhitespace);
+                              if (stock != null) {
+                                controller.text = (stock + 1).toString();
+                              } else {
+                                controller.text = 1.toString();
+                              }
+                            },
+                        child: const Icon(Icons.add)),
+                  ),
                 ],
               ),
               hintText: hintText ?? '100...',

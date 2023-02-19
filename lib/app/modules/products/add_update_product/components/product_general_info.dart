@@ -17,6 +17,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
       child: ExpansionTile(
         title: Text('General Information', style: Theme.of(context).textTheme.bodyLarge),
         initiallyExpanded: true,
+        maintainState: true,
         expandedAlignment: Alignment.centerLeft,
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [

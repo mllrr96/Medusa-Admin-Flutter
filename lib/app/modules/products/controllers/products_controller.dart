@@ -2,6 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -47,27 +48,28 @@ class ProductsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    try {
-      final productRes =
-          await productsRepo.list(queryParams: {'offset': pagingController.itemList?.length ?? 0, 'limit': _pageSize});
-      final isLastPage = productRes!.products!.length < _pageSize;
+    final result =
+        await productsRepo.list(queryParams: {'offset': pagingController.itemList?.length ?? 0, 'limit': _pageSize});
+    result.fold((l) {
+      final isLastPage = l.products!.length < _pageSize;
       if (isLastPage) {
-        pagingController.appendLastPage(productRes.products!);
+        pagingController.appendLastPage(l.products!);
       } else {
-        final nextPageKey = pageKey + productRes.products!.length;
-        pagingController.appendPage(productRes.products!, nextPageKey);
+        final nextPageKey = pageKey + l.products!.length;
+        pagingController.appendPage(l.products!, nextPageKey);
       }
       gridRefreshController.refreshCompleted();
       listRefreshController.refreshCompleted();
-    } catch (error) {
-      pagingController.error = error;
+    }, (r) {
+      pagingController.error = r.getMessage();
       gridRefreshController.refreshFailed();
       listRefreshController.refreshFailed();
-    }
+    });
   }
 
   Future<void> deleteProduct(String id) async {
     final result = await productsRepo.delete(id: id);
+    loading();
     result.fold((l) {
       if (l.deleted != null && l.deleted!) {
         // product deleted

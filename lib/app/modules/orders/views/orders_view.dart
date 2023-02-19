@@ -25,10 +25,7 @@ class OrdersView extends GetView<OrdersController> {
             builderDelegate: PagedChildBuilderDelegate<Order>(
                 itemBuilder: (context, order, index) => OrderCard(
                       order,
-                      onTap: () async {
-                        await Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id);
-                        controller.pagingController.refresh();
-                      },
+                      onTap: () async => await Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
                     ),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator.adaptive())),
