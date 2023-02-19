@@ -36,80 +36,96 @@ class ProductsView extends StatelessWidget {
             ],
           ),
           body: SafeArea(
-            child: SmartRefresher(
-              controller: controller.refreshController,
-              onRefresh: () => controller.pagingController.refresh(),
-              header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-              child: controller.viewOptions == ViewOptions.grid
-                  ? buildGridProducts(controller)
-                  : buildListProducts(controller),
-            ),
+            child: controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView(),
           ),
         );
       },
     );
   }
+}
 
-  PagedGridView<int, Product> buildGridProducts(ProductsController controller) {
-    return PagedGridView(
-      pagingController: controller.pagingController,
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      builderDelegate: PagedChildBuilderDelegate<Product>(
-          itemBuilder: (context, product, index) => GestureDetector(
-                onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
-                child: Card(
-                  child: Column(
-                    children: [
-                      if (product.thumbnail != null)
-                        Expanded(flex: 3, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(product.title!, style: Theme.of(context).textTheme.titleMedium),
-                      )),
-                    ],
+class ProductsGridView extends GetView<ProductsController> {
+  const ProductsGridView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SmartRefresher(
+      controller: controller.gridRefreshController,
+      onRefresh: () => controller.pagingController.refresh(),
+      header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+      child: PagedGridView(
+        pagingController: controller.pagingController,
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        builderDelegate: PagedChildBuilderDelegate<Product>(
+            itemBuilder: (context, product, index) => GestureDetector(
+                  onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        if (product.thumbnail != null)
+                          Expanded(flex: 3, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(product.title!, style: Theme.of(context).textTheme.titleMedium),
+                        )),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-          firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 100 / 150,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
-        crossAxisCount: 3,
+            firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 100 / 150,
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+          crossAxisCount: 3,
+        ),
       ),
     );
   }
+}
 
-  PagedListView<int, Product> buildListProducts(ProductsController controller) {
-    return PagedListView(
-      pagingController: controller.pagingController,
-      builderDelegate: PagedChildBuilderDelegate<Product>(
-          itemBuilder: (context, product, index) => ListTile(
-                onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
-                title: Text(product.title!),
-                subtitle: Text(product.status.name.capitalize ?? product.status.name,
-                    style: Theme.of(context).textTheme.titleSmall),
-                leading: product.thumbnail != null
-                    ? SizedBox(
-                        width: 45,
-                        child: CachedNetworkImage(
-                          imageUrl: product.thumbnail!,
-                          placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                        ))
-                    : null,
-                trailing: IconButton(
-                    onPressed: () async {
-                      final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-                        const SheetAction(label: 'Edit'),
-                        const SheetAction(label: 'Unpublish'),
-                        const SheetAction(label: 'Duplicate'),
-                        const SheetAction(label: 'Delete', isDestructiveAction: true),
-                      ]);
-                    },
-                    icon: const Icon(Icons.more_horiz)),
-              ),
-          firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
+class ProductsListView extends GetView<ProductsController> {
+  const ProductsListView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SmartRefresher(
+      controller: controller.listRefreshController,
+      onRefresh: () => controller.pagingController.refresh(),
+      header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+      child: PagedListView(
+        pagingController: controller.pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Product>(
+            itemBuilder: (context, product, index) => ListTile(
+                  onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
+                  title: Text(product.title!),
+                  subtitle: Text(product.status.name.capitalize ?? product.status.name,
+                      style: Theme.of(context).textTheme.titleSmall),
+                  leading: product.thumbnail != null
+                      ? SizedBox(
+                          width: 45,
+                          child: CachedNetworkImage(
+                            imageUrl: product.thumbnail!,
+                            placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                          ))
+                      : null,
+                  trailing: IconButton(
+                      onPressed: () async {
+                        final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                          const SheetAction(label: 'Edit'),
+                          const SheetAction(label: 'Unpublish'),
+                          const SheetAction(label: 'Duplicate'),
+                          const SheetAction(label: 'Delete', isDestructiveAction: true,key: 'delete'),
+                        ]);
+                        if(result == 'delete'){
+                          await controller.deleteProduct(product.id!);
+                        }
+                      },
+                      icon: const Icon(Icons.more_horiz)),
+                ),
+            firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
+      ),
     );
   }
 }

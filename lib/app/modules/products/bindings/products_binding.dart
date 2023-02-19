@@ -7,7 +7,7 @@ class ProductsBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ProductsController>(
-      () => ProductsController(productsRepository: ProductsRepo()),
+      () => ProductsController(productsRepo: ProductsRepo()),
     );
   }
 }

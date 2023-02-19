@@ -70,3 +70,24 @@ class UserVariantsRes {
     return data;
   }
 }
+
+class UserDeleteProductRes {
+  /// The ID of the deleted Product.
+  String? id;
+
+  /// Whether or not the items were deleted.
+  ///
+  /// Default: true
+  bool? deleted;
+
+  /// The type of the object that was deleted.
+  ///
+  /// Default: "product"
+  String? object;
+
+  UserDeleteProductRes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    deleted = json['deleted'];
+    object = json['object'];
+  }
+}
