@@ -19,6 +19,23 @@ class ProductAddVariant extends StatefulWidget {
 
 class _ProductAddVariantState extends State<ProductAddVariant> {
   final quantityCtrl = TextEditingController();
+  final customTitleCtrl = TextEditingController();
+  final materialCtrl = TextEditingController();
+  final heightCtrl = TextEditingController();
+  final widthCtrl = TextEditingController();
+  final weightCtrl = TextEditingController();
+  final lengthCtrl = TextEditingController();
+  final midCtrl = TextEditingController();
+  final hsCtrl = TextEditingController();
+  final countryOfOriginCtrl = TextEditingController();
+  final skuCtrl = TextEditingController();
+  final eanCtrl = TextEditingController();
+  final upcCtrl = TextEditingController();
+  final barcodeCtrl = TextEditingController();
+
+  Map<int, ProductOptionValue> selectedOptionsValue = {};
+  bool manageInventory = true;
+  bool allowBackorder = false;
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
@@ -62,8 +79,47 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                 if (GetPlatform.isIOS)
                   CupertinoButton(
                       onPressed: () {
+                        String variantTitle = '';
+                        List<ProductOptionValue> variantOptions = [];
+                        if (customTitleCtrl.text.removeAllWhitespace.isNotEmpty) {
+                          variantTitle = customTitleCtrl.text;
+                        } else {
+                          selectedOptionsValue.forEach((key, value) {
+                            variantOptions.add(value);
+                            if (variantTitle.isEmpty) {
+                              variantTitle = value.value!;
+                            } else {
+                              variantTitle = '$variantTitle / ${value.value!}';
+                            }
+                          });
+                        }
+                        print(variantTitle);
+                        print(variantOptions.length);
+
                         // TODO: complete product variant
-                        Get.back(result: ProductVariant());
+                        Get.back(
+                          result: ProductVariant(
+                            prices: [],
+                            title: variantTitle,
+                            options: variantOptions,
+                            manageInventory: manageInventory,
+                            allowBackorder: allowBackorder,
+                            inventoryQuantity: int.tryParse(quantityCtrl.text),
+                            weight: int.tryParse(weightCtrl.text),
+                            length: int.tryParse(lengthCtrl.text),
+                            height: int.tryParse(heightCtrl.text),
+                            width: int.tryParse(widthCtrl.text),
+                            hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
+                            material: materialCtrl.text.removeAllWhitespace.isEmpty ? null : materialCtrl.text,
+                            sku: skuCtrl.text.removeAllWhitespace.isEmpty ? null : skuCtrl.text,
+                            ean: eanCtrl.text.removeAllWhitespace.isEmpty ? null : eanCtrl.text,
+                            upc: upcCtrl.text.removeAllWhitespace.isEmpty ? null : upcCtrl.text,
+                            barcode: barcodeCtrl.text.removeAllWhitespace.isEmpty ? null : barcodeCtrl.text,
+                            midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
+                            originCountry:
+                                countryOfOriginCtrl.text.removeAllWhitespace.isEmpty ? null : countryOfOriginCtrl.text,
+                          ),
+                        );
                       },
                       child: const Text('Save')),
                 if (GetPlatform.isAndroid) TextButton(onPressed: () {}, child: const Text('Save')),
@@ -94,12 +150,12 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                         space,
                         ProductTextField(
                           label: 'Custom title',
-                          controller: TextEditingController(),
+                          controller: customTitleCtrl,
                           hintText: 'Green / XL',
                         ),
                         ProductTextField(
                           label: 'Material',
-                          controller: TextEditingController(),
+                          controller: materialCtrl,
                           hintText: '80% wool, 20% cotton',
                         ),
                         const Divider(),
@@ -128,7 +184,11 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                                         .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
                                         .toList(),
                                     hint: const Text('Choose an option'),
-                                    onChanged: (value) {},
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        selectedOptionsValue[index] = value;
+                                      }
+                                    },
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
@@ -209,6 +269,7 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                   Theme(
                     data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
+                      maintainState: true,
                       expandedAlignment: Alignment.centerLeft,
                       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                       title: Text('Stock & Inventory', style: largeTextStyle),
@@ -221,8 +282,12 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                           children: [
                             Text('Manage inventory', style: largeTextStyle),
                             Switch.adaptive(
-                              value: true,
-                              onChanged: (val) {},
+                              value: manageInventory,
+                              onChanged: (val) {
+                                setState(() {
+                                  manageInventory = val;
+                                });
+                              },
                               activeColor: ColorManager.primary,
                             )
                           ],
@@ -234,7 +299,14 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Allow backorders', style: largeTextStyle),
-                            Switch.adaptive(value: false, onChanged: (val) {}, activeColor: ColorManager.primary)
+                            Switch.adaptive(
+                                value: allowBackorder,
+                                onChanged: (val) {
+                                  setState(() {
+                                    allowBackorder = val;
+                                  });
+                                },
+                                activeColor: ColorManager.primary)
                           ],
                         ),
                         Text(
@@ -289,17 +361,17 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                         space,
                         ProductTextField(
                           label: 'EAN (Barcode)',
-                          controller: TextEditingController(),
+                          controller: eanCtrl,
                           hintText: '123456789123...',
                         ),
                         ProductTextField(
                           label: 'UPC (Barcode)',
-                          controller: TextEditingController(),
+                          controller: upcCtrl,
                           hintText: '023456789104',
                         ),
                         ProductTextField(
                           label: 'Barcode',
-                          controller: TextEditingController(),
+                          controller: barcodeCtrl,
                           hintText: '123456789104...',
                         ),
                       ],
@@ -331,13 +403,13 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                           children: [
                             ProductTextField(
                                 label: 'Width',
-                                controller: TextEditingController(),
+                                controller: widthCtrl,
                                 width: Get.width / 3,
                                 keyboardType: TextInputType.number,
                                 hintText: '100...'),
                             ProductTextField(
                                 label: 'Length',
-                                controller: TextEditingController(),
+                                controller: lengthCtrl,
                                 width: Get.width / 3,
                                 keyboardType: TextInputType.number,
                                 hintText: '100...'),
@@ -349,13 +421,13 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                           children: [
                             ProductTextField(
                                 label: 'Height',
-                                controller: TextEditingController(),
+                                controller: heightCtrl,
                                 width: Get.width / 3,
                                 keyboardType: TextInputType.number,
                                 hintText: '100...'),
                             ProductTextField(
                                 label: 'Weight',
-                                controller: TextEditingController(),
+                                controller: weightCtrl,
                                 width: Get.width / 3,
                                 keyboardType: TextInputType.number,
                                 hintText: '100...'),
@@ -373,17 +445,17 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                         space,
                         ProductTextField(
                           label: 'MID Code',
-                          controller: TextEditingController(),
+                          controller: midCtrl,
                           hintText: 'XDSKLAD9999...',
                         ),
                         ProductTextField(
                           label: 'HS Code',
-                          controller: TextEditingController(),
+                          controller: hsCtrl,
                           hintText: 'BDJSK39277W...',
                         ),
                         ProductTextField(
                           label: 'Country of origin',
-                          controller: TextEditingController(),
+                          controller: countryOfOriginCtrl,
                           hintText: 'Country of origin',
                         ),
                       ],
