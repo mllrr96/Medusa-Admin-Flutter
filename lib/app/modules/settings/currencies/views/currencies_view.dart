@@ -92,13 +92,15 @@ class CurrenciesView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Store currencies', style: largeTextStyle),
-                                Text('All the currencies available in your store.',
-                                    style: mediumTextStyle.copyWith(color: lightWhite)),
-                              ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Store currencies', style: largeTextStyle),
+                                  Text('All the currencies available in your store.',
+                                      style: mediumTextStyle.copyWith(color: lightWhite)),
+                                ],
+                              ),
                             ),
                             TextButton(
                                 onPressed: () async {
@@ -162,42 +164,45 @@ class AllCurrenciesView extends StatelessWidget {
     return GetBuilder<AllCurrenciesController>(
       init: AllCurrenciesController(currencyRepo: CurrencyRepo(), storeCurrencies: storeCurrencies),
       builder: (controller) {
-        return Material(
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text('Add Store Currencies'),
-              actions: [
-                if (GetPlatform.isIOS && controller.selectedCurrencies.isNotEmpty)
-                  CupertinoButton(
-                      onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
-                if (GetPlatform.isAndroid && controller.selectedCurrencies.isNotEmpty)
-                  TextButton(
-                      onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
-              ],
-            ),
-            body: SafeArea(
-              child: PagedListView.separated(
-                padding: const EdgeInsets.all(12.0),
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Currency>(
-                    itemBuilder: (context, currency, index) => CheckboxListTile(
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: Text(currency.name ?? ''),
-                          onChanged: (bool? value) {
-                            var selectedCurrencies = controller.selectedCurrencies;
-                            if (selectedCurrencies.any((element) => element.code == currency.code)) {
-                              selectedCurrencies.removeWhere((element) => element.code == currency.code);
-                            } else {
-                              selectedCurrencies.add(currency);
-                            }
-                            controller.update();
-                          },
-                          value: controller.selectedCurrencies.any((element) => element.code == currency.code),
-                        ),
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive())),
-                separatorBuilder: (_, __) => const Divider(height: 0),
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Material(
+            child: Scaffold(
+              appBar: AppBar(
+                title: const Text('Add Store Currencies'),
+                actions: [
+                  if (GetPlatform.isIOS && controller.selectedCurrencies.isNotEmpty)
+                    CupertinoButton(
+                        onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
+                  if (GetPlatform.isAndroid && controller.selectedCurrencies.isNotEmpty)
+                    TextButton(
+                        onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
+                ],
+              ),
+              body: SafeArea(
+                child: PagedListView.separated(
+                  padding: const EdgeInsets.all(12.0),
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Currency>(
+                      itemBuilder: (context, currency, index) => CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            title: Text(currency.name ?? ''),
+                            onChanged: (bool? value) {
+                              var selectedCurrencies = controller.selectedCurrencies;
+                              if (selectedCurrencies.any((element) => element.code == currency.code)) {
+                                selectedCurrencies.removeWhere((element) => element.code == currency.code);
+                              } else {
+                                selectedCurrencies.add(currency);
+                              }
+                              controller.update();
+                            },
+                            value: controller.selectedCurrencies.any((element) => element.code == currency.code),
+                          ),
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const Center(child: CircularProgressIndicator.adaptive())),
+                  separatorBuilder: (_, __) => const Divider(height: 0),
+                ),
               ),
             ),
           ),

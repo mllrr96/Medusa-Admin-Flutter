@@ -1,8 +1,27 @@
 class Currency {
+
+  /// The 3 character ISO code for the currency.
+  ///
+  /// Example: "usd"
   String? code;
+  /// The symbol used to indicate the currency.
+  ///
+  /// Example: "$"
   String? symbol;
+
+  /// The native symbol used to indicate the currency.
+  ///
+  /// Example: "$"
   String? symbolNative;
+
+  /// The written name of the currency
+  ///
+  /// Example: "US Dollar"
   String? name;
+
+  /// [EXPERIMENTAL] Does the currency prices include tax
+  ///
+  /// Default: false
   bool? includeTax;
 
   Currency({
