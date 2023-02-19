@@ -107,7 +107,7 @@ class ProductTextField extends StatelessWidget {
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
-            style: mediumTextStyle,
+            style: Theme.of(context).textTheme.titleSmall,
             decoration: InputDecoration(
               hintText: hintText,
               border: const OutlineInputBorder(

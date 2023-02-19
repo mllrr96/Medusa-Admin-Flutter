@@ -23,6 +23,8 @@ abstract class Routes {
   static const CUSTOMER_DETAILS = _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS;
   static const CURRENCIES = _Paths.DASHBOARD + _Paths.CURRENCIES;
   static const COLLECTIONS = _Paths.COLLECTIONS;
+  static const COLLECTION_DETAILS =
+      _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
 }
 
 abstract class _Paths {
@@ -44,4 +46,5 @@ abstract class _Paths {
   static const CUSTOMER_DETAILS = '/customer-details';
   static const CURRENCIES = '/currencies';
   static const COLLECTIONS = '/collections';
+  static const COLLECTION_DETAILS = '/collection-details';
 }

@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 
 import '../modules/collections/bindings/collections_binding.dart';
-import '../modules/collections/views/collections_view.dart';
+import '../modules/collections/collection_details/bindings/collection_details_binding.dart';
+import '../modules/collections/collection_details/views/collection_details_view.dart';
 import '../modules/customers/bindings/customers_binding.dart';
 import '../modules/customers/customer_details/bindings/customer_details_binding.dart';
 import '../modules/customers/customer_details/views/customer_details_view.dart';
@@ -86,6 +87,11 @@ class AppPages {
             page: () => const CurrenciesView(),
             binding: CurrenciesBinding(),
           ),
+          GetPage(
+            name: _Paths.COLLECTION_DETAILS,
+            page: () => const CollectionDetailsView(),
+            binding: CollectionDetailsBinding(),
+          ),
         ]),
     GetPage(
       name: _Paths.SPLASH,
@@ -122,5 +128,6 @@ class AppPages {
       page: () => const SignInView(),
       binding: SignInBinding(),
     ),
+
   ];
 }

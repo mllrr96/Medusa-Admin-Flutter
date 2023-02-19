@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/collections_controller.dart';
@@ -30,6 +31,7 @@ class CollectionsView extends GetView<CollectionsController> {
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
                 itemBuilder: (context, collection, index) => ListTile(
+                      onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS),
                       title: Text(collection.title ?? '', style: mediumTextStyle),
                       subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle),
                       trailing: Column(
