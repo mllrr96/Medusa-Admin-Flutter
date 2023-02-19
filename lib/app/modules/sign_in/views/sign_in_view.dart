@@ -25,8 +25,14 @@ class SignInView extends GetView<SignInController> {
                   Text('Log in to your account below', style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
-              errorMessage(errorMessage: controller.errorMessage, context: context, emptyChildHeight: 0),
-              const SizedBox(height: 36.0),
+              const SizedBox(height: 18.0),
+              errorMessage(
+                  errorMessage: controller.errorMessage,
+                  context: context,
+                  emptyChildHeight: 0,
+                  horizontalPadding: 12.0,
+                  radius: 10.0),
+              const SizedBox(height: 18.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(

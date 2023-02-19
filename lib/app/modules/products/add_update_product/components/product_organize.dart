@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/products/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 
-class ProductOrganize extends StatelessWidget {
+class ProductOrganize extends GetView<AddUpdateProductController> {
   const ProductOrganize({Key? key}) : super(key: key);
 
   @override
@@ -15,8 +16,8 @@ class ProductOrganize extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
+        maintainState:true,
         title: Text('Organize', style: Theme.of(context).textTheme.bodyLarge),
-        initiallyExpanded: true,
         expandedAlignment: Alignment.centerLeft,
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [
@@ -79,7 +80,12 @@ class ProductOrganize extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Sales channels', style: largeTextStyle),
-              Switch.adaptive(value: true, onChanged: (val) {}, activeColor: ColorManager.primary)
+              Obx(() {
+                return Switch.adaptive(
+                    value: controller.salesChannels.value,
+                    onChanged: (val) => controller.salesChannels.value = val,
+                    activeColor: ColorManager.primary);
+              })
             ],
           ),
           Text('This product will only be available in the default sales channel if left untouched.',

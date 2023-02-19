@@ -15,6 +15,10 @@ class AddUpdateProductController extends GetxController {
   ProductsRepo productsRepo;
   List<Currency> currencies = [];
   final titleCtrl = TextEditingController();
+  final keyForm = GlobalKey<FormState>();
+  RxBool discountable = true.obs;
+  RxBool salesChannels = true.obs;
+
   late Product product;
   @override
   Future<void> onInit() async {
@@ -54,6 +58,10 @@ class AddUpdateProductController extends GetxController {
 
   Future<void> addProduct() async {
     // TODO: check for required fields
+    if(!keyForm.currentState!.validate()){
+
+      return;
+    }
 
     product = product.copyWith(title: titleCtrl.text);
 

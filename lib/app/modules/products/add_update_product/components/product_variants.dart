@@ -18,12 +18,14 @@ class ProductVariants extends GetView<AddUpdateProductController> {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final optionCtrl = TextEditingController();
     final variationsCtrl = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
     const space = SizedBox(height: 12.0);
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
+        maintainState: true,
         title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
-        initiallyExpanded: true,
         expandedAlignment: Alignment.centerLeft,
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [
@@ -73,56 +75,76 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  if (GetPlatform.isIOS)
-                                    CupertinoButton(child: const Text('Cancel'), onPressed: () => Get.back()),
-                                  if (GetPlatform.isIOS)
-                                    CupertinoButton(
-                                        child: const Text('Add'),
-                                        onPressed: () {
-                                          if (optionCtrl.text.removeAllWhitespace.isNotEmpty &&
-                                              variationsCtrl.text.removeAllWhitespace.isNotEmpty) {
-                                            List<ProductOption>? options = controller.product.options;
-                                            List<String> variations =
-                                                variationsCtrl.text.removeAllWhitespace.split(',');
-                                            var variationsValue = <ProductOptionValue>[];
-                                            if (variations.isNotEmpty) {
-                                              variations.removeWhere((element) => element.removeAllWhitespace.isEmpty);
-                                              for (var element in variations) {
-                                                variationsValue.add(ProductOptionValue(value: element));
+                              Form(
+                                key: formKey,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    if (GetPlatform.isIOS)
+                                      CupertinoButton(child: const Text('Cancel'), onPressed: () => Get.back()),
+                                    if (GetPlatform.isIOS)
+                                      CupertinoButton(
+                                          child: const Text('Add'),
+                                          onPressed: () {
+                                            print(formKey.currentState!.validate());
+                                            if (!formKey.currentState!.validate()) {
+                                              return;
+                                            }
+                                            if (optionCtrl.text.removeAllWhitespace.isNotEmpty &&
+                                                variationsCtrl.text.removeAllWhitespace.isNotEmpty) {
+                                              List<ProductOption>? options = controller.product.options;
+                                              List<String> variations =
+                                                  variationsCtrl.text.removeAllWhitespace.split(',');
+                                              var variationsValue = <ProductOptionValue>[];
+                                              if (variations.isNotEmpty) {
+                                                variations
+                                                    .removeWhere((element) => element.removeAllWhitespace.isEmpty);
+                                                for (var element in variations) {
+                                                  variationsValue.add(ProductOptionValue(value: element));
+                                                }
                                               }
-                                            }
-                                            ProductOption newOption = ProductOption(
-                                                title: optionCtrl.text.removeAllWhitespace, values: variationsValue);
-                                            if (options != null) {
-                                              options.add(newOption);
+                                              ProductOption newOption = ProductOption(
+                                                  title: optionCtrl.text.removeAllWhitespace, values: variationsValue);
+                                              if (options != null) {
+                                                options.add(newOption);
+                                              } else {
+                                                options = [newOption];
+                                              }
+                                              controller.product = controller.product.copyWith(options: options);
                                             } else {
-                                              options = [newOption];
+                                              // Show fields are required
                                             }
-                                            controller.product = controller.product.copyWith(options: options);
-                                          } else {
-                                            // Show fields are required
-                                          }
-                                          Get.back();
-                                          controller.update();
-                                        }),
-                                  if (GetPlatform.isAndroid)
-                                    TextButton(child: const Text('Cancel'), onPressed: () => Get.back()),
-                                  if (GetPlatform.isAndroid)
-                                    CupertinoButton(child: const Text('Add'), onPressed: () => Get.back()),
-                                ],
+                                            Get.back();
+                                            controller.update();
+                                          }),
+                                    if (GetPlatform.isAndroid)
+                                      TextButton(child: const Text('Cancel'), onPressed: () => Get.back()),
+                                    if (GetPlatform.isAndroid)
+                                      CupertinoButton(child: const Text('Add'), onPressed: () => Get.back()),
+                                  ],
+                                ),
                               ),
                               ProductTextField(
                                 label: 'Option title',
                                 controller: optionCtrl,
                                 hintText: 'Color...',
+                                validator: (val) {
+                                  if (val != null && val.isEmpty) {
+                                    return 'Field is required';
+                                  }
+                                  return null;
+                                },
                               ),
                               ProductTextField(
                                 label: 'Variations (comma separated)',
                                 controller: variationsCtrl,
                                 hintText: 'Blue, Red, Black...',
+                                validator: (val) {
+                                  if (val != null && val.isEmpty) {
+                                    return 'Field is required';
+                                  }
+                                  return null;
+                                },
                               ),
                             ],
                           ),
@@ -151,37 +173,48 @@ class ProductVariants extends GetView<AddUpdateProductController> {
                 itemCount: controller.product.variants!.length),
           if (GetPlatform.isAndroid)
             TextButton(
-                onPressed: () {},
+                onPressed: controller.product.options == null || controller.product.options!.isEmpty
+                    ? null
+                    : () async {
+                        final result = await Get.to(
+                            () => ProductAddVariant(
+                                currencies: StoreService.store.currencies ?? [], options: controller.product.options!),
+                            fullscreenDialog: true);
+                        if (result != null) {
+                          if (controller.product.variants != null) {
+                            List<ProductVariant> variants = controller.product.variants!;
+                            variants.add(result);
+                            controller.product = controller.product.copyWith(variants: variants);
+                          } else {
+                            controller.product = controller.product.copyWith(variants: [result]);
+                          }
+                        }
+                        controller.update();
+                      },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: const [Icon(Icons.add), Text('Add a variant')],
                 )),
           if (GetPlatform.isIOS)
             CupertinoButton(
-              onPressed: () async {
-                if (controller.product.options == null) {
-                  return;
-                }
-                ProductVariant? result = await showCupertinoModalBottomSheet(
-                  expand: true,
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => ProductAddVariant(
-                    currencies: StoreService.store.currencies ?? [],
-                    options: controller.product.options!,
-                  ),
-                );
-                if (result != null) {
-                  if (controller.product.variants != null) {
-                    List<ProductVariant> variants = controller.product.variants!;
-                    variants.add(result);
-                    controller.product = controller.product.copyWith(variants: variants);
-                  } else {
-                    controller.product = controller.product.copyWith(variants: [result]);
-                  }
-                }
-                controller.update();
-              },
+              onPressed: controller.product.options == null || controller.product.options!.isEmpty
+                  ? null
+                  : () async {
+                      final result = await Get.to(
+                          () => ProductAddVariant(
+                              currencies: StoreService.store.currencies ?? [], options: controller.product.options!),
+                          fullscreenDialog: true);
+                      if (result != null) {
+                        if (controller.product.variants != null) {
+                          List<ProductVariant> variants = controller.product.variants!;
+                          variants.add(result);
+                          controller.product = controller.product.copyWith(variants: variants);
+                        } else {
+                          controller.product = controller.product.copyWith(variants: [result]);
+                        }
+                      }
+                      controller.update();
+                    },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [Icon(Icons.add), Text('Add a variant')],

@@ -15,7 +15,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
 
   @override
   Future<void> onReady() async {
-    await _loadProduct();
+    await loadProduct();
     super.onReady();
   }
 
@@ -24,7 +24,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     super.onClose();
   }
 
-  Future<void> _loadProduct() async {
+  Future<void> loadProduct() async {
     change(null, status: RxStatus.loading());
     try {
       print(_productId);

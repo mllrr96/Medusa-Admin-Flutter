@@ -19,12 +19,10 @@ class Failure {
               errorDescription = "Connection timeout with API server";
               break;
             case DioErrorType.other:
-              errorDescription =
-                  "Connection to API server failed due to internet connection";
+              errorDescription = "Connection to API server failed due to internet connection";
               break;
             case DioErrorType.receiveTimeout:
-              errorDescription =
-                  "Receive timeout in connection with API server";
+              errorDescription = "Receive timeout in connection with API server";
               break;
             case DioErrorType.response:
               switch (error.response?.statusCode) {
@@ -34,12 +32,7 @@ class Failure {
                   errorDescription = error.response?.statusMessage;
                   break;
                 case 401:
-                  if (error.response?.data['message'] ==
-                      'Please verify your account') {
-                    errorDescription = error.response?.data['message'];
-                  } else {
-                    errorDescription = error.response?.statusMessage;
-                  }
+                  errorDescription = error.response?.statusMessage;
                   break;
                 default:
                   "Unexpected error occurred";

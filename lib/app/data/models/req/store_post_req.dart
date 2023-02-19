@@ -9,7 +9,10 @@ class StorePostReq {
       this.metadata});
 
   final String? name, defaultCurrencyCode, swapLinkTemplate, paymentLinkTemplate, inviteLinkTemplate;
+
+  /// Array of currencies in 3 character ISO code format.
   final List<String>? currencies;
+  /// An optional set of key-value pairs with additional information.
   final Map<String, dynamic>? metadata;
 
   factory StorePostReq.fromJson(Map<String, dynamic> json) {

@@ -11,8 +11,8 @@ import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_post_auth_req.dart';
 import '../../models/res/auth.dart';
 
-class AuthRepository extends BaseAuth {
-  AuthRepository();
+class AuthRepo extends BaseAuth {
+  AuthRepo();
   final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
 
   /// Authenticates a user using email and password combination
@@ -57,10 +57,11 @@ class AuthRepository extends BaseAuth {
     }
   }
 
-  /// @description Retrieves an authenticated session
+  /// Retrieves an authenticated session
+  ///
   /// Usually used to check if authenticated session is alive.
-  /// @param customHeaders
-  /// @return {ResponsePromise<UserAuthRes?>}
+  ///
+  /// @return Future<UserAuthRes?>
   Future<UserAuthRes?> getSession({Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -70,7 +71,7 @@ class AuthRepository extends BaseAuth {
         '/auth',
       );
       if (response.statusCode == 200) {
-        return response.data;
+        return UserAuthRes.fromJson(response.data);
       } else {
         throw response.statusCode!;
       }

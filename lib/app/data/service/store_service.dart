@@ -28,7 +28,7 @@ class StoreService extends GetxService {
     }
   }
 
-  void updateStore(Store store)  {
+  void updateStore(Store store) {
     try {
       _store = store;
     } catch (e) {

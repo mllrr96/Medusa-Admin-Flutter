@@ -19,7 +19,6 @@ class CurrenciesView extends StatelessWidget {
     const space = SizedBox(height: 12.0);
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return GetBuilder<CurrenciesController>(
-      assignId: true,
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

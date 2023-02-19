@@ -7,16 +7,19 @@ import '../../../data/repository/store/store_repo.dart';
 import '../../../data/service/store_service.dart';
 
 class SplashController extends GetxController {
+  SplashController({required this.authRepo});
+  final AuthRepo authRepo;
+
+
   @override
   void onReady() async {
     super.onReady();
-    //TODO: Make the method more robust
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cookie = prefs.getString('Cookie');
 
     if (cookie != null) {
       try {
-        await AuthRepository().getSession(customHeaders: {'Cookie': cookie});
+        await authRepo.getSession();
         await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
         Get.offAllNamed(Routes.DASHBOARD);
       } catch (e) {

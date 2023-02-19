@@ -13,13 +13,19 @@ class CurrenciesController extends GetxController {
   CurrenciesController({required this.currencyRepo, required this.storeRepo});
   final CurrencyRepo currencyRepo;
   final StoreRepo storeRepo;
-  late List<Currency> currencies;
-  late Currency defaultStoreCurrency;
+  List<Currency> currencies = [];
+  Currency defaultStoreCurrency = Currency();
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    if (StoreService.store.currencies == null || StoreService.store.defaultCurrency == null) {
+      loading(status: 'Loading Store Info');
+      await StoreService.instance.loadStore();
+      dismissLoading();
+    }
     currencies = StoreService.store.currencies ?? [];
     defaultStoreCurrency = StoreService.store.defaultCurrency!;
+    update();
     super.onInit();
   }
 
@@ -52,8 +58,8 @@ class CurrenciesController extends GetxController {
     loading();
     final result = await storeRepo.update(
         storePostReq: StorePostReq(defaultCurrencyCode: defaultStoreCurrency.code!, currencies: currenciesIsoCode));
-    result.fold((l) {
-      StoreService.instance.updateStore(l.store);
+    result.fold((l) async {
+      await StoreService.instance.loadStore();
       EasyLoading.showSuccess('Currencies updated').then((value) => Get.back());
     }, (r) {
       debugPrint(r.getMessage());

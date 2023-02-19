@@ -23,8 +23,21 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
           Text('To start selling, all you need is a name and a price.',
               style: smallTextStyle!.copyWith(color: lightWhite)),
           space,
-          ProductTextField(
-              label: 'Title', hintText: 'Winter Jacket', controller: controller.titleCtrl, required: true),
+          Form(
+            key: controller.keyForm,
+            child: ProductTextField(
+              label: 'Title',
+              hintText: 'Winter Jacket',
+              controller: controller.titleCtrl,
+              required: true,
+              validator: (value) {
+                if (value != null && value.isEmpty) {
+                  return 'Title is required';
+                }
+                return null;
+              },
+            ),
+          ),
           ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
           Text(
               'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
@@ -33,10 +46,12 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
           ProductTextField(label: 'Handle', hintText: '/winter-jacket', controller: TextEditingController()),
           ProductTextField(label: 'Material', hintText: '100% cotton', controller: TextEditingController()),
           ProductTextField(
-              label: 'Description',
-              hintText: 'A warm and cozy jacket...',
-              maxLines: null,
-              controller: TextEditingController()),
+            label: 'Description',
+            hintText: 'A warm and cozy jacket...',
+            maxLines: null,
+            controller: TextEditingController(),
+            textInputAction: TextInputAction.done,
+          ),
           Text(
               'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
               style: smallTextStyle.copyWith(color: lightWhite)),
@@ -45,7 +60,14 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Discountable', style: largeTextStyle),
-              Switch.adaptive(activeColor: ColorManager.primary, value: true, onChanged: (val) {})
+              Obx(() {
+                return Switch.adaptive(
+                    activeColor: ColorManager.primary,
+                    value: controller.discountable.value,
+                    onChanged: (val) {
+                      controller.discountable.value = val;
+                    });
+              })
             ],
           ),
           Text('When unchecked discounts will not be applied to this product.',
@@ -62,7 +84,7 @@ class ProductTextField extends StatelessWidget {
     this.required = false,
     required this.label,
     required this.controller,
-    this.textInputAction,
+    this.textInputAction = TextInputAction.next,
     this.textCapitalization = TextCapitalization.none,
     this.keyboardType,
     this.hintText,
@@ -72,6 +94,7 @@ class ProductTextField extends StatelessWidget {
     this.lightLabelColor = false,
     this.validator,
   });
+
   final bool required;
   final String label;
   final String? hintText;

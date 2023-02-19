@@ -10,7 +10,7 @@ import '../../components/easy_loading.dart';
 
 class SignInController extends GetxController {
   SignInController({required this.authRepository});
-  AuthRepository authRepository;
+  AuthRepo authRepository;
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   RxString errorMessage = ''.obs;
@@ -36,17 +36,21 @@ class SignInController extends GetxController {
 
   Future<void> signIn() async {
     if (emailCtrl.text.isEmpty || passwordCtrl.text.isEmpty) {
+      errorMessage.value = 'Email & Password are required to sign in';
       return;
     }
+    errorMessage.value = '';
     loading();
-    try {
-      await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
+    final result =
+        await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
+
+    result.fold((l) async {
       await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
       Get.offAllNamed(Routes.DASHBOARD);
       dismissLoading();
-    } catch (e) {
-      errorMessage.value = 'Error singing in';
+    }, (r) {
+      errorMessage.value = 'Error singing in, ${r.getMessage()}';
       dismissLoading();
-    }
+    });
   }
 }

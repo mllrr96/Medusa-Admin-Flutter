@@ -116,9 +116,9 @@ class ProductsListView extends GetView<ProductsController> {
                           const SheetAction(label: 'Edit'),
                           const SheetAction(label: 'Unpublish'),
                           const SheetAction(label: 'Duplicate'),
-                          const SheetAction(label: 'Delete', isDestructiveAction: true,key: 'delete'),
+                          const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
                         ]);
-                        if(result == 'delete'){
+                        if (result == 'delete') {
                           await controller.deleteProduct(product.id!);
                         }
                       },

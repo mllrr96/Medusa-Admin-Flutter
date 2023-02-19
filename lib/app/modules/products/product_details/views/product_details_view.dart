@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/products/product_details/components/product_details_components.dart';
@@ -43,7 +44,17 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               ),
             ),
           ),
-          onError: (e) => const Center(child: Text('Error loading product')),
+          onError: (e) => Center(
+              child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Error loading product'),
+              if (GetPlatform.isIOS)
+                CupertinoButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
+              if (GetPlatform.isAndroid)
+                TextButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct())
+            ],
+          )),
           onLoading: const Center(
             child: CircularProgressIndicator.adaptive(),
           ),
