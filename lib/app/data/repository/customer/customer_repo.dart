@@ -18,7 +18,7 @@ class CustomerRepository extends BaseCustomer {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.get(
-        uri: '/admin/customers',
+        uri: '/customers',
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
@@ -39,7 +39,7 @@ class CustomerRepository extends BaseCustomer {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/admin/customers/$id', queryParameters: queryParameters);
+      final response = await _dataProvider.get(uri: '/customers/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return CustomerRes.fromJson(response.data);
       } else {

@@ -29,7 +29,7 @@ class ProductCollection {
     if (json['products'] != null) {
       products = <Product>[];
       json['products']
-          .forEach((e) => products!.add(Product.fromJson(json['products'])));
+          .forEach((e) => products!.add(Product.fromJson(e)));
     }
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');

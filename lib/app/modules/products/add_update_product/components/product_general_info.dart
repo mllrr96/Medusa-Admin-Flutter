@@ -66,7 +66,10 @@ class ProductTextField extends StatelessWidget {
     this.keyboardType,
     this.hintText,
     this.maxLines = 1,
-    this.onChanged, this.width, this.lightLabelColor = false, this.validator,
+    this.onChanged,
+    this.width,
+    this.lightLabelColor = false,
+    this.validator,
   });
   final bool required;
   final String label;
@@ -89,7 +92,7 @@ class ProductTextField extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(label, style:  mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite: null)),
+            Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite : null)),
             if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
           ],
         ),

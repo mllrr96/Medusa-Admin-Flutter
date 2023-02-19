@@ -20,7 +20,7 @@ class OrdersRepository extends BaseOrders {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/admin/orders/$id', queryParameters: queryParameters);
+      final response = await _dataProvider.get(uri: '/orders/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return UserOrderRes.fromJson(response.data);
       } else {
@@ -43,7 +43,7 @@ class OrdersRepository extends BaseOrders {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.get(
-        uri: '/admin/orders',
+        uri: '/orders',
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {

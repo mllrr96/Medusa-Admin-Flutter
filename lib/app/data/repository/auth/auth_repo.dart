@@ -23,7 +23,7 @@ class AuthRepository extends BaseAuth {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
     try {
-      final response = await _dataProvider.dio.post('/admin/auth', data: req);
+      final response = await _dataProvider.dio.post('/auth', data: req);
       if (response.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var cookie = response.headers['set-cookie']!.first.split(';').first;
@@ -45,7 +45,7 @@ class AuthRepository extends BaseAuth {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.dio.delete(
-        '/admin/auth',
+        '/auth',
       );
       if (response.statusCode == 200) {
         return response.data;
@@ -67,7 +67,7 @@ class AuthRepository extends BaseAuth {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.dio.get(
-        '/admin/auth',
+        '/auth',
       );
       if (response.statusCode == 200) {
         return response.data;

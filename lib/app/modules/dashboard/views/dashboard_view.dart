@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/customers/views/customers_view.dart';
 import 'package:medusa_admin/app/modules/orders/views/orders_view.dart';
 import 'package:medusa_admin/app/modules/products/views/products_view.dart';
@@ -32,7 +33,7 @@ class DashboardView extends GetView<DashboardController> {
                 } else if (index == 1) {
                   return ProductsView();
                 } else if (index == 2) {
-                  return CustomersView();
+                  return CollectionsView();
                 } else if (index == 3) {
                   return SettingsView();
                 }

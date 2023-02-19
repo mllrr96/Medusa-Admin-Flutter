@@ -19,7 +19,7 @@ class ProductsRepository extends BaseProducts {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.get(
-        uri: '/admin/products',
+        uri: '/products',
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
@@ -42,7 +42,7 @@ class ProductsRepository extends BaseProducts {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/admin/products/$id', queryParameters: queryParameters);
+      final response = await _dataProvider.get(uri: '/products/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return UserProductsRes.fromJson(response.data);
       } else {
@@ -63,7 +63,7 @@ class ProductsRepository extends BaseProducts {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/admin/variants', queryParameters: queryParameters);
+      final response = await _dataProvider.get(uri: '/variants', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return UserVariantsRes.fromJson(response.data);
       } else {
@@ -84,7 +84,7 @@ class ProductsRepository extends BaseProducts {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.post(uri: '/admin/products/search', data: req);
+      final response = await _dataProvider.post(uri: '/products/search', data: req);
       if (response.statusCode == 200) {
         return UserPostSearchRes.fromJson(response.data);
       } else {

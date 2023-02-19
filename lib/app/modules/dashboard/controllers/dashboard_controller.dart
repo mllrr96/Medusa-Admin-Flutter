@@ -10,17 +10,17 @@ class DashboardController extends GetxController {
   int currentScreen = 0;
   final bottomNavBarItems = GetPlatform.isIOS
       ? const <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(CupertinoIcons.money_dollar), label: 'Orders'),
-    BottomNavigationBarItem(icon: Icon(CupertinoIcons.tag), label: 'Products'),
-    BottomNavigationBarItem(icon: Icon(CupertinoIcons.person), label: 'Customers'),
-    BottomNavigationBarItem(icon: Icon(CupertinoIcons.settings), label: 'Settings'),
-  ]
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.money_dollar), label: 'Orders'),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.tag), label: 'Products'),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.collections), label: 'Collections'),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.settings), label: 'Settings'),
+        ]
       : const [
-    BottomNavigationBarItem(icon: Icon(Icons.attach_money), label: 'Orders'),
-    BottomNavigationBarItem(icon: Icon(CupertinoIcons.tag), label: 'Products'),
-    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Customers'),
-    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-  ];
+          BottomNavigationBarItem(icon: Icon(Icons.attach_money), label: 'Orders'),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.tag), label: 'Products'),
+          BottomNavigationBarItem(icon: Icon(Icons.collections), label: 'Collections'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        ];
   @override
   void onInit() {
     super.onInit();
@@ -35,6 +35,7 @@ class DashboardController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
   void onTap(int index) {
     currentScreen = index;
     update();

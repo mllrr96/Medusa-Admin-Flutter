@@ -25,25 +25,5 @@ class UserOrdersRes extends PaginatedResponse {
         orders?.add(Order.fromJson(v));
       });
     }
-
-    // List<dynamic> ordersAsMap = json['orders'];
-    //
-    // List<Map<String, dynamic>> ordersAsListMap = [];
-    //
-    // for (var element in ordersAsMap) {
-    //   ordersAsListMap.add(Map<String, dynamic>.from(element));
-    // }
-    //
-    // List<Order> orders = [];
-    // for (var order in ordersAsListMap) {
-    //   orders.add(Order.fromJson(order));
-    // }
-    // this.orders = orders;
   }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['order'] = order?.toJson();
-  //   return data;
-  // }
 }

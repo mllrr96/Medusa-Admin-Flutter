@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/collections/bindings/collections_binding.dart';
+import '../modules/collections/views/collections_view.dart';
 import '../modules/customers/bindings/customers_binding.dart';
 import '../modules/customers/customer_details/bindings/customer_details_binding.dart';
 import '../modules/customers/customer_details/views/customer_details_view.dart';
@@ -49,6 +51,7 @@ class AppPages {
           OrdersBinding(),
           ProductsBinding(),
           CustomersBinding(),
+          CollectionsBinding(),
           // CurrenciesBinding(),
         ],
         children: [
@@ -119,6 +122,5 @@ class AppPages {
       page: () => const SignInView(),
       binding: SignInBinding(),
     ),
-
   ];
 }
