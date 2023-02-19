@@ -49,6 +49,7 @@ class AppPages {
           OrdersBinding(),
           ProductsBinding(),
           CustomersBinding(),
+          // CurrenciesBinding(),
         ],
         children: [
           GetPage(

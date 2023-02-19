@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
-import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../data/repository/currency/currency_repo.dart';
 import '../controllers/currencies_controller.dart';
 
-class CurrenciesView extends GetView<CurrenciesController> {
+class CurrenciesView extends StatelessWidget {
   const CurrenciesView({Key? key}) : super(key: key);
 
   @override
@@ -20,136 +18,161 @@ class CurrenciesView extends GetView<CurrenciesController> {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final store = StoreService.store;
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Currencies'),
-          centerTitle: true,
-        ),
-        body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.all(12.0),
-            children: [
-              Text('Manage the markets that you will operate within.',
-                  style: mediumTextStyle!.copyWith(color: lightWhite)),
-              space,
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                  color: Theme.of(context).expansionTileTheme.backgroundColor,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Default store currency', style: largeTextStyle),
-                    Text('This is the currency your prices are shown in.',
-                        style: mediumTextStyle.copyWith(color: lightWhite)),
-                    space,
-                    if (store.currencies != null)
-                      DropdownButtonFormField<String>(
-                        value: store.defaultCurrencyCode,
-                        items: store.currencies!
-                            .map((currency) => DropdownMenuItem(
-                                  value: currency.code,
-                                  child: Text(currency.name ?? ''),
-                                ))
-                            .toList(),
-                        onChanged: (value) {},
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                          ),
-                        ),
-                      ),
-                    const SizedBox(height: 6.0),
-                  ],
-                ),
-              ),
-              space,
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                  color: Theme.of(context).expansionTileTheme.backgroundColor,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GetBuilder<CurrenciesController>(
+      assignId: true,
+      builder: (controller) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Currencies'),
+              centerTitle: true,
+              actions: [
+                if (GetPlatform.isAndroid) TextButton(onPressed: () {}, child: const Text('Save')),
+                if (GetPlatform.isIOS) CupertinoButton(onPressed: () {}, child: const Text('Save')),
+              ],
+            ),
+            body: SafeArea(
+              child: ListView(
+                padding: const EdgeInsets.all(12.0),
+                children: [
+                  Text('Manage the markets that you will operate within.',
+                      style: mediumTextStyle!.copyWith(color: lightWhite)),
+                  space,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                      color: Theme.of(context).expansionTileTheme.backgroundColor,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Store currencies', style: largeTextStyle),
-                            Text('All the currencies available in your store.',
-                                style: mediumTextStyle.copyWith(color: lightWhite)),
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: () async {
-                              await showCupertinoModalBottomSheet(
-                                expand: true,
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => AllCurrenciesView(),
-                              );
+                        Text('Default store currency', style: largeTextStyle),
+                        Text('This is the currency your prices are shown in.',
+                            style: mediumTextStyle.copyWith(color: lightWhite)),
+                        space,
+                        if (controller.currencies.isNotEmpty && controller.currencies.length == 1)
+                          Text(controller.currencies.first.name ?? ''),
+                        if (controller.currencies.isNotEmpty && controller.currencies.length > 1)
+                          DropdownButtonFormField<String>(
+                            value: controller.defaultStoreCurrency.code,
+                            items: controller.currencies
+                                .map((currency) => DropdownMenuItem(
+                                      value: currency.code,
+                                      child: Text(currency.name ?? ''),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                controller.defaultStoreCurrency =
+                                    controller.currencies.where((element) => element.code == value).first;
+                              }
                             },
-                            icon: Icon(Icons.add, color: ColorManager.primary))
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 6.0),
                       ],
                     ),
-                    space,
-                    if (store.currencies != null)
-                      ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final currency = store.currencies![index];
-                            return ListTile(
-                              title: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(currency.code?.toUpperCase() ?? ''),
-                                  const SizedBox(width: 12.0),
-                                  Text(currency.name ?? ''),
-                                ],
-                              ),
-                              trailing: IconButton(
-                                  onPressed: () {}, icon: const Icon(Icons.delete_forever, color: Colors.red)),
-                            );
-                          },
-                          separatorBuilder: (_, __) => Divider(),
-                          itemCount: store.currencies!.length),
-                    const SizedBox(height: 6.0),
-                  ],
-                ),
+                  ),
+                  space,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                      color: Theme.of(context).expansionTileTheme.backgroundColor,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Store currencies', style: largeTextStyle),
+                                Text('All the currencies available in your store.',
+                                    style: mediumTextStyle.copyWith(color: lightWhite)),
+                              ],
+                            ),
+                            TextButton(
+                                onPressed: () async {
+                                  List<Currency>? result = await showCupertinoModalBottomSheet(
+                                    expand: true,
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => AllCurrenciesView(storeCurrencies: controller.currencies),
+                                  );
+                                  if (result != null) {
+                                    controller.currencies = result;
+                                    if (!controller.currencies
+                                        .any((element) => element == controller.defaultStoreCurrency)) {
+                                      controller.defaultStoreCurrency = result.first;
+                                    }
+                                    controller.update();
+                                  }
+                                },
+                                child: const Text('Edit'))
+                          ],
+                        ),
+                        space,
+                        if (controller.currencies.isNotEmpty)
+                          ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final currency = controller.currencies[index];
+                                return ListTile(
+                                  title: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(currency.code?.toUpperCase() ?? ''),
+                                      const SizedBox(width: 12.0),
+                                      Text(currency.name ?? ''),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (_, __) => const Divider(),
+                              itemCount: controller.currencies.length),
+                        const SizedBox(height: 6.0),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
 class AllCurrenciesView extends StatelessWidget {
-  const AllCurrenciesView({super.key});
-
+  const AllCurrenciesView({super.key, required this.storeCurrencies});
+  final List<Currency> storeCurrencies;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AllCurrenciesController>(
-      init: AllCurrenciesController(currencyRepo: CurrencyRepo()),
+      init: AllCurrenciesController(currencyRepo: CurrencyRepo(), storeCurrencies: storeCurrencies),
       builder: (controller) {
         return Material(
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Add Store Currencies'),
               actions: [
-                if (GetPlatform.isIOS) CupertinoButton(onPressed: () {}, child: const Text('Save')),
-                if (GetPlatform.isAndroid) TextButton(onPressed: () {}, child: const Text('Save')),
+                if (GetPlatform.isIOS && controller.selectedCurrencies.isNotEmpty)
+                  CupertinoButton(
+                      onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
+                if (GetPlatform.isAndroid && controller.selectedCurrencies.isNotEmpty)
+                  TextButton(
+                      onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -157,13 +180,24 @@ class AllCurrenciesView extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Currency>(
-                    itemBuilder: (context, currency, index) => ListTile(
-                        selected:
-                            StoreService.store.currencies?.any((element) => element.code == currency.code) ?? false,
-                        title: Text(currency.name ?? '')),
+                    itemBuilder: (context, currency, index) => CheckboxListTile(
+                          contentPadding: EdgeInsets.zero,
+                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(currency.name ?? ''),
+                          onChanged: (bool? value) {
+                            var selectedCurrencies = controller.selectedCurrencies;
+                            if (selectedCurrencies.any((element) => element.code == currency.code)) {
+                              selectedCurrencies.removeWhere((element) => element.code == currency.code);
+                            } else {
+                              selectedCurrencies.add(currency);
+                            }
+                            controller.update();
+                          },
+                          value: controller.selectedCurrencies.any((element) => element.code == currency.code),
+                        ),
                     firstPageProgressIndicatorBuilder: (context) =>
                         const Center(child: CircularProgressIndicator.adaptive())),
-                separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+                separatorBuilder: (_, __) => const Divider(height: 0),
               ),
             ),
           ),
@@ -174,17 +208,22 @@ class AllCurrenciesView extends StatelessWidget {
 }
 
 class AllCurrenciesController extends GetxController {
-  AllCurrenciesController({required this.currencyRepo});
+  AllCurrenciesController({required this.currencyRepo, required this.storeCurrencies});
+
   final CurrencyRepo currencyRepo;
+  final List<Currency> storeCurrencies;
   final PagingController<int, Currency> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
+  List<Currency> selectedCurrencies = [];
+
   @override
   Future<void> onInit() async {
     pagingController.addPageRequestListener((pageKey) {
       print('Getting data');
       _fetchPage(pageKey);
     });
+    selectedCurrencies.addAll(storeCurrencies);
     super.onInit();
   }
 
