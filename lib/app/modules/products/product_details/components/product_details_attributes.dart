@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/models/store/product.dart';
 
 class ProductDetailsAttributes extends StatelessWidget {
   const ProductDetailsAttributes({Key? key, required this.product}) : super(key: key);
-final Product product;
+  final Product product;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;

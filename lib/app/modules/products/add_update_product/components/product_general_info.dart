@@ -4,78 +4,106 @@ import 'package:medusa_admin/app/modules/products/add_update_product/controllers
 import 'package:medusa_admin/core/utils/colors.dart';
 
 class ProductGeneralInformation extends GetView<AddUpdateProductController> {
-  const ProductGeneralInformation({Key? key}) : super(key: key);
-
+  const ProductGeneralInformation( {Key? key, this.editMode = false,}) : super(key: key);
+final bool editMode;
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
-    return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        title: Text('General Information', style: Theme.of(context).textTheme.bodyLarge),
-        initiallyExpanded: true,
-        maintainState: true,
-        expandedAlignment: Alignment.centerLeft,
-        childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+    return EditCard(label: 'General Information',
+
+        editMode: editMode,
         children: [
-          Text('To start selling, all you need is a name and a price.',
-              style: smallTextStyle!.copyWith(color: lightWhite)),
-          space,
-          Form(
-            key: controller.keyForm,
-            child: ProductTextField(
-              label: 'Title',
-              hintText: 'Winter Jacket',
-              controller: controller.titleCtrl,
-              required: true,
-              validator: (value) {
-                if (value != null && value.isEmpty) {
-                  return 'Title is required';
-                }
-                return null;
-              },
-            ),
-          ),
-          ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
-          Text(
-              'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
-              style: smallTextStyle.copyWith(color: lightWhite)),
-          space,
-          ProductTextField(label: 'Handle', hintText: '/winter-jacket', controller: TextEditingController()),
-          ProductTextField(label: 'Material', hintText: '100% cotton', controller: TextEditingController()),
-          ProductTextField(
-            label: 'Description',
-            hintText: 'A warm and cozy jacket...',
-            maxLines: null,
-            controller: TextEditingController(),
-            textInputAction: TextInputAction.done,
-          ),
-          Text(
-              'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
-              style: smallTextStyle.copyWith(color: lightWhite)),
-          space,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Discountable', style: largeTextStyle),
-              Obx(() {
-                return Switch.adaptive(
-                    activeColor: ColorManager.primary,
-                    value: controller.discountable.value,
-                    onChanged: (val) {
-                      controller.discountable.value = val;
-                    });
-              })
-            ],
-          ),
-          Text('When unchecked discounts will not be applied to this product.',
-              style: smallTextStyle.copyWith(color: lightWhite)),
+      Text('To start selling, all you need is a name and a price.', style: smallTextStyle!.copyWith(color: lightWhite)),
+      space,
+      Form(
+        key: controller.keyForm,
+        child: ProductTextField(
+          label: 'Title',
+          hintText: 'Winter Jacket',
+          controller: controller.titleCtrl,
+          required: true,
+          validator: (value) {
+            if (value != null && value.isEmpty) {
+              return 'Title is required';
+            }
+            return null;
+          },
+        ),
+      ),
+      ProductTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: TextEditingController()),
+      Text('Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
+          style: smallTextStyle.copyWith(color: lightWhite)),
+      space,
+      ProductTextField(label: 'Handle', hintText: '/winter-jacket', controller: TextEditingController()),
+      ProductTextField(label: 'Material', hintText: '100% cotton', controller: TextEditingController()),
+      ProductTextField(
+        label: 'Description',
+        hintText: 'A warm and cozy jacket...',
+        maxLines: null,
+        controller: TextEditingController(),
+        textInputAction: TextInputAction.done,
+      ),
+      Text(
+          'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
+          style: smallTextStyle.copyWith(color: lightWhite)),
+      space,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Discountable', style: largeTextStyle),
+          Obx(() {
+            return Switch.adaptive(
+                activeColor: ColorManager.primary,
+                value: controller.discountable.value,
+                onChanged: (val) {
+                  controller.discountable.value = val;
+                });
+          })
         ],
       ),
-    );
+      Text('When unchecked discounts will not be applied to this product.',
+          style: smallTextStyle.copyWith(color: lightWhite)),
+    ]);
+  }
+}
+
+class EditCard extends StatelessWidget {
+  const EditCard(
+      {Key? key, this.editMode = false, required this.children, required this.label, this.maintainState = false})
+      : super(key: key);
+  final bool editMode;
+  final List<Widget> children;
+  final String label;
+  final bool maintainState;
+  @override
+  Widget build(BuildContext context) {
+    if (editMode) {
+      return SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            color: Theme.of(context).expansionTileTheme.backgroundColor,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          ),
+        ),
+      );
+    }
+    return Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          maintainState: maintainState,
+          title: Text(label, style: Theme.of(context).textTheme.bodyLarge),
+          expandedAlignment: Alignment.centerLeft,
+          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          children: children,
+        ));
   }
 }
 

@@ -3,15 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/colors.dart';
 
 class ProductAddVariant extends StatefulWidget {
-  const ProductAddVariant({Key? key, required this.currencies, required this.options}) : super(key: key);
-  final List<Currency> currencies;
-  final List<ProductOption> options;
+  const ProductAddVariant({Key? key, this.editMode = false, required this.product}) : super(key: key);
+  final Product product;
+  final bool editMode;
   @override
   State<ProductAddVariant> createState() => _ProductAddVariantState();
 }
@@ -36,12 +37,15 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
   bool manageInventory = true;
   bool allowBackorder = false;
   final formKey = GlobalKey<FormState>();
+  final List<Currency> currencies = StoreService.store.currencies ?? [];
+
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final options = widget.product.options;
     const space = SizedBox(height: 12.0);
     return Material(
       child: WillPopScope(
@@ -115,47 +119,48 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                               ],
                             ),
                             space,
-                            ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  final currentOption = widget.options[index];
-                                  return Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(currentOption.title!, style: mediumTextStyle!),
-                                          Text(' *', style: mediumTextStyle.copyWith(color: Colors.red)),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6.0),
-                                      DropdownButtonFormField(
-                                        validator: (val) {
-                                          if (val == null) {
-                                            return 'Field is required';
-                                          }
-                                          return null;
-                                        },
-                                        items: currentOption.values!
-                                            .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
-                                            .toList(),
-                                        hint: const Text('Choose an option'),
-                                        onChanged: (value) {
-                                          if (value != null) {
-                                            selectedOptionsValue[index] = value;
-                                          }
-                                        },
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                            if (options != null)
+                              ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final currentOption = options[index];
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(currentOption.title!, style: mediumTextStyle!),
+                                            Text(' *', style: mediumTextStyle.copyWith(color: Colors.red)),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 6.0),
+                                        DropdownButtonFormField(
+                                          validator: (val) {
+                                            if (val == null) {
+                                              return 'Field is required';
+                                            }
+                                            return null;
+                                          },
+                                          items: currentOption.values!
+                                              .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
+                                              .toList(),
+                                          hint: const Text('Choose an option'),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              selectedOptionsValue[index] = value;
+                                            }
+                                          },
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                separatorBuilder: (_, __) => space,
-                                itemCount: widget.options.length)
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder: (_, __) => space,
+                                  itemCount: options.length)
                           ],
                         ),
                       ),
@@ -170,7 +175,7 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                             Text('Configure the pricing for this variant.',
                                 style: smallTextStyle.copyWith(color: lightWhite)),
                             space,
-                            ...widget.currencies.map((currency) {
+                            ...currencies.map((currency) {
                               return Column(
                                 children: [
                                   Container(

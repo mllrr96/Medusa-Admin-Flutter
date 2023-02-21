@@ -16,3 +16,13 @@ enum AppearanceMode {
   dark,
 }
 
+enum ProductComponents {
+  generalInfo,
+  salesChannel,
+  addVariant,
+  editVariants,
+  editOptions,
+  editAttributes,
+  editThumbnail,
+  editMedia,
+}

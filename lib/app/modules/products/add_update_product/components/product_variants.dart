@@ -84,10 +84,7 @@ class ProductVariants extends StatelessWidget {
                     onPressed: controller.product.options == null || controller.product.options!.isEmpty
                         ? null
                         : () async {
-                            final result = await Get.to(
-                                () => ProductAddVariant(
-                                    currencies: StoreService.store.currencies ?? [],
-                                    options: controller.product.options!),
+                            final result = await Get.to(() => ProductAddVariant(product: controller.product),
                                 fullscreenDialog: true);
                             if (result != null) {
                               if (controller.product.variants != null) {
@@ -109,10 +106,7 @@ class ProductVariants extends StatelessWidget {
                   onPressed: controller.product.options == null || controller.product.options!.isEmpty
                       ? null
                       : () async {
-                          final result = await Get.to(
-                              () => ProductAddVariant(
-                                  currencies: StoreService.store.currencies ?? [],
-                                  options: controller.product.options!),
+                          final result = await Get.to(() => ProductAddVariant(product: controller.product),
                               fullscreenDialog: true);
                           if (result != null) {
                             if (controller.product.variants != null) {

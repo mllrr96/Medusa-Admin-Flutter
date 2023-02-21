@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../data/models/store/product_option.dart';
@@ -21,7 +22,8 @@ class AddUpdateProductController extends GetxController {
   final optionCtrl = TextEditingController();
   final variationsCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
-
+  bool editMode = false;
+  ProductComponents productComponents = ProductComponents.addVariant;
   late Product product;
   @override
   Future<void> onInit() async {
@@ -29,7 +31,9 @@ class AddUpdateProductController extends GetxController {
       product = Product();
     } else {
       // Update existing product
-      product = Get.arguments;
+      editMode = true;
+      product = Get.arguments[0];
+      productComponents = Get.arguments[1];
     }
     super.onInit();
   }
@@ -66,7 +70,12 @@ class AddUpdateProductController extends GetxController {
     });
   }
 
-  Future<void> addAnOption(BuildContext context) async {
+  Future<void> updateProduct() async {
+
+  }
+
+
+    Future<void> addAnOption(BuildContext context) async {
     Widget Function(BuildContext) builder() {
       return (context) => AddOptionView(
             formKey: optionKeyForm,
