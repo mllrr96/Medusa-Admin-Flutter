@@ -66,7 +66,14 @@ class ProductsGridView extends GetView<ProductsController> {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => GestureDetector(
-                  onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
+                  onTap: () async {
+                    await Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id)?.then((result) {
+                      // A product has been deleted, reload data
+                      if (result is bool && result == true) {
+                        controller.pagingController.refresh();
+                      }
+                    });
+                  },
                   child: Card(
                     child: Column(
                       children: [
@@ -106,7 +113,14 @@ class ProductsListView extends GetView<ProductsController> {
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => ListTile(
-                  onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id),
+                  onTap: () async {
+                    await Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id)?.then((result) {
+                      // A product has been deleted, reload data
+                      if (result is bool && result == true) {
+                        controller.pagingController.refresh();
+                      }
+                    });
+                  },
                   title: Text(product.title!),
                   subtitle: Text(product.status.name.capitalize ?? product.status.name,
                       style: Theme.of(context).textTheme.titleSmall),
@@ -120,15 +134,25 @@ class ProductsListView extends GetView<ProductsController> {
                       : null,
                   trailing: IconButton(
                       onPressed: () async {
-                        final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                        await showModalActionSheet(context: context, actions: <SheetAction>[
                           const SheetAction(label: 'Edit'),
                           const SheetAction(label: 'Unpublish'),
                           const SheetAction(label: 'Duplicate'),
                           const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
-                        ]);
-                        if (result == 'delete') {
-                          await controller.deleteProduct(product.id!);
-                        }
+                        ]).then((result) async {
+                          if (result == 'delete') {
+                            final confirmDelete = await showOkCancelAlertDialog(
+                                context: context,
+                                title: 'Confirm product deletion',
+                                message: 'Are you sure you want to delete this product? \n This action is irreversible',
+                                isDestructiveAction: true);
+
+                            if (confirmDelete != OkCancelResult.ok) {
+                              return;
+                            }
+                            await controller.deleteProduct(product.id!);
+                          }
+                        });
                       },
                       icon: const Icon(Icons.more_horiz)),
                 ),

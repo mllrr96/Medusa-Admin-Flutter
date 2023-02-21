@@ -68,6 +68,9 @@ class ProductsController extends GetxController {
   }
 
   Future<void> deleteProduct(String id) async {
+
+
+
     final result = await productsRepo.delete(id: id);
     loading();
     result.fold((l) {

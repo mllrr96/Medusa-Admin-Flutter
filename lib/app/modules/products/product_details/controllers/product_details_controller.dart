@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 
+import '../../../components/easy_loading.dart';
+
 class ProductDetailsController extends GetxController with StateMixin<Product> {
-  ProductDetailsController({required this.productsRepository});
-  ProductsRepo productsRepository;
+  ProductDetailsController({required this.productsRepo});
+  ProductsRepo productsRepo;
   final String _productId = Get.arguments;
 
   @override
@@ -28,7 +31,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     change(null, status: RxStatus.loading());
     try {
       print(_productId);
-      final result = await productsRepository
+      final result = await productsRepo
           .retrieve(_productId, queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels'});
       if (result != null && result.product != null) {
         change(await _loadProductVariants(result.product!), status: RxStatus.success());
@@ -49,7 +52,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
       List<ProductVariant> variants = [];
       for (ProductVariant variant in product.variants!) {
         final result =
-            await productsRepository.retrieveVariants(queryParameters: {'id': variant.id!, 'expand': 'options,prices'});
+            await productsRepo.retrieveVariants(queryParameters: {'id': variant.id!, 'expand': 'options,prices'});
         if (result != null && result.variants != null) {
           variants.addAll(result.variants!.toList());
         }
@@ -62,5 +65,22 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
       debugPrint(e.toString());
     }
     return product;
+  }
+
+  Future<void> deleteProduct(String id) async {
+    final result = await productsRepo.delete(id: id);
+    loading();
+    result.fold((l) {
+      if (l.deleted != null && l.deleted!) {
+        // product deleted
+        EasyLoading.showSuccess('Product Deleted');
+        Get.back(result: true);
+      } else {
+        EasyLoading.showError('Deletion failed');
+      }
+    }, (r) {
+      // Error deleting product
+      EasyLoading.showError('Deletion failed');
+    });
   }
 }

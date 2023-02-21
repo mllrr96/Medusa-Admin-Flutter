@@ -10,7 +10,6 @@ class SplashController extends GetxController {
   SplashController({required this.authRepo});
   final AuthRepo authRepo;
 
-
   @override
   void onReady() async {
     super.onReady();
@@ -23,6 +22,7 @@ class SplashController extends GetxController {
         await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
         Get.offAllNamed(Routes.DASHBOARD);
       } catch (e) {
+        await prefs.remove('Cookie');
         Get.offAllNamed(Routes.SIGN_IN);
       }
     } else {

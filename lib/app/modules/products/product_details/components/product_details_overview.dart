@@ -2,8 +2,9 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/products/product_details/controllers/product_details_controller.dart';
 
-class ProductDetailsOverview extends StatelessWidget {
+class ProductDetailsOverview extends GetView<ProductDetailsController> {
   const ProductDetailsOverview({Key? key, required this.product}) : super(key: key);
   final Product product;
 
@@ -27,11 +28,24 @@ class ProductDetailsOverview extends StatelessWidget {
               Expanded(child: Text(product.title ?? '')),
               IconButton(
                 onPressed: () async {
-                  final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                  await showModalActionSheet(context: context, actions: <SheetAction>[
                     const SheetAction(label: 'Edit General Information'),
                     const SheetAction(label: 'Edit Sales Channels'),
-                    const SheetAction(label: 'Delete', isDestructiveAction: true),
-                  ]);
+                    const SheetAction(label: 'Delete Product', isDestructiveAction: true, key: 'delete'),
+                  ]).then((result) async {
+                    if (result == 'delete') {
+                      final confirmDelete = await showOkCancelAlertDialog(
+                          context: context,
+                          title: 'Confirm product deletion',
+                          message: 'Are you sure you want to delete this product? \n This action is irreversible',
+                          isDestructiveAction: true);
+
+                      if (confirmDelete != OkCancelResult.ok) {
+                        return;
+                      }
+                      await controller.deleteProduct(product.id!);
+                    }
+                  });
                 },
                 icon: const Icon(Icons.more_horiz),
               ),
