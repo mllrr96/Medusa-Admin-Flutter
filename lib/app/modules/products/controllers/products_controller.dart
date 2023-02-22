@@ -9,6 +9,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../data/models/store/product.dart';
 
 class ProductsController extends GetxController {
+  static ProductsController instance = Get.find<ProductsController>();
+
   ProductsController({required this.productsRepo});
   ProductsRepo productsRepo;
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);

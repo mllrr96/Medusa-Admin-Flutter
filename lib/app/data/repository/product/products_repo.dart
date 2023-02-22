@@ -145,8 +145,9 @@ class ProductsRepo extends BaseProducts {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
+    String id = product.id!;
     try {
-      final response = await _dataProvider.post(uri: '/products/${product.id!}', data: product.toJson());
+      final response = await _dataProvider.post(uri: '/products/$id', data: product.copyWith(id: null).toJson());
       if (response.statusCode == 200) {
         return Left(UserUpdateProductRes.fromJson(response.data));
       } else {

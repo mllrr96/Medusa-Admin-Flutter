@@ -2,9 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
+import 'package:medusa_admin/app/modules/products/controllers/products_controller.dart';
+import 'package:medusa_admin/app/modules/products/product_details/controllers/product_details_controller.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
-class ProductDetailsAttributes extends StatelessWidget {
-  const ProductDetailsAttributes({Key? key, required this.product, this.onExpansionChanged, this.expansionKey}) : super(key: key);
+class ProductDetailsAttributes extends GetView<ProductDetailsController> {
+  const ProductDetailsAttributes({Key? key, required this.product, this.onExpansionChanged, this.expansionKey})
+      : super(key: key);
   final Product product;
   final void Function(bool)? onExpansionChanged;
   final Key? expansionKey;
@@ -25,7 +30,17 @@ class ProductDetailsAttributes extends StatelessWidget {
           controlAffinity: ListTileControlAffinity.leading,
           title: Text('Attributes', style: Theme.of(context).textTheme.bodyLarge),
           trailing: GetPlatform.isAndroid
-              ? TextButton(onPressed: () {}, child: const Text('Edit'))
+              ? TextButton(
+                  onPressed: () async {
+                    await Get.toNamed(Routes.ADD_UPDATE_PRODUCT, arguments: [product, ProductComponents.editAttributes])
+                        ?.then((result) async {
+                      if (result != null) {
+                        await controller.loadProduct();
+                        ProductsController.instance.pagingController.refresh();
+                      }
+                    });
+                  },
+                  child: const Text('Edit'))
               : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
           expandedAlignment: Alignment.centerLeft,
           childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),

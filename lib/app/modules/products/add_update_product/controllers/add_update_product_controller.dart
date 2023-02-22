@@ -71,8 +71,10 @@ class AddUpdateProductController extends GetxController {
     });
   }
 
-  Future<void> updateProduct() async {
-    Product updatedProduct = Product(id: product.id!);
+  Future<void> updateProduct(BuildContext context) async {
+    // Check if there's no update to the product, in that case just go back.
+
+    Product updatedProduct = Product(id: product.id!, status: product.status, discountable: product.discountable);
     switch (productComponents) {
       case ProductComponents.generalInfo:
         updatedProduct = updatedProduct.copyWith(
@@ -107,9 +109,15 @@ class AddUpdateProductController extends GetxController {
         break;
     }
 
+    // Hide the keyboard
+    FocusScope.of(context).unfocus();
+    loading();
     final result = await productsRepo.update(product: updatedProduct);
+    print(product.id!);
     result.fold((l) {
       Get.back(result: l.product!);
+      print(l.product!.id);
+      EasyLoading.showSuccess('Product Updated');
     }, (failure) {
       EasyLoading.showError('Error updating product');
       debugPrint(failure.getMessage());

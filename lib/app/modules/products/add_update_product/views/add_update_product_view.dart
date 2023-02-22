@@ -24,13 +24,15 @@ class AddUpdateProductView extends StatelessWidget {
               actions: [
                 if (GetPlatform.isAndroid)
                   TextButton(
-                      onPressed: () async =>
-                          controller.updateMode ? await controller.updateProduct() : await controller.addProduct(),
+                      onPressed: () async => controller.updateMode
+                          ? await controller.updateProduct(context)
+                          : await controller.addProduct(),
                       child: controller.updateMode ? const Text('Save') : const Text('Publish')),
                 if (GetPlatform.isIOS)
                   CupertinoButton(
-                      onPressed: () async =>
-                          controller.updateMode ? await controller.updateProduct() : await controller.addProduct(),
+                      onPressed: () async => controller.updateMode
+                          ? await controller.updateProduct(context)
+                          : await controller.addProduct(),
                       child: controller.updateMode ? const Text('Save') : const Text('Publish')),
               ],
             ),

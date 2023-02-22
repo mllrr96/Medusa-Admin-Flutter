@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/products/controllers/products_controller.dart';
 import 'package:medusa_admin/app/modules/products/product_details/controllers/product_details_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
@@ -38,7 +39,13 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                     if (result != null) {
                       switch (result) {
                         case ProductComponents.generalInfo:
-                          Get.toNamed(Routes.ADD_UPDATE_PRODUCT, arguments: [product, ProductComponents.generalInfo]);
+                          await Get.toNamed(Routes.ADD_UPDATE_PRODUCT,
+                              arguments: [product, ProductComponents.generalInfo])?.then((result) async {
+                            if (result != null) {
+                              await controller.loadProduct();
+                              ProductsController.instance.pagingController.refresh();
+                            }
+                          });
                           break;
                         case ProductComponents.editVariants:
                           final confirmDelete = await showOkCancelAlertDialog(
