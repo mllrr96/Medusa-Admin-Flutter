@@ -15,7 +15,7 @@ class SplashController extends GetxController {
     super.onReady();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cookie = prefs.getString('Cookie');
-
+    print(cookie);
     if (cookie != null) {
       try {
         await authRepo.getSession();

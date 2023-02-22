@@ -32,7 +32,9 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     try {
       print(_productId);
       final result = await productsRepo
-          .retrieve(_productId, queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels'});
+          .retrieve(_productId,
+          queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},
+      );
       if (result != null && result.product != null) {
         change(await _loadProductVariants(result.product!), status: RxStatus.success());
         update();

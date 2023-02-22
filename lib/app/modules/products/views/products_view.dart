@@ -78,7 +78,15 @@ class ProductsGridView extends GetView<ProductsController> {
                     child: Column(
                       children: [
                         if (product.thumbnail != null)
-                          Expanded(flex: 3, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
+                          Expanded(
+                            flex: 3,
+                            child: CachedNetworkImage(
+                                imageUrl: product.thumbnail!,
+                                placeholder: (context, text) =>
+                                    const Center(child: CircularProgressIndicator.adaptive()),
+                                errorWidget: (context, string, error) =>
+                                    const Icon(Icons.warning_rounded, color: Colors.redAccent)),
+                          ),
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -130,6 +138,8 @@ class ProductsListView extends GetView<ProductsController> {
                           child: CachedNetworkImage(
                             imageUrl: product.thumbnail!,
                             placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                            errorWidget: (context, string, error) =>
+                                const Icon(Icons.warning_rounded, color: Colors.redAccent),
                           ))
                       : null,
                   trailing: IconButton(

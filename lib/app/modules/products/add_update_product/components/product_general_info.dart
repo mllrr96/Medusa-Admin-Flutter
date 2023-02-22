@@ -4,18 +4,18 @@ import 'package:medusa_admin/app/modules/products/add_update_product/controllers
 import 'package:medusa_admin/core/utils/colors.dart';
 
 class ProductGeneralInformation extends GetView<AddUpdateProductController> {
-  const ProductGeneralInformation( {Key? key, this.editMode = false,}) : super(key: key);
-final bool editMode;
+  const ProductGeneralInformation({
+    Key? key,
+    this.editMode = false,
+  }) : super(key: key);
+  final bool editMode;
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
-    return EditCard(label: 'General Information',
-
-        editMode: editMode,
-        children: [
+    return EditCard(label: 'General Information', editMode: editMode, children: [
       Text('To start selling, all you need is a name and a price.', style: smallTextStyle!.copyWith(color: lightWhite)),
       space,
       Form(
@@ -97,12 +97,15 @@ class EditCard extends StatelessWidget {
     }
     return Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          maintainState: maintainState,
-          title: Text(label, style: Theme.of(context).textTheme.bodyLarge),
-          expandedAlignment: Alignment.centerLeft,
-          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-          children: children,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          child: ExpansionTile(
+            maintainState: maintainState,
+            title: Text(label, style: Theme.of(context).textTheme.bodyLarge),
+            expandedAlignment: Alignment.centerLeft,
+            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            children: children,
+          ),
         ));
   }
 }

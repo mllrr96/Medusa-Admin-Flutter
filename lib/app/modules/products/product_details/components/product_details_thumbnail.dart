@@ -12,18 +12,21 @@ class ProductDetailsThumbnail extends StatelessWidget {
     const space = SizedBox(height: 12.0);
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        maintainState: true,
-        controlAffinity: ListTileControlAffinity.leading,
-        title: Text('Thumbnail', style: Theme.of(context).textTheme.bodyLarge),
-        trailing: GetPlatform.isAndroid
-            ? TextButton(onPressed: () {}, child: const Text('Edit'))
-            : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
-        childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-        children: [
-          if (product.thumbnail != null) SizedBox(height: 120, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
-          space,
-        ],
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        child: ExpansionTile(
+          maintainState: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          title: Text('Thumbnail', style: Theme.of(context).textTheme.bodyLarge),
+          trailing: GetPlatform.isAndroid
+              ? TextButton(onPressed: () {}, child: const Text('Edit'))
+              : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
+          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          children: [
+            if (product.thumbnail != null) SizedBox(height: 120, child: CachedNetworkImage(imageUrl: product.thumbnail!)),
+            space,
+          ],
+        ),
       ),
     );
   }

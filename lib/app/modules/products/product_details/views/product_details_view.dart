@@ -26,23 +26,20 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       ),
       body: SafeArea(
         child: controller.obx(
-          (product) => SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-              child: Column(
-                children: [
-                  ProductDetailsOverview(product: product!),
-                  space,
-                  ProductDetailsVariants(product: product),
-                  space,
-                  ProductDetailsAttributes(product: product),
-                  space,
-                  ProductDetailsThumbnail(product: product),
-                  space,
-                  ProductDetailsImages(product: product),
-                ],
-              ),
-            ),
+          (product) => ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+            children: [
+              ProductDetailsOverview(product: product!),
+              space,
+              ProductDetailsVariants(product: product),
+              space,
+              ProductDetailsAttributes(product: product),
+              space,
+              ProductDetailsThumbnail(product: product),
+              space,
+              ProductDetailsImages(product: product),
+            ],
           ),
           onError: (e) => Center(
               child: Column(

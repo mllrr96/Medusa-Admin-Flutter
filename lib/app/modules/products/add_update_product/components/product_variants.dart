@@ -21,66 +21,90 @@ class ProductVariants extends StatelessWidget {
       builder: (controller) {
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            maintainState: true,
-            title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
-            expandedAlignment: Alignment.centerLeft,
-            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-            children: [
-              Text(
-                  'Add variations of this product.\nOffer your customers different options for color, format, size, shape, etc.',
-                  style: smallTextStyle!.copyWith(color: lightWhite)),
-              space,
-              Row(
-                children: [
-                  Text('Product options', style: largeTextStyle),
-                ],
-              ),
-              space,
-              if (controller.product.options != null)
-                ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => ProductOptionCard(
-                          productOption: controller.product.options![index],
-                          delete: () {
-                            controller.product.options?.removeAt(index);
-                            controller.update([3]);
-                          },
-                        ),
-                    separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                    itemCount: controller.product.options!.length),
-              space,
-              if (GetPlatform.isAndroid)
-                TextButton(
-                    onPressed: () async => controller.addAnOption(context),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [Icon(Icons.add), Text('Add an option')],
-                    )),
-              if (GetPlatform.isIOS)
-                CupertinoButton(
-                    onPressed: () async => controller.addAnOption(context),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [Icon(Icons.add), Text('Add an option')],
-                    )),
-              space,
-              Row(
-                children: [
-                  Text('Product variants', style: largeTextStyle),
-                ],
-              ),
-              space,
-              if (controller.product.variants != null)
-                ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
-                    separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                    itemCount: controller.product.variants!.length),
-              if (GetPlatform.isAndroid)
-                TextButton(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            child: ExpansionTile(
+              maintainState: true,
+              title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
+              expandedAlignment: Alignment.centerLeft,
+              childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+              children: [
+                Text(
+                    'Add variations of this product.\nOffer your customers different options for color, format, size, shape, etc.',
+                    style: smallTextStyle!.copyWith(color: lightWhite)),
+                space,
+                Row(
+                  children: [
+                    Text('Product options', style: largeTextStyle),
+                  ],
+                ),
+                space,
+                if (controller.product.options != null)
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => ProductOptionCard(
+                            productOption: controller.product.options![index],
+                            delete: () {
+                              controller.product.options?.removeAt(index);
+                              controller.update([3]);
+                            },
+                          ),
+                      separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                      itemCount: controller.product.options!.length),
+                space,
+                if (GetPlatform.isAndroid)
+                  TextButton(
+                      onPressed: () async => controller.addAnOption(context),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [Icon(Icons.add), Text('Add an option')],
+                      )),
+                if (GetPlatform.isIOS)
+                  CupertinoButton(
+                      onPressed: () async => controller.addAnOption(context),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [Icon(Icons.add), Text('Add an option')],
+                      )),
+                space,
+                Row(
+                  children: [
+                    Text('Product variants', style: largeTextStyle),
+                  ],
+                ),
+                space,
+                if (controller.product.variants != null)
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
+                      separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                      itemCount: controller.product.variants!.length),
+                if (GetPlatform.isAndroid)
+                  TextButton(
+                      onPressed: controller.product.options == null || controller.product.options!.isEmpty
+                          ? null
+                          : () async {
+                              final result = await Get.to(() => ProductAddVariant(product: controller.product),
+                                  fullscreenDialog: true);
+                              if (result != null) {
+                                if (controller.product.variants != null) {
+                                  List<ProductVariant> variants = controller.product.variants!;
+                                  variants.add(result);
+                                  controller.product = controller.product.copyWith(variants: variants);
+                                } else {
+                                  controller.product = controller.product.copyWith(variants: [result]);
+                                }
+                              }
+                              controller.update();
+                            },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [Icon(Icons.add), Text('Add a variant')],
+                      )),
+                if (GetPlatform.isIOS)
+                  CupertinoButton(
                     onPressed: controller.product.options == null || controller.product.options!.isEmpty
                         ? null
                         : () async {
@@ -100,31 +124,10 @@ class ProductVariants extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [Icon(Icons.add), Text('Add a variant')],
-                    )),
-              if (GetPlatform.isIOS)
-                CupertinoButton(
-                  onPressed: controller.product.options == null || controller.product.options!.isEmpty
-                      ? null
-                      : () async {
-                          final result = await Get.to(() => ProductAddVariant(product: controller.product),
-                              fullscreenDialog: true);
-                          if (result != null) {
-                            if (controller.product.variants != null) {
-                              List<ProductVariant> variants = controller.product.variants!;
-                              variants.add(result);
-                              controller.product = controller.product.copyWith(variants: variants);
-                            } else {
-                              controller.product = controller.product.copyWith(variants: [result]);
-                            }
-                          }
-                          controller.update();
-                        },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [Icon(Icons.add), Text('Add a variant')],
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         );
       },
