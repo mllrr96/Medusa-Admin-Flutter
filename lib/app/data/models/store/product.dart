@@ -144,38 +144,126 @@ class Product extends Equatable {
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
-    json['id'] = id;
-    json['title'] = title;
-    json['subtitle'] = subtitle;
-    json['description'] = description;
-    json['handle'] = handle;
-    json['is_giftcard'] = isGiftCard;
     json['status'] = status.value;
-    json['images'] = images?.map((e) => e.toJson()).toList() ?? [];
-    json['thumbnail'] = thumbnail;
-    json['options'] = options?.map((e) => e.toJson()).toList() ?? [];
-    json['variants'] = variants?.map((e) => e.toJson()).toList() ?? [];
-    json['profile_id'] = profileId;
-    json['profile'] = profile?.toJson() ?? {};
-    json['weight'] = weight ?? 0;
-    json['height'] = height ?? 0;
-    json['width'] = width ?? 0;
-    json['length'] = length ?? 0;
-    json['hs_code'] = hsCode;
-    json['origin_country'] = originCountry;
-    json['mid_code'] = midCode;
-    json['material'] = material;
-    json['collection_id'] = collectionId;
-    json['collection'] = collection?.toJson() ?? {};
-    json['type_id'] = typeId;
-    json['type'] = type?.toJson() ?? {};
-    json['tags'] = tags?.map((e) => e.toJson()).toList() ?? [];
     json['discountable'] = discountable;
-    json['external_id'] = externalId;
-    json['sales_channels'] = salesChannels?.map((e) => e.toJson()).toList() ?? [];
-    json['created_at'] = createdAt.toString();
-    json['updated_at'] = updatedAt.toString();
-    json['deleted_at'] = deletedAt.toString();
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (title != null) {
+      json['title'] = title;
+    }
+
+    if (subtitle != null) {
+      json['subtitle'] = subtitle;
+    }
+    if (description != null) {
+      json['description'] = description;
+    }
+    if (handle != null) {
+      json['handle'] = handle;
+    }
+    if (isGiftCard != null) {
+      json['is_giftcard'] = isGiftCard;
+    }
+
+    if (images != null) {
+      json['images'] = images?.map((e) => e.toJson()).toList();
+    }
+
+    if (thumbnail != null) {
+      json['thumbnail'] = thumbnail;
+    }
+
+    if (options != null) {
+      json['options'] = options?.map((e) => e.toJson()).toList();
+    }
+
+    if (variants != null) {
+      json['variants'] = variants?.map((e) => e.toJson()).toList();
+    }
+
+    if (profileId != null) {
+      json['profile_id'] = profileId;
+    }
+
+    if (profile != null) {
+      json['profile'] = profile?.toJson();
+    }
+
+    if (weight != null) {
+      json['weight'] = weight;
+    }
+
+    if (height != null) {
+      json['height'] = height;
+    }
+
+    if (width != null) {
+      json['width'] = width;
+    }
+
+    if (length != null) {
+      json['length'] = length;
+    }
+
+    if (hsCode != null) {
+      json['hs_code'] = hsCode;
+    }
+
+    if (originCountry != null) {
+      json['origin_country'] = originCountry;
+    }
+
+    if (midCode != null) {
+      json['mid_code'] = midCode;
+    }
+
+    if (material != null) {
+      json['material'] = material;
+    }
+
+    if (collectionId != null) {
+      json['collection_id'] = collectionId;
+    }
+
+    if (collection != null) {
+      json['collection'] = collection?.toJson();
+    }
+
+    if (typeId != null) {
+      json['type_id'] = typeId;
+    }
+
+    if (type != null) {
+      json['type'] = type?.toJson();
+    }
+
+    if (tags != null) {
+      json['tags'] = tags?.map((e) => e.toJson()).toList();
+    }
+
+    if (externalId != null) {
+      json['external_id'] = externalId;
+    }
+
+    if (salesChannels != null) {
+      json['sales_channels'] = salesChannels?.map((e) => e.toJson()).toList() ?? [];
+    }
+    if (tags != null) {
+      json['tags'] = tags?.map((e) => e.toJson()).toList();
+    }
+
+    if (createdAt != null) {
+      json['created_at'] = createdAt.toString();
+    }
+    if (updatedAt != null) {
+      json['updated_at'] = updatedAt.toString();
+    }
+
+    if (deletedAt != null) {
+      json['deleted_at'] = deletedAt.toString();
+    }
+
     if (metadata != null) {
       json['metadata'] = metadata;
     }

@@ -91,3 +91,11 @@ class UserDeleteProductRes {
     object = json['object'];
   }
 }
+
+class UserUpdateProductRes {
+  Product? product;
+
+  UserUpdateProductRes.fromJson(Map<String, dynamic> json) {
+    product = Product.fromJson(json['product']);
+  }
+}

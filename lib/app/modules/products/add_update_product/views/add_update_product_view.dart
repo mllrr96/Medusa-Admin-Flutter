@@ -19,19 +19,19 @@ class AddUpdateProductView extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              title: controller.editMode ? const Text('Update Product') : const Text('New Product'),
+              title: controller.updateMode ? const Text('Update Product') : const Text('New Product'),
               centerTitle: true,
               actions: [
                 if (GetPlatform.isAndroid)
                   TextButton(
                       onPressed: () async =>
-                          controller.editMode ? await controller.updateProduct() : await controller.addProduct(),
-                      child: controller.editMode ? const Text('Save') : const Text('Publish')),
+                          controller.updateMode ? await controller.updateProduct() : await controller.addProduct(),
+                      child: controller.updateMode ? const Text('Save') : const Text('Publish')),
                 if (GetPlatform.isIOS)
                   CupertinoButton(
                       onPressed: () async =>
-                          controller.editMode ? await controller.updateProduct() : await controller.addProduct(),
-                      child: controller.editMode ? const Text('Save') : const Text('Publish')),
+                          controller.updateMode ? await controller.updateProduct() : await controller.addProduct(),
+                      child: controller.updateMode ? const Text('Save') : const Text('Publish')),
               ],
             ),
             body: SafeArea(
@@ -52,7 +52,7 @@ class AddUpdateProductView extends StatelessWidget {
 
   List<Widget> buildComponents(AddUpdateProductController controller) {
     const space = SizedBox(height: 12.0);
-    if (!controller.editMode) {
+    if (!controller.updateMode) {
       return [const ProductGeneralInformation(), space, const ProductOrganize(), space, const ProductVariants()];
     }
 

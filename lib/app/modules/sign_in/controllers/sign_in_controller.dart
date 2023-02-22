@@ -34,12 +34,16 @@ class SignInController extends GetxController {
     super.onClose();
   }
 
-  Future<void> signIn() async {
+  Future<void> signIn(BuildContext context) async {
     if (emailCtrl.text.isEmpty || passwordCtrl.text.isEmpty) {
       errorMessage.value = 'Email & Password are required to sign in';
       return;
     }
     errorMessage.value = '';
+    // To hide the keyboard
+
+
+    FocusScope.of(context).unfocus();
     loading();
     final result =
         await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));

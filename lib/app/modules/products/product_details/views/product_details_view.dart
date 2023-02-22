@@ -26,55 +26,56 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       ),
       body: SafeArea(
         child: controller.obx(
-          (product) => ListView(
-            controller: controller.scrollController,
-            shrinkWrap: true,
+          (product) => SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-            children: [
-              ProductDetailsOverview(product: product!),
-              space,
-              ProductDetailsVariants(
-                product: product,
-                expansionKey: controller.variantsKey,
-                onExpansionChanged: (expanded) async {
-                  if (expanded) {
-                    await _scrollToSelectedContent(expansionTileKey: controller.variantsKey, context: context);
-                  }
-                },
-              ),
-              space,
-              ProductDetailsAttributes(
-                product: product,
-                expansionKey: controller.attributesKey,
-                onExpansionChanged: (expanded) async {
-                  if (expanded) {
-                    await _scrollToSelectedContent(expansionTileKey: controller.attributesKey, context: context);
-                  }
-                },
-                // onExpansionChanged: onExChanged,
-              ),
-              space,
-              ProductDetailsThumbnail(
-                product: product,
-                expansionKey: controller.thumbnailKey,
-                onExpansionChanged: (expanded) async {
-                  if (expanded) {
-                    await _scrollToSelectedContent(expansionTileKey: controller.thumbnailKey, context: context);
-                  }
-                },
-                // onExpansionChanged: onExChanged,
-              ),
-              space,
-              ProductDetailsImages(
-                product: product,
-                expansionKey: controller.imagesKey,
-                onExpansionChanged: (expanded) async {
-                  if (expanded) {
-                    await _scrollToSelectedContent(expansionTileKey: controller.imagesKey, context: context);
-                  }
-                },
-              ),
-            ],
+            controller: controller.scrollController,
+            child: Column(
+              children: [
+                ProductDetailsOverview(product: product!),
+                space,
+                ProductDetailsVariants(
+                  product: product,
+                  expansionKey: controller.variantsKey,
+                  onExpansionChanged: (expanded) async {
+                    if (expanded) {
+                      await _scrollToSelectedContent(expansionTileKey: controller.variantsKey, context: context);
+                    }
+                  },
+                ),
+                space,
+                ProductDetailsAttributes(
+                  product: product,
+                  expansionKey: controller.attributesKey,
+                  onExpansionChanged: (expanded) async {
+                    if (expanded) {
+                      await _scrollToSelectedContent(expansionTileKey: controller.attributesKey, context: context);
+                    }
+                  },
+                  // onExpansionChanged: onExChanged,
+                ),
+                space,
+                ProductDetailsThumbnail(
+                  product: product,
+                  expansionKey: controller.thumbnailKey,
+                  onExpansionChanged: (expanded) async {
+                    if (expanded) {
+                      await _scrollToSelectedContent(expansionTileKey: controller.thumbnailKey, context: context);
+                    }
+                  },
+                  // onExpansionChanged: onExChanged,
+                ),
+                space,
+                ProductDetailsImages(
+                  product: product,
+                  expansionKey: controller.imagesKey,
+                  onExpansionChanged: (expanded) async {
+                    if (expanded) {
+                      await _scrollToSelectedContent(expansionTileKey: controller.imagesKey, context: context);
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
           onError: (e) => Center(
               child: Column(
@@ -99,6 +100,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
       final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
       final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
+      print(yPosition);
       final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
       if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
         await controller.scrollController

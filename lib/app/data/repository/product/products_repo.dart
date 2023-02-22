@@ -18,7 +18,8 @@ class ProductsRepo extends BaseProducts {
   /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list
   /// @param customHeaders
   /// @return {ResponsePromise<StoreProductsListRes>}
-  Future<Either<UserProductsListRes, Failure>> list({Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
+  Future<Either<UserProductsListRes, Failure>> list(
+      {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -130,6 +131,24 @@ class ProductsRepo extends BaseProducts {
       final response = await _dataProvider.delete('/products/$id');
       if (response.statusCode == 200) {
         return Left(UserDeleteProductRes.fromJson(response.data));
+      } else {
+        debugPrint(response.toString());
+        return Right(Failure(error: response.statusMessage));
+      }
+    } catch (e) {
+      return Right(Failure(error: e));
+    }
+  }
+
+  Future<Either<UserUpdateProductRes, Failure>> update(
+      {required Product product, Map<String, dynamic>? customHeaders}) async {
+    if (customHeaders != null) {
+      _dataProvider.dio.options.headers.addAll(customHeaders);
+    }
+    try {
+      final response = await _dataProvider.post(uri: '/products/${product.id!}', data: product.toJson());
+      if (response.statusCode == 200) {
+        return Left(UserUpdateProductRes.fromJson(response.data));
       } else {
         debugPrint(response.toString());
         return Right(Failure(error: response.statusMessage));

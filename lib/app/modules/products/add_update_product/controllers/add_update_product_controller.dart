@@ -16,25 +16,22 @@ class AddUpdateProductController extends GetxController {
   AddUpdateProductController({required this.productsRepo});
   ProductsRepo productsRepo;
   final titleCtrl = TextEditingController();
+  final subtitleCtrl = TextEditingController();
+  final handleCtrl = TextEditingController();
+  final materialCtrl = TextEditingController();
+  final descriptionCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
   RxBool discountable = true.obs;
   RxBool salesChannels = true.obs;
   final optionCtrl = TextEditingController();
   final variationsCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
-  bool editMode = false;
+  bool updateMode = false;
   ProductComponents productComponents = ProductComponents.addVariant;
   late Product product;
   @override
   Future<void> onInit() async {
-    if (Get.arguments == null) {
-      product = Product();
-    } else {
-      // Update existing product
-      editMode = true;
-      product = Get.arguments[0];
-      productComponents = Get.arguments[1];
-    }
+    loadProduct();
     super.onInit();
   }
 
@@ -48,6 +45,10 @@ class AddUpdateProductController extends GetxController {
     optionCtrl.dispose();
     variationsCtrl.dispose();
     titleCtrl.dispose();
+    subtitleCtrl.dispose();
+    handleCtrl.dispose();
+    materialCtrl.dispose();
+    descriptionCtrl.dispose();
     super.onClose();
   }
 
@@ -71,11 +72,51 @@ class AddUpdateProductController extends GetxController {
   }
 
   Future<void> updateProduct() async {
+    Product updatedProduct = Product(id: product.id!);
+    switch (productComponents) {
+      case ProductComponents.generalInfo:
+        updatedProduct = updatedProduct.copyWith(
+          title: product.title == titleCtrl.text ? null : titleCtrl.text,
+          subtitle: product.subtitle == subtitleCtrl.text ? null : subtitleCtrl.text,
+          handle: product.handle == handleCtrl.text ? null : handleCtrl.text,
+          material: product.material == materialCtrl.text ? null : materialCtrl.text,
+          description: product.description == descriptionCtrl.text ? null : descriptionCtrl.text,
+          discountable: product.discountable == discountable.value ? null : discountable.value,
+        );
+        break;
+      case ProductComponents.salesChannel:
+        // TODO: Handle this case.
+        break;
+      case ProductComponents.addVariant:
+        // TODO: Handle this case.
+        break;
+      case ProductComponents.editVariants:
+        // TODO: Handle this case.
+        break;
+      case ProductComponents.editOptions:
+        // TODO: Handle this case.
+        break;
+      case ProductComponents.editAttributes:
+        // TODO: Handle this case.
+        break;
+      case ProductComponents.editThumbnail:
+        // TODO: Handle this case.
+        break;
+      case ProductComponents.editMedia:
+        // TODO: Handle this case.
+        break;
+    }
 
+    final result = await productsRepo.update(product: updatedProduct);
+    result.fold((l) {
+      Get.back(result: l.product!);
+    }, (failure) {
+      EasyLoading.showError('Error updating product');
+      debugPrint(failure.getMessage());
+    });
   }
 
-
-    Future<void> addAnOption(BuildContext context) async {
+  Future<void> addAnOption(BuildContext context) async {
     Widget Function(BuildContext) builder() {
       return (context) => AddOptionView(
             formKey: optionKeyForm,
@@ -116,5 +157,47 @@ class AddUpdateProductController extends GetxController {
 
     optionCtrl.clear();
     variationsCtrl.clear();
+  }
+
+  void loadProduct() {
+    if (Get.arguments == null) {
+      product = Product();
+    } else {
+      // Update existing product
+      updateMode = true;
+      product = Get.arguments[0];
+      productComponents = Get.arguments[1];
+      switch (productComponents) {
+        case ProductComponents.generalInfo:
+          titleCtrl.text = product.title ?? '';
+          subtitleCtrl.text = product.subtitle ?? '';
+          handleCtrl.text = product.handle ?? '';
+          materialCtrl.text = product.material ?? '';
+          descriptionCtrl.text = product.description ?? '';
+          discountable.value = product.discountable;
+          break;
+        case ProductComponents.salesChannel:
+          // TODO: Handle this case.
+          break;
+        case ProductComponents.addVariant:
+          // TODO: Handle this case.
+          break;
+        case ProductComponents.editVariants:
+          // TODO: Handle this case.
+          break;
+        case ProductComponents.editOptions:
+          // TODO: Handle this case.
+          break;
+        case ProductComponents.editAttributes:
+          // TODO: Handle this case.
+          break;
+        case ProductComponents.editThumbnail:
+          // TODO: Handle this case.
+          break;
+        case ProductComponents.editMedia:
+          // TODO: Handle this case.
+          break;
+      }
+    }
   }
 }

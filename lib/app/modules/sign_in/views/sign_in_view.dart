@@ -56,7 +56,7 @@ class SignInView extends GetView<SignInController> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SignInButton(
-                    onPress: () async => await controller.signIn(),
+                    onPress: () async => await controller.signIn(context),
                     label: 'Continue',
                     buttonWidth: double.maxFinite,
                   ),
