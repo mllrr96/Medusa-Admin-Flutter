@@ -4,8 +4,11 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
 
 class ProductDetailsAttributes extends StatelessWidget {
-  const ProductDetailsAttributes({Key? key, required this.product}) : super(key: key);
+  const ProductDetailsAttributes({Key? key, required this.product, this.onExpansionChanged, this.expansionKey}) : super(key: key);
   final Product product;
+  final void Function(bool)? onExpansionChanged;
+  final Key? expansionKey;
+
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -16,6 +19,8 @@ class ProductDetailsAttributes extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
+          key: expansionKey,
+          onExpansionChanged: onExpansionChanged,
           maintainState: true,
           controlAffinity: ListTileControlAffinity.leading,
           title: Text('Attributes', style: Theme.of(context).textTheme.bodyLarge),

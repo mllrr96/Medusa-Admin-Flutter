@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
 class ProductDetailsVariants extends StatelessWidget {
-  const ProductDetailsVariants({Key? key, required this.product}) : super(key: key);
+  const ProductDetailsVariants({Key? key, required this.product, this.onExpansionChanged, this.expansionKey}) : super(key: key);
   final Product product;
+  final void Function(bool)? onExpansionChanged;
+  final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
@@ -15,6 +17,8 @@ class ProductDetailsVariants extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
+          key: expansionKey,
+          onExpansionChanged: onExpansionChanged,
           maintainState: true,
           controlAffinity: ListTileControlAffinity.leading,
           title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),

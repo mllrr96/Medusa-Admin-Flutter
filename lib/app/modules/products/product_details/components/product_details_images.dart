@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
 class ProductDetailsImages extends StatelessWidget {
-  const ProductDetailsImages({Key? key, required this.product}) : super(key: key);
+  const ProductDetailsImages({Key? key, required this.product, this.onExpansionChanged, this.expansionKey}) : super(key: key);
   final Product product;
+  final void Function(bool)? onExpansionChanged;
+  final Key? expansionKey;
+
   @override
   Widget build(BuildContext context) {
     const space = SizedBox(height: 12.0);
@@ -15,7 +18,9 @@ class ProductDetailsImages extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
+          key: expansionKey,
           maintainState: true,
+          onExpansionChanged: onExpansionChanged,
           controlAffinity: ListTileControlAffinity.leading,
           title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
           trailing: GetPlatform.isAndroid

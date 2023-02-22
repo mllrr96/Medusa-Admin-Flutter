@@ -5,8 +5,10 @@ import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
 class ProductDetailsThumbnail extends StatelessWidget {
-  const ProductDetailsThumbnail({Key? key, required this.product}) : super(key: key);
+  const ProductDetailsThumbnail({Key? key, required this.product, this.onExpansionChanged, this.expansionKey}) : super(key: key);
   final Product product;
+  final void Function(bool)? onExpansionChanged;
+  final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
     const space = SizedBox(height: 12.0);
@@ -15,7 +17,9 @@ class ProductDetailsThumbnail extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
+          key: expansionKey,
           maintainState: true,
+          onExpansionChanged: onExpansionChanged,
           controlAffinity: ListTileControlAffinity.leading,
           title: Text('Thumbnail', style: Theme.of(context).textTheme.bodyLarge),
           trailing: GetPlatform.isAndroid

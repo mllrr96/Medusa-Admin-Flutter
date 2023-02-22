@@ -9,7 +9,6 @@ import 'package:medusa_admin/core/utils/enums.dart';
 class ProductDetailsOverview extends GetView<ProductDetailsController> {
   const ProductDetailsOverview({Key? key, required this.product}) : super(key: key);
   final Product product;
-
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;

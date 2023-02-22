@@ -10,9 +10,14 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
   ProductDetailsController({required this.productsRepo});
   ProductsRepo productsRepo;
   final String _productId = Get.arguments;
-
+  late ScrollController scrollController;
+  final GlobalKey variantsKey = GlobalKey();
+  final GlobalKey attributesKey = GlobalKey();
+  final GlobalKey thumbnailKey = GlobalKey();
+  final GlobalKey imagesKey = GlobalKey();
   @override
   void onInit() {
+    scrollController = ScrollController();
     super.onInit();
   }
 
@@ -24,6 +29,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
 
   @override
   void onClose() {
+    scrollController.dispose();
     super.onClose();
   }
 
@@ -31,9 +37,9 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     change(null, status: RxStatus.loading());
     try {
       print(_productId);
-      final result = await productsRepo
-          .retrieve(_productId,
-          queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},
+      final result = await productsRepo.retrieve(
+        _productId,
+        queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},
       );
       if (result != null && result.product != null) {
         change(await _loadProductVariants(result.product!), status: RxStatus.success());
