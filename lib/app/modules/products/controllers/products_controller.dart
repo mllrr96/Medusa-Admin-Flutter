@@ -70,11 +70,8 @@ class ProductsController extends GetxController {
   }
 
   Future<void> deleteProduct(String id) async {
-
-
-
-    final result = await productsRepo.delete(id: id);
     loading();
+    final result = await productsRepo.delete(id: id);
     result.fold((l) {
       if (l.deleted != null && l.deleted!) {
         // product deleted
@@ -86,6 +83,22 @@ class ProductsController extends GetxController {
     }, (r) {
       // Error deleting product
       EasyLoading.showError('Deletion failed');
+    });
+  }
+
+  Future<void> updateProduct(Product product) async {
+    loading();
+    final result = await productsRepo.update(product: product);
+    result.fold((l) {
+      if (l.product != null) {
+        EasyLoading.showSuccess('Product updated');
+        pagingController.refresh();
+      } else {
+        EasyLoading.showError('Update failed');
+      }
+    }, (r) {
+      // Error deleting product
+      EasyLoading.showError('Update failed');
     });
   }
 }

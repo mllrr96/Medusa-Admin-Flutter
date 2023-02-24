@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -20,9 +21,16 @@ class ProductsView extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Products'),
             centerTitle: true,
-            leading: IconButton(
-                onPressed: () => controller.changeViewOption(),
-                icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+            // 56 is the default leading width value
+            leadingWidth: 56 * 2,
+            leading: Row(
+              children: [
+                IconButton(
+                    onPressed: () => controller.changeViewOption(),
+                    icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+                IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.sort_down_circle_fill)),
+              ],
+            ),
             actions: [
               IconButton(
                   onPressed: () async {
@@ -130,8 +138,15 @@ class ProductsListView extends GetView<ProductsController> {
                     });
                   },
                   title: Text(product.title!),
-                  subtitle: Text(product.status.name.capitalize ?? product.status.name,
-                      style: Theme.of(context).textTheme.titleSmall),
+                  subtitle: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _getStatusIcon(product.status),
+                      const SizedBox(width: 4.0),
+                      Text(product.status.name.capitalize ?? product.status.name,
+                          style: Theme.of(context).textTheme.titleSmall),
+                    ],
+                  ),
                   leading: product.thumbnail != null
                       ? SizedBox(
                           width: 45,
@@ -146,7 +161,9 @@ class ProductsListView extends GetView<ProductsController> {
                       onPressed: () async {
                         await showModalActionSheet(context: context, actions: <SheetAction>[
                           const SheetAction(label: 'Edit'),
-                          const SheetAction(label: 'Unpublish'),
+                          SheetAction(
+                              label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish',
+                              key: 'publish'),
                           const SheetAction(label: 'Duplicate'),
                           const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
                         ]).then((result) async {
@@ -161,6 +178,14 @@ class ProductsListView extends GetView<ProductsController> {
                               return;
                             }
                             await controller.deleteProduct(product.id!);
+                          } else if (result == 'publish') {
+                            await controller.updateProduct(Product(
+                              id: product.id!,
+                              discountable: product.discountable,
+                              status: product.status == ProductStatus.published
+                                  ? ProductStatus.draft
+                                  : ProductStatus.published,
+                            ));
                           }
                         });
                       },
@@ -169,5 +194,20 @@ class ProductsListView extends GetView<ProductsController> {
             firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
       ),
     );
+  }
+
+  Widget _getStatusIcon(ProductStatus status) {
+    switch (status) {
+      case ProductStatus.draft:
+        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+      case ProductStatus.proposed:
+        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+
+      case ProductStatus.published:
+        return const Icon(Icons.circle, color: Colors.green, size: 12);
+
+      case ProductStatus.rejected:
+        return const Icon(Icons.circle, color: Colors.red, size: 12);
+    }
   }
 }

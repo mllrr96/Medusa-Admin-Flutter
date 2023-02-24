@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/products/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../controllers/add_update_product_controller.dart';
 
 class ProductVariants extends StatelessWidget {
@@ -86,8 +85,8 @@ class ProductVariants extends StatelessWidget {
                       onPressed: controller.product.options == null || controller.product.options!.isEmpty
                           ? null
                           : () async {
-                              final result = await Get.to(() => ProductAddVariant(product: controller.product),
-                                  fullscreenDialog: true);
+                              final result =
+                                  await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [controller.product, false]);
                               if (result != null) {
                                 if (controller.product.variants != null) {
                                   List<ProductVariant> variants = controller.product.variants!;
@@ -108,8 +107,8 @@ class ProductVariants extends StatelessWidget {
                     onPressed: controller.product.options == null || controller.product.options!.isEmpty
                         ? null
                         : () async {
-                            final result = await Get.to(() => ProductAddVariant(product: controller.product),
-                                fullscreenDialog: true);
+                            final result =
+                                await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [controller.product, false]);
                             if (result != null) {
                               if (controller.product.variants != null) {
                                 List<ProductVariant> variants = controller.product.variants!;
@@ -151,6 +150,8 @@ class AddOptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).viewInsets.bottom);
+    print(MediaQuery.of(context).padding.bottom);
     return Padding(
       padding: EdgeInsets.only(
           top: 8.0,
@@ -180,6 +181,7 @@ class AddOptionView extends StatelessWidget {
                 ProductTextField(
                   label: 'Option title',
                   controller: optionCtrl,
+                  autoFocus: true,
                   hintText: 'Color...',
                   validator: (val) {
                     if (val != null && val.isEmpty) {

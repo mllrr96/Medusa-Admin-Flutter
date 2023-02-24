@@ -56,7 +56,9 @@ class MoneyAmount {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    if(metadata !=null){
+      metadata = json['metadata'];
+    }
   }
 
   Map<String, dynamic> toJson() {

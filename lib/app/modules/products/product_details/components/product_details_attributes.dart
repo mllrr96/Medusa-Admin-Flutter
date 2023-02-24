@@ -41,7 +41,17 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
                     });
                   },
                   child: const Text('Edit'))
-              : CupertinoButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit')),
+              : CupertinoButton(
+                  onPressed: () async {
+                    await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [product, true])?.then((result) async {
+                      if (result != null) {
+                        await controller.loadProduct();
+                        ProductsController.instance.pagingController.refresh();
+                      }
+                    });
+                  },
+                  padding: EdgeInsets.zero,
+                  child: const Text('Edit')),
           expandedAlignment: Alignment.centerLeft,
           childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           children: [

@@ -43,8 +43,9 @@ class SignInButton extends StatelessWidget {
       );
     }
     return MaterialButton(
-      height: getProportionateScreenHeight(46),
-      minWidth: buttonWidth ?? getProportionateScreenWidth(310),
+      // default height is 36
+      height: 45,
+      minWidth: buttonWidth ,
       color: buttonColor ?? Theme.of(context).primaryColor,
       textColor: Colors.white,
       onPressed: onPress,

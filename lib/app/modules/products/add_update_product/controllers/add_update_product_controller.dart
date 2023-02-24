@@ -28,9 +28,11 @@ class AddUpdateProductController extends GetxController {
   final optionKeyForm = GlobalKey<FormState>();
   bool updateMode = false;
   ProductComponents productComponents = ProductComponents.addVariant;
+  late ScrollController scrollController;
   late Product product;
   @override
   Future<void> onInit() async {
+    scrollController = ScrollController();
     loadProduct();
     super.onInit();
   }
@@ -49,6 +51,7 @@ class AddUpdateProductController extends GetxController {
     handleCtrl.dispose();
     materialCtrl.dispose();
     descriptionCtrl.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 
@@ -93,7 +96,9 @@ class AddUpdateProductController extends GetxController {
         // TODO: Handle this case.
         break;
       case ProductComponents.editVariants:
-        // TODO: Handle this case.
+        // updatedProduct = updatedProduct.copyWith(
+        //   width: product.width == widthC
+        // );
         break;
       case ProductComponents.editOptions:
         // TODO: Handle this case.
@@ -160,7 +165,7 @@ class AddUpdateProductController extends GetxController {
     if (GetPlatform.isIOS) {
       await showCupertinoModalBottomSheet(context: context, builder: builder());
     } else {
-      await showModalBottomSheet(context: context, builder: builder());
+      await showModalBottomSheet(context: context, builder: builder(), isScrollControlled: true);
     }
 
     optionCtrl.clear();

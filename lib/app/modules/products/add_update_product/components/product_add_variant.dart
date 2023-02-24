@@ -1,43 +1,19 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/colors.dart';
 
-class ProductAddVariant extends StatefulWidget {
-  const ProductAddVariant({Key? key, this.editMode = false, required this.product}) : super(key: key);
-  final Product product;
-  final bool editMode;
-  @override
-  State<ProductAddVariant> createState() => _ProductAddVariantState();
-}
-
-class _ProductAddVariantState extends State<ProductAddVariant> {
-  final quantityCtrl = TextEditingController();
-  final customTitleCtrl = TextEditingController();
-  final materialCtrl = TextEditingController();
-  final heightCtrl = TextEditingController();
-  final widthCtrl = TextEditingController();
-  final weightCtrl = TextEditingController();
-  final lengthCtrl = TextEditingController();
-  final midCtrl = TextEditingController();
-  final hsCtrl = TextEditingController();
-  final countryOfOriginCtrl = TextEditingController();
-  final skuCtrl = TextEditingController();
-  final eanCtrl = TextEditingController();
-  final upcCtrl = TextEditingController();
-  final barcodeCtrl = TextEditingController();
-
-  Map<int, ProductOptionValue> selectedOptionsValue = {};
-  bool manageInventory = true;
-  bool allowBackorder = false;
-  final formKey = GlobalKey<FormState>();
-  final List<Currency> currencies = StoreService.store.currencies ?? [];
+class ProductAddVariant extends GetView<ProductAddVariantController> {
+  const ProductAddVariant({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +21,19 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final options = widget.product.options;
+    final largeBodyTextStyle = Theme.of(context).textTheme.bodyLarge;
+    final options = controller.product.options;
     const space = SizedBox(height: 12.0);
+    const borderRadius = BorderRadius.all(Radius.circular(12.0));
     return Material(
       child: WillPopScope(
         onWillPop: () async {
-          if (!_shouldShowWarning()) {
+          if (controller.editMode) {
+            Get.back();
+            return false;
+          }
+
+          if (!controller.shouldShowWarning()) {
             Get.back();
             return false;
           }
@@ -70,10 +53,12 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('Create Variant'),
+              title: Text(controller.editMode ? 'Update Attributes' : 'Create Variant'),
               actions: [
-                if (GetPlatform.isIOS) CupertinoButton(onPressed: () async => await save(), child: const Text('Save')),
-                if (GetPlatform.isAndroid) TextButton(onPressed: () async => await save(), child: const Text('Save')),
+                if (GetPlatform.isIOS)
+                  CupertinoButton(onPressed: () async => await controller.save(), child: const Text('Save')),
+                if (GetPlatform.isAndroid)
+                  TextButton(onPressed: () async => await controller.save(), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -82,238 +67,250 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                 physics: const ClampingScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 child: Form(
-                  key: formKey,
+                  key: controller.formKey,
                   child: Column(
                     children: [
-                      Theme(
-                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          maintainState: true,
-                          initiallyExpanded: true,
-                          expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                          title: Row(
-                            children: [
-                              Text('General', style: largeTextStyle),
-                              const Text(' *', style: TextStyle(color: Colors.red)),
-                            ],
-                          ),
-                          children: [
-                            Text('Configure the general information for this variant.',
-                                style: smallTextStyle!.copyWith(color: lightWhite)),
-                            space,
-                            ProductTextField(
-                              label: 'Custom title',
-                              controller: customTitleCtrl,
-                              hintText: 'Green / XL',
-                            ),
-                            ProductTextField(
-                              label: 'Material',
-                              controller: materialCtrl,
-                              hintText: '80% wool, 20% cotton',
-                            ),
-                            const Divider(),
-                            Row(
-                              children: [
-                                Text('Options', style: largeTextStyle),
-                              ],
-                            ),
-                            space,
-                            if (options != null)
-                              ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final currentOption = options[index];
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(currentOption.title!, style: mediumTextStyle!),
-                                            Text(' *', style: mediumTextStyle.copyWith(color: Colors.red)),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 6.0),
-                                        DropdownButtonFormField(
-                                          validator: (val) {
-                                            if (val == null) {
-                                              return 'Field is required';
-                                            }
-                                            return null;
-                                          },
-                                          items: currentOption.values!
-                                              .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
-                                              .toList(),
-                                          hint: const Text('Choose an option'),
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              selectedOptionsValue[index] = value;
-                                            }
-                                          },
-                                          decoration: const InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  separatorBuilder: (_, __) => space,
-                                  itemCount: options.length)
-                          ],
-                        ),
-                      ),
-                      space,
-                      Theme(
-                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                          title: Text('Pricing', style: largeTextStyle),
-                          children: [
-                            Text('Configure the pricing for this variant.',
-                                style: smallTextStyle.copyWith(color: lightWhite)),
-                            space,
-                            ...currencies.map((currency) {
-                              return Column(
+                      if (!controller.editMode)
+                        Theme(
+                          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                          child: ClipRRect(
+                            borderRadius: borderRadius,
+                            child: ExpansionTile(
+                              maintainState: true,
+                              initiallyExpanded: true,
+                              expandedAlignment: Alignment.centerLeft,
+                              childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                              title: Row(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                                      color: Theme.of(context).scaffoldBackgroundColor,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
-                                              const SizedBox(width: 12.0),
-                                              Expanded(
-                                                  child: Text(currency.name ?? '',
-                                                      style: mediumTextStyle!.copyWith(color: lightWhite)))
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: Get.width / 3,
-                                          child: TextField(
-                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                            decoration: InputDecoration(
-                                              suffixIcon: Padding(
-                                                  padding: const EdgeInsets.only(right: 10),
-                                                  child: Text(currency.symbol ?? '',
-                                                      style: mediumTextStyle.copyWith(color: lightWhite))),
-                                              suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                                              hintText: '-',
-                                              border: const OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                  Text('General', style: largeBodyTextStyle),
+                                  const Text(' *', style: TextStyle(color: Colors.red)),
+                                ],
+                              ),
+                              children: [
+                                Text('Configure the general information for this variant.',
+                                    style: smallTextStyle!.copyWith(color: lightWhite)),
+                                space,
+                                ProductTextField(
+                                  label: 'Custom title',
+                                  controller: controller.customTitleCtrl,
+                                  hintText: 'Green / XL',
+                                ),
+                                ProductTextField(
+                                  label: 'Material',
+                                  controller: controller.materialCtrl,
+                                  hintText: '80% wool, 20% cotton',
+                                ),
+                                const Divider(),
+                                Row(
+                                  children: [
+                                    Text('Options', style: largeTextStyle),
+                                  ],
+                                ),
+                                space,
+                                if (options != null)
+                                  ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        final currentOption = options[index];
+                                        return Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(currentOption.title!, style: mediumTextStyle!),
+                                                Text(' *', style: mediumTextStyle.copyWith(color: Colors.red)),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 6.0),
+                                            DropdownButtonFormField(
+                                              validator: (val) {
+                                                if (val == null) {
+                                                  return 'Field is required';
+                                                }
+                                                return null;
+                                              },
+                                              items: currentOption.values!
+                                                  .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
+                                                  .toList(),
+                                              hint: const Text('Choose an option'),
+                                              onChanged: (value) {
+                                                if (value != null) {
+                                                  controller.selectedOptionsValue[index] = value;
+                                                }
+                                              },
+                                              decoration: const InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                                                ),
                                               ),
                                             ),
-                                            style: smallTextStyle,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  space,
-                                ],
-                              );
-                            }).toList()
-                          ],
-                        ),
-                      ),
-                      space,
-                      Theme(
-                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          maintainState: true,
-                          expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                          title: Text('Stock & Inventory', style: largeTextStyle),
-                          children: [
-                            Text('Configure the inventory and stock for this variant.',
-                                style: smallTextStyle.copyWith(color: lightWhite)),
-                            space,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Manage inventory', style: largeTextStyle),
-                                Switch.adaptive(
-                                  value: manageInventory,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      manageInventory = val;
-                                    });
-                                  },
-                                  activeColor: ColorManager.primary,
-                                )
+                                          ],
+                                        );
+                                      },
+                                      separatorBuilder: (_, __) => space,
+                                      itemCount: options.length)
                               ],
                             ),
-                            Text('When checked Medusa will regulate the inventory when orders and returns are made.',
-                                style: smallTextStyle.copyWith(color: lightWhite)),
-                            space,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          ),
+                        ),
+                      if (!controller.editMode) space,
+                      if (!controller.editMode)
+                        Theme(
+                          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                          child: ClipRRect(
+                            borderRadius: borderRadius,
+                            child: ExpansionTile(
+                              expandedAlignment: Alignment.centerLeft,
+                              childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                              title: Text('Pricing', style: largeBodyTextStyle),
                               children: [
-                                Text('Allow backorders', style: largeTextStyle),
-                                Switch.adaptive(
-                                    value: allowBackorder,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        allowBackorder = val;
-                                      });
-                                    },
-                                    activeColor: ColorManager.primary)
+                                Text('Configure the pricing for this variant.',
+                                    style: smallTextStyle!.copyWith(color: lightWhite)),
+                                space,
+                                ...controller.currencies.map((currency) {
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                                          color: Theme.of(context).scaffoldBackgroundColor,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
+                                                  const SizedBox(width: 12.0),
+                                                  Expanded(
+                                                      child: Text(currency.name ?? '',
+                                                          style: mediumTextStyle!.copyWith(color: lightWhite)))
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: Get.width / 3,
+                                              child: TextField(
+                                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                                decoration: InputDecoration(
+                                                  suffixIcon: Padding(
+                                                      padding: const EdgeInsets.only(right: 10),
+                                                      child: Text(currency.symbol ?? '',
+                                                          style: mediumTextStyle.copyWith(color: lightWhite))),
+                                                  suffixIconConstraints:
+                                                      const BoxConstraints(minWidth: 0, minHeight: 0),
+                                                  hintText: '-',
+                                                  border: const OutlineInputBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                                  ),
+                                                ),
+                                                style: smallTextStyle,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      space,
+                                    ],
+                                  );
+                                }).toList()
                               ],
                             ),
-                            Text(
-                                'When checked the product will be available for purchase despite the product being sold out',
-                                style: smallTextStyle.copyWith(color: lightWhite)),
-                            space,
-                            ProductTextField(
-                              label: 'Stock keeping unit (SKU)',
-                              controller: TextEditingController(),
-                              hintText: 'SUN-G, JK1234...',
-                            ),
-                            NumericTextField(
-                              controller: quantityCtrl,
-                              label: 'Quantity in stock',
-                            ),
-                            space,
-                            ProductTextField(
-                              label: 'EAN (Barcode)',
-                              controller: eanCtrl,
-                              hintText: '123456789123...',
-                            ),
-                            ProductTextField(
-                              label: 'UPC (Barcode)',
-                              controller: upcCtrl,
-                              hintText: '023456789104',
-                            ),
-                            ProductTextField(
-                              label: 'Barcode',
-                              controller: barcodeCtrl,
-                              hintText: '123456789104...',
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      space,
-                      Theme(
-                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                          title: Text('Shipping', style: largeTextStyle),
+                      if (!controller.editMode) space,
+                      if (!controller.editMode)
+                        Theme(
+                          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                          child: ClipRRect(
+                            borderRadius: borderRadius,
+                            child: ExpansionTile(
+                              maintainState: true,
+                              expandedAlignment: Alignment.centerLeft,
+                              childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                              title: Text('Stock & Inventory', style: largeBodyTextStyle),
+                              children: [
+                                Text('Configure the inventory and stock for this variant.',
+                                    style: smallTextStyle!.copyWith(color: lightWhite)),
+                                space,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Manage inventory', style: largeTextStyle),
+                                    Obx(() {
+                                      return Switch.adaptive(
+                                        value: controller.manageInventory.value,
+                                        onChanged: (val) {
+                                          controller.manageInventory.value = val;
+                                        },
+                                        activeColor: ColorManager.primary,
+                                      );
+                                    })
+                                  ],
+                                ),
+                                Text(
+                                    'When checked Medusa will regulate the inventory when orders and returns are made.',
+                                    style: smallTextStyle.copyWith(color: lightWhite)),
+                                space,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Allow backorders', style: largeTextStyle),
+                                    Obx(() {
+                                      return Switch.adaptive(
+                                          value: controller.allowBackorder.value,
+                                          onChanged: (val) {
+                                            controller.allowBackorder.value = val;
+                                          },
+                                          activeColor: ColorManager.primary);
+                                    })
+                                  ],
+                                ),
+                                Text(
+                                    'When checked the product will be available for purchase despite the product being sold out',
+                                    style: smallTextStyle.copyWith(color: lightWhite)),
+                                space,
+                                ProductTextField(
+                                  label: 'Stock keeping unit (SKU)',
+                                  controller: TextEditingController(),
+                                  hintText: 'SUN-G, JK1234...',
+                                ),
+                                NumericTextField(
+                                  controller: controller.quantityCtrl,
+                                  label: 'Quantity in stock',
+                                ),
+                                space,
+                                ProductTextField(
+                                  label: 'EAN (Barcode)',
+                                  controller: controller.eanCtrl,
+                                  hintText: '123456789123...',
+                                ),
+                                ProductTextField(
+                                  label: 'UPC (Barcode)',
+                                  controller: controller.upcCtrl,
+                                  hintText: '023456789104',
+                                ),
+                                ProductTextField(
+                                  label: 'Barcode',
+                                  controller: controller.barcodeCtrl,
+                                  hintText: '123456789104...',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      if (!controller.editMode) space,
+                      EditCard(
+                          label: controller.editMode ? 'Edit Attributes' : 'Shipping',
+                          editMode: controller.editMode,
                           children: [
-                            Text(
-                                'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
-                                style: smallTextStyle.copyWith(color: lightWhite)),
-                            space,
+                            if (!controller.editMode)
+                              Text(
+                                  'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
+                                  style: smallTextStyle!.copyWith(color: lightWhite)),
+                            if (!controller.editMode) space,
                             Row(
                               children: [
                                 Text('Dimensions', style: largeTextStyle),
@@ -321,13 +318,15 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                             ),
                             space,
                             Text('Configure to calculate the most accurate shipping rates.',
-                                style: smallTextStyle.copyWith(color: lightWhite)),
+                                style: smallTextStyle!.copyWith(color: lightWhite)),
                             space,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                NumericTextField(controller: widthCtrl, label: 'Width', width: Get.width / 2.5),
-                                NumericTextField(controller: lengthCtrl, label: 'Length', width: Get.width / 2.5),
+                                NumericTextField(
+                                    controller: controller.widthCtrl, label: 'Width', width: (Get.width - 55) / 2),
+                                NumericTextField(
+                                    controller: controller.lengthCtrl, label: 'Length', width: (Get.width - 55) / 2),
                               ],
                             ),
                             space,
@@ -335,8 +334,10 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                NumericTextField(controller: heightCtrl, label: 'Height', width: Get.width / 2.5),
-                                NumericTextField(controller: weightCtrl, label: 'Weight', width: Get.width / 2.5),
+                                NumericTextField(
+                                    controller: controller.heightCtrl, label: 'Height', width: (Get.width - 55) / 2),
+                                NumericTextField(
+                                    controller: controller.weightCtrl, label: 'Weight', width: (Get.width - 55) / 2),
                               ],
                             ),
                             space,
@@ -352,22 +353,20 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
                             space,
                             ProductTextField(
                               label: 'MID Code',
-                              controller: midCtrl,
+                              controller: controller.midCtrl,
                               hintText: 'XDSKLAD9999...',
                             ),
                             ProductTextField(
                               label: 'HS Code',
-                              controller: hsCtrl,
+                              controller: controller.hsCtrl,
                               hintText: 'BDJSK39277W...',
                             ),
                             ProductTextField(
                               label: 'Country of origin',
-                              controller: countryOfOriginCtrl,
+                              controller: controller.countryOfOriginCtrl,
                               hintText: 'Country of origin',
                             ),
-                          ],
-                        ),
-                      ),
+                          ]),
                     ],
                   ),
                 ),
@@ -378,8 +377,51 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
       ),
     );
   }
+}
 
-  bool _shouldShowWarning() {
+class ProductAddVariantController extends GetxController {
+  ProductAddVariantController({required this.productsRepo});
+  final ProductsRepo productsRepo;
+  late Product product;
+  late bool editMode;
+  final quantityCtrl = TextEditingController();
+  final customTitleCtrl = TextEditingController();
+  final materialCtrl = TextEditingController();
+  final heightCtrl = TextEditingController();
+  final widthCtrl = TextEditingController();
+  final weightCtrl = TextEditingController();
+  final lengthCtrl = TextEditingController();
+  final midCtrl = TextEditingController();
+  final hsCtrl = TextEditingController();
+  final countryOfOriginCtrl = TextEditingController();
+  final skuCtrl = TextEditingController();
+  final eanCtrl = TextEditingController();
+  final upcCtrl = TextEditingController();
+  final barcodeCtrl = TextEditingController();
+
+  Map<int, ProductOptionValue> selectedOptionsValue = {};
+  RxBool manageInventory = true.obs;
+  RxBool allowBackorder = false.obs;
+  final formKey = GlobalKey<FormState>();
+  final List<Currency> currencies = StoreService.store.currencies ?? [];
+
+  @override
+  void onInit() {
+    product = Get.arguments[0];
+    editMode = Get.arguments[1] ?? false;
+    if (editMode) {
+      widthCtrl.text = product.width?.toString() ?? '';
+      lengthCtrl.text = product.length?.toString() ?? '';
+      heightCtrl.text = product.height?.toString() ?? '';
+      weightCtrl.text = product.weight?.toString() ?? '';
+      midCtrl.text = product.midCode ?? '';
+      hsCtrl.text = product.hsCode ?? '';
+      countryOfOriginCtrl.text = product.originCountry ?? '';
+    }
+    super.onInit();
+  }
+
+  bool shouldShowWarning() {
     if (customTitleCtrl.text.removeAllWhitespace.isNotEmpty ||
         materialCtrl.text.removeAllWhitespace.isNotEmpty ||
         selectedOptionsValue.isNotEmpty ||
@@ -401,45 +443,73 @@ class _ProductAddVariantState extends State<ProductAddVariant> {
   }
 
   Future<void> save() async {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-    String variantTitle = '';
-    List<ProductOptionValue> variantOptions = [];
-    if (customTitleCtrl.text.removeAllWhitespace.isNotEmpty) {
-      variantTitle = customTitleCtrl.text;
-    } else {
-      selectedOptionsValue.forEach((key, value) {
-        variantOptions.add(value);
-        if (variantTitle.isEmpty) {
-          variantTitle = value.value!;
-        } else {
-          variantTitle = '$variantTitle / ${value.value!}';
-        }
-      });
-    }
-    Get.back(
-      result: ProductVariant(
-        prices: [],
-        title: variantTitle,
-        options: variantOptions,
-        manageInventory: manageInventory,
-        allowBackorder: allowBackorder,
-        inventoryQuantity: int.tryParse(quantityCtrl.text),
+    if (editMode) {
+      loading();
+      final result = await productsRepo.update(
+          product: Product(
+        id: product.id!,
+        status: product.status,
+        discountable: product.discountable,
         weight: int.tryParse(weightCtrl.text),
         length: int.tryParse(lengthCtrl.text),
         height: int.tryParse(heightCtrl.text),
         width: int.tryParse(widthCtrl.text),
-        hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
-        material: materialCtrl.text.removeAllWhitespace.isEmpty ? null : materialCtrl.text,
-        sku: skuCtrl.text.removeAllWhitespace.isEmpty ? null : skuCtrl.text,
-        ean: eanCtrl.text.removeAllWhitespace.isEmpty ? null : eanCtrl.text,
-        upc: upcCtrl.text.removeAllWhitespace.isEmpty ? null : upcCtrl.text,
-        barcode: barcodeCtrl.text.removeAllWhitespace.isEmpty ? null : barcodeCtrl.text,
         midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
+        hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
         originCountry: countryOfOriginCtrl.text.removeAllWhitespace.isEmpty ? null : countryOfOriginCtrl.text,
-      ),
-    );
+      ));
+      result.fold((l) {
+        EasyLoading.showSuccess('Attributes updated');
+        Get.back(result: true);
+      }, (r) => EasyLoading.showError('Error updating attributes'));
+    } else {
+      if (!formKey.currentState!.validate()) {
+        return;
+      }
+      String variantTitle = '';
+      List<ProductOptionValue> variantOptions = [];
+      if (customTitleCtrl.text.removeAllWhitespace.isNotEmpty) {
+        variantTitle = customTitleCtrl.text;
+      } else {
+        selectedOptionsValue.forEach((key, value) {
+          variantOptions.add(value);
+          if (variantTitle.isEmpty) {
+            variantTitle = value.value!;
+          } else {
+            variantTitle = '$variantTitle / ${value.value!}';
+          }
+        });
+      }
+      Get.back(
+        result: ProductVariant(
+          prices: [],
+          title: variantTitle,
+          options: variantOptions,
+          manageInventory: manageInventory.value,
+          allowBackorder: allowBackorder.value,
+          inventoryQuantity: int.tryParse(quantityCtrl.text),
+          weight: int.tryParse(weightCtrl.text),
+          length: int.tryParse(lengthCtrl.text),
+          height: int.tryParse(heightCtrl.text),
+          width: int.tryParse(widthCtrl.text),
+          hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
+          material: materialCtrl.text.removeAllWhitespace.isEmpty ? null : materialCtrl.text,
+          sku: skuCtrl.text.removeAllWhitespace.isEmpty ? null : skuCtrl.text,
+          ean: eanCtrl.text.removeAllWhitespace.isEmpty ? null : eanCtrl.text,
+          upc: upcCtrl.text.removeAllWhitespace.isEmpty ? null : upcCtrl.text,
+          barcode: barcodeCtrl.text.removeAllWhitespace.isEmpty ? null : barcodeCtrl.text,
+          midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
+          originCountry: countryOfOriginCtrl.text.removeAllWhitespace.isEmpty ? null : countryOfOriginCtrl.text,
+        ),
+      );
+    }
+  }
+}
+
+class ProductAddVariantBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(ProductAddVariantController(productsRepo: ProductsRepo()));
   }
 }
 
@@ -461,6 +531,7 @@ class NumericTextField extends StatelessWidget {
   final String label;
   final String? hintText;
   final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -487,34 +558,28 @@ class NumericTextField extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // TODO: see if InkWell or GestureDetector is better than IconButton (too much padding, looks bad on small phones e.g. iPhone X)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: InkWell(
-                        // padding: EdgeInsets.zero,
-                        onTap: onMinusPressed ??
-                            () {
-                              int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                              if (stock != null && stock != 0) {
-                                controller.text = (stock - 1).toString();
-                              }
-                            },
-                        child: const Icon(Icons.remove)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: InkWell(
-                        // padding: EdgeInsets.zero,
-                        onTap: onPlusPressed ??
-                            () {
-                              int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                              if (stock != null) {
-                                controller.text = (stock + 1).toString();
-                              } else {
-                                controller.text = 1.toString();
-                              }
-                            },
-                        child: const Icon(Icons.add)),
-                  ),
+                  IconButton(
+                      // padding: EdgeInsets.zero,
+                      onPressed: onMinusPressed ??
+                          () {
+                            int? stock = int.tryParse(controller.text.removeAllWhitespace);
+                            if (stock != null && stock != 0) {
+                              controller.text = (stock - 1).toString();
+                            }
+                          },
+                      icon: const Icon(Icons.remove)),
+                  IconButton(
+                      // padding: EdgeInsets.zero,
+                      onPressed: onPlusPressed ??
+                          () {
+                            int? stock = int.tryParse(controller.text.removeAllWhitespace);
+                            if (stock != null) {
+                              controller.text = (stock + 1).toString();
+                            } else {
+                              controller.text = 1.toString();
+                            }
+                          },
+                      icon: const Icon(Icons.add)),
                 ],
               ),
               hintText: hintText ?? '100...',

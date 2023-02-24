@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/products/add_update_product/components/product_add_variant.dart';
 
 import '../modules/collections/bindings/collections_binding.dart';
 import '../modules/collections/collection_details/bindings/collection_details_binding.dart';
@@ -123,6 +124,12 @@ class AppPages {
       name: _Paths.SIGN_IN,
       page: () => const SignInView(),
       binding: SignInBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_ADD_VARIANT,
+      page: () => const ProductAddVariant(),
+      binding: ProductAddVariantBinding(),
+      fullscreenDialog: true,
     ),
   ];
 }

@@ -40,10 +40,11 @@ class ProductOptionValue {
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
+    json['value'] = value;
+
     if (id != null) {
       json['id'] = id;
     }
-    json['value'] = value;
     if (optionId != null) {
       json['option_id'] = optionId;
     }

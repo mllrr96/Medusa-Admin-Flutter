@@ -38,6 +38,7 @@ class AddUpdateProductView extends StatelessWidget {
             ),
             body: SafeArea(
               child: SingleChildScrollView(
+                controller: controller.scrollController,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                   child: Column(
@@ -50,6 +51,24 @@ class AddUpdateProductView extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> _scrollToSelectedContent(
+      {required GlobalKey expansionTileKey,
+      required BuildContext context,
+      required ScrollController scrollController}) async {
+    await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
+      final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
+      final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
+      final scrollPoint = scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
+      if (scrollPoint <= scrollController.position.maxScrollExtent) {
+        await scrollController.animateTo(scrollPoint,
+            duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+      } else {
+        await scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+      }
+    });
   }
 
   List<Widget> buildComponents(AddUpdateProductController controller) {

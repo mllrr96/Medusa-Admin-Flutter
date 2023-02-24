@@ -25,6 +25,8 @@ abstract class Routes {
   static const COLLECTIONS = _Paths.COLLECTIONS;
   static const COLLECTION_DETAILS =
       _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
+  static const PRODUCT_ADD_VARIANT = _Paths.PRODUCT_ADD_VARIANT;
+
 }
 
 abstract class _Paths {
@@ -39,6 +41,7 @@ abstract class _Paths {
   static const PRICING = '/pricing';
   static const SETTINGS = '/settings';
   static const SIGN_IN = '/sign-in';
+  static const PRODUCT_ADD_VARIANT = '/product-add-variant';
   static const ORDER_DETAILS = '/order-details';
   static const PRODUCT_DETAILS = '/product-details';
   static const ADD_UPDATE_PRODUCT = '/add-update-product';

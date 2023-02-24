@@ -16,12 +16,16 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         title: const Text('Product Details'),
         centerTitle: true,
         actions: [
-          if (controller.state != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: Text(controller.state!.status.name.capitalize ?? controller.state!.status.name,
-                  style: smallTextStyle),
-            ),
+          controller.obx(
+              (state) => Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: Text(controller.state!.status.name.capitalize ?? controller.state!.status.name,
+                        style: smallTextStyle),
+                  ),
+              onLoading: const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+              onError: (e) => const SizedBox.shrink()),
         ],
       ),
       body: SafeArea(
