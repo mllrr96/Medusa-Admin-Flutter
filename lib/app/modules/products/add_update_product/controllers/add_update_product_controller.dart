@@ -104,13 +104,8 @@ class AddUpdateProductController extends GetxController {
         // TODO: Handle this case.
         break;
       case ProductComponents.editAttributes:
-        // TODO: Handle this case.
-        break;
       case ProductComponents.editThumbnail:
-        // TODO: Handle this case.
-        break;
       case ProductComponents.editMedia:
-        // TODO: Handle this case.
         break;
     }
 

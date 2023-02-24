@@ -15,6 +15,7 @@ class ProductsController extends GetxController {
   ProductsRepo productsRepo;
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
+  String searchTerm = '';
   ViewOptions viewOptions = ViewOptions.list;
   RefreshController gridRefreshController = RefreshController();
   RefreshController listRefreshController = RefreshController();
@@ -50,8 +51,14 @@ class ProductsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result =
-        await productsRepo.list(queryParams: {'offset': pagingController.itemList?.length ?? 0, 'limit': _pageSize});
+    final result = await productsRepo.list(
+      queryParams: {
+        'offset': pagingController.itemList?.length ?? 0,
+        'limit': _pageSize,
+        if(searchTerm.isNotEmpty)
+        'title': searchTerm,
+      },
+    );
     result.fold((l) {
       final isLastPage = l.products!.length < _pageSize;
       if (isLastPage) {
