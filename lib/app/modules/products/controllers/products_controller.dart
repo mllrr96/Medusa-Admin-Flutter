@@ -19,7 +19,8 @@ class ProductsController extends GetxController {
   ViewOptions viewOptions = ViewOptions.list;
   RefreshController gridRefreshController = RefreshController();
   RefreshController listRefreshController = RefreshController();
-
+  RxInt productsCount = 0.obs;
+  Rx<SortOptions> sortOptions = SortOptions.dateRecent.obs;
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
@@ -50,17 +51,40 @@ class ProductsController extends GetxController {
     update();
   }
 
+  void changeSortOption(SortOptions sortOption) {
+    switch (sortOption) {
+      case SortOptions.aZ:
+        sortOptions.value = SortOptions.aZ;
+        break;
+      case SortOptions.zA:
+        sortOptions.value = SortOptions.zA;
+        break;
+      case SortOptions.dateRecent:
+        sortOptions.value = SortOptions.dateRecent;
+        break;
+      case SortOptions.dateOld:
+        sortOptions.value = SortOptions.dateOld;
+        break;
+    }
+    pagingController.refresh();
+  }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await productsRepo.list(
       queryParams: {
+        if (searchTerm.isNotEmpty) 'fields': 'id,title,thumbnail,status,handle,collection_id',
+        if (searchTerm.isNotEmpty)
+          'expand': 'variants,options,variants.prices,variants.options,collection,tags,type,images,sales_channels',
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
-        if(searchTerm.isNotEmpty)
-        'title': searchTerm,
+        if (searchTerm.isNotEmpty) 'q': searchTerm,
+        'order': _getSortOption(),
       },
     );
     result.fold((l) {
       final isLastPage = l.products!.length < _pageSize;
+      productsCount.value = l.count ?? 0;
+      update([5]);
       if (isLastPage) {
         pagingController.appendLastPage(l.products!);
       } else {
@@ -107,5 +131,24 @@ class ProductsController extends GetxController {
       // Error deleting product
       EasyLoading.showError('Update failed');
     });
+  }
+
+  String _getSortOption() {
+    String sortOption = 'created_at';
+    switch (sortOptions.value) {
+      case SortOptions.aZ:
+        sortOption = 'title';
+        break;
+      case SortOptions.zA:
+        sortOption = '-title';
+        break;
+      case SortOptions.dateRecent:
+        sortOption = 'created_at';
+        break;
+      case SortOptions.dateOld:
+        sortOption = '-created_at';
+        break;
+    }
+    return sortOption;
   }
 }

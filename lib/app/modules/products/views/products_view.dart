@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../core/utils/enums.dart';
 import '../controllers/products_controller.dart';
@@ -18,7 +20,8 @@ class ProductsView extends StatelessWidget {
     return GetBuilder<ProductsController>(
       builder: (controller) {
         return Scaffold(
-          appBar: const AnimatedAppBar(),
+          // ignore: prefer_const_constructors
+          appBar: AnimatedAppBar(),
           body: SafeArea(
             child: controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView(),
           ),
@@ -35,7 +38,7 @@ class AnimatedAppBar extends StatefulWidget with PreferredSizeWidget {
   State<AnimatedAppBar> createState() => _AnimatedAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight * 2 - 20);
 }
 
 class _AnimatedAppBarState extends State<AnimatedAppBar> {
@@ -44,85 +47,222 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
   final searchCtrl = TextEditingController();
   final searchNode = FocusNode();
   static const kDuration = Duration(milliseconds: 200);
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-        firstChild: AppBar(
-          title: const Text('Products'),
-          centerTitle: true,
-          // 56 is the default leading width value
-          leadingWidth: 56 * 3,
-          leading: Row(
-            children: [
-              IconButton(
-                  onPressed: () => controller.changeViewOption(),
-                  icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
-              IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.sort_down_circle_fill)),
-              IconButton(
-                  onPressed: () async {
-                    setState(() {
-                      search = true;
-                    });
-                    await Future.delayed(kDuration);
-                    searchNode.requestFocus();
-                  },
-                  icon: const Icon(CupertinoIcons.search)),
-            ],
-          ),
-          actions: [
-            IconButton(
+    return AppBar(
+      title: const Text('Products'),
+      centerTitle: true,
+      // 56 is the default leading width value
+      leadingWidth: 56 * 2,
+      leading: Row(
+        children: [
+          IconButton(
+              onPressed: () => controller.changeViewOption(),
+              icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+          Obx(() {
+            return IconButton(
                 onPressed: () async {
-                  await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
-                    if (result != null && result is bool && result == true) {
-                      controller.pagingController.refresh();
-                    }
-                  });
-                },
-                icon: const Icon(Icons.add)),
-            IconButton(
-                onPressed: () async {
-                  final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-                    const SheetAction(label: 'Export Products'),
-                    const SheetAction(label: 'Import Products'),
+                  final result =
+                      await showModalActionSheet<SortOptions>(context: context, actions: <SheetAction<SortOptions>>[
+                    SheetAction(
+                        label: 'A-Z',
+                        key: SortOptions.aZ,
+                        isDestructiveAction: controller.sortOptions.value == SortOptions.aZ),
+                    SheetAction(
+                        label: 'Z-A',
+                        key: SortOptions.zA,
+                        isDestructiveAction: controller.sortOptions.value == SortOptions.zA),
+                    SheetAction(
+                        label: 'Creation Date',
+                        key: SortOptions.dateRecent,
+                        isDestructiveAction: controller.sortOptions.value == SortOptions.dateRecent),
+                    SheetAction(
+                        label: 'Creation Date - Ascending',
+                        key: SortOptions.dateOld,
+                        isDestructiveAction: controller.sortOptions.value == SortOptions.dateOld),
                   ]);
+                  if (result != null) {
+                    controller.changeSortOption(result);
+                  }
                 },
-                icon: const Icon(Icons.more_horiz))
-          ],
-        ),
-        secondChild: AppBar(
-          leadingWidth: double.maxFinite,
-          leading: Row(
-            children: [
-              // Expanded(child: TextFormField()),
-              const SizedBox(width: 12.0),
-              Expanded(
-                  child: CupertinoSearchTextField(
-                focusNode: searchNode,
-                controller: searchCtrl,
-                onChanged: (val) {
-                  controller.searchTerm = val;
-                  controller.pagingController.refresh();
-                },
-              )),
-              CupertinoButton(
-                  child: const Text('Cancel'),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    // await Future.delayed(Duration(milliseconds: 150));
-                    setState(() {
-                      search = false;
-                      if (controller.searchTerm.isNotEmpty) {
-                        controller.searchTerm = '';
+                icon: Icon(
+                  getSortIcon(controller.sortOptions.value),
+                  color: controller.sortOptions.value != SortOptions.dateRecent ? ColorManager.primary : null,
+                ));
+          }),
+        ],
+      ),
+      bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: AnimatedCrossFade(
+              firstChild: Row(
+                children: [
+                  // Expanded(child: TextFormField()),
+                  const SizedBox(width: 12.0),
+                  if (GetPlatform.isIOS)
+                    Expanded(
+                        child: CupertinoSearchTextField(
+                      focusNode: searchNode,
+                      controller: searchCtrl,
+                      placeholder: 'Search for product name, variant title ...',
+                      onChanged: (val) {
+                        controller.searchTerm = val;
                         controller.pagingController.refresh();
-                      }
-                      searchCtrl.clear();
-                    });
+                      },
+                    )),
+                  if (GetPlatform.isAndroid)
+                    Expanded(
+                        child: TextFormField(
+                      style: Theme.of(context).textTheme.titleSmall,
+                      focusNode: searchNode,
+                      controller: searchCtrl,
+                      onChanged: (val) {
+                        controller.searchTerm = val;
+                        controller.pagingController.refresh();
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'Search for product name, variant title ...',
+                      ),
+                    )),
+                  if (GetPlatform.isIOS)
+                    CupertinoButton(
+                        child: const Text('Cancel'),
+                        onPressed: () async {
+                          FocusScope.of(context).unfocus();
+                          // await Future.delayed(Duration(milliseconds: 150));
+                          setState(() {
+                            search = false;
+                            if (controller.searchTerm.isNotEmpty) {
+                              controller.searchTerm = '';
+                              controller.pagingController.refresh();
+                            }
+                            searchCtrl.clear();
+                          });
+                        }),
+                  if (GetPlatform.isAndroid)
+                    TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () async {
+                          FocusScope.of(context).unfocus();
+                          // await Future.delayed(Duration(milliseconds: 150));
+                          setState(() {
+                            search = false;
+                            if (controller.searchTerm.isNotEmpty) {
+                              controller.searchTerm = '';
+                              controller.pagingController.refresh();
+                            }
+                            searchCtrl.clear();
+                          });
+                        })
+                ],
+              ),
+              secondChild: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () async {
+                            setState(() {
+                              search = true;
+                            });
+                            await Future.delayed(kDuration);
+                            searchNode.requestFocus();
+                          },
+                          icon: const Icon(CupertinoIcons.search)),
+                      const SizedBox(width: 6.0),
+                      InkWell(
+                        onTap: () {
+                          showBarModalBottomSheet(
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              context: context,
+                              builder: (context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CheckboxListTile(
+                                            title: Text('Status'),
+                                            value: false, onChanged: (val) {}),
+                                        CheckboxListTile(
+                                            title: Text('Collection'),
+                                            value: false, onChanged: (val) {}),
+                                        CheckboxListTile(
+                                            title: Text('Tags'),
+                                            value: false, onChanged: (val) {}),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
+                        child: Chip(
+                          label: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('Filters', style: Theme.of(context).textTheme.titleSmall),
+                              Text(' 0',
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
+                            ],
+                          ),
+                          padding: EdgeInsets.zero,
+                        ),
+                      )
+                    ],
+                  ),
+                  Obx(() {
+                    if (controller.productsCount.value == 0) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Text('${controller.productsCount.value} Products',
+                            style: Theme.of(context).textTheme.titleSmall));
                   }),
-            ],
-          ),
-        ),
-        crossFadeState: search ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-        duration: kDuration);
+                ],
+              ),
+              crossFadeState: search ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: kDuration)),
+
+      actions: [
+        IconButton(
+            onPressed: () async {
+              await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+                if (result != null && result is bool && result == true) {
+                  controller.pagingController.refresh();
+                }
+              });
+            },
+            icon: const Icon(Icons.add)),
+        IconButton(
+            onPressed: () async {
+              final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                const SheetAction(label: 'Export Products'),
+                const SheetAction(label: 'Import Products'),
+              ]);
+            },
+            icon: const Icon(Icons.more_horiz))
+      ],
+    );
+  }
+
+  IconData getSortIcon(SortOptions sortOptions) {
+    switch (sortOptions) {
+      case SortOptions.aZ:
+        return Icons.sort_by_alpha;
+      case SortOptions.zA:
+        return Icons.sort_by_alpha;
+
+      case SortOptions.dateRecent:
+        return CupertinoIcons.calendar_badge_plus;
+
+      case SortOptions.dateOld:
+        return CupertinoIcons.calendar_badge_minus;
+    }
   }
 }
 
@@ -137,7 +277,7 @@ class ProductsGridView extends GetView<ProductsController> {
       header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
       child: PagedGridView(
         pagingController: controller.pagingController,
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        // padding: const EdgeInsets.symmetric(vertical: 8.0),
         builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => GestureDetector(
                   onTap: () async {

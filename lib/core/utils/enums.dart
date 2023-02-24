@@ -1,8 +1,8 @@
 enum SortOptions {
   aZ,
   zA,
-  priceHigher,
-  priceLower,
+  dateRecent,
+  dateOld,
 }
 
 enum ViewOptions {
