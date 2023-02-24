@@ -32,7 +32,7 @@ class CollectionsView extends GetView<CollectionsController> {
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
                 itemBuilder: (context, collection, index) => ListTile(
-                      onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS),
+                      onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS, arguments: collection.id!),
                       title: Text(collection.title ?? '', style: mediumTextStyle),
                       subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle),
                       trailing: Column(

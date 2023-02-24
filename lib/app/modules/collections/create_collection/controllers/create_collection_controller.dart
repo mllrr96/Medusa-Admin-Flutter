@@ -59,4 +59,30 @@ class CreateCollectionController extends GetxController {
       debugPrint(r.toString());
     });
   }
+
+  Future<void> edit() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    if (titleCtrl.text == collection!.title &&
+        handleCtrl.text == collection!.handle &&
+        metadata == collection!.metadata) {
+      Get.back();
+      return;
+    }
+
+    loading();
+    final result = await collectionRepo.update(
+        id: collection!.id!,
+        userCreateCollectionReq: UserCreateCollectionReq(
+            title: titleCtrl.text, handle: handleCtrl.text.removeAllWhitespace.isEmpty ? null : handleCtrl.text));
+    result.fold((l) {
+      EasyLoading.showSuccess('Collection updated');
+      CollectionsController.instance.pagingController.refresh();
+      Get.back(result: true);
+    }, (r) {
+      EasyLoading.showError('Error updating collection');
+      debugPrint(r.toString());
+    });
+  }
 }
