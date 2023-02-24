@@ -185,9 +185,9 @@ class OrderDetailsView extends StatelessWidget {
     return ExpansionTile(
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Payment'),
-      trailing:  AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
-          // : CupertinoButton(
-          //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
+      trailing: AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
+      // : CupertinoButton(
+      //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
         const Divider(height: 0),
@@ -290,12 +290,11 @@ class OrderDetailsView extends StatelessWidget {
     return ExpansionTile(
         controlAffinity: ListTileControlAffinity.leading,
         title: const Text('Summery'),
-        trailing:
-             AdaptiveButton(onPressed: () {}, child: const Text('Edit Order')),
-            // : CupertinoButton(
-            //     padding: EdgeInsets.zero,
-            //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
-            //     onPressed: () {}),
+        trailing: AdaptiveButton(onPressed: () {}, child: const Text('Edit Order')),
+        // : CupertinoButton(
+        //     padding: EdgeInsets.zero,
+        //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
+        //     onPressed: () {}),
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [
           ListView.builder(

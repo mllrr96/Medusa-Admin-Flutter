@@ -24,3 +24,12 @@ class UserCollectionRes {
     }
   }
 }
+
+class UserCreateCollectionRes {
+  ProductCollection? collection;
+  UserCreateCollectionRes.fromJson(json) {
+    if (json['collection'] != null) {
+      collection = ProductCollection.fromJson(json['collection']);
+    }
+  }
+}
