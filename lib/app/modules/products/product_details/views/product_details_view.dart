@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/product_details/components/product_details_components.dart';
 
 import '../controllers/product_details_controller.dart';
@@ -86,10 +87,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Error loading product'),
-              if (GetPlatform.isIOS)
-                CupertinoButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
-              if (GetPlatform.isAndroid)
-                TextButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct())
+              AdaptiveButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
             ],
           )),
           onLoading: const Center(

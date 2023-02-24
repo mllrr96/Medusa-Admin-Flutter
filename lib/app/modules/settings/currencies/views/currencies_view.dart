@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../data/repository/currency/currency_repo.dart';
@@ -27,10 +28,7 @@ class CurrenciesView extends StatelessWidget {
               title: const Text('Currencies'),
               centerTitle: true,
               actions: [
-                if (GetPlatform.isAndroid)
-                  TextButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
-                if (GetPlatform.isIOS)
-                  CupertinoButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
+                AdaptiveButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -172,11 +170,8 @@ class AllCurrenciesView extends StatelessWidget {
               appBar: AppBar(
                 title: const Text('Add Store Currencies'),
                 actions: [
-                  if (GetPlatform.isIOS && controller.selectedCurrencies.isNotEmpty)
-                    CupertinoButton(
-                        onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
-                  if (GetPlatform.isAndroid && controller.selectedCurrencies.isNotEmpty)
-                    TextButton(
+                  if (controller.selectedCurrencies.isNotEmpty)
+                    AdaptiveButton(
                         onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
                 ],
               ),

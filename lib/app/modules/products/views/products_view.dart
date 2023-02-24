@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -125,36 +126,20 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                         hintText: 'Search for product name, variant title ...',
                       ),
                     )),
-                  if (GetPlatform.isIOS)
-                    CupertinoButton(
-                        child: const Text('Cancel'),
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          // await Future.delayed(Duration(milliseconds: 150));
-                          setState(() {
-                            search = false;
-                            if (controller.searchTerm.isNotEmpty) {
-                              controller.searchTerm = '';
-                              controller.pagingController.refresh();
-                            }
-                            searchCtrl.clear();
-                          });
-                        }),
-                  if (GetPlatform.isAndroid)
-                    TextButton(
-                        child: const Text('Cancel'),
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          // await Future.delayed(Duration(milliseconds: 150));
-                          setState(() {
-                            search = false;
-                            if (controller.searchTerm.isNotEmpty) {
-                              controller.searchTerm = '';
-                              controller.pagingController.refresh();
-                            }
-                            searchCtrl.clear();
-                          });
-                        })
+                  AdaptiveButton(
+                      child: const Text('Cancel'),
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        // await Future.delayed(Duration(milliseconds: 150));
+                        setState(() {
+                          search = false;
+                          if (controller.searchTerm.isNotEmpty) {
+                            controller.searchTerm = '';
+                            controller.pagingController.refresh();
+                          }
+                          searchCtrl.clear();
+                        });
+                      }),
                 ],
               ),
               secondChild: Row(
@@ -182,19 +167,56 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        CheckboxListTile(
-                                            title: Text('Status'),
-                                            value: false, onChanged: (val) {}),
-                                        CheckboxListTile(
-                                            title: Text('Collection'),
-                                            value: false, onChanged: (val) {}),
-                                        CheckboxListTile(
-                                            title: Text('Tags'),
-                                            value: false, onChanged: (val) {}),
-                                      ],
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Theme(
+                                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                            child: ClipRRect(
+                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                              child: ExpansionTile(
+                                                title: const Text('Status'),
+                                                childrenPadding: const EdgeInsets.only(left: 20.0),
+                                                children: ProductStatus.values
+                                                    .map((e) => CheckboxListTile(
+                                                        title: Text(e.value), value: false, onChanged: (val) {}))
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12.0),
+                                          Theme(
+                                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                            child: ClipRRect(
+                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                              child: ExpansionTile(
+                                                title: const Text('Collection'),
+                                                childrenPadding: const EdgeInsets.only(left: 20.0),
+                                                children: ProductStatus.values
+                                                    .map((e) => CheckboxListTile(
+                                                        title: Text(e.value), value: false, onChanged: (val) {}))
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12.0),
+                                          Theme(
+                                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                            child: ClipRRect(
+                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                              child: ExpansionTile(
+                                                title: const Text('Status'),
+                                                childrenPadding: const EdgeInsets.only(left: 20.0),
+                                                children: ProductStatus.values
+                                                    .map((e) => CheckboxListTile(
+                                                        title: Text(e.value), value: false, onChanged: (val) {}))
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

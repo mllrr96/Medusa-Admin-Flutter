@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
 
 import '../../../../data/models/store/order.dart';
@@ -184,10 +185,9 @@ class OrderDetailsView extends StatelessWidget {
     return ExpansionTile(
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Payment'),
-      trailing: GetPlatform.isAndroid
-          ? TextButton(onPressed: () {}, child: const Text('Refund'))
-          : CupertinoButton(
-              padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
+      trailing:  AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
+          // : CupertinoButton(
+          //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
         const Divider(height: 0),
@@ -290,12 +290,12 @@ class OrderDetailsView extends StatelessWidget {
     return ExpansionTile(
         controlAffinity: ListTileControlAffinity.leading,
         title: const Text('Summery'),
-        trailing: GetPlatform.isAndroid
-            ? TextButton(onPressed: () {}, child: const Text('Edit Order'))
-            : CupertinoButton(
-                padding: EdgeInsets.zero,
-                child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
-                onPressed: () {}),
+        trailing:
+             AdaptiveButton(onPressed: () {}, child: const Text('Edit Order')),
+            // : CupertinoButton(
+            //     padding: EdgeInsets.zero,
+            //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
+            //     onPressed: () {}),
         childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         children: [
           ListView.builder(

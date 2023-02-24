@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/controllers/products_controller.dart';
 import 'package:medusa_admin/app/modules/products/product_details/controllers/product_details_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
@@ -29,29 +30,17 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
           maintainState: true,
           controlAffinity: ListTileControlAffinity.leading,
           title: Text('Attributes', style: Theme.of(context).textTheme.bodyLarge),
-          trailing: GetPlatform.isAndroid
-              ? TextButton(
-                  onPressed: () async {
-                    await Get.toNamed(Routes.ADD_UPDATE_PRODUCT, arguments: [product, ProductComponents.editAttributes])
-                        ?.then((result) async {
-                      if (result != null) {
-                        await controller.loadProduct();
-                        ProductsController.instance.pagingController.refresh();
-                      }
-                    });
-                  },
-                  child: const Text('Edit'))
-              : CupertinoButton(
-                  onPressed: () async {
-                    await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [product, true])?.then((result) async {
-                      if (result != null) {
-                        await controller.loadProduct();
-                        ProductsController.instance.pagingController.refresh();
-                      }
-                    });
-                  },
-                  padding: EdgeInsets.zero,
-                  child: const Text('Edit')),
+          trailing: AdaptiveButton(
+              onPressed: () async {
+                await Get.toNamed(Routes.ADD_UPDATE_PRODUCT, arguments: [product, ProductComponents.editAttributes])
+                    ?.then((result) async {
+                  if (result != null) {
+                    await controller.loadProduct();
+                    ProductsController.instance.pagingController.refresh();
+                  }
+                });
+              },
+              child: const Text('Edit')),
           expandedAlignment: Alignment.centerLeft,
           childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           children: [

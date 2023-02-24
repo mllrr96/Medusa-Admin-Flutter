@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 
 import '../controllers/store_details_controller.dart';
@@ -19,10 +20,7 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
         title: const Text('Store Details'),
         centerTitle: true,
         actions: [
-          if (GetPlatform.isIOS)
-            CupertinoButton(child: const Text('Save'), onPressed: () async => await controller.save()),
-          if (GetPlatform.isAndroid)
-            TextButton(child: const Text('Save'), onPressed: () async => await controller.save()),
+            AdaptiveButton(child: const Text('Save'), onPressed: () async => await controller.save()),
         ],
       ),
       body: SafeArea(

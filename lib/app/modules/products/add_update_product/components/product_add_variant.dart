@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -55,10 +56,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
             appBar: AppBar(
               title: Text(controller.editMode ? 'Update Attributes' : 'Create Variant'),
               actions: [
-                if (GetPlatform.isIOS)
-                  CupertinoButton(onPressed: () async => await controller.save(), child: const Text('Save')),
-                if (GetPlatform.isAndroid)
-                  TextButton(onPressed: () async => await controller.save(), child: const Text('Save')),
+                  AdaptiveButton(onPressed: () async => await controller.save(), child: const Text('Save')),
               ],
             ),
             body: SafeArea(

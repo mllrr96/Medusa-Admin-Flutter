@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../modules/collections/bindings/collections_binding.dart';
 import '../modules/collections/collection_details/bindings/collection_details_binding.dart';
 import '../modules/collections/collection_details/views/collection_details_view.dart';
+import '../modules/collections/create_collection/bindings/create_collection_binding.dart';
+import '../modules/collections/create_collection/views/create_collection_view.dart';
 import '../modules/customers/bindings/customers_binding.dart';
 import '../modules/customers/customer_details/bindings/customer_details_binding.dart';
 import '../modules/customers/customer_details/views/customer_details_view.dart';
@@ -95,6 +97,11 @@ class AppPages {
             page: () => const CollectionDetailsView(),
             binding: CollectionDetailsBinding(),
           ),
+          GetPage(
+            name: _Paths.CREATE_COLLECTION,
+            page: () => const CreateCollectionView(),
+            binding: CreateCollectionBinding(),
+          ),
         ]),
     GetPage(
       name: _Paths.SPLASH,
@@ -138,11 +145,11 @@ class AppPages {
       fullscreenDialog: true,
     ),
     GetPage(
-      name: _Paths.SEARCH,
-      page: () => const SearchView(),
-      binding: SearchBinding(),
-      fullscreenDialog: true,
-      transition: Transition.upToDown
-    ),
+        name: _Paths.SEARCH,
+        page: () => const SearchView(),
+        binding: SearchBinding(),
+        fullscreenDialog: true,
+        transition: Transition.upToDown),
+
   ];
 }

@@ -21,6 +21,7 @@ class CollectionsView extends GetView<CollectionsController> {
       appBar: AppBar(
         title: const Text('Collections'),
         centerTitle: true,
+        actions: [IconButton(onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION), icon: const Icon(Icons.add))],
       ),
       body: SafeArea(
         child: SmartRefresher(

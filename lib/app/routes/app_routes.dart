@@ -27,6 +27,7 @@ abstract class Routes {
       _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
   static const PRODUCT_ADD_VARIANT = _Paths.PRODUCT_ADD_VARIANT;
   static const SEARCH = _Paths.SEARCH;
+  static const CREATE_COLLECTION = _Paths.DASHBOARD + _Paths.CREATE_COLLECTION;
 }
 
 abstract class _Paths {
@@ -51,4 +52,5 @@ abstract class _Paths {
   static const COLLECTIONS = '/collections';
   static const COLLECTION_DETAILS = '/collection-details';
   static const SEARCH = '/search';
+  static const CREATE_COLLECTION = '/create-collection';
 }

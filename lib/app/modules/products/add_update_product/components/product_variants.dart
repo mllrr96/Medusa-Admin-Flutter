@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_components.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../controllers/add_update_product_controller.dart';
@@ -52,20 +53,12 @@ class ProductVariants extends StatelessWidget {
                       separatorBuilder: (_, __) => const SizedBox(height: 6.0),
                       itemCount: controller.product.options!.length),
                 space,
-                if (GetPlatform.isAndroid)
-                  TextButton(
-                      onPressed: () async => controller.addAnOption(context),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [Icon(Icons.add), Text('Add an option')],
-                      )),
-                if (GetPlatform.isIOS)
-                  CupertinoButton(
-                      onPressed: () async => controller.addAnOption(context),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [Icon(Icons.add), Text('Add an option')],
-                      )),
+                AdaptiveButton(
+                    onPressed: () async => controller.addAnOption(context),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [Icon(Icons.add), Text('Add an option')],
+                    )),
                 space,
                 Row(
                   children: [
@@ -80,51 +73,28 @@ class ProductVariants extends StatelessWidget {
                       itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
                       separatorBuilder: (_, __) => const SizedBox(height: 6.0),
                       itemCount: controller.product.variants!.length),
-                if (GetPlatform.isAndroid)
-                  TextButton(
-                      onPressed: controller.product.options == null || controller.product.options!.isEmpty
-                          ? null
-                          : () async {
-                              final result =
-                                  await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [controller.product, false]);
-                              if (result != null) {
-                                if (controller.product.variants != null) {
-                                  List<ProductVariant> variants = controller.product.variants!;
-                                  variants.add(result);
-                                  controller.product = controller.product.copyWith(variants: variants);
-                                } else {
-                                  controller.product = controller.product.copyWith(variants: [result]);
-                                }
-                              }
-                              controller.update();
-                            },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [Icon(Icons.add), Text('Add a variant')],
-                      )),
-                if (GetPlatform.isIOS)
-                  CupertinoButton(
-                    onPressed: controller.product.options == null || controller.product.options!.isEmpty
-                        ? null
-                        : () async {
-                            final result =
-                                await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [controller.product, false]);
-                            if (result != null) {
-                              if (controller.product.variants != null) {
-                                List<ProductVariant> variants = controller.product.variants!;
-                                variants.add(result);
-                                controller.product = controller.product.copyWith(variants: variants);
-                              } else {
-                                controller.product = controller.product.copyWith(variants: [result]);
-                              }
+                AdaptiveButton(
+                  onPressed: controller.product.options == null || controller.product.options!.isEmpty
+                      ? null
+                      : () async {
+                          final result =
+                              await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [controller.product, false]);
+                          if (result != null) {
+                            if (controller.product.variants != null) {
+                              List<ProductVariant> variants = controller.product.variants!;
+                              variants.add(result);
+                              controller.product = controller.product.copyWith(variants: variants);
+                            } else {
+                              controller.product = controller.product.copyWith(variants: [result]);
                             }
-                            controller.update();
-                          },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [Icon(Icons.add), Text('Add a variant')],
-                    ),
+                          }
+                          controller.update();
+                        },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [Icon(Icons.add), Text('Add a variant')],
                   ),
+                ),
               ],
             ),
           ),
@@ -164,14 +134,8 @@ class AddOptionView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (GetPlatform.isIOS) CupertinoButton(child: const Text('Cancel'), onPressed: () => Get.back()),
-              if (GetPlatform.isIOS)
-                CupertinoButton(
-                  onPressed: onAddPressed,
-                  child: const Text('Add'),
-                ),
-              if (GetPlatform.isAndroid) TextButton(child: const Text('Cancel'), onPressed: () => Get.back()),
-              if (GetPlatform.isAndroid) TextButton(onPressed: onAddPressed, child: const Text('Add')),
+              AdaptiveButton(child: const Text('Cancel'), onPressed: () => Get.back()),
+              AdaptiveButton(onPressed: onAddPressed, child: const Text('Add')),
             ],
           ),
           Form(

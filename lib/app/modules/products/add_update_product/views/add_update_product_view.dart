@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/utils/enums.dart';
+import '../../../components/adaptive_button.dart';
 import '../components/product_components.dart';
 import '../controllers/add_update_product_controller.dart';
 
@@ -22,14 +23,7 @@ class AddUpdateProductView extends StatelessWidget {
               title: controller.updateMode ? const Text('Update Product') : const Text('New Product'),
               centerTitle: true,
               actions: [
-                if (GetPlatform.isAndroid)
-                  TextButton(
-                      onPressed: () async => controller.updateMode
-                          ? await controller.updateProduct(context)
-                          : await controller.addProduct(),
-                      child: controller.updateMode ? const Text('Save') : const Text('Publish')),
-                if (GetPlatform.isIOS)
-                  CupertinoButton(
+                  AdaptiveButton(
                       onPressed: () async => controller.updateMode
                           ? await controller.updateProduct(context)
                           : await controller.addProduct(),
