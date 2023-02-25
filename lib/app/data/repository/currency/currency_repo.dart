@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/currency/base_currency.dart';
 
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/res/currency.dart';
+import '../../service/storage_service.dart';
 
 class CurrencyRepo extends BaseCurrency {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
   Future<Either<UserCurrencyRes, Failure>> retrieve(

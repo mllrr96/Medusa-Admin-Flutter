@@ -33,7 +33,7 @@ class CollectionsView extends GetView<CollectionsController> {
             builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
                 itemBuilder: (context, collection, index) => ListTile(
                       onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS, arguments: collection.id!),
-                      title: Text(collection.title ?? '', style: mediumTextStyle),
+                      title: Text(collection.title ?? '', style: largeTextStyle),
                       subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle),
                       trailing: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -48,7 +48,7 @@ class CollectionsView extends GetView<CollectionsController> {
                     ),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator.adaptive())),
-            separatorBuilder: (_, __) => const Divider(),
+            separatorBuilder: (_, __) => const Divider(height: 0),
           ),
         ),
       ),

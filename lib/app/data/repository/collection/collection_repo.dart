@@ -5,12 +5,12 @@ import 'package:medusa_admin/app/data/models/req/user_create_collection_req.dart
 import 'package:medusa_admin/app/data/models/req/user_post_collection_remove_products_req.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_collection_update_products_req.dart';
 import 'package:medusa_admin/app/data/models/res/collection.dart';
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
+import '../../service/storage_service.dart';
 import 'base_collection.dart';
 
 class CollectionRepo extends BaseCollection {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
   Future<Either<UserCollectionRes, Failure>> retrieve(

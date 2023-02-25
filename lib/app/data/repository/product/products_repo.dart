@@ -6,13 +6,13 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/base_products.dart';
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/req/store_post_search_req.dart';
 import '../../models/res/products.dart';
+import '../../service/storage_service.dart';
 
 class ProductsRepo extends BaseProducts {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   /// @description Retrieves a list of products
   /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list

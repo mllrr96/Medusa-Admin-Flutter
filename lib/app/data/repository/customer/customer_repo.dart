@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/models/res/customer.dart';
 import 'package:medusa_admin/app/data/repository/customer/base_customer.dart';
 
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
+import '../../service/storage_service.dart';
 
 class CustomerRepository extends BaseCustomer {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
   Future<CustomersRes?> retrieveCustomers(

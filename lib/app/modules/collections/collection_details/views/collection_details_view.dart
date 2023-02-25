@@ -31,8 +31,8 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   return;
                 }
                 await showModalActionSheet(context: context, actions: <SheetAction>[
-                  const SheetAction(label: 'Edit', key: 0),
-                  const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                  const SheetAction(label: 'Edit Collection', key: 0),
+                  const SheetAction(label: 'Delete Collection', isDestructiveAction: true, key: 1),
                 ]).then((result) async {
                   if (result == 0) {
                     await Get.toNamed(Routes.CREATE_COLLECTION, arguments: [controller.state!, true])

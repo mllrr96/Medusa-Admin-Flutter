@@ -1,14 +1,12 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/order/base_orders.dart';
-
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/res/orders.dart';
+import '../../service/storage_service.dart';
 
 class OrdersRepository extends BaseOrders {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   /// @description Retrieves an order
   /// @param {string} id is required

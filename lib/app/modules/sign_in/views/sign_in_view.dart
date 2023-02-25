@@ -61,6 +61,15 @@ class SignInView extends GetView<SignInController> {
                     buttonWidth: double.maxFinite,
                   ),
                 ),
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: SignInButton(
+                    onPress: () async => await controller.updateBaseUrl(context),
+                    label: 'Change baseUrl',
+                    buttonWidth: double.maxFinite,
+                  ),
+                ),
               ],
             ),
           ),

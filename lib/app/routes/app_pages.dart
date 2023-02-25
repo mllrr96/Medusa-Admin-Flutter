@@ -58,6 +58,7 @@ class AppPages {
           ProductsBinding(),
           CustomersBinding(),
           CollectionsBinding(),
+          SettingsBinding(),
           // CurrenciesBinding(),
         ],
         children: [

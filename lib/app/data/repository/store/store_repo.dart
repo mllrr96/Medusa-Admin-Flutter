@@ -2,15 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/store_post_req.dart';
-import 'package:medusa_admin/app/data/models/store/store.dart';
 import 'package:medusa_admin/app/data/repository/store/base_store.dart';
 
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/res/store.dart';
+import '../../service/storage_service.dart';
 
 class StoreRepo extends BaseStore {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: AppConstants.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl:StorageService.baseUrl);
 
   @override
   Future<Either<UserStoreRes, Failure>> retrieve(
