@@ -1,48 +1,53 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/service/theme_service.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../core/utils/enums.dart';
 import '../../../core/utils/strings.dart';
 
 class StorageService extends GetxService {
   static StorageService instance = Get.find<StorageService>();
   static String baseUrl = '${Get.find<StorageService>()._baseUrl}admin';
+  static String? cookie = Get.find<StorageService>()._cookie;
 
   late SharedPreferences _prefs;
   late String _baseUrl;
+  late String? _cookie;
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
-    _baseUrl = (_prefs.get('api') as String?) ?? 'https://server-test-production-02dd.up.railway.app/';
+    try {
+      _baseUrl = _prefs.getString(AppConstants.baseUrl) ?? 'https://server-test-production-02dd.up.railway.app/';
+      _cookie = _prefs.getString(AppConstants.cookie);
+    } catch (e) {
+      _baseUrl = 'https://server-test-production-02dd.up.railway.app/';
+      _cookie = null;
+    }
     return this;
   }
 
-  AppearanceMode loadAppearance() {
-    final appearance = _prefs.get('theme');
-    if (appearance == null || appearance == 0) {
-      return AppearanceMode.device;
-    } else if (appearance == 1) {
-      return AppearanceMode.light;
-    } else {
-      return AppearanceMode.dark;
+  ThemeMode loadThemeMode() {
+    try {
+      final themeMode = _prefs.get(AppConstants.themeMode);
+      if (themeMode == null || themeMode == 0) {
+        return ThemeMode.system;
+      } else if (themeMode == 1) {
+        return ThemeMode.light;
+      } else {
+        return ThemeMode.dark;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return ThemeMode.system;
     }
   }
 
-  Future<void> saveAppearance(AppearanceMode appearanceMode) async {
-    switch (appearanceMode) {
-      case AppearanceMode.device:
-        await _prefs.setInt('theme', 0);
-        break;
-      case AppearanceMode.light:
-        await _prefs.setInt('theme', 1);
-        break;
-      case AppearanceMode.dark:
-        await _prefs.setInt('theme', 2);
-        break;
+  Future<void> saveThemeMode(ThemeMode themeMode) async {
+    try {
+      await _prefs.setInt(AppConstants.themeMode, themeMode.value());
+      Get.changeThemeMode(themeMode);
+    } catch (e) {
+      debugPrint(e.toString());
     }
-    ThemeService.instance.changeTheme(appearance: appearanceMode);
   }
 
   Future<bool> isFirstRun() async {
@@ -66,9 +71,17 @@ class StorageService extends GetxService {
 
   Future<bool> updateUrl(String value) async {
     try {
-      return await _prefs.setString('api', value);
+      return await _prefs.setString(AppConstants.baseUrl, value);
     } on Exception {
       return false;
+    }
+  }
+
+  Future<void> clearCookie() async {
+    try {
+      await _prefs.remove(AppConstants.cookie);
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

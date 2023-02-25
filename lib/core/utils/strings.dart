@@ -12,6 +12,9 @@ class AppConstants {
   static const String firstRun = 'firstRun';
   static const String skipUserProfile = 'skipUserProfile';
   static const String favorites = 'favorites';
+  static const String cookie = 'Cookie';
+  static const String themeMode = 'theme';
+  static const String baseUrl = 'api';
   static const String cart = 'cart';
   static const String svgDivider =
       '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';

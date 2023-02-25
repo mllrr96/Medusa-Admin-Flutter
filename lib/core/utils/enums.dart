@@ -10,11 +10,11 @@ enum ViewOptions {
   grid,
 }
 
-enum AppearanceMode {
-  device,
-  light,
-  dark,
-}
+// enum AppearanceMode {
+//   device,
+//   light,
+//   dark,
+// }
 
 enum ProductComponents {
   generalInfo,

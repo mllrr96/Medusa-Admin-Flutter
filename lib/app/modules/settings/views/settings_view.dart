@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../../core/utils/enums.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends StatelessWidget {
@@ -79,25 +75,25 @@ class SettingsView extends StatelessWidget {
                   SettingsTile(
                     title: const Text('Automatic (Follow system)'),
                     leading: const Icon(Icons.brightness_auto),
-                    trailing: controller.appearanceMode == AppearanceMode.device ? const Icon(Icons.check) : null,
+                    trailing: controller.themeMode == ThemeMode.system ? const Icon(Icons.check) : null,
                     onPressed: (_) async {
-                      await controller.changeAppearance(AppearanceMode.device);
+                      await controller.changeThemeMode(ThemeMode.system);
                     },
                   ),
                   SettingsTile(
                     title: const Text('Light'),
                     leading: const Icon(Icons.brightness_7),
-                    trailing: controller.appearanceMode == AppearanceMode.light ? const Icon(Icons.check) : null,
+                    trailing: controller.themeMode == ThemeMode.light ? const Icon(Icons.check) : null,
                     onPressed: (_) async {
-                      await controller.changeAppearance(AppearanceMode.light);
+                      await controller.changeThemeMode(ThemeMode.light);
                     },
                   ),
                   SettingsTile(
                     title: const Text('Dark'),
                     leading: const Icon(Icons.brightness_2),
-                    trailing: controller.appearanceMode == AppearanceMode.dark ? const Icon(Icons.check) : null,
+                    trailing: controller.themeMode == ThemeMode.dark ? const Icon(Icons.check) : null,
                     onPressed: (_) async {
-                      await controller.changeAppearance(AppearanceMode.dark);
+                      await controller.changeThemeMode(ThemeMode.dark);
                     },
                   ),
                 ],
@@ -107,13 +103,7 @@ class SettingsView extends StatelessWidget {
                   SettingsTile(
                     leading: const Icon(Icons.exit_to_app, color: Colors.redAccent),
                     title: const Text('Sign Out'),
-                    onPressed: (_) async {
-                      // TODO: this is just hacky way to sign out, use authrepo.signout
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      await prefs.remove('Cookie');
-                      await Get.delete(force: true);
-                      Get.offAllNamed(Routes.SPLASH);
-                    },
+                    onPressed: (_) async => await controller.signOut(context),
                   ),
                 ],
               ),

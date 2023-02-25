@@ -21,21 +21,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ThemeService>(
-      assignId: true,
-      builder: (themeCtrl) {
-        return GetMaterialApp(
-          title: "Medusa Admin",
-          debugShowCheckedModeBanner: false,
-          initialBinding: InitialBinding(),
-          themeMode: themeCtrl.themeMode,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          initialRoute: AppPages.INITIAL,
-          getPages: AppPages.routes,
-          builder: EasyLoading.init(),
-        );
-      },
+    return GetMaterialApp(
+      title: "Medusa Admin",
+      debugShowCheckedModeBanner: false,
+      initialBinding: InitialBinding(),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      builder: EasyLoading.init(),
     );
   }
 }
@@ -43,6 +38,6 @@ class MyApp extends StatelessWidget {
 Future<void> initServices() async {
   debugPrint('starting services ...');
   await Get.putAsync(() => StorageService().init());
-  Get.put(ThemeService());
+  await Get.putAsync(() => ThemeService().init());
   debugPrint('All services started...');
 }

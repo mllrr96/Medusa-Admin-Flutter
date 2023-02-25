@@ -43,6 +43,7 @@ extension RandomOfDigits on Random {
     return String.fromCharCodes(Iterable.generate(length, (_) => chars.codeUnitAt(nextInt(chars.length))));
   }
 }
+
 extension ListEquals on List<String> {
   bool listEquals(List<String> b) {
     if (length != b.length) {
@@ -57,5 +58,18 @@ extension ListEquals on List<String> {
       }
     }
     return true;
+  }
+}
+
+extension ThemeModeValue on ThemeMode {
+  int value() {
+    switch (this) {
+      case ThemeMode.system:
+        return 0;
+      case ThemeMode.light:
+        return 1;
+      case ThemeMode.dark:
+        return 2;
+    }
   }
 }

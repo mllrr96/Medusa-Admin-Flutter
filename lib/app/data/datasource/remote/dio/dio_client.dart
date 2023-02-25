@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:medusa_admin/core/utils/strings.dart';
+import '../../../service/storage_service.dart';
 
 class DioClient {
   final Dio dio;
@@ -16,10 +17,9 @@ class DioClient {
       ..options.receiveTimeout = const Duration(seconds: 6)
       ..httpClientAdapter
       ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        String? cookie = prefs.getString('Cookie');
+        String? cookie = StorageService.cookie;
         if (cookie != null && cookie.isNotEmpty) {
-          options.headers['Cookie'] = cookie;
+          options.headers[AppConstants.cookie] = cookie;
         }
         return handler.next(options);
       }))

@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../data/repository/auth/auth_repo.dart';
 import '../../../data/repository/store/store_repo.dart';
+import '../../../data/service/storage_service.dart';
 import '../../../data/service/store_service.dart';
 
 class SplashController extends GetxController {
@@ -13,8 +12,7 @@ class SplashController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? cookie = prefs.getString('Cookie');
+    String? cookie = StorageService.cookie;
     print(cookie);
     if (cookie != null) {
       try {
@@ -22,7 +20,7 @@ class SplashController extends GetxController {
         await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
         Get.offAllNamed(Routes.DASHBOARD);
       } catch (e) {
-        await prefs.remove('Cookie');
+        await StorageService.instance.clearCookie();
         Get.offAllNamed(Routes.SIGN_IN);
       }
     } else {
