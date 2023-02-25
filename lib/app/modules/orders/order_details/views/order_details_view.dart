@@ -207,16 +207,17 @@ class OrderDetailsView extends StatelessWidget {
                   order.payments!.first.id!,
                   style: mediumTextStyle,
                 ),
-                Text(
-                    'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
-                    style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54))
+                if (order.payments != null && order.payments!.isNotEmpty && order.payments!.first.capturedAt != null)
+                  Text(
+                      'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
+                      style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54))
               ],
             ),
             const SizedBox(height: 12.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total', style: mediumTextStyle.copyWith(fontSize: 20)),
+                Text('Total', style: mediumTextStyle!.copyWith(fontSize: 20)),
                 Text(order.payments!.first.amount!.toString(), style: mediumTextStyle.copyWith(fontSize: 20))
               ],
             )

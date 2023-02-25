@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/settings_controller.dart';
 
@@ -35,7 +36,7 @@ class SettingsView extends GetView<SettingsController> {
               SettingsTile.navigation(
                 leading: Icon(Icons.store, color: ColorManager.primary),
                 title: const Text('Store Details'),
-                onPressed: (_)=> Get.toNamed(Routes.STORE_DETAILS),
+                onPressed: (_) => Get.toNamed(Routes.STORE_DETAILS),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.attach_money, color: ColorManager.primary),
@@ -65,6 +66,21 @@ class SettingsView extends GetView<SettingsController> {
               SettingsTile.navigation(
                 leading: Icon(Icons.mail, color: ColorManager.primary),
                 title: const Text('Support'),
+              ),
+            ],
+          ),
+          SettingsSection(
+            tiles: <SettingsTile>[
+              SettingsTile(
+                leading: const Icon(Icons.exit_to_app, color: Colors.redAccent),
+                title: const Text('Sign Out'),
+                onPressed: (_) async {
+                  // TODO: this is just hacky way to sign out, use authrepo.signout
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  await prefs.remove('Cookie');
+                  await Get.delete(force: true);
+                  Get.offAllNamed(Routes.SPLASH);
+                },
               ),
             ],
           ),

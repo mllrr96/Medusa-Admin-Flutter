@@ -223,6 +223,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                               });
                         },
                         child: Chip(
+                          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                           label: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [

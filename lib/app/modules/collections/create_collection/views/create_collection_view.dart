@@ -16,7 +16,7 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     return GestureDetector(
-      onTap: ()=> FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
           title: controller.updateCollection ? const Text('Update Collection') : const Text('New Collection'),
@@ -48,8 +48,9 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                     ],
                   ),
                   // Text('Add Collection', style: Theme.of(context).textTheme.bodyLarge),
-                  Text('To create a collection, all you need is a title and a handle.',
-                      style: smallTextStyle!.copyWith(color: lightWhite)),
+                  if (!controller.updateCollection)
+                    Text('To create a collection, all you need is a title and a handle.',
+                        style: smallTextStyle!.copyWith(color: lightWhite)),
                   space,
                   ProductTextField(
                     label: 'Title',

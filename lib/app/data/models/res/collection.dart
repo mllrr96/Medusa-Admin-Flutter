@@ -34,6 +34,25 @@ class UserCreateCollectionRes {
   }
 }
 
+class UserDeleteCollectionRes {
+  /// The ID of the deleted Collection
+  String? id;
+
+  /// The type of the object that was deleted.
+  ///
+  /// Default: "product-collection"
+  String? object;
+
+  /// Whether the collection was deleted successfully or not.
+  bool? deleted;
+
+  UserDeleteCollectionRes.fromJson(json) {
+    id = json['id'];
+    object = json['object'];
+    deleted = json['deleted'];
+  }
+}
+
 class UserCollectionUpdateProductsRes {
   ProductCollection? collection;
   UserCollectionUpdateProductsRes.fromJson(json) {

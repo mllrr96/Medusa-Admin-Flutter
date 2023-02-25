@@ -39,21 +39,22 @@ class AuthRepo extends BaseAuth {
 
   /// Removes authentication session and sign out
   @override
-  Future<void> signOut({Map<String, dynamic>? customHeaders}) async {
+  Future<bool> signOut({Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.delete(
-        '/auth',
-      );
+      final response = await _dataProvider.dio.delete('/auth');
       if (response.statusCode == 200) {
-        return response.data;
+        return true;
       } else {
-        throw response.statusCode!;
+        log(response.toString());
+        // throw response.statusCode!;
+        return false;
       }
     } catch (error) {
       log(error.toString());
+      return false;
     }
   }
 

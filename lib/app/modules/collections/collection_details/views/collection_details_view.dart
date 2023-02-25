@@ -43,10 +43,15 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                     });
                   } else if (result == 1) {
                     await showOkCancelAlertDialog(
-                        context: context,
-                        title: 'Confirm deletion',
-                        message: 'Are you sure you wanna delete this collection?',
-                        isDestructiveAction: true);
+                            context: context,
+                            // title: 'Confirm collection deletion',
+                            message: 'Are you sure you want to delete this collection?',
+                            okLabel: 'Yes, delete',
+                            cancelLabel: 'No, cancel',
+                            isDestructiveAction: true)
+                        .then((result) async {
+                      if (result == OkCancelResult.ok) await controller.deleteCollection();
+                    });
                   }
                 });
               },
@@ -72,7 +77,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   if (collection.products != null && collection.products!.isNotEmpty)
                     AdaptiveButton(
                         onPressed: () async {
-                          final result = await Get.to(CollectionProductsList(),
+                          final result = await Get.to(const CollectionProductsList(),
                               binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
                           if (result != null) {
                             await controller.loadCollection();
@@ -84,6 +89,9 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                 ],
               ),
             ),
+            onLoading: SizedBox.shrink(),
+            onEmpty: SizedBox.shrink(),
+            onError: (e) => SizedBox.shrink(),
           ),
         ),
       ),
@@ -98,7 +106,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   const Text('No products on this collection'),
                   AdaptiveButton(
                       onPressed: () async {
-                        final result = await Get.to(CollectionProductsList(),
+                        final result = await Get.to(const CollectionProductsList(),
                             binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
                         if (result != null) {
                           await controller.loadCollection();
@@ -110,7 +118,8 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
               ),
             );
           }
-          return ListView.builder(
+          return ListView.separated(
+              separatorBuilder: (_, __) => const Divider(height: 0),
               itemCount: collection.products!.length,
               itemBuilder: (context, index) {
                 final product = collection.products![index];
@@ -140,16 +149,20 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                       : null,
                   trailing: IconButton(
                       onPressed: () async {
-                        await showModalActionSheet(context: context, actions: <SheetAction>[
-                          const SheetAction(label: 'Edit'),
-                          SheetAction(
-                              label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish',
-                              key: 'publish'),
-                          const SheetAction(label: 'Duplicate'),
-                          const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
-                        ]).then((result) async {});
+                        await showOkCancelAlertDialog(
+                                context: context,
+                                // title: 'Confirm your action',
+                                message: 'Remove product from this collection?',
+                                okLabel: 'Yes, remove',
+                                cancelLabel: 'No, cancel',
+                                isDestructiveAction: true)
+                            .then((result) async {
+                          if (result == OkCancelResult.ok) {
+                            await controller.removeProduct(product.id!);
+                          }
+                        });
                       },
-                      icon: const Icon(Icons.more_horiz)),
+                      icon: const Icon(Icons.delete_forever)),
                 );
               });
         },

@@ -150,4 +150,22 @@ class CollectionRepo extends BaseCollection {
       return right(Failure(error: e));
     }
   }
+
+  @override
+  Future<Either<UserDeleteCollectionRes, Failure>> delete(
+      {required String id, Map<String, dynamic>? customHeaders}) async {
+    if (customHeaders != null) {
+      _dataProvider.dio.options.headers.addAll(customHeaders);
+    }
+    try {
+      final response = await _dataProvider.delete('/collections/$id');
+      if (response.statusCode == 200) {
+        return Left(UserDeleteCollectionRes.fromJson(response.data));
+      } else {
+        return right(Failure(error: ''));
+      }
+    } catch (e) {
+      return right(Failure(error: e));
+    }
+  }
 }

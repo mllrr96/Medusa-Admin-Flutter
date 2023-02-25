@@ -7,5 +7,6 @@ import '../../models/res/auth.dart';
 abstract class BaseAuth {
 
   Future<Either<UserAuthRes, Failure>> signIn({required UserPostAuthReq req, Map<String, dynamic>? customHeaders});
-  Future<void> signOut({Map<String, dynamic>? customHeaders});
+  Future<bool> signOut({Map<String, dynamic>? customHeaders});
+  Future<UserAuthRes?> getSession({Map<String, dynamic>? customHeaders});
 }
