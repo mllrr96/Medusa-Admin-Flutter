@@ -25,11 +25,11 @@ abstract class BaseCollection {
       Map<String, dynamic>? queryParameters});
 
   Future<Either<UserCollectionUpdateProductsRes, Failure>> updateProducts(
-      {required UserCollectionUpdateProductsReq userCollectionProductsReq,
+      {required UserCollectionUpdateProductsReq userCollectionUpdateProductsReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters});
   Future<Either<UserCollectionRemoveProductsRes, Failure>> removeProducts(
-      {required UserCollectionRemoveProductsReq userCollectionProductsReq,
+      {required UserCollectionRemoveProductsReq userCollectionRemoveProductsReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters});
 }

@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/req/user_post_collection_remove_products_req.dart';
+import 'package:medusa_admin/app/data/models/req/user_post_collection_update_products_req.dart';
 import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import '../../../../data/models/store/product.dart';
 import 'package:collection/collection.dart';
 
@@ -19,7 +23,15 @@ class CollectionProductsList extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Products'),
             centerTitle: true,
-            actions: [AdaptiveButton(onPressed: controller.isEqual ? null : () {}, child: Text('Save'))],
+            actions: [
+              AdaptiveButton(
+                  onPressed: controller.isEqual
+                      ? null
+                      : () {
+                          controller.save();
+                        },
+                  child: Text('Save'))
+            ],
           ),
           body: SafeArea(
               child: PagedListView(
@@ -130,7 +142,39 @@ class CollectionProductsController extends GetxController {
     });
   }
 
-  Future<void> save() async {}
+  Future<void> save() async {
+    final addedProducts = productsIds.toSet().difference(originalProductsIds.toSet()).toList();
+    final removedProducts = originalProductsIds.toSet().difference(productsIds.toSet()).toList();
+    loading();
+    if (addedProducts.isNotEmpty) {
+      final result = await collectionRepo.updateProducts(
+          userCollectionUpdateProductsReq:
+              UserCollectionUpdateProductsReq(collectionId: collectionId, productsIds: addedProducts));
+      result.fold((l) {
+        if (removedProducts.isEmpty) {
+          EasyLoading.showSuccess('Collection updated');
+          Get.back(result: true);
+        }
+      }, (r) {
+        EasyLoading.showError('Error updating collection');
+        return;
+      });
+    }
+    if (removedProducts.isNotEmpty) {
+      final result = await collectionRepo.removeProducts(
+          userCollectionRemoveProductsReq:
+              UserCollectionRemoveProductsReq(collectionId: collectionId, productsIds: removedProducts));
+
+      result.fold((l) {
+        EasyLoading.showSuccess('Collection updated');
+        Get.back(result:  true);
+      }, (r) {
+        EasyLoading.showError('Error updating collection');
+        return;
+      });
+    }
+    dismissLoading();
+  }
 }
 
 class CollectionProductsBinding extends Bindings {

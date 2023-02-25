@@ -105,7 +105,7 @@ class CollectionRepo extends BaseCollection {
 
   @override
   Future<Either<UserCollectionUpdateProductsRes, Failure>> updateProducts(
-      {required UserCollectionUpdateProductsReq userCollectionProductsReq,
+      {required UserCollectionUpdateProductsReq userCollectionUpdateProductsReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
@@ -113,8 +113,8 @@ class CollectionRepo extends BaseCollection {
     }
     try {
       final response = await _dataProvider.post(
-        uri: '/collections/${userCollectionProductsReq.collectionId}/products/batch',
-        data: {'product_ids': userCollectionProductsReq.productsIds},
+        uri: '/collections/${userCollectionUpdateProductsReq.collectionId}/products/batch',
+        data: {'product_ids': userCollectionUpdateProductsReq.productsIds},
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
@@ -129,7 +129,7 @@ class CollectionRepo extends BaseCollection {
 
   @override
   Future<Either<UserCollectionRemoveProductsRes, Failure>> removeProducts(
-      {required UserCollectionRemoveProductsReq userCollectionProductsReq,
+      {required UserCollectionRemoveProductsReq userCollectionRemoveProductsReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
@@ -137,8 +137,8 @@ class CollectionRepo extends BaseCollection {
     }
     try {
       final response = await _dataProvider.delete(
-        '/collections/${userCollectionProductsReq.collectionId}/products/batch',
-        data: {'product_ids': userCollectionProductsReq.productsIds},
+        '/collections/${userCollectionRemoveProductsReq.collectionId}/products/batch',
+        data: {'product_ids': userCollectionRemoveProductsReq.productsIds},
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {

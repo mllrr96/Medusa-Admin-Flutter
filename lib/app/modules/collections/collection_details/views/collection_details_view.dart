@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections/collection_details/components/collection_products_list.dart';
+import 'package:medusa_admin/app/modules/collections/controllers/collections_controller.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
@@ -71,9 +72,15 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   if (collection.products != null && collection.products!.isNotEmpty)
                     AdaptiveButton(
                         onPressed: () async {
-                          await Get.to(CollectionProductsList(),
+                          final result = await Get.to(CollectionProductsList(),
                               binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
-                        }, iosPadding: EdgeInsets.zero, child: const Text('Edit Products'))
+                          if (result != null) {
+                            await controller.loadCollection();
+                            CollectionsController.instance.pagingController.refresh();
+                          }
+                        },
+                        iosPadding: EdgeInsets.zero,
+                        child: const Text('Edit Products'))
                 ],
               ),
             ),
@@ -91,8 +98,12 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   const Text('No products on this collection'),
                   AdaptiveButton(
                       onPressed: () async {
-                        await Get.to(CollectionProductsList(),
+                        final result = await Get.to(CollectionProductsList(),
                             binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
+                        if (result != null) {
+                          await controller.loadCollection();
+                          CollectionsController.instance.pagingController.refresh();
+                        }
                       },
                       child: const Text('Add Products'))
                 ],
