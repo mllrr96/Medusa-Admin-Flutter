@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/collections/collection_details/components/collection_products_list.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
@@ -33,8 +34,9 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
                 ]).then((result) async {
                   if (result == 0) {
-                    await Get.toNamed(Routes.CREATE_COLLECTION, arguments: [controller.state!, true])?.then((result) async {
-                      if(result !=null){
+                    await Get.toNamed(Routes.CREATE_COLLECTION, arguments: [controller.state!, true])
+                        ?.then((result) async {
+                      if (result != null) {
                         await controller.loadCollection();
                       }
                     });
@@ -68,7 +70,10 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   ),
                   if (collection.products != null && collection.products!.isNotEmpty)
                     AdaptiveButton(
-                        onPressed: () async {}, iosPadding: EdgeInsets.zero, child: const Text('Edit Products'))
+                        onPressed: () async {
+                          await Get.to(CollectionProductsList(),
+                              binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
+                        }, iosPadding: EdgeInsets.zero, child: const Text('Edit Products'))
                 ],
               ),
             ),
@@ -84,7 +89,12 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text('No products on this collection'),
-                  AdaptiveButton(onPressed: () {}, child: const Text('Add Products'))
+                  AdaptiveButton(
+                      onPressed: () async {
+                        await Get.to(CollectionProductsList(),
+                            binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
+                      },
+                      child: const Text('Add Products'))
                 ],
               ),
             );

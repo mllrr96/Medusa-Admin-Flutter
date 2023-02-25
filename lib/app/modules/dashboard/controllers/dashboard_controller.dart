@@ -21,6 +21,20 @@ class DashboardController extends GetxController {
           BottomNavigationBarItem(icon: Icon(Icons.collections), label: 'Collections'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ];
+
+  final navigationDestinationItems = GetPlatform.isIOS
+      ? const <NavigationDestination>[
+    NavigationDestination(icon: Icon(CupertinoIcons.money_dollar), label: 'Orders'),
+    NavigationDestination(icon: Icon(CupertinoIcons.tag), label: 'Products'),
+    NavigationDestination(icon: Icon(CupertinoIcons.collections), label: 'Collections'),
+    NavigationDestination(icon: Icon(CupertinoIcons.settings), label: 'Settings'),
+        ]
+      : const [
+    NavigationDestination(icon: Icon(Icons.attach_money), label: 'Orders'),
+    NavigationDestination(icon: Icon(CupertinoIcons.tag), label: 'Products'),
+    NavigationDestination(icon: Icon(Icons.collections), label: 'Collections'),
+    NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
+        ];
   @override
   void onInit() {
     super.onInit();

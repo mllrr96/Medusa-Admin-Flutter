@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections/views/collections_view.dart';
-import 'package:medusa_admin/app/modules/customers/views/customers_view.dart';
 import 'package:medusa_admin/app/modules/orders/views/orders_view.dart';
 import 'package:medusa_admin/app/modules/products/views/products_view.dart';
 import 'package:medusa_admin/app/modules/settings/views/settings_view.dart';
@@ -14,6 +13,31 @@ class DashboardView extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
       builder: (controller) {
+        // return AdaptiveScaffold(
+        //   destinations: controller.navigationDestinationItems,
+        //   onSelectedIndexChange: (index) {
+        //
+        //     controller.onTap(index);
+        //   },
+        //   useDrawer: false,
+        //   smallSecondaryBody: AdaptiveScaffold.emptyBuilder,
+        //   body: (_) => PageSwitchingView(
+        //       currentPageIndex: controller.currentScreen,
+        //       pageCount: 4,
+        //       pageBuilder: (context, index) {
+        //         if (index == 0) {
+        //           return OrdersView();
+        //         } else if (index == 1) {
+        //           return ProductsView();
+        //         } else if (index == 2) {
+        //           return CollectionsView();
+        //         } else if (index == 3) {
+        //           return SettingsView();
+        //         }
+        //         return OrdersView();
+        //       }),
+        // );
+
         return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

@@ -33,3 +33,31 @@ class UserCreateCollectionRes {
     }
   }
 }
+
+class UserCollectionUpdateProductsRes {
+  ProductCollection? collection;
+  UserCollectionUpdateProductsRes.fromJson(json) {
+    if (json['collection'] != null) {
+      collection = ProductCollection.fromJson(json['collection']);
+    }
+  }
+}
+
+class UserCollectionRemoveProductsRes {
+  /// The ID of the collection
+  String? id;
+
+  /// The type of object the removal was executed on
+  ///
+  /// Default: "product-collection"
+  String? object;
+
+  /// The IDs of the products removed from the collection
+  List<String>? removedProducts;
+
+  UserCollectionRemoveProductsRes.fromJson(json) {
+    id = json['id'];
+    object = json['object'];
+    removedProducts = List<String>.from(json['removed_products']);
+  }
+}

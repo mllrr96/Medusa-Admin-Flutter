@@ -100,9 +100,7 @@ class EditCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           child: ExpansionTile(
-            onExpansionChanged: (expanded){
-
-            },
+            onExpansionChanged: (expanded) {},
             maintainState: maintainState,
             title: Text(label, style: Theme.of(context).textTheme.bodyLarge),
             expandedAlignment: Alignment.centerLeft,
@@ -127,7 +125,8 @@ class ProductTextField extends StatelessWidget {
     this.onChanged,
     this.width,
     this.lightLabelColor = false,
-    this.validator,  this.autoFocus = false,
+    this.validator,
+    this.autoFocus = false,
   });
 
   final bool required;
@@ -170,11 +169,8 @@ class ProductTextField extends StatelessWidget {
             maxLines: maxLines,
             style: Theme.of(context).textTheme.titleSmall,
             decoration: InputDecoration(
-              hintText: hintText,
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16.0)),
-              ),
-            ),
+                hintText: hintText,
+                border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0)))),
           ),
         ),
         const SizedBox(height: 12.0),

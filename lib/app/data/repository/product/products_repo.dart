@@ -18,7 +18,7 @@ class ProductsRepo extends BaseProducts {
   /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list
   /// @param customHeaders
   /// @return {ResponsePromise<StoreProductsListRes>}
-  Future<Either<UserProductsListRes, Failure>> list(
+  Future<Either<UserProductsListRes, Failure>> retrieveAll(
       {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {

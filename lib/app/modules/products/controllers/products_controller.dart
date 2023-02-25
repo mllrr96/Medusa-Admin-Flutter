@@ -70,7 +70,7 @@ class ProductsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await productsRepo.list(
+    final result = await productsRepo.retrieveAll(
       queryParams: {
         if (searchTerm.isNotEmpty) 'fields': 'id,title,thumbnail,status,handle,collection_id',
         if (searchTerm.isNotEmpty)
