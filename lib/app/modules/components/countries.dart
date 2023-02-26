@@ -1,6 +1,103 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+
 import '../../data/models/store/country.dart';
 
-List<Country> c = [
+class SelectCountryView extends StatelessWidget {
+  const SelectCountryView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<SelectCountryController>(
+      builder: (controller) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: controller.multipleSelect ? const Text('Select Countries') : const Text('Select Country'),
+              centerTitle: true,
+              actions: [
+                AdaptiveButton(
+                    onPressed: controller.selectedCountries.isEmpty
+                        ? null
+                        : () {
+                            Get.back(result: controller.selectedCountries);
+                          },
+                    child: const Text('Save'))
+              ],
+              bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10),
+                    child: GetPlatform.isIOS
+                        ? Row(
+                            children: [
+                              const Expanded(child: CupertinoSearchTextField()),
+                              AnimatedCrossFade(
+                                  firstCurve: Curves.linear,
+                                  secondCurve: Curves.linear,
+                                  firstChild: AdaptiveButton(
+                                      iosPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      onPressed: () {
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                      child: const Text('Cancel')),
+                                  secondChild: const SizedBox(),
+                                  crossFadeState: FocusScope.of(context).hasFocus
+                                      ? CrossFadeState.showFirst
+                                      : CrossFadeState.showSecond,
+                                  duration: const Duration(milliseconds: 200))
+                            ],
+                          )
+                        : const TextField(
+                            decoration: InputDecoration(hintText: 'Search for a country'),
+                          ),
+                  )),
+            ),
+            body: SafeArea(
+                child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      final country = countries[index];
+                      return CheckboxListTile(
+                        value: controller.selectedCountries.contains(country),
+                        onChanged: (val) {
+                          if (FocusScope.of(context).hasFocus) {
+                            FocusScope.of(context).unfocus();
+                          }
+                          if (val != null && val) {
+                            controller.selectedCountries.add(country);
+                          } else if (val != null && !val) {
+                            controller.selectedCountries.remove(country);
+                          }
+                          controller.update();
+                        },
+                        title: Text(country.displayName!),
+                      );
+                    },
+                    separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
+                    itemCount: countries.length)),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SelectCountryController extends GetxController {
+  bool multipleSelect = Get.arguments ?? false;
+  List<Country> selectedCountries = [];
+}
+
+class SelectCountryBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(SelectCountryController());
+  }
+}
+
+List<Country> countries = [
   Country(id: 001, iso2: 'af', numCode: 4, name: 'AFGHANISTAN', iso3: 'afg', displayName: 'Afghanistan'),
   Country(id: 002, iso2: 'al', numCode: 8, name: 'ALBANIA', iso3: 'alb', displayName: 'Albania'),
   Country(id: 003, iso2: 'dz', numCode: 12, name: 'ALGERIA', iso3: 'dza', displayName: 'Algeria'),

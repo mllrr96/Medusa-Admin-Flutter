@@ -69,7 +69,7 @@ class RegionCard extends StatelessWidget {
             Row(
               children: [
                 Text('Payment Providers: ', style: smallTextStyle!.copyWith(color: lightWhite)),
-                Expanded(child: Text(getPaymentProviders(), style: smallTextStyle!.copyWith(color: lightWhite))),
+                Expanded(child: Text(getPaymentProviders(), style: smallTextStyle.copyWith(color: lightWhite))),
               ],
             ),
             Row(
@@ -93,7 +93,6 @@ class RegionCard extends StatelessWidget {
     String countries = '';
     if (region.countries != null) {
       for (Country country in region.countries!) {
-        print(country.toJson());
         if (countries.isNotEmpty) {
           countries = '$countries, ${country.displayName!}';
         } else {

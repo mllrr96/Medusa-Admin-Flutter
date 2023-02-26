@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/add_update_product/components/product_general_info.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../controllers/add_region_controller.dart';
 
@@ -69,7 +70,7 @@ class AddRegionView extends GetView<AddRegionController> {
                       items: StoreService.store.currencies!
                           .map((e) => DropdownMenuItem(value: e, child: Text(e.name!)))
                           .toList(),
-                      hint: const Text('Choose an option'),
+                      hint: const Text('Choose currency'),
                       onChanged: (value) {
                         if (value != null) {
                           // controller.selectedOptionsValue[index] = value;
@@ -105,11 +106,35 @@ class AddRegionView extends GetView<AddRegionController> {
                         return null;
                       },
                     ),
-                    ProductTextField(
-                        label: 'Countries',
-                        controller: TextEditingController(),
-                        required: true,
-                        hintText: 'Choose countries'),
+                    Row(
+                      children: [
+                        Text('Countries', style: mediumTextStyle),
+                        Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
+                      ],
+                    ),
+                    const SizedBox(height: 6.0),
+                    AdaptiveButton(onPressed: ()=> Get.toNamed(Routes.SELECT_COUNTRY, arguments: true), child: Text('Select country')),
+                    // DropdownButtonFormField(
+                    //   validator: (val) {
+                    //     if (val == null) {
+                    //       return 'Field is required';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   items: countries.map((e) => DropdownMenuItem(value: e, child: Text(e.name!))).toList(),
+                    //   hint: const Text('Choose Countries'),
+                    //   onChanged: (value) {
+                    //     if (value != null) {
+                    //       // controller.selectedOptionsValue[index] = value;
+                    //     }
+                    //   },
+                    //   decoration: const InputDecoration(
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    //     ),
+                    //   ),
+                    // ),
+                    space,
                   ]),
                   space,
                   EditCard(label: 'Providers', required: true, children: [
@@ -118,7 +143,7 @@ class AddRegionView extends GetView<AddRegionController> {
                         Expanded(
                             child: Text(
                                 'Add which fulfillment and payment providers shoulb be available in this region.',
-                                style: smallTextStyle!.copyWith(color: lightWhite))),
+                                style: smallTextStyle.copyWith(color: lightWhite))),
                       ],
                     ),
                     space,

@@ -24,11 +24,11 @@ abstract class Routes {
   static const COLLECTIONS = _Paths.COLLECTIONS;
   static const COLLECTION_DETAILS = _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
   static const PRODUCT_ADD_VARIANT = _Paths.PRODUCT_ADD_VARIANT;
-  static const SEARCH = _Paths.SEARCH;
   static const CREATE_COLLECTION = _Paths.DASHBOARD + _Paths.CREATE_COLLECTION;
   static const REGIONS = _Paths.DASHBOARD + _Paths.REGIONS;
   static const ADD_REGION = _Paths.DASHBOARD + _Paths.REGIONS + _Paths.ADD_REGION;
   static const REGION_DETAILS = _Paths.DASHBOARD + _Paths.REGIONS + _Paths.REGION_DETAILS;
+  static const SELECT_COUNTRY = _Paths.SELECT_COUNTRY;
 }
 
 abstract class _Paths {
@@ -52,9 +52,9 @@ abstract class _Paths {
   static const CURRENCIES = '/currencies';
   static const COLLECTIONS = '/collections';
   static const COLLECTION_DETAILS = '/collection-details';
-  static const SEARCH = '/search';
   static const CREATE_COLLECTION = '/create-collection';
   static const REGIONS = '/regions';
   static const ADD_REGION = '/add-region';
   static const REGION_DETAILS = '/region-details';
+  static const SELECT_COUNTRY = '/select-country';
 }

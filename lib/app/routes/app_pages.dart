@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/countries.dart';
 
 import '../modules/collections/bindings/collections_binding.dart';
 import '../modules/collections/collection_details/bindings/collection_details_binding.dart';
@@ -26,8 +27,6 @@ import '../modules/products/add_update_product/views/add_update_product_view.dar
 import '../modules/products/bindings/products_binding.dart';
 import '../modules/products/product_details/bindings/product_details_binding.dart';
 import '../modules/products/product_details/views/product_details_view.dart';
-import '../modules/search/bindings/search_binding.dart';
-import '../modules/search/views/search_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings/currencies/views/currencies_view.dart';
@@ -55,78 +54,74 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
-        name: _Paths.DASHBOARD,
-        page: () => const DashboardView(),
-        bindings: [
-          DashboardBinding(),
-          OrdersBinding(),
-          ProductsBinding(),
-          CustomersBinding(),
-          CollectionsBinding(),
-          SettingsBinding(),
-          // CurrenciesBinding(),
-        ],
+    GetPage(name: _Paths.DASHBOARD, page: () => const DashboardView(), bindings: [
+      DashboardBinding(),
+      OrdersBinding(),
+      ProductsBinding(),
+      CustomersBinding(),
+      CollectionsBinding(),
+      SettingsBinding(),
+      // CurrenciesBinding(),
+    ], children: [
+      GetPage(
+        name: _Paths.ORDER_DETAILS,
+        page: () => const OrderDetailsView(),
+        binding: OrderDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.PRODUCT_DETAILS,
+        page: () => const ProductDetailsView(),
+        binding: ProductDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.ADD_UPDATE_PRODUCT,
+        page: () => const AddUpdateProductView(),
+        binding: AddUpdateProductBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.STORE_DETAILS,
+        page: () => const StoreDetailsView(),
+        binding: StoreDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CUSTOMER_DETAILS,
+        page: () => const CustomerDetailsView(),
+        binding: CustomerDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CURRENCIES,
+        page: () => const CurrenciesView(),
+        binding: CurrenciesBinding(),
+      ),
+      GetPage(
+        name: _Paths.COLLECTION_DETAILS,
+        page: () => const CollectionDetailsView(),
+        binding: CollectionDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CREATE_COLLECTION,
+        page: () => const CreateCollectionView(),
+        binding: CreateCollectionBinding(),
+      ),
+      GetPage(
+        name: _Paths.REGIONS,
+        page: () => const RegionsView(),
+        binding: RegionsBinding(),
         children: [
           GetPage(
-            name: _Paths.ORDER_DETAILS,
-            page: () => const OrderDetailsView(),
-            binding: OrderDetailsBinding(),
+            name: _Paths.ADD_REGION,
+            page: () => const AddRegionView(),
+            binding: AddRegionBinding(),
           ),
           GetPage(
-            name: _Paths.PRODUCT_DETAILS,
-            page: () => const ProductDetailsView(),
-            binding: ProductDetailsBinding(),
+            name: _Paths.REGION_DETAILS,
+            page: () => const RegionDetailsView(),
+            binding: RegionDetailsBinding(),
           ),
-          GetPage(
-            name: _Paths.ADD_UPDATE_PRODUCT,
-            page: () => const AddUpdateProductView(),
-            binding: AddUpdateProductBinding(),
-            fullscreenDialog: true,
-          ),
-          GetPage(
-            name: _Paths.STORE_DETAILS,
-            page: () => const StoreDetailsView(),
-            binding: StoreDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CUSTOMER_DETAILS,
-            page: () => const CustomerDetailsView(),
-            binding: CustomerDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CURRENCIES,
-            page: () => const CurrenciesView(),
-            binding: CurrenciesBinding(),
-          ),
-          GetPage(
-            name: _Paths.COLLECTION_DETAILS,
-            page: () => const CollectionDetailsView(),
-            binding: CollectionDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CREATE_COLLECTION,
-            page: () => const CreateCollectionView(),
-            binding: CreateCollectionBinding(),
-          ),
-          GetPage(
-            name: _Paths.REGIONS,
-            page: () => const RegionsView(),
-            binding: RegionsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.ADD_REGION,
-                page: () => const AddRegionView(),
-                binding: AddRegionBinding(),
-              ),
-              GetPage(
-                name: _Paths.REGION_DETAILS,
-                page: () => const RegionDetailsView(),
-                binding: RegionDetailsBinding(),
-              ),
-            ],
-          ),
-        ]),
+        ],
+      ),
+    ]),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
@@ -169,10 +164,10 @@ class AppPages {
       fullscreenDialog: true,
     ),
     GetPage(
-        name: _Paths.SEARCH,
-        page: () => const SearchView(),
-        binding: SearchBinding(),
-        fullscreenDialog: true,
-        transition: Transition.upToDown),
+      name: _Paths.SELECT_COUNTRY,
+      page: () => const SelectCountryView(),
+      binding: SelectCountryBinding(),
+      fullscreenDialog: true,
+    ),
   ];
 }
