@@ -76,25 +76,19 @@ class SettingsView extends StatelessWidget {
                     title: const Text('Automatic (Follow system)'),
                     leading: const Icon(Icons.brightness_auto),
                     trailing: controller.themeMode == ThemeMode.system ? const Icon(Icons.check) : null,
-                    onPressed: (_) async {
-                      await controller.changeThemeMode(ThemeMode.system);
-                    },
+                    onPressed: (_) async => await controller.changeThemeMode(ThemeMode.system),
                   ),
                   SettingsTile(
                     title: const Text('Light'),
                     leading: const Icon(Icons.brightness_7),
                     trailing: controller.themeMode == ThemeMode.light ? const Icon(Icons.check) : null,
-                    onPressed: (_) async {
-                      await controller.changeThemeMode(ThemeMode.light);
-                    },
+                    onPressed: (_) async => await controller.changeThemeMode(ThemeMode.light),
                   ),
                   SettingsTile(
                     title: const Text('Dark'),
                     leading: const Icon(Icons.brightness_2),
                     trailing: controller.themeMode == ThemeMode.dark ? const Icon(Icons.check) : null,
-                    onPressed: (_) async {
-                      await controller.changeThemeMode(ThemeMode.dark);
-                    },
+                    onPressed: (_) async => await controller.changeThemeMode(ThemeMode.dark),
                   ),
                 ],
               ),

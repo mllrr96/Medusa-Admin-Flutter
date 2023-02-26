@@ -6,8 +6,8 @@ import '../../../core/utils/strings.dart';
 
 class StorageService extends GetxService {
   static StorageService instance = Get.find<StorageService>();
-  static String baseUrl = '${Get.find<StorageService>()._baseUrl}admin';
-  static String? cookie = Get.find<StorageService>()._cookie;
+  static String baseUrl = Get.find<StorageService>()._baseUrl;
+  static String? get cookie => Get.find<StorageService>()._cookie;
 
   late SharedPreferences _prefs;
   late String _baseUrl;
@@ -79,7 +79,17 @@ class StorageService extends GetxService {
 
   Future<void> clearCookie() async {
     try {
+      _cookie = null;
       await _prefs.remove(AppConstants.cookie);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> saveCookie(String cookie) async {
+    try {
+      _cookie = cookie;
+      await _prefs.setString(AppConstants.cookie, cookie);
     } catch (e) {
       debugPrint(e.toString());
     }

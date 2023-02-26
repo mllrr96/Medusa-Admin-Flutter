@@ -53,6 +53,7 @@ class SignInController extends GetxController {
     result.fold((l) async {
       await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
       Get.offAllNamed(Routes.DASHBOARD);
+
       dismissLoading();
     }, (r) {
       errorMessage.value = 'Error singing in, ${r.getMessage()}';
@@ -70,12 +71,18 @@ class SignInController extends GetxController {
             if (val == null || val.removeAllWhitespace.isEmpty) {
               return "Url can't be empty";
             }
+            if (!val.contains('admin')) {
+              return "Make sure the url contains 'admin' at the end";
+            }
+            if(val.contains(' ')){
+              return 'White spaces are not allowed';
+            }
             return null;
           })
         ]).then((result) async {
       if (result != null) {
         String? url = result[0];
-        final updateResult = await StorageService.instance.updateUrl(url);
+        final updateResult = await StorageService.instance.updateUrl(url.removeAllWhitespace);
         if (updateResult) {
           EasyLoading.showSuccess('Url updated, restart the app');
         } else {

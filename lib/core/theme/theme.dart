@@ -18,6 +18,7 @@ class AppTheme {
       ),
       appBarTheme: const AppBarTheme(
         // elevation: 0.0,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: CupertinoColors.white,
         centerTitle: true,
       ),
@@ -53,7 +54,8 @@ class AppTheme {
           foregroundColor: ColorManager.primary, // This is a custom color variable
         ),
       ),
-      expansionTileTheme: const ExpansionTileThemeData(iconColor: Colors.black, backgroundColor: CupertinoColors.white));
+      expansionTileTheme:
+          const ExpansionTileThemeData(iconColor: Colors.black, backgroundColor: CupertinoColors.white));
 
   static final dark = ThemeData(
       useMaterial3: true,
@@ -68,6 +70,7 @@ class AppTheme {
       cardColor: const Color(0xff242527),
       appBarTheme: const AppBarTheme(
         // elevation: 0.0,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Color(0xff242527),
         centerTitle: true,
       ),
@@ -97,8 +100,6 @@ class AppTheme {
         displayLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 26.0),
         bodyLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 22.0),
         bodyMedium: GoogleFonts.cabin(color: Colors.white, fontSize: 20.0),
-
-
         titleLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 18.0),
         titleMedium: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
         titleSmall: GoogleFonts.cabin(color: Colors.white, fontSize: 14.0),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -21,7 +22,7 @@ class CollectionsView extends GetView<CollectionsController> {
       appBar: AppBar(
         title: const Text('Collections'),
         centerTitle: true,
-        actions: [IconButton(onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION), icon: const Icon(Icons.add))],
+        actions: [AdaptiveIcon(onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION), icon: const Icon(Icons.add))],
       ),
       body: SafeArea(
         child: SmartRefresher(

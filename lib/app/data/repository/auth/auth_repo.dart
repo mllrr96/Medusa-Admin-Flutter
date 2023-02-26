@@ -26,9 +26,8 @@ class AuthRepo extends BaseAuth {
     try {
       final response = await _dataProvider.dio.post('/auth', data: req);
       if (response.statusCode == 200) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         var cookie = response.headers['set-cookie']!.first.split(';').first;
-        prefs.setString('Cookie', cookie);
+        await StorageService.instance.saveCookie(cookie);
         return left(UserAuthRes.fromJson(response.data));
       } else {
         return Right(Failure(error: response.statusCode));

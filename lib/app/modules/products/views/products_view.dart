@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -58,11 +59,11 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
       leadingWidth: 56 * 2,
       leading: Row(
         children: [
-          IconButton(
+          AdaptiveIcon(
               onPressed: () => controller.changeViewOption(),
               icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
           Obx(() {
-            return IconButton(
+            return AdaptiveIcon(
                 onPressed: () async {
                   final result =
                       await showModalActionSheet<SortOptions>(context: context, actions: <SheetAction<SortOptions>>[
@@ -147,7 +148,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                 children: [
                   Row(
                     children: [
-                      IconButton(
+                      AdaptiveIcon(
                           onPressed: () async {
                             setState(() {
                               search = true;
@@ -252,7 +253,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
               duration: kDuration)),
 
       actions: [
-        IconButton(
+        AdaptiveIcon(
             onPressed: () async {
               await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
                 if (result != null && result is bool && result == true) {
@@ -261,7 +262,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
               });
             },
             icon: const Icon(Icons.add)),
-        IconButton(
+        AdaptiveIcon(
             onPressed: () async {
               final result = await showModalActionSheet(context: context, actions: <SheetAction>[
                 const SheetAction(label: 'Export Products'),
@@ -354,7 +355,8 @@ class ProductsListView extends GetView<ProductsController> {
       controller: controller.listRefreshController,
       onRefresh: () => controller.pagingController.refresh(),
       header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-      child: PagedListView(
+      child: PagedListView.separated(
+        separatorBuilder: (_, __) => const Divider(height: 0, indent: 15),
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => ListTile(
@@ -386,7 +388,7 @@ class ProductsListView extends GetView<ProductsController> {
                                 const Icon(Icons.warning_rounded, color: Colors.redAccent),
                           ))
                       : null,
-                  trailing: IconButton(
+                  trailing: AdaptiveIcon(
                       onPressed: () async {
                         await showModalActionSheet(context: context, actions: <SheetAction>[
                           const SheetAction(label: 'Edit'),

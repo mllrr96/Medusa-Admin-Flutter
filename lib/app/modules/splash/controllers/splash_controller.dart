@@ -13,7 +13,6 @@ class SplashController extends GetxController {
   void onReady() async {
     super.onReady();
     String? cookie = StorageService.cookie;
-    print(cookie);
     if (cookie != null) {
       try {
         await authRepo.getSession();
