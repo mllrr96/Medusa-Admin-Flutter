@@ -31,6 +31,12 @@ import '../modules/search/views/search_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings/currencies/views/currencies_view.dart';
+import '../modules/settings/regions/add_region/bindings/add_region_binding.dart';
+import '../modules/settings/regions/add_region/views/add_region_view.dart';
+import '../modules/settings/regions/bindings/regions_binding.dart';
+import '../modules/settings/regions/region_details/bindings/region_details_binding.dart';
+import '../modules/settings/regions/region_details/views/region_details_view.dart';
+import '../modules/settings/regions/views/regions_view.dart';
 import '../modules/settings/store_details/bindings/store_details_binding.dart';
 import '../modules/settings/store_details/views/store_details_view.dart';
 import '../modules/settings/views/settings_view.dart';
@@ -103,6 +109,23 @@ class AppPages {
             page: () => const CreateCollectionView(),
             binding: CreateCollectionBinding(),
           ),
+          GetPage(
+            name: _Paths.REGIONS,
+            page: () => const RegionsView(),
+            binding: RegionsBinding(),
+            children: [
+              GetPage(
+                name: _Paths.ADD_REGION,
+                page: () => const AddRegionView(),
+                binding: AddRegionBinding(),
+              ),
+              GetPage(
+                name: _Paths.REGION_DETAILS,
+                page: () => const RegionDetailsView(),
+                binding: RegionDetailsBinding(),
+              ),
+            ],
+          ),
         ]),
     GetPage(
       name: _Paths.SPLASH,
@@ -151,6 +174,5 @@ class AppPages {
         binding: SearchBinding(),
         fullscreenDialog: true,
         transition: Transition.upToDown),
-
   ];
 }

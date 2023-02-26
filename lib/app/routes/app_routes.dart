@@ -17,17 +17,18 @@ abstract class Routes {
   static const SIGN_IN = _Paths.SIGN_IN;
   static const ORDER_DETAILS = _Paths.DASHBOARD + _Paths.ORDER_DETAILS;
   static const PRODUCT_DETAILS = _Paths.DASHBOARD + _Paths.PRODUCT_DETAILS;
-  static const ADD_UPDATE_PRODUCT =
-      _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
+  static const ADD_UPDATE_PRODUCT = _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
   static const STORE_DETAILS = _Paths.DASHBOARD + _Paths.STORE_DETAILS;
   static const CUSTOMER_DETAILS = _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS;
   static const CURRENCIES = _Paths.DASHBOARD + _Paths.CURRENCIES;
   static const COLLECTIONS = _Paths.COLLECTIONS;
-  static const COLLECTION_DETAILS =
-      _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
+  static const COLLECTION_DETAILS = _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
   static const PRODUCT_ADD_VARIANT = _Paths.PRODUCT_ADD_VARIANT;
   static const SEARCH = _Paths.SEARCH;
   static const CREATE_COLLECTION = _Paths.DASHBOARD + _Paths.CREATE_COLLECTION;
+  static const REGIONS = _Paths.DASHBOARD + _Paths.REGIONS;
+  static const ADD_REGION = _Paths.DASHBOARD + _Paths.REGIONS + _Paths.ADD_REGION;
+  static const REGION_DETAILS = _Paths.DASHBOARD + _Paths.REGIONS + _Paths.REGION_DETAILS;
 }
 
 abstract class _Paths {
@@ -53,4 +54,7 @@ abstract class _Paths {
   static const COLLECTION_DETAILS = '/collection-details';
   static const SEARCH = '/search';
   static const CREATE_COLLECTION = '/create-collection';
+  static const REGIONS = '/regions';
+  static const ADD_REGION = '/add-region';
+  static const REGION_DETAILS = '/region-details';
 }

@@ -71,13 +71,23 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
 }
 
 class EditCard extends StatelessWidget {
-  const EditCard(
-      {Key? key, this.editMode = false, required this.children, required this.label, this.maintainState = false})
-      : super(key: key);
+  const EditCard({
+    Key? key,
+    this.editMode = false,
+    required this.children,
+    required this.label,
+    this.maintainState = false,
+    this.required = false,
+    this.initiallyExpanded = false,
+    this.onExpansionChanged,
+  }) : super(key: key);
   final bool editMode;
+  final bool initiallyExpanded;
+  final bool required;
   final List<Widget> children;
   final String label;
   final bool maintainState;
+  final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
     if (editMode) {
@@ -100,9 +110,17 @@ class EditCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           child: ExpansionTile(
-            onExpansionChanged: (expanded) {},
+            initiallyExpanded: initiallyExpanded,
+            onExpansionChanged: onExpansionChanged,
             maintainState: maintainState,
-            title: Text(label, style: Theme.of(context).textTheme.bodyLarge),
+            title: required
+                ? Row(
+                    children: [
+                      Text(label, style: Theme.of(context).textTheme.bodyLarge),
+                      Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
+                    ],
+                  )
+                : Text(label, style: Theme.of(context).textTheme.bodyLarge),
             expandedAlignment: Alignment.centerLeft,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
             children: children,

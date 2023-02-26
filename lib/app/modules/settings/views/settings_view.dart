@@ -32,6 +32,7 @@ class SettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     leading: Icon(Icons.location_on, color: ColorManager.primary),
                     title: const Text('Regions'),
+                    onPressed: (_) => Get.toNamed(Routes.REGIONS),
                   ),
                   SettingsTile.navigation(
                     leading: Icon(Icons.store, color: ColorManager.primary),
