@@ -3,7 +3,6 @@ import 'package:medusa_admin/app/data/models/req/store_post_req.dart';
 
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/res/store.dart';
-import '../../models/store/store.dart';
 
 abstract class BaseStore {
   Future<Either<UserStoreRes, Failure>> retrieve(

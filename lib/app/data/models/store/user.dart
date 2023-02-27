@@ -1,12 +1,40 @@
+import 'package:medusa_admin/core/utils/enums.dart';
+
 class User {
+  /// The user's ID
   String? id;
+
+  /// The email of the User
   String? email;
+
+  /// The first name of the User
   String? firstName;
+
+  /// The last name of the User
   String? lastName;
+
+  /// An API token associated with the user.
   String? apiToken;
+
+  /// The date with timezone at which the resource was created.
   DateTime? createdAt;
+
+  /// The date with timezone at which the resource was updated.
   DateTime? updatedAt;
+
+  /// The date with timezone at which the resource was deleted.
   DateTime? deletedAt;
+
+  /// The user's role
+  ///
+  /// Default: "member"
+  ///
+  /// Enum: "admin" "member" "developer"
+  UserRole? role;
+
+  /// An optional key-value map with additional details
+  ///
+  /// Example: {"car":"white"}
   Map<String, dynamic> metadata = <String, dynamic>{};
 
   User({
@@ -47,14 +75,4 @@ class User {
     json['metadata'] = metadata;
     return json;
   }
-}
-
-enum UserRoles {
-  admin('admin'),
-  member('member'),
-  developer('developer');
-
-  final String value;
-
-  const UserRoles(this.value);
 }

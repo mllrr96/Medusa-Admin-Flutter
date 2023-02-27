@@ -26,3 +26,13 @@ enum ProductComponents {
   editThumbnail,
   editMedia,
 }
+
+enum UserRole {
+  admin('admin'),
+  member('member'),
+  developer('developer');
+
+  final String value;
+
+  const UserRole(this.value);
+}

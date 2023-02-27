@@ -113,7 +113,9 @@ class AddRegionView extends GetView<AddRegionController> {
                       ],
                     ),
                     const SizedBox(height: 6.0),
-                    AdaptiveButton(onPressed: ()=> Get.toNamed(Routes.SELECT_COUNTRY, arguments: true), child: Text('Select country')),
+                    AdaptiveButton(
+                        onPressed: () => Get.toNamed(Routes.SELECT_COUNTRY, arguments: true),
+                        child: Text('Select country')),
                     // DropdownButtonFormField(
                     //   validator: (val) {
                     //     if (val == null) {
@@ -137,27 +139,31 @@ class AddRegionView extends GetView<AddRegionController> {
                     space,
                   ]),
                   space,
-                  EditCard(label: 'Providers', required: true, children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Text(
-                                'Add which fulfillment and payment providers shoulb be available in this region.',
-                                style: smallTextStyle.copyWith(color: lightWhite))),
-                      ],
-                    ),
-                    space,
-                    ProductTextField(
-                        label: 'Payment Providers',
-                        controller: TextEditingController(),
-                        required: true,
-                        hintText: 'Europe'),
-                    ProductTextField(
-                        label: 'Fulfillment Providers',
-                        controller: TextEditingController(),
-                        required: true,
-                        hintText: 'Europe'),
-                  ]),
+                  EditCard(
+                    label: 'Providers',
+                    required: true,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                                  'Add which fulfillment and payment providers should be available in this region.',
+                                  style: smallTextStyle.copyWith(color: lightWhite))),
+                        ],
+                      ),
+                      space,
+                      ProductTextField(
+                          label: 'Payment Providers',
+                          controller: TextEditingController(),
+                          required: true,
+                          hintText: 'Europe'),
+                      ProductTextField(
+                          label: 'Fulfillment Providers',
+                          controller: TextEditingController(),
+                          required: true,
+                          hintText: 'Europe'),
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -1,11 +1,10 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/countries.dart';
-
 import '../modules/collections/bindings/collections_binding.dart';
 import '../modules/collections/collection_details/bindings/collection_details_binding.dart';
 import '../modules/collections/collection_details/views/collection_details_view.dart';
 import '../modules/collections/create_collection/bindings/create_collection_binding.dart';
 import '../modules/collections/create_collection/views/create_collection_view.dart';
+import '../modules/components/countries.dart';
 import '../modules/customers/bindings/customers_binding.dart';
 import '../modules/customers/customer_details/bindings/customer_details_binding.dart';
 import '../modules/customers/customer_details/views/customer_details_view.dart';
@@ -30,6 +29,8 @@ import '../modules/products/product_details/views/product_details_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings/currencies/views/currencies_view.dart';
+import '../modules/settings/personal_information/bindings/personal_information_binding.dart';
+import '../modules/settings/personal_information/views/personal_information_view.dart';
 import '../modules/settings/regions/add_region/bindings/add_region_binding.dart';
 import '../modules/settings/regions/add_region/views/add_region_view.dart';
 import '../modules/settings/regions/bindings/regions_binding.dart';
@@ -54,74 +55,84 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(name: _Paths.DASHBOARD, page: () => const DashboardView(), bindings: [
-      DashboardBinding(),
-      OrdersBinding(),
-      ProductsBinding(),
-      CustomersBinding(),
-      CollectionsBinding(),
-      SettingsBinding(),
-      // CurrenciesBinding(),
-    ], children: [
-      GetPage(
-        name: _Paths.ORDER_DETAILS,
-        page: () => const OrderDetailsView(),
-        binding: OrderDetailsBinding(),
-      ),
-      GetPage(
-        name: _Paths.PRODUCT_DETAILS,
-        page: () => const ProductDetailsView(),
-        binding: ProductDetailsBinding(),
-      ),
-      GetPage(
-        name: _Paths.ADD_UPDATE_PRODUCT,
-        page: () => const AddUpdateProductView(),
-        binding: AddUpdateProductBinding(),
-        fullscreenDialog: true,
-      ),
-      GetPage(
-        name: _Paths.STORE_DETAILS,
-        page: () => const StoreDetailsView(),
-        binding: StoreDetailsBinding(),
-      ),
-      GetPage(
-        name: _Paths.CUSTOMER_DETAILS,
-        page: () => const CustomerDetailsView(),
-        binding: CustomerDetailsBinding(),
-      ),
-      GetPage(
-        name: _Paths.CURRENCIES,
-        page: () => const CurrenciesView(),
-        binding: CurrenciesBinding(),
-      ),
-      GetPage(
-        name: _Paths.COLLECTION_DETAILS,
-        page: () => const CollectionDetailsView(),
-        binding: CollectionDetailsBinding(),
-      ),
-      GetPage(
-        name: _Paths.CREATE_COLLECTION,
-        page: () => const CreateCollectionView(),
-        binding: CreateCollectionBinding(),
-      ),
-      GetPage(
-        name: _Paths.REGIONS,
-        page: () => const RegionsView(),
-        binding: RegionsBinding(),
+    GetPage(
+        name: _Paths.DASHBOARD,
+        page: () => const DashboardView(),
+        bindings: [
+          DashboardBinding(),
+          OrdersBinding(),
+          ProductsBinding(),
+          CustomersBinding(),
+          CollectionsBinding(),
+          SettingsBinding(),
+          // CurrenciesBinding(),
+        ],
         children: [
           GetPage(
-            name: _Paths.ADD_REGION,
-            page: () => const AddRegionView(),
-            binding: AddRegionBinding(),
+            name: _Paths.ORDER_DETAILS,
+            page: () => const OrderDetailsView(),
+            binding: OrderDetailsBinding(),
           ),
           GetPage(
-            name: _Paths.REGION_DETAILS,
-            page: () => const RegionDetailsView(),
-            binding: RegionDetailsBinding(),
+            name: _Paths.PRODUCT_DETAILS,
+            page: () => const ProductDetailsView(),
+            binding: ProductDetailsBinding(),
           ),
-        ],
-      ),
-    ]),
+          GetPage(
+            name: _Paths.ADD_UPDATE_PRODUCT,
+            page: () => const AddUpdateProductView(),
+            binding: AddUpdateProductBinding(),
+            fullscreenDialog: true,
+          ),
+          GetPage(
+            name: _Paths.STORE_DETAILS,
+            page: () => const StoreDetailsView(),
+            binding: StoreDetailsBinding(),
+          ),
+          GetPage(
+            name: _Paths.CUSTOMER_DETAILS,
+            page: () => const CustomerDetailsView(),
+            binding: CustomerDetailsBinding(),
+          ),
+          GetPage(
+            name: _Paths.CURRENCIES,
+            page: () => const CurrenciesView(),
+            binding: CurrenciesBinding(),
+          ),
+          GetPage(
+            name: _Paths.COLLECTION_DETAILS,
+            page: () => const CollectionDetailsView(),
+            binding: CollectionDetailsBinding(),
+          ),
+          GetPage(
+            name: _Paths.CREATE_COLLECTION,
+            page: () => const CreateCollectionView(),
+            binding: CreateCollectionBinding(),
+          ),
+          GetPage(
+            name: _Paths.REGIONS,
+            page: () => const RegionsView(),
+            binding: RegionsBinding(),
+            children: [
+              GetPage(
+                name: _Paths.ADD_REGION,
+                page: () => const AddRegionView(),
+                binding: AddRegionBinding(),
+              ),
+              GetPage(
+                name: _Paths.REGION_DETAILS,
+                page: () => const RegionDetailsView(),
+                binding: RegionDetailsBinding(),
+              ),
+
+            ],
+          ),
+          GetPage(
+            name: _Paths.PERSONAL_INFORMATION,
+            page: () => const PersonalInformationView(),
+            binding: PersonalInformationBinding(),
+          ),
+        ]),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
@@ -169,5 +180,6 @@ class AppPages {
       binding: SelectCountryBinding(),
       fullscreenDialog: true,
     ),
+
   ];
 }

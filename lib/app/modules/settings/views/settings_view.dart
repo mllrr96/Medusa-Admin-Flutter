@@ -46,6 +46,7 @@ class SettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     leading: Icon(Icons.face, color: ColorManager.primary),
                     title: const Text('Personal Information'),
+                    onPressed: (_) => Get.toNamed(Routes.PERSONAL_INFORMATION),
                   ),
                   SettingsTile.navigation(
                     leading: Icon(Icons.percent, color: ColorManager.primary),
