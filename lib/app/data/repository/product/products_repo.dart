@@ -14,10 +14,8 @@ import '../../service/storage_service.dart';
 class ProductsRepo extends BaseProducts {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
-  /// @description Retrieves a list of products
-  /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreProductsListRes>}
+  /// Retrieves a list of products
+  @override
   Future<Either<UserProductsListRes, Failure>> retrieveAll(
       {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
@@ -39,10 +37,8 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
-  /// @description Retrieves a single Product
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreProductsRes>}
+  /// Retrieves a single Product
+  @override
   Future<UserProductsRes?> retrieve(String id,
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
@@ -61,10 +57,8 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
-  /// @description Retrieves a single Product
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreProductsRes>}
+  /// Retrieves a single Product
+  @override
   Future<UserVariantsRes?> retrieveVariants(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
@@ -83,10 +77,8 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
-  /// @description Searches for products
-  /// @param {StorePostSearchReq} searchOptions is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StorePostSearchRes>}
+  /// Searches for products
+  @override
   Future<UserPostSearchRes?> search({StorePostSearchReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -104,6 +96,7 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
+  @override
   Future<Either<Product, Failure>> add(
       {required UserPostProductReq userPostProductReq, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
@@ -122,6 +115,7 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
+  @override
   Future<Either<UserDeleteProductRes, Failure>> delete(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
@@ -140,6 +134,7 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
+  @override
   Future<Either<UserUpdateProductRes, Failure>> update(
       {required Product product, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {

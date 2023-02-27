@@ -1,3 +1,5 @@
+import 'package:medusa_admin/app/data/models/res/common.dart';
+
 import '../store/return_reason.dart';
 
 class UserCreateReturnReasonRes {
@@ -16,16 +18,14 @@ class UserRetrieveReturnReasonRes {
       UserRetrieveReturnReasonRes(returnReason: ReturnReason.fromJson(json['return_reason']));
 }
 
-class UserRetrieveAllReturnReasonRes {
-  UserRetrieveAllReturnReasonRes({required this.returnReasons});
-  final List<ReturnReason>? returnReasons;
+class UserRetrieveAllReturnReasonRes extends PaginatedResponse {
+  List<ReturnReason>? returnReasons;
 
-  factory UserRetrieveAllReturnReasonRes.fromJson(Map<String, dynamic> json) {
-    var returnReasons = <ReturnReason>[];
-    for (var element in (json['return_reasons'] as List)) {
-      returnReasons.add(ReturnReason.fromJson(element));
+  UserRetrieveAllReturnReasonRes.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+    returnReasons = <ReturnReason>[];
+    for (var value in (json['return_reasons'] as List)) {
+      returnReasons?.add(ReturnReason.fromJson(value));
     }
-    return UserRetrieveAllReturnReasonRes(returnReasons: returnReasons);
   }
 }
 

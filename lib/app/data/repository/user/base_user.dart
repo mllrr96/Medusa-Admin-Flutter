@@ -7,37 +7,34 @@ import '../../models/res/user.dart';
 
 abstract class BaseUser {
   /// Updates a User
-  Future<Either<UserUpdateUserRes, Failure>> update(
-      {required String id,
-        required UserUpdateUserReq userUpdateUserReq,
-      Map<String, dynamic>? customHeaders,
-      Map<String, dynamic>? queryParameters});
+  Future<Either<UserUpdateUserRes, Failure>> update({
+    required String id,
+    required UserUpdateUserReq userUpdateUserReq,
+    Map<String, dynamic>? customHeaders,
+  });
 
   /// Retrieves a User.
-  Future<Either<UserRetrieveUserRes, Failure>> retrieveUser(
-      {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
+  Future<Either<UserRetrieveUserRes, Failure>> retrieve({required String id, Map<String, dynamic>? customHeaders});
 
   /// Creates a User
-  Future<Either<UserCreateUserRes, Failure>> createUser(
-      {required UserCreateUserReq userCreateUserReq,
-      Map<String, dynamic>? customHeaders,
-      Map<String, dynamic>? queryParameters});
+  Future<Either<UserCreateUserRes, Failure>> create({
+    required UserCreateUserReq userCreateUserReq,
+    Map<String, dynamic>? customHeaders,
+  });
 
   /// Retrieves all users.
-  Future<Either<UserRetrieveUserListRes, Failure>> retrieveUserList(
+  Future<Either<UserRetrieveUserListRes, Failure>> retrieveAll(
       {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
 
   /// Generates a password token for a User with a given email.
-  Future<Either<bool, Failure>> requestPasswordReset(
-      {required String email, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
+  Future<Either<bool, Failure>> requestPasswordReset({required String email, Map<String, dynamic>? customHeaders});
+
+  /// Sets the password for a User given the correct token.
+  Future<Either<UserResetPasswordRes, Failure>> resetPassword({
+    required UserResetPasswordReq userResetPasswordReq,
+    Map<String, dynamic>? customHeaders,
+  });
 
   /// Generates a password token for a User with a given email.
-  Future<Either<UserResetPasswordRes, Failure>> resetPassword(
-      {required UserResetPasswordReq userResetPasswordReq,
-      Map<String, dynamic>? customHeaders,
-      Map<String, dynamic>? queryParameters});
-
-  /// Generates a password token for a User with a given email.
-  Future<Either<UserDeleteUserRes, Failure>> deleteUser(
-      {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
+  Future<Either<UserDeleteUserRes, Failure>> delete({required String id, Map<String, dynamic>? customHeaders});
 }

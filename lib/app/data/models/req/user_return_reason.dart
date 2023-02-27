@@ -2,9 +2,9 @@ class UserCreateReturnReasonReq {
   UserCreateReturnReasonReq({
     required this.label,
     required this.value,
-    required this.parentReturnReasonId,
+     this.parentReturnReasonId,
     required this.description,
-    required this.metadata,
+    this.metadata,
   });
   final String label;
   final String value;
@@ -28,7 +28,7 @@ class UserUpdateReturnReasonReq {
     required this.label,
     required this.value,
     required this.description,
-    required this.metadata,
+    this.metadata,
   });
   final String label;
   final String value;

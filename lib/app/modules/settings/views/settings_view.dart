@@ -42,6 +42,7 @@ class SettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     leading: Icon(Icons.attach_money, color: ColorManager.primary),
                     title: const Text('Return Reasons'),
+                    onPressed: (_) => Get.toNamed(Routes.RETURN_REASONS),
                   ),
                   SettingsTile.navigation(
                     leading: Icon(Icons.face, color: ColorManager.primary),
@@ -51,6 +52,7 @@ class SettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     leading: Icon(Icons.percent, color: ColorManager.primary),
                     title: const Text('Tax Settings'),
+                    onPressed: (_) => Get.toNamed(Routes.TAX_SETTINGS),
                   ),
                   SettingsTile.navigation(
                     leading: Icon(Icons.currency_exchange, color: ColorManager.primary),
@@ -60,10 +62,12 @@ class SettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
                     title: const Text('Shipping'),
+                    onPressed: (_) => Get.toNamed(Routes.SHIPPING),
                   ),
                   SettingsTile.navigation(
                     leading: Icon(Icons.group, color: ColorManager.primary),
                     title: const Text('The Team'),
+                    onPressed: (_) => Get.toNamed(Routes.TEAM),
                   ),
                   SettingsTile.navigation(
                     leading: Icon(Icons.mail, color: ColorManager.primary),

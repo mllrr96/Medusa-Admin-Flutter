@@ -1,3 +1,5 @@
+import 'package:medusa_admin/app/data/models/res/common.dart';
+
 import '../store/user.dart';
 
 class UserUpdateUserRes {
@@ -40,10 +42,10 @@ class UserCreateUserRes {
   }
 }
 
-class UserRetrieveUserListRes {
+class UserRetrieveUserListRes extends PaginatedResponse{
   List<User>? userList;
 
-  UserRetrieveUserListRes.fromJson(Map<String, dynamic> json) {
+  UserRetrieveUserListRes.fromJson(Map<String, dynamic> json) : super.fromJson(json){
     if (json['users'] != null) {
       userList = [];
       for (Map<String, dynamic> v in (json['users'] as List)) {

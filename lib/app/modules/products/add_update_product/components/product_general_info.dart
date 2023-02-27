@@ -145,10 +145,12 @@ class ProductTextField extends StatelessWidget {
     this.lightLabelColor = false,
     this.validator,
     this.autoFocus = false,
+    this.enabled = true,
   });
 
   final bool required;
   final bool autoFocus;
+  final bool enabled;
   final String label;
   final String? hintText;
   final int? maxLines;
@@ -178,6 +180,7 @@ class ProductTextField extends StatelessWidget {
           width: width,
           child: TextFormField(
             autofocus: autoFocus,
+            enabled: enabled,
             controller: controller,
             textInputAction: textInputAction,
             onChanged: onChanged,
@@ -185,7 +188,7 @@ class ProductTextField extends StatelessWidget {
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
-            style: Theme.of(context).textTheme.titleSmall,
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: enabled ? null : lightWhite),
             decoration: InputDecoration(
                 hintText: hintText,
                 border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0)))),

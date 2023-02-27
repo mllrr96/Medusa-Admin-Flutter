@@ -5,14 +5,15 @@ import 'package:medusa_admin/app/data/models/res/return_reason.dart';
 
 abstract class BaseReturnReason {
   /// Creates a Return Reason
-  Future<Either<UserCreateReturnReasonRes, Failure>> create(
-      {required UserCreateReturnReasonReq userCreateReturnReasonReq,
-      Map<String, dynamic>? queryParams,
-      Map<String, dynamic>? customHeaders});
+  Future<Either<UserCreateReturnReasonRes, Failure>> create({
+    required UserCreateReturnReasonReq userCreateReturnReasonReq,
+    Map<String, dynamic>? customHeaders,
+  });
 
   /// Updates a Return Reason
   Future<Either<UserUpdateReturnReasonRes, Failure>> update(
-      {required UserUpdateReturnReasonReq userUpdateReturnReasonReq,
+      {required String id,
+      required UserUpdateReturnReasonReq userUpdateReturnReasonReq,
       Map<String, dynamic>? queryParams,
       Map<String, dynamic>? customHeaders});
 
@@ -25,6 +26,8 @@ abstract class BaseReturnReason {
       {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders});
 
   /// Deletes a return reason.
-  Future<Either<UserDeleteReturnReasonRes, Failure>> delete(
-      {required String id, Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders});
+  Future<Either<UserDeleteReturnReasonRes, Failure>> delete({
+    required String id,
+    Map<String, dynamic>? customHeaders,
+  });
 }

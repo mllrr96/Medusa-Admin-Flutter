@@ -35,6 +35,13 @@ abstract class Routes {
   static const SELECT_COUNTRY = _Paths.SELECT_COUNTRY;
   static const PERSONAL_INFORMATION =
       _Paths.DASHBOARD + _Paths.PERSONAL_INFORMATION;
+  static const RETURN_REASONS = _Paths.DASHBOARD + _Paths.RETURN_REASONS;
+  static const SHIPPING = _Paths.DASHBOARD + _Paths.SHIPPING;
+  static const TEAM = _Paths.DASHBOARD + _Paths.TEAM;
+  static const TAX_SETTINGS = _Paths.DASHBOARD + _Paths.TAX_SETTINGS;
+  static const CREATE_UPDATE_RETURN_REASON = _Paths.DASHBOARD +
+      _Paths.RETURN_REASONS +
+      _Paths.CREATE_UPDATE_RETURN_REASON;
 }
 
 abstract class _Paths {
@@ -64,4 +71,9 @@ abstract class _Paths {
   static const REGION_DETAILS = '/region-details';
   static const SELECT_COUNTRY = '/select-country';
   static const PERSONAL_INFORMATION = '/personal-information';
+  static const RETURN_REASONS = '/return-reasons';
+  static const SHIPPING = '/shipping';
+  static const TEAM = '/team';
+  static const TAX_SETTINGS = '/tax-settings';
+  static const CREATE_UPDATE_RETURN_REASON = '/create-update-return-reason';
 }

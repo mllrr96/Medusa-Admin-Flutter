@@ -5,18 +5,23 @@ import '../../models/req/user_create_region_req.dart';
 import '../../models/res/regions.dart';
 
 abstract class BaseRegions {
-  Future<Either<UserRegionsRes, Failure>> retrieveAll(
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders});
+  /// Retrieves a list of Regions.
+  Future<Either<UserRegionsRes, Failure>> retrieveAll({
+    Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? customHeaders,
+  });
 
-  Future<Either<UserRegionRes, Failure>> retrieve(
-      {
-      /// The ID of the Region.
-      required String id,
-      Map<String, dynamic>? queryParams,
-      Map<String, dynamic>? customHeaders});
+  /// Retrieves a Region.
+  Future<Either<UserRegionRes, Failure>> retrieve({
+    required String id,
+    Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? customHeaders,
+  });
 
-  Future<Either<UserRegionRes, Failure>> create(
-      {required UserCreateRegionReq userCreateRegionReq,
-      Map<String, dynamic>? queryParams,
-      Map<String, dynamic>? customHeaders});
+  /// Creates a Region
+  Future<Either<UserRegionRes, Failure>> create({
+    required UserCreateRegionReq userCreateRegionReq,
+    Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? customHeaders,
+  });
 }

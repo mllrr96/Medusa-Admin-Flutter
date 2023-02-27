@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import '../modules/collections/bindings/collections_binding.dart';
 import '../modules/collections/collection_details/bindings/collection_details_binding.dart';
 import '../modules/collections/collection_details/views/collection_details_view.dart';
@@ -37,8 +38,18 @@ import '../modules/settings/regions/bindings/regions_binding.dart';
 import '../modules/settings/regions/region_details/bindings/region_details_binding.dart';
 import '../modules/settings/regions/region_details/views/region_details_view.dart';
 import '../modules/settings/regions/views/regions_view.dart';
+import '../modules/settings/return_reasons/bindings/return_reasons_binding.dart';
+import '../modules/settings/return_reasons/create_update_return_reason/bindings/create_update_return_reason_binding.dart';
+import '../modules/settings/return_reasons/create_update_return_reason/views/create_update_return_reason_view.dart';
+import '../modules/settings/return_reasons/views/return_reasons_view.dart';
+import '../modules/settings/shipping/bindings/shipping_binding.dart';
+import '../modules/settings/shipping/views/shipping_view.dart';
 import '../modules/settings/store_details/bindings/store_details_binding.dart';
 import '../modules/settings/store_details/views/store_details_view.dart';
+import '../modules/settings/tax_settings/bindings/tax_settings_binding.dart';
+import '../modules/settings/tax_settings/views/tax_settings_view.dart';
+import '../modules/settings/team/bindings/team_binding.dart';
+import '../modules/settings/team/views/team_view.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/sign_in/bindings/sign_in_binding.dart';
 import '../modules/sign_in/views/sign_in_view.dart';
@@ -124,13 +135,40 @@ class AppPages {
                 page: () => const RegionDetailsView(),
                 binding: RegionDetailsBinding(),
               ),
-
             ],
           ),
           GetPage(
             name: _Paths.PERSONAL_INFORMATION,
             page: () => const PersonalInformationView(),
             binding: PersonalInformationBinding(),
+          ),
+          GetPage(
+            name: _Paths.RETURN_REASONS,
+            page: () => const ReturnReasonsView(),
+            binding: ReturnReasonsBinding(),
+            children: [
+              GetPage(
+                name: _Paths.CREATE_UPDATE_RETURN_REASON,
+                page: () => const CreateUpdateReturnReasonView(),
+                binding: CreateUpdateReturnReasonBinding(),
+                fullscreenDialog: true,
+              ),
+            ],
+          ),
+          GetPage(
+            name: _Paths.SHIPPING,
+            page: () => const ShippingView(),
+            binding: ShippingBinding(),
+          ),
+          GetPage(
+            name: _Paths.TEAM,
+            page: () => const TeamView(),
+            binding: TeamBinding(),
+          ),
+          GetPage(
+            name: _Paths.TAX_SETTINGS,
+            page: () => const TaxSettingsView(),
+            binding: TaxSettingsBinding(),
           ),
         ]),
     GetPage(
@@ -180,6 +218,5 @@ class AppPages {
       binding: SelectCountryBinding(),
       fullscreenDialog: true,
     ),
-
   ];
 }
