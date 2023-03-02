@@ -1,11 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/req/user_update_user_req.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
+import 'package:medusa_admin/app/data/repository/user/user_repo.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
-class PersonalInformationController extends GetxController {
-  //TODO: Implement PersonalInformationController
-
-  final count = 0.obs;
+class PersonalInformationController extends GetxController with StateMixin<User> {
+  PersonalInformationController({required this.userRepo, required this.authRepo});
+  final UserRepo userRepo;
+  final AuthRepo authRepo;
+  final formKey = GlobalKey<FormState>();
+  final firstNameCtrl = TextEditingController();
+  final lastNameCtrl = TextEditingController();
+  late String _id;
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    await loadUser();
     super.onInit();
   }
 
@@ -16,8 +28,37 @@ class PersonalInformationController extends GetxController {
 
   @override
   void onClose() {
+    firstNameCtrl.dispose();
+    lastNameCtrl.dispose();
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<void> loadUser() async {
+    change(null, status: RxStatus.loading());
+    final authResponse = await authRepo.getSession();
+
+    if (authResponse != null && authResponse.user != null) {
+      _id = authResponse.user!.id!;
+      final result = await userRepo.retrieve(id: authResponse.user!.id!);
+      result.fold((l) {
+        if (l.user != null) {
+          change(l.user!, status: RxStatus.success());
+        } else {
+          change(null, status: RxStatus.error('Error loading user'));
+        }
+      }, (r) => change(null, status: RxStatus.error(r.getMessage())));
+    } else {
+      change(null, status: RxStatus.error('Error loading user'));
+    }
+  }
+
+  Future<void> updateUser() async {
+    loading();
+    final result = await userRepo.update(
+        id: _id, userUpdateUserReq: UserUpdateUserReq(firstName: firstNameCtrl.text, lastName: lastNameCtrl.text));
+    result.fold((l) async {
+      EasyLoading.showSuccess('Updated');
+      await loadUser();
+    }, (r) => EasyLoading.showError(r.getMessage()));
+  }
 }

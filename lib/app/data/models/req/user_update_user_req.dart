@@ -15,6 +15,8 @@ class UserUpdateUserReq {
   /// An optional set of key-value pairs with additional information.
   Map<String, dynamic>? metadata;
 
+  UserUpdateUserReq({this.firstName, this.lastName, this.role, this.apiToken, this.metadata});
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
 

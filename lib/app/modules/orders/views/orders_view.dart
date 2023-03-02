@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/orders/components/order_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../../data/models/store/order.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/orders_controller.dart';
 
 class OrdersView extends GetView<OrdersController> {
@@ -23,10 +21,7 @@ class OrdersView extends GetView<OrdersController> {
             padding: const EdgeInsets.all(12.0),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Order>(
-                itemBuilder: (context, order, index) => OrderCard(
-                      order,
-                      onTap: () async => await Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
-                    ),
+                itemBuilder: (context, order, index) => OrderCard(order),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator.adaptive())),
             separatorBuilder: (_, __) => const SizedBox(height: 12.0),

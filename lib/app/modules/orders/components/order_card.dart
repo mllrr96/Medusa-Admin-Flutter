@@ -9,15 +9,32 @@ import '../../../data/models/store/order.dart';
 class OrderCard extends StatelessWidget {
   const OrderCard(
     this.order, {
-    Key? key, this.onTap,
+    Key? key,
+    this.onTap,
   }) : super(key: key);
   final Order order;
   final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    String? getName() {
+      String? name;
+
+      if (order.billingAddress?.firstName != null && order.billingAddress?.lastName != null) {
+        name = '${order.billingAddress!.firstName ?? ''} ${order.billingAddress!.lastName ?? ''}';
+      }
+      if (order.shippingAddress?.firstName != null && order.shippingAddress?.lastName != null) {
+        name = '${order.shippingAddress!.firstName ?? ''} ${order.shippingAddress!.lastName ?? ''}';
+      }
+      if (order.customer?.firstName != null && order.customer?.lastName != null) {
+        name = '${order.customer!.firstName ?? ''} ${order.customer!.lastName ?? ''}';
+      }
+      return name;
+    }
+
     return InkWell(
-      onTap:onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
+      onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
@@ -56,30 +73,44 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 OrderStatusLabel(orderStatus: order.status),
-                Opacity(
-                  opacity: order.status != OrderStatus.pending ? 1 : 0,
-                  child: InkWell(
-                    onTap: order.status != OrderStatus.pending ? () {} : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: ColorManager.primary,
-                            width: 2,
-                          ),
-                          borderRadius: const BorderRadius.all(Radius.circular(4))),
-                      child: Row(
-                        children: [
-                          Icon(Icons.refresh, color: ColorManager.primary),
-                          Text(
-                            'Reorder',
-                            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary),
-                          ),
-                        ],
-                      ),
-                    ),
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(child: Text(getName()?[0] ?? order.customer!.email[0])),
+                      const SizedBox(width: 6.0),
+                      if (getName() != null) Flexible(child: Text(getName()!, style: mediumTextStyle)),
+                      if (getName() == null)
+                        Flexible(
+                            child:
+                                Text(order.customer!.email, style: mediumTextStyle, overflow: TextOverflow.ellipsis)),
+                    ],
                   ),
-                ),
+                )
+                // Opacity(
+                //   opacity: order.status != OrderStatus.pending ? 1 : 0,
+                //   child: InkWell(
+                //     onTap: order.status != OrderStatus.pending ? () {} : null,
+                //     child: Container(
+                //       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+                //       decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: ColorManager.primary,
+                //             width: 2,
+                //           ),
+                //           borderRadius: const BorderRadius.all(Radius.circular(4))),
+                //       child: Row(
+                //         children: [
+                //           Icon(Icons.refresh, color: ColorManager.primary),
+                //           Text(
+                //             'Reorder',
+                //             style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ],

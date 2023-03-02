@@ -120,8 +120,6 @@ class AddOptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).viewInsets.bottom);
-    print(MediaQuery.of(context).padding.bottom);
     return Padding(
       padding: EdgeInsets.only(
           top: 8.0,

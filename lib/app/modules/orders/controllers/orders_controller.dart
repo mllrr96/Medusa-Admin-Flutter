@@ -13,10 +13,7 @@ class OrdersController extends GetxController {
   final int _pageSize = 20;
   @override
   Future<void> onInit() async {
-    pagingController.addPageRequestListener((pageKey) {
-      print('Getting data');
-      _fetchPage(pageKey);
-    });
+    pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
   }
 
@@ -25,7 +22,8 @@ class OrdersController extends GetxController {
       final productRes = await ordersRepository.retrieveOrders(queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
-        'expand': 'items,cart'
+        'expand': 'items,cart,customer,shipping_address,sales_channel',
+        'fields': 'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
       });
       final isLastPage = productRes!.orders!.length < _pageSize;
       if (isLastPage) {

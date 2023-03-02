@@ -1,12 +1,8 @@
 import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/auth/base_auth.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../../core/utils/strings.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_post_auth_req.dart';
@@ -59,10 +55,7 @@ class AuthRepo extends BaseAuth {
   }
 
   /// Retrieves an authenticated session
-  ///
-  /// Usually used to check if authenticated session is alive.
-  ///
-  /// @return Future<UserAuthRes?>
+  @override
   Future<UserAuthRes?> getSession({Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {

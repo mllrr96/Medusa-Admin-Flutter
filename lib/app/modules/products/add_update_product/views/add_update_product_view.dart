@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../../../../core/utils/enums.dart';
 import '../../../components/adaptive_button.dart';
 import '../components/product_components.dart';
