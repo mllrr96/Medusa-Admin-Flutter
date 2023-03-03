@@ -139,7 +139,8 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                 ],
               ),
               crossFadeState: search ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-              duration: kDuration)),
+              duration: kDuration,
+          )),
     );
   }
 }

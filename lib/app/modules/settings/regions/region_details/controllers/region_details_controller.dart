@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 
 class RegionDetailsController extends GetxController {
-  //TODO: Implement RegionDetailsController
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +17,4 @@ class RegionDetailsController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
 }

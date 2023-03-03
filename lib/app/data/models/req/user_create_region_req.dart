@@ -41,8 +41,12 @@ class UserCreateRegionReq {
     data['payment_providers'] = paymentProviders;
     data['fulfillment_providers'] = fulfillmentProviders;
     data['countries'] = countries;
-    data['taxCode'] = taxCode;
-    data['includesTax'] = includesTax;
+    if (taxCode != null) {
+      data['taxCode'] = taxCode;
+    }
+    if (includesTax != null) {
+      data['includesTax'] = includesTax;
+    }
     return data;
   }
 }

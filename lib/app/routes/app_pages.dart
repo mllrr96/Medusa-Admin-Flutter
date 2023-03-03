@@ -5,7 +5,8 @@ import '../modules/collections/collection_details/bindings/collection_details_bi
 import '../modules/collections/collection_details/views/collection_details_view.dart';
 import '../modules/collections/create_collection/bindings/create_collection_binding.dart';
 import '../modules/collections/create_collection/views/create_collection_view.dart';
-import '../modules/components/countries.dart';
+import '../modules/components/countries/bindings/country_binding.dart';
+import '../modules/components/countries/view/country_view.dart';
 import '../modules/customers/bindings/customers_binding.dart';
 import '../modules/customers/customer_details/bindings/customer_details_binding.dart';
 import '../modules/customers/customer_details/views/customer_details_view.dart';

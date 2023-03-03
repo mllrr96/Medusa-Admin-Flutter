@@ -15,8 +15,8 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    const space = SizedBox(height: 12.0);
+    // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    // const space = SizedBox(height: 12.0);
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     String? getName() {
       String? name;
@@ -63,11 +63,11 @@ class OrderCard extends StatelessWidget {
                 ),
               ],
             ),
-            if (order.items != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: buildImages(context),
-              ),
+            // if (order.items != null)
+            //   Padding(
+            //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+            //     child: buildImages(context),
+            //   ),
             const Divider(),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +97,7 @@ class OrderCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CircleAvatar(child: Text(getName()?[0] ?? order.customer!.email[0])),
+                          CircleAvatar(radius: 16,child: Text(getName()?[0] ?? order.customer!.email[0]),),
                           const SizedBox(width: 6.0),
                           if (getName() != null) Flexible(child: Text(getName()!, style: mediumTextStyle)),
                           if (getName() == null)
