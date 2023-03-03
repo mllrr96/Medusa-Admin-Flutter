@@ -39,7 +39,7 @@ class SelectCountryView extends StatelessWidget {
                                   firstCurve: Curves.linear,
                                   secondCurve: Curves.linear,
                                   firstChild: AdaptiveButton(
-                                      iosPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                       onPressed: () {
                                         FocusScope.of(context).unfocus();
                                       },

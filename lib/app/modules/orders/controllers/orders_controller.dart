@@ -8,6 +8,7 @@ class OrdersController extends GetxController {
   OrdersController({required this.ordersRepository});
   OrdersRepository ordersRepository;
   RefreshController refreshController = RefreshController();
+  RxInt ordersCount = 0.obs;
 
   final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
@@ -23,9 +24,11 @@ class OrdersController extends GetxController {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
         'expand': 'items,cart,customer,shipping_address,sales_channel',
-        'fields': 'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
+        'fields':
+            'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
       });
       final isLastPage = productRes!.orders!.length < _pageSize;
+      ordersCount.value = productRes.count ?? 0;
       if (isLastPage) {
         pagingController.appendLastPage(productRes.orders!);
       } else {

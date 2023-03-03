@@ -16,10 +16,10 @@ class StorageService extends GetxService {
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
     try {
-      _baseUrl = _prefs.getString(AppConstants.baseUrl) ?? 'https://server-test-production-02dd.up.railway.app/';
+      _baseUrl = _prefs.getString(AppConstants.baseUrl) ?? 'https://server-test-production-02dd.up.railway.app/admin';
       _cookie = _prefs.getString(AppConstants.cookie);
     } catch (e) {
-      _baseUrl = 'https://server-test-production-02dd.up.railway.app/';
+      _baseUrl = 'https://server-test-production-02dd.up.railway.app/admin';
       _cookie = null;
     }
     return this;

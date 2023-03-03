@@ -31,24 +31,26 @@ class CollectionsView extends GetView<CollectionsController> {
           child: PagedListView.separated(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
-                itemBuilder: (context, collection, index) => ListTile(
-                      onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS, arguments: collection.id!),
-                      title: Text(collection.title ?? '', style: largeTextStyle),
-                      subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle),
-                      trailing: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (collection.updatedAt != null)
-                            Text(DateFormat.yMMMd().format(collection.updatedAt!), style: smallTextStyle),
-                          if (collection.products != null)
-                            Text('Products: ${collection.products?.length ?? ''}', style: smallTextStyle),
-                        ],
-                      ),
-                    ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator.adaptive())),
-            separatorBuilder: (_, __) => const Divider(height: 0),
+              itemBuilder: (context, collection, index) => ListTile(
+                onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS, arguments: collection.id!),
+                title: Text(collection.title ?? '', style: largeTextStyle),
+                subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle),
+                trailing: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (collection.updatedAt != null)
+                      Text(DateFormat.yMMMd().format(collection.updatedAt!), style: smallTextStyle),
+                    if (collection.products != null)
+                      Text('Products: ${collection.products?.length ?? ''}', style: smallTextStyle),
+                  ],
+                ),
+              ),
+              firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
+              noItemsFoundIndicatorBuilder: (_) => Center(child: Text('No products found', style: largeTextStyle)),
+            ),
+            separatorBuilder: (_, __) =>
+                GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 12.0),
           ),
         ),
       ),

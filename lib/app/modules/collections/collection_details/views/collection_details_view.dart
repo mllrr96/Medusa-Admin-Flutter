@@ -84,7 +84,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                             CollectionsController.instance.pagingController.refresh();
                           }
                         },
-                        iosPadding: EdgeInsets.zero,
+                        padding: EdgeInsets.zero,
                         child: const Text('Edit Products'))
                 ],
               ),
