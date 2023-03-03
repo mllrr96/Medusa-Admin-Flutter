@@ -100,6 +100,9 @@ class RegionCard extends StatelessWidget {
         }
       }
     }
+    if(countries.isEmpty){
+      return 'No countries configured';
+    }
     return countries;
   }
 

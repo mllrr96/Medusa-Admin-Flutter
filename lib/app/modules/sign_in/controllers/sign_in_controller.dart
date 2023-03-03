@@ -74,7 +74,7 @@ class SignInController extends GetxController {
             if (!val.contains('admin')) {
               return "Make sure the url contains 'admin' at the end";
             }
-            if(val.contains(' ')){
+            if (val.contains(' ')) {
               return 'White spaces are not allowed';
             }
             return null;

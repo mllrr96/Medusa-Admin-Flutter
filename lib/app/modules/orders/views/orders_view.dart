@@ -52,9 +52,12 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
   final searchNode = FocusNode();
   static const kDuration = Duration(milliseconds: 200);
   final controller = Get.find<OrdersController>();
-
   @override
   Widget build(BuildContext context) {
+    final orderCount = controller.ordersCount.value == 1
+        ? '${controller.ordersCount.value} Order'
+        : '${controller.ordersCount.value} Orders';
+
     return AppBar(
       title: const Text('Orders'),
       centerTitle: true,
@@ -67,79 +70,78 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
       bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: AnimatedCrossFade(
-              firstChild: Row(
-                children: [
-                  const SizedBox(width: 12.0),
-                  if (GetPlatform.isIOS)
-                    Expanded(
-                        child: CupertinoSearchTextField(
-                      focusNode: searchNode,
-                      controller: searchCtrl,
-                      placeholder: 'Search for product name, variant title ...',
-                      onChanged: (val) {
-                        // controller.searchTerm = val;
-                        // controller.pagingController.refresh();
-                      },
-                    )),
-                  if (GetPlatform.isAndroid)
-                    Expanded(
-                        child: TextFormField(
-                      style: Theme.of(context).textTheme.titleSmall,
-                      focusNode: searchNode,
-                      controller: searchCtrl,
-                      onChanged: (val) {
-                        // controller.searchTerm = val;
-                        // controller.pagingController.refresh();
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Search for product name, variant title ...',
-                      ),
-                    )),
-                  AdaptiveButton(
-                      child: const Text('Cancel'),
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        // await Future.delayed(Duration(milliseconds: 150));
-                        setState(() {
-                          search = false;
-                          // if (controller.searchTerm.isNotEmpty) {
-                          //   controller.searchTerm = '';
-                          //   controller.pagingController.refresh();
-                          // }
-                          searchCtrl.clear();
-                        });
-                      }),
-                ],
-              ),
-              secondChild: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      AdaptiveIcon(
-                          onPressed: () async {
-                            setState(() {
-                              search = true;
-                            });
-                            await Future.delayed(kDuration);
-                            searchNode.requestFocus();
-                          },
-                          icon: const Icon(CupertinoIcons.search)),
-                    ],
-                  ),
-                  Obx(() {
-                    if (controller.ordersCount.value == 0) {
-                      return const SizedBox.shrink();
-                    }
-                    return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text('${controller.ordersCount.value} Orders',
-                            style: Theme.of(context).textTheme.titleSmall));
-                  }),
-                ],
-              ),
-              crossFadeState: search ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-              duration: kDuration,
+            firstChild: Row(
+              children: [
+                const SizedBox(width: 12.0),
+                if (GetPlatform.isIOS)
+                  Expanded(
+                      child: CupertinoSearchTextField(
+                    focusNode: searchNode,
+                    controller: searchCtrl,
+                    placeholder: 'Search for product name, variant title ...',
+                    onChanged: (val) {
+                      // controller.searchTerm = val;
+                      // controller.pagingController.refresh();
+                    },
+                  )),
+                if (GetPlatform.isAndroid)
+                  Expanded(
+                      child: TextFormField(
+                    style: Theme.of(context).textTheme.titleSmall,
+                    focusNode: searchNode,
+                    controller: searchCtrl,
+                    onChanged: (val) {
+                      // controller.searchTerm = val;
+                      // controller.pagingController.refresh();
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Search for product name, variant title ...',
+                    ),
+                  )),
+                AdaptiveButton(
+                    child: const Text('Cancel'),
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      // await Future.delayed(Duration(milliseconds: 150));
+                      setState(() {
+                        search = false;
+                        // if (controller.searchTerm.isNotEmpty) {
+                        //   controller.searchTerm = '';
+                        //   controller.pagingController.refresh();
+                        // }
+                        searchCtrl.clear();
+                      });
+                    }),
+              ],
+            ),
+            secondChild: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    AdaptiveIcon(
+                        onPressed: () async {
+                          setState(() {
+                            search = true;
+                          });
+                          await Future.delayed(kDuration);
+                          searchNode.requestFocus();
+                        },
+                        icon: const Icon(CupertinoIcons.search)),
+                  ],
+                ),
+                Obx(() {
+                  if (controller.ordersCount.value == 0) {
+                    return const SizedBox.shrink();
+                  }
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(orderCount, style: Theme.of(context).textTheme.titleSmall));
+                }),
+              ],
+            ),
+            crossFadeState: search ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            duration: kDuration,
           )),
     );
   }

@@ -35,7 +35,7 @@ class User {
   /// An optional key-value map with additional details
   ///
   /// Example: {"car":"white"}
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   User({
     this.id,
@@ -55,11 +55,11 @@ class User {
     firstName = json['first_name'];
     lastName = json['last_name'];
     apiToken = json['api_token'];
-    // createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    // updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    // deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
-    print(json['metadata']);
-    // metadata = json['metadata'];
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    role = UserRole.fromString(json['role']);
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

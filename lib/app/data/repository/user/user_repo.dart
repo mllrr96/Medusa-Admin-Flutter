@@ -133,7 +133,7 @@ class UserRepo extends BaseUser {
 
   @override
   Future<Either<UserRetrieveUserListRes, Failure>> retrieveAll(
-      {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
+      {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }

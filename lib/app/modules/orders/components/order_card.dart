@@ -97,7 +97,10 @@ class OrderCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CircleAvatar(radius: 16,child: Text(getName()?[0] ?? order.customer!.email[0]),),
+                          CircleAvatar(
+                            radius: 16,
+                            child: Text(getName()?[0] ?? order.customer!.email[0]),
+                          ),
                           const SizedBox(width: 6.0),
                           if (getName() != null) Flexible(child: Text(getName()!, style: mediumTextStyle)),
                           if (getName() == null)

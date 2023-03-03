@@ -24,7 +24,7 @@ abstract class BaseUser {
 
   /// Retrieves all users.
   Future<Either<UserRetrieveUserListRes, Failure>> retrieveAll(
-      {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
+      {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
 
   /// Generates a password token for a User with a given email.
   Future<Either<bool, Failure>> requestPasswordReset({required String email, Map<String, dynamic>? customHeaders});
