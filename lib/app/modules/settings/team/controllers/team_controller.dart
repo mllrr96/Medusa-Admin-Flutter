@@ -6,7 +6,7 @@ class TeamController extends GetxController with StateMixin<List<User>> {
   TeamController({required this.userRepo});
   final UserRepo userRepo;
   RxBool search = false.obs;
-
+  RxInt membersCount = 0.obs;
   @override
   Future<void> onInit() async {
     await loadUser();
@@ -28,7 +28,8 @@ class TeamController extends GetxController with StateMixin<List<User>> {
     final result = await userRepo.retrieveAll();
     result.fold((l) {
       if (l.userList != null) {
-        change(l.userList, status: RxStatus.success());
+        membersCount.value = l.userList!.length;
+        change(l.userList!, status: RxStatus.success());
       } else {
         change(null, status: RxStatus.error());
       }

@@ -54,9 +54,6 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
   final controller = Get.find<OrdersController>();
   @override
   Widget build(BuildContext context) {
-    final orderCount = controller.ordersCount.value == 1
-        ? '${controller.ordersCount.value} Order'
-        : '${controller.ordersCount.value} Orders';
 
     return AppBar(
       title: const Text('Orders'),
@@ -131,6 +128,10 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                   ],
                 ),
                 Obx(() {
+                  var orderCount = controller.ordersCount.value == 1
+                      ? '${controller.ordersCount.value} Order'
+                      : '${controller.ordersCount.value} Orders';
+
                   if (controller.ordersCount.value == 0) {
                     return const SizedBox.shrink();
                   }

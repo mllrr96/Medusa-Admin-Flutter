@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import '../../../../../core/utils/colors.dart';
 import '../../../data/models/store/order.dart';
 
 class OrderCard extends StatelessWidget {
@@ -102,7 +102,7 @@ class OrderCard extends StatelessWidget {
                             child: Text(getName()?[0] ?? order.customer!.email[0]),
                           ),
                           const SizedBox(width: 6.0),
-                          if (getName() != null) Flexible(child: Text(getName()!, style: mediumTextStyle)),
+                          if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
                           if (getName() == null)
                             Flexible(
                                 child: Text(order.customer!.email,
@@ -203,112 +203,4 @@ class OrderCard extends StatelessWidget {
   }
 }
 
-class OrderStatusLabel extends StatelessWidget {
-  const OrderStatusLabel({Key? key, required this.orderStatus}) : super(key: key);
-  final OrderStatus orderStatus;
-  @override
-  Widget build(BuildContext context) {
-    var containerColor = ColorManager.primary.withOpacity(0.17);
-    var textColor = ColorManager.primary;
-    String text = 'Upcoming';
-    switch (orderStatus) {
-      case OrderStatus.pending:
-        containerColor = ColorManager.primary.withOpacity(0.17);
-        textColor = ColorManager.primary;
-        text = 'Pending';
-        break;
-      case OrderStatus.canceled:
-        containerColor = Colors.red.withOpacity(0.17);
-        textColor = Colors.redAccent;
-        text = 'Canceled';
-        break;
-      case OrderStatus.completed:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        text = 'Completed';
-        break;
-      case OrderStatus.archived:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        text = 'Archived';
-        break;
-      case OrderStatus.requiresAction:
-        containerColor = Colors.red.withOpacity(0.17);
-        textColor = Colors.redAccent;
-        text = 'Require Action';
-        break;
-    }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      decoration: BoxDecoration(
-        color: containerColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: textColor),
-      ),
-    );
-  }
-}
-
-class PaymentStatusLabel extends StatelessWidget {
-  const PaymentStatusLabel({Key? key, required this.paymentStatus}) : super(key: key);
-  final PaymentStatus paymentStatus;
-  @override
-  Widget build(BuildContext context) {
-    var containerColor = ColorManager.primary.withOpacity(0.17);
-    var textColor = ColorManager.primary;
-    String text = 'Upcoming';
-    switch (paymentStatus) {
-      case PaymentStatus.awaiting:
-        containerColor = ColorManager.primary.withOpacity(0.17);
-        textColor = ColorManager.primary;
-        text = 'Awaiting';
-        break;
-      case PaymentStatus.canceled:
-        containerColor = Colors.red.withOpacity(0.17);
-        textColor = Colors.redAccent;
-        text = 'Canceled';
-        break;
-      case PaymentStatus.captured:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        text = '   Paid   ';
-        break;
-      case PaymentStatus.refunded:
-        containerColor = Colors.blueAccent.withOpacity(0.17);
-        textColor = Colors.blueAccent;
-        text = 'Refunded';
-        break;
-      case PaymentStatus.requiresAction:
-        containerColor = Colors.orangeAccent.withOpacity(0.17);
-        textColor = Colors.orangeAccent;
-        text = 'Requires Action';
-        break;
-      case PaymentStatus.notPaid:
-        containerColor = Colors.deepOrange.withOpacity(0.17);
-        textColor = Colors.deepOrange;
-        text = 'Not Paid';
-        break;
-      case PaymentStatus.partiallyRefunded:
-        containerColor = Colors.cyan.withOpacity(0.17);
-        textColor = Colors.cyan;
-        text = 'Partially Refunded';
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      decoration: BoxDecoration(
-        color: containerColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: textColor),
-      ),
-    );
-  }
-}

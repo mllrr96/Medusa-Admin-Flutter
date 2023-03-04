@@ -14,9 +14,6 @@ class TeamView extends GetView<TeamController> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-
-    const space = SizedBox(height: 12.0);
     return Scaffold(
       appBar: AppBar(
         title: const Text('The Team'),
@@ -32,6 +29,9 @@ class TeamView extends GetView<TeamController> {
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Obx(() {
+              final membersCount = controller.membersCount.value == 1
+                  ? '${controller.membersCount.value} Member'
+                  : '${controller.membersCount.value} Members';
               return AnimatedCrossFade(
                 firstChild: Row(
                   children: [
@@ -78,10 +78,11 @@ class TeamView extends GetView<TeamController> {
                         AdaptiveIcon(onPressed: () async {}, icon: const Icon(CupertinoIcons.sort_down)),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text('1 Member', style: Theme.of(context).textTheme.titleSmall),
-                    )
+                    if (controller.membersCount.value != 0)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(membersCount, style: Theme.of(context).textTheme.titleSmall),
+                      )
                   ],
                 ),
                 crossFadeState: controller.search.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
@@ -91,20 +92,21 @@ class TeamView extends GetView<TeamController> {
       ),
       body: SafeArea(
         child: controller.obx(
-            (users) => ListView.builder(
-                  itemCount: users!.length,
-                  itemBuilder: (context, index) => TeamCard(user: users[index]),
-                ),
-            onLoading: const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
-            onError: (e) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(e ?? 'Error loading users'),
-                    AdaptiveButton(onPressed: () async => controller.loadUser(), child: const Text('Retry'))
-                  ],
-                )),
+          (users) => ListView.builder(
+            itemCount: users!.length,
+            itemBuilder: (context, index) => TeamCard(user: users[index]),
+          ),
+          onLoading: const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+          onError: (e) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(e ?? 'Error loading users'),
+              AdaptiveButton(onPressed: () async => controller.loadUser(), child: const Text('Retry'))
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -213,7 +215,7 @@ class UserRoleLabel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: textColor),
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor),
       ),
     );
   }

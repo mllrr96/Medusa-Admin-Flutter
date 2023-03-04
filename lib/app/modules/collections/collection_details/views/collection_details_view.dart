@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections/collection_details/components/collection_products_list.dart';
 import 'package:medusa_admin/app/modules/collections/controllers/collections_controller.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
@@ -147,7 +148,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                                 const Icon(Icons.warning_rounded, color: Colors.redAccent),
                           ))
                       : null,
-                  trailing: IconButton(
+                  trailing: AdaptiveIcon(
                       onPressed: () async {
                         await showOkCancelAlertDialog(
                                 context: context,
@@ -162,7 +163,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                           }
                         });
                       },
-                      icon: const Icon(Icons.delete_forever)),
+                      icon: const Icon(Icons.delete_forever, color: Colors.redAccent)),
                 );
               });
         },

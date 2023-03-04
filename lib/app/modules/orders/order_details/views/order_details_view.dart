@@ -1,6 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,7 +8,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
 
 import '../../../../data/models/store/order.dart';
-import '../../components/order_card.dart';
+import '../components/order_status_label.dart';
 import '../controllers/order_details_controller.dart';
 
 class OrderDetailsView extends StatelessWidget {

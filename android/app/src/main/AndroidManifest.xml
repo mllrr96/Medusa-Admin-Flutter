@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rag.medusa.admin.medusa_admin">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
         android:label="medusa_admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
