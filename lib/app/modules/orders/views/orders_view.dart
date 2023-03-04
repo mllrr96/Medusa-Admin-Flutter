@@ -54,7 +54,6 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
   final controller = Get.find<OrdersController>();
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
       title: const Text('Orders'),
       centerTitle: true,
