@@ -81,20 +81,21 @@ class ProductsController extends GetxController {
         'order': _getSortOption(),
       },
     );
-    result.fold((l) {
-      final isLastPage = l.products!.length < _pageSize;
-      productsCount.value = l.count ?? 0;
+
+    result.when((success) {
+      final isLastPage = success.products!.length < _pageSize;
+      productsCount.value = success.count ?? 0;
       update([5]);
       if (isLastPage) {
-        pagingController.appendLastPage(l.products!);
+        pagingController.appendLastPage(success.products!);
       } else {
-        final nextPageKey = pageKey + l.products!.length;
-        pagingController.appendPage(l.products!, nextPageKey);
+        final nextPageKey = pageKey + success.products!.length;
+        pagingController.appendPage(success.products!, nextPageKey);
       }
       gridRefreshController.refreshCompleted();
       listRefreshController.refreshCompleted();
-    }, (r) {
-      pagingController.error = r.getMessage();
+    }, (error) {
+      pagingController.error = error.getMessage();
       gridRefreshController.refreshFailed();
       listRefreshController.refreshFailed();
     });
@@ -103,34 +104,28 @@ class ProductsController extends GetxController {
   Future<void> deleteProduct(String id) async {
     loading();
     final result = await productsRepo.delete(id: id);
-    result.fold((l) {
-      if (l.deleted != null && l.deleted!) {
+    result.when((success) {
+      if (success.deleted != null && success.deleted!) {
         // product deleted
         EasyLoading.showSuccess('Product Deleted');
         pagingController.refresh();
       } else {
         EasyLoading.showError('Deletion failed');
       }
-    }, (r) {
-      // Error deleting product
-      EasyLoading.showError('Deletion failed');
-    });
+    }, (error) => EasyLoading.showError('Deletion failed'));
   }
 
   Future<void> updateProduct(Product product) async {
     loading();
     final result = await productsRepo.update(product: product);
-    result.fold((l) {
-      if (l.product != null) {
+    result.when((success) {
+      if (success.product != null) {
         EasyLoading.showSuccess('Product updated');
         pagingController.refresh();
       } else {
         EasyLoading.showError('Update failed');
       }
-    }, (r) {
-      // Error deleting product
-      EasyLoading.showError('Update failed');
-    });
+    }, (error) => EasyLoading.showError('Update failed'));
   }
 
   String _getSortOption() {

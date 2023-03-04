@@ -38,21 +38,18 @@ class CollectionsController extends GetxController {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });
-    result.fold(
-      (l) {
-        final isLastPage = l.collections!.length < _pageSize;
-        if (isLastPage) {
-          pagingController.appendLastPage(l.collections!);
-        } else {
-          final nextPageKey = pageKey + l.collections!.length;
-          pagingController.appendPage(l.collections!, nextPageKey);
-        }
-        refreshController.refreshCompleted();
-      },
-      (r) {
-        refreshController.refreshFailed();
-        pagingController.error = 'Error loading orders';
-      },
-    );
+    result.when((success) {
+      final isLastPage = success.collections!.length < _pageSize;
+      if (isLastPage) {
+        pagingController.appendLastPage(success.collections!);
+      } else {
+        final nextPageKey = pageKey + success.collections!.length;
+        pagingController.appendPage(success.collections!, nextPageKey);
+      }
+      refreshController.refreshCompleted();
+    }, (error) {
+      refreshController.refreshFailed();
+      pagingController.error = 'Error loading orders';
+    });
   }
 }

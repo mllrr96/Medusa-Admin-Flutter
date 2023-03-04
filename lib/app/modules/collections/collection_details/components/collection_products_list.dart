@@ -124,22 +124,20 @@ class CollectionProductsController extends GetxController {
       },
     );
 
-    result.fold((l) {
-      final isLastPage = l.products!.length < _pageSize;
-      l.products?.forEach((product) {
+    result.when((success) {
+      final isLastPage = success.products!.length < _pageSize;
+      success.products?.forEach((product) {
         productsIds.addIf(product.collectionId == collectionId, product.id!);
         originalProductsIds.addIf(product.collectionId == collectionId, product.id!);
       });
 
       if (isLastPage) {
-        pagingController.appendLastPage(l.products!);
+        pagingController.appendLastPage(success.products!);
       } else {
-        final nextPageKey = pageKey + l.products!.length;
-        pagingController.appendPage(l.products!, nextPageKey);
+        final nextPageKey = pageKey + success.products!.length;
+        pagingController.appendPage(success.products!, nextPageKey);
       }
-    }, (r) {
-      pagingController.error = r.getMessage();
-    });
+    }, (error) => pagingController.error = error.getMessage());
   }
 
   Future<void> save() async {
@@ -150,12 +148,15 @@ class CollectionProductsController extends GetxController {
       final result = await collectionRepo.updateProducts(
           userCollectionUpdateProductsReq:
               UserCollectionUpdateProductsReq(collectionId: collectionId, productsIds: addedProducts));
-      result.fold((l) {
+      result.when((success) {
         if (removedProducts.isEmpty) {
           EasyLoading.showSuccess('Collection updated');
           Get.back(result: true);
+        } else {
+          EasyLoading.showError('Error updating collection');
+          return;
         }
-      }, (r) {
+      }, (error) {
         EasyLoading.showError('Error updating collection');
         return;
       });
@@ -164,11 +165,10 @@ class CollectionProductsController extends GetxController {
       final result = await collectionRepo.removeProducts(
           userCollectionRemoveProductsReq:
               UserCollectionRemoveProductsReq(collectionId: collectionId, productsIds: removedProducts));
-
-      result.fold((l) {
+      result.when((success) {
         EasyLoading.showSuccess('Collection updated');
-        Get.back(result:  true);
-      }, (r) {
+        Get.back(result: true);
+      }, (error) {
         EasyLoading.showError('Error updating collection');
         return;
       });

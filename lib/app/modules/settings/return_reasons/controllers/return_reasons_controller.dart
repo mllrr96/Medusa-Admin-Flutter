@@ -28,17 +28,17 @@ class ReturnReasonsController extends GetxController {
         'limit': _pageSize,
       },
     );
-    result.fold((l) {
-      final isLastPage = l.returnReasons!.length < _pageSize;
+    result.when((success) {
+      final isLastPage = success.returnReasons!.length < _pageSize;
       refreshController.refreshCompleted();
       if (isLastPage) {
-        pagingController.appendLastPage(l.returnReasons!);
+        pagingController.appendLastPage(success.returnReasons!);
       } else {
-        final nextPageKey = pageKey + l.returnReasons!.length;
-        pagingController.appendPage(l.returnReasons!, nextPageKey);
+        final nextPageKey = pageKey + success.returnReasons!.length;
+        pagingController.appendPage(success.returnReasons!, nextPageKey);
       }
-    }, (r) {
-      pagingController.error = r.getMessage();
+    }, (error) {
+      pagingController.error = error.getMessage();
       refreshController.refreshFailed();
     });
   }
@@ -46,9 +46,9 @@ class ReturnReasonsController extends GetxController {
   Future<void> deleteReturnReason(String id) async {
     loading();
     final result = await returnReasonRepo.delete(id: id);
-    result.fold((l) {
+    result.when((success) {
       EasyLoading.showSuccess('Deleted');
       pagingController.refresh();
-    }, (r) => EasyLoading.showError('Error deleting'));
+    }, (error) => EasyLoading.showError('Error deleting'));
   }
 }

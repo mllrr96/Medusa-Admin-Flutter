@@ -1,8 +1,8 @@
 import 'dart:developer';
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/auth/base_auth.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:multiple_result/multiple_result.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_post_auth_req.dart';
@@ -14,7 +14,7 @@ class AuthRepo extends BaseAuth {
 
   /// Authenticates a user using email and password combination
   @override
-  Future<Either<UserAuthRes, Failure>> signIn(
+  Future<Result<UserAuthRes, Failure>> signIn(
       {required UserPostAuthReq req, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -24,12 +24,12 @@ class AuthRepo extends BaseAuth {
       if (response.statusCode == 200) {
         var cookie = response.headers['set-cookie']!.first.split(';').first;
         await StorageService.instance.saveCookie(cookie);
-        return left(UserAuthRes.fromJson(response.data));
+        return Success(UserAuthRes.fromJson(response.data));
       } else {
-        return Right(Failure(error: response.statusCode));
+        return Error(Failure(error: response.statusCode));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 

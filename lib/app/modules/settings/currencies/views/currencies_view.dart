@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
@@ -233,19 +231,14 @@ class AllCurrenciesController extends GetxController {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });
-    result.fold(
-      (l) {
-        final isLastPage = l.currencies!.length < _pageSize;
-        if (isLastPage) {
-          pagingController.appendLastPage(l.currencies!);
-        } else {
-          final nextPageKey = pageKey + l.currencies!.length;
-          pagingController.appendPage(l.currencies!, nextPageKey);
-        }
-      },
-      (r) {
-        pagingController.error = 'Error loading orders';
-      },
-    );
+    result.when((success) {
+      final isLastPage = success.currencies!.length < _pageSize;
+      if (isLastPage) {
+        pagingController.appendLastPage(success.currencies!);
+      } else {
+        final nextPageKey = pageKey + success.currencies!.length;
+        pagingController.appendPage(success.currencies!, nextPageKey);
+      }
+    }, (error) => pagingController.error = 'Error loading orders');
   }
 }

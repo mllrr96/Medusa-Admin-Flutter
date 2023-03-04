@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
@@ -16,7 +16,7 @@ class ProductsRepo extends BaseProducts {
 
   /// Retrieves a list of products
   @override
-  Future<Either<UserProductsListRes, Failure>> retrieveAll(
+  Future<Result<UserProductsListRes, Failure>> retrieveAll(
       {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -27,13 +27,13 @@ class ProductsRepo extends BaseProducts {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return left(UserProductsListRes.fromJson(response.data));
+        return Success(UserProductsListRes.fromJson(response.data));
       } else {
-        return right(Failure(error: response));
+        return Error(Failure(error: response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return right(Failure(error: error));
+      return Error(Failure(error: error));
     }
   }
 
@@ -97,7 +97,7 @@ class ProductsRepo extends BaseProducts {
   }
 
   @override
-  Future<Either<Product, Failure>> add(
+  Future<Result<Product, Failure>> add(
       {required UserPostProductReq userPostProductReq, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -105,18 +105,18 @@ class ProductsRepo extends BaseProducts {
     try {
       final response = await _dataProvider.post(uri: '/products', data: userPostProductReq.toJson());
       if (response.statusCode == 200) {
-        return Left(Product.fromJson(response.data['product']));
+        return Success(Product.fromJson(response.data['product']));
       } else {
         debugPrint(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserDeleteProductRes, Failure>> delete(
+  Future<Result<UserDeleteProductRes, Failure>> delete(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -124,18 +124,18 @@ class ProductsRepo extends BaseProducts {
     try {
       final response = await _dataProvider.delete('/products/$id');
       if (response.statusCode == 200) {
-        return Left(UserDeleteProductRes.fromJson(response.data));
+        return Success(UserDeleteProductRes.fromJson(response.data));
       } else {
         debugPrint(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserUpdateProductRes, Failure>> update(
+  Future<Result<UserUpdateProductRes, Failure>> update(
       {required Product product, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -144,13 +144,13 @@ class ProductsRepo extends BaseProducts {
     try {
       final response = await _dataProvider.post(uri: '/products/$id', data: product.copyWith(id: null).toJson());
       if (response.statusCode == 200) {
-        return Left(UserUpdateProductRes.fromJson(response.data));
+        return Success(UserUpdateProductRes.fromJson(response.data));
       } else {
         debugPrint(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 }

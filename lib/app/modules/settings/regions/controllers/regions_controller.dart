@@ -33,17 +33,18 @@ class RegionsController extends GetxController {
         'limit': _pageSize,
       },
     );
-    result.fold((l) {
-      final isLastPage = l.regions!.length < _pageSize;
+
+    result.when((success) {
+      final isLastPage = success.regions!.length < _pageSize;
       refreshController.refreshCompleted();
       if (isLastPage) {
-        pagingController.appendLastPage(l.regions!);
+        pagingController.appendLastPage(success.regions!);
       } else {
-        final nextPageKey = pageKey + l.regions!.length;
-        pagingController.appendPage(l.regions!, nextPageKey);
+        final nextPageKey = pageKey + success.regions!.length;
+        pagingController.appendPage(success.regions!, nextPageKey);
       }
-    }, (r) {
-      pagingController.error = r.getMessage();
+    }, (error) {
+      pagingController.error = error.getMessage();
       refreshController.refreshFailed();
     });
   }

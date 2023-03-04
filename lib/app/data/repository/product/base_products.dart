@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/store_post_search_req.dart';
@@ -7,7 +7,7 @@ import '../../models/res/products.dart';
 import '../../models/store/product.dart';
 
 abstract class BaseProducts {
-  Future<Either<UserProductsListRes, Failure>> retrieveAll(
+  Future<Result<UserProductsListRes, Failure>> retrieveAll(
       {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders});
 
   Future<UserProductsRes?> retrieve(String id,
@@ -18,13 +18,13 @@ abstract class BaseProducts {
 
   Future<UserPostSearchRes?> search({StorePostSearchReq? req, Map<String, dynamic>? customHeaders});
 
-  Future<Either<Product, Failure>> add(
+  Future<Result<Product, Failure>> add(
       {required UserPostProductReq userPostProductReq, Map<String, dynamic>? customHeaders});
 
-  Future<Either<UserDeleteProductRes, Failure>> delete(
+  Future<Result<UserDeleteProductRes, Failure>> delete(
       {required String id, Map<String, dynamic>? customHeaders});
 
-  Future<Either<UserUpdateProductRes, Failure>> update(
+  Future<Result<UserUpdateProductRes, Failure>> update(
       {required Product product, Map<String, dynamic>? customHeaders});
 
 }

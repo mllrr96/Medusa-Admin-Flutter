@@ -30,28 +30,32 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
   Future<void> loadCollection() async {
     change(null, status: RxStatus.loading());
     final result = await collectionRepo.retrieve(id: id, queryParameters: {'expand': 'products'});
-    result.fold((l) {
-      if (l.collection != null) {
-        change(l.collection!, status: RxStatus.success());
+    result.when((success) {
+      if (success.collection != null) {
+        change(success.collection!, status: RxStatus.success());
       } else {
         change(null, status: RxStatus.error('Error loading collection'));
       }
-    }, (r) {
+    }, (error) {
       change(null, status: RxStatus.error('Error loading collection'));
-      debugPrint(r.toString());
+      debugPrint(error.toString());
     });
   }
 
   Future<void> deleteCollection() async {
     loading();
     final result = await collectionRepo.delete(id: id);
-    result.fold((l) {
-      EasyLoading.showSuccess('Collection deleted');
-      Get.back();
-      CollectionsController.instance.pagingController.refresh();
-    }, (r) {
+    result.when((success) {
+      if(success.deleted!=null && success.deleted!){
+        EasyLoading.showSuccess('Collection deleted');
+        Get.back();
+        CollectionsController.instance.pagingController.refresh();
+      }else {
+        EasyLoading.showError('Error deleting collection');
+      }
+    }, (error) {
       EasyLoading.showError('Error deleting collection');
-      debugPrint(r.toString());
+      debugPrint(error.toString());
     });
   }
 
@@ -59,13 +63,14 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     loading();
     final result = await collectionRepo.removeProducts(
         userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(collectionId: id, productsIds: [productId]));
-    result.fold((l) async {
+
+    result.when((success) async {
       EasyLoading.showSuccess('Product removed');
       await loadCollection();
       CollectionsController.instance.pagingController.refresh();
-    }, (r) {
+    }, (error) {
       EasyLoading.showError('Error removing product');
-      debugPrint(r.toString());
+      debugPrint(error.toString());
     });
   }
 }

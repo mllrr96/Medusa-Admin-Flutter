@@ -65,11 +65,11 @@ class AddUpdateProductController extends GetxController {
 
     loading();
     final result = await productsRepo.add(userPostProductReq: UserPostProductReq(product: product));
-    result.fold((l) {
+    result.when((success) {
       EasyLoading.showSuccess('New product Added');
       Get.back(result: true);
-    }, (r) {
-      print(r.error);
+    }, (error) {
+      debugPrint(error.error);
       EasyLoading.showError('Error adding product');
     });
   }
@@ -113,14 +113,12 @@ class AddUpdateProductController extends GetxController {
     FocusScope.of(context).unfocus();
     loading();
     final result = await productsRepo.update(product: updatedProduct);
-    print(product.id!);
-    result.fold((l) {
-      Get.back(result: l.product!);
-      print(l.product!.id);
+    result.when((success) {
+      Get.back(result: success.product!);
       EasyLoading.showSuccess('Product Updated');
-    }, (failure) {
+    }, (error) {
       EasyLoading.showError('Error updating product');
-      debugPrint(failure.getMessage());
+      debugPrint(error.getMessage());
     });
   }
 

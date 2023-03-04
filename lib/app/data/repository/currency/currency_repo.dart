@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/currency/base_currency.dart';
 
@@ -11,7 +11,7 @@ class CurrencyRepo extends BaseCurrency {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
-  Future<Either<UserCurrencyRes, Failure>> retrieve(
+  Future<Result<UserCurrencyRes, Failure>> retrieve(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -22,12 +22,12 @@ class CurrencyRepo extends BaseCurrency {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCurrencyRes.fromJson(response.data));
+        return Success(UserCurrencyRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 }

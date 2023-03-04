@@ -48,24 +48,20 @@ class CreateUpdateReturnReasonController extends GetxController {
           id: returnReason!.id!,
           userUpdateReturnReasonReq: UserUpdateReturnReasonReq(
               label: labelCtrl.text, value: valueCtrl.text, description: descriptionCtrl.text));
-      result.fold((l) {
+      result.when((success) {
         EasyLoading.showSuccess('Updated');
         Get.back(result: true);
-      }, (r) {
-        EasyLoading.showError('Error updating');
-      });
+      }, (error) => EasyLoading.showError('Error updating'));
     } else {
       final result = await returnReasonRepo.create(
           userCreateReturnReasonReq: UserCreateReturnReasonReq(
               label: labelCtrl.text,
               value: valueCtrl.text,
               description: descriptionCtrl.text.removeAllWhitespace.isEmpty ? null : descriptionCtrl.text));
-      result.fold((l) {
+      result.when((success) {
         EasyLoading.showSuccess('Updated');
         Get.back(result: true);
-      }, (r) {
-        EasyLoading.showError('Error updating');
-      });
+      }, (error) => EasyLoading.showError('Error updating'));
     }
   }
 }

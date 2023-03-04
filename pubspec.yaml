@@ -43,12 +43,13 @@ dependencies:
 
   google_fonts: ^4.0.3
   dio: ^5.0.1
-  dartz: ^0.10.1
+#  dartz: ^0.10.1
 
   flutter: 
     sdk: flutter
   flutter_adaptive_scaffold: ^0.1.0
   custom_refresh_indicator: ^2.0.1
+  multiple_result: ^4.0.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.1

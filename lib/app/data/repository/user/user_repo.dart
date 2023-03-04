@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_create_user_req.dart';
@@ -14,7 +14,7 @@ class UserRepo extends BaseUser {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
-  Future<Either<UserCreateUserRes, Failure>> create({
+  Future<Result<UserCreateUserRes, Failure>> create({
     required UserCreateUserReq userCreateUserReq,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -27,18 +27,18 @@ class UserRepo extends BaseUser {
         data: userCreateUserReq.toJson(),
       );
       if (response.statusCode == 200) {
-        return Left(UserCreateUserRes.fromJson(response.data));
+        return Success(UserCreateUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserDeleteUserRes, Failure>> delete({
+  Future<Result<UserDeleteUserRes, Failure>> delete({
     required String id,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -50,18 +50,18 @@ class UserRepo extends BaseUser {
         '/users/$id',
       );
       if (response.statusCode == 200) {
-        return Left(UserDeleteUserRes.fromJson(response.data));
+        return Success(UserDeleteUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<bool, Failure>> requestPasswordReset({
+  Future<Result<bool, Failure>> requestPasswordReset({
     required String email,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -74,18 +74,18 @@ class UserRepo extends BaseUser {
         data: {'email': email},
       );
       if (response.statusCode == 200) {
-        return const Left(true);
+        return const Success(true);
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserResetPasswordRes, Failure>> resetPassword({
+  Future<Result<UserResetPasswordRes, Failure>> resetPassword({
     required UserResetPasswordReq userResetPasswordReq,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -98,18 +98,18 @@ class UserRepo extends BaseUser {
         data: userResetPasswordReq.toJson(),
       );
       if (response.statusCode == 200) {
-        return Left(UserResetPasswordRes.fromJson(response.data));
+        return Success(UserResetPasswordRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserRetrieveUserRes, Failure>> retrieve({
+  Future<Result<UserRetrieveUserRes, Failure>> retrieve({
     required String id,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -121,18 +121,18 @@ class UserRepo extends BaseUser {
         uri: '/users/$id',
       );
       if (response.statusCode == 200) {
-        return Left(UserRetrieveUserRes.fromJson(response.data));
+        return Success(UserRetrieveUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserRetrieveUserListRes, Failure>> retrieveAll(
+  Future<Result<UserRetrieveUserListRes, Failure>> retrieveAll(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -143,18 +143,18 @@ class UserRepo extends BaseUser {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserRetrieveUserListRes.fromJson(response.data));
+        return Success(UserRetrieveUserListRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserUpdateUserRes, Failure>> update({
+  Future<Result<UserUpdateUserRes, Failure>> update({
     required String id,
     required UserUpdateUserReq userUpdateUserReq,
     Map<String, dynamic>? customHeaders,
@@ -168,13 +168,13 @@ class UserRepo extends BaseUser {
         data: userUpdateUserReq.toJson(),
       );
       if (response.statusCode == 200) {
-        return Left(UserUpdateUserRes.fromJson(response.data));
+        return Success(UserUpdateUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 }

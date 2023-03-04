@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_create_region_req.dart';
@@ -14,7 +14,7 @@ class RegionsRepo extends BaseRegions {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
-  Future<Either<UserRegionsRes, Failure>> retrieveAll(
+  Future<Result<UserRegionsRes, Failure>> retrieveAll(
       {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -22,18 +22,18 @@ class RegionsRepo extends BaseRegions {
       }
       final response = await _dataProvider.get(uri: '/regions', queryParameters: queryParams);
       if (response.statusCode == 200) {
-        return left(UserRegionsRes.fromJson(response.data));
+        return Success(UserRegionsRes.fromJson(response.data));
       } else {
-        return right(Failure(error: response));
+        return Error(Failure(error: response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return right(Failure(error: error));
+      return Error(Failure(error: error));
     }
   }
 
   @override
-  Future<Either<UserRegionRes, Failure>> retrieve(
+  Future<Result<UserRegionRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -41,18 +41,18 @@ class RegionsRepo extends BaseRegions {
       }
       final response = await _dataProvider.get(uri: '/regions/$id', queryParameters: queryParams);
       if (response.statusCode == 200) {
-        return left(UserRegionRes.fromJson(response.data));
+        return Success(UserRegionRes.fromJson(response.data));
       } else {
-        return right(Failure(error: response));
+        return Error(Failure(error: response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return right(Failure(error: error));
+      return Error(Failure(error: error));
     }
   }
 
   @override
-  Future<Either<UserRegionRes, Failure>> create(
+  Future<Result<UserRegionRes, Failure>> create(
       {required UserCreateRegionReq userCreateRegionReq,
       Map<String, dynamic>? queryParams,
       Map<String, dynamic>? customHeaders}) async {
@@ -63,13 +63,13 @@ class RegionsRepo extends BaseRegions {
       final response =
           await _dataProvider.post(uri: '/regions', data: userCreateRegionReq.toJson(), queryParameters: queryParams);
       if (response.statusCode == 200) {
-        return left(UserRegionRes.fromJson(response.data));
+        return Success(UserRegionRes.fromJson(response.data));
       } else {
-        return right(Failure(error: response));
+        return Error(Failure(error: response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return right(Failure(error: error));
+      return Error(Failure(error: error));
     }
   }
 }

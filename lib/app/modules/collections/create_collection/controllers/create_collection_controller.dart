@@ -50,13 +50,13 @@ class CreateCollectionController extends GetxController {
     final result = await collectionRepo.create(
         userCreateCollectionReq: UserCreateCollectionReq(
             title: titleCtrl.text, handle: handleCtrl.text.removeAllWhitespace.isEmpty ? null : handleCtrl.text));
-    result.fold((l) {
+    result.when((success) {
       EasyLoading.showSuccess('Collection Created');
       CollectionsController.instance.pagingController.refresh();
       Get.back();
-    }, (r) {
+    }, (error) {
       EasyLoading.showError('Error creating collection');
-      debugPrint(r.toString());
+      debugPrint(error.toString());
     });
   }
 
@@ -76,13 +76,13 @@ class CreateCollectionController extends GetxController {
         id: collection!.id!,
         userCreateCollectionReq: UserCreateCollectionReq(
             title: titleCtrl.text, handle: handleCtrl.text.removeAllWhitespace.isEmpty ? null : handleCtrl.text));
-    result.fold((l) {
+    result.when((success) {
       EasyLoading.showSuccess('Collection updated');
       CollectionsController.instance.pagingController.refresh();
       Get.back(result: true);
-    }, (r) {
+    }, (error) {
       EasyLoading.showError('Error updating collection');
-      debugPrint(r.toString());
+      debugPrint(error.toString());
     });
   }
 }

@@ -59,11 +59,11 @@ class StoreDetailsController extends GetxController {
             name: storeCtrl.text,
             swapLinkTemplate: swapLinkCtrl.text.removeAllWhitespace.isEmpty ? null : swapLinkCtrl.text,
             inviteLinkTemplate: inviteLinkCtrl.text.removeAllWhitespace.isEmpty ? null : inviteLinkCtrl.text));
-    result.fold((l) {
-      StoreService.instance.updateStore(l.store);
+    result.when((success) {
+      StoreService.instance.updateStore(success.store);
       EasyLoading.showSuccess('Store details updated').then((value) => Get.back());
-    }, (r) {
-      debugPrint(r.getMessage());
+    }, (error)  {
+      debugPrint(error.getMessage());
       EasyLoading.showError('Error updating store details');
     });
     dismissLoading();

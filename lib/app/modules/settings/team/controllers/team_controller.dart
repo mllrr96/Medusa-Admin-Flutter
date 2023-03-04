@@ -26,15 +26,13 @@ class TeamController extends GetxController with StateMixin<List<User>> {
   Future<void> loadUser() async {
     change(null, status: RxStatus.loading());
     final result = await userRepo.retrieveAll();
-    result.fold((l) {
-      if (l.userList != null) {
-        membersCount.value = l.userList!.length;
-        change(l.userList!, status: RxStatus.success());
+    result.when((success) {
+      if (success.userList != null) {
+        membersCount.value = success.userList!.length;
+        change(success.userList!, status: RxStatus.success());
       } else {
         change(null, status: RxStatus.error());
       }
-    }, (r) {
-      change(null, status: RxStatus.error(r.getMessage()));
-    });
+    }, (error) => change(null, status: RxStatus.error(error.getMessage())));
   }
 }

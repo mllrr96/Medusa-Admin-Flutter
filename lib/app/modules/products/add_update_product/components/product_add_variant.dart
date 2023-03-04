@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -56,7 +55,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
             appBar: AppBar(
               title: Text(controller.editMode ? 'Update Attributes' : 'Create Variant'),
               actions: [
-                  AdaptiveButton(onPressed: () async => await controller.save(), child: const Text('Save')),
+                AdaptiveButton(onPressed: () async => await controller.save(), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -456,10 +455,10 @@ class ProductAddVariantController extends GetxController {
         hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
         originCountry: countryOfOriginCtrl.text.removeAllWhitespace.isEmpty ? null : countryOfOriginCtrl.text,
       ));
-      result.fold((l) {
+      result.when((success) {
         EasyLoading.showSuccess('Attributes updated');
         Get.back(result: true);
-      }, (r) => EasyLoading.showError('Error updating attributes'));
+      }, (error) => EasyLoading.showError('Error updating attributes'));
     } else {
       if (!formKey.currentState!.validate()) {
         return;

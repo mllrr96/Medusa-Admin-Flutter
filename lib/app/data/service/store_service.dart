@@ -18,10 +18,7 @@ class StoreService extends GetxService {
   Future<void> loadStore() async {
     try {
       final result = await storeRepo.retrieve(queryParameters: {'expand': 'currencies,default_sales_channel'});
-      result.fold((l) => _store = l.store, (r) {
-        // Show Error loading store
-        debugPrint(r.getMessage());
-      });
+      result.when((success) =>  _store = success.store, (error) => debugPrint(error.getMessage()));
     } catch (e) {
       debugPrint(e.toString());
       // Show Error loading store

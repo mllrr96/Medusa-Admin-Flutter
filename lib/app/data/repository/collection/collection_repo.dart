@@ -1,10 +1,11 @@
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_create_collection_req.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_collection_remove_products_req.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_collection_update_products_req.dart';
 import 'package:medusa_admin/app/data/models/res/collection.dart';
+import 'package:multiple_result/multiple_result.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../service/storage_service.dart';
 import 'base_collection.dart';
@@ -13,7 +14,7 @@ class CollectionRepo extends BaseCollection {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
-  Future<Either<UserCollectionRes, Failure>> retrieve(
+  Future<Result<UserCollectionRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -24,17 +25,17 @@ class CollectionRepo extends BaseCollection {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCollectionRes.fromJson(response.data));
+        return Success(UserCollectionRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserCollectionsRes, Failure>> retrieveAll(
+  Future<Result<UserCollectionsRes, Failure>> retrieveAll(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -45,17 +46,17 @@ class CollectionRepo extends BaseCollection {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCollectionsRes.fromJson(response.data));
+        return Success(UserCollectionsRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserCreateCollectionRes, Failure>> create(
+  Future<Result<UserCreateCollectionRes, Failure>> create(
       {required UserCreateCollectionReq userCreateCollectionReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters}) async {
@@ -69,17 +70,17 @@ class CollectionRepo extends BaseCollection {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCreateCollectionRes.fromJson(response.data));
+        return Success(UserCreateCollectionRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserCreateCollectionRes, Failure>> update(
+  Future<Result<UserCreateCollectionRes, Failure>> update(
       {required String id,
       required UserCreateCollectionReq userCreateCollectionReq,
       Map<String, dynamic>? customHeaders,
@@ -94,17 +95,17 @@ class CollectionRepo extends BaseCollection {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCreateCollectionRes.fromJson(response.data));
+        return Success(UserCreateCollectionRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserCollectionUpdateProductsRes, Failure>> updateProducts(
+  Future<Result<UserCollectionUpdateProductsRes, Failure>> updateProducts(
       {required UserCollectionUpdateProductsReq userCollectionUpdateProductsReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters}) async {
@@ -118,17 +119,17 @@ class CollectionRepo extends BaseCollection {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCollectionUpdateProductsRes.fromJson(response.data));
+        return Success(UserCollectionUpdateProductsRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserCollectionRemoveProductsRes, Failure>> removeProducts(
+  Future<Result<UserCollectionRemoveProductsRes, Failure>> removeProducts(
       {required UserCollectionRemoveProductsReq userCollectionRemoveProductsReq,
       Map<String, dynamic>? customHeaders,
       Map<String, dynamic>? queryParameters}) async {
@@ -142,17 +143,17 @@ class CollectionRepo extends BaseCollection {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Left(UserCollectionRemoveProductsRes.fromJson(response.data));
+        return Success(UserCollectionRemoveProductsRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserDeleteCollectionRes, Failure>> delete(
+  Future<Result<UserDeleteCollectionRes, Failure>> delete(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -160,12 +161,12 @@ class CollectionRepo extends BaseCollection {
     try {
       final response = await _dataProvider.delete('/collections/$id');
       if (response.statusCode == 200) {
-        return Left(UserDeleteCollectionRes.fromJson(response.data));
+        return Success(UserDeleteCollectionRes.fromJson(response.data));
       } else {
-        return right(Failure(error: ''));
+        return Error(Failure(error: ''));
       }
     } catch (e) {
-      return right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 }

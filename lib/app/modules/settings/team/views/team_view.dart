@@ -10,10 +10,10 @@ import '../controllers/team_controller.dart';
 
 class TeamView extends GetView<TeamController> {
   const TeamView({Key? key}) : super(key: key);
-  static const kDuration = Duration(milliseconds: 200);
 
   @override
   Widget build(BuildContext context) {
+    const kDuration = Duration(milliseconds: 200);
     return Scaffold(
       appBar: AppBar(
         title: const Text('The Team'),

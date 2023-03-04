@@ -39,11 +39,6 @@ class CurrenciesController extends GetxController {
     super.onClose();
   }
 
-  Future<void> loadAllCurrencies() async {
-    final result = await currencyRepo.retrieve();
-    result.fold((l) => l.currencies, (r) => debugPrint(r.getMessage()));
-  }
-
   Future<void> updateStore() async {
     List<String> currenciesIsoCode = [];
     for (var currency in currencies) {
@@ -58,11 +53,11 @@ class CurrenciesController extends GetxController {
     loading();
     final result = await storeRepo.update(
         storePostReq: StorePostReq(defaultCurrencyCode: defaultStoreCurrency.code!, currencies: currenciesIsoCode));
-    result.fold((l) async {
+    result.when((success) async {
       await StoreService.instance.loadStore();
       EasyLoading.showSuccess('Currencies updated').then((value) => Get.back());
-    }, (r) {
-      debugPrint(r.getMessage());
+    }, (error) {
+      debugPrint(error.getMessage());
       EasyLoading.showError('Error updating currencies');
     });
   }

@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:dartz/dartz.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
@@ -13,7 +13,7 @@ class ReturnReasonRepo extends BaseReturnReason {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
   static const String _returnReasons = '/return-reasons';
   @override
-  Future<Either<UserCreateReturnReasonRes, Failure>> create({
+  Future<Result<UserCreateReturnReasonRes, Failure>> create({
     required UserCreateReturnReasonReq userCreateReturnReasonReq,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -26,18 +26,18 @@ class ReturnReasonRepo extends BaseReturnReason {
         data: userCreateReturnReasonReq.toJson(),
       );
       if (response.statusCode == 200) {
-        return Left(UserCreateReturnReasonRes.fromJson(response.data));
+        return Success(UserCreateReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserDeleteReturnReasonRes, Failure>> delete({
+  Future<Result<UserDeleteReturnReasonRes, Failure>> delete({
     required String id,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -47,18 +47,18 @@ class ReturnReasonRepo extends BaseReturnReason {
     try {
       final response = await _dataProvider.delete('$_returnReasons/$id');
       if (response.statusCode == 200) {
-        return Left(UserDeleteReturnReasonRes.fromJson(response.data));
+        return Success(UserDeleteReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserRetrieveReturnReasonRes, Failure>> retrieve({
+  Future<Result<UserRetrieveReturnReasonRes, Failure>> retrieve({
     required String id,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
@@ -72,18 +72,18 @@ class ReturnReasonRepo extends BaseReturnReason {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return Left(UserRetrieveReturnReasonRes.fromJson(response.data));
+        return Success(UserRetrieveReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserRetrieveAllReturnReasonRes, Failure>> retrieveAll({
+  Future<Result<UserRetrieveAllReturnReasonRes, Failure>> retrieveAll({
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -96,18 +96,18 @@ class ReturnReasonRepo extends BaseReturnReason {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return Left(UserRetrieveAllReturnReasonRes.fromJson(response.data));
+        return Success(UserRetrieveAllReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 
   @override
-  Future<Either<UserUpdateReturnReasonRes, Failure>> update({
+  Future<Result<UserUpdateReturnReasonRes, Failure>> update({
     required String id,
     required UserUpdateReturnReasonReq userUpdateReturnReasonReq,
     Map<String, dynamic>? queryParams,
@@ -123,13 +123,13 @@ class ReturnReasonRepo extends BaseReturnReason {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return Left(UserUpdateReturnReasonRes.fromJson(response.data));
+        return Success(UserUpdateReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Right(Failure(error: response.statusMessage));
+        return Error(Failure(error: response.statusMessage));
       }
     } catch (e) {
-      return Right(Failure(error: e));
+      return Error(Failure(error: e));
     }
   }
 }

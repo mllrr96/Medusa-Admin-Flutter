@@ -50,13 +50,12 @@ class SignInController extends GetxController {
     final result =
         await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
 
-    result.fold((l) async {
+    result.when((success) async {
       await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
       Get.offAllNamed(Routes.DASHBOARD);
-
       dismissLoading();
-    }, (r) {
-      errorMessage.value = 'Error singing in, ${r.getMessage()}';
+    }, (error) {
+      errorMessage.value = error.getMessage();
       dismissLoading();
     });
   }

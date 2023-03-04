@@ -57,13 +57,14 @@ class AddRegionController extends GetxController {
         countries: countriesIso,
       ),
     );
-    result.fold((l) {
-      if (l.region != null) {
+
+    result.when((success) {
+      if (success.region != null) {
         EasyLoading.showSuccess('Region added');
         Get.back();
       } else {
         EasyLoading.showError('Error adding region');
       }
-    }, (r) => EasyLoading.showError('Error adding region'));
+    }, (error) => EasyLoading.showError('Error adding region'));
   }
 }

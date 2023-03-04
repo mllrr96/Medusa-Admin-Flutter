@@ -40,13 +40,13 @@ class PersonalInformationController extends GetxController with StateMixin<User>
     if (authResponse != null && authResponse.user != null) {
       _id = authResponse.user!.id!;
       final result = await userRepo.retrieve(id: authResponse.user!.id!);
-      result.fold((l) {
-        if (l.user != null) {
-          change(l.user!, status: RxStatus.success());
+      result.when((success) {
+        if (success.user != null) {
+          change(success.user!, status: RxStatus.success());
         } else {
           change(null, status: RxStatus.error('Error loading user'));
         }
-      }, (r) => change(null, status: RxStatus.error(r.getMessage())));
+      }, (error) => change(null, status: RxStatus.error(error.getMessage())));
     } else {
       change(null, status: RxStatus.error('Error loading user'));
     }
@@ -56,9 +56,9 @@ class PersonalInformationController extends GetxController with StateMixin<User>
     loading();
     final result = await userRepo.update(
         id: _id, userUpdateUserReq: UserUpdateUserReq(firstName: firstNameCtrl.text, lastName: lastNameCtrl.text));
-    result.fold((l) async {
+    result.when((success) async {
       EasyLoading.showSuccess('Updated');
       await loadUser();
-    }, (r) => EasyLoading.showError(r.getMessage()));
+    }, (error) => EasyLoading.showError(error.getMessage()));
   }
 }
