@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
+import 'package:medusa_admin/app/modules/orders/components/payment_status_label.dart';
 
 import '../../../../data/models/store/order.dart';
 import '../components/order_status_label.dart';
@@ -25,7 +26,8 @@ class OrderDetailsView extends StatelessWidget {
             title: const Text('Order Details'),
             centerTitle: true,
           ),
-          bottomNavigationBar: controller.state != null && controller.state!.status != OrderStatus.canceled
+          bottomNavigationBar: controller.state != null &&
+                  controller.state!.status != OrderStatus.canceled
               ? BottomNavigationBarButton(
                   onPress: controller.state != null
                       ? () async {
@@ -54,7 +56,8 @@ class OrderDetailsView extends StatelessWidget {
           body: SafeArea(
             child: controller.obx(
               (order) => ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                 children: [
                   buildOrderOverview(context, order!),
                   space,
@@ -62,23 +65,44 @@ class OrderDetailsView extends StatelessWidget {
                   space,
                   buildPaymentExpansionTile(order, context),
                   space,
-                  ExpansionTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: const Text('Fulfillment'),
-                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  Theme(
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
+                    child: ClipRRect(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0)),
+                      child: ExpansionTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: const Text('Fulfillment'),
+                        trailing: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.more_horiz)),
+                      ),
+                    ),
                   ),
                   space,
                   buildCustomerExpansionTile(order, context),
                   space,
-                  ExpansionTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: const Text('Timeline'),
-                    trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                  Theme(
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
+                    child: ClipRRect(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0)),
+                      child: ExpansionTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: const Text('Timeline'),
+                        trailing: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.more_horiz)),
+                      ),
+                    ),
                   ),
                 ],
               ),
               onEmpty: const Center(child: Text('No order details found')),
-              onError: (e) => const Center(child: Text('Error loading order details')),
+              onError: (e) =>
+                  const Center(child: Text('Error loading order details')),
               onLoading: const Center(
                 child: CircularProgressIndicator.adaptive(),
               ),
@@ -89,116 +113,130 @@ class OrderDetailsView extends StatelessWidget {
     );
   }
 
-  ExpansionTile buildCustomerExpansionTile(Order order, BuildContext context) {
+  Widget buildCustomerExpansionTile(Order order, BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    return ExpansionTile(
-      controlAffinity: ListTileControlAffinity.leading,
-      title: const Text('Customer'),
-      trailing: IconButton(
-          onPressed: () async {
-            await showModalActionSheet(context: context, actions: <SheetAction>[
-              const SheetAction(label: 'Go to Customer', icon: Icons.person),
-              const SheetAction(label: 'Transfer Ownership'),
-              const SheetAction(label: 'Edit Shipping Address'),
-              const SheetAction(label: 'Edit Billing Address'),
-              const SheetAction(label: 'Edit Email Address'),
-            ]);
-          },
-          icon: const Icon(Icons.more_horiz)),
-      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        child: ExpansionTile(
+          controlAffinity: ListTileControlAffinity.leading,
+          title: const Text('Customer'),
+          trailing: IconButton(
+              onPressed: () async {
+                await showModalActionSheet(
+                    context: context,
+                    actions: <SheetAction>[
+                      const SheetAction(
+                          label: 'Go to Customer', icon: Icons.person),
+                      const SheetAction(label: 'Transfer Ownership'),
+                      const SheetAction(label: 'Edit Shipping Address'),
+                      const SheetAction(label: 'Edit Billing Address'),
+                      const SheetAction(label: 'Edit Email Address'),
+                    ]);
+              },
+              icon: const Icon(Icons.more_horiz)),
+          childrenPadding:
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  CircleAvatar(child: Text(order.email![0])),
-                  const SizedBox(width: 14.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${order.shippingAddress?.firstName ?? ''} ${order.shippingAddress?.lastName ?? ''}',
-                            style: mediumTextStyle),
-                        Text(
-                            '${order.shippingAddress?.province ?? ''}, ${order.shippingAddress?.countryCode?.toUpperCase() ?? ''}',
-                            style: mediumTextStyle)
-                      ],
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      CircleAvatar(child: Text(order.email![0])),
+                      const SizedBox(width: 14.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                '${order.shippingAddress?.firstName ?? ''} ${order.shippingAddress?.lastName ?? ''}',
+                                style: mediumTextStyle),
+                            Text(
+                                '${order.shippingAddress?.province ?? ''}, ${order.shippingAddress?.countryCode?.toUpperCase() ?? ''}',
+                                style: mediumTextStyle)
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(order.email!,
+                          style: Theme.of(context).textTheme.titleMedium),
+                      if (order.billingAddress != null &&
+                          order.billingAddress!.phone != null)
+                        Text(order.billingAddress!.phone.toString(),
+                            style: Theme.of(context).textTheme.titleMedium),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 12.0),
+            IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
-                  if (order.billingAddress != null && order.billingAddress!.phone != null)
-                    Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Shipping', style: mediumTextStyle),
+                      const SizedBox(height: 5.0),
+                      Text(
+                          '${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      Text(
+                          '${order.shippingAddress?.postalCode ?? ''} ${order.shippingAddress?.province ?? ''} ${order.shippingAddress?.countryCode ?? ''}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ],
+                  ),
+                  const VerticalDivider(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Billing', style: mediumTextStyle),
+                      const SizedBox(height: 5.0),
+                      Text(
+                          '${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      Text(
+                          '${order.billingAddress?.postalCode ?? ''} ${order.billingAddress?.province ?? ''} ${order.billingAddress?.countryCode ?? ''}',
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ],
+                  ),
                 ],
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12.0),
-        IntrinsicHeight(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Shipping', style: mediumTextStyle),
-                  const SizedBox(height: 5.0),
-                  Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
-                  Text(
-                      '${order.shippingAddress?.postalCode ?? ''} ${order.shippingAddress?.province ?? ''} ${order.shippingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
-                ],
-              ),
-              const VerticalDivider(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Billing', style: mediumTextStyle),
-                  const SizedBox(height: 5.0),
-                  Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
-                  Text(
-                      '${order.billingAddress?.postalCode ?? ''} ${order.billingAddress?.province ?? ''} ${order.billingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  ExpansionTile buildPaymentExpansionTile(Order order, BuildContext context) {
+  Widget buildPaymentExpansionTile(Order order, BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    return ExpansionTile(
-      controlAffinity: ListTileControlAffinity.leading,
-      title: const Text('Payment'),
-      trailing: AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
-      // : CupertinoButton(
-      //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
-      childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      children: [
-        const Divider(height: 0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    const halfSpace = SizedBox(height: 6.0);
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        child: ExpansionTile(
+          controlAffinity: ListTileControlAffinity.leading,
+          title: const Text('Payment'),
+          trailing:
+              AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
+          // : CupertinoButton(
+          //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
+          childrenPadding:
+              const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(order.paymentStatus.name.capitalize!, style: mediumTextStyle),
-              ],
-            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -206,27 +244,48 @@ class OrderDetailsView extends StatelessWidget {
                   order.payments!.first.id!,
                   style: mediumTextStyle,
                 ),
-                if (order.payments != null && order.payments!.isNotEmpty && order.payments!.first.capturedAt != null)
-                  Text(
-                      'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
-                      style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54))
+                halfSpace,
+                if (order.payments != null &&
+                    order.payments!.isNotEmpty &&
+                    order.payments!.first.capturedAt != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                            'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
+                            style: mediumTextStyle!.copyWith(
+                                color: Get.isDarkMode
+                                    ? Colors.white54
+                                    : Colors.black54)),
+                      ),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: PaymentStatusLabel(
+                              paymentStatus: order.paymentStatus)),
+                    ],
+                  )
               ],
             ),
-            const SizedBox(height: 12.0),
+            // space,
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Total', style: mediumTextStyle!.copyWith(fontSize: 20)),
-                Text(order.payments!.first.amount!.toString(), style: mediumTextStyle.copyWith(fontSize: 20))
+                Text(order.payments!.first.amount!.toString(),
+                    style: mediumTextStyle.copyWith(fontSize: 20))
               ],
-            )
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 
   Container buildOrderOverview(BuildContext context, Order? order) {
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -243,8 +302,11 @@ class OrderDetailsView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('#${order!.displayId!}', style: Theme.of(context).textTheme.titleLarge),
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
+                      Text('#${order!.displayId!}',
+                          style: Theme.of(context).textTheme.titleLarge),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
                   if (order.cart != null && order.cart!.completedAt != null)
@@ -254,7 +316,14 @@ class OrderDetailsView extends StatelessWidget {
                     )
                 ],
               ),
-              OrderStatusLabel(orderStatus: order.status),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Order Status', style: smallTextStyle!.copyWith(color: lightWhite)),
+                  const SizedBox(height: 6.0),
+                  OrderStatusLabel(orderStatus: order.status),
+                ],
+              ),
             ],
           ),
           const Divider(),
@@ -265,17 +334,25 @@ class OrderDetailsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
-                    if (order.billingAddress != null && order.billingAddress!.phone != null)
-                      Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                    Text(order.email!,
+                        style: Theme.of(context).textTheme.titleMedium),
+                    if (order.billingAddress != null &&
+                        order.billingAddress!.phone != null)
+                      Text(order.billingAddress!.phone.toString(),
+                          style: Theme.of(context).textTheme.titleMedium),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('Payment', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
-                  Text('Manual', style: Theme.of(context).textTheme.titleMedium),
+                  Text('Payment',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: Colors.grey)),
+                  Text('Manual',
+                      style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
             ],
@@ -285,105 +362,166 @@ class OrderDetailsView extends StatelessWidget {
     );
   }
 
-  ExpansionTile buildSummeryExpansionTile(Order order, TextStyle mediumTextStyle, BuildContext context) {
+  Widget buildSummeryExpansionTile(
+      Order order, TextStyle mediumTextStyle, BuildContext context) {
     const space = SizedBox(height: 5.0);
-    return ExpansionTile(
-        controlAffinity: ListTileControlAffinity.leading,
-        title: const Text('Summery'),
-        trailing: AdaptiveButton(onPressed: () {}, child: const Text('Edit Order')),
-        // : CupertinoButton(
-        //     padding: EdgeInsets.zero,
-        //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
-        //     onPressed: () {}),
-        childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: order.items!.length,
-              itemBuilder: (context, index) {
-                final item = order.items![index];
-                return ListTile(
-                  leading: SizedBox(height: 50, width: 50, child: CachedNetworkImage(imageUrl: item.thumbnail!)),
-                  title: Text(item.title!),
-                  subtitle: Text(
-                    item.variant?.title ?? '',
-                    style: mediumTextStyle.copyWith(fontSize: 14),
-                  ),
-                  trailing: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        child: ExpansionTile(
+            controlAffinity: ListTileControlAffinity.leading,
+            title: const Text('Summery'),
+            trailing: AdaptiveButton(
+                onPressed: () {}, child: const Text('Edit Order')),
+            // : CupertinoButton(
+            //     padding: EdgeInsets.zero,
+            //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
+            //     onPressed: () {}),
+            childrenPadding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            children: [
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: order.items!.length,
+                  itemBuilder: (context, index) {
+                    final item = order.items![index];
+
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 8.0),
+                      child: Row(
                         children: [
-                          Text(order.currency!.symbol.toString() + item.unitPrice!.toString(), style: mediumTextStyle),
-                          Text(' x ${item.quantity!}', style: mediumTextStyle),
+                          SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: CachedNetworkImage(
+                                  imageUrl: item.thumbnail!)),
+                          const SizedBox(width: 6.0),
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    item.title!,
+                                    style: mediumTextStyle,
+                                  ),
+                                ),
+                                if (item.variant != null)
+                                  const SizedBox(height: 6.0),
+                                Flexible(
+                                  child: Text(
+                                    item.variant?.title ?? '',
+                                    style: smallTextStyle,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                        order.currency!.symbol.toString() +
+                                            item.unitPrice!.toString(),
+                                        style: smallTextStyle),
+                                    Text(' x ${item.quantity!}',
+                                        style: smallTextStyle),
+                                  ],
+                                ),
+                                const Divider(height: 1),
+                                Text(
+                                    order.currency!.symbol.toString() +
+                                        item.total!.toString(),
+                                    style: mediumTextStyle),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                      Text(order.currency!.symbol.toString() + item.total!.toString(), style: mediumTextStyle),
-                    ],
-                  ),
-                );
-              }),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    );
+                  }),
+              Column(
                 children: [
-                  Text('Subtotal', style: mediumTextStyle),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(order.currency!.symbol!, style: mediumTextStyle),
-                      Text(order.subTotal!.toString(), style: mediumTextStyle),
-                      Text(' ${order.currency!.code!.toUpperCase()}', style: mediumTextStyle),
+                      Text('Subtotal', style: mediumTextStyle),
+                      Row(
+                        children: [
+                          Text(order.currency!.symbol!, style: mediumTextStyle),
+                          Text(order.subTotal!.toString(),
+                              style: mediumTextStyle),
+                          Text(' ${order.currency!.code!.toUpperCase()}',
+                              style: mediumTextStyle),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-              space,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Shipping', style: mediumTextStyle),
+                  space,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(order.currency!.symbol!, style: mediumTextStyle),
-                      Text(order.shippingTotal!.toString(), style: mediumTextStyle),
-                      Text(' ${order.currency!.code!.toUpperCase()}', style: mediumTextStyle),
+                      Text('Shipping', style: mediumTextStyle),
+                      Row(
+                        children: [
+                          Text(order.currency!.symbol!, style: mediumTextStyle),
+                          Text(order.shippingTotal!.toString(),
+                              style: mediumTextStyle),
+                          Text(' ${order.currency!.code!.toUpperCase()}',
+                              style: mediumTextStyle),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-              if (order.taxTotal != null && order.taxTotal! != 0) space,
-              if (order.taxTotal != null && order.taxTotal! != 0)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Tax', style: mediumTextStyle),
+                  if (order.taxTotal != null && order.taxTotal! != 0) space,
+                  if (order.taxTotal != null && order.taxTotal! != 0)
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(order.currency!.symbol!, style: mediumTextStyle),
-                        Text(order.taxTotal!.toString(), style: mediumTextStyle),
-                        Text(' ${order.currency!.code!.toUpperCase()}', style: mediumTextStyle),
+                        Text('Tax', style: mediumTextStyle),
+                        Row(
+                          children: [
+                            Text(order.currency!.symbol!,
+                                style: mediumTextStyle),
+                            Text(order.taxTotal!.toString(),
+                                style: mediumTextStyle),
+                            Text(' ${order.currency!.code!.toUpperCase()}',
+                                style: mediumTextStyle),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              space,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total', style: mediumTextStyle.copyWith(fontSize: 25)),
+                  space,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(order.currency!.symbol!, style: mediumTextStyle.copyWith(fontSize: 25)),
-                      Text(order.total!.toString(), style: mediumTextStyle.copyWith(fontSize: 25)),
+                      Text('Total',
+                          style: mediumTextStyle.copyWith(fontSize: 25)),
+                      Row(
+                        children: [
+                          Text(order.currency!.symbol!,
+                              style: mediumTextStyle.copyWith(fontSize: 25)),
+                          Text(order.total!.toString(),
+                              style: mediumTextStyle.copyWith(fontSize: 25)),
+                        ],
+                      ),
                     ],
                   ),
                 ],
-              ),
-            ],
-          )
-        ]);
+              )
+            ]),
+      ),
+    );
   }
 }

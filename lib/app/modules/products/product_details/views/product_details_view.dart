@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/product_details/components/product_details_components.dart';
 
+import '../../../../data/models/store/product.dart';
 import '../controllers/product_details_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
@@ -18,21 +19,29 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         centerTitle: true,
         actions: [
           controller.obx(
-              (state) => Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: Text(controller.state!.status.name.capitalize ?? controller.state!.status.name,
-                        style: smallTextStyle),
+              (product) => AdaptiveButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _getStatusIcon(product!.status),
+                        const SizedBox(width: 4.0),
+                        Text(
+                          product.status.name.capitalize ?? product.status.name,
+                          style: smallTextStyle,
+                        ),
+                      ],
+                    ),
                   ),
-              onLoading: const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              onLoading: const SizedBox.shrink(),
               onError: (e) => const SizedBox.shrink()),
         ],
       ),
       body: SafeArea(
         child: controller.obx(
           (product) => SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
             controller: controller.scrollController,
             child: Column(
               children: [
@@ -43,7 +52,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.variantsKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(expansionTileKey: controller.variantsKey, context: context);
+                      await _scrollToSelectedContent(
+                          expansionTileKey: controller.variantsKey,
+                          context: context);
                     }
                   },
                 ),
@@ -53,7 +64,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.attributesKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(expansionTileKey: controller.attributesKey, context: context);
+                      await _scrollToSelectedContent(
+                          expansionTileKey: controller.attributesKey,
+                          context: context);
                     }
                   },
                   // onExpansionChanged: onExChanged,
@@ -64,7 +77,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.thumbnailKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(expansionTileKey: controller.thumbnailKey, context: context);
+                      await _scrollToSelectedContent(
+                          expansionTileKey: controller.thumbnailKey,
+                          context: context);
                     }
                   },
                   // onExpansionChanged: onExChanged,
@@ -75,7 +90,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.imagesKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(expansionTileKey: controller.imagesKey, context: context);
+                      await _scrollToSelectedContent(
+                          expansionTileKey: controller.imagesKey,
+                          context: context);
                     }
                   },
                 ),
@@ -87,7 +104,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Error loading product'),
-              AdaptiveButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
+              AdaptiveButton(
+                  child: const Text('Retry'),
+                  onPressed: () async => await controller.loadProduct()),
             ],
           )),
           onLoading: const Center(
@@ -98,18 +117,42 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     );
   }
 
-  Future<void> _scrollToSelectedContent({required GlobalKey expansionTileKey, required BuildContext context}) async {
+  Widget _getStatusIcon(ProductStatus status) {
+    switch (status) {
+      case ProductStatus.draft:
+        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+      case ProductStatus.proposed:
+        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+
+      case ProductStatus.published:
+        return const Icon(Icons.circle, color: Colors.green, size: 12);
+
+      case ProductStatus.rejected:
+        return const Icon(Icons.circle, color: Colors.red, size: 12);
+    }
+  }
+
+  Future<void> _scrollToSelectedContent(
+      {required GlobalKey expansionTileKey,
+      required BuildContext context}) async {
     await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
-      final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
+      final box =
+          expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
       final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
       print(yPosition);
-      final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
+      final scrollPoint = controller.scrollController.offset +
+          yPosition -
+          context.mediaQuery.padding.top -
+          56;
       if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
-        await controller.scrollController
-            .animateTo(scrollPoint, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        await controller.scrollController.animateTo(scrollPoint,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn);
       } else {
-        await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        await controller.scrollController.animateTo(
+            controller.scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn);
       }
     });
   }
