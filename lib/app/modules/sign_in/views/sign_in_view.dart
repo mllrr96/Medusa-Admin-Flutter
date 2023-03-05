@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/modules/sign_in/components/sign_in_button.dart';
 import 'package:medusa_admin/app/modules/sign_in/components/sign_in_text_fields.dart';
@@ -46,7 +47,7 @@ class SignInView extends GetView<SignInController> {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: TextButton(
+                  child: AdaptiveButton(
                     child: const Text(
                       'Reset password',
                     ),

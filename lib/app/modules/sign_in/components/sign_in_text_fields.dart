@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
@@ -34,10 +36,26 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             //lock logo here
-            Icon(
-              obscureText ? Icons.lock : Icons.lock_open,
-              color: Get.isDarkMode ? Colors.white70 : Colors.black54,
-            ),
+            // Icon(
+            //   obscureText ? Icons.lock : Icons.lock_open,
+            //   color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+            // ),
+            AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                transitionBuilder: (child, anim) => FadeTransition(
+                      opacity: child.key == const ValueKey('icon1')
+                          ? Tween<double>(begin: 1, end: 1).animate(anim)
+                          : Tween<double>(begin: 1, end: 1).animate(anim),
+                      child: FadeTransition(opacity: anim, child: child),
+                    ),
+                child: obscureText
+                    ? Icon(Icons.lock,
+                        key: const ValueKey('icon1'), color: Get.isDarkMode ? Colors.white70 : Colors.black54)
+                    : Icon(
+                        Icons.lock_open,
+                        color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                        key: const ValueKey('icon2'),
+                      )),
             const SizedBox(
               width: 16,
             ),
@@ -69,7 +87,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                       color: Get.isDarkMode ? Colors.white70 : Colors.black54,
                       fontWeight: FontWeight.w500,
                     ),
-                    suffixIcon: IconButton(
+                    suffixIcon: AdaptiveIcon(
                         onPressed: () {
                           setState(() {
                             obscureText = !obscureText;
@@ -116,7 +134,7 @@ class EmailTextField extends StatelessWidget {
           children: <Widget>[
             //mail icon
             Icon(
-              Icons.mail_rounded,
+              Icons.mail,
               color: Get.isDarkMode ? Colors.white70 : Colors.black54,
             ),
             const SizedBox(

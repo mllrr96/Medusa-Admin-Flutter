@@ -30,28 +30,31 @@ class SelectCountryView extends StatelessWidget {
             bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: GetPlatform.isIOS
-                      ? Row(
-                          children: [
-                            Expanded(
-                                child: CupertinoSearchTextField(
-                              focusNode: controller.searchFocusNode,
-                              controller: controller.searchCtrl,
-                            )),
-                            AnimatedCrossFade(
-                                firstChild: AdaptiveButton(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    onPressed: () {
-                                      controller.searchFocusNode.unfocus();
-                                    },
-                                    child: const Text('Cancel')),
-                                secondChild: const SizedBox(),
-                                crossFadeState: controller.searchFocusNode.hasFocus
-                                    ? CrossFadeState.showFirst
-                                    : CrossFadeState.showSecond,
-                                duration: const Duration(milliseconds: 200))
-                          ],
+                      ? SizedBox(
+                          height: kToolbarHeight,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: CupertinoSearchTextField(
+                                focusNode: controller.searchFocusNode,
+                                controller: controller.searchCtrl,
+                              )),
+                              AnimatedCrossFade(
+                                  firstChild: AdaptiveButton(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      onPressed: () {
+                                        controller.searchFocusNode.unfocus();
+                                      },
+                                      child: const Text('Cancel')),
+                                  secondChild: const SizedBox(),
+                                  crossFadeState: controller.searchFocusNode.hasFocus
+                                      ? CrossFadeState.showFirst
+                                      : CrossFadeState.showSecond,
+                                  duration: const Duration(milliseconds: 200))
+                            ],
+                          ),
                         )
                       : const TextField(
                           decoration: InputDecoration(hintText: 'Search for a country'),
@@ -83,9 +86,9 @@ class SelectCountryView extends StatelessWidget {
                         }
                         // controller.countriesList.sort((a, b) {
                         //   if (controller.selectedCountries.contains(a)) {
-                        //     return 0;
+                        //     return 0 + a.displayName!.compareTo(b.displayName!);
                         //   }
-                        //   return 1;
+                        //   return 1 + a.displayName!.compareTo(b.displayName!);
                         // });
 
                         controller.update();

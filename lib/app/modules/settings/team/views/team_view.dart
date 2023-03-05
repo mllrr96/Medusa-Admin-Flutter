@@ -65,25 +65,28 @@ class TeamView extends GetView<TeamController> {
                         }),
                   ],
                 ),
-                secondChild: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        AdaptiveIcon(
-                            onPressed: () async {
-                              controller.search.value = true;
-                            },
-                            icon: const Icon(CupertinoIcons.search)),
-                        AdaptiveIcon(onPressed: () async {}, icon: const Icon(CupertinoIcons.sort_down)),
-                      ],
-                    ),
-                    if (controller.membersCount.value != 0)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(membersCount, style: Theme.of(context).textTheme.titleSmall),
-                      )
-                  ],
+                secondChild: SizedBox(
+                  height: kToolbarHeight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          AdaptiveIcon(
+                              onPressed: () async {
+                                controller.search.value = true;
+                              },
+                              icon: const Icon(CupertinoIcons.search)),
+                          AdaptiveIcon(onPressed: () async {}, icon: const Icon(CupertinoIcons.sort_down)),
+                        ],
+                      ),
+                      if (controller.membersCount.value != 0)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(membersCount, style: Theme.of(context).textTheme.titleSmall),
+                        )
+                    ],
+                  ),
                 ),
                 crossFadeState: controller.search.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: kDuration,

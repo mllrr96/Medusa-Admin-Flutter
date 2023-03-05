@@ -30,7 +30,7 @@ class CollectionProductsList extends StatelessWidget {
                       : () {
                           controller.save();
                         },
-                  child: Text('Save'))
+                  child: const Text('Save'))
             ],
           ),
           body: SafeArea(
@@ -106,8 +106,8 @@ class CollectionProductsController extends GetxController {
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   List<String> productsIds = [];
   final List<String> originalProductsIds = [];
-  Function eq = const ListEquality().equals;
-  bool get isEqual => eq(productsIds, originalProductsIds);
+  Function eq = const SetEquality().equals;
+  bool get isEqual => eq(productsIds.toSet(), originalProductsIds.toSet());
 
   @override
   void onInit() {

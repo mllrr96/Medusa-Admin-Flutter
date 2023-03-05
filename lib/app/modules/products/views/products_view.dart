@@ -101,32 +101,38 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
               firstChild: Row(
                 children: [
                   // Expanded(child: TextFormField()),
-                  const SizedBox(width: 12.0),
+                  // const SizedBox(width: 12.0),
                   if (GetPlatform.isIOS)
                     Expanded(
-                        child: CupertinoSearchTextField(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: CupertinoSearchTextField(
                       focusNode: searchNode,
                       controller: searchCtrl,
                       placeholder: 'Search for product name, variant title ...',
                       onChanged: (val) {
-                        controller.searchTerm = val;
-                        controller.pagingController.refresh();
+                          controller.searchTerm = val;
+                          controller.pagingController.refresh();
                       },
-                    )),
+                    ),
+                        )),
                   if (GetPlatform.isAndroid)
                     Expanded(
-                        child: TextFormField(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: TextFormField(
                       style: Theme.of(context).textTheme.titleSmall,
                       focusNode: searchNode,
                       controller: searchCtrl,
                       onChanged: (val) {
-                        controller.searchTerm = val;
-                        controller.pagingController.refresh();
+                          controller.searchTerm = val;
+                          controller.pagingController.refresh();
                       },
                       decoration: const InputDecoration(
-                        hintText: 'Search for product name, variant title ...',
+                          hintText: 'Search for product name, variant title ...',
                       ),
-                    )),
+                    ),
+                        )),
                   AdaptiveButton(
                       child: const Text('Cancel'),
                       onPressed: () async {
@@ -143,111 +149,114 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                       }),
                 ],
               ),
-              secondChild: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      AdaptiveIcon(
-                          onPressed: () async {
-                            setState(() {
-                              search = true;
-                            });
-                            await Future.delayed(kDuration);
-                            searchNode.requestFocus();
-                          },
-                          icon: const Icon(CupertinoIcons.search)),
-                      const SizedBox(width: 6.0),
-                      InkWell(
-                        onTap: () {
-                          showBarModalBottomSheet(
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              context: context,
-                              builder: (context) {
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Theme(
-                                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                            child: ClipRRect(
-                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                              child: ExpansionTile(
-                                                title: const Text('Status'),
-                                                childrenPadding: const EdgeInsets.only(left: 20.0),
-                                                children: ProductStatus.values
-                                                    .map((e) => CheckboxListTile(
-                                                        title: Text(e.value), value: false, onChanged: (val) {}))
-                                                    .toList(),
+              secondChild: SizedBox(
+                height: kToolbarHeight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        AdaptiveIcon(
+                            onPressed: () async {
+                              setState(() {
+                                search = true;
+                              });
+                              await Future.delayed(kDuration);
+                              searchNode.requestFocus();
+                            },
+                            icon: const Icon(CupertinoIcons.search)),
+                        const SizedBox(width: 6.0),
+                        InkWell(
+                          onTap: () {
+                            showBarModalBottomSheet(
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                context: context,
+                                builder: (context) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Theme(
+                                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                              child: ClipRRect(
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                child: ExpansionTile(
+                                                  title: const Text('Status'),
+                                                  childrenPadding: const EdgeInsets.only(left: 20.0),
+                                                  children: ProductStatus.values
+                                                      .map((e) => CheckboxListTile(
+                                                          title: Text(e.value), value: false, onChanged: (val) {}))
+                                                      .toList(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 12.0),
-                                          Theme(
-                                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                            child: ClipRRect(
-                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                              child: ExpansionTile(
-                                                title: const Text('Collection'),
-                                                childrenPadding: const EdgeInsets.only(left: 20.0),
-                                                children: ProductStatus.values
-                                                    .map((e) => CheckboxListTile(
-                                                        title: Text(e.value), value: false, onChanged: (val) {}))
-                                                    .toList(),
+                                            const SizedBox(height: 12.0),
+                                            Theme(
+                                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                              child: ClipRRect(
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                child: ExpansionTile(
+                                                  title: const Text('Collection'),
+                                                  childrenPadding: const EdgeInsets.only(left: 20.0),
+                                                  children: ProductStatus.values
+                                                      .map((e) => CheckboxListTile(
+                                                          title: Text(e.value), value: false, onChanged: (val) {}))
+                                                      .toList(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 12.0),
-                                          Theme(
-                                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                            child: ClipRRect(
-                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                              child: ExpansionTile(
-                                                title: const Text('Status'),
-                                                childrenPadding: const EdgeInsets.only(left: 20.0),
-                                                children: ProductStatus.values
-                                                    .map((e) => CheckboxListTile(
-                                                        title: Text(e.value), value: false, onChanged: (val) {}))
-                                                    .toList(),
+                                            const SizedBox(height: 12.0),
+                                            Theme(
+                                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                              child: ClipRRect(
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                child: ExpansionTile(
+                                                  title: const Text('Status'),
+                                                  childrenPadding: const EdgeInsets.only(left: 20.0),
+                                                  children: ProductStatus.values
+                                                      .map((e) => CheckboxListTile(
+                                                          title: Text(e.value), value: false, onChanged: (val) {}))
+                                                      .toList(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              });
-                        },
-                        child: Chip(
-                          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-                          label: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('Filters', style: Theme.of(context).textTheme.titleSmall),
-                              Text(' 0',
-                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
-                            ],
+                                  );
+                                });
+                          },
+                          child: Chip(
+                            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                            label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Filters', style: Theme.of(context).textTheme.titleSmall),
+                                Text(' 0',
+                                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
+                              ],
+                            ),
+                            padding: EdgeInsets.zero,
                           ),
-                          padding: EdgeInsets.zero,
-                        ),
-                      )
-                    ],
-                  ),
-                  Obx(() {
-                    if (controller.productsCount.value == 0) {
-                      return const SizedBox.shrink();
-                    }
-                    return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Text('${controller.productsCount.value} Products',
-                            style: Theme.of(context).textTheme.titleSmall));
-                  }),
-                ],
+                        )
+                      ],
+                    ),
+                    Obx(() {
+                      if (controller.productsCount.value == 0) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text('${controller.productsCount.value} Products',
+                              style: Theme.of(context).textTheme.titleSmall));
+                    }),
+                  ],
+                ),
               ),
               crossFadeState: search ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: kDuration)),
@@ -356,7 +365,7 @@ class ProductsListView extends GetView<ProductsController> {
       onRefresh: () => controller.pagingController.refresh(),
       header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
       child: PagedListView.separated(
-        separatorBuilder: (_, __) => const Divider(height: 0, indent: 15),
+        separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => ListTile(

@@ -110,35 +110,38 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                     }),
               ],
             ),
-            secondChild: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    AdaptiveIcon(
-                        onPressed: () async {
-                          setState(() {
-                            search = true;
-                          });
-                          await Future.delayed(kDuration);
-                          searchNode.requestFocus();
-                        },
-                        icon: const Icon(CupertinoIcons.search)),
-                  ],
-                ),
-                Obx(() {
-                  var orderCount = controller.ordersCount.value == 1
-                      ? '${controller.ordersCount.value} Order'
-                      : '${controller.ordersCount.value} Orders';
+            secondChild: SizedBox(
+              height: kToolbarHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      AdaptiveIcon(
+                          onPressed: () async {
+                            setState(() {
+                              search = true;
+                            });
+                            await Future.delayed(kDuration);
+                            searchNode.requestFocus();
+                          },
+                          icon: const Icon(CupertinoIcons.search)),
+                    ],
+                  ),
+                  Obx(() {
+                    var orderCount = controller.ordersCount.value == 1
+                        ? '${controller.ordersCount.value} Order'
+                        : '${controller.ordersCount.value} Orders';
 
-                  if (controller.ordersCount.value == 0) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(orderCount, style: Theme.of(context).textTheme.titleSmall));
-                }),
-              ],
+                    if (controller.ordersCount.value == 0) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(orderCount, style: Theme.of(context).textTheme.titleSmall));
+                  }),
+                ],
+              ),
             ),
             crossFadeState: search ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             duration: kDuration,

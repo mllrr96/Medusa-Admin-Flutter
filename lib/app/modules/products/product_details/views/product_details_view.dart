@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products/product_details/components/product_details_components.dart';
 
@@ -15,6 +16,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     const space = SizedBox(height: 12.0);
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('Product Details'),
         centerTitle: true,
         actions: [

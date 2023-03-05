@@ -9,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
+import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
 import '../controllers/collection_details_controller.dart';
 
@@ -23,6 +24,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('Collection Details'),
         centerTitle: true,
         actions: [
@@ -62,23 +64,25 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: controller.obx(
             (collection) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              height: kToolbarHeight,
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               // color: Theme.of(context).appBarTheme.backgroundColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(collection!.title ?? '', style: largeTextStyle),
-                      const SizedBox(height: 6.0),
-                      Text('/${collection.handle ?? ''}', style: smallTextStyle),
+                      // const SizedBox(height: 6.0),
+                      Text('/${collection.handle ?? ''}', style: smallTextStyle!.copyWith(color: lightWhite)),
                     ],
                   ),
                   if (collection.products != null && collection.products!.isNotEmpty)
                     AdaptiveButton(
                         onPressed: () async {
-                          final result = await Get.to(const CollectionProductsList(),
+                          final result = await Get.to(() => const CollectionProductsList(),
                               binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
                           if (result != null) {
                             await controller.loadCollection();
@@ -107,7 +111,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   const Text('No products on this collection'),
                   AdaptiveButton(
                       onPressed: () async {
-                        final result = await Get.to(const CollectionProductsList(),
+                        final result = await Get.to(() => const CollectionProductsList(),
                             binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
                         if (result != null) {
                           await controller.loadCollection();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
 import 'package:medusa_admin/app/modules/orders/components/payment_status_label.dart';
@@ -23,6 +24,7 @@ class OrderDetailsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+            leading: const AdaptiveBackButton(),
             title: const Text('Order Details'),
             centerTitle: true,
           ),

@@ -12,15 +12,16 @@ class SelectCountryController extends GetxController {
   var countriesList = countries;
   @override
   void onInit() {
-    countriesList.sort((a,b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
+    countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
     if (Get.arguments != null && Get.arguments is List && (Get.arguments as List).length == 2) {
       multipleSelect = Get.arguments[0];
       selectedCountries = Get.arguments[1];
+      countriesList.sort((a,b)=> a.displayName!.compareTo(b.displayName!));
       // countriesList.sort((a, b) {
       //   if (selectedCountries.contains(a)) {
-      //     return 0;
+      //     return 0 + a.displayName!.compareTo(b.displayName!);
       //   }
-      //   return 1;
+      //   return 1 + a.displayName!.compareTo(b.displayName!);
       // });
     } else {
       multipleSelect = false;
