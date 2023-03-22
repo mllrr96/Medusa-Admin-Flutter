@@ -24,7 +24,7 @@ class OrdersView extends GetView<OrdersController> {
             padding: const EdgeInsets.all(12.0),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Order>(
-                itemBuilder: (context, order, index) => OrderCard(order),
+                itemBuilder: (context, order, index) => AlternativeOrderCard(order),
                 noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet!')),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator.adaptive())),

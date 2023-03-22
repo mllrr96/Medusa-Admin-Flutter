@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -16,6 +17,62 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
+    String getCountriesText(Region region) {
+      if (region.countries == null || region.countries!.isEmpty) {
+        return 'No countries configured';
+      }
+      if (region.countries!.length > 4) {
+        String result = '';
+        region.countries!.take(4).forEach((element) {
+          if (result.isEmpty) {
+            result = element.name ?? '';
+          } else {
+            result = '$result, ${element.name ?? ''}';
+          }
+        });
+        result = '$result +${region.countries!.length - 4}';
+        return result;
+      } else {
+        String result = '';
+        for (var element in region.countries!) {
+          if (result.isEmpty) {
+            result = element.name ?? '';
+          } else {
+            result = '$result, ${element.name ?? ''}';
+          }
+        }
+        return result;
+      }
+    }
+
+    String getPaymentProviders(Region region) {
+      String paymentProviders = '';
+      if (region.paymentProviders != null) {
+        for (PaymentProvider payment in region.paymentProviders!) {
+          if (paymentProviders.isNotEmpty) {
+            paymentProviders = '$paymentProviders, ${payment.id!}';
+          } else {
+            paymentProviders = payment.id!;
+          }
+        }
+      }
+      return paymentProviders.capitalize ?? paymentProviders;
+    }
+
+    String getFulfilmentProviders(Region region) {
+      String fulfilmentProviders = '';
+      if (region.fulfillmentProviders != null) {
+        for (FulfillmentProvider fulfillment in region.fulfillmentProviders!) {
+          if (fulfilmentProviders.isNotEmpty) {
+            fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
+          } else {
+            fulfilmentProviders = fulfillment.id!;
+          }
+        }
+      }
+      return fulfilmentProviders.capitalize ?? fulfilmentProviders;
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
@@ -37,7 +94,8 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+          child: controller.obx(
+        (region) => SingleChildScrollView(
           child: Column(
             children: [
               Container(
@@ -53,32 +111,33 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Currency', style: largeTextStyle!.copyWith(color: lightWhite)),
-                        Text('EUR Euro', style: largeTextStyle),
+                        Text('Currency', style: mediumTextStyle!.copyWith(color: lightWhite)),
+                        Text(region?.currencyCode?.capitalize ?? '-', style: mediumTextStyle),
                       ],
                     ),
                     halfSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Countries', style: largeTextStyle.copyWith(color: lightWhite)),
-                        Text('EUR Euro', style: largeTextStyle),
+                        Expanded(child: Text('Countries', style: mediumTextStyle.copyWith(color: lightWhite))),
+                        Expanded(
+                            child: Text(getCountriesText(region!), style: mediumTextStyle, textAlign: TextAlign.right)),
                       ],
                     ),
                     halfSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Payment providers', style: largeTextStyle.copyWith(color: lightWhite)),
-                        Text('EUR Euro', style: largeTextStyle),
+                        Text('Payment providers', style: mediumTextStyle.copyWith(color: lightWhite)),
+                        Text(getPaymentProviders(region), style: mediumTextStyle),
                       ],
                     ),
                     halfSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Fulfillment providers', style: largeTextStyle.copyWith(color: lightWhite)),
-                        Text('EUR Euro', style: largeTextStyle),
+                        Text('Fulfillment providers', style: mediumTextStyle.copyWith(color: lightWhite)),
+                        Text(getFulfilmentProviders(region), style: mediumTextStyle),
                       ],
                     ),
                     halfSpace,
@@ -95,7 +154,7 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                   children: [
                     Text('Shipping Options', style: Theme.of(context).textTheme.bodyLarge),
                     Text('Enter specifics about available regional shipment methods.',
-                        style: mediumTextStyle!.copyWith(color: lightWhite)),
+                        style: mediumTextStyle.copyWith(color: lightWhite)),
                     halfSpace,
                     Container(
                       decoration: BoxDecoration(
@@ -176,7 +235,17 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
             ],
           ),
         ),
-      ),
+        onLoading: const Center(child: CircularProgressIndicator.adaptive()),
+        onError: (e) => Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(e ?? 'Error loading users', style: largeTextStyle),
+              AdaptiveButton(onPressed: () async => controller.loadRegion(), child: const Text('Retry'))
+            ],
+          ),
+        ),
+      )),
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class RegionsController extends GetxController {
   RegionsController({required this.regionsRepo});
   final RegionsRepo regionsRepo;
-
   final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   RefreshController refreshController = RefreshController();

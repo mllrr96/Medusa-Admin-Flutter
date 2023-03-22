@@ -101,38 +101,35 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
               firstChild: Row(
                 children: [
                   // Expanded(child: TextFormField()),
-                  // const SizedBox(width: 12.0),
+                  const SizedBox(width: 12.0),
                   if (GetPlatform.isIOS)
                     Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: CupertinoSearchTextField(
-                      focusNode: searchNode,
-                      controller: searchCtrl,
-                      placeholder: 'Search for product name, variant title ...',
-                      onChanged: (val) {
-                          controller.searchTerm = val;
-                          controller.pagingController.refresh();
-                      },
-                    ),
+                        child: CupertinoSearchTextField(
+                          focusNode: searchNode,
+                          controller: searchCtrl,
+                          placeholder: 'Search for product name, variant title ...',
+                          onChanged: (val) {
+                            controller.searchTerm = val;
+                            controller.pagingController.refresh();
+                          },
                         )),
                   if (GetPlatform.isAndroid)
                     Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: TextFormField(
-                      style: Theme.of(context).textTheme.titleSmall,
-                      focusNode: searchNode,
-                      controller: searchCtrl,
-                      onChanged: (val) {
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: TextFormField(
+                        style: Theme.of(context).textTheme.titleSmall,
+                        focusNode: searchNode,
+                        controller: searchCtrl,
+                        onChanged: (val) {
                           controller.searchTerm = val;
                           controller.pagingController.refresh();
-                      },
-                      decoration: const InputDecoration(
+                        },
+                        decoration: const InputDecoration(
                           hintText: 'Search for product name, variant title ...',
+                        ),
                       ),
-                    ),
-                        )),
+                    )),
                   AdaptiveButton(
                       child: const Text('Cancel'),
                       onPressed: () async {
@@ -238,7 +235,8 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                               children: [
                                 Text('Filters', style: Theme.of(context).textTheme.titleSmall),
                                 Text(' 0',
-                                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
                               ],
                             ),
                             padding: EdgeInsets.zero,
@@ -439,15 +437,39 @@ class ProductsListView extends GetView<ProductsController> {
   Widget _getStatusIcon(ProductStatus status) {
     switch (status) {
       case ProductStatus.draft:
-        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+        return Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            const Icon(Icons.circle, color: Colors.grey, size: 10),
+            Icon(Icons.circle, color: Colors.grey.withOpacity(0.17), size: 20),
+          ],
+        );
       case ProductStatus.proposed:
-        return const Icon(Icons.circle, color: Colors.grey, size: 12);
+        return Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            const Icon(Icons.circle, color: Colors.grey, size: 10),
+            Icon(Icons.circle, color: Colors.grey.withOpacity(0.17), size: 20),
+          ],
+        );
 
       case ProductStatus.published:
-        return const Icon(Icons.circle, color: Colors.green, size: 12);
+        return Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            const Icon(Icons.circle, color: Colors.green, size: 10),
+            Icon(Icons.circle, color: Colors.green.withOpacity(0.17), size: 20),
+          ],
+        );
 
       case ProductStatus.rejected:
-        return const Icon(Icons.circle, color: Colors.red, size: 12);
+        return Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            const Icon(Icons.circle, color: Colors.red, size: 10),
+            Icon(Icons.circle, color: Colors.red.withOpacity(0.17), size: 20),
+          ],
+        );
     }
   }
 }

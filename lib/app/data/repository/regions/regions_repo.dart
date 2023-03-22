@@ -33,7 +33,7 @@ class RegionsRepo extends BaseRegions {
   }
 
   @override
-  Future<Result<UserRegionRes, Failure>> retrieve(
+  Future<Result<UserRegionRes, AltFailure>> retrieve(
       {required String id, Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -43,11 +43,11 @@ class RegionsRepo extends BaseRegions {
       if (response.statusCode == 200) {
         return Success(UserRegionRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: response));
+        return Error(AltFailure.fromResponse(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return Error(Failure(error: error));
+      return Error(AltFailure.fromResponse(error));
     }
   }
 

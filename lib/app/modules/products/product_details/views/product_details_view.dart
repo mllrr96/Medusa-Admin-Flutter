@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
@@ -42,8 +41,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       body: SafeArea(
         child: controller.obx(
           (product) => SingleChildScrollView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
             controller: controller.scrollController,
             child: Column(
               children: [
@@ -54,9 +52,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.variantsKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(
-                          expansionTileKey: controller.variantsKey,
-                          context: context);
+                      await _scrollToSelectedContent(expansionTileKey: controller.variantsKey, context: context);
                     }
                   },
                 ),
@@ -66,9 +62,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.attributesKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(
-                          expansionTileKey: controller.attributesKey,
-                          context: context);
+                      await _scrollToSelectedContent(expansionTileKey: controller.attributesKey, context: context);
                     }
                   },
                   // onExpansionChanged: onExChanged,
@@ -79,9 +73,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.thumbnailKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(
-                          expansionTileKey: controller.thumbnailKey,
-                          context: context);
+                      await _scrollToSelectedContent(expansionTileKey: controller.thumbnailKey, context: context);
                     }
                   },
                   // onExpansionChanged: onExChanged,
@@ -92,9 +84,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   expansionKey: controller.imagesKey,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await _scrollToSelectedContent(
-                          expansionTileKey: controller.imagesKey,
-                          context: context);
+                      await _scrollToSelectedContent(expansionTileKey: controller.imagesKey, context: context);
                     }
                   },
                 ),
@@ -106,9 +96,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Error loading product'),
-              AdaptiveButton(
-                  child: const Text('Retry'),
-                  onPressed: () async => await controller.loadProduct()),
+              AdaptiveButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
             ],
           )),
           onLoading: const Center(
@@ -134,27 +122,18 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     }
   }
 
-  Future<void> _scrollToSelectedContent(
-      {required GlobalKey expansionTileKey,
-      required BuildContext context}) async {
+  Future<void> _scrollToSelectedContent({required GlobalKey expansionTileKey, required BuildContext context}) async {
     await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
-      final box =
-          expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
+      final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
       final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
       print(yPosition);
-      final scrollPoint = controller.scrollController.offset +
-          yPosition -
-          context.mediaQuery.padding.top -
-          56;
+      final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
       if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
-        await controller.scrollController.animateTo(scrollPoint,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
+        await controller.scrollController
+            .animateTo(scrollPoint, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
       } else {
-        await controller.scrollController.animateTo(
-            controller.scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
+        await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
       }
     });
   }

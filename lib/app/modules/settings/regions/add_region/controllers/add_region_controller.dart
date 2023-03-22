@@ -65,6 +65,8 @@ class AddRegionController extends GetxController {
       } else {
         EasyLoading.showError('Error adding region');
       }
-    }, (error) => EasyLoading.showError('Error adding region'));
+    }, (error) {
+      EasyLoading.showError('Error adding region');
+    });
   }
 }

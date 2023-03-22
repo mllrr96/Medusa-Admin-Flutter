@@ -51,7 +51,7 @@ class RegionCard extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     return InkWell(
-      onTap: onTap ?? () => Get.toNamed(Routes.REGION_DETAILS, arguments: region),
+      onTap: onTap ?? () => Get.toNamed(Routes.REGION_DETAILS, arguments: region.id),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
