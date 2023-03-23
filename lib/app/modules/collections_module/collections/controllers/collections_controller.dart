@@ -9,6 +9,7 @@ class CollectionsController extends GetxController {
   static CollectionsController instance = Get.find<CollectionsController>();
   CollectionsController({required this.collectionRepo});
   final CollectionRepo collectionRepo;
+  RxInt collectionCount = 0.obs;
   RefreshController refreshController = RefreshController();
 
   final PagingController<int, ProductCollection> pagingController =
@@ -33,6 +34,7 @@ class CollectionsController extends GetxController {
     });
     result.when((success) {
       final isLastPage = success.collections!.length < _pageSize;
+      collectionCount.value = success.count ?? 0;
       if (isLastPage) {
         pagingController.appendLastPage(success.collections!);
       } else {

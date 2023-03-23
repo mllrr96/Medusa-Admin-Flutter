@@ -28,11 +28,6 @@ class MoreView extends StatelessWidget {
               SettingsSection(
                 tiles: <SettingsTile>[
                   SettingsTile.navigation(
-                    leading: Icon(Icons.person, color: ColorManager.primary),
-                    title: const Text('Customers'),
-                    onPressed: (_) => Get.toNamed(Routes.CUSTOMERS),
-                  ),
-                  SettingsTile.navigation(
                     leading: Icon(Icons.discount_outlined, color: ColorManager.primary),
                     title: const Text('Discounts'),
                     onPressed: (_) => Get.toNamed(Routes.DISCOUNTS),

@@ -36,7 +36,11 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   }
 
 
-
+@override
+  void onClose() {
+    tabController.dispose();
+    super.onClose();
+  }
   void changeViewOption() {
     switch (viewOptions) {
       case ViewOptions.list:

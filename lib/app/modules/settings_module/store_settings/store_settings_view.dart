@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import '../../../../../core/utils/colors.dart';
-import '../../../../routes/app_pages.dart';
+import '../../../../core/utils/colors.dart';
+import '../../../routes/app_pages.dart';
 class StoreSettingsView extends StatelessWidget {
   const StoreSettingsView({Key? key}) : super(key: key);
 

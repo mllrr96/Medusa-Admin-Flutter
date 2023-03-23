@@ -4,10 +4,12 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/collections_module/collections/controllers/collections_controller.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_button.dart';
@@ -35,14 +37,101 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
   final ProductsController controller = Get.find<ProductsController>();
   final searchCtrl = TextEditingController();
   final searchNode = FocusNode();
+  IconData getSortIcon(SortOptions sortOptions) {
+    switch (sortOptions) {
+      case SortOptions.aZ:
+        return Icons.sort_by_alpha;
+      case SortOptions.zA:
+        return Icons.sort_by_alpha;
+
+      case SortOptions.dateRecent:
+        return CupertinoIcons.calendar_badge_plus;
+
+      case SortOptions.dateOld:
+        return CupertinoIcons.calendar_badge_minus;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final displayLargeTextStyle = Theme.of(context).textTheme.displayLarge;
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     const kDuration = Duration(milliseconds: 200);
     final topViewPadding = MediaQuery.of(context).viewPadding.top;
+    final productsText = Obx(() {
+      final count = ProductsController.instance.productsCount.value;
+      return Text(count != 0 ? 'Products ($count)' : 'Products', overflow: TextOverflow.ellipsis);
+    });
+    final collectionText = Obx(() {
+      final count = CollectionsController.instance.collectionCount.value;
+      return Text(count != 0 ? 'Collections ($count)' : 'Collections', overflow: TextOverflow.ellipsis);
+    });
+
+    final androidTabBar = TabBar(
+      controller: widget.tabController,
+      tabs: [
+        Tab(child: productsText),
+         Tab(child: collectionText),
+      ],
+    );
+
+    final iosTabBar = Container(
+      height: kToolbarHeight,
+      padding: const EdgeInsets.only(left: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Row(
+              children: [
+                Flexible(
+                  child: CupertinoButton(
+                      padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+                      onPressed: () {
+                        widget.tabController.index = 0;
+                        setState(() {});
+                      },
+                      alignment: Alignment.bottomCenter,
+                      child: AnimatedDefaultTextStyle(
+                          style: widget.tabController.index == 0
+                              ? displayLargeTextStyle!
+                              : largeTextStyle!.copyWith(color: lightWhite),
+                          duration: const Duration(milliseconds: 200),
+                          child: productsText)),
+                ),
+                Flexible(
+                  child: CupertinoButton(
+                    padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+                    onPressed: () {
+                      widget.tabController.index = 1;
+                      setState(() {});
+                    },
+                    alignment: Alignment.bottomCenter,
+                    child: AnimatedDefaultTextStyle(
+                        style: widget.tabController.index == 1
+                            ? displayLargeTextStyle!
+                            : largeTextStyle!.copyWith(color: lightWhite),
+                        duration: const Duration(milliseconds: 200),
+                        child: collectionText),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (widget.tabController.index == 0)
+            AdaptiveIcon(
+                onPressed: () async {
+                  // ignore: unused_local_variable
+                  final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                    const SheetAction(label: 'Export Products'),
+                    const SheetAction(label: 'Import Products'),
+                  ]);
+                },
+                icon: const Icon(Icons.more_horiz))
+        ],
+      ),
+    );
 
     final collectionAppBar = AnimatedCrossFade(
         key: const ValueKey(1),
@@ -186,6 +275,38 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                         searchNode.requestFocus();
                       },
                       icon: const Icon(CupertinoIcons.search)),
+                  Obx(() {
+                    return AdaptiveIcon(
+                        onPressed: () async {
+                          final result = await showModalActionSheet<SortOptions>(
+                              context: context,
+                              actions: <SheetAction<SortOptions>>[
+                                SheetAction(
+                                    label: 'A-Z',
+                                    key: SortOptions.aZ,
+                                    isDestructiveAction: controller.sortOptions.value == SortOptions.aZ),
+                                SheetAction(
+                                    label: 'Z-A',
+                                    key: SortOptions.zA,
+                                    isDestructiveAction: controller.sortOptions.value == SortOptions.zA),
+                                SheetAction(
+                                    label: 'Creation Date',
+                                    key: SortOptions.dateRecent,
+                                    isDestructiveAction: controller.sortOptions.value == SortOptions.dateRecent),
+                                SheetAction(
+                                    label: 'Creation Date - Ascending',
+                                    key: SortOptions.dateOld,
+                                    isDestructiveAction: controller.sortOptions.value == SortOptions.dateOld),
+                              ]);
+                          if (result != null) {
+                            controller.changeSortOption(result);
+                          }
+                        },
+                        icon: Icon(
+                          getSortIcon(controller.sortOptions.value),
+                          color: controller.sortOptions.value != SortOptions.dateRecent ? ColorManager.primary : null,
+                        ));
+                  }),
                   const SizedBox(width: 6.0),
                   InkWell(
                     onTap: () {
@@ -266,11 +387,14 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                       ),
                       padding: EdgeInsets.zero,
                     ),
-                  )
+                  ),
                 ],
               ),
               Row(
                 children: [
+                  AdaptiveIcon(
+                      onPressed: () => controller.changeViewOption(),
+                      icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
                   AdaptiveIcon(
                       onPressed: () async {
                         await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
@@ -289,7 +413,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                             const SheetAction(label: 'Import Products'),
                           ]);
                         },
-                        icon: const Icon(Icons.more_horiz))
+                        icon: const Icon(Icons.more_horiz)),
                 ],
               ),
             ],
@@ -298,78 +422,12 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
         crossFadeState: productSearch ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         duration: kDuration);
 
-    final androidTabBar = TabBar(
-      controller: widget.tabController,
-      tabs: [
-        Tab(
-            child: Text('Products',
-                style:
-                    widget.tabController.index == 0 ? largeTextStyle : mediumTextStyle!.copyWith(color: lightWhite))),
-        Tab(
-            child: Text('Collections',
-                style:
-                    widget.tabController.index == 1 ? largeTextStyle : mediumTextStyle!.copyWith(color: lightWhite))),
-      ],
-    );
-
-    final iosTabBar = Container(
-      height: kToolbarHeight,
-      padding: const EdgeInsets.only(left: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              CupertinoButton(
-                  padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-                  onPressed: () {
-                    widget.tabController.index = 0;
-                    setState(() {});
-                  },
-                  alignment: Alignment.bottomCenter,
-                  child: AnimatedDefaultTextStyle(
-                      style: widget.tabController.index == 0
-                          ? displayLargeTextStyle!
-                          : largeTextStyle!.copyWith(color: lightWhite),
-                      duration: const Duration(milliseconds: 200),
-                      child: const Text('Products'))),
-              CupertinoButton(
-                padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-                onPressed: () {
-                  widget.tabController.index = 1;
-                  setState(() {});
-                },
-                alignment: Alignment.bottomCenter,
-                child: AnimatedDefaultTextStyle(
-                    style: widget.tabController.index == 1
-                        ? displayLargeTextStyle!
-                        : largeTextStyle!.copyWith(color: lightWhite),
-                    duration: const Duration(milliseconds: 200),
-                    child: const Text('Collections')),
-              ),
-            ],
-          ),
-          if (widget.tabController.index == 0)
-            AdaptiveIcon(
-                onPressed: () async {
-                  // ignore: unused_local_variable
-                  final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-                    const SheetAction(label: 'Export Products'),
-                    const SheetAction(label: 'Import Products'),
-                  ]);
-                },
-                icon: const Icon(Icons.more_horiz))
-        ],
-      ),
-    );
-
     widget.tabController.addListener(() {
       setState(() {
         collectionSearch = false;
         productSearch = false;
       });
     });
-
     return Container(
       color: Theme.of(context).appBarTheme.backgroundColor,
       child: Column(

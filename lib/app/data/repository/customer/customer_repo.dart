@@ -9,7 +9,7 @@ import '../../service/storage_service.dart';
 
 class CustomerRepository extends BaseCustomer {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
-
+// TODO: rework this
   @override
   Future<CustomersRes?> retrieveCustomers(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {

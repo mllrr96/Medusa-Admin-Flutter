@@ -31,7 +31,7 @@ import '../modules/products_module/add_update_product/views/add_update_product_v
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
-import '../modules/settings_module/settings/views/settings_view.dart';
+import '../modules/settings_module/store_settings/store_settings_view.dart';
 import '../modules/settings_module/store_settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings_module/store_settings/currencies/views/currencies_view.dart';
 import '../modules/settings_module/store_settings/personal_information/bindings/personal_information_binding.dart';
