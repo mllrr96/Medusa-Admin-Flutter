@@ -30,10 +30,10 @@ class UserRepo extends BaseUser {
         return Success(UserCreateUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -53,10 +53,10 @@ class UserRepo extends BaseUser {
         return Success(UserDeleteUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -77,10 +77,10 @@ class UserRepo extends BaseUser {
         return const Success(true);
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -101,10 +101,10 @@ class UserRepo extends BaseUser {
         return Success(UserResetPasswordRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -124,10 +124,10 @@ class UserRepo extends BaseUser {
         return Success(UserRetrieveUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -146,10 +146,10 @@ class UserRepo extends BaseUser {
         return Success(UserRetrieveUserListRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -171,10 +171,10 @@ class UserRepo extends BaseUser {
         return Success(UserUpdateUserRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 }

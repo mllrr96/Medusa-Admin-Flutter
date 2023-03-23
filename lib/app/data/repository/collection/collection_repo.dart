@@ -5,7 +5,6 @@ import 'package:medusa_admin/app/data/models/req/user_create_collection_req.dart
 import 'package:medusa_admin/app/data/models/req/user_post_collection_remove_products_req.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_collection_update_products_req.dart';
 import 'package:medusa_admin/app/data/models/res/collection.dart';
-import 'package:multiple_result/multiple_result.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../service/storage_service.dart';
 import 'base_collection.dart';
@@ -27,10 +26,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserCollectionRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -48,10 +47,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserCollectionsRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -72,10 +71,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserCreateCollectionRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -97,10 +96,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserCreateCollectionRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -121,10 +120,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserCollectionUpdateProductsRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -145,10 +144,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserCollectionRemoveProductsRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -163,10 +162,10 @@ class CollectionRepo extends BaseCollection {
       if (response.statusCode == 200) {
         return Success(UserDeleteCollectionRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 }

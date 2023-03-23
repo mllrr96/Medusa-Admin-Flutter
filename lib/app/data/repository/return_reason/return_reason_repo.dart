@@ -29,10 +29,10 @@ class ReturnReasonRepo extends BaseReturnReason {
         return Success(UserCreateReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -50,10 +50,10 @@ class ReturnReasonRepo extends BaseReturnReason {
         return Success(UserDeleteReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -75,10 +75,10 @@ class ReturnReasonRepo extends BaseReturnReason {
         return Success(UserRetrieveReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -99,10 +99,10 @@ class ReturnReasonRepo extends BaseReturnReason {
         return Success(UserRetrieveAllReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -126,10 +126,10 @@ class ReturnReasonRepo extends BaseReturnReason {
         return Success(UserUpdateReturnReasonRes.fromJson(response.data));
       } else {
         log(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 }

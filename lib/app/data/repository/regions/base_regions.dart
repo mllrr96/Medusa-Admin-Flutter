@@ -12,7 +12,7 @@ abstract class BaseRegions {
   });
 
   /// Retrieves a Region.
-  Future<Result<UserRegionRes, AltFailure>> retrieve({
+  Future<Result<UserRegionRes, Failure>> retrieve({
     required String id,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,

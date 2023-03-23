@@ -29,11 +29,11 @@ class ProductsRepo extends BaseProducts {
       if (response.statusCode == 200) {
         return Success(UserProductsListRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: response));
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return Error(Failure(error: error));
+      return Error(Failure.from(error));
     }
   }
 
@@ -108,10 +108,10 @@ class ProductsRepo extends BaseProducts {
         return Success(Product.fromJson(response.data['product']));
       } else {
         debugPrint(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -127,10 +127,10 @@ class ProductsRepo extends BaseProducts {
         return Success(UserDeleteProductRes.fromJson(response.data));
       } else {
         debugPrint(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -147,10 +147,10 @@ class ProductsRepo extends BaseProducts {
         return Success(UserUpdateProductRes.fromJson(response.data));
       } else {
         debugPrint(response.toString());
-        return Error(Failure(error: response.statusMessage));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 }

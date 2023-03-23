@@ -22,10 +22,10 @@ class StoreRepo extends BaseStore {
       if (response.statusCode == 200) {
         return Success(UserStoreRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 
@@ -40,10 +40,10 @@ class StoreRepo extends BaseStore {
       if (response.statusCode == 200) {
         return Success(UserStoreRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: ''));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 }

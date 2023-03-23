@@ -26,10 +26,10 @@ class AuthRepo extends BaseAuth {
         await StorageService.instance.saveCookie(cookie);
         return Success(UserAuthRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: response.statusCode));
+        return Error(Failure.from(response));
       }
     } catch (e) {
-      return Error(Failure(error: e));
+      return Error(Failure.from(e));
     }
   }
 

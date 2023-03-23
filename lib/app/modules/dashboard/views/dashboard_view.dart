@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/collections/views/collections_view.dart';
-import 'package:medusa_admin/app/modules/orders/views/orders_view.dart';
-import 'package:medusa_admin/app/modules/products/views/products_view.dart';
-import 'package:medusa_admin/app/modules/settings/views/settings_view.dart';
+import '../../collections_module/collections/views/collections_view.dart';
+import '../../orders_module/orders/views/orders_view.dart';
+import '../../products_module/products/views/products_view.dart';
+import '../../settings_module/settings/views/settings_view.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {

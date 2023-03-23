@@ -24,16 +24,16 @@ class RegionsRepo extends BaseRegions {
       if (response.statusCode == 200) {
         return Success(UserRegionsRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: response));
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return Error(Failure(error: error));
+      return Error(Failure.from(error));
     }
   }
 
   @override
-  Future<Result<UserRegionRes, AltFailure>> retrieve(
+  Future<Result<UserRegionRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -43,11 +43,11 @@ class RegionsRepo extends BaseRegions {
       if (response.statusCode == 200) {
         return Success(UserRegionRes.fromJson(response.data));
       } else {
-        return Error(AltFailure.fromResponse(response));
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return Error(AltFailure.fromResponse(error));
+      return Error(Failure.from(error));
     }
   }
 
@@ -65,11 +65,11 @@ class RegionsRepo extends BaseRegions {
       if (response.statusCode == 200) {
         return Success(UserRegionRes.fromJson(response.data));
       } else {
-        return Error(Failure(error: response));
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return Error(Failure(error: error));
+      return Error(Failure.from(error));
     }
   }
 }

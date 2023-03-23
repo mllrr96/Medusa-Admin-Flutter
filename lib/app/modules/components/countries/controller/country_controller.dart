@@ -5,28 +5,32 @@ import '../../../../data/models/store/country.dart';
 import '../components/countries.dart';
 
 class SelectCountryController extends GetxController {
-  late bool multipleSelect;
-  late List<Country> selectedCountries;
+  // late bool multipleSelect;
+  // late List<Country> selectedCountries;
+  // late List<Country> disabledCountries;
+  late SelectCountryOptions selectCountryOptions;
   final searchFocusNode = FocusNode();
   final searchCtrl = TextEditingController();
   var countriesList = countries;
   @override
   void onInit() {
     countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
-    if (Get.arguments != null && Get.arguments is List && (Get.arguments as List).length == 2) {
-      multipleSelect = Get.arguments[0];
-      selectedCountries = Get.arguments[1];
-      countriesList.sort((a,b)=> a.displayName!.compareTo(b.displayName!));
-      // countriesList.sort((a, b) {
-      //   if (selectedCountries.contains(a)) {
-      //     return 0 + a.displayName!.compareTo(b.displayName!);
-      //   }
-      //   return 1 + a.displayName!.compareTo(b.displayName!);
-      // });
-    } else {
-      multipleSelect = false;
-      selectedCountries = [];
-    }
+
+    selectCountryOptions = Get.arguments ?? SelectCountryOptions();
+    // if (Get.arguments != null && Get.arguments is List && (Get.arguments as List).length == 2) {
+    //   multipleSelect = Get.arguments[0];
+    //   selectedCountries = Get.arguments[1];
+    //   countriesList.sort((a, b) => a.displayName!.compareTo(b.displayName!));
+    //   // countriesList.sort((a, b) {
+    //   //   if (selectedCountries.contains(a)) {
+    //   //     return 0 + a.displayName!.compareTo(b.displayName!);
+    //   //   }
+    //   //   return 1 + a.displayName!.compareTo(b.displayName!);
+    //   // });
+    // } else {
+    //   multipleSelect = false;
+    //   selectedCountries = [];
+    // }
     searchFocusNode.addListener(() {
       update();
     });
@@ -51,4 +55,12 @@ class SelectCountryController extends GetxController {
     }
     update();
   }
+}
+
+class SelectCountryOptions {
+  SelectCountryOptions(
+      {this.multipleSelect = false, this.selectedCountries = const [], this.disabledCountriesIso2 = const []});
+  final bool multipleSelect;
+  List<Country> selectedCountries;
+  final List<String> disabledCountriesIso2;
 }
