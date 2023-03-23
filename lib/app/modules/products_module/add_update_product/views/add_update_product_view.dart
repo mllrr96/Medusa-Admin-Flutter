@@ -10,7 +10,6 @@ class AddUpdateProductView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
     return GetBuilder<AddUpdateProductController>(
       builder: (controller) {
         return GestureDetector(
@@ -44,6 +43,7 @@ class AddUpdateProductView extends StatelessWidget {
     );
   }
 
+  // ignore: unused_element
   Future<void> _scrollToSelectedContent(
       {required GlobalKey expansionTileKey,
       required BuildContext context,
@@ -72,25 +72,25 @@ class AddUpdateProductView extends StatelessWidget {
       case ProductComponents.generalInfo:
         return [const ProductGeneralInformation(editMode: true)];
       case ProductComponents.salesChannel:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
 
       case ProductComponents.addVariant:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
 
       case ProductComponents.editVariants:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
 
       case ProductComponents.editOptions:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
 
       case ProductComponents.editAttributes:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
 
       case ProductComponents.editThumbnail:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
 
       case ProductComponents.editMedia:
-        return [ProductGeneralInformation()];
+        return [const ProductGeneralInformation()];
     }
   }
 }
