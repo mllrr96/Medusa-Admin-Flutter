@@ -2,7 +2,7 @@ class StorePostSearchReq {
   String? q;
   int? offset;
   int? limit;
-  dynamic? filter;
+  dynamic filter;
 
   StorePostSearchReq({this.q, this.offset, this.limit, this.filter});
 
@@ -14,11 +14,11 @@ class StorePostSearchReq {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['q'] = this.q;
-    data['offset'] = this.offset;
-    data['limit'] = this.limit;
-    data['filter'] = this.filter;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['q'] = q;
+    data['offset'] = offset;
+    data['limit'] = limit;
+    data['filter'] = filter;
     return data;
   }
 }

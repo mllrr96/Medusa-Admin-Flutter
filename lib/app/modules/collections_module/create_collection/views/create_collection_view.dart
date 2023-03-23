@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_collection_controller.dart';
@@ -16,10 +17,11 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          leading: const AdaptiveBackButton(),
           title: controller.updateCollection ? const Text('Update Collection') : const Text('New Collection'),
           centerTitle: true,
           actions: [
-            TextButton(
+            AdaptiveButton(
                 onPressed: controller.updateCollection
                     ? () async => await controller.edit()
                     : () async => await controller.publish(),

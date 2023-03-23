@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/region.dart';
 
 class Country {

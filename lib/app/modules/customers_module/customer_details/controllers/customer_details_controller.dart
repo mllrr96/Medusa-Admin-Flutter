@@ -12,15 +12,7 @@ class CustomerDetailsController extends GetxController with StateMixin<Customer>
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> _loadCustomer() async {
     change(null, status: RxStatus.loading());

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -17,21 +18,13 @@ class CollectionsController extends GetxController {
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
-      print('Getting data');
+      debugPrint('Getting data');
       _fetchPage(pageKey);
     });
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await collectionRepo.retrieveAll(queryParameters: {

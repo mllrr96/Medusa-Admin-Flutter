@@ -13,7 +13,7 @@ class GiftCardsView extends GetView<GiftCardsController> {
         title: const Text('GiftCardsView'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'GiftCardsView is working',
           style: TextStyle(fontSize: 20),

@@ -22,12 +22,12 @@ class TaxLine {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['rate'] = this.rate;
-    data['code'] = this.code;
-    data['name'] = this.name;
-    data['metadata'] = this.metadata;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['rate'] = rate;
+    data['code'] = code;
+    data['name'] = name;
+    data['metadata'] = metadata;
     return data;
   }
 }

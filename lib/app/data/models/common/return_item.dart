@@ -14,11 +14,11 @@ class ReturnItem {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['item_id'] = this.itemId;
-    data['quantity'] = this.quantity;
-    data['reason_id'] = this.reasonId;
-    data['note'] = this.note;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['item_id'] = itemId;
+    data['quantity'] = quantity;
+    data['reason_id'] = reasonId;
+    data['note'] = note;
     return data;
   }
 }

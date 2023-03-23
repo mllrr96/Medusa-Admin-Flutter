@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../components/collection_list_tile.dart';
@@ -15,11 +13,6 @@ class CollectionsView extends GetView<CollectionsController> {
   Widget build(BuildContext context) {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Collections'),
-        centerTitle: true,
-        actions: [AdaptiveIcon(onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION), icon: const Icon(Icons.add))],
-      ),
       body: SafeArea(
         child: SmartRefresher(
           controller: controller.refreshController,

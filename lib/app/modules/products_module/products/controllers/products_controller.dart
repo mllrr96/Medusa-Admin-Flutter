@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -9,7 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../data/models/store/product.dart';
 
 
-class ProductsController extends GetxController {
+class ProductsController extends GetxController with GetSingleTickerProviderStateMixin{
   static ProductsController instance = Get.find<ProductsController>();
 
   ProductsController({required this.productsRepo});
@@ -22,23 +23,19 @@ class ProductsController extends GetxController {
   RefreshController listRefreshController = RefreshController();
   RxInt productsCount = 0.obs;
   Rx<SortOptions> sortOptions = SortOptions.dateRecent.obs;
+  late TabController tabController;
+
+
   @override
   void onInit() {
+    tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void changeViewOption() {
     switch (viewOptions) {

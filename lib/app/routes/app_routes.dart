@@ -13,7 +13,7 @@ abstract class Routes {
   static const DISCOUNTS = _Paths.DISCOUNTS;
   static const GIFT_CARDS = _Paths.GIFT_CARDS;
   static const PRICING = _Paths.PRICING;
-  static const SETTINGS = _Paths.SETTINGS;
+  static const STORE_SETTINGS = _Paths.STORE_SETTINGS;
   static const SIGN_IN = _Paths.SIGN_IN;
   static const ORDER_DETAILS = _Paths.DASHBOARD + _Paths.ORDER_DETAILS;
   static const PRODUCT_DETAILS = _Paths.DASHBOARD + _Paths.PRODUCT_DETAILS;
@@ -54,7 +54,7 @@ abstract class _Paths {
   static const DISCOUNTS = '/discounts';
   static const GIFT_CARDS = '/gift-cards';
   static const PRICING = '/pricing';
-  static const SETTINGS = '/settings';
+  static const STORE_SETTINGS = '/store-settings';
   static const SIGN_IN = '/sign-in';
   static const PRODUCT_ADD_VARIANT = '/product-add-variant';
   static const ORDER_DETAILS = '/order-details';

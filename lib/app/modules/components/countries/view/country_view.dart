@@ -65,20 +65,21 @@ class SelectCountryView extends StatelessWidget {
                     )),
               ),
               //TODO: make this persistent header warning when disabledCountries is not empty
-              if(controller.selectCountryOptions.disabledCountriesIso2.isNotEmpty)
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      const Icon(Icons.warning_rounded, color: Colors.amber),
-                      const SizedBox(width: 6.0),
-                      Flexible(child: Text('Greyed out countries are selected in other regions', style: mediumTextStyle)),
-                    ],
+              if (controller.selectCountryOptions.disabledCountriesIso2.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.warning_rounded, color: Colors.amber),
+                        const SizedBox(width: 6.0),
+                        Flexible(
+                            child: Text('Greyed out countries are selected in other regions', style: mediumTextStyle)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
               SliverSafeArea(
                 top: false,
                 sliver: SliverList(

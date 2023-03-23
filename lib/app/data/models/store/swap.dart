@@ -56,7 +56,7 @@ class Swap {
     if (json['additional_items'] != null) {
       additionalItems = <LineItem>[];
       json['additional_items'].forEach((v) {
-        additionalItems!.add(new LineItem.fromJson(v));
+        additionalItems!.add(LineItem.fromJson(v));
       });
     }
     returnOrder = json['return_order'] != null
@@ -65,7 +65,7 @@ class Swap {
     if (json['fulfillments'] != null) {
       fulfillments = <Fulfillment>[];
       json['fulfillments'].forEach((v) {
-        fulfillments!.add(new Fulfillment.fromJson(v));
+        fulfillments!.add(Fulfillment.fromJson(v));
       });
     }
     payment =
@@ -78,7 +78,7 @@ class Swap {
     if (json['shipping_methods'] != null) {
       shippingMethods = <ShippingMethod>[];
       json['shipping_methods'].forEach((v) {
-        shippingMethods!.add(new ShippingMethod.fromJson(v));
+        shippingMethods!.add(ShippingMethod.fromJson(v));
       });
     }
     cartId = json['cart_id'];
@@ -92,36 +92,36 @@ class Swap {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['fulfillment_status'] = fulfillmentStatus?.value;
     data['payment_status'] = paymentStatus?.value;
-    data['order_id'] = this.orderId;
-    data['order'] = this.order?.toJson() ?? {};
-    if (this.additionalItems != null) {
+    data['order_id'] = orderId;
+    data['order'] = order?.toJson() ?? {};
+    if (additionalItems != null) {
       data['additional_items'] =
-          this.additionalItems!.map((v) => v.toJson()).toList();
+          additionalItems!.map((v) => v.toJson()).toList();
     }
-    data['return_order'] = this.returnOrder?.toJson() ?? {};
-    if (this.fulfillments != null) {
-      data['fulfillments'] = this.fulfillments!.map((v) => v.toJson()).toList();
+    data['return_order'] = returnOrder?.toJson() ?? {};
+    if (fulfillments != null) {
+      data['fulfillments'] = fulfillments!.map((v) => v.toJson()).toList();
     }
-    data['payment'] = this.payment?.toJson() ?? {};
-    data['difference_due'] = this.differenceDue;
-    data['shipping_address_id'] = this.shippingAddressId;
-    data['shipping_address'] = this.shippingAddress?.toJson() ?? {};
-    if (this.shippingMethods != null) {
+    data['payment'] = payment?.toJson() ?? {};
+    data['difference_due'] = differenceDue;
+    data['shipping_address_id'] = shippingAddressId;
+    data['shipping_address'] = shippingAddress?.toJson() ?? {};
+    if (shippingMethods != null) {
       data['shipping_methods'] =
-          this.shippingMethods!.map((v) => v.toJson()).toList();
+          shippingMethods!.map((v) => v.toJson()).toList();
     }
-    data['cart_id'] = this.cartId;
-    data['cart'] = this.cart;
-    data['confirmed_at'] = this.confirmedAt.toString();
-    data['canceled_at'] = this.canceledAt.toString();
-    data['no_notification'] = this.noNotification;
-    data['allow_backorder'] = this.allowBackorder;
-    data['idempotency_key'] = this.idempotencyKey;
-    data['metadata'] = this.metadata;
+    data['cart_id'] = cartId;
+    data['cart'] = cart;
+    data['confirmed_at'] = confirmedAt.toString();
+    data['canceled_at'] = canceledAt.toString();
+    data['no_notification'] = noNotification;
+    data['allow_backorder'] = allowBackorder;
+    data['idempotency_key'] = idempotencyKey;
+    data['metadata'] = metadata;
     return data;
   }
 }

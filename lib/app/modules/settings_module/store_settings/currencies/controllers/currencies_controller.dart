@@ -30,16 +30,6 @@ class CurrenciesController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   Future<void> updateStore() async {
     List<String> currenciesIsoCode = [];
     for (var currency in currencies) {

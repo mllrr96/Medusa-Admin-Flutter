@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import '../../../../data/models/store/product.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
 class CollectionProductsList extends StatelessWidget {

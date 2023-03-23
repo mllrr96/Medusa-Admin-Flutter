@@ -8,8 +8,8 @@ class ReturnShipping {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['option_id'] = this.optionId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['option_id'] = optionId;
     return data;
   }
 }

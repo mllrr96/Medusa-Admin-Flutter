@@ -16,15 +16,6 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> loadRegion() async {
     change(null, status: RxStatus.loading());

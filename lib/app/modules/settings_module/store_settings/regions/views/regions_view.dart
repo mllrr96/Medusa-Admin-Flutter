@@ -16,7 +16,7 @@ class RegionsView extends GetView<RegionsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: AdaptiveBackButton(),
+        leading: const AdaptiveBackButton(),
         title: const Text('Regions'),
         centerTitle: true,
         actions: [AdaptiveIcon(onPressed: () => Get.toNamed(Routes.ADD_REGION), icon: const Icon(Icons.add))],

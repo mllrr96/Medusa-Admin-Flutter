@@ -21,10 +21,6 @@ class PersonalInformationController extends GetxController with StateMixin<User>
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {

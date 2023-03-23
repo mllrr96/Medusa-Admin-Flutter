@@ -28,16 +28,16 @@ class StorePostCustomersCustomerReq {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['billing_address'] = this.billingAddress;
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    if (this.metadata != null) {
-      data['metadata'] = this.metadata;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['billing_address'] = billingAddress;
+    data['email'] = email;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    if (metadata != null) {
+      data['metadata'] = metadata;
     }
-    data['password'] = this.password;
-    data['phone'] = this.phone;
+    data['password'] = password;
+    data['phone'] = phone;
     return data;
   }
 }

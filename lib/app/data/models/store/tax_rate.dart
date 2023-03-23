@@ -47,19 +47,19 @@ class TaxRate {
     if (json['products'] != null) {
       products = <Product>[];
       json['products'].forEach((v) {
-        products!.add(new Product.fromJson(v));
+        products!.add(Product.fromJson(v));
       });
     }
     if (json['product_types'] != null) {
       productTypes = <ProductType>[];
       json['product_types'].forEach((v) {
-        productTypes!.add(new ProductType.fromJson(v));
+        productTypes!.add(ProductType.fromJson(v));
       });
     }
     if (json['shipping_options'] != null) {
       shippingOptions = <ShippingOption>[];
       json['shipping_options'].forEach((v) {
-        shippingOptions!.add(new ShippingOption.fromJson(v));
+        shippingOptions!.add(ShippingOption.fromJson(v));
       });
     }
     productCount = json['product_count'];
@@ -68,28 +68,28 @@ class TaxRate {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['rate'] = this.rate;
-    data['code'] = this.code;
-    data['name'] = this.name;
-    data['region_id'] = this.regionId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['rate'] = rate;
+    data['code'] = code;
+    data['name'] = name;
+    data['region_id'] = regionId;
     data['region'] = region?.toJson() ?? {};
-    data['metadata'] = this.metadata;
-    if (this.products != null) {
-      data['products'] = this.products!.map((v) => v.toJson()).toList();
+    data['metadata'] = metadata;
+    if (products != null) {
+      data['products'] = products!.map((v) => v.toJson()).toList();
     }
-    if (this.productTypes != null) {
+    if (productTypes != null) {
       data['product_types'] =
-          this.productTypes!.map((v) => v.toJson()).toList();
+          productTypes!.map((v) => v.toJson()).toList();
     }
-    if (this.shippingOptions != null) {
+    if (shippingOptions != null) {
       data['shipping_options'] =
-          this.shippingOptions!.map((v) => v.toJson()).toList();
+          shippingOptions!.map((v) => v.toJson()).toList();
     }
-    data['product_count'] = this.productCount;
-    data['product_type_count'] = this.productTypeCount;
-    data['shipping_option_count'] = this.shippingOptionCount;
+    data['product_count'] = productCount;
+    data['product_type_count'] = productTypeCount;
+    data['shipping_option_count'] = shippingOptionCount;
     return data;
   }
 }

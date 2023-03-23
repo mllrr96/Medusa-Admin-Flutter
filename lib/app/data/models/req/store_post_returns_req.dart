@@ -15,22 +15,22 @@ class StorePostReturnsReq {
     if (json['items'] != null) {
       items = <ReturnItem>[];
       json['items'].forEach((v) {
-        items!.add(new ReturnItem.fromJson(v));
+        items!.add(ReturnItem.fromJson(v));
       });
     }
     returnShipping = json['return_shipping'] != null
-        ? new ReturnShipping.fromJson(json['return_shipping'])
+        ? ReturnShipping.fromJson(json['return_shipping'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['order_id'] = this.orderId;
-    if (this.items != null) {
-      data['items'] = this.items!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['order_id'] = orderId;
+    if (items != null) {
+      data['items'] = items!.map((v) => v.toJson()).toList();
     }
-    if (this.returnShipping != null) {
-      data['return_shipping'] = this.returnShipping!.toJson();
+    if (returnShipping != null) {
+      data['return_shipping'] = returnShipping!.toJson();
     }
     return data;
   }

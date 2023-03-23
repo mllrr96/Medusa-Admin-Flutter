@@ -20,29 +20,29 @@ class StorePostSwapsReq {
     if (json['return_items'] != null) {
       returnItems = <ReturnItem>[];
       json['return_items'].forEach((v) {
-        returnItems!.add(new ReturnItem.fromJson(v));
+        returnItems!.add(ReturnItem.fromJson(v));
       });
     }
     if (json['additional_items'] != null) {
       additionalItems = <Item>[];
       json['additional_items'].forEach((v) {
-        additionalItems!.add(new Item.fromJson(v));
+        additionalItems!.add(Item.fromJson(v));
       });
     }
     returnShippingOption = json['return_shipping_option'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['order_id'] = this.orderId;
-    if (this.returnItems != null) {
-      data['return_items'] = this.returnItems!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['order_id'] = orderId;
+    if (returnItems != null) {
+      data['return_items'] = returnItems!.map((v) => v.toJson()).toList();
     }
-    if (this.additionalItems != null) {
+    if (additionalItems != null) {
       data['additional_items'] =
-          this.additionalItems!.map((v) => v.toJson()).toList();
+          additionalItems!.map((v) => v.toJson()).toList();
     }
-    data['return_shipping_option'] = this.returnShippingOption;
+    data['return_shipping_option'] = returnShippingOption;
     return data;
   }
 }

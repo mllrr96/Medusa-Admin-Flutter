@@ -126,6 +126,7 @@ class OrderDetailsView extends StatelessWidget {
           title: const Text('Customer'),
           trailing: IconButton(
               onPressed: () async {
+                // ignore: unused_result
                 await showModalActionSheet(
                     context: context,
                     actions: <SheetAction>[

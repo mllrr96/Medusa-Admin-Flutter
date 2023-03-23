@@ -13,15 +13,6 @@ class TeamController extends GetxController with StateMixin<List<User>> {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> loadUser() async {
     change(null, status: RxStatus.loading());

@@ -13,7 +13,7 @@ class PricingView extends GetView<PricingController> {
         title: const Text('PricingView'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'PricingView is working',
           style: TextStyle(fontSize: 20),

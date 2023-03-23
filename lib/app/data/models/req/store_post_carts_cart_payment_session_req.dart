@@ -10,8 +10,8 @@ class StorePostCartsCartPaymentSessionReq {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['provider_id'] = this.providerId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['provider_id'] = providerId;
     return data;
   }
 }

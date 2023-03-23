@@ -35,13 +35,13 @@ class StorePostCartsCartReq {
     if (json['gift_cards'] != null) {
       giftCards = <GiftCard>[];
       json['gift_cards'].forEach((v) {
-        giftCards!.add(new GiftCard.fromJson(v));
+        giftCards!.add(GiftCard.fromJson(v));
       });
     }
     if (json['discounts'] != null) {
       discounts = <Discount>[];
       json['discounts'].forEach((v) {
-        discounts!.add(new Discount.fromJson(v));
+        discounts!.add(Discount.fromJson(v));
       });
     }
     customerId = json['customer_id'];
@@ -50,21 +50,21 @@ class StorePostCartsCartReq {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['region_id'] = this.regionId;
-    data['country_code'] = this.countryCode;
-    data['email'] = this.email;
-    data['billing_address'] = this.billingAddress;
-    data['shipping_address'] = this.shippingAddress;
-    if (this.giftCards != null) {
-      data['gift_cards'] = this.giftCards!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['region_id'] = regionId;
+    data['country_code'] = countryCode;
+    data['email'] = email;
+    data['billing_address'] = billingAddress;
+    data['shipping_address'] = shippingAddress;
+    if (giftCards != null) {
+      data['gift_cards'] = giftCards!.map((v) => v.toJson()).toList();
     }
-    if (this.discounts != null) {
-      data['discounts'] = this.discounts!.map((v) => v.toJson()).toList();
+    if (discounts != null) {
+      data['discounts'] = discounts!.map((v) => v.toJson()).toList();
     }
-    data['customer_id'] = this.customerId;
-    data['context'] = this.context;
-    data['sales_channel_id'] = this.salesChannelId;
+    data['customer_id'] = customerId;
+    data['context'] = context;
+    data['sales_channel_id'] = salesChannelId;
     return data;
   }
 }

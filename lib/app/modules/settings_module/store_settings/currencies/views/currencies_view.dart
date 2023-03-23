@@ -219,7 +219,7 @@ class AllCurrenciesController extends GetxController {
   @override
   Future<void> onInit() async {
     pagingController.addPageRequestListener((pageKey) {
-      print('Getting data');
+      debugPrint('Getting data');
       _fetchPage(pageKey);
     });
     selectedCurrencies.addAll(storeCurrencies);

@@ -126,7 +126,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
       final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
       final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
-      print(yPosition);
       final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
       if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
         await controller.scrollController

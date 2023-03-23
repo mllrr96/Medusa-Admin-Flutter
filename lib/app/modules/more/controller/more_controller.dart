@@ -2,15 +2,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
-import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
-import '../../../../data/service/storage_service.dart';
-import '../../../../routes/app_pages.dart';
+import '../../../data/repository/auth/auth_repo.dart';
+import '../../../data/service/storage_service.dart';
+import '../../../routes/app_pages.dart';
+import '../../components/easy_loading.dart';
 
-
-class SettingsController extends GetxController {
-  SettingsController({required this.authRepo});
+class MoreController extends GetxController{
+  MoreController({required this.authRepo});
   final AuthRepo authRepo;
 
   late ThemeMode themeMode;
@@ -27,23 +26,15 @@ class SettingsController extends GetxController {
     update();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> signOut(BuildContext context) async {
     await showOkCancelAlertDialog(
-            context: context,
-            title: 'Sign out',
-            message: 'Are you sure you want to sign out?',
-            okLabel: 'Sign Out',
-            isDestructiveAction: true)
+        context: context,
+        title: 'Sign out',
+        message: 'Are you sure you want to sign out?',
+        okLabel: 'Sign Out',
+        isDestructiveAction: true)
         .then((value) async {
       if (value == OkCancelResult.ok) {
         loading();

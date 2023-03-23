@@ -13,7 +13,7 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
         title: const Text('TaxSettingsView'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'TaxSettingsView is working',
           style: TextStyle(fontSize: 20),

@@ -19,15 +19,6 @@ class AddRegionController extends GetxController {
   final formKey = GlobalKey<FormState>();
   List<Country> selectedCountries = [];
   Currency? selectedCurrency;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {
@@ -68,7 +59,7 @@ class AddRegionController extends GetxController {
         EasyLoading.showError('Error adding region');
       }
     }, (error) {
-      print(error.toString());
+      debugPrint(error.toString());
       if (error.code != null) {
         Get.snackbar('Error code ${error.code}', error.message, snackPosition: SnackPosition.BOTTOM);
         dismissLoading();

@@ -19,6 +19,7 @@ import '../modules/discounts/bindings/discounts_binding.dart';
 import '../modules/discounts/views/discounts_view.dart';
 import '../modules/gift_cards/bindings/gift_cards_binding.dart';
 import '../modules/gift_cards/views/gift_cards_view.dart';
+import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
 import '../modules/orders_module/orders/bindings/orders_binding.dart';
@@ -30,7 +31,6 @@ import '../modules/products_module/add_update_product/views/add_update_product_v
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
-import '../modules/settings_module/settings/bindings/settings_binding.dart';
 import '../modules/settings_module/settings/views/settings_view.dart';
 import '../modules/settings_module/store_settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings_module/store_settings/currencies/views/currencies_view.dart';
@@ -76,7 +76,7 @@ class AppPages {
           ProductsBinding(),
           CustomersBinding(),
           CollectionsBinding(),
-          SettingsBinding(),
+          MoreBinding(),
           // CurrenciesBinding(),
         ],
         children: [
@@ -198,9 +198,8 @@ class AppPages {
       binding: PricingBinding(),
     ),
     GetPage(
-      name: _Paths.SETTINGS,
-      page: () => const SettingsView(),
-      binding: SettingsBinding(),
+      name: _Paths.STORE_SETTINGS,
+      page: () => const StoreSettingsView(),
     ),
     GetPage(
       name: _Paths.SIGN_IN,

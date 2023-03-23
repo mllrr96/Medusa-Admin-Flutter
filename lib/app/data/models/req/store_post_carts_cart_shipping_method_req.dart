@@ -9,12 +9,12 @@ class StorePostCartsCartShippingMethodReq {
 
   StorePostCartsCartShippingMethodReq.fromJson(Map<String, dynamic> json) {
     optionId = json['option_id'];
-    data = json['data'] ?? null;
+    data = json['data'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['option_id'] = this.optionId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['option_id'] = optionId;
     if (this.data != null) {
       data['data'] = this.data!;
     }

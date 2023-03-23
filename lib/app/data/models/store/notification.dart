@@ -1,7 +1,6 @@
 import 'index.dart';
 
 
-import 'notification_resend.dart';
 
 class Notification {
   String? id;

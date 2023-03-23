@@ -36,7 +36,6 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
   Future<void> loadProduct() async {
     change(null, status: RxStatus.loading());
     try {
-      print(_productId);
       final result = await productsRepo.retrieve(
         _productId,
         queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},

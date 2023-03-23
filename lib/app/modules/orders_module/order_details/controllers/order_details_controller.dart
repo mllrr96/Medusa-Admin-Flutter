@@ -19,10 +19,6 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     super.onReady();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> loadOrderDetails() async {
     change(null, status: RxStatus.loading());

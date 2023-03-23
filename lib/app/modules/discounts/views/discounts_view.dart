@@ -13,7 +13,7 @@ class DiscountsView extends GetView<DiscountsController> {
         title: const Text('DiscountsView'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'DiscountsView is working',
           style: TextStyle(fontSize: 20),

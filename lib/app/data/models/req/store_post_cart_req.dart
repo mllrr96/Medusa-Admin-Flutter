@@ -1,5 +1,3 @@
-import 'package:medusa_admin/app/data/models/store/index.dart';
-
 import '../common/item.dart';
 
 class StorePostCartReq {
@@ -25,22 +23,22 @@ class StorePostCartReq {
     if (json['items'] != null) {
       items = <Item>[];
       json['items'].forEach((v) {
-        items!.add(new Item.fromJson(v));
+        items!.add(Item.fromJson(v));
       });
     }
-    context = json['context'] != null ? json['context'] : null;
+    context = json['context'];
     salesChannelId = json['sales_channel_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['region_id'] = this.regionId;
-    data['country_code'] = this.countryCode;
-    if (this.items != null) {
-      data['items'] = this.items!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['region_id'] = regionId;
+    data['country_code'] = countryCode;
+    if (items != null) {
+      data['items'] = items!.map((v) => v.toJson()).toList();
     }
-    if (this.context != null) {
-      data['context'] = this.context!.toJson();
+    if (context != null) {
+      data['context'] = context!.toJson();
     }
     if (salesChannelId != null) data['sales_channel_id'] = salesChannelId;
     return data;

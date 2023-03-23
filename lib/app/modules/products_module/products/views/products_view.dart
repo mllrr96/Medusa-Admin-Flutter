@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
@@ -12,6 +13,7 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
+import '../components/products_app_bar.dart';
 import '../controllers/products_controller.dart';
 
 class ProductsView extends StatelessWidget {
@@ -21,17 +23,26 @@ class ProductsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ProductsController>(
       builder: (controller) {
+        final tabController = controller.tabController;
         return Scaffold(
-          // ignore: prefer_const_constructors
-          appBar: AnimatedAppBar(),
+          appBar: ProductsAppBar(
+              tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
           body: SafeArea(
-            child: controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView(),
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: tabController,
+              children: [
+              controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView(),
+              const CollectionsView()
+            ],)
           ),
         );
       },
     );
   }
 }
+
+
 
 class AnimatedAppBar extends StatefulWidget with PreferredSizeWidget {
   const AnimatedAppBar({Key? key}) : super(key: key);
@@ -105,14 +116,14 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                   if (GetPlatform.isIOS)
                     Expanded(
                         child: CupertinoSearchTextField(
-                          focusNode: searchNode,
-                          controller: searchCtrl,
-                          placeholder: 'Search for product name, variant title ...',
-                          onChanged: (val) {
-                            controller.searchTerm = val;
-                            controller.pagingController.refresh();
-                          },
-                        )),
+                      focusNode: searchNode,
+                      controller: searchCtrl,
+                      placeholder: 'Search for product name, variant title ...',
+                      onChanged: (val) {
+                        controller.searchTerm = val;
+                        controller.pagingController.refresh();
+                      },
+                    )),
                   if (GetPlatform.isAndroid)
                     Expanded(
                         child: Padding(
@@ -271,6 +282,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
             icon: const Icon(Icons.add)),
         AdaptiveIcon(
             onPressed: () async {
+              // ignore: unused_local_variable
               final result = await showModalActionSheet(context: context, actions: <SheetAction>[
                 const SheetAction(label: 'Export Products'),
                 const SheetAction(label: 'Import Products'),

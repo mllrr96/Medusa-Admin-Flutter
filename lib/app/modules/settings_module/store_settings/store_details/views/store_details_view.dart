@@ -53,7 +53,7 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                         return null;
                       },
                     ),
-                    Divider(),
+                    const Divider(),
                     Text('Advanced settings', style: largeTextStyle),
                     space,
                     CustomTextField(

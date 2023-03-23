@@ -13,7 +13,7 @@ class ShippingView extends GetView<ShippingController> {
         title: const Text('ShippingView'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'ShippingView is working',
           style: TextStyle(fontSize: 20),

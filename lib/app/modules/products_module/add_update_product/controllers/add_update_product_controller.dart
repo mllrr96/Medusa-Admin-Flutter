@@ -37,10 +37,7 @@ class AddUpdateProductController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+
 
   @override
   void onClose() {
@@ -167,7 +164,7 @@ class AddUpdateProductController extends GetxController {
 
   void loadProduct() {
     if (Get.arguments == null) {
-      product = Product();
+      product = const Product();
     } else {
       // Update existing product
       updateMode = true;

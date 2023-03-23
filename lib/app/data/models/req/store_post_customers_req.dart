@@ -22,12 +22,12 @@ class StorePostCustomersReq {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['password'] = this.password;
-    data['phone'] = this.phone;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['password'] = password;
+    data['phone'] = phone;
     return data;
   }
 }

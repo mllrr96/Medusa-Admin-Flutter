@@ -18,15 +18,7 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> loadCollection() async {
     change(null, status: RxStatus.loading());
