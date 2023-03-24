@@ -73,7 +73,7 @@ class UserRepo extends BaseUser {
         uri: '/users/password-token',
         data: {'email': email},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 204) {
         return const Success(true);
       } else {
         log(response.toString());

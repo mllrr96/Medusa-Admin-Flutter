@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
+import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
 import '../modules/auth_module/sign_in/views/sign_in_view.dart';
 import '../modules/collections_module/collection_details/bindings/collection_details_binding.dart';
@@ -31,7 +33,6 @@ import '../modules/products_module/add_update_product/views/add_update_product_v
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
-import '../modules/settings_module/store_settings/store_settings_view.dart';
 import '../modules/settings_module/store_settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings_module/store_settings/currencies/views/currencies_view.dart';
 import '../modules/settings_module/store_settings/personal_information/bindings/personal_information_binding.dart';
@@ -50,6 +51,7 @@ import '../modules/settings_module/store_settings/shipping/bindings/shipping_bin
 import '../modules/settings_module/store_settings/shipping/views/shipping_view.dart';
 import '../modules/settings_module/store_settings/store_details/bindings/store_details_binding.dart';
 import '../modules/settings_module/store_settings/store_details/views/store_details_view.dart';
+import '../modules/settings_module/store_settings/store_settings_view.dart';
 import '../modules/settings_module/store_settings/tax_settings/bindings/tax_settings_binding.dart';
 import '../modules/settings_module/store_settings/tax_settings/views/tax_settings_view.dart';
 import '../modules/settings_module/store_settings/team/bindings/team_binding.dart';
@@ -120,6 +122,7 @@ class AppPages {
             name: _Paths.CREATE_COLLECTION,
             page: () => const CreateCollectionView(),
             binding: CreateCollectionBinding(),
+            fullscreenDialog: true,
           ),
           GetPage(
             name: _Paths.REGIONS,
@@ -205,6 +208,14 @@ class AppPages {
       name: _Paths.SIGN_IN,
       page: () => const SignInView(),
       binding: SignInBinding(),
+      children: [
+        GetPage(
+          name: _Paths.RESET_PASSWORD,
+          page: () => const ResetPasswordView(),
+          binding: ResetPasswordBinding(),
+          fullscreenDialog: true,
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.PRODUCT_ADD_VARIANT,

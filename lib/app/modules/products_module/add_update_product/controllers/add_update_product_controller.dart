@@ -54,7 +54,7 @@ class AddUpdateProductController extends GetxController {
 
   Future<void> addProduct() async {
     // TODO: check for required fields
-    if (!keyForm.currentState!.validate()) {
+    if (keyForm.currentState == null || !keyForm.currentState!.validate()) {
       return;
     }
 

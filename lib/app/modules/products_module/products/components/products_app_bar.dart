@@ -72,7 +72,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
       controller: widget.tabController,
       tabs: [
         Tab(child: productsText),
-         Tab(child: collectionText),
+        Tab(child: collectionText),
       ],
     );
 

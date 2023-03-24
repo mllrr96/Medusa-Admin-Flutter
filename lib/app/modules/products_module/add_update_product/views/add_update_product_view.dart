@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/adaptive_button.dart';
+import '../../../components/adaptive_close_button.dart';
 import '../components/product_components.dart';
 import '../controllers/add_update_product_controller.dart';
 
@@ -16,6 +17,7 @@ class AddUpdateProductView extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
+              leading: const AdaptiveCloseButton(),
               title: controller.updateMode ? const Text('Update Product') : const Text('New Product'),
               centerTitle: true,
               actions: [

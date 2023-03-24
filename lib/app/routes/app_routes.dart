@@ -42,6 +42,8 @@ abstract class Routes {
   static const CREATE_UPDATE_RETURN_REASON = _Paths.DASHBOARD +
       _Paths.RETURN_REASONS +
       _Paths.CREATE_UPDATE_RETURN_REASON;
+  static const RESET_PASSWORD =
+      _Paths.SIGN_IN + _Paths.RESET_PASSWORD;
 }
 
 abstract class _Paths {
@@ -76,4 +78,5 @@ abstract class _Paths {
   static const TEAM = '/team';
   static const TAX_SETTINGS = '/tax-settings';
   static const CREATE_UPDATE_RETURN_REASON = '/create-update-return-reason';
+  static const RESET_PASSWORD = '/reset-password';
 }

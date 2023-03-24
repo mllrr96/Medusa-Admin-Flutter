@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../components/sign_in_comonents.dart';
 import '../controllers/sign_in_controller.dart';
@@ -27,12 +28,16 @@ class SignInView extends GetView<SignInController> {
                   ],
                 ),
                 const SizedBox(height: 18.0),
-                errorMessage(
+                InkWell(
+                  onTap: () => controller.errorMessage.value = '',
+                  child: errorMessage(
                     errorMessage: controller.errorMessage,
                     context: context,
                     emptyChildHeight: 0,
                     horizontalPadding: 12.0,
-                    radius: 10.0),
+                    radius: 10.0,
+                  ),
+                ),
                 const SizedBox(height: 18.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -50,13 +55,13 @@ class SignInView extends GetView<SignInController> {
                     child: const Text(
                       'Reset password',
                     ),
-                    onPressed: () {},
+                    onPressed: () => Get.toNamed(Routes.RESET_PASSWORD),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SignInButton(
-                    onPress: () async => await controller.signIn(context),
+                    onPressed: () async => await controller.signIn(context),
                     label: 'Continue',
                     buttonWidth: double.maxFinite,
                   ),
@@ -65,7 +70,7 @@ class SignInView extends GetView<SignInController> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SignInButton(
-                    onPress: () async => await controller.updateBaseUrl(context),
+                    onPressed: () async => await controller.updateBaseUrl(context),
                     label: 'Change baseUrl',
                     buttonWidth: double.maxFinite,
                   ),

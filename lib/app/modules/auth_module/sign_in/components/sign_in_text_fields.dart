@@ -22,6 +22,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Container(
       alignment: Alignment.center,
       height: size.height / 16,
@@ -62,6 +63,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
               width: 1.0,
               height: 15.5,
+              colorFilter: ColorFilter.mode(lightWhite, BlendMode.color),
             ),
             const SizedBox(
               width: 16,
@@ -111,14 +113,17 @@ class EmailTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     this.onChanged,
+    this.textInputAction = TextInputAction.next, this.onSubmitted,
   }) : super(key: key);
 
   final TextEditingController controller;
   final void Function(String)? onChanged;
-
+  final void Function(String)? onSubmitted;
+  final TextInputAction textInputAction;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Container(
       alignment: Alignment.center,
       height: size.height / 16,
@@ -139,12 +144,12 @@ class EmailTextField extends StatelessWidget {
             const SizedBox(
               width: 16,
             ),
-
             //divider svg
             SvgPicture.string(
               '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
               width: 1.0,
               height: 15.5,
+              colorFilter: ColorFilter.mode(lightWhite, BlendMode.color),
             ),
             const SizedBox(
               width: 16,
@@ -157,14 +162,15 @@ class EmailTextField extends StatelessWidget {
                 controller: controller,
                 cursorColor: Get.isDarkMode ? Colors.white70 : Colors.blueGrey,
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
+                textInputAction: textInputAction,
                 onChanged: onChanged,
+                onSubmitted: onSubmitted,
                 style: GoogleFonts.inter(
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
-                    hintText: 'Enter your gmail address',
+                    hintText: 'Enter your email address',
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
                       color: Get.isDarkMode ? Colors.white70 : Colors.black54,

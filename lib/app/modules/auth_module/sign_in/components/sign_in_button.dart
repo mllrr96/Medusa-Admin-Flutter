@@ -9,7 +9,7 @@ import '../../../../../core/utils/colors.dart';
 class SignInButton extends StatelessWidget {
   const SignInButton({
     Key? key,
-    required this.onPress,
+    required this.onPressed,
     required this.label,
     this.textStyle,
     this.textColor,
@@ -17,7 +17,7 @@ class SignInButton extends StatelessWidget {
     this.buttonWidth,
     this.noShadow = false,
   }) : super(key: key);
-  final void Function()? onPress;
+  final void Function()? onPressed;
   final String label;
   final TextStyle? textStyle;
   final Color? textColor;
@@ -33,7 +33,7 @@ class SignInButton extends StatelessWidget {
         child: SizedBox(
           width: buttonWidth,
           child: CupertinoButton.filled(
-            onPressed: onPress,
+            onPressed: onPressed,
             child: Text(
               label,
               style: textStyle ?? filledTextStyle,
@@ -48,7 +48,7 @@ class SignInButton extends StatelessWidget {
       minWidth: buttonWidth ,
       color: buttonColor ?? Theme.of(context).primaryColor,
       textColor: Colors.white,
-      onPressed: onPress,
+      onPressed: onPressed,
       child: Text(
         label,
         style: textStyle ?? filledTextStyle,
