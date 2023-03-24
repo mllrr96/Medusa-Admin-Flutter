@@ -4,7 +4,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
-import '../components/sign_in_comonents.dart';
+import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
 
 class SignInView extends GetView<SignInController> {

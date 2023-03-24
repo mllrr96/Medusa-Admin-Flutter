@@ -3,15 +3,16 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/models/res/customer.dart';
 import 'package:medusa_admin/app/data/repository/customer/base_customer.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 import '../../datasource/remote/dio/dio_client.dart';
+import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../service/storage_service.dart';
 
 class CustomerRepository extends BaseCustomer {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
-// TODO: rework this
   @override
-  Future<CustomersRes?> retrieveCustomers(
+  Future<Result<CustomersRes, Failure>> retrieveCustomers(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
@@ -22,18 +23,18 @@ class CustomerRepository extends BaseCustomer {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return CustomersRes.fromJson(response.data);
+        return Success(CustomersRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+      return Error(Failure.from(error));
     }
   }
 
   @override
-  Future<CustomerRes?> retrieve(
+  Future<Result<CustomerRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
@@ -41,13 +42,13 @@ class CustomerRepository extends BaseCustomer {
       }
       final response = await _dataProvider.get(uri: '/customers/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
-        return CustomerRes.fromJson(response.data);
+        return Success(CustomerRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+      return Error(Failure.from(error));
     }
   }
 }

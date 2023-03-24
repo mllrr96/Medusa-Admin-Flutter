@@ -26,27 +26,25 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
     super.onInit();
   }
 
-
-
   Future<void> _fetchPage(int pageKey) async {
-    try {
-      final customersRes = await customerRepo.retrieveCustomers(queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
-        'limit': _pageSize,
-        'expand': 'orders',
-      });
-      final isLastPage = customersRes!.customers!.length < _pageSize;
-      customersCount.value= customersRes.count ?? 0;
+    final result = await customerRepo.retrieveCustomers(queryParameters: {
+      'offset': pagingController.itemList?.length ?? 0,
+      'limit': _pageSize,
+      'expand': 'orders',
+    });
+    result.when((success) {
+      final isLastPage = success.customers!.length < _pageSize;
+      customersCount.value = success.count ?? 0;
       if (isLastPage) {
-        pagingController.appendLastPage(customersRes.customers!);
+        pagingController.appendLastPage(success.customers!);
       } else {
-        final nextPageKey = pageKey + customersRes.customers!.length;
-        pagingController.appendPage(customersRes.customers!, nextPageKey);
+        final nextPageKey = pageKey + success.customers!.length;
+        pagingController.appendPage(success.customers!, nextPageKey);
       }
       refreshController.refreshCompleted();
-    } catch (error) {
-      pagingController.error = 'Error loading orders';
+    }, (error) {
+      pagingController.error = 'Error loading orders \n ${error.message}';
       refreshController.refreshFailed();
-    }
+    });
   }
 }

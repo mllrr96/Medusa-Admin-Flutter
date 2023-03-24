@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../../core/utils/colors.dart';
 import '../components/customers_app_bar.dart';
 import '../controllers/customers_controller.dart';
 
@@ -50,7 +51,7 @@ class _Customers extends GetView<CustomersController> {
         builderDelegate: PagedChildBuilderDelegate<Customer>(
             itemBuilder: (context, customer, index) => ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: const Color(0xffF473B6),
+                    backgroundColor: ColorManager.primary,
                     child: Text(
                         customer.firstName == null
                             ? customer.email[1].capitalize ?? customer.email[1]

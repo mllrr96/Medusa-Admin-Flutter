@@ -12,16 +12,13 @@ class CustomerDetailsController extends GetxController with StateMixin<Customer>
     super.onInit();
   }
 
-
-
   Future<void> _loadCustomer() async {
     change(null, status: RxStatus.loading());
-    final result = await customerRepo
-        .retrieve(id: customerId, queryParameters: {'expand': 'orders,shipping_addresses,groups,billing_address'});
-    if (result?.customer != null) {
-      change(result!.customer!, status: RxStatus.success());
-    } else {
-      change(null, status: RxStatus.error());
-    }
+    final result = await customerRepo.retrieve(id: customerId, queryParameters: {
+      'expand':
+          'orders,shipping_addresses,groups,billing_address,orders.items,orders.cart,orders.customer,orders.shipping_address,orders.sales_channel,orders.currency',
+    });
+    result.when((success) => change(success.customer, status: RxStatus.success()),
+        (error) => change(null, status: RxStatus.error()));
   }
 }
