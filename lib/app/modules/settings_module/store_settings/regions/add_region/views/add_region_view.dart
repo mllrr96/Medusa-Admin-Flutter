@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/country.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
@@ -30,6 +31,7 @@ class AddRegionView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
               appBar: AppBar(
+                leading: const AdaptiveBackButton(),
                 title: const Text('Add Region'),
                 centerTitle: true,
                 actions: [

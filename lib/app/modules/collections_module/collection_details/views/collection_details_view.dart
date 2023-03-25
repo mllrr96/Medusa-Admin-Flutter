@@ -144,6 +144,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                       ? SizedBox(
                           width: 45,
                           child: CachedNetworkImage(
+                            key: ValueKey(product.thumbnail),
                             imageUrl: product.thumbnail!,
                             placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
                             errorWidget: (context, string, error) =>

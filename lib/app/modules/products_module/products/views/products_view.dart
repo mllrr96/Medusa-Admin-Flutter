@@ -9,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
+import '../../../components/keep_alive_widget.dart';
 import '../components/products_app_bar.dart';
 import '../controllers/products_controller.dart';
 
@@ -21,17 +22,18 @@ class ProductsView extends StatelessWidget {
       builder: (controller) {
         final tabController = controller.tabController;
         return Scaffold(
-          appBar: ProductsAppBar(
-              tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
+          appBar: ProductsAppBar(tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
           body: SafeArea(
-            child: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: tabController,
-              children: [
-              controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView(),
-              const CollectionsView()
-            ],)
-          ),
+              child: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: tabController,
+            children: [
+              KeepAliveWidget(
+                  child:
+                      controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView()),
+              const KeepAliveWidget(child: CollectionsView())
+            ],
+          )),
         );
       },
     );
@@ -67,6 +69,7 @@ class ProductsGridView extends GetView<ProductsController> {
                           Expanded(
                             flex: 3,
                             child: CachedNetworkImage(
+                                key: ValueKey(product.thumbnail),
                                 imageUrl: product.thumbnail!,
                                 placeholder: (context, text) =>
                                     const Center(child: CircularProgressIndicator.adaptive()),
@@ -130,6 +133,7 @@ class ProductsListView extends GetView<ProductsController> {
                       ? SizedBox(
                           width: 45,
                           child: CachedNetworkImage(
+                            key: ValueKey(product.thumbnail),
                             imageUrl: product.thumbnail!,
                             placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
                             errorWidget: (context, string, error) =>

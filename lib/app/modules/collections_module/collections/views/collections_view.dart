@@ -18,15 +18,16 @@ class CollectionsView extends GetView<CollectionsController> {
           controller: controller.refreshController,
           onRefresh: () => controller.pagingController.refresh(),
           header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-          child: PagedListView.separated(
+          child: PagedListView(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
-              itemBuilder: (context, collection, index) => CollectionListTile(collection),
+              itemBuilder: (context, collection, index) => CollectionListTile(collection,
+                  tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null),
               firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
               noItemsFoundIndicatorBuilder: (_) => Center(child: Text('No products found', style: largeTextStyle)),
             ),
-            separatorBuilder: (_, __) =>
-                GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 16.0),
+            // separatorBuilder: (_, __) =>
+            //     GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 16.0),
           ),
         ),
       ),

@@ -28,8 +28,7 @@ class OrderDetailsView extends StatelessWidget {
             title: const Text('Order Details'),
             centerTitle: true,
           ),
-          bottomNavigationBar: controller.state != null &&
-                  controller.state!.status != OrderStatus.canceled
+          bottomNavigationBar: controller.state != null && controller.state!.status != OrderStatus.canceled
               ? BottomNavigationBarButton(
                   onPress: controller.state != null
                       ? () async {
@@ -58,8 +57,7 @@ class OrderDetailsView extends StatelessWidget {
           body: SafeArea(
             child: controller.obx(
               (order) => ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                 children: [
                   buildOrderOverview(context, order!),
                   space,
@@ -68,17 +66,13 @@ class OrderDetailsView extends StatelessWidget {
                   buildPaymentExpansionTile(order, context),
                   space,
                   Theme(
-                    data: Theme.of(context)
-                        .copyWith(dividerColor: Colors.transparent),
+                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                     child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                       child: ExpansionTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         title: const Text('Fulfillment'),
-                        trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.more_horiz)),
+                        trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                       ),
                     ),
                   ),
@@ -86,25 +80,20 @@ class OrderDetailsView extends StatelessWidget {
                   buildCustomerExpansionTile(order, context),
                   space,
                   Theme(
-                    data: Theme.of(context)
-                        .copyWith(dividerColor: Colors.transparent),
+                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                     child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                       child: ExpansionTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         title: const Text('Timeline'),
-                        trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.more_horiz)),
+                        trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                       ),
                     ),
                   ),
                 ],
               ),
               onEmpty: const Center(child: Text('No order details found')),
-              onError: (e) =>
-                  const Center(child: Text('Error loading order details')),
+              onError: (e) => const Center(child: Text('Error loading order details')),
               onLoading: const Center(
                 child: CircularProgressIndicator.adaptive(),
               ),
@@ -127,20 +116,16 @@ class OrderDetailsView extends StatelessWidget {
           trailing: IconButton(
               onPressed: () async {
                 // ignore: unused_result
-                await showModalActionSheet(
-                    context: context,
-                    actions: <SheetAction>[
-                      const SheetAction(
-                          label: 'Go to Customer', icon: Icons.person),
-                      const SheetAction(label: 'Transfer Ownership'),
-                      const SheetAction(label: 'Edit Shipping Address'),
-                      const SheetAction(label: 'Edit Billing Address'),
-                      const SheetAction(label: 'Edit Email Address'),
-                    ]);
+                await showModalActionSheet(context: context, actions: <SheetAction>[
+                  const SheetAction(label: 'Go to Customer', icon: Icons.person),
+                  const SheetAction(label: 'Transfer Ownership'),
+                  const SheetAction(label: 'Edit Shipping Address'),
+                  const SheetAction(label: 'Edit Billing Address'),
+                  const SheetAction(label: 'Edit Email Address'),
+                ]);
               },
               icon: const Icon(Icons.more_horiz)),
-          childrenPadding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,8 +139,7 @@ class OrderDetailsView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                '${order.shippingAddress?.firstName ?? ''} ${order.shippingAddress?.lastName ?? ''}',
+                            Text('${order.shippingAddress?.firstName ?? ''} ${order.shippingAddress?.lastName ?? ''}',
                                 style: mediumTextStyle),
                             Text(
                                 '${order.shippingAddress?.province ?? ''}, ${order.shippingAddress?.countryCode?.toUpperCase() ?? ''}',
@@ -170,12 +154,9 @@ class OrderDetailsView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(order.email!,
-                          style: Theme.of(context).textTheme.titleMedium),
-                      if (order.billingAddress != null &&
-                          order.billingAddress!.phone != null)
-                        Text(order.billingAddress!.phone.toString(),
-                            style: Theme.of(context).textTheme.titleMedium),
+                      Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                      if (order.billingAddress != null && order.billingAddress!.phone != null)
+                        Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
                     ],
                   ),
                 ),
@@ -191,8 +172,7 @@ class OrderDetailsView extends StatelessWidget {
                     children: [
                       Text('Shipping', style: mediumTextStyle),
                       const SizedBox(height: 5.0),
-                      Text(
-                          '${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
+                      Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
                           style: Theme.of(context).textTheme.titleMedium),
                       Text(
                           '${order.shippingAddress?.postalCode ?? ''} ${order.shippingAddress?.province ?? ''} ${order.shippingAddress?.countryCode ?? ''}',
@@ -205,8 +185,7 @@ class OrderDetailsView extends StatelessWidget {
                     children: [
                       Text('Billing', style: mediumTextStyle),
                       const SizedBox(height: 5.0),
-                      Text(
-                          '${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
+                      Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
                           style: Theme.of(context).textTheme.titleMedium),
                       Text(
                           '${order.billingAddress?.postalCode ?? ''} ${order.billingAddress?.province ?? ''} ${order.billingAddress?.countryCode ?? ''}',
@@ -232,12 +211,10 @@ class OrderDetailsView extends StatelessWidget {
         child: ExpansionTile(
           controlAffinity: ListTileControlAffinity.leading,
           title: const Text('Payment'),
-          trailing:
-              AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
+          trailing: AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
           // : CupertinoButton(
           //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
-          childrenPadding:
-              const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          childrenPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
@@ -248,24 +225,18 @@ class OrderDetailsView extends StatelessWidget {
                   style: mediumTextStyle,
                 ),
                 halfSpace,
-                if (order.payments != null &&
-                    order.payments!.isNotEmpty &&
-                    order.payments!.first.capturedAt != null)
+                if (order.payments != null && order.payments!.isNotEmpty && order.payments!.first.capturedAt != null)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         child: Text(
                             'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
-                            style: mediumTextStyle!.copyWith(
-                                color: Get.isDarkMode
-                                    ? Colors.white54
-                                    : Colors.black54)),
+                            style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54)),
                       ),
                       Align(
                           alignment: Alignment.centerRight,
-                          child: PaymentStatusLabel(
-                              paymentStatus: order.paymentStatus)),
+                          child: PaymentStatusLabel(paymentStatus: order.paymentStatus)),
                     ],
                   )
               ],
@@ -276,8 +247,7 @@ class OrderDetailsView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Total', style: mediumTextStyle!.copyWith(fontSize: 20)),
-                Text(order.payments!.first.amount!.toString(),
-                    style: mediumTextStyle.copyWith(fontSize: 20))
+                Text(order.payments!.first.amount!.toString(), style: mediumTextStyle.copyWith(fontSize: 20))
               ],
             ),
           ],
@@ -305,11 +275,8 @@ class OrderDetailsView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('#${order!.displayId!}',
-                          style: Theme.of(context).textTheme.titleLarge),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.copy, size: 14))
+                      Text('#${order!.displayId!}', style: Theme.of(context).textTheme.titleLarge),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
                   if (order.cart != null && order.cart!.completedAt != null)
@@ -337,25 +304,17 @@ class OrderDetailsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!,
-                        style: Theme.of(context).textTheme.titleMedium),
-                    if (order.billingAddress != null &&
-                        order.billingAddress!.phone != null)
-                      Text(order.billingAddress!.phone.toString(),
-                          style: Theme.of(context).textTheme.titleMedium),
+                    Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                    if (order.billingAddress != null && order.billingAddress!.phone != null)
+                      Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('Payment',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: Colors.grey)),
-                  Text('Manual',
-                      style: Theme.of(context).textTheme.titleMedium),
+                  Text('Payment', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
+                  Text('Manual', style: Theme.of(context).textTheme.titleMedium),
                 ],
               ),
             ],
@@ -365,8 +324,7 @@ class OrderDetailsView extends StatelessWidget {
     );
   }
 
-  Widget buildSummeryExpansionTile(
-      Order order, TextStyle mediumTextStyle, BuildContext context) {
+  Widget buildSummeryExpansionTile(Order order, TextStyle mediumTextStyle, BuildContext context) {
     const space = SizedBox(height: 5.0);
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return Theme(
@@ -376,14 +334,12 @@ class OrderDetailsView extends StatelessWidget {
         child: ExpansionTile(
             controlAffinity: ListTileControlAffinity.leading,
             title: const Text('Summery'),
-            trailing: AdaptiveButton(
-                onPressed: () {}, child: const Text('Edit Order')),
+            trailing: AdaptiveButton(onPressed: () {}, child: const Text('Edit Order')),
             // : CupertinoButton(
             //     padding: EdgeInsets.zero,
             //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),
             //     onPressed: () {}),
-            childrenPadding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
             children: [
               ListView.builder(
                   shrinkWrap: true,
@@ -393,15 +349,13 @@ class OrderDetailsView extends StatelessWidget {
                     final item = order.items![index];
 
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
                       child: Row(
                         children: [
                           SizedBox(
                               height: 50,
                               width: 50,
-                              child: CachedNetworkImage(
-                                  imageUrl: item.thumbnail!)),
+                              child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!)),
                           const SizedBox(width: 6.0),
                           Expanded(
                             flex: 3,
@@ -415,8 +369,7 @@ class OrderDetailsView extends StatelessWidget {
                                     style: mediumTextStyle,
                                   ),
                                 ),
-                                if (item.variant != null)
-                                  const SizedBox(height: 6.0),
+                                if (item.variant != null) const SizedBox(height: 6.0),
                                 Flexible(
                                   child: Text(
                                     item.variant?.title ?? '',
@@ -434,18 +387,13 @@ class OrderDetailsView extends StatelessWidget {
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                        order.currency!.symbol.toString() +
-                                            item.unitPrice!.toString(),
+                                    Text(order.currency!.symbol.toString() + item.unitPrice!.toString(),
                                         style: smallTextStyle),
-                                    Text(' x ${item.quantity!}',
-                                        style: smallTextStyle),
+                                    Text(' x ${item.quantity!}', style: smallTextStyle),
                                   ],
                                 ),
                                 const Divider(height: 1),
-                                Text(
-                                    order.currency!.symbol.toString() +
-                                        item.total!.toString(),
+                                Text(order.currency!.symbol.toString() + item.total!.toString(),
                                     style: mediumTextStyle),
                               ],
                             ),
@@ -463,10 +411,8 @@ class OrderDetailsView extends StatelessWidget {
                       Row(
                         children: [
                           Text(order.currency!.symbol!, style: mediumTextStyle),
-                          Text(order.subTotal!.toString(),
-                              style: mediumTextStyle),
-                          Text(' ${order.currency!.code!.toUpperCase()}',
-                              style: mediumTextStyle),
+                          Text(order.subTotal!.toString(), style: mediumTextStyle),
+                          Text(' ${order.currency!.code!.toUpperCase()}', style: mediumTextStyle),
                         ],
                       ),
                     ],
@@ -479,10 +425,8 @@ class OrderDetailsView extends StatelessWidget {
                       Row(
                         children: [
                           Text(order.currency!.symbol!, style: mediumTextStyle),
-                          Text(order.shippingTotal!.toString(),
-                              style: mediumTextStyle),
-                          Text(' ${order.currency!.code!.toUpperCase()}',
-                              style: mediumTextStyle),
+                          Text(order.shippingTotal!.toString(), style: mediumTextStyle),
+                          Text(' ${order.currency!.code!.toUpperCase()}', style: mediumTextStyle),
                         ],
                       ),
                     ],
@@ -495,12 +439,9 @@ class OrderDetailsView extends StatelessWidget {
                         Text('Tax', style: mediumTextStyle),
                         Row(
                           children: [
-                            Text(order.currency!.symbol!,
-                                style: mediumTextStyle),
-                            Text(order.taxTotal!.toString(),
-                                style: mediumTextStyle),
-                            Text(' ${order.currency!.code!.toUpperCase()}',
-                                style: mediumTextStyle),
+                            Text(order.currency!.symbol!, style: mediumTextStyle),
+                            Text(order.taxTotal!.toString(), style: mediumTextStyle),
+                            Text(' ${order.currency!.code!.toUpperCase()}', style: mediumTextStyle),
                           ],
                         ),
                       ],
@@ -509,14 +450,11 @@ class OrderDetailsView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Total',
-                          style: mediumTextStyle.copyWith(fontSize: 25)),
+                      Text('Total', style: mediumTextStyle.copyWith(fontSize: 25)),
                       Row(
                         children: [
-                          Text(order.currency!.symbol!,
-                              style: mediumTextStyle.copyWith(fontSize: 25)),
-                          Text(order.total!.toString(),
-                              style: mediumTextStyle.copyWith(fontSize: 25)),
+                          Text(order.currency!.symbol!, style: mediumTextStyle.copyWith(fontSize: 25)),
+                          Text(order.total!.toString(), style: mediumTextStyle.copyWith(fontSize: 25)),
                         ],
                       ),
                     ],

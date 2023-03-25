@@ -50,6 +50,9 @@ class _Customers extends GetView<CustomersController> {
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<Customer>(
             itemBuilder: (context, customer, index) => ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  horizontalTitleGap: 8,
+                  tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
                   leading: CircleAvatar(
                     backgroundColor: ColorManager.primary,
                     child: Text(

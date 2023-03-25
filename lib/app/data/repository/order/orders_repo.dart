@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/repository/order/base_orders.dart';
+import 'package:multiple_result/multiple_result.dart';
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/res/orders.dart';
 import '../../service/storage_service.dart';
@@ -8,11 +10,8 @@ import '../../service/storage_service.dart';
 class OrdersRepository extends BaseOrders {
   final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
-  /// @description Retrieves an order
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<UserOrderRes?>}
-  Future<UserOrderRes?> retrieve(
+  /// Retrieves an order
+  Future<Result<UserOrderRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
@@ -20,21 +19,18 @@ class OrdersRepository extends BaseOrders {
       }
       final response = await _dataProvider.get(uri: '/orders/$id', queryParameters: queryParameters);
       if (response.statusCode == 200) {
-        return UserOrderRes.fromJson(response.data);
+        return Success(UserOrderRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+      return Error(Failure.from(error));
     }
   }
 
-  /// @description Retrieves a list of Orders
-  /// @param queryParameters
-  /// @param customHeaders
-  /// @return {ResponsePromise<UserOrdersRes?>}
-  Future<UserOrdersRes?> retrieveOrders(
+  /// Retrieves a list of Orders
+  Future<Result<UserOrdersRes, Failure>> retrieveOrders(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
     try {
       if (customHeaders != null) {
@@ -45,13 +41,13 @@ class OrdersRepository extends BaseOrders {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return UserOrdersRes.fromJson(response.data);
+        return Success(UserOrdersRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+      return Error(Failure.from(error));
     }
   }
 }

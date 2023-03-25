@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import '../../../../data/models/store/order.dart';
 import '../controllers/customer_details_controller.dart';
 
 class CustomerDetailsView extends GetView<CustomerDetailsController> {
@@ -38,22 +42,32 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          backgroundColor: ColorManager.primary,
-                          child: Text(
-                              customer.firstName == null
-                                  ? customer.email[1].capitalize ?? customer.email[1]
-                                  : customer.firstName![1],
-                              style: largeTextStyle!.copyWith(color: Colors.white)),
+                        Flexible(
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: ColorManager.primary,
+                                child: Text(
+                                    customer.firstName == null
+                                        ? customer.email[1].capitalize ?? customer.email[1]
+                                        : customer.firstName![1],
+                                    style: largeTextStyle!.copyWith(color: Colors.white)),
+                              ),
+                              const SizedBox(width: 6.0),
+                              Flexible(
+                                child: Column(
+                                  children: [
+                                    nameText,
+                                    if (customer.firstName != null) Text(customer.email, style: mediumTextStyle),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(width: 6.0),
-                        Column(
-                          children: [
-                            nameText,
-                            if (customer.firstName != null) Text(customer.email, style: mediumTextStyle),
-                          ],
-                        ),
+                        AdaptiveIcon(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
                       ],
                     ),
                     const SizedBox(height: 12.0),
@@ -69,8 +83,7 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                                   'First seen: ${DateFormat.yMMMd().format(customer.createdAt!)}',
                                   style: smallTextStyle,
                                 ),
-                              if (customer.orders != null)
-                                Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
+                              Obx(() => Text('Orders: ${controller.ordersCount.value}', style: smallTextStyle)),
                             ],
                           ),
                         ),
@@ -91,35 +104,33 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                   ],
                 ),
               ),
-              if (customer.orders != null)
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                    color: Theme.of(context).expansionTileTheme.backgroundColor,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Orders ${customer.orders?.length ?? ''}'),
-                      const SizedBox(height: 6.0),
-                      ListView.separated(
-                        separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                        itemCount: customer.orders!.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => CustomerOrderCard(customer.orders![index],
-                            onTransferTap: () => Get.toNamed(Routes.TRANSFER_ORDER)),
-                      ),
-                    ],
-                  ),
-                ),
-              if (customer.orders == null) const Text('No Orders')
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                child: Obx(() => Text('Orders ${controller.ordersCount.value}')),
+              ),
+              PagedListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                pagingController: controller.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Order>(
+                    itemBuilder: (context, order, index) => CustomerOrderCard(order,
+                        onTransferTap: () => Get.toNamed(Routes.TRANSFER_ORDER),
+                        cardColor: index.isEven ? Theme.of(context).appBarTheme.backgroundColor : null),
+                    noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Orders')),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const Center(child: CircularProgressIndicator.adaptive())),
+              ),
             ],
           );
         },
-        onError: (e) => Center(child: Text(e ?? 'Error loading customer details')),
+        onError: (e) => Center(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(e ?? 'Error loading customer details'),
+            AdaptiveButton(onPressed: () async => await controller.refreshView(), child: const Text('Retry')),
+          ],
+        )),
         onLoading: const Center(child: CircularProgressIndicator.adaptive()),
       )),
     );

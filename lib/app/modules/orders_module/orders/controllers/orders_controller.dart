@@ -19,26 +19,25 @@ class OrdersController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    try {
-      final productRes = await ordersRepository.retrieveOrders(queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
-        'limit': _pageSize,
-        'expand': 'items,cart,customer,shipping_address,sales_channel,currency',
-        'fields':
-            'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
-      });
-      final isLastPage = productRes!.orders!.length < _pageSize;
-      ordersCount.value = productRes.count ?? 0;
+    final result = await ordersRepository.retrieveOrders(queryParameters: {
+      'offset': pagingController.itemList?.length ?? 0,
+      'limit': _pageSize,
+      'expand': 'items,cart,customer,shipping_address,sales_channel,currency',
+      'fields': 'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
+    });
+    result.when((success) {
+      final isLastPage = success.orders!.length < _pageSize;
+      ordersCount.value = success.count ?? 0;
       if (isLastPage) {
-        pagingController.appendLastPage(productRes.orders!);
+        pagingController.appendLastPage(success.orders!);
       } else {
-        final nextPageKey = pageKey + productRes.orders!.length;
-        pagingController.appendPage(productRes.orders!, nextPageKey);
+        final nextPageKey = pageKey + success.orders!.length;
+        pagingController.appendPage(success.orders!, nextPageKey);
       }
       refreshController.refreshCompleted();
-    } catch (error) {
+    }, (error) {
       pagingController.error = 'Error loading orders';
       refreshController.refreshFailed();
-    }
+    });
   }
 }

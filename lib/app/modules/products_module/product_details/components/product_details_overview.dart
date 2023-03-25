@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
@@ -29,7 +30,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(child: Text(product.title ?? '')),
-              IconButton(
+              AdaptiveIcon(
                 onPressed: () async {
                   await showModalActionSheet<ProductComponents>(context: context, actions: [
                     const SheetAction(label: 'Edit General Information', key: ProductComponents.generalInfo),

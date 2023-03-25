@@ -19,21 +19,19 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     super.onReady();
   }
 
-
   Future<void> loadOrderDetails() async {
     change(null, status: RxStatus.loading());
-    try {
-      final result = await ordersRepository.retrieve(id: orderId, queryParameters: {
-        'expand': 'customer,items,payments,fulfillments,cart,shipping_methods,currency,shipping_address,billing_address'
-      });
-      if (result != null && result.order != null) {
-        change(result.order!, status: RxStatus.success());
+    final result = await ordersRepository.retrieve(id: orderId, queryParameters: {
+      'expand': 'customer,items,payments,fulfillments,cart,shipping_methods,currency,shipping_address,billing_address'
+    });
+
+    result.when((success) {
+      if (success.order != null) {
+        change(success.order!, status: RxStatus.success());
         update();
       } else {
         change(null, status: RxStatus.error());
       }
-    } catch (e) {
-      change(null, status: RxStatus.error());
-    }
+    }, (error) => change(null, status: RxStatus.error()));
   }
 }
