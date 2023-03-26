@@ -1,7 +1,7 @@
 import 'package:multiple_result/multiple_result.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 
-import '../../models/req/user_create_region_req.dart';
+import '../../models/req/user_region_req.dart';
 import '../../models/res/regions.dart';
 
 abstract class BaseRegions {

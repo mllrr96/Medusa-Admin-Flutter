@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_create_collection_req.dart';
 import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
+import '../../../../data/models/req/user_collection_req.dart';
 import '../../../../data/models/store/product_collection.dart';
 import '../../collections/controllers/collections_controller.dart';
 
@@ -29,7 +29,6 @@ class CreateCollectionController extends GetxController {
 
     super.onInit();
   }
-
 
   @override
   void onClose() {

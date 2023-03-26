@@ -1,11 +1,9 @@
 import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:medusa_admin/app/data/models/req/user_create_collection_req.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_collection_remove_products_req.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_collection_update_products_req.dart';
 import 'package:medusa_admin/app/data/models/res/collection.dart';
 import '../../datasource/remote/dio/dio_client.dart';
+import '../../models/req/user_collection_req.dart';
 import '../../service/storage_service.dart';
 import 'base_collection.dart';
 

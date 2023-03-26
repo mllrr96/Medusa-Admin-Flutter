@@ -1,5 +1,5 @@
 class AppConstants {
-  static const String appName = 'Dischi';
+  static const String appName = 'Medusa Admin';
   static const String userCollection = 'users';
   static const String productsCollection = 'products';
   static const String ordersCollection = 'orders';
@@ -10,7 +10,6 @@ class AppConstants {
   static const String appleLogoAsset = 'assets/icons/apple-icon.svg';
   static const String googleLogoAsset = 'assets/icons/google-icon.svg';
   static const String firstRun = 'firstRun';
-  static const String skipUserProfile = 'skipUserProfile';
   static const String favorites = 'favorites';
   static const String cookie = 'Cookie';
   static const String themeMode = 'theme';

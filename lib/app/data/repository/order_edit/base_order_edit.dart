@@ -1,7 +1,7 @@
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../models/req/order_edit.dart';
+import '../../models/req/user_order_edit.dart';
 import '../../models/res/order_edit.dart';
 
 abstract class BaseOrderEdit {

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_update_user_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
 import 'package:medusa_admin/app/data/repository/user/user_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+
+import '../../../../../data/models/req/user_user_req.dart';
 
 class PersonalInformationController extends GetxController with StateMixin<User> {
   PersonalInformationController({required this.userRepo, required this.authRepo});

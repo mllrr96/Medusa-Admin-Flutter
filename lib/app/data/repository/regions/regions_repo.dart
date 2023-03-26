@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:medusa_admin/app/data/models/req/user_create_region_req.dart';
+import 'package:medusa_admin/app/data/models/req/user_region_req.dart';
 import 'package:medusa_admin/app/data/models/res/regions.dart';
 import 'package:medusa_admin/app/data/repository/regions/base_regions.dart';
 

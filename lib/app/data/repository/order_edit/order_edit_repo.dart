@@ -1,6 +1,6 @@
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 
-import 'package:medusa_admin/app/data/models/req/order_edit.dart';
+import 'package:medusa_admin/app/data/models/req/user_order_edit.dart';
 
 import 'package:medusa_admin/app/data/models/res/order_edit.dart';
 import 'package:multiple_result/multiple_result.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_create_region_req.dart';
+import 'package:medusa_admin/app/data/models/req/user_region_req.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';

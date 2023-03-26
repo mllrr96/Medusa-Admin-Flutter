@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/colors.dart';
-import '../../../core/utils/fonts.dart';
 
 Obx errorMessage(
         {required RxString errorMessage,
@@ -20,7 +19,7 @@ Obx errorMessage(
             height: errorChildHeight ?? 50.0,
             decoration: BoxDecoration(
               color: const Color(0xffFFE9E9),
-              borderRadius: BorderRadius.circular(radius ?? FontSize.s24),
+              borderRadius: BorderRadius.circular(radius ?? 24),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -34,10 +33,8 @@ Obx errorMessage(
                   Expanded(
                     child: Text(
                       errorMessage.value,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(color: ColorManager.red, fontSize: FontSize.s14),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.red, fontSize: 14),
                       overflow: TextOverflow.fade,
                     ),
                   )

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_collection_remove_products_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
+import '../../../../data/models/req/user_collection_req.dart';
 import '../../collections/controllers/collections_controller.dart';
 
 class CollectionDetailsController extends GetxController with StateMixin<ProductCollection> {

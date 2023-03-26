@@ -1,8 +1,7 @@
 import 'package:multiple_result/multiple_result.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-import '../../models/req/user_create_user_req.dart';
 import '../../models/req/user_reset_password_req.dart';
-import '../../models/req/user_update_user_req.dart';
+import '../../models/req/user_user_req.dart';
 import '../../models/res/user.dart';
 
 abstract class BaseUser {
