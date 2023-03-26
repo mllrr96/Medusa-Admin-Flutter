@@ -2,8 +2,8 @@
     package="com.rag.medusa.admin.medusa_admin">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="medusa_admin"
-        android:name="${Medusa Admin}"
+        android:label="Medusa Admin"
+        android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

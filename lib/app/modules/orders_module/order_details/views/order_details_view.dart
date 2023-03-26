@@ -6,7 +6,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
+import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 
 import '../../../../data/models/store/order.dart';
 import '../../orders/components/payment_status_label.dart';
@@ -20,6 +22,7 @@ class OrderDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     const space = SizedBox(height: 12.0);
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return GetBuilder<OrderDetailsController>(
       builder: (controller) {
         return Scaffold(
@@ -71,8 +74,34 @@ class OrderDetailsView extends StatelessWidget {
                       borderRadius: const BorderRadius.all(Radius.circular(12.0)),
                       child: ExpansionTile(
                         controlAffinity: ListTileControlAffinity.leading,
+                        childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                         title: const Text('Fulfillment'),
-                        trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+                        trailing: order.fulfillmentStatus != FulfillmentStatus.fulfilled
+                            ? AdaptiveButton(
+                                onPressed: () {},
+                                padding: EdgeInsets.zero,
+                                child: const Text('Create Fulfillment'),
+                              )
+                            : null,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Shipping method', style: mediumTextStyle.copyWith(color: lightWhite)),
+                              FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus),
+                            ],
+                          ),
+                          if (order.shippingMethods == null) Text('None', style: mediumTextStyle),
+                          if (order.shippingMethods != null)
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: order.shippingMethods!.length,
+                                itemBuilder: (context, index) => Text(
+                                    order.shippingMethods![index].shippingOption?.name ?? '',
+                                    style: mediumTextStyle)),
+                          // Text(order)
+                        ],
                       ),
                     ),
                   ),
@@ -94,9 +123,7 @@ class OrderDetailsView extends StatelessWidget {
               ),
               onEmpty: const Center(child: Text('No order details found')),
               onError: (e) => const Center(child: Text('Error loading order details')),
-              onLoading: const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),
         );
@@ -106,6 +133,7 @@ class OrderDetailsView extends StatelessWidget {
 
   Widget buildCustomerExpansionTile(Order order, BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ClipRRect(
@@ -170,7 +198,7 @@ class OrderDetailsView extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Shipping', style: mediumTextStyle),
+                      Text('Shipping', style: mediumTextStyle!.copyWith(color: lightWhite)),
                       const SizedBox(height: 5.0),
                       Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
                           style: Theme.of(context).textTheme.titleMedium),
@@ -183,7 +211,7 @@ class OrderDetailsView extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Billing', style: mediumTextStyle),
+                      Text('Billing', style: mediumTextStyle.copyWith(color: lightWhite)),
                       const SizedBox(height: 5.0),
                       Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
                           style: Theme.of(context).textTheme.titleMedium),
@@ -211,7 +239,11 @@ class OrderDetailsView extends StatelessWidget {
         child: ExpansionTile(
           controlAffinity: ListTileControlAffinity.leading,
           title: const Text('Payment'),
-          trailing: AdaptiveButton(onPressed: () {}, child: const Text('Refund')),
+          trailing: AdaptiveButton(
+            onPressed: () {},
+            padding: EdgeInsets.zero,
+            child: const Text('Refund'),
+          ),
           // : CupertinoButton(
           //     padding: EdgeInsets.zero, child: const Text('Refund', style: TextStyle(fontSize: 14)), onPressed: () {}),
           childrenPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -334,7 +366,7 @@ class OrderDetailsView extends StatelessWidget {
         child: ExpansionTile(
             controlAffinity: ListTileControlAffinity.leading,
             title: const Text('Summery'),
-            trailing: AdaptiveButton(onPressed: () {}, child: const Text('Edit Order')),
+            trailing: AdaptiveButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit Order')),
             // : CupertinoButton(
             //     padding: EdgeInsets.zero,
             //     child: const Text('Edit Order', style: TextStyle(fontSize: 14)),

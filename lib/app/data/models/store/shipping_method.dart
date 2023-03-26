@@ -17,7 +17,7 @@ class ShippingMethod {
   ClaimOrder? claimOrder;
   List<ShippingMethodTaxLine>? taxLines;
   int? price;
-  Map<String, dynamic> data = {};
+  Map<String, dynamic>? data;
   bool? includesTax;
 
   ShippingMethod({
@@ -36,7 +36,7 @@ class ShippingMethod {
     this.claimOrder,
     this.taxLines,
     required this.price,
-    this.data = const {},
+    this.data,
     this.includesTax,
   });
 

@@ -5,11 +5,10 @@ import '../../models/res/customer.dart';
 
 abstract class BaseCustomer {
   /// Retrieves a list of Customers
-  Future<Result<CustomersRes, Failure>> retrieveCustomers({Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
-
+  Future<Result<CustomersRes, Failure>> retrieveCustomers(
+      {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
 
   /// Retrieves a customer
   Future<Result<CustomerRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});
-
 }
