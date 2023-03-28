@@ -7,7 +7,7 @@ class ThemeService extends GetxService {
   late ThemeMode themeMode;
 
 
-  Future<ThemeService> init() async {
+  ThemeService init()  {
 
     Get.changeThemeMode(StorageService.instance.loadThemeMode());
 

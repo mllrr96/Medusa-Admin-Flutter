@@ -1,15 +1,13 @@
-import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_shipping_option_req.dart';
 import 'package:medusa_admin/app/data/models/res/shipping_option_res.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/base_shipping_options.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:medusa_admin/app/data/service/dio_service.dart';
 
-import '../../datasource/remote/dio/dio_client.dart';
-import '../../service/storage_service.dart';
 
 class ShippingOptionsRepo extends BaseShippingOptions{
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
+  final _dataProvider = DioService.instance.dio;
 
   @override
   Future<Result<UserCreateShippingOptionRes, Failure>> create({required UserCreateShippingOptionReq userCreateShippingOptionReq, Map<String, dynamic>? customHeaders}) {

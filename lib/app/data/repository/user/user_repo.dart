@@ -1,16 +1,14 @@
 import 'dart:developer';
+import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_reset_password_req.dart';
 import 'package:medusa_admin/app/data/models/res/user.dart';
 import 'package:medusa_admin/app/data/repository/user/base_user.dart';
-import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/req/user_user_req.dart';
-import '../../service/storage_service.dart';
 
 class UserRepo extends BaseUser {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
+  final _dataProvider = DioService.instance.dio;
 
   @override
   Future<Result<UserCreateUserRes, Failure>> create({

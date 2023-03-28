@@ -1,15 +1,13 @@
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_order.dart';
 import 'package:medusa_admin/app/data/repository/order/base_orders.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/res/orders.dart';
-import '../../service/storage_service.dart';
+import 'package:medusa_admin/app/data/service/dio_service.dart';
 
 class OrdersRepository extends BaseOrders {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
+  final _dataProvider = DioService.instance.dio;
 
   /// Retrieves an order
   @override

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/auth/base_auth.dart';
+import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../datasource/remote/dio/dio_client.dart';
@@ -10,7 +11,7 @@ import '../../models/res/auth.dart';
 
 class AuthRepo extends BaseAuth {
   AuthRepo();
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
+  final _dataProvider = DioService.instance.dio;
 
   /// Authenticates a user using email and password combination
   @override
