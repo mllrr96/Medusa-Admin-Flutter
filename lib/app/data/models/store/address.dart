@@ -20,7 +20,7 @@ class Address {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = {};
+  Map<String, dynamic>? metadata;
 
   Address({
     this.id,
@@ -40,7 +40,7 @@ class Address {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   Address.fromJson(Map<String, dynamic> json) {
@@ -69,7 +69,7 @@ class Address {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

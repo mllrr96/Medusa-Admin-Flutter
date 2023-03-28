@@ -1,4 +1,3 @@
-
 import 'package:medusa_admin/app/data/models/store/region.dart';
 
 import 'discount_rule.dart';
@@ -52,9 +51,7 @@ class Discount {
     rule = json['rule'] != null ? DiscountRule.fromJson(json['rule']) : null;
     isDisabled = json['is_disabled'];
     parentDiscountId = json['parent_discount_id'];
-    parentDiscount = json['parent_discount'] != null
-        ? Discount.fromJson(json['parent_discount'])
-        : null;
+    parentDiscount = json['parent_discount'] != null ? Discount.fromJson(json['parent_discount']) : null;
     startsAt = DateTime.tryParse(json['starts_at'] ?? '');
     endsAt = DateTime.tryParse(json['ends_at'] ?? '');
     validDuration = json['valid_duration'];

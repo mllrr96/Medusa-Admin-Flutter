@@ -21,7 +21,7 @@ class ClaimItem {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ClaimItem({
     this.id,
@@ -39,7 +39,7 @@ class ClaimItem {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ClaimItem.fromJson(Map<String, dynamic> json) {
@@ -49,17 +49,12 @@ class ClaimItem {
       json['images'].forEach((e) => images!.add(ClaimImage.fromJson(e)));
     }
     claimOrderId = json['claim_order_id'];
-    claimOrder = json['claim_order'] != null
-        ? ClaimOrder.fromJson(json['claim_order'])
-        : null;
+    claimOrder = json['claim_order'] != null ? ClaimOrder.fromJson(json['claim_order']) : null;
     itemId = json['item_id'];
     item = json['item'] != null ? LineItem.fromJson(json['item']) : null;
     variantId = json['variant_id'];
-    variant =
-        json['variant'] != null ? ProductVariant.fromJson(json['item']) : null;
-    reason = json['reason'] != null
-        ? ClaimReason.values.firstWhere((e) => e.value == json['reason'])
-        : null;
+    variant = json['variant'] != null ? ProductVariant.fromJson(json['item']) : null;
+    reason = json['reason'] != null ? ClaimReason.values.firstWhere((e) => e.value == json['reason']) : null;
     note = json['note'];
     quantity = json['quantity'];
     if (json['tags'] != null) {
@@ -69,22 +64,22 @@ class ClaimItem {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['id'] = id;
-    json['images'] = images?.map((e) => e.toJson()).toList() ?? [];
+    json['images'] = images?.map((e) => e.toJson()).toList();
     json['claim_order_id'] = claimOrderId;
-    json['claim_order'] = claimOrder?.toJson() ?? {};
+    json['claim_order'] = claimOrder?.toJson();
     json['item_id'] = itemId;
-    json['item'] = item?.toJson() ?? {};
+    json['item'] = item?.toJson();
     json['variant_id'] = variantId;
-    json['variant'] = variant?.toJson() ?? {};
+    json['variant'] = variant?.toJson();
     json['reason'] = reason?.value;
     json['note'] = note;
-    json['tags'] = tags?.map((e) => e.toJson()).toList() ?? [];
+    json['tags'] = tags?.map((e) => e.toJson()).toList();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();
