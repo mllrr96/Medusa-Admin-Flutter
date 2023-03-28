@@ -1,3 +1,4 @@
+
 import 'index.dart';
 
 class Payment {
@@ -19,7 +20,7 @@ class Payment {
   DateTime? canceledAt;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Payment({
     this.id,
@@ -40,7 +41,7 @@ class Payment {
     this.canceledAt,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   Payment.fromJson(Map<String, dynamic> json) {
@@ -63,7 +64,7 @@ class Payment {
     canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

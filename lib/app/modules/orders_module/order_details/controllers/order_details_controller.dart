@@ -21,7 +21,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> loadOrderDetails() async {
     change(null, status: RxStatus.loading());
-    final result = await ordersRepository.retrieve(id: orderId, queryParameters: {
+    final result = await ordersRepository.retrieveOrder(id: orderId, queryParameters: {
       'expand':
           'customer,billing_address,shipping_address,discounts,discounts.rule,shipping_methods,payments,fulfillments,fulfillments.tracking_links,returns,claims,swaps,swaps.return_order,swaps.additional_items,edits,currency'
     });

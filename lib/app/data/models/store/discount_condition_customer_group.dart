@@ -9,7 +9,7 @@ class DiscountConditionCustomerGroup {
   DiscountCondition? discountCondition;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   DiscountConditionCustomerGroup({
     required this.customerGroupId,
@@ -18,7 +18,7 @@ class DiscountConditionCustomerGroup {
     this.discountCondition,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   DiscountConditionCustomerGroup.fromJson(Map<String, dynamic> json) {
@@ -32,7 +32,7 @@ class DiscountConditionCustomerGroup {
         : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
