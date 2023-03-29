@@ -74,10 +74,10 @@ class UserCreateRefundOrdersRes {
   }
 }
 
-class UserRequestReturnOrdersRes {
+class UserRequestReturnOrderRes {
   Order? order;
 
-  UserRequestReturnOrdersRes.fromJson(json) {
+  UserRequestReturnOrderRes.fromJson(json) {
     order = json["order"] != null ? Order.fromJson(json["order"]) : null;
   }
 }
