@@ -6,7 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OrdersController extends GetxController {
   OrdersController({required this.ordersRepository});
-  OrdersRepository ordersRepository;
+  OrdersRepo ordersRepository;
   RefreshController refreshController = RefreshController();
   RxInt ordersCount = 0.obs;
 

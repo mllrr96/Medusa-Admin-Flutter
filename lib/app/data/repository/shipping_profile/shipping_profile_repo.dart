@@ -1,27 +1,28 @@
 import 'dart:developer';
-import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:medusa_admin/app/data/models/req/user_shipping_option_req.dart';
-import 'package:medusa_admin/app/data/models/res/shipping_option_res.dart';
-import 'package:medusa_admin/app/data/repository/shipping_options/base_shipping_options.dart';
-import 'package:multiple_result/multiple_result.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 
-class ShippingOptionsRepo extends BaseShippingOptions {
+import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
+import 'package:medusa_admin/app/data/models/req/user_shipping_profile_req.dart';
+import 'package:medusa_admin/app/data/models/res/shipping_profile.dart';
+import 'package:multiple_result/multiple_result.dart';
+import '../../service/dio_service.dart';
+import 'base_shipping_profile.dart';
+
+class ShippingProfileRepo extends BaseShippingProfile {
   final _dataProvider = DioService.instance.dio;
 
-  /// Creates a Shipping Option
+  /// Creates a Shipping Profile
   @override
-  Future<Result<UserCreateShippingOptionRes, Failure>> create({
-    required UserCreateShippingOptionReq userCreateShippingOptionReq,
+  Future<Result<UserCreateShippingProfileRes, Failure>> create({
+    required UserCreateShippingProfileReq userCreateShippingProfileReq,
     Map<String, dynamic>? customHeaders,
   }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.post(uri: '/shipping-options', data: userCreateShippingOptionReq.toJson());
+      final response = await _dataProvider.post(uri: '/shipping-profiles', data: userCreateShippingProfileReq.toJson());
       if (response.statusCode == 200) {
-        return Success(UserCreateShippingOptionRes.fromJson(response.data));
+        return Success(UserCreateShippingProfileRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }
@@ -31,9 +32,10 @@ class ShippingOptionsRepo extends BaseShippingOptions {
     }
   }
 
-  /// Deletes a Shipping Option.
+  /// Deletes a Shipping Profile.
   @override
-  Future<Result<UserDeleteShippingOptionRes, Failure>> delete({
+  Future<Result<UserDeleteShippingProfileRes, Failure>> delete({
+    /// The ID of the Shipping Profile to delete.
     required String id,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -41,11 +43,9 @@ class ShippingOptionsRepo extends BaseShippingOptions {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.delete(
-        '/shipping-options/$id',
-      );
+      final response = await _dataProvider.delete('/shipping-profiles/$id');
       if (response.statusCode == 200) {
-        return Success(UserDeleteShippingOptionRes.fromJson(response.data));
+        return Success(UserDeleteShippingProfileRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }
@@ -55,9 +55,10 @@ class ShippingOptionsRepo extends BaseShippingOptions {
     }
   }
 
-  /// Retrieves a Shipping Option.
+  /// Retrieves a Shipping Profile.
   @override
-  Future<Result<UserRetrieveShippingOptionRes, Failure>> retrieve({
+  Future<Result<UserRetrieveShippingProfileRes, Failure>> retrieve({
+    /// The ID of the Shipping Profile.
     required String id,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
@@ -67,11 +68,11 @@ class ShippingOptionsRepo extends BaseShippingOptions {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.get(
-        uri: '/shipping-options/$id',
+        uri: '/shipping-profiles/$id',
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return Success(UserRetrieveShippingOptionRes.fromJson(response.data));
+        return Success(UserRetrieveShippingProfileRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }
@@ -81,9 +82,9 @@ class ShippingOptionsRepo extends BaseShippingOptions {
     }
   }
 
-  /// Retrieves a list of Shipping Options.
+  /// Retrieves a list of Shipping Profile.
   @override
-  Future<Result<UserRetrieveAllShippingOptionRes, Failure>> retrieveAll({
+  Future<Result<UserRetrieveAllShippingProfileRes, Failure>> retrieveAll({
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -92,11 +93,11 @@ class ShippingOptionsRepo extends BaseShippingOptions {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.get(
-        uri: '/shipping-options',
+        uri: '/shipping-profiles',
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return Success(UserRetrieveAllShippingOptionRes.fromJson(response.data));
+        return Success(UserRetrieveAllShippingProfileRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }
@@ -106,11 +107,12 @@ class ShippingOptionsRepo extends BaseShippingOptions {
     }
   }
 
-  /// Updates a Shipping Option
+  /// Updates a Shipping Profile
   @override
-  Future<Result<UserUpdateShippingOptionRes, Failure>> update({
+  Future<Result<UserUpdateShippingProfileRes, Failure>> update({
+    /// The ID of the Shipping Profile.
     required String id,
-    required UserUpdateShippingOptionReq userUpdateReturnReasonReq,
+    required UserUpdateShippingProfileReq userUpdateShippingProfileReq,
     Map<String, dynamic>? customHeaders,
   }) async {
     try {
@@ -118,11 +120,11 @@ class ShippingOptionsRepo extends BaseShippingOptions {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.post(
-        uri: '/shipping-options',
-        data: userUpdateReturnReasonReq.toJson(),
+        uri: '/shipping-profiles',
+        data: userUpdateShippingProfileReq.toJson(),
       );
       if (response.statusCode == 200) {
-        return Success(UserUpdateShippingOptionRes.fromJson(response.data));
+        return Success(UserUpdateShippingProfileRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }

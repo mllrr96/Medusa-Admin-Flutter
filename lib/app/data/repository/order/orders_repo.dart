@@ -6,7 +6,7 @@ import 'package:multiple_result/multiple_result.dart';
 import '../../models/res/orders.dart';
 import 'package:medusa_admin/app/data/service/dio_service.dart';
 
-class OrdersRepository extends BaseOrders {
+class OrdersRepo extends BaseOrders {
   final _dataProvider = DioService.instance.dio;
 
   /// Retrieves an order

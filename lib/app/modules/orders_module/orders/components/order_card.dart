@@ -427,23 +427,28 @@ class AlternativeOrderCard extends StatelessWidget {
 }
 
 class CustomerOrderCard extends StatelessWidget {
-  const CustomerOrderCard(this.order, {Key? key, this.onTap, this.cardColor, this.onTransferTap}) : super(key: key);
+  const CustomerOrderCard(this.order, {Key? key, this.onTap, this.cardColor, this.onTransferTap, required this.index})
+      : super(key: key);
   final Order order;
   final void Function()? onTap;
   final void Function()? onTransferTap;
   final Color? cardColor;
+  final int index;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final cardDefaultColor =
+        index.isEven ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
 
+    final orderNumberBackgroundColor =
+        index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
     return InkWell(
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
-            color: cardColor ?? Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(5.0))),
+            color: cardColor ?? cardDefaultColor, borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [
             Row(
@@ -452,7 +457,7 @@ class CustomerOrderCard extends StatelessWidget {
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                        color: Theme.of(context).appBarTheme.backgroundColor,
+                        color: orderNumberBackgroundColor,
                         borderRadius: const BorderRadius.all(Radius.circular(6.0))),
                     child: Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium)),
                 Row(

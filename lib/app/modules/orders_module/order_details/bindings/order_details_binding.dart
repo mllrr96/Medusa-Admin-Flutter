@@ -7,7 +7,7 @@ class OrderDetailsBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<OrderDetailsController>(
-      () => OrderDetailsController(ordersRepository: OrdersRepository()),
+      () => OrderDetailsController(ordersRepo: OrdersRepo()),
     );
   }
 }

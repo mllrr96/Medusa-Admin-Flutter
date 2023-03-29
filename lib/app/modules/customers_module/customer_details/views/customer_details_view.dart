@@ -113,9 +113,8 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                 physics: const NeverScrollableScrollPhysics(),
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Order>(
-                    itemBuilder: (context, order, index) => CustomerOrderCard(order,
-                        onTransferTap: () => Get.toNamed(Routes.TRANSFER_ORDER),
-                        cardColor: index.isEven ? Theme.of(context).appBarTheme.backgroundColor : null),
+                    itemBuilder: (context, order, index) =>
+                        CustomerOrderCard(order, index: index, onTransferTap: () => Get.toNamed(Routes.TRANSFER_ORDER)),
                     noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Orders')),
                     firstPageProgressIndicatorBuilder: (context) =>
                         const Center(child: CircularProgressIndicator.adaptive())),

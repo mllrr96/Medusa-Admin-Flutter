@@ -8,8 +8,10 @@ import '../../service/dio_service.dart';
 class UploadRepo extends BaseUpload {
   final _dataProvider = DioService.instance.dio;
 
+  /// Removes an uploaded file using the installed file service
   @override
   Future<Result<UserDeleteFileRes, Failure>> deleteFile({
+    /// key of the file to delete
     required String fileKey,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -29,8 +31,10 @@ class UploadRepo extends BaseUpload {
     }
   }
 
+  /// Creates a pre-signed download url for a file
   @override
   Future<Result<UserGetFileUrlRes, Failure>> getFileUrl({
+    /// key of the file to obtain the download link for
     required String fileKey,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -50,6 +54,7 @@ class UploadRepo extends BaseUpload {
     }
   }
 
+  /// Uploads at least one file to the specific file service that is installed in Medusa.
   @override
   Future<Result<UserUploadFileRes, Failure>> uploadFile({
     required List<String> files,
@@ -71,6 +76,7 @@ class UploadRepo extends BaseUpload {
     }
   }
 
+  /// Uploads at least one file with ACL or a non-public bucket to the specific file service that is installed in Medusa.
   @override
   Future<Result<UserUploadFileRes, Failure>> uploadProtectedFile({
     required List<String> files,

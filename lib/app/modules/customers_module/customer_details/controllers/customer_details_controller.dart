@@ -9,7 +9,7 @@ import '../../../../data/models/store/order.dart';
 class CustomerDetailsController extends GetxController with StateMixin<Customer> {
   CustomerDetailsController({required this.customerRepo, required this.ordersRepo});
   final CustomerRepository customerRepo;
-  final OrdersRepository ordersRepo;
+  final OrdersRepo ordersRepo;
   final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   RxInt ordersCount = 0.obs;
