@@ -1,23 +1,55 @@
-
-
 import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/data/models/store/product_type.dart';
 import 'package:medusa_admin/app/data/models/store/region.dart';
 import 'package:medusa_admin/app/data/models/store/shipping_option.dart';
 
 class TaxRate {
+  /// The tax rate's ID
+  ///
+  /// Example: "txr_01G8XDBAWKBHHJRKH0AV02KXBR"
   String? id;
+
   int? rate;
+
+  /// A code to identify the tax type by
   String? code;
+
+  /// A human friendly name for the tax
   String? name;
+
+  /// The id of the Region that the rate belongs to
   String? regionId;
+
+  /// A region object.
+  ///
+  /// Available if the relation region is expanded.
   Region? region;
+
+  /// An optional key-value map with additional details
   Map<String, dynamic>? metadata;
+
+  /// The products that belong to this tax rate.
+  ///
+  /// Available if the relation products is expanded.
   List<Product>? products;
+
+  /// The product types that belong to this tax rate.
+  ///
+  /// Available if the relation product_types is expanded.
   List<ProductType>? productTypes;
+
+  /// The shipping options that belong to this tax rate.
+  ///
+  /// Available if the relation shipping_options is expanded.
   List<ShippingOption>? shippingOptions;
+
+  /// The count of products
   int? productCount;
+
+  /// The count of product types
   int? productTypeCount;
+
+  /// The count of shipping options
   int? shippingOptionCount;
 
   TaxRate({
@@ -80,12 +112,10 @@ class TaxRate {
       data['products'] = products!.map((v) => v.toJson()).toList();
     }
     if (productTypes != null) {
-      data['product_types'] =
-          productTypes!.map((v) => v.toJson()).toList();
+      data['product_types'] = productTypes!.map((v) => v.toJson()).toList();
     }
     if (shippingOptions != null) {
-      data['shipping_options'] =
-          shippingOptions!.map((v) => v.toJson()).toList();
+      data['shipping_options'] = shippingOptions!.map((v) => v.toJson()).toList();
     }
     data['product_count'] = productCount;
     data['product_type_count'] = productTypeCount;

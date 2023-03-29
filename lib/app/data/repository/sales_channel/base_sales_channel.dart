@@ -1,7 +1,7 @@
 import 'package:multiple_result/multiple_result.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_sales_channel_req.dart';
-import '../../models/res/sales_channel.dart';
+import '../../models/res/sales_channel_res.dart';
 
 abstract class BaseSalesChannel {
   /// Retrieves a list of sales channels

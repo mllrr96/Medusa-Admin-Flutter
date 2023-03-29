@@ -1,6 +1,6 @@
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_sales_channel_req.dart';
-import 'package:medusa_admin/app/data/models/res/sales_channel.dart';
+import 'package:medusa_admin/app/data/models/res/sales_channel_res.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'base_sales_channel.dart';
 
