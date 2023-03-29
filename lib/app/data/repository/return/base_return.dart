@@ -32,6 +32,7 @@ abstract class BaseReturn {
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   });
+
   /// Retrieves a list of Returns
   Future<Result<UserRetrieveReturnsRes, Failure>> retrieveReturns({
     Map<String, dynamic>? queryParams,
