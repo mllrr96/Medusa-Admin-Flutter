@@ -20,7 +20,7 @@ class Discount {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Discount({
     this.id,
@@ -40,7 +40,7 @@ class Discount {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   Discount.fromJson(Map<String, dynamic> json) {
@@ -64,7 +64,7 @@ class Discount {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
