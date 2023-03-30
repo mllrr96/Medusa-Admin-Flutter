@@ -11,6 +11,7 @@ import '../../service/dio_service.dart';
 class GiftCardRepo extends BaseGiftCard {
   final _dataProvider = DioService.instance.dio;
 
+  /// Creates a Gift Card that can redeemed by its unique code. The Gift Card is only valid within 1 region.
   @override
   Future<Result<UserGiftCardRes, Failure>> createGiftCard({
     required UserCreateGiftCardReq userCreateGiftCardReq,
@@ -35,8 +36,10 @@ class GiftCardRepo extends BaseGiftCard {
     }
   }
 
+  /// Deletes a Gift Card
   @override
   Future<Result<UserDeleteGiftCardRes, Failure>> deleteGiftCard({
+    /// The ID of the Gift Card to delete.
     required String id,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -58,8 +61,10 @@ class GiftCardRepo extends BaseGiftCard {
     }
   }
 
+  /// Retrieves a Gift Card.
   @override
   Future<Result<UserGiftCardRes, Failure>> retrieveGiftCard({
+    /// The ID of the Gift Card.
     required String id,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -81,6 +86,7 @@ class GiftCardRepo extends BaseGiftCard {
     }
   }
 
+  /// Retrieves a list of Gift Cards.
   @override
   Future<Result<UserGiftCardsRes, Failure>> retrieveGiftCards({
     Map<String, dynamic>? queryParameters,
@@ -104,8 +110,10 @@ class GiftCardRepo extends BaseGiftCard {
     }
   }
 
+  /// Update a Gift Card that can redeemed by its unique code. The Gift Card is only valid within 1 region.
   @override
   Future<Result<UserGiftCardRes, Failure>> updateGiftCard({
+    /// The ID of the Gift Card.
     required String id,
     required UserUpdateGiftCardReq userUpdateGiftCardReq,
     Map<String, dynamic>? customHeaders,

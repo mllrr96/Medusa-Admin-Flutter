@@ -30,17 +30,13 @@ class PriceList {
     id = json['id'];
     name = json['name'];
     description = json['description'];
-    type = PriceListType.values.firstWhere((element) => json['type'] ?? '',
-        orElse: () => PriceListType.sale);
-    status = PriceListStatus.values.firstWhere(
-        (element) => json['status'] ?? '',
-        orElse: () => PriceListStatus.draft);
+    type = PriceListType.values.firstWhere((element) => json['type'] ?? '', orElse: () => PriceListType.sale);
+    status = PriceListStatus.values.firstWhere((element) => json['status'] ?? '', orElse: () => PriceListStatus.draft);
     startsAt = DateTime.tryParse(json['starts_at'] ?? '');
     endsAt = DateTime.tryParse(json['ends_at'] ?? '');
     if (json['customer_groups'] != null) {
       customerGroups = <CustomerGroup>[];
-      customerGroups = json['customer_groups']
-          .forEach((e) => customerGroups!.add(CustomerGroup.fromJson(e)));
+      customerGroups = json['customer_groups'].forEach((e) => customerGroups!.add(CustomerGroup.fromJson(e)));
     }
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
@@ -51,11 +47,19 @@ class PriceList {
 }
 
 enum PriceListType {
-  sale,
-  override,
+  sale('sale'),
+  override('override');
+
+  final String value;
+
+  const PriceListType(this.value);
 }
 
 enum PriceListStatus {
-  active,
-  draft,
+  active('active'),
+  draft('draft');
+
+  final String value;
+
+  const PriceListStatus(this.value);
 }
