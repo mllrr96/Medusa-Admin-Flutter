@@ -11,8 +11,12 @@ class OrdersRepo extends BaseOrders {
 
   /// Retrieves an order
   @override
-  Future<Result<UserRetrieveOrderRes, Failure>> retrieveOrder(
-      {required String id, Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
+  Future<Result<UserRetrieveOrderRes, Failure>> retrieveOrder({
+    /// The ID of the Order.
+    required String id,
+    Map<String, dynamic>? customHeaders,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -31,8 +35,10 @@ class OrdersRepo extends BaseOrders {
 
   /// Retrieves a list of Orders
   @override
-  Future<Result<UserRetrieveOrdersRes, Failure>> retrieveOrders(
-      {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {
+  Future<Result<UserRetrieveOrdersRes, Failure>> retrieveOrders({
+    Map<String, dynamic>? customHeaders,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -273,11 +279,19 @@ class OrdersRepo extends BaseOrders {
     }
   }
 
+  /// Creates a Reservation for a line item at a specified location, optionally for a partial quantity.
   @override
   Future<Result<UserCreateReservationForLineItemOrderRes, Failure>> createReservationForLineItem({
+    /// The ID of the Order.
     required String id,
+
+    /// The ID of the Line item.
     required String lineItemId,
+
+    /// The id of the location of the reservation
     required String locationId,
+
+    /// The quantity to reserve
     int? quantity,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
@@ -363,6 +377,7 @@ class OrdersRepo extends BaseOrders {
 
   @override
   Future<Result<UserUpdateOrderRes, Failure>> updateOrder({
+    /// The ID of the Order.
     required String id,
     required UserUpdateOrderReq userUpdateOrderReq,
     Map<String, dynamic>? customHeaders,

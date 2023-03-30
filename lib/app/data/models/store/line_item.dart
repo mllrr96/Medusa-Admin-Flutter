@@ -42,7 +42,7 @@ class LineItem {
   OrderEdit? orderEdit;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   LineItem({
     this.id,
@@ -85,7 +85,7 @@ class LineItem {
     this.orderEdit,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   LineItem.fromJson(Map<String, dynamic> json) {
@@ -142,7 +142,7 @@ class LineItem {
         : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? <String, dynamic>{};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

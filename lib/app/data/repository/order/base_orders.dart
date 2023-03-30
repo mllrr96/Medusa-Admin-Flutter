@@ -1,19 +1,16 @@
 import 'package:multiple_result/multiple_result.dart';
-
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_order.dart';
 import '../../models/res/orders.dart';
 
 abstract class BaseOrders {
   Future<Result<UserRetrieveOrderRes, Failure>> retrieveOrder({
-    /// The ID of the Order.
     required String id,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
   });
 
   Future<Result<UserUpdateOrderRes, Failure>> updateOrder({
-    /// The ID of the Order.
     required String id,
     required UserUpdateOrderReq userUpdateOrderReq,
     Map<String, dynamic>? customHeaders,
@@ -44,18 +41,10 @@ abstract class BaseOrders {
     Map<String, dynamic>? queryParameters,
   });
 
-  /// Creates a Reservation for a line item at a specified location, optionally for a partial quantity.
   Future<Result<UserCreateReservationForLineItemOrderRes, Failure>> createReservationForLineItem({
-    /// The ID of the Order.
     required String id,
-
-    /// The ID of the Line item.
     required String lineItemId,
-
-    /// The id of the location of the reservation
     required String locationId,
-
-    /// The quantity to reserve
     int? quantity,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
@@ -63,11 +52,8 @@ abstract class BaseOrders {
 
   Future<Result<UserCreateOrderShipmentRes, Failure>> createOrderShipment({
     required String id,
-
     required String fulfillmentId,
-
     List<String>? trackingNumbers,
-
     bool? noNotification,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/orders_module/order_details/components/order_create_fulfillment.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../../../../data/models/store/order.dart';
@@ -34,7 +35,7 @@ class OrderDetailsView extends StatelessWidget {
             title: const Text('Fulfillment'),
             trailing: order.fulfillmentStatus != FulfillmentStatus.fulfilled
                 ? AdaptiveButton(
-                    onPressed: () {},
+                    onPressed: () => Get.to(OrderCreateFulfillment(order:order), fullscreenDialog: true),
                     padding: EdgeInsets.zero,
                     child: const Text('Create Fulfillment'),
                   )

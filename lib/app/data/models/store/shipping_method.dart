@@ -85,7 +85,7 @@ class ShippingMethod {
     json['cart'] = cart?.toJson();
     json['claim_order_id'] = claimOrderId;
     json['claim_order'] = claimOrder?.toJson();
-    json['tax_lines'] = taxLines?.map((e) => e.toJson()).toList() ?? [];
+    json['tax_lines'] = taxLines?.map((e) => e.toJson()).toList();
     json['price'] = price;
     json['data'] = data;
     json['includes_tax'] = includesTax;
