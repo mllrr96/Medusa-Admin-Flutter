@@ -10,13 +10,11 @@ abstract class BasePayment {
 
   Future<Result<UserPaymentRes, Failure>> retrievePaymentDetails({
     required String id,
-    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   });
 
   Future<Result<UserCreateRefundPaymentRes, Failure>> createRefund({
     required String id,
-    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   });
 }

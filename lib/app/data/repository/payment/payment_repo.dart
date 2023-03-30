@@ -40,7 +40,6 @@ class PaymentRepo extends BasePayment {
   Future<Result<UserCreateRefundPaymentRes, Failure>> createRefund({
     /// The ID of the Payment.
     required String id,
-    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   }) async {
     try {
@@ -66,7 +65,6 @@ class PaymentRepo extends BasePayment {
   Future<Result<UserPaymentRes, Failure>> retrievePaymentDetails({
     /// The ID of the Payment.
     required String id,
-    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   }) async {
     try {
