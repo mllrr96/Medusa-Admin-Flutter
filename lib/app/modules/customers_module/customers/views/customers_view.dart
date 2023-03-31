@@ -46,20 +46,19 @@ class _Customers extends GetView<CustomersController> {
       controller: controller.refreshController,
       onRefresh: () => controller.pagingController.refresh(),
       header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-      child: PagedListView.separated(
-        padding: const EdgeInsets.all(12.0),
+      child: PagedListView(
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<Customer>(
             itemBuilder: (context, customer, index) => ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  contentPadding: const EdgeInsets.all(12.0),
                   horizontalTitleGap: 8,
                   tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
                   leading: CircleAvatar(
                     backgroundColor: ColorManager.primary,
                     child: Text(
                         customer.firstName == null
-                            ? customer.email[1].capitalize ?? customer.email[1]
-                            : customer.firstName![1],
+                            ? customer.email[0].capitalize ?? customer.email[0]
+                            : customer.firstName![0],
                         style: largeTextStyle!.copyWith(color: Colors.white)),
                   ),
                   title: customer.firstName != null
@@ -81,7 +80,7 @@ class _Customers extends GetView<CustomersController> {
                   onTap: () => Get.toNamed(Routes.CUSTOMER_DETAILS, arguments: customer.id!),
                 ),
             firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
-        separatorBuilder: (_, __) => const Divider(),
+        // separatorBuilder: (_, __) => const Divider(height: 0),
       ),
     );
   }

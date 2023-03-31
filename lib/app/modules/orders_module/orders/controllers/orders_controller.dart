@@ -1,19 +1,24 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class OrdersController extends GetxController {
+class OrdersController extends GetxController with GetSingleTickerProviderStateMixin {
+  static OrdersController instance = Get.find<OrdersController>();
+
   OrdersController({required this.ordersRepository});
   OrdersRepo ordersRepository;
   RefreshController refreshController = RefreshController();
   RxInt ordersCount = 0.obs;
+  late TabController tabController;
 
   final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   @override
   Future<void> onInit() async {
+    tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
   }

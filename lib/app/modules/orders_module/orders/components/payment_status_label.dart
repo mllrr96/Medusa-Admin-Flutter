@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../data/models/store/draft_order.dart';
 import '../../../../data/models/store/order.dart';
-
 
 class PaymentStatusLabel extends StatelessWidget {
   const PaymentStatusLabel({Key? key, required this.paymentStatus}) : super(key: key);
@@ -63,6 +63,7 @@ class PaymentStatusLabel extends StatelessWidget {
     );
   }
 }
+
 class PaymentStatusDot extends StatelessWidget {
   const PaymentStatusDot({Key? key, required this.paymentStatus}) : super(key: key);
   final PaymentStatus paymentStatus;
@@ -104,9 +105,10 @@ class PaymentStatusDot extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-         Icon(Icons.circle, color: textColor, size: 12),
+        Icon(Icons.circle, color: textColor, size: 12),
         Icon(Icons.circle, color: containerColor, size: 24),
       ],
     );
   }
 }
+

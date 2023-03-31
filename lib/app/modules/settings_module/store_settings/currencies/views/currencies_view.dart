@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../data/repository/currency/currency_repo.dart';
+import '../../../../components/adaptive_back_button.dart';
 import '../controllers/currencies_controller.dart';
 
 class CurrenciesView extends StatelessWidget {
@@ -23,8 +24,8 @@ class CurrenciesView extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
+              leading: const AdaptiveBackButton(),
               title: const Text('Currencies'),
-              centerTitle: true,
               actions: [
                 AdaptiveButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
               ],

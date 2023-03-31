@@ -1,4 +1,3 @@
-
 import 'country.dart';
 import 'customer.dart';
 
@@ -49,9 +48,7 @@ class Address {
     if (json['customer'] != null) {
       customer = <Customer>[];
       json['customer'].forEach(
-        (element) => customer!.add(
-          Customer.fromJson(element),
-        ),
+        (element) => customer!.add(Customer.fromJson(element)),
       );
     }
     company = json['company'];
@@ -60,12 +57,11 @@ class Address {
     address1 = json['address_1'];
     address2 = json['address_2'];
     city = json['city'];
-    country =
-        json['country'] != null ? Country.fromJson(json['country']) : null;
+    country = json['country'] != null ? Country.fromJson(json['country']) : null;
     countryCode = json['country_code'];
     province = json['province'];
     postalCode = json['postal_code'];
-    phone = int.tryParse(json['phone']);
+    phone = int.tryParse(json['phone'] ?? '');
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
@@ -76,8 +72,7 @@ class Address {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['customer_id'] = customerId;
-    json['customer'] =
-        customer != null ? customer?.map((e) => e.toJson()).toList() : [];
+    json['customer'] = customer != null ? customer?.map((e) => e.toJson()).toList() : [];
     json['company'] = company;
     json['first_name'] = firstName;
     json['last_name'] = lastName;

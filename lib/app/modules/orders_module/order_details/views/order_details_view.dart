@@ -35,7 +35,7 @@ class OrderDetailsView extends StatelessWidget {
             title: const Text('Fulfillment'),
             trailing: order.fulfillmentStatus != FulfillmentStatus.fulfilled
                 ? AdaptiveButton(
-                    onPressed: () => Get.to(OrderCreateFulfillment(order:order), fullscreenDialog: true),
+                    onPressed: () => Get.to(OrderCreateFulfillment(order: order), fullscreenDialog: true),
                     padding: EdgeInsets.zero,
                     child: const Text('Create Fulfillment'),
                   )
@@ -395,35 +395,31 @@ class OrderDetailsView extends StatelessWidget {
             centerTitle: true,
             actions: [
               if (controller.state != null)
-                AdaptiveIcon(
-                    onPressed: () async {
-                      if (controller.state == null) return;
-                      final order = controller.state!;
-
-                      await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                        const SheetAction(label: 'Cancel Order', icon: Icons.person, key: 0, isDestructiveAction: true),
-                      ]).then((value) async {
-                        final result = await showTextAnswerDialog(
-                          title: 'Cancel order',
-                          message:
-                          'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
-                          retryMessage:
-                          'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
-                          retryOkLabel: 'Retry',
-                          context: context,
-                          keyword: 'order #${order.displayId!}',
-                          isDestructiveAction: true,
-                          hintText: 'order #${order.displayId!}',
-                          okLabel: 'Yes, confirm',
-                        );
-                        if (result) {
-                          await controller.cancelOrder();
+                AdaptiveButton(
+                  onPressed: controller.state!.status != OrderStatus.canceled
+                      ? () async {
+                          final order = controller.state!;
+                          await showTextAnswerDialog(
+                            title: 'Cancel order',
+                            message:
+                                'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
+                            retryMessage:
+                                'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
+                            retryOkLabel: 'Retry',
+                            context: context,
+                            keyword: 'order #${order.displayId!}',
+                            isDestructiveAction: true,
+                            hintText: 'order #${order.displayId!}',
+                            okLabel: 'Yes, confirm',
+                          ).then((value) async {
+                            if (value) {
+                              await controller.cancelOrder();
+                            }
+                          });
                         }
-                      });
-
-
-                    },
-                    icon: const Icon(Icons.more_horiz)),
+                      : null,
+                  child: const Text('Cancel'),
+                ),
             ],
           ),
           body: SafeArea(

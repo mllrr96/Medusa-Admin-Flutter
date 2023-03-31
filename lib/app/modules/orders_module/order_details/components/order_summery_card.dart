@@ -21,7 +21,7 @@ class OrderSummeryCard extends StatelessWidget {
               child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!)),
           const SizedBox(width: 6.0),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -42,20 +42,17 @@ class OrderSummeryCard extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
+          Flexible(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(order.currency!.symbol.toString() + item.unitPrice!.toString(), style: smallTextStyle),
-                    Text(' x ${item.quantity!}', style: smallTextStyle),
-                  ],
-                ),
+                Flexible(
+                    child:
+                        Text('${order.currency!.symbol}${item.unitPrice!} x ${item.quantity!}', style: smallTextStyle)),
                 const Divider(height: 1),
-                Text(order.currency!.symbol.toString() + item.total!.toString(), style: mediumTextStyle),
+                Flexible(
+                    child: Text(order.currency!.symbol.toString() + item.total!.toString(), style: mediumTextStyle)),
               ],
             ),
           ),

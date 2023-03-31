@@ -9,7 +9,7 @@ class DraftOrder {
   DraftOrderStatus? status;
 
   /// The draft order's display ID
-  String? displayId;
+  int? displayId;
 
   /// The ID of the cart associated with the draft order.
   ///

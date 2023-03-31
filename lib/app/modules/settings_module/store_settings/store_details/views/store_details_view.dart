@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 
 import '../../../../components/custom_text_field.dart';
@@ -16,10 +17,10 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('Store Details'),
-        centerTitle: true,
         actions: [
-            AdaptiveButton(child: const Text('Save'), onPressed: () async => await controller.save(context)),
+          AdaptiveButton(child: const Text('Save'), onPressed: () async => await controller.save(context)),
         ],
       ),
       body: SafeArea(

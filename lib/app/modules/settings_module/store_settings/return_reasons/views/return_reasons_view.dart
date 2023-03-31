@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../components/adaptive_back_button.dart';
 import '../controllers/return_reasons_controller.dart';
 
 class ReturnReasonsView extends GetView<ReturnReasonsController> {
@@ -16,8 +17,8 @@ class ReturnReasonsView extends GetView<ReturnReasonsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('Return Reasons'),
-        centerTitle: true,
         actions: [
           AdaptiveIcon(
               onPressed: () async => await Get.toNamed(Routes.CREATE_UPDATE_RETURN_REASON)?.then((value) {

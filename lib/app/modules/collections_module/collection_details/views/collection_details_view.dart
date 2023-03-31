@@ -45,7 +45,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   } else if (result == 1) {
                     await showOkCancelAlertDialog(
                             context: context,
-                            // title: 'Confirm collection deletion',
+                            title: 'Delete collection?',
                             message: 'Are you sure you want to delete this collection?',
                             okLabel: 'Yes, delete',
                             cancelLabel: 'No, cancel',

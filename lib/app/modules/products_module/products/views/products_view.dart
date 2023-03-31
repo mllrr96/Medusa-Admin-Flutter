@@ -110,72 +110,91 @@ class ProductsListView extends GetView<ProductsController> {
         separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<Product>(
-            itemBuilder: (context, product, index) => ListTile(
-                  onTap: () async {
-                    await Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id)?.then((result) {
-                      // A product has been deleted, reload data
-                      if (result is bool && result == true) {
-                        controller.pagingController.refresh();
-                      }
-                    });
-                  },
-                  title: Text(product.title!),
-                  subtitle: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _getStatusIcon(product.status),
-                      const SizedBox(width: 4.0),
-                      Text(product.status.name.capitalize ?? product.status.name,
-                          style: Theme.of(context).textTheme.titleSmall),
-                    ],
-                  ),
-                  leading: product.thumbnail != null
-                      ? SizedBox(
-                          width: 45,
-                          child: CachedNetworkImage(
-                            key: ValueKey(product.thumbnail),
-                            imageUrl: product.thumbnail!,
-                            placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                            errorWidget: (context, string, error) =>
-                                const Icon(Icons.warning_rounded, color: Colors.redAccent),
-                          ))
-                      : null,
-                  trailing: AdaptiveIcon(
-                      onPressed: () async {
-                        await showModalActionSheet(context: context, actions: <SheetAction>[
-                          const SheetAction(label: 'Edit'),
-                          SheetAction(
-                              label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish',
-                              key: 'publish'),
-                          const SheetAction(label: 'Duplicate'),
-                          const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
-                        ]).then((result) async {
-                          if (result == 'delete') {
-                            final confirmDelete = await showOkCancelAlertDialog(
-                                context: context,
-                                title: 'Confirm product deletion',
-                                message: 'Are you sure you want to delete this product? \n This action is irreversible',
-                                isDestructiveAction: true);
+            itemBuilder: (context, product, index) => ProductListTile(
+                  product: product,
+                  onDelete: () async {
+                    final confirmDelete = await showOkCancelAlertDialog(
+                        context: context,
+                        title: 'Confirm product deletion',
+                        message: 'Are you sure you want to delete this product? \n This action is irreversible',
+                        isDestructiveAction: true);
 
-                            if (confirmDelete != OkCancelResult.ok) {
-                              return;
-                            }
-                            await controller.deleteProduct(product.id!);
-                          } else if (result == 'publish') {
-                            await controller.updateProduct(Product(
-                              id: product.id!,
-                              discountable: product.discountable,
-                              status: product.status == ProductStatus.published
-                                  ? ProductStatus.draft
-                                  : ProductStatus.published,
-                            ));
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.more_horiz)),
+                    if (confirmDelete != OkCancelResult.ok) {
+                      return;
+                    }
+                    await controller.deleteProduct(product.id!);
+                  },
+                  onPublish: () async {
+                    await controller.updateProduct(Product(
+                      id: product.id!,
+                      discountable: product.discountable,
+                      status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+                    ));
+                  },
                 ),
             firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
       ),
+    );
+  }
+}
+
+class ProductListTile extends StatelessWidget {
+  const ProductListTile({Key? key, required this.product, this.onTap, this.onDelete, this.onPublish}) : super(key: key);
+  final Product product;
+  final void Function()? onTap;
+  final void Function()? onDelete;
+  final void Function()? onPublish;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap ??
+          () async {
+            await Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id)?.then((result) {
+              // A product has been deleted, reload data
+              if (result is bool && result == true) {
+                // controller.pagingController.refresh();
+              }
+            });
+          },
+      title: Text(product.title!),
+      subtitle: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _getStatusIcon(product.status),
+          const SizedBox(width: 4.0),
+          Text(product.status.name.capitalize ?? product.status.name, style: Theme.of(context).textTheme.titleSmall),
+        ],
+      ),
+      leading: product.thumbnail != null
+          ? SizedBox(
+              width: 45,
+              child: CachedNetworkImage(
+                key: ValueKey(product.thumbnail),
+                imageUrl: product.thumbnail!,
+                placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
+              ))
+          : null,
+      trailing: AdaptiveIcon(
+          onPressed: () async {
+            await showModalActionSheet(context: context, actions: <SheetAction>[
+              const SheetAction(label: 'Edit'),
+              SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
+              const SheetAction(label: 'Duplicate'),
+              const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
+            ]).then((result) async {
+              if (result == 'delete') {
+                if(onDelete!=null){
+                onDelete!();
+                }
+              } else if (result == 'publish') {
+                if(onPublish!=null){
+                  onPublish!();
+                }
+              }
+            });
+          },
+          icon: const Icon(Icons.more_horiz)),
     );
   }
 

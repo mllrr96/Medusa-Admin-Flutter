@@ -6,7 +6,6 @@ import '../../../routes/app_pages.dart';
 
 class DashboardController extends GetxController {
   static DashboardController instance = Get.find<DashboardController>();
-  final pages = <String>[Routes.ORDERS, Routes.PRODUCTS, Routes.CUSTOMERS, Routes.STORE_SETTINGS];
   int currentScreen = 0;
   final bottomNavBarItems = GetPlatform.isIOS
       ? const <BottomNavigationBarItem>[

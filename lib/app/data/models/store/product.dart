@@ -105,7 +105,6 @@ class Product extends Equatable {
       variants = [];
       json['variants'].forEach((e) => variants!.add(ProductVariant.fromJson(e)));
     }
-
     return Product(
       variants: variants,
       images: images,

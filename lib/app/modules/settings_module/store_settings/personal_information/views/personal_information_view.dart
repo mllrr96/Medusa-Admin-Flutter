@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../data/models/store/user.dart';
+import '../../../../components/adaptive_back_button.dart';
 import '../../../../components/custom_text_field.dart';
 import '../../../../products_module/add_update_product/components/product_general_info.dart';
 import '../controllers/personal_information_controller.dart';
@@ -91,8 +92,8 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('Personal Information'),
-        centerTitle: true,
         actions: [
           controller.obx(
               (user) => AdaptiveButton(

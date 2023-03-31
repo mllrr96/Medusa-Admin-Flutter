@@ -51,8 +51,6 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        manifestPlaceholders = [appAuthRedirectScheme: "com.rag.medusa.admin.medusa_admin",
-                                applicationName: "com.rag.medusa.admin.MedusaAdmin"]
     }
 
     buildTypes {

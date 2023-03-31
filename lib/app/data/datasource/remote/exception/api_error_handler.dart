@@ -7,7 +7,7 @@ class Failure {
   Failure({this.code, required this.message, required this.type});
 
   @override
-  String toString(){
+  String toString() {
     return 'code: $code,\n message : $message, \n type: $type';
   }
 
@@ -39,13 +39,20 @@ class Failure {
               case 404:
               case 500:
               case 503:
-              case 422:
-                final errorResponse = error.response?.data as Map;
                 failure = failure.copyWith(
-                    code: error.response?.statusCode,
-                    message: errorResponse['message'] ?? '',
-                    type: errorResponse['type'] ?? '');
-
+                    code: error.response?.statusCode, message: error.response?.statusMessage ?? '', type: '');
+                break;
+              case 422:
+                if (error.response?.data is Map) {
+                  final errorResponse = error.response?.data as Map;
+                  failure = failure.copyWith(
+                      code: error.response?.statusCode,
+                      message: errorResponse['message'] ?? '',
+                      type: errorResponse['type'] ?? '');
+                } else {
+                  failure = failure.copyWith(
+                      code: error.response?.statusCode, message: 'Unexpected error occurred', type: '');
+                }
                 break;
               default:
                 "Unexpected error occurred";

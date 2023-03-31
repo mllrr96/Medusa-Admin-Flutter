@@ -55,7 +55,8 @@ class ProductVariant {
     id = json['id'];
     title = json['title'];
     productId = json['product_id'];
-    product = json['product'] != null ? Product.fromJson(json) : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
+
     if (json['prices'] != null) {
       prices = <MoneyAmount>[];
       json['prices'].forEach((v) {

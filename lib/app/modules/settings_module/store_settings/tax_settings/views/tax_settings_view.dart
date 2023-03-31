@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../components/adaptive_back_button.dart';
 import '../controllers/tax_settings_controller.dart';
 
 class TaxSettingsView extends GetView<TaxSettingsController> {
@@ -10,8 +11,8 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('TaxSettingsView'),
-        centerTitle: true,
       ),
       body: const Center(
         child: Text(

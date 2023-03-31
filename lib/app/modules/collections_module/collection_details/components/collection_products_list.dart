@@ -12,6 +12,8 @@ import '../../../../data/models/store/product.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
+import '../../../components/adaptive_close_button.dart';
+
 class CollectionProductsList extends StatelessWidget {
   const CollectionProductsList({Key? key}) : super(key: key);
 
@@ -21,8 +23,8 @@ class CollectionProductsList extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+            leading: const AdaptiveCloseButton(),
             title: const Text('Products'),
-            centerTitle: true,
             actions: [
               AdaptiveButton(
                   onPressed: controller.isEqual

@@ -55,7 +55,7 @@ class ProductsRepo extends BaseProducts {
     }
   }
 
-  /// Retrieves a single Product
+  /// Retrieves a list of Product Variants
   @override
   Future<UserVariantsRes?> retrieveVariants(
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters}) async {

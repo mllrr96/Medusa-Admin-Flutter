@@ -7,7 +7,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-
 import '../../../../data/models/store/order.dart';
 
 class OrderCard extends StatelessWidget {
@@ -457,8 +456,7 @@ class CustomerOrderCard extends StatelessWidget {
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                        color: orderNumberBackgroundColor,
-                        borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+                        color: orderNumberBackgroundColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
                     child: Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium)),
                 Row(
                   children: [

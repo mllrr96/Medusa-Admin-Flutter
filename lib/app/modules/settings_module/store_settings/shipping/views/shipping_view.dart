@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../components/adaptive_back_button.dart';
 import '../controllers/shipping_controller.dart';
 
 class ShippingView extends GetView<ShippingController> {
@@ -10,8 +11,8 @@ class ShippingView extends GetView<ShippingController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('ShippingView'),
-        centerTitle: true,
       ),
       body: const Center(
         child: Text(

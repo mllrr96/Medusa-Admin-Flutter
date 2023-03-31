@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_general_info.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -54,6 +55,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
+              leading: const AdaptiveCloseButton(),
               title: Text(controller.editMode ? 'Update Attributes' : 'Create Variant'),
               actions: [
                 AdaptiveButton(onPressed: () async => await controller.save(), child: const Text('Save')),
