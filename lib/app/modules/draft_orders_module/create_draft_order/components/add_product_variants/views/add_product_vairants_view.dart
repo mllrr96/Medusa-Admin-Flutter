@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import '../../components/adaptive_button.dart';
-import '../../components/adaptive_close_button.dart';
+import '../../../../../components/adaptive_button.dart';
+import '../../../../../components/adaptive_close_button.dart';
 import '../components/product_variant_list_tile.dart';
-import '../controllers/select_products_controller.dart';
+import '../controllers/add_product_variants_controller.dart';
 
-class SelectProductsView extends GetView<SelectProductsController> {
-  const SelectProductsView({Key? key}) : super(key: key);
+class AddProductVariantsView extends GetView<AddProductVariantsController> {
+  const AddProductVariantsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SelectProductsController>(
+    return GetBuilder<AddProductVariantsController>(
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -21,7 +21,8 @@ class SelectProductsView extends GetView<SelectProductsController> {
               AdaptiveButton(
                   onPressed: controller.isEqual
                       ? null
-                      : () => Get.back(result: SelectProductsRes(selectedProducts: controller.newlySelectedProducts)),
+                      : () => Get.back(
+                          result: SelectProductsRes(selectedProductVariants: controller.newlySelectedProducts)),
                   child: const Text('Add'))
             ],
           ),

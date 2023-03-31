@@ -10,7 +10,7 @@ class ShippingProfile {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ShippingProfile({
     this.id,
@@ -21,7 +21,7 @@ class ShippingProfile {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ShippingProfile.fromJson(Map<String, dynamic> json) {
@@ -39,10 +39,10 @@ class ShippingProfile {
       json['shipping_options']
           .forEach((e) => shippingOptions!.add(ShippingOption.fromJson(e)));
     }
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
-    metadata = json['metadata'] ?? <String, dynamic>{};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

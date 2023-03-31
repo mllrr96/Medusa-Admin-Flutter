@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/add_product_variants/bindings/select_products_binding.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -22,6 +23,7 @@ import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/discounts/bindings/discounts_binding.dart';
 import '../modules/discounts/views/discounts_view.dart';
 import '../modules/draft_orders_module/create_draft_order/bindings/create_draft_order_binding.dart';
+import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/views/add_product_vairants_view.dart';
 import '../modules/draft_orders_module/create_draft_order/views/create_draft_order_view.dart';
 import '../modules/draft_orders_module/draft_order_details/bindings/draft_order_details_binding.dart';
 import '../modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
@@ -40,8 +42,6 @@ import '../modules/products_module/add_update_product/views/add_update_product_v
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
-import '../modules/select_products/bindings/select_products_binding.dart';
-import '../modules/select_products/views/select_products_view.dart';
 import '../modules/settings_module/store_settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings_module/store_settings/currencies/views/currencies_view.dart';
 import '../modules/settings_module/store_settings/personal_information/bindings/personal_information_binding.dart';
@@ -259,9 +259,9 @@ class AppPages {
       fullscreenDialog: true,
     ),
     GetPage(
-      name: _Paths.SELECT_PRODUCTS,
-      page: () => const SelectProductsView(),
-      binding: SelectProductsBinding(),
+      name: _Paths.ADD_PRODUCT_VARIANTS,
+      page: () => const AddProductVariantsView(),
+      binding: AddProductVariantsBinding(),
       fullscreenDialog: true,
     ),
   ];

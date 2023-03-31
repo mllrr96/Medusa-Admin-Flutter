@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/index.dart';
+import '../../../../data/models/store/product_variant.dart';
 import '../components/choose_region_view.dart';
 
 class CreateDraftOrderController extends GetxController with GetSingleTickerProviderStateMixin {
-  CreateDraftOrderController();
+  static CreateDraftOrderController instance = Get.find<CreateDraftOrderController>();
   late TabController tabController;
+  var selectedProducts = <ProductVariant>[];
   RxInt index = 0.obs;
+
   @override
   void onInit() {
     tabController = TabController(length: 6, vsync: this);
@@ -28,7 +31,7 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
   }
 
   void Function()? onNextTap() {
-    switch (tabController.index) {
+    switch (index.value) {
       case 0:
         if (ChooseRegionController.region != null) {
           return () => tabController.animateTo(tabController.index + 1);
@@ -36,11 +39,21 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
           return null;
         }
       case 1:
+        if (selectedProducts.isNotEmpty) {
+          return () => tabController.animateTo(tabController.index + 1);
+        } else {
+          return null;
+        }
       case 2:
+        if (ChooseShippingMethodController.shippingOption != null) {
+          return () => tabController.animateTo(tabController.index + 1);
+        } else {
+          return null;
+        }
       case 3:
       case 4:
+      default:
+        return null;
     }
-
-    return null;
   }
 }

@@ -52,7 +52,7 @@ class UserRetrieveAllShippingOptionRes extends PaginatedResponse {
   UserRetrieveAllShippingOptionRes.fromJson(json) : super.fromJson(json) {
     if (json['shipping_options'] != null) {
       shippingOptions = <ShippingOption>[];
-      json['collections'].forEach((v) {
+      json['shipping_options'].forEach((v) {
         shippingOptions?.add(ShippingOption.fromJson(v));
       });
     }

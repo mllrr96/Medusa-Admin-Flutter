@@ -49,7 +49,7 @@ abstract class Routes {
       _Paths.DASHBOARD + _Paths.DRAFT_ORDER_DETAILS;
   static const CREATE_DRAFT_ORDER =
       _Paths.DASHBOARD + _Paths.CREATE_DRAFT_ORDER;
-  static const SELECT_PRODUCTS = _Paths.SELECT_PRODUCTS;
+  static const SELECT_PRODUCTS = _Paths.ADD_PRODUCT_VARIANTS;
 }
 
 abstract class _Paths {
@@ -88,5 +88,5 @@ abstract class _Paths {
   static const TRANSFER_ORDER = '/transfer-order';
   static const DRAFT_ORDER_DETAILS = '/draft-order-details';
   static const CREATE_DRAFT_ORDER = '/create-draft-order';
-  static const SELECT_PRODUCTS = '/select-products';
+  static const ADD_PRODUCT_VARIANTS = '/add-product-variants';
 }

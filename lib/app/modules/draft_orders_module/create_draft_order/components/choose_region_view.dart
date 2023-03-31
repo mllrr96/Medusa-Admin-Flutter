@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/choose_shipping_method.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
 
 class ChooseRegionView extends GetView<ChooseRegionController> {
@@ -8,8 +9,6 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     return Scaffold(
@@ -30,9 +29,10 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
                 },
                 items: state!.map((e) => DropdownMenuItem(value: e, child: Text(e.name!))).toList(),
                 hint: const Text('Region'),
-                onChanged: (value) {
+                onChanged: (value) async {
                   if (value != null) {
                     controller.selectedRegion.value = value;
+                    await Get.find<ChooseShippingMethodController>().loadShippingMethods(regionId: value.id!);
                   }
                 },
                 decoration: const InputDecoration(

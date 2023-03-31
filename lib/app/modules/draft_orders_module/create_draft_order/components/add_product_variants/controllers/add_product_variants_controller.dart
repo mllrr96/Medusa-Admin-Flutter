@@ -2,10 +2,10 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/product_variant/product_variant_repo.dart';
 import 'package:collection/collection.dart';
-import '../../../data/models/store/product_variant.dart';
+import '../../../../../../data/models/store/product_variant.dart';
 
-class SelectProductsController extends GetxController {
-  SelectProductsController({required this.productVariantRepo});
+class AddProductVariantsController extends GetxController {
+  AddProductVariantsController({required this.productVariantRepo});
 
   ProductVariantRepo productVariantRepo;
   final int _pageSize = 12;
@@ -55,8 +55,6 @@ class SelectProductsReq {
 }
 
 class SelectProductsRes {
-  final List<ProductVariant>? selectedProducts;
-  final List<ProductVariant>? deSelectedProducts;
-
-  SelectProductsRes({this.selectedProducts, this.deSelectedProducts});
+  final List<ProductVariant>? selectedProductVariants;
+  SelectProductsRes({this.selectedProductVariants});
 }
