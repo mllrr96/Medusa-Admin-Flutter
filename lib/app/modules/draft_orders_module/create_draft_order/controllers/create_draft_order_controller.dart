@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/index.dart';
 import '../../../../data/models/store/product_variant.dart';
-import '../components/choose_region_view.dart';
+import '../components/choose_customer.dart';
 
 class CreateDraftOrderController extends GetxController with GetSingleTickerProviderStateMixin {
-  static CreateDraftOrderController instance = Get.find<CreateDraftOrderController>();
+  static final CreateDraftOrderController instance = Get.find<CreateDraftOrderController>();
   late TabController tabController;
   var selectedProducts = <ProductVariant>[];
   RxInt index = 0.obs;
@@ -51,6 +51,12 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
           return null;
         }
       case 3:
+        if(Get.find<ChooseCustomerController>().selectedCustomer.value !=null){
+          return () => tabController.animateTo(tabController.index + 1);
+        }
+         else {
+           return null;
+        }
       case 4:
       default:
         return null;

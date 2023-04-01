@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/keep_alive_widget.dart';
+import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/choose_customer.dart';
 
 import '../components/index.dart';
 import '../controllers/create_draft_order_controller.dart';
@@ -59,7 +60,7 @@ class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
                 KeepAliveWidget(child: ChooseRegionView()),
                 KeepAliveWidget(child: ChooseItemsView()),
                 KeepAliveWidget(child: ChooseShippingMethodView()),
-                Text('Pick Customer and Shipping details'),
+                KeepAliveWidget(child: ChooseCustomerView()),
                 Text('Billing address'),
                 Text('Overview'),
               ],

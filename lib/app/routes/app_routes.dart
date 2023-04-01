@@ -50,6 +50,9 @@ abstract class Routes {
   static const CREATE_DRAFT_ORDER =
       _Paths.DASHBOARD + _Paths.CREATE_DRAFT_ORDER;
   static const SELECT_PRODUCTS = _Paths.ADD_PRODUCT_VARIANTS;
+  static const PICK_CUSTOMER = _Paths.PICK_CUSTOMER;
+  static const GROUPS = _Paths.GROUPS;
+  static const CREATE_UPDATE_GROUP = _Paths.CREATE_UPDATE_GROUP;
 }
 
 abstract class _Paths {
@@ -89,4 +92,7 @@ abstract class _Paths {
   static const DRAFT_ORDER_DETAILS = '/draft-order-details';
   static const CREATE_DRAFT_ORDER = '/create-draft-order';
   static const ADD_PRODUCT_VARIANTS = '/add-product-variants';
+  static const PICK_CUSTOMER = '/pick-customer';
+  static const GROUPS = '/groups';
+  static const CREATE_UPDATE_GROUP = '/create-update-group';
 }

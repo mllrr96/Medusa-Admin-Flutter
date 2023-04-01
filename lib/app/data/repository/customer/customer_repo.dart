@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/repository/customer/base_customer.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../datasource/remote/exception/api_error_handler.dart';
 
-class CustomerRepository extends BaseCustomer {
+class CustomerRepo extends BaseCustomer {
   final _dataProvider = DioService.instance.dio;
   @override
   Future<Result<CustomersRes, Failure>> retrieveCustomers(

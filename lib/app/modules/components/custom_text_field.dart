@@ -39,18 +39,18 @@ class CustomTextField extends StatelessWidget {
     bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
     Color lightWhite = isDarkMode ? Colors.white54 : Colors.black54;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite : null)),
-            if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
-          ],
-        ),
-        const SizedBox(height: 6.0),
-        SizedBox(
-          width: width,
-          child: TextFormField(
+    return SizedBox(
+      width: width,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite : null)),
+              if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          TextFormField(
             autofocus: autoFocus,
             enabled: enabled,
             controller: controller,
@@ -65,9 +65,9 @@ class CustomTextField extends StatelessWidget {
                 hintText: hintText,
                 border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0)))),
           ),
-        ),
-        const SizedBox(height: 12.0),
-      ],
+          const SizedBox(height: 12.0),
+        ],
+      ),
     );
   }
 }

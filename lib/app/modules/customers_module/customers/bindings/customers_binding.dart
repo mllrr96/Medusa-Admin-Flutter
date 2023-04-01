@@ -6,6 +6,6 @@ import '../controllers/customers_controller.dart';
 class CustomersBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<CustomersController>(() => CustomersController(customerRepo: CustomerRepository()));
+    Get.lazyPut<CustomersController>(() => CustomersController(customerRepo: CustomerRepo()));
   }
 }

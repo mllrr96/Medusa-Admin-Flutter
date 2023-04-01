@@ -8,7 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class CustomersController extends GetxController with GetSingleTickerProviderStateMixin {
   static CustomersController instance = Get.find<CustomersController>();
   CustomersController({required this.customerRepo});
-  final CustomerRepository customerRepo;
+  final CustomerRepo customerRepo;
 
   RefreshController refreshController = RefreshController();
   late TabController tabController;
@@ -20,7 +20,6 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) {
-      debugPrint('Getting data');
       _fetchPage(pageKey);
     });
     super.onInit();

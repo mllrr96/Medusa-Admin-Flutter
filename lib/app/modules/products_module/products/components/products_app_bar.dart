@@ -146,10 +146,6 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                   focusNode: searchNode,
                   controller: searchCtrl,
                   placeholder: 'Search for product name, variant title ...',
-                  onChanged: (val) {
-                    controller.searchTerm = val;
-                    controller.pagingController.refresh();
-                  },
                 )),
               if (GetPlatform.isAndroid)
                 Expanded(
@@ -159,10 +155,6 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     style: Theme.of(context).textTheme.titleSmall,
                     focusNode: searchNode,
                     controller: searchCtrl,
-                    onChanged: (val) {
-                      controller.searchTerm = val;
-                      controller.pagingController.refresh();
-                    },
                     decoration: const InputDecoration(
                       hintText: 'Search for product name, variant title ...',
                     ),
@@ -175,10 +167,6 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     // await Future.delayed(Duration(milliseconds: 150));
                     setState(() {
                       collectionSearch = false;
-                      if (controller.searchTerm.isNotEmpty) {
-                        controller.searchTerm = '';
-                        controller.pagingController.refresh();
-                      }
                       searchCtrl.clear();
                     });
                   }),
@@ -220,12 +208,8 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                 Expanded(
                     child: CupertinoSearchTextField(
                   focusNode: searchNode,
-                  controller: searchCtrl,
+                  controller: controller.searchCtrl,
                   placeholder: 'Search for product name, variant title ...',
-                  onChanged: (val) {
-                    controller.searchTerm = val;
-                    controller.pagingController.refresh();
-                  },
                 )),
               if (GetPlatform.isAndroid)
                 Expanded(
@@ -234,11 +218,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                   child: TextFormField(
                     style: Theme.of(context).textTheme.titleSmall,
                     focusNode: searchNode,
-                    controller: searchCtrl,
-                    onChanged: (val) {
-                      controller.searchTerm = val;
-                      controller.pagingController.refresh();
-                    },
+                    controller: controller.searchCtrl,
                     decoration: const InputDecoration(
                       hintText: 'Search for product name, variant title ...',
                     ),
@@ -251,11 +231,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     // await Future.delayed(Duration(milliseconds: 150));
                     setState(() {
                       productSearch = false;
-                      if (controller.searchTerm.isNotEmpty) {
-                        controller.searchTerm = '';
-                        controller.pagingController.refresh();
-                      }
-                      searchCtrl.clear();
+                      controller.searchCtrl.clear();
                     });
                   }),
             ],

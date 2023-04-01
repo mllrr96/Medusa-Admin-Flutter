@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
+import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../../../components/adaptive_icon.dart';
 
@@ -26,11 +28,19 @@ class _CustomersAppBarState extends State<CustomersAppBar> {
     final displayLargeTextStyle = Theme.of(context).textTheme.displayLarge;
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final customersText = Obx(() {
-     final count =  CustomersController.instance.customersCount.value;
-      return Text(count != 0 ?'Customers ($count)': 'Customers');
+      final count = CustomersController.instance.customersCount.value;
+      return Text(count != 0 ? 'Customers ($count)' : 'Customers');
     });
-    final androidTabBar =
-        TabBar(controller: widget.tabController, tabs:  [Tab(child: customersText,), const Tab(text: 'Groups')]);
+    final customerGroupsText = Obx(() {
+      final count = GroupsController.instance.customerGroupsCount.value;
+      return Text(count != 0 ? 'Groups ($count)' : 'Groups');
+    });
+    final androidTabBar = TabBar(controller: widget.tabController, tabs: [
+      Tab(
+        child: customersText,
+      ),
+      Tab(child: customerGroupsText)
+    ]);
 
     final iosTabBar = Container(
       height: kToolbarHeight,
@@ -62,7 +72,7 @@ class _CustomersAppBarState extends State<CustomersAppBar> {
                     ? displayLargeTextStyle!
                     : largeTextStyle!.copyWith(color: lightWhite),
                 duration: const Duration(milliseconds: 200),
-                child: const Text('Groups')),
+                child: customerGroupsText),
           ),
         ],
       ),
@@ -72,11 +82,20 @@ class _CustomersAppBarState extends State<CustomersAppBar> {
         onPressed: () {}, icon: Platform.isIOS ? const Icon(CupertinoIcons.search) : const Icon(Icons.search));
 
     final groupsAppBar = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AdaptiveIcon(onPressed: () {}, icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add))
+        AdaptiveIcon(
+            onPressed: () {}, icon: Platform.isIOS ? const Icon(CupertinoIcons.search) : const Icon(Icons.search)),
+        AdaptiveIcon(
+            onPressed: () async {
+              final result = await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
+              if (result is bool && result) {
+                GroupsController.instance.pagingController.refresh();
+              }
+            },
+            icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add))
       ],
     );
-
 
     widget.tabController.addListener(() {
       setState(() {});

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/add_product_variants/bindings/select_products_binding.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -23,13 +22,19 @@ import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/discounts/bindings/discounts_binding.dart';
 import '../modules/discounts/views/discounts_view.dart';
 import '../modules/draft_orders_module/create_draft_order/bindings/create_draft_order_binding.dart';
+import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/bindings/select_products_binding.dart';
 import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/views/add_product_vairants_view.dart';
+import '../modules/draft_orders_module/create_draft_order/components/pick_customer/bindings/pick_customer_binding.dart';
+import '../modules/draft_orders_module/create_draft_order/components/pick_customer/views/pick_customer_view.dart';
 import '../modules/draft_orders_module/create_draft_order/views/create_draft_order_view.dart';
 import '../modules/draft_orders_module/draft_order_details/bindings/draft_order_details_binding.dart';
 import '../modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
 import '../modules/draft_orders_module/draft_orders/bindings/draft_orders_binding.dart';
 import '../modules/gift_cards/bindings/gift_cards_binding.dart';
 import '../modules/gift_cards/views/gift_cards_view.dart';
+import '../modules/groups_module/create_update_group/bindings/create_update_group_binding.dart';
+import '../modules/groups_module/create_update_group/views/create_update_group_view.dart';
+import '../modules/groups_module/groups/bindings/groups_binding.dart';
 import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
@@ -88,6 +93,7 @@ class AppPages {
           ProductsBinding(),
           CustomersBinding(),
           CollectionsBinding(),
+          GroupsBinding(),
           MoreBinding(),
           // CurrenciesBinding(),
         ],
@@ -262,6 +268,18 @@ class AppPages {
       name: _Paths.ADD_PRODUCT_VARIANTS,
       page: () => const AddProductVariantsView(),
       binding: AddProductVariantsBinding(),
+      fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.PICK_CUSTOMER,
+      page: () => const PickCustomerView(),
+      binding: PickCustomerBinding(),
+      fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.CREATE_UPDATE_GROUP,
+      page: () => const CreateUpdateGroupView(),
+      binding: CreateUpdateGroupBinding(),
       fullscreenDialog: true,
     ),
   ];

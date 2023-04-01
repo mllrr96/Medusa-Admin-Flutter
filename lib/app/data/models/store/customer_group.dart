@@ -37,9 +37,9 @@ class CustomerGroup {
             PriceList.fromJson(element),
           ));
     }
-    createdAt = DateTime.tryParse(json['created_at']);
-    updatedAt = DateTime.tryParse(json['updated_at']);
-    deletedAt = DateTime.tryParse(json['deleted_at']);
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
     metadata = json['metadata'];
   }
 
@@ -55,4 +55,3 @@ class CustomerGroup {
     return json;
   }
 }
-

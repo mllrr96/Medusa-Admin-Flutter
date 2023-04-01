@@ -17,14 +17,13 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   ProductsRepo productsRepo;
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  String searchTerm = '';
   ViewOptions viewOptions = ViewOptions.list;
   RefreshController gridRefreshController = RefreshController();
   RefreshController listRefreshController = RefreshController();
   RxInt productsCount = 0.obs;
   Rx<SortOptions> sortOptions = SortOptions.dateRecent.obs;
   late TabController tabController;
-
+final searchCtrl = TextEditingController();
 
   @override
   void onInit() {
@@ -32,6 +31,11 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
+
+    searchCtrl.addListener(() {
+      pagingController.refresh();
+    });
+
     super.onInit();
   }
 
@@ -74,12 +78,9 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   Future<void> _fetchPage(int pageKey) async {
     final result = await productsRepo.retrieveAll(
       queryParams: {
-        if (searchTerm.isNotEmpty) 'fields': 'id,title,thumbnail,status,handle,collection_id',
-        if (searchTerm.isNotEmpty)
-          'expand': 'variants,options,variants.prices,variants.options,collection,tags,type,images,sales_channels',
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
-        if (searchTerm.isNotEmpty) 'q': searchTerm,
+        'q': searchCtrl.text,
         'order': _getSortOption(),
       },
     );

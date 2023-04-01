@@ -62,7 +62,7 @@ abstract class BaseCustomerGroup {
   /// Creates a CustomerGroup.
   Future<Result<UserCreateCustomerGroupRes, Failure>> createCustomerGroup({
     /// Name of the customer group
-    required String id,
+    required String name,
 
     /// Metadata for the customer.
     Map<String, dynamic>? metadata,

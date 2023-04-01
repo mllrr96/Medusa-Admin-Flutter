@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../groups_module/groups/views/groups_view.dart';
 import '../components/customers_app_bar.dart';
 import '../controllers/customers_controller.dart';
 
@@ -25,8 +26,7 @@ class CustomersView extends GetView<CustomersController> {
           physics: const NeverScrollableScrollPhysics(),
           children: const [
             _Customers(),
-            // TODO: add groups view
-            SizedBox()
+            GroupsView(),
           ],
         ),
       ),
