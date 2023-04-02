@@ -33,7 +33,6 @@ class CustomTextField extends StatelessWidget {
   final double? width;
   final bool lightLabelColor;
   final String? Function(String?)? validator;
-
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
@@ -53,10 +52,10 @@ class CustomTextField extends StatelessWidget {
           TextFormField(
             autofocus: autoFocus,
             enabled: enabled,
+            textCapitalization: textCapitalization,
             controller: controller,
             textInputAction: textInputAction,
             onChanged: onChanged,
-            textCapitalization: textCapitalization,
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,

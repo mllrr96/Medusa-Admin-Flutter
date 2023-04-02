@@ -19,8 +19,10 @@ import '../modules/customers_module/transfer_order/bindings/transfer_order_bindi
 import '../modules/customers_module/transfer_order/views/transfer_order_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
-import '../modules/discounts/bindings/discounts_binding.dart';
-import '../modules/discounts/views/discounts_view.dart';
+import '../modules/discount_module/add_update_discount/bindings/add_update_discount_binding.dart';
+import '../modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
+import '../modules/discount_module/discounts/bindings/discounts_binding.dart';
+import '../modules/discount_module/discounts/views/discounts_view.dart';
 import '../modules/draft_orders_module/create_draft_order/bindings/create_draft_order_binding.dart';
 import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/bindings/select_products_binding.dart';
 import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/views/add_product_vairants_view.dart';
@@ -34,6 +36,8 @@ import '../modules/gift_cards/bindings/gift_cards_binding.dart';
 import '../modules/gift_cards/views/gift_cards_view.dart';
 import '../modules/groups_module/create_update_group/bindings/create_update_group_binding.dart';
 import '../modules/groups_module/create_update_group/views/create_update_group_view.dart';
+import '../modules/groups_module/group_details/bindings/group_details_binding.dart';
+import '../modules/groups_module/group_details/views/group_details_view.dart';
 import '../modules/groups_module/groups/bindings/groups_binding.dart';
 import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
@@ -281,6 +285,16 @@ class AppPages {
       page: () => const CreateUpdateGroupView(),
       binding: CreateUpdateGroupBinding(),
       fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.GROUP_DETAILS,
+      page: () => const GroupDetailsView(),
+      binding: GroupDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_UPDATE_DISCOUNT,
+      page: () => const AddUpdateDiscountView(),
+      binding: AddUpdateDiscountBinding(),
     ),
   ];
 }

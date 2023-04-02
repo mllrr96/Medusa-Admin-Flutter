@@ -514,28 +514,31 @@ class ProductAddVariantBinding extends Bindings {
 }
 
 class NumericTextField extends StatelessWidget {
-  const NumericTextField(
-      {Key? key,
-      required this.controller,
-      this.onPlusPressed,
-      this.onMinusPressed,
-      required this.label,
-      this.validator,
-      this.hintText,
-      this.width})
-      : super(key: key);
+  const NumericTextField({
+    Key? key,
+    required this.controller,
+    this.onPlusPressed,
+    this.onMinusPressed,
+    required this.label,
+    this.validator,
+    this.hintText,
+    this.width,
+    this.required = false, this.prefixText,
+  }) : super(key: key);
   final TextEditingController controller;
   final void Function()? onPlusPressed;
   final void Function()? onMinusPressed;
   final double? width;
   final String label;
   final String? hintText;
+  final String? prefixText;
   final String? Function(String?)? validator;
-
+  final bool required;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -543,6 +546,7 @@ class NumericTextField extends StatelessWidget {
         Row(
           children: [
             Text(label, style: mediumTextStyle!),
+            if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
           ],
         ),
         const SizedBox(height: 6.0),
@@ -583,6 +587,8 @@ class NumericTextField extends StatelessWidget {
                 ],
               ),
               hintText: hintText ?? '100...',
+              prefixIcon:prefixText!=null ?  Text(prefixText!, style: smallTextStyle?.copyWith(color: lightWhite),) : null,
+              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(16.0)),
               ),

@@ -53,6 +53,8 @@ abstract class Routes {
   static const PICK_CUSTOMER = _Paths.PICK_CUSTOMER;
   static const GROUPS = _Paths.GROUPS;
   static const CREATE_UPDATE_GROUP = _Paths.CREATE_UPDATE_GROUP;
+  static const GROUP_DETAILS = _Paths.GROUP_DETAILS;
+  static const ADD_UPDATE_DISCOUNT = _Paths.ADD_UPDATE_DISCOUNT;
 }
 
 abstract class _Paths {
@@ -95,4 +97,6 @@ abstract class _Paths {
   static const PICK_CUSTOMER = '/pick-customer';
   static const GROUPS = '/groups';
   static const CREATE_UPDATE_GROUP = '/create-update-group';
+  static const GROUP_DETAILS = '/group-details';
+  static const ADD_UPDATE_DISCOUNT = '/add-update-discount';
 }

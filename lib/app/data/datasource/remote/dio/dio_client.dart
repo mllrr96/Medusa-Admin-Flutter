@@ -13,8 +13,9 @@ class DioClient {
   }) {
     dio
       ..options.baseUrl = baseUrl
-      ..options.connectTimeout = const Duration(seconds: 6)
-      ..options.receiveTimeout = const Duration(seconds: 6)
+      ..options.connectTimeout = const Duration(milliseconds: 8000)
+      ..options.receiveTimeout = const Duration(milliseconds: 6000)
+      ..options.sendTimeout = const Duration(milliseconds: 6000)
       ..httpClientAdapter
       ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
         String? cookie = StorageService.cookie;

@@ -15,6 +15,7 @@ class GroupCard extends GetView<GroupsController> {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     return ListTile(
+      onTap: () => Get.toNamed(Routes.GROUP_DETAILS, arguments: customerGroup.id),
       tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
       title: Text(customerGroup.name ?? '', style: largeTextStyle),
       subtitle: Text('Members: ${customerGroup.customers?.length ?? ''}', style: smallTextStyle),
@@ -26,14 +27,26 @@ class GroupCard extends GetView<GroupsController> {
             ]).then((result) async {
               switch (result) {
                 case 0:
-                 await Get.toNamed(Routes.CREATE_UPDATE_GROUP, arguments: customerGroup.id)?.then((value) {
-                   if(value is bool && value){
-                     controller.pagingController.refresh();
-                   }
-                 });
+                  await Get.toNamed(Routes.CREATE_UPDATE_GROUP, arguments: customerGroup.id)?.then((value) {
+                    if (value is bool && value) {
+                      controller.pagingController.refresh();
+                    }
+                  });
                   break;
                 case 1:
-                  controller.deleteGroup(id: customerGroup.id!);
+                  await showOkCancelAlertDialog(
+                          context: context,
+                          title: 'Delete the group',
+                          message: 'Are you sure you want to delete this customer group?',
+                          okLabel: 'Yes, delete',
+                          cancelLabel: 'No, cancel',
+                          isDestructiveAction: true)
+                      .then((value) async {
+                    if (value == OkCancelResult.ok) {
+                      await controller.deleteGroup(id: customerGroup.id!);
+                    }
+                  });
+
                   break;
               }
             });

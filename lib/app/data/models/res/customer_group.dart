@@ -27,9 +27,9 @@ class UserRetrieveCustomersRes extends PaginatedResponse {
   List<Customer>? customers;
 
   UserRetrieveCustomersRes.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    if (json['customer_groups'] != null) {
+    if (json['customers'] != null) {
       customers = <Customer>[];
-      json['customer_groups'].forEach((v) {
+      json['customers'].forEach((v) {
         customers?.add(Customer.fromJson(v));
       });
     }

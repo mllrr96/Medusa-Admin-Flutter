@@ -52,7 +52,7 @@ class UserCreateDiscountReq {
     var json = <String, dynamic>{};
     json['code'] = code;
     json['rule'] = rule.toJson();
-    json['regions_id'] = regionsId;
+    json['regions'] = regionsId;
 
     if (isDynamic != null) {
       json['is_dynamic'] = isDynamic;
@@ -63,11 +63,11 @@ class UserCreateDiscountReq {
     }
 
     if (startsAt != null) {
-      json['starts_at'] = startsAt;
+      json['starts_at'] = startsAt.toString();
     }
 
     if (endsAt != null) {
-      json['ends_at'] = endsAt;
+      json['ends_at'] = endsAt.toString();
     }
 
     if (validDuration != null) {
@@ -189,6 +189,18 @@ class UserCreateDynamicCodeDiscountReq {
   final Map<String, dynamic>? metadata;
 
   UserCreateDynamicCodeDiscountReq({required this.code, this.usageLimit, this.metadata});
+
+  Map<String, dynamic> toJson() {
+    var json = <String, dynamic>{};
+    json['code'] = code;
+    if (usageLimit != null) {
+      json['usage_limit'] = usageLimit;
+    }
+    if (metadata != null) {
+      json['metadata'] = metadata;
+    }
+    return json;
+  }
 }
 
 class UserUpdateConditionDiscountReq {
@@ -214,4 +226,25 @@ class UserUpdateConditionDiscountReq {
     this.productTags,
     this.productTypes,
   });
+
+  Map<String, dynamic> toJson() {
+    var json = <String, dynamic>{};
+    if (productIds != null) {
+      json['products'] = productIds;
+    }
+    if (customerGroupIds != null) {
+      json['customer_groups'] = customerGroupIds;
+    }
+    if (collectionIds != null) {
+      json['product_collections'] = collectionIds;
+    }
+    if (productTags != null) {
+      json['product_tags'] = productTags;
+    }
+
+    if (productTypes != null) {
+      json['product_types'] = productTypes;
+    }
+    return json;
+  }
 }

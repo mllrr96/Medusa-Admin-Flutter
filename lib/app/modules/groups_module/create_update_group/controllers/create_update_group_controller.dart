@@ -11,6 +11,10 @@ class CreateUpdateGroupController extends GetxController {
   final CustomerGroupRepo customerGroupRepo;
   final formKey = GlobalKey<FormState>();
   bool get updateMode => id != null;
+  final scrollController = ScrollController();
+  var metadata = <Metadata>[];
+  var metadataTextCtrl = <MetadataTextCtrl>[];
+  final listKey = GlobalKey<AnimatedListState>();
   @override
   Future<void> onInit() async {
     if (id != null) {
@@ -22,6 +26,7 @@ class CreateUpdateGroupController extends GetxController {
   @override
   void onClose() {
     groupTitleCtrl.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 
@@ -29,7 +34,12 @@ class CreateUpdateGroupController extends GetxController {
     loading();
     final result = await customerGroupRepo.retrieveCustomerGroup(id: id!);
     result.when((success) {
-      return groupTitleCtrl.text = success.customerGroup?.name ?? '';
+      groupTitleCtrl.text = success.customerGroup?.name ?? '';
+      success.customerGroup?.metadata?.forEach((key, value) {
+        metadataTextCtrl
+            .add(MetadataTextCtrl(key: TextEditingController(text: key), value: TextEditingController(text: value)));
+        update();
+      });
     }, (error) {
       Get.back();
       Get.snackbar('Error code ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
@@ -43,7 +53,12 @@ class CreateUpdateGroupController extends GetxController {
     }
     FocusScope.of(context).unfocus();
     loading();
-    final result = await customerGroupRepo.updateCustomerGroup(id: id!, name: groupTitleCtrl.text);
+    var metadata = <String, dynamic>{};
+    for (var e in metadataTextCtrl) {
+      metadata.addAll({e.key.text: e.value.text});
+    }
+    print(metadata);
+    final result = await customerGroupRepo.updateCustomerGroup(id: id!, name: groupTitleCtrl.text, metadata: metadata);
     result.when((success) {
       Get.back(result: true);
       EasyLoading.showSuccess('Customer group updated!');
@@ -60,7 +75,12 @@ class CreateUpdateGroupController extends GetxController {
     }
     FocusScope.of(context).unfocus();
     loading();
-    final result = await customerGroupRepo.createCustomerGroup(name: groupTitleCtrl.text);
+    var metadata = <String, dynamic>{};
+    for (var e in metadataTextCtrl) {
+      metadata.addAll({e.key.text: e.value.text});
+    }
+    final result = await customerGroupRepo.createCustomerGroup(
+        name: groupTitleCtrl.text, metadata: metadata.isNotEmpty ? metadata : null);
     result.when((success) {
       Get.back(result: true);
       EasyLoading.showSuccess('Customer group created!');
@@ -70,4 +90,16 @@ class CreateUpdateGroupController extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     });
   }
+}
+
+class Metadata {
+  final String key;
+  final dynamic value;
+  Metadata({required this.key, this.value});
+}
+
+class MetadataTextCtrl {
+  final TextEditingController key;
+  final TextEditingController value;
+  MetadataTextCtrl({required this.key, required this.value});
 }

@@ -14,14 +14,14 @@ dependencies:
 
   # Image picker packages
   #--------------------
-  image_picker: ^0.8.7
+  image_picker: ^0.8.7+1
   image_cropper: ^3.0.2
   uuid: ^3.0.7
   #--------------------
 
   # UI packages
   # -------------------
-  adaptive_dialog: ^1.8.2
+  adaptive_dialog: ^1.8.3
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
   flutter_svg: ^2.0.4
@@ -36,13 +36,13 @@ dependencies:
   copy_with_extension_gen: ^5.0.2
   # Storage packages
   # -------------------
-  shared_preferences: ^2.0.20
+  shared_preferences: ^2.1.0
   path_provider: ^2.0.14
   cached_network_image: ^3.2.3
   # -------------------
 
   google_fonts: ^4.0.3
-  dio: ^5.0.3
+  dio: ^5.1.1
 #  dartz: ^0.10.1
 
   flutter: 

@@ -51,8 +51,8 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                                 backgroundColor: ColorManager.primary,
                                 child: Text(
                                     customer.firstName == null
-                                        ? customer.email[1].capitalize ?? customer.email[1]
-                                        : customer.firstName![1],
+                                        ? customer.email[0].toUpperCase()
+                                        : customer.firstName![0],
                                     style: largeTextStyle!.copyWith(color: Colors.white)),
                               ),
                               const SizedBox(width: 6.0),

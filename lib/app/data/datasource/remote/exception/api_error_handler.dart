@@ -39,8 +39,16 @@ class Failure {
               case 404:
               case 500:
               case 503:
-                failure = failure.copyWith(
-                    code: error.response?.statusCode, message: error.response?.statusMessage ?? '', type: '');
+                if (error.response?.data is Map) {
+                  final errorResponse = error.response?.data as Map;
+                  failure = failure.copyWith(
+                      code: error.response?.statusCode,
+                      message: errorResponse['message'] ?? '',
+                      type: errorResponse['type'] ?? '');
+                } else {
+                  failure = failure.copyWith(
+                      code: error.response?.statusCode, message: error.response?.statusMessage ?? '', type: '');
+                }
                 break;
               case 422:
                 if (error.response?.data is Map) {

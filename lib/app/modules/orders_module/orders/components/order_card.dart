@@ -275,7 +275,7 @@ class AlternativeOrderCard extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 16,
-                        child: Text(getName()?[0] ?? order.customer!.email[0]),
+                        child: Text(getName()?[0].toUpperCase() ?? order.customer!.email[0].toUpperCase()),
                       ),
                       const SizedBox(width: 6.0),
                       if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),

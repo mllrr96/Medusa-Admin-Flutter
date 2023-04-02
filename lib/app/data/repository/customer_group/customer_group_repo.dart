@@ -17,9 +17,32 @@ class CustomerGroupRepo extends BaseCustomerGroup {
     required List<String> customerIds,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
-  }) {
-    // TODO: implement addCustomers
-    throw UnimplementedError();
+  }) async {
+    try {
+      if (customHeaders != null) {
+        _dataProvider.dio.options.headers.addAll(customHeaders);
+      }
+      var data = <Map<String, dynamic>>[];
+      for (var id in customerIds) {
+        data.add({'id': id});
+      }
+
+      final response = await _dataProvider.post(
+        uri: '/customer-groups/$id/customers/batch',
+        data: {
+          'customer_ids': data,
+        },
+        queryParameters: queryParameters,
+      );
+      if (response.statusCode == 200) {
+        return Success(UserAddCustomersRes.fromJson(response.data));
+      } else {
+        return Error(Failure.from(response));
+      }
+    } catch (error, stackTrace) {
+      log(error.toString(), stackTrace: stackTrace);
+      return Error(Failure.from(error));
+    }
   }
 
   @override
@@ -77,15 +100,41 @@ class CustomerGroupRepo extends BaseCustomerGroup {
     }
   }
 
+  /// Removes a list of customers, represented by id's, from a customer group.
   @override
   Future<Result<UserRemoveCustomersRes, Failure>> removeCustomers({
+    /// The ID of the customer group.
     required String id,
+
+    /// The ids of the customers to remove
     required List<String> customerIds,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
-  }) {
-    // TODO: implement removeCustomers
-    throw UnimplementedError();
+  }) async {
+    try {
+      if (customHeaders != null) {
+        _dataProvider.dio.options.headers.addAll(customHeaders);
+      }
+      var data = <Map<String, dynamic>>[];
+      for (var id in customerIds) {
+        data.add({'id': id});
+      }
+      final response = await _dataProvider.delete(
+        '/customer-groups/$id/customers/batch',
+        data: {
+          'customer_ids': data,
+        },
+        queryParameters: queryParameters,
+      );
+      if (response.statusCode == 200) {
+        return Success(UserRemoveCustomersRes.fromJson(response.data));
+      } else {
+        return Error(Failure.from(response));
+      }
+    } catch (error, stackTrace) {
+      log(error.toString(), stackTrace: stackTrace);
+      return Error(Failure.from(error));
+    }
   }
 
   @override
@@ -137,14 +186,31 @@ class CustomerGroupRepo extends BaseCustomerGroup {
     }
   }
 
+  /// Retrieves a list of customers in a customer group
   @override
-  Future<Result<UserAddCustomersRes, Failure>> retrieveCustomers({
+  Future<Result<UserRetrieveCustomersRes, Failure>> retrieveCustomers({
+    /// The ID of the customer group.
     required String id,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
-  }) {
-    // TODO: implement retrieveCustomers
-    throw UnimplementedError();
+  }) async {
+    try {
+      if (customHeaders != null) {
+        _dataProvider.dio.options.headers.addAll(customHeaders);
+      }
+      final response = await _dataProvider.get(
+        uri: '/customer-groups/$id/customers',
+        queryParameters: queryParameters,
+      );
+      if (response.statusCode == 200) {
+        return Success(UserRetrieveCustomersRes.fromJson(response.data));
+      } else {
+        return Error(Failure.from(response));
+      }
+    } catch (error, stackTrace) {
+      log(error.toString(), stackTrace: stackTrace);
+      return Error(Failure.from(error));
+    }
   }
 
   @override

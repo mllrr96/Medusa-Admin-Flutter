@@ -10,7 +10,6 @@ import '../../models/req/user_post_auth_req.dart';
 import '../../models/res/auth.dart';
 
 class AuthRepo extends BaseAuth {
-  AuthRepo();
   final _dataProvider = DioService.instance.dio;
 
   /// Authenticates a user using email and password combination
@@ -21,7 +20,7 @@ class AuthRepo extends BaseAuth {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
     try {
-      final response = await _dataProvider.dio.post('/auth', data: req);
+      final response = await _dataProvider.post(uri: '/auth', data: req);
       if (response.statusCode == 200) {
         var cookie = response.headers['set-cookie']!.first.split(';').first;
         await StorageService.instance.saveCookie(cookie);
@@ -41,7 +40,7 @@ class AuthRepo extends BaseAuth {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.delete('/auth');
+      final response = await _dataProvider.delete('/auth');
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -62,8 +61,8 @@ class AuthRepo extends BaseAuth {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.dio.get(
-        '/auth',
+      final response = await _dataProvider.get(
+        uri: '/auth',
       );
       if (response.statusCode == 200) {
         return UserAuthRes.fromJson(response.data);

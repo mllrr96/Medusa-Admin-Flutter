@@ -51,8 +51,9 @@ class GroupsController extends GetxController {
     final result = await customerGroupRepo.deleteCustomerGroup(id: id);
     result.when((success) {
       pagingController.refresh();
-      Get.showSnackbar(const GetSnackBar(title: 'Success', message: 'Customer Group deleted'));
-    }, (error) => Get.showSnackbar(GetSnackBar(title: 'Failure, ${error.code ?? ''}', message: error.message)));
+      Get.snackbar('Success', 'Customer Group deleted', snackPosition: SnackPosition.BOTTOM);
+    }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message)
+    );
 
     dismissLoading();
   }

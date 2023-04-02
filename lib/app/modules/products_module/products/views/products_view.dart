@@ -1,12 +1,15 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/products_module/products/components/filter_view.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/keep_alive_widget.dart';
@@ -102,37 +105,65 @@ class ProductsListView extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-      controller: controller.listRefreshController,
-      onRefresh: () => controller.pagingController.refresh(),
-      header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-      child: PagedListView.separated(
-        separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
-        pagingController: controller.pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Product>(
-            itemBuilder: (context, product, index) => ProductListTile(
-                  product: product,
-                  onDelete: () async {
-                    final confirmDelete = await showOkCancelAlertDialog(
-                        context: context,
-                        title: 'Confirm product deletion',
-                        message: 'Are you sure you want to delete this product? \n This action is irreversible',
-                        isDestructiveAction: true);
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: () async {
+              Get.to(()=>FilterView());
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                // border: Border.all(color: ColorManager.primary),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [Icon(CupertinoIcons.sort_down_circle_fill), SizedBox(width: 12.0), Text('Filters')],
+              ),
+            ),
+          ),
+          AdaptiveIcon(onPressed: (){}, icon: Icon(Icons.search)),
+        ],
+      ),
+      body: SmartRefresher(
+        controller: controller.listRefreshController,
+        onRefresh: () => controller.pagingController.refresh(),
+        header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+        child: PagedListView.separated(
+          separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+          pagingController: controller.pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Product>(
+              itemBuilder: (context, product, index) => ProductListTile(
+                    product: product,
+                    onDelete: () async {
+                      final confirmDelete = await showOkCancelAlertDialog(
+                          context: context,
+                          title: 'Confirm product deletion',
+                          message: 'Are you sure you want to delete this product? \n This action is irreversible',
+                          isDestructiveAction: true);
 
-                    if (confirmDelete != OkCancelResult.ok) {
-                      return;
-                    }
-                    await controller.deleteProduct(product.id!);
-                  },
-                  onPublish: () async {
-                    await controller.updateProduct(Product(
-                      id: product.id!,
-                      discountable: product.discountable,
-                      status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
-                    ));
-                  },
-                ),
-            firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive())),
+                      if (confirmDelete != OkCancelResult.ok) {
+                        return;
+                      }
+                      await controller.deleteProduct(product.id!);
+                    },
+                    onPublish: () async {
+                      await controller.updateProduct(Product(
+                        id: product.id!,
+                        discountable: product.discountable,
+                        status:
+                            product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+                      ));
+                    },
+                  ),
+              firstPageProgressIndicatorBuilder: (context) =>
+                  const Center(child: CircularProgressIndicator.adaptive())),
+        ),
       ),
     );
   }
@@ -184,11 +215,11 @@ class ProductListTile extends StatelessWidget {
               const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
             ]).then((result) async {
               if (result == 'delete') {
-                if(onDelete!=null){
-                onDelete!();
+                if (onDelete != null) {
+                  onDelete!();
                 }
               } else if (result == 'publish') {
-                if(onPublish!=null){
+                if (onPublish != null) {
                   onPublish!();
                 }
               }

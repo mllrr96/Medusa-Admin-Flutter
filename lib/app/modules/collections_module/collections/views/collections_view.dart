@@ -24,7 +24,9 @@ class CollectionsView extends GetView<CollectionsController> {
               itemBuilder: (context, collection, index) => CollectionListTile(collection,
                   tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null),
               firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
-              noItemsFoundIndicatorBuilder: (_) => Center(child: Text('No products found', style: largeTextStyle)),
+              noItemsFoundIndicatorBuilder: (_) => Center(
+                  child: Text('No collections yet!\n Tap on + to add new collection',
+                      style: largeTextStyle, textAlign: TextAlign.center)),
             ),
             // separatorBuilder: (_, __) =>
             //     GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 16.0),

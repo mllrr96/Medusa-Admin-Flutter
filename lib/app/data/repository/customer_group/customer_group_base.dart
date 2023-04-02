@@ -40,20 +40,15 @@ abstract class BaseCustomerGroup {
     Map<String, dynamic>? queryParameters,
   });
 
-  /// Retrieves a list of customers in a customer group
-  Future<Result<UserAddCustomersRes, Failure>> retrieveCustomers({
-    /// The ID of the customer group.
+  Future<Result<UserRetrieveCustomersRes, Failure>> retrieveCustomers({
     required String id,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
   });
 
-  /// Removes a list of customers, represented by id's, from a customer group.
   Future<Result<UserRemoveCustomersRes, Failure>> removeCustomers({
-    /// The ID of the customer group.
     required String id,
 
-    /// The ids of the customers to remove
     required List<String> customerIds,
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
