@@ -72,6 +72,7 @@ class ChooseCustomerController extends GetxController {
 
   ChooseCustomerController();
 
+  // ignore: unnecessary_cast
   Rx<Customer?> selectedCustomer = (null as Customer?).obs;
   final customerCtrl = TextEditingController();
 

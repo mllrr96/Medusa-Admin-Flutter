@@ -36,7 +36,7 @@ class ChooseShippingMethodView extends StatelessWidget {
                         .map((e) => DropdownMenuItem(
                             value: e,
                             child:
-                                Text('${e.name!} ${e.amount! ?? ''} ${e.region?.currencyCode?.toUpperCase() ?? ''}')))
+                                Text('${e.name!} ${e.amount ??''} ${e.region?.currencyCode?.toUpperCase() ?? ''}')))
                         .toList(),
                     hint: const Text('Shipping Option'),
                     onChanged: (value) {

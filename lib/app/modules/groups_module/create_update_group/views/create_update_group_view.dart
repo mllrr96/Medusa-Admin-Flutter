@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-
 import '../../../components/adaptive_button.dart';
 import '../../../components/metadata_card.dart';
 import '../controllers/create_update_group_controller.dart';

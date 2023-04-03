@@ -1,11 +1,7 @@
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-
 import 'package:medusa_admin/app/data/models/req/stock_location.dart';
-
 import 'package:medusa_admin/app/data/models/res/stock_location.dart';
-
-import 'package:multiple_result/src/result.dart';
-
+import 'package:multiple_result/multiple_result.dart';
 import 'base_stock_location.dart';
 
 class StockLocationRepo extends BaseStockLocation{

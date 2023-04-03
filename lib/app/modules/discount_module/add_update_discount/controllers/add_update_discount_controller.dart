@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/currency_formatter.dart';
@@ -21,7 +20,9 @@ class AddUpdateDiscountController extends GetxController {
   RxBool hasLimit = false.obs;
   RxBool templateDiscount = false.obs;
   RxBool showTemplateDiscountInfo = false.obs;
+  // ignore: unnecessary_cast
   Rx<DateTime?> startDate = (null as DateTime?).obs;
+  // ignore: unnecessary_cast
   Rx<DateTime?> endDate = (null as DateTime?).obs;
   String? id = Get.arguments;
   bool get updateMode => id != null;
@@ -68,7 +69,6 @@ class AddUpdateDiscountController extends GetxController {
         case DiscountRuleType.freeShipping:
           break;
       }
-      ;
       codeCtrl.text = discount.code ?? '';
       limitCtrl.text = discount.usageLimit?.toString() ?? '';
       descriptionCtrl.text = discount.rule?.description ?? '';

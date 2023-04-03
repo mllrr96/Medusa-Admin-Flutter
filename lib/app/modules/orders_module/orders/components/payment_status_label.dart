@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/store/draft_order.dart';
 import '../../../../data/models/store/order.dart';
 
 class PaymentStatusLabel extends StatelessWidget {

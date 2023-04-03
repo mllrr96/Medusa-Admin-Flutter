@@ -57,7 +57,6 @@ class CreateUpdateGroupController extends GetxController {
     for (var e in metadataTextCtrl) {
       metadata.addAll({e.key.text: e.value.text});
     }
-    print(metadata);
     final result = await customerGroupRepo.updateCustomerGroup(id: id!, name: groupTitleCtrl.text, metadata: metadata);
     result.when((success) {
       Get.back(result: true);

@@ -1,15 +1,12 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/products_module/products/components/filter_view.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/keep_alive_widget.dart';

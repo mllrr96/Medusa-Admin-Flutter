@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/product_variant/product_variant_repo.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import '../../../../../../data/models/store/product_variant.dart';
 

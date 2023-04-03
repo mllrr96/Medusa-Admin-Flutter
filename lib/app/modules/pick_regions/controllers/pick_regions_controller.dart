@@ -25,15 +25,6 @@ class PickRegionsController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await regionsRepo.retrieveAll(

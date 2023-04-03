@@ -20,11 +20,6 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     tabController.dispose();
     super.onClose();

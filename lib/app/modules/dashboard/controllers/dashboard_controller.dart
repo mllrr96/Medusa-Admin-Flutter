@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_pages.dart';
 
 class DashboardController extends GetxController {
   static DashboardController instance = Get.find<DashboardController>();

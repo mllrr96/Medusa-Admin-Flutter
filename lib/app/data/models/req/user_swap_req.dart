@@ -1,5 +1,3 @@
-import 'package:medusa_admin/app/data/models/store/index.dart';
-
 import '../common/item.dart';
 import '../common/return_shipping.dart';
 

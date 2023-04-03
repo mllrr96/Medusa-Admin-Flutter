@@ -1,10 +1,8 @@
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:medusa_admin/app/data/repository/auth/base_auth.dart';
 import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../datasource/remote/dio/dio_client.dart';
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_post_auth_req.dart';
 import '../../models/res/auth.dart';
