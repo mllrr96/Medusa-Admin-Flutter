@@ -8,9 +8,13 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/app/modules/pick_regions/controllers/pick_regions_controller.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../components/currency_formatter.dart';
+import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
 
 class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
@@ -102,112 +106,23 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   style: smallTextStyle!.copyWith(color: lightWhite),
                 ),
                 halfSpace,
-                InkWell(
-                  onTap: () => controller.discountRuleType.value = DiscountRuleType.percentage,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        border: Border.all(
-                            color: controller.discountRuleType.value == DiscountRuleType.percentage
-                                ? ColorManager.primary
-                                : Colors.transparent)),
-                    child: Row(
-                      children: [
-                        Radio<DiscountRuleType>(
-                            value: DiscountRuleType.percentage,
-                            groupValue: controller.discountRuleType.value,
-                            onChanged: (val) {
-                              if (val != null) {
-                                controller.discountRuleType.value = val;
-                              }
-                            }),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Percentage', style: mediumTextStyle),
-                            Text(
-                              'Discount applied in % ',
-                              style: smallTextStyle.copyWith(color: lightWhite),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                DiscountTypeCard(
+                  discountType: DiscountRuleType.percentage,
+                  groupValue: controller.discountRuleType.value,
+                  onTap: (val) => controller.discountRuleType.value = val,
                 ),
                 space,
-                InkWell(
-                  onTap: () => controller.discountRuleType.value = DiscountRuleType.fixed,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        border: Border.all(
-                            color: controller.discountRuleType.value == DiscountRuleType.fixed
-                                ? ColorManager.primary
-                                : Colors.transparent)),
-                    child: Row(
-                      children: [
-                        Radio<DiscountRuleType>(
-                            value: DiscountRuleType.fixed,
-                            groupValue: controller.discountRuleType.value,
-                            onChanged: (val) {
-                              if (val != null) {
-                                controller.discountRuleType.value = val;
-                              }
-                            }),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Fixed amount', style: mediumTextStyle),
-                            Text(
-                              'Discount in whole numbers',
-                              style: smallTextStyle.copyWith(color: lightWhite),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                DiscountTypeCard(
+                  discountType: DiscountRuleType.fixed,
+                  groupValue: controller.discountRuleType.value,
+                  onTap: (val) => controller.discountRuleType.value = val,
+                  disabled: controller.selectedRegions.length > 1,
                 ),
                 space,
-                InkWell(
-                  onTap: () => controller.discountRuleType.value = DiscountRuleType.freeShipping,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        border: Border.all(
-                            color: controller.discountRuleType.value == DiscountRuleType.freeShipping
-                                ? ColorManager.primary
-                                : Colors.transparent)),
-                    child: Row(
-                      children: [
-                        Radio<DiscountRuleType>(
-                            value: DiscountRuleType.freeShipping,
-                            groupValue: controller.discountRuleType.value,
-                            onChanged: (val) {
-                              if (val != null) {
-                                controller.discountRuleType.value = val;
-                              }
-                            }),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Free shipping', style: mediumTextStyle),
-                            Text(
-                              'Override delivery amount',
-                              style: smallTextStyle.copyWith(color: lightWhite),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                DiscountTypeCard(
+                  discountType: DiscountRuleType.freeShipping,
+                  groupValue: controller.discountRuleType.value,
+                  onTap: (val) => controller.discountRuleType.value = val,
                 ),
                 space,
                 if (controller.discountRuleType.value == DiscountRuleType.fixed)
@@ -223,76 +138,16 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                         ),
                       ),
                       halfSpace,
-                      InkWell(
-                        onTap: () => controller.allocationType.value = AllocationType.total,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              border: Border.all(
-                                  color: controller.allocationType.value == AllocationType.total
-                                      ? ColorManager.primary
-                                      : Colors.transparent)),
-                          child: Row(
-                            children: [
-                              Radio<AllocationType>(
-                                  value: AllocationType.total,
-                                  groupValue: controller.allocationType.value,
-                                  onChanged: (val) {
-                                    if (val != null) {
-                                      controller.allocationType.value = val;
-                                    }
-                                  }),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Total amount', style: mediumTextStyle),
-                                  Text(
-                                    'Apply to the total amount',
-                                    style: smallTextStyle.copyWith(color: lightWhite),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                      DiscountAllocationTypeDiscount(
+                        allocationType: AllocationType.total,
+                        groupValue: controller.allocationType.value,
+                        onTap: (val) => controller.allocationType.value = val,
                       ),
                       space,
-                      InkWell(
-                        onTap: () => controller.allocationType.value = AllocationType.item,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              border: Border.all(
-                                  color: controller.allocationType.value == AllocationType.item
-                                      ? ColorManager.primary
-                                      : Colors.transparent)),
-                          child: Row(
-                            children: [
-                              Radio<AllocationType>(
-                                  value: AllocationType.item,
-                                  groupValue: controller.allocationType.value,
-                                  onChanged: (val) {
-                                    if (val != null) {
-                                      controller.allocationType.value = val;
-                                    }
-                                  }),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Item specific', style: mediumTextStyle),
-                                  Text(
-                                    'Apply to every allowed item.',
-                                    style: smallTextStyle.copyWith(color: lightWhite),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                      DiscountAllocationTypeDiscount(
+                        allocationType: AllocationType.item,
+                        groupValue: controller.allocationType.value,
+                        onTap: (val) => controller.allocationType.value = val,
                       ),
                       space,
                     ],
@@ -304,119 +159,187 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
     final general = Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        child: Obx(() {
-          return ExpansionTile(
-            initiallyExpanded: controller.updateMode,
-            maintainState: true,
-            title: Row(
-              children: [
-                Text('General', style: Theme.of(context).textTheme.bodyLarge),
-                Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
-              ],
-            ),
-            expandedAlignment: Alignment.centerLeft,
-            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          child: Obx(() {
+            return ExpansionTile(
+              initiallyExpanded: controller.updateMode,
+              maintainState: true,
+              title: Row(
                 children: [
-                  Flexible(
-                      child: CustomTextField(
-                    label: 'Code',
+                  Text('General', style: Theme.of(context).textTheme.bodyLarge),
+                  Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
+                ],
+              ),
+              expandedAlignment: Alignment.centerLeft,
+              childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+              children: [
+                Row(
+                  children: [
+                    Text('Choose valid regions', style: mediumTextStyle),
+                    Text('*', style: mediumTextStyle?.copyWith(color: Colors.red)),
+                  ],
+                ),
+                halfSpace,
+                TextFormField(
+                  style: Theme.of(context).textTheme.titleSmall,
+                  onTap: () async {
+                    await Get.toNamed(Routes.PICK_REGIONS,
+                        arguments: PickRegionsReq(
+                          multipleSelect: controller.discountRuleType.value == DiscountRuleType.fixed ? false : true,
+                          selectedRegions: controller.discountRuleType.value == DiscountRuleType.fixed
+                              ? controller.selectedRegions.isNotEmpty
+                                  ? [controller.selectedRegions.first]
+                                  : []
+                              : [...controller.selectedRegions],
+                        ))?.then((result) {
+                      if (result is PickRegionsRes) {
+                        controller.selectedRegions.value = result.regions;
+                        if (controller.discountRuleType.value == DiscountRuleType.fixed) {
+                          controller.amountCtrl.text = CurrencyTextInputFormatter(
+                            name: controller.selectedRegions.first.currencyCode,
+                          ).format(controller.amountCtrl.text);
+                        }
+                      }
+                    });
+                  },
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    hintText: controller.selectedRegions.isNotEmpty
+                        ? controller.selectedRegions.length == 1
+                            ? 'Region'
+                            : 'Regions'
+                        : 'Select ... ',
+                    suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
+                    prefixIconConstraints: const BoxConstraints(minWidth: 48 * 1.5),
+                    prefixIcon: controller.selectedRegions.isNotEmpty
+                        ? Chip(
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            label: Text(controller.selectedRegions.length.toString()),
+                            labelStyle: smallTextStyle,
+                            side: const BorderSide(color: Colors.transparent),
+                          )
+                        : null,
+                    border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  ),
+                ),
+                space,
+                if (controller.discountRuleType.value == DiscountRuleType.fixed)
+                  NumericTextField(
+                    label: 'Amount',
+                    required: true,
+                    hintText: '0.00',
+                    controller: controller.amountCtrl,
+                    onPlusPressed: () {
+                      var text = controller.amountCtrl.text;
+                      text = text.replaceAll(RegExp(r'[^0-9]'), '');
+                      var val = int.tryParse(text);
+                      val ??= 0;
+                      controller.amountCtrl.text = CurrencyTextInputFormatter(
+                        name: controller.selectedRegions.first.currencyCode,
+                      ).format((val + 1).toString());
+                    },
+                    onMinusPressed: () {
+                      var text = controller.amountCtrl.text;
+                      text = text.replaceAll(RegExp(r'[^0-9]'), '');
+                      var val = int.tryParse(text);
+                      val ??= 0;
+                      if (val == 0) {
+                        return;
+                      }
+                      controller.amountCtrl.text = CurrencyTextInputFormatter(
+                        name: controller.selectedRegions.first.currencyCode,
+                      ).format((val - 1).toString());
+                    },
+                    inputFormatters: [
+                      if (controller.selectedRegions.isNotEmpty)
+                        CurrencyTextInputFormatter(
+                          name: controller.selectedRegions.first.currencyCode,
+                        )
+                    ],
+                    prefixText:
+                        '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Required';
                       }
                       return null;
                     },
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.characters,
-                    required: true,
-                    controller: controller.codeCtrl,
-                    hintText: 'SUMMERSALE10',
-                  )),
-                  const SizedBox(width: 12.0),
-                  if (controller.discountRuleType.value == DiscountRuleType.fixed)
-                    Flexible(
-                      child: NumericTextField(
-                        label: 'Amount',
-                        required: true,
-                        hintText: '0.00',
-                        controller: controller.amountCtrl,
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  if (controller.discountRuleType.value == DiscountRuleType.percentage)
-                    Flexible(
-                      child: NumericTextField(
-                        label: 'Percentage',
-                        required: true,
-                        prefixText: '  % ',
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                        hintText: '10',
-                        controller: controller.percentageCtrl,
-                      ),
-                    ),
-                ],
-              ),
-              Text(
-                'The code your customers will enter during checkout. This will appear on your customer’s invoice. \nUppercase letters and numbers only.',
-                style: smallTextStyle!.copyWith(color: lightWhite),
-              ),
-              space,
-              CustomTextField(
-                label: 'Description',
-                controller: controller.descriptionCtrl,
-                required: true,
-                hintText: 'Summer Sale 2022...',
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return 'Required';
-                  }
-                  return null;
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Row(
-                      children: [
-                        Flexible(child: Text('This is a template discount', style: mediumTextStyle)),
-                        AdaptiveIcon(
-                            onPressed: () =>
-                                controller.showTemplateDiscountInfo.value = !controller.showTemplateDiscountInfo.value,
-                            icon: Icon(Icons.info_outline, color: lightWhite))
-                      ],
-                    ),
                   ),
-                  Switch.adaptive(
-                      activeColor: ColorManager.primary,
-                      value: controller.templateDiscount.value,
-                      onChanged: (val) => controller.templateDiscount.value = val)
-                ],
-              ),
-              if (controller.showTemplateDiscountInfo.value)
-                Text(
-                  'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
-                  style: smallTextStyle.copyWith(color: lightWhite),
+                if (controller.discountRuleType.value == DiscountRuleType.percentage)
+                  NumericTextField(
+                    label: 'Percentage',
+                    required: true,
+                    prefixText: '  % ',
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    hintText: '10',
+                    controller: controller.percentageCtrl,
+                  ),
+                space,
+                CustomTextField(
+                  label: 'Code',
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.characters,
+                  required: true,
+                  controller: controller.codeCtrl,
+                  hintText: 'SUMMERSALE10',
                 ),
-              if (controller.showTemplateDiscountInfo.value) space,
-            ],
-          );
-        }),
-      ),
+                Text(
+                  'The code your customers will enter during checkout. This will appear on your customer’s invoice. \nUppercase letters and numbers only.',
+                  style: smallTextStyle!.copyWith(color: lightWhite),
+                ),
+                space,
+                CustomTextField(
+                  label: 'Description',
+                  controller: controller.descriptionCtrl,
+                  required: true,
+                  hintText: 'Summer Sale 2022...',
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Row(
+                        children: [
+                          Flexible(child: Text('This is a template discount', style: mediumTextStyle)),
+                          AdaptiveIcon(
+                              onPressed: () => controller.showTemplateDiscountInfo.value =
+                                  !controller.showTemplateDiscountInfo.value,
+                              icon: Icon(Icons.info_outline, color: lightWhite))
+                        ],
+                      ),
+                    ),
+                    Switch.adaptive(
+                        activeColor: ColorManager.primary,
+                        value: controller.templateDiscount.value,
+                        onChanged: (val) => controller.templateDiscount.value = val)
+                  ],
+                ),
+                if (controller.showTemplateDiscountInfo.value)
+                  Text(
+                    'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
+                    style: smallTextStyle.copyWith(color: lightWhite),
+                  ),
+                if (controller.showTemplateDiscountInfo.value) space,
+              ],
+            );
+          })),
     );
     final configuration = Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -674,10 +597,8 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 key: controller.formKey,
                 child: Column(
                   children: [
-                    if(!controller.updateMode)
-                    discountType,
-                    if(!controller.updateMode)
-                      space,
+                    if (!controller.updateMode) discountType,
+                    if (!controller.updateMode) space,
                     general,
                     space,
                     configuration,

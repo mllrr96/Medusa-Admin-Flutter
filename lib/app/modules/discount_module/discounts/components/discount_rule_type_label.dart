@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -12,17 +15,23 @@ class DiscountRuleTypeLabel extends StatelessWidget {
     Color containerColor = ColorManager.primary.withOpacity(0.17);
     Color textColor = ColorManager.primary;
     String text = 'Upcoming';
-    final value = discount.rule!.value;
+    final valueText = discount.rule!.value;
+    var value = discount.rule!.value!.roundToDouble();
+    final valueFormatter = NumberFormat.currency(name: discount.regions!.first.currencyCode!);
+    if (valueFormatter.decimalDigits != null) {
+      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+    }
     switch (discount.rule!.type!) {
       case DiscountRuleType.fixed:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text = '${discount.regions?.first.currencyCode?.toUpperCase() ?? ''} ${value.toString()}' ?? '';
+        text =
+            '${discount.regions?.first.currencyCode?.toUpperCase() ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
         break;
       case DiscountRuleType.percentage:
         containerColor = Colors.blueAccent.withOpacity(0.17);
         textColor = Colors.blueAccent;
-        text = '${value ?? ''} %';
+        text = '${valueText ?? ''} %';
         break;
       case DiscountRuleType.freeShipping:
         containerColor = Colors.red.withOpacity(0.17);

@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
@@ -523,7 +527,11 @@ class NumericTextField extends StatelessWidget {
     this.validator,
     this.hintText,
     this.width,
-    this.required = false, this.prefixText,
+    this.required = false,
+    this.prefixText,
+    this.onTapOutside,
+    this.inputFormatters,
+    this.onChanged,
   }) : super(key: key);
   final TextEditingController controller;
   final void Function()? onPlusPressed;
@@ -534,6 +542,9 @@ class NumericTextField extends StatelessWidget {
   final String? prefixText;
   final String? Function(String?)? validator;
   final bool required;
+  final void Function(PointerDownEvent)? onTapOutside;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -556,6 +567,9 @@ class NumericTextField extends StatelessWidget {
             style: smallTextStyle,
             validator: validator,
             controller: controller,
+            onTapOutside: onTapOutside,
+            onChanged: onChanged,
+            inputFormatters: inputFormatters,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               suffixIcon: Row(
@@ -563,7 +577,6 @@ class NumericTextField extends StatelessWidget {
                 children: [
                   // TODO: see if InkWell or GestureDetector is better than IconButton (too much padding, looks bad on small phones e.g. iPhone X)
                   IconButton(
-                      // padding: EdgeInsets.zero,
                       onPressed: onMinusPressed ??
                           () {
                             int? stock = int.tryParse(controller.text.removeAllWhitespace);
@@ -587,7 +600,12 @@ class NumericTextField extends StatelessWidget {
                 ],
               ),
               hintText: hintText ?? '100...',
-              prefixIcon:prefixText!=null ?  Text(prefixText!, style: smallTextStyle?.copyWith(color: lightWhite),) : null,
+              prefixIcon: prefixText != null
+                  ? Text(
+                      prefixText!,
+                      style: smallTextStyle?.copyWith(color: lightWhite),
+                    )
+                  : null,
               prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(16.0)),

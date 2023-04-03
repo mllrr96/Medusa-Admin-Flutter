@@ -9,8 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../data/models/store/product.dart';
 
-
-class ProductsController extends GetxController with GetSingleTickerProviderStateMixin{
+class ProductsController extends GetxController with GetSingleTickerProviderStateMixin {
   static ProductsController instance = Get.find<ProductsController>();
 
   ProductsController({required this.productsRepo});
@@ -23,7 +22,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   RxInt productsCount = 0.obs;
   Rx<SortOptions> sortOptions = SortOptions.dateRecent.obs;
   late TabController tabController;
-final searchCtrl = TextEditingController();
+  final searchCtrl = TextEditingController();
 
   @override
   void onInit() {
@@ -39,12 +38,12 @@ final searchCtrl = TextEditingController();
     super.onInit();
   }
 
-
-@override
+  @override
   void onClose() {
     tabController.dispose();
     super.onClose();
   }
+
   void changeViewOption() {
     switch (viewOptions) {
       case ViewOptions.list:
@@ -82,6 +81,7 @@ final searchCtrl = TextEditingController();
         'limit': _pageSize,
         'q': searchCtrl.text,
         'order': _getSortOption(),
+        'is_giftcard': 'false',
       },
     );
 

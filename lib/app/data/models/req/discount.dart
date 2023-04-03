@@ -8,7 +8,7 @@ class UserCreateDiscountReq {
   final DiscountRule rule;
 
   /// A list of Region ids representing the Regions in which the Discount can be used.
-  final List<String> regionsId;
+  final List<String> regionsIds;
 
   /// Whether the Discount should have multiple instances of itself, each with a different code.
   ///
@@ -38,7 +38,7 @@ class UserCreateDiscountReq {
   UserCreateDiscountReq({
     required this.code,
     required this.rule,
-    required this.regionsId,
+    required this.regionsIds,
     this.isDynamic,
     this.isDisabled,
     this.startsAt,
@@ -52,7 +52,7 @@ class UserCreateDiscountReq {
     var json = <String, dynamic>{};
     json['code'] = code;
     json['rule'] = rule.toJson();
-    json['regions'] = regionsId;
+    json['regions'] = regionsIds;
 
     if (isDynamic != null) {
       json['is_dynamic'] = isDynamic;

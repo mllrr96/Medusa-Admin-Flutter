@@ -45,6 +45,8 @@ import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
 import '../modules/orders_module/orders/bindings/orders_binding.dart';
+import '../modules/pick_regions/bindings/pick_regions_binding.dart';
+import '../modules/pick_regions/views/pick_regions_view.dart';
 import '../modules/pricing/bindings/pricing_binding.dart';
 import '../modules/pricing/views/pricing_view.dart';
 import '../modules/products_module/add_update_product/bindings/add_update_product_binding.dart';
@@ -303,6 +305,12 @@ class AppPages {
       name: _Paths.DISCOUNT_DETAILS,
       page: () => const DiscountDetailsView(),
       binding: DiscountDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PICK_REGIONS,
+      page: () => const PickRegionsView(),
+      binding: PickRegionsBinding(),
+      fullscreenDialog: true,
     ),
   ];
 }

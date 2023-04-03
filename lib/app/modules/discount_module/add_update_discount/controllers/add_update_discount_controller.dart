@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/currency_formatter.dart';
 
 import '../../../../data/models/req/discount.dart';
 import '../../../../data/models/store/discount.dart';
 import '../../../../data/models/store/discount_rule.dart';
+import '../../../../data/models/store/region.dart';
 
 class AddUpdateDiscountController extends GetxController {
   AddUpdateDiscountController({required this.discountRepo});
@@ -29,6 +32,7 @@ class AddUpdateDiscountController extends GetxController {
   final limitCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   Discount? _loadedDiscount;
+  RxList<Region> selectedRegions = <Region>[].obs;
 
   @override
   void onInit() {
@@ -47,11 +51,16 @@ class AddUpdateDiscountController extends GetxController {
       final type = discount!.rule?.type;
       final allocationType = discount.rule!.allocation;
       discountRuleType.value = type!;
-
+      selectedRegions.value = [...?discount.regions];
       switch (type) {
         case DiscountRuleType.fixed:
           this.allocationType.value = allocationType!;
-          amountCtrl.text = discount.rule?.value.toString() ?? '';
+          if (selectedRegions.isNotEmpty) {
+            amountCtrl.text = CurrencyTextInputFormatter(name: selectedRegions.first.currencyCode)
+                .format(discount.rule?.value.toString() ?? '');
+          } else {
+            amountCtrl.text = discount.rule?.value.toString() ?? '';
+          }
           break;
         case DiscountRuleType.percentage:
           percentageCtrl.text = discount.rule?.value.toString() ?? '';
@@ -89,7 +98,7 @@ class AddUpdateDiscountController extends GetxController {
     loading();
     final value = discountRuleType.value == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)
-        : int.tryParse(amountCtrl.text);
+        : int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), ''));
 
     final discount = UserCreateDiscountReq(
       startsAt: hasStartDate.value ? startDate.value : null,
@@ -102,7 +111,7 @@ class AddUpdateDiscountController extends GetxController {
         value: discountRuleType.value == DiscountRuleType.freeShipping ? 0 : value,
         allocation: discountRuleType.value == DiscountRuleType.fixed ? allocationType.value : AllocationType.total,
       ),
-      regionsId: ['reg_01GWZGA9Z88F814AH8TZJWQ6F0'],
+      regionsIds: selectedRegions.map((e) => e.id!).toList(),
     );
 
     final result = await discountRepo.createDiscount(userCreateDiscountReq: discount);
@@ -126,7 +135,7 @@ class AddUpdateDiscountController extends GetxController {
     loading();
     final value = discountRuleType.value == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)
-        : int.tryParse(amountCtrl.text);
+        : int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), ''));
 
     final updatedDiscount = UserUpdateDiscountReq(
       startsAt: hasStartDate.value ? startDate.value : null,
@@ -138,7 +147,7 @@ class AddUpdateDiscountController extends GetxController {
         description: descriptionCtrl.text,
         value: discountRuleType.value == DiscountRuleType.freeShipping ? 0 : value,
       ),
-      regionsIds: ['reg_01GWZGA9Z88F814AH8TZJWQ6F0'],
+      regionsIds: selectedRegions.map((e) => e.id!).toList(),
     );
 
     final result = await discountRepo.updateDiscount(id: id!, userUpdateDiscountReq: updatedDiscount);

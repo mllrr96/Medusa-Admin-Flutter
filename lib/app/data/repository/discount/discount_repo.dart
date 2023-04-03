@@ -175,6 +175,7 @@ class DiscountRepo extends BaseDiscount {
   @override
   Future<Result<UserRetrieveDiscountRes, Failure>> retrieveDiscount({
     required String id,
+    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   }) async {
     if (customHeaders != null) {
@@ -183,6 +184,7 @@ class DiscountRepo extends BaseDiscount {
     try {
       final response = await _dataProvider.get(
         uri: '/discounts/$id',
+        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserRetrieveDiscountRes.fromJson(response.data));

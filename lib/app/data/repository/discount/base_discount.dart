@@ -42,6 +42,7 @@ abstract class BaseDiscount {
   Future<Result<UserRetrieveDiscountRes, Failure>> retrieveDiscount({
     /// The ID of the Discount
     required String id,
+    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   });
 

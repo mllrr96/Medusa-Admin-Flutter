@@ -19,7 +19,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   Future<void> loadDiscount() async {
     change(null, status: RxStatus.loading());
 
-    final result = await discountRepo.retrieveDiscount(id: id);
+    final result = await discountRepo.retrieveDiscount(id: id , queryParameters: {'expand' : 'regions,regions.currency,rule'});
 
     result.when((success) {
       if (success.discount != null) {

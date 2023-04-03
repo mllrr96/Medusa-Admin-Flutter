@@ -1,5 +1,8 @@
+import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/cupertino.dart' as cu;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
@@ -8,7 +11,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/components/discount_rule_type_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-
 import '../../discounts/controllers/discounts_controller.dart';
 import '../controllers/discount_details_controller.dart';
 
@@ -23,27 +25,34 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
     Widget discountValueText(Discount discount) {
-      String value = '';
+      String valueText = '';
       String detail = '';
-
+      var value = discount.rule!.value!.roundToDouble();
+      final valueFormatter = NumberFormat.currency(name: discount.regions!.first.currencyCode!);
+      if (valueFormatter.decimalDigits != null) {
+        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+      }
       switch (discount.rule!.type!) {
         case DiscountRuleType.fixed:
-          value = '${discount.rule!.value!}';
-          detail = ' ${discount.regions!.first.currencyCode ?? ''}';
+          valueText = valueFormatter.format(value).split(valueFormatter.currencySymbol)[1];
+          detail = ' ${discount.regions?.first.currency?.code ?? ''}';
           break;
         case DiscountRuleType.percentage:
-          value = discount.rule!.value!.toString();
+          valueText = discount.rule!.value!.toString();
           detail = ' %';
           break;
         case DiscountRuleType.freeShipping:
-          value = 'Free shipping';
+          valueText = 'Free shipping';
           break;
       }
       return Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Flexible(child: Text(value, style: Theme.of(context).textTheme.bodyLarge)),
+          if (discount.rule?.type == DiscountRuleType.fixed)
+            Flexible(
+                child: Text('${discount.regions?.first.currency?.symbolNative ?? ''} ',
+                    style: Theme.of(context).textTheme.bodyLarge)),
+          Flexible(child: Text(valueText, style: Theme.of(context).textTheme.bodyLarge)),
           if (detail.isNotEmpty) Text(detail.toUpperCase(), style: smallTextStyle?.copyWith(color: lightWhite)),
         ],
       );
@@ -133,7 +142,9 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
+                    flex: 2,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         discountValueText(discount),
@@ -285,18 +296,20 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
               conditions(discount),
             ],
           ),
-          onError: (e) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Error loading discount \n ${e ?? ''}',
-                style: mediumTextStyle,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 12.0),
-              AdaptiveButton(onPressed: () async => await controller.loadDiscount(), child: const Text('Retry')),
-            ],
+          onError: (e) => SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Error loading discount \n ${e ?? ''}',
+                  style: mediumTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12.0),
+                AdaptiveButton(onPressed: () async => await controller.loadDiscount(), child: const Text('Retry')),
+              ],
+            ),
           ),
           onLoading: const Center(child: CircularProgressIndicator.adaptive()),
         )));

@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
+
+import '../../../../../core/utils/colors.dart';
+
+class DiscountAllocationTypeDiscount extends StatelessWidget {
+  const DiscountAllocationTypeDiscount({Key? key, required this.allocationType, required this.groupValue, this.onTap})
+      : super(key: key);
+  final AllocationType allocationType;
+  final AllocationType groupValue;
+  final void Function(AllocationType allocationType)? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+
+    String title = '';
+    String description = '';
+    switch (allocationType) {
+      case AllocationType.total:
+        title = 'Total amount';
+        description = 'Apply to the total amount';
+        break;
+      case AllocationType.item:
+        title = 'Item specific';
+        description = 'Apply to every allowed item';
+        break;
+    }
+    return InkWell(
+      onTap: () {
+        if (onTap != null) {
+          onTap!(allocationType);
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: Theme.of(context).scaffoldBackgroundColor,
+            border: Border.all(color: groupValue == allocationType ? ColorManager.primary : Colors.transparent)),
+        child: Row(
+          children: [
+            Radio<AllocationType>(
+                value: allocationType,
+                groupValue: groupValue,
+                onChanged: (val) {
+                  if (val != null) {
+                    if (onTap != null) {
+                      onTap!(allocationType);
+                    }
+                  }
+                }),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: mediumTextStyle),
+                Text(
+                  description,
+                  style: smallTextStyle?.copyWith(color: lightWhite),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
