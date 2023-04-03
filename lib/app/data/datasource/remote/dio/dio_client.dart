@@ -56,7 +56,6 @@ class DioClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    // try {
     var response = await dio.post(
       baseUrl + uri,
       data: data,
@@ -67,15 +66,10 @@ class DioClient {
       onReceiveProgress: onReceiveProgress,
     );
     return response;
-    // } on FormatException catch (_) {
-    //   throw const FormatException("Unable to process the data");
-    // } catch (e) {
-    //   rethrow;
-    // }
   }
 
-  Future<Response> put(
-    String uri, {
+  Future<Response> put({
+    required String uri,
     data,
     Map<String, dynamic>? queryParameters,
     Options? options,

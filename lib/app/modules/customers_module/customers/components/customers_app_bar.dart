@@ -110,8 +110,12 @@ class _CustomersAppBarState extends State<CustomersAppBar> {
           SizedBox(height: topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
-          if (widget.tabController.index == 0) customersAppBar,
-          if (widget.tabController.index == 1) groupsAppBar,
+          if (widget.tabController.index == 0) SizedBox(
+              height: kToolbarHeight,
+              child: customersAppBar),
+          if (widget.tabController.index == 1) SizedBox(
+              height: kToolbarHeight,
+              child: groupsAppBar),
         ],
       ),
     );

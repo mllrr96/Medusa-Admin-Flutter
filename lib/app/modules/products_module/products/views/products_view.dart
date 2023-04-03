@@ -106,30 +106,30 @@ class ProductsListView extends GetView<ProductsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            onTap: () async {
-              Get.to(()=>FilterView());
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                color: Theme.of(context).appBarTheme.backgroundColor,
-                // border: Border.all(color: ColorManager.primary),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [Icon(CupertinoIcons.sort_down_circle_fill), SizedBox(width: 12.0), Text('Filters')],
-              ),
-            ),
-          ),
-          AdaptiveIcon(onPressed: (){}, icon: Icon(Icons.search)),
-        ],
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Row(
+      //   mainAxisSize: MainAxisSize.min,
+      //   children: [
+      //     InkWell(
+      //       onTap: () async {
+      //         Get.to(()=>FilterView());
+      //       },
+      //       child: Container(
+      //         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      //         decoration: BoxDecoration(
+      //           borderRadius: const BorderRadius.all(Radius.circular(8)),
+      //           color: Theme.of(context).appBarTheme.backgroundColor,
+      //           // border: Border.all(color: ColorManager.primary),
+      //         ),
+      //         child: Row(
+      //           mainAxisSize: MainAxisSize.min,
+      //           children: const [Icon(CupertinoIcons.sort_down_circle_fill), SizedBox(width: 12.0), Text('Filters')],
+      //         ),
+      //       ),
+      //     ),
+      //     AdaptiveIcon(onPressed: (){}, icon: Icon(Icons.search)),
+      //   ],
+      // ),
       body: SmartRefresher(
         controller: controller.listRefreshController,
         onRefresh: () => controller.pagingController.refresh(),

@@ -1,19 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-import '../../../components/adaptive_back_button.dart';
 import '../controllers/add_update_discount_controller.dart';
 
 class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
@@ -97,8 +94,14 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 ],
               ),
               expandedAlignment: Alignment.centerLeft,
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
               childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
               children: [
+                Text(
+                  'Select a discount type',
+                  style: smallTextStyle!.copyWith(color: lightWhite),
+                ),
+                halfSpace,
                 InkWell(
                   onTap: () => controller.discountRuleType.value = DiscountRuleType.percentage,
                   child: Container(
@@ -126,7 +129,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                             Text('Percentage', style: mediumTextStyle),
                             Text(
                               'Discount applied in % ',
-                              style: smallTextStyle!.copyWith(color: lightWhite),
+                              style: smallTextStyle.copyWith(color: lightWhite),
                             ),
                           ],
                         ),
@@ -304,6 +307,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: Obx(() {
           return ExpansionTile(
+            initiallyExpanded: controller.updateMode,
             maintainState: true,
             title: Row(
               children: [
@@ -386,18 +390,29 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Text('This is a template discount', style: mediumTextStyle),
-                      AdaptiveIcon(onPressed: () {}, icon: Icon(Icons.info_outline, color: lightWhite))
-                    ],
+                  Flexible(
+                    child: Row(
+                      children: [
+                        Flexible(child: Text('This is a template discount', style: mediumTextStyle)),
+                        AdaptiveIcon(
+                            onPressed: () =>
+                                controller.showTemplateDiscountInfo.value = !controller.showTemplateDiscountInfo.value,
+                            icon: Icon(Icons.info_outline, color: lightWhite))
+                      ],
+                    ),
                   ),
                   Switch.adaptive(
                       activeColor: ColorManager.primary,
                       value: controller.templateDiscount.value,
                       onChanged: (val) => controller.templateDiscount.value = val)
                 ],
-              )
+              ),
+              if (controller.showTemplateDiscountInfo.value)
+                Text(
+                  'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
+                  style: smallTextStyle.copyWith(color: lightWhite),
+                ),
+              if (controller.showTemplateDiscountInfo.value) space,
             ],
           );
         }),
@@ -410,6 +425,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         child: Obx(() {
           return ExpansionTile(
             maintainState: true,
+            initiallyExpanded: controller.updateMode,
             title: Text('Configuration', style: Theme.of(context).textTheme.bodyLarge),
             expandedAlignment: Alignment.centerLeft,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -425,7 +441,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Start date'),
+                      Text('Start date', style: mediumTextStyle),
                       Text(
                         'Schedule the discount to activate in the future.',
                         style: smallTextStyle.copyWith(color: lightWhite),
@@ -492,15 +508,17 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Discount has an expiry date?'),
-                      Text(
-                        'Schedule the discount to deactivate in the future.',
-                        style: smallTextStyle.copyWith(color: lightWhite),
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Discount has an expiry date?', style: mediumTextStyle),
+                        Text(
+                          'Schedule the discount to deactivate in the future.',
+                          style: smallTextStyle.copyWith(color: lightWhite),
+                        ),
+                      ],
+                    ),
                   ),
                   Switch.adaptive(
                     activeColor: ColorManager.primary,
@@ -564,15 +582,17 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Limit the number of redemptions?'),
-                      Text(
-                        'Limit applies across all customers, not per customer.',
-                        style: smallTextStyle.copyWith(color: lightWhite),
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Limit the number of redemptions?', style: mediumTextStyle),
+                        Text(
+                          'Limit applies across all customers, not per customer.',
+                          style: smallTextStyle.copyWith(color: lightWhite),
+                        ),
+                      ],
+                    ),
                   ),
                   Switch.adaptive(
                       activeColor: ColorManager.primary,
@@ -617,6 +637,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
           maintainState: true,
+          initiallyExpanded: controller.updateMode,
           title: Text('Conditions', style: Theme.of(context).textTheme.bodyLarge),
           expandedAlignment: Alignment.center,
           childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -636,7 +657,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveBackButton(),
+          leading: const AdaptiveCloseButton(),
           title: controller.updateMode ? const Text('Update discount') : const Text('Create new discount'),
           actions: [
             AdaptiveButton(
@@ -653,8 +674,10 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 key: controller.formKey,
                 child: Column(
                   children: [
+                    if(!controller.updateMode)
                     discountType,
-                    space,
+                    if(!controller.updateMode)
+                      space,
                     general,
                     space,
                     configuration,

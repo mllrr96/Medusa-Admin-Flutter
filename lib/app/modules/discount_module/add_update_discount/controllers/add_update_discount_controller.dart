@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -6,6 +5,7 @@ import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 import '../../../../data/models/req/discount.dart';
+import '../../../../data/models/store/discount.dart';
 import '../../../../data/models/store/discount_rule.dart';
 
 class AddUpdateDiscountController extends GetxController {
@@ -17,6 +17,7 @@ class AddUpdateDiscountController extends GetxController {
   RxBool hasEndDate = false.obs;
   RxBool hasLimit = false.obs;
   RxBool templateDiscount = false.obs;
+  RxBool showTemplateDiscountInfo = false.obs;
   Rx<DateTime?> startDate = (null as DateTime?).obs;
   Rx<DateTime?> endDate = (null as DateTime?).obs;
   String? id = Get.arguments;
@@ -27,6 +28,7 @@ class AddUpdateDiscountController extends GetxController {
   final descriptionCtrl = TextEditingController();
   final limitCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  Discount? _loadedDiscount;
 
   @override
   void onInit() {
@@ -36,31 +38,31 @@ class AddUpdateDiscountController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   Future<void> _loadDiscount() async {
     loading();
     final result = await discountRepo.retrieveDiscount(id: id!);
     result.when((success) {
       final discount = success.discount;
+      _loadedDiscount = discount;
       final type = discount!.rule?.type;
       final allocationType = discount.rule!.allocation;
-
       discountRuleType.value = type!;
-      if (type == DiscountRuleType.fixed) {
-        this.allocationType.value = allocationType!;
+
+      switch (type) {
+        case DiscountRuleType.fixed:
+          this.allocationType.value = allocationType!;
+          amountCtrl.text = discount.rule?.value.toString() ?? '';
+          break;
+        case DiscountRuleType.percentage:
+          percentageCtrl.text = discount.rule?.value.toString() ?? '';
+          break;
+        case DiscountRuleType.freeShipping:
+          break;
       }
+      ;
       codeCtrl.text = discount.code ?? '';
-      amountCtrl.text = discount.rule?.value.toString() ?? '';
       limitCtrl.text = discount.usageLimit?.toString() ?? '';
+      descriptionCtrl.text = discount.rule?.description ?? '';
 
       if (discount.startsAt != null) {
         hasStartDate.value = true;
@@ -96,6 +98,7 @@ class AddUpdateDiscountController extends GetxController {
       code: codeCtrl.text,
       rule: DiscountRule(
         type: discountRuleType.value,
+        description: descriptionCtrl.text,
         value: discountRuleType.value == DiscountRuleType.freeShipping ? 0 : value,
         allocation: discountRuleType.value == DiscountRuleType.fixed ? allocationType.value : AllocationType.total,
       ),
@@ -131,21 +134,21 @@ class AddUpdateDiscountController extends GetxController {
       usageLimit: hasLimit.value ? int.tryParse(limitCtrl.text) : null,
       code: codeCtrl.text,
       rule: DiscountRule(
-        type: discountRuleType.value,
+        id: _loadedDiscount!.ruleId,
+        description: descriptionCtrl.text,
         value: discountRuleType.value == DiscountRuleType.freeShipping ? 0 : value,
-        allocation: discountRuleType.value == DiscountRuleType.fixed ? allocationType.value : AllocationType.total,
       ),
-      regionsId: ['reg_01GWZGA9Z88F814AH8TZJWQ6F0'],
+      regionsIds: ['reg_01GWZGA9Z88F814AH8TZJWQ6F0'],
     );
 
-    final result = await discountRepo.updateDiscount(id: '', userUpdateDiscountReq: updatedDiscount);
+    final result = await discountRepo.updateDiscount(id: id!, userUpdateDiscountReq: updatedDiscount);
 
     result.when((success) {
       Get.back(result: true);
-      EasyLoading.showSuccess('Discount created!');
+      EasyLoading.showSuccess('Discount updated!');
     }, (error) {
       dismissLoading();
-      Get.snackbar('Error creating discount ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error updating discount ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
     });
   }
 
@@ -162,7 +165,7 @@ class AddUpdateDiscountController extends GetxController {
       message = 'Please select expiry date';
     }
 
-    if (startDate.value != null && endDate.value != null && endDate.value!.isAfter(startDate.value!)) {
+    if (startDate.value != null && endDate.value != null && endDate.value!.isBefore(startDate.value!)) {
       title = 'Error';
       message = 'Expiry date should be after start date';
     }

@@ -21,6 +21,8 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/discount_module/add_update_discount/bindings/add_update_discount_binding.dart';
 import '../modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
+import '../modules/discount_module/discount_details/bindings/discount_details_binding.dart';
+import '../modules/discount_module/discount_details/views/discount_details_view.dart';
 import '../modules/discount_module/discounts/bindings/discounts_binding.dart';
 import '../modules/discount_module/discounts/views/discounts_view.dart';
 import '../modules/draft_orders_module/create_draft_order/bindings/create_draft_order_binding.dart';
@@ -295,6 +297,12 @@ class AppPages {
       name: _Paths.ADD_UPDATE_DISCOUNT,
       page: () => const AddUpdateDiscountView(),
       binding: AddUpdateDiscountBinding(),
+      fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.DISCOUNT_DETAILS,
+      page: () => const DiscountDetailsView(),
+      binding: DiscountDetailsBinding(),
     ),
   ];
 }

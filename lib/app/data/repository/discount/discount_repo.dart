@@ -250,8 +250,23 @@ class DiscountRepo extends BaseDiscount {
     required UserUpdateDiscountReq userUpdateDiscountReq,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
-  }) {
-    // TODO: implement updateDiscount
-    throw UnimplementedError();
+  }) async {
+    if (customHeaders != null) {
+      _dataProvider.dio.options.headers.addAll(customHeaders);
+    }
+    try {
+      final response = await _dataProvider.post(
+        uri: '/discounts/$id',
+        data: userUpdateDiscountReq.toJson(),
+        queryParameters: queryParameters,
+      );
+      if (response.statusCode == 200) {
+        return Success(UserUpdateDiscountRes.fromJson(response.data));
+      } else {
+        return Error(Failure.from(response));
+      }
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
   }
 }

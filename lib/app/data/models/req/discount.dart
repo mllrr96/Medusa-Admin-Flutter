@@ -94,7 +94,7 @@ class UserUpdateDiscountReq {
   final DiscountRule? rule;
 
   /// A list of Region ids representing the Regions in which the Discount can be used.
-  final List<String>? regionsId;
+  final List<String>? regionsIds;
 
   /// Whether the Discount should have multiple instances of itself, each with a different code.
   ///
@@ -124,7 +124,7 @@ class UserUpdateDiscountReq {
   UserUpdateDiscountReq({
     this.code,
     this.rule,
-    this.regionsId,
+    this.regionsIds,
     this.isDynamic,
     this.isDisabled,
     this.startsAt,
@@ -137,8 +137,8 @@ class UserUpdateDiscountReq {
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
 
-    if (regionsId != null) {
-      json['regions_id'] = regionsId;
+    if (regionsIds != null) {
+      json['regions'] = regionsIds;
     }
     if (code != null) {
       json['code'] = code;
@@ -155,11 +155,11 @@ class UserUpdateDiscountReq {
     }
 
     if (startsAt != null) {
-      json['starts_at'] = startsAt;
+      json['starts_at'] = startsAt.toString();
     }
 
     if (endsAt != null) {
-      json['ends_at'] = endsAt;
+      json['ends_at'] = endsAt.toString();
     }
 
     if (validDuration != null) {

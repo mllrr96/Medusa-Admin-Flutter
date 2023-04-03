@@ -54,7 +54,7 @@ class DiscountStatusDot extends StatelessWidget {
 
     Color containerColor = ColorManager.primary.withOpacity(0.17);
     Color textColor = ColorManager.primary;
-    if(disabled){
+    if (disabled) {
       containerColor = Colors.grey.withOpacity(0.17);
       textColor = Colors.grey;
     } else {

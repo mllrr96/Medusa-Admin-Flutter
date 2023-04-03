@@ -16,9 +16,9 @@ class DiscountRule {
 
   DiscountRule({
     this.id,
-    required this.type,
+     this.type,
     this.description,
-    required this.value,
+     this.value,
     this.allocation,
     this.conditions,
     this.createdAt,
@@ -58,7 +58,7 @@ class DiscountRule {
     if (description != null) {
       json['description'] = description;
     }
-      json['value'] = value;
+    json['value'] = value;
 
     if (allocation != null) {
       json['allocation'] = allocation?.value;

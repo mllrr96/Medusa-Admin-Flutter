@@ -55,6 +55,7 @@ abstract class Routes {
   static const CREATE_UPDATE_GROUP = _Paths.CREATE_UPDATE_GROUP;
   static const GROUP_DETAILS = _Paths.GROUP_DETAILS;
   static const ADD_UPDATE_DISCOUNT = _Paths.ADD_UPDATE_DISCOUNT;
+  static const DISCOUNT_DETAILS = _Paths.DISCOUNT_DETAILS;
 }
 
 abstract class _Paths {
@@ -99,4 +100,5 @@ abstract class _Paths {
   static const CREATE_UPDATE_GROUP = '/create-update-group';
   static const GROUP_DETAILS = '/group-details';
   static const ADD_UPDATE_DISCOUNT = '/add-update-discount';
+  static const DISCOUNT_DETAILS = '/discount-details';
 }

@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,7 +10,9 @@ import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../components/discount_card.dart';
 import '../components/discount_rule_type_label.dart';
 import '../controllers/discounts_controller.dart';
 
@@ -27,55 +33,32 @@ class DiscountsView extends GetView<DiscountsController> {
                   controller.pagingController.refresh();
                 }
               },
-              icon: const Icon(Icons.add))
+              icon: Platform.isAndroid ? const Icon(Icons.add) : const Icon(CupertinoIcons.add))
         ],
       ),
       body: SafeArea(
-        child: PagedListView(
-          pagingController: controller.pagingController,
-          builderDelegate: PagedChildBuilderDelegate<Discount>(
-            itemBuilder: (context, discount, index) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  color: Theme.of(context).appBarTheme.backgroundColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(discount.code ?? ''),
-                        if(discount.rule?.description?.isNotEmpty ?? false)
-                          const SizedBox(height: 12.0),
-                        if(discount.rule?.description?.isNotEmpty ?? false)
-                        Text(discount.rule?.description ?? ''),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        DiscountStatusDot(disabled: discount.isDisabled ?? true),
-                        const SizedBox(height: 12.0),
-                        DiscountRuleTypeLabel(discount: discount),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-            firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
-            noItemsFoundIndicatorBuilder: (_) => Center(
-                child: Text('No discounts yet!\n Tap on + to add discount',
-                    style: largeTextStyle, textAlign: TextAlign.center)),
+        child: SmartRefresher(
+          controller: controller.refreshController,
+          onRefresh: () => controller.pagingController.refresh(),
+          header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+          child: PagedListView.separated(
+            separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<Discount>(
+              itemBuilder: (context, discount, index) {
+                return DiscountCard(discount,
+                    onDelete: () async => await controller.deleteDiscount(id: discount.id!),
+                    onToggle: () async => await controller.toggleDiscount(discount: discount));
+              },
+              firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
+              noItemsFoundIndicatorBuilder: (_) => Center(
+                  child: Text('No discounts yet!\n Tap on + to add discount',
+                      style: largeTextStyle, textAlign: TextAlign.center)),
+            ),
+            // separatorBuilder: (_, __) =>
+            //     GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 16.0),
           ),
-          // separatorBuilder: (_, __) =>
-          //     GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 16.0),
         ),
       ),
     );
