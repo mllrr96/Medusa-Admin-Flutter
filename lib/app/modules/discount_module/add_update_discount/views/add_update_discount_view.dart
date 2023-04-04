@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
@@ -13,6 +14,8 @@ import 'package:medusa_admin/app/modules/products_module/add_update_product/comp
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../discount_conditions/components/condition_card.dart';
+import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../components/currency_formatter.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
@@ -558,21 +561,64 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        child: ExpansionTile(
-          maintainState: true,
-          initiallyExpanded: controller.updateMode,
-          title: Text('Conditions', style: Theme.of(context).textTheme.bodyLarge),
-          expandedAlignment: Alignment.center,
-          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-          children: [
-            Text(
-              'Discount code apply to all products if left untouched.',
-              style: smallTextStyle?.copyWith(color: lightWhite),
-            ),
-            space,
-            AdaptiveButton(onPressed: () {}, child: const Text('Add condition'))
-          ],
-        ),
+        child: Obx(() {
+          return ExpansionTile(
+            maintainState: true,
+            initiallyExpanded: controller.updateMode,
+            title: Text('Conditions', style: Theme.of(context).textTheme.bodyLarge),
+            expandedAlignment: Alignment.center,
+            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            children: [
+              if (controller.discountConditions.isEmpty)
+                Text(
+                  'Discount code apply to all products if left untouched.',
+                  style: smallTextStyle?.copyWith(color: lightWhite),
+                ),
+              if (controller.discountConditions.isEmpty) space,
+              if (controller.discountConditions.isNotEmpty)
+                ListView.separated(
+                    separatorBuilder: (_, __) => space,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: controller.discountConditions.length,
+                    itemBuilder: (context, index) {
+                      final condition = controller.discountConditions[index];
+                      return DetailedConditionCard(
+                        discountCondition: condition,
+                        onDeleteTap: () async {
+                          controller.discountConditions.remove(condition);
+                        },
+                      );
+                    }),
+              if (controller.discountConditions.length < 5)
+                AdaptiveButton(
+                    onPressed: () async {
+                      final result = await Get.toNamed(Routes.DISCOUNT_CONDITIONS,
+                          arguments: DiscountConditionReq(
+                              discountTypes: controller.discountConditions.map((e) => e.type!).toList()));
+                      if (result != null && result is DiscountConditionRes) {
+                        controller.discountConditions.add(DiscountCondition(
+                          type: result.conditionType,
+                          operator: result.operator,
+                          products: result.products?.map((e) => e.id!).toList(),
+                          productTags: result.productTags?.map((e) => e.id!).toList(),
+                          productCollections: result.productCollections?.map((e) => e.id!).toList(),
+                          productTypes: result.productTypes?.map((e) => e.id!).toList(),
+                        ));
+                      }
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (Platform.isAndroid) const Icon(Icons.add),
+                        if (Platform.isIOS) const Icon(CupertinoIcons.add),
+                        const SizedBox(width: 6.0),
+                        const Text('Add Condition'),
+                      ],
+                    ))
+            ],
+          );
+        }),
       ),
     );
 
@@ -603,7 +649,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                     space,
                     configuration,
                     space,
-                    conditions,
+                    if (!controller.updateMode) conditions,
                   ],
                 ),
               ),

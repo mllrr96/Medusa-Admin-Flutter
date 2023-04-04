@@ -57,6 +57,8 @@ abstract class Routes {
   static const ADD_UPDATE_DISCOUNT = _Paths.ADD_UPDATE_DISCOUNT;
   static const DISCOUNT_DETAILS = _Paths.DISCOUNT_DETAILS;
   static const PICK_REGIONS = _Paths.PICK_REGIONS;
+  static const DISCOUNT_CONDITIONS = _Paths.DISCOUNT_CONDITIONS;
+  static const UPDATE_CONDITION = _Paths.UPDATE_CONDITION;
 }
 
 abstract class _Paths {
@@ -103,4 +105,6 @@ abstract class _Paths {
   static const ADD_UPDATE_DISCOUNT = '/add-update-discount';
   static const DISCOUNT_DETAILS = '/discount-details';
   static const PICK_REGIONS = '/pick-regions';
+  static const DISCOUNT_CONDITIONS = '/discount-conditions';
+  static const UPDATE_CONDITION = '/update-condition';
 }

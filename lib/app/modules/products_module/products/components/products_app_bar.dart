@@ -80,55 +80,38 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
       height: kToolbarHeight,
       padding: const EdgeInsets.only(left: 12.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: Row(
-              children: [
-                Flexible(
-                  child: CupertinoButton(
-                      padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-                      onPressed: () {
-                        widget.tabController.index = 0;
-                        setState(() {});
-                      },
-                      alignment: Alignment.bottomCenter,
-                      child: AnimatedDefaultTextStyle(
-                          style: widget.tabController.index == 0
-                              ? displayLargeTextStyle!
-                              : largeTextStyle!.copyWith(color: lightWhite),
-                          duration: const Duration(milliseconds: 200),
-                          child: productsText)),
-                ),
-                Flexible(
-                  child: CupertinoButton(
-                    padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-                    onPressed: () {
-                      widget.tabController.index = 1;
-                      setState(() {});
-                    },
-                    alignment: Alignment.bottomCenter,
-                    child: AnimatedDefaultTextStyle(
-                        style: widget.tabController.index == 1
-                            ? displayLargeTextStyle!
-                            : largeTextStyle!.copyWith(color: lightWhite),
-                        duration: const Duration(milliseconds: 200),
-                        child: collectionText),
-                  ),
-                ),
-              ],
+            child: CupertinoButton(
+                padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+                onPressed: () {
+                  widget.tabController.index = 0;
+                  setState(() {});
+                },
+                alignment: Alignment.bottomCenter,
+                child: AnimatedDefaultTextStyle(
+                    style: widget.tabController.index == 0
+                        ? displayLargeTextStyle!
+                        : largeTextStyle!.copyWith(color: lightWhite),
+                    duration: const Duration(milliseconds: 200),
+                    child: productsText)),
+          ),
+          Flexible(
+            child: CupertinoButton(
+              padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+              onPressed: () {
+                widget.tabController.index = 1;
+                setState(() {});
+              },
+              alignment: Alignment.bottomCenter,
+              child: AnimatedDefaultTextStyle(
+                  style: widget.tabController.index == 1
+                      ? displayLargeTextStyle!
+                      : largeTextStyle!.copyWith(color: lightWhite),
+                  duration: const Duration(milliseconds: 200),
+                  child: collectionText),
             ),
           ),
-          if (widget.tabController.index == 0)
-            AdaptiveIcon(
-                onPressed: () async {
-                  // ignore: unused_local_variable
-                  final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-                    const SheetAction(label: 'Export Products'),
-                    const SheetAction(label: 'Import Products'),
-                  ]);
-                },
-                icon: const Icon(Icons.more_horiz))
         ],
       ),
     );
@@ -380,7 +363,6 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                         });
                       },
                       icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
-                  if (Platform.isAndroid)
                     AdaptiveIcon(
                         onPressed: () async {
                           // ignore: unused_local_variable

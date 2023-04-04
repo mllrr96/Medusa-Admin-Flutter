@@ -21,10 +21,14 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/discount_module/add_update_discount/bindings/add_update_discount_binding.dart';
 import '../modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
+import '../modules/discount_module/discount_conditions/bindings/discount_conditions_binding.dart';
+import '../modules/discount_module/discount_conditions/views/discount_conditions_view.dart';
 import '../modules/discount_module/discount_details/bindings/discount_details_binding.dart';
 import '../modules/discount_module/discount_details/views/discount_details_view.dart';
 import '../modules/discount_module/discounts/bindings/discounts_binding.dart';
 import '../modules/discount_module/discounts/views/discounts_view.dart';
+import '../modules/discount_module/update_condition/bindings/update_condition_binding.dart';
+import '../modules/discount_module/update_condition/views/update_condition_view.dart';
 import '../modules/draft_orders_module/create_draft_order/bindings/create_draft_order_binding.dart';
 import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/bindings/select_products_binding.dart';
 import '../modules/draft_orders_module/create_draft_order/components/add_product_variants/views/add_product_vairants_view.dart';
@@ -311,6 +315,17 @@ class AppPages {
       page: () => const PickRegionsView(),
       binding: PickRegionsBinding(),
       fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.DISCOUNT_CONDITIONS,
+      page: () => const DiscountConditionsView(),
+      binding: DiscountConditionsBinding(),
+      fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.UPDATE_CONDITION,
+      page: () => const UpdateConditionView(),
+      binding: UpdateConditionBinding(),
     ),
   ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/currency_formatter.dart';
@@ -20,6 +21,7 @@ class AddUpdateDiscountController extends GetxController {
   RxBool hasLimit = false.obs;
   RxBool templateDiscount = false.obs;
   RxBool showTemplateDiscountInfo = false.obs;
+  RxList<DiscountCondition> discountConditions = <DiscountCondition>[].obs;
   // ignore: unnecessary_cast
   Rx<DateTime?> startDate = (null as DateTime?).obs;
   // ignore: unnecessary_cast
@@ -105,8 +107,10 @@ class AddUpdateDiscountController extends GetxController {
       endsAt: hasEndDate.value ? endDate.value : null,
       usageLimit: hasLimit.value ? int.tryParse(limitCtrl.text) : null,
       code: codeCtrl.text,
+
       rule: DiscountRule(
         type: discountRuleType.value,
+        conditions: discountConditions.isNotEmpty ? discountConditions : null,
         description: descriptionCtrl.text,
         value: discountRuleType.value == DiscountRuleType.freeShipping ? 0 : value,
         allocation: discountRuleType.value == DiscountRuleType.fixed ? allocationType.value : AllocationType.total,

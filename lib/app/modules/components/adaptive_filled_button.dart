@@ -1,33 +1,23 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../core/utils/colors.dart';
-
-
-class SignInButton extends StatelessWidget {
-  const SignInButton({
+class AdaptiveFilledButton extends StatelessWidget {
+  const AdaptiveFilledButton({
     Key? key,
     required this.onPressed,
-    required this.label,
-    this.textStyle,
-    this.textColor,
+    required this.child,
     this.buttonColor,
     this.buttonWidth,
     this.noShadow = false,
   }) : super(key: key);
   final void Function()? onPressed;
-  final String label;
-  final TextStyle? textStyle;
-  final Color? textColor;
+  final Widget child;
   final Color? buttonColor;
   final double? buttonWidth;
   final bool noShadow;
   @override
   Widget build(BuildContext context) {
-    final TextStyle filledTextStyle = GoogleFonts.aBeeZee(fontSize: 16.0, color: textColor ?? ColorManager.white);
     if (Platform.isIOS) {
       return CupertinoTheme(
         data: CupertinoThemeData(primaryColor: buttonColor ?? Theme.of(context).primaryColor),
@@ -35,25 +25,19 @@ class SignInButton extends StatelessWidget {
           width: buttonWidth,
           child: CupertinoButton.filled(
             onPressed: onPressed,
-            child: Text(
-              label,
-              style: textStyle ?? filledTextStyle,
-            ),
+            child: child,
           ),
         ),
       );
     }
     return MaterialButton(
-      // default height is 36
+      /// default height is 36
       height: 45,
-      minWidth: buttonWidth ,
+      minWidth: buttonWidth,
       color: buttonColor ?? Theme.of(context).primaryColor,
       textColor: Colors.white,
       onPressed: onPressed,
-      child: Text(
-        label,
-        style: textStyle ?? filledTextStyle,
-      ),
+      child: child,
     );
   }
 }

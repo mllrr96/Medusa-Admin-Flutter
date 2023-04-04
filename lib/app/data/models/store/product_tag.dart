@@ -1,27 +1,28 @@
 class ProductTag {
-  String? id;
-  String? value;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  final String? id;
+  final String? value;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final Map<String, dynamic>? metadata;
 
   ProductTag({
     this.id,
-    required this.value,
+    this.value,
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
-  ProductTag.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    value = json['value'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+  factory ProductTag.fromJson(Map<String, dynamic> json) {
+    return ProductTag(
+        id: json['id'],
+        value: json['value'],
+        createdAt: DateTime.tryParse(json['created_at'] ?? ''),
+        updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+        deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
+        metadata: json['metadata']);
   }
 
   Map<String, dynamic> toJson() {

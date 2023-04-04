@@ -16,7 +16,7 @@ class SelectCountryController extends GetxController {
   void onInit() {
     countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
 
-    selectCountryOptions = Get.arguments ?? SelectCountryOptions();
+    selectCountryOptions = Get.arguments ?? const SelectCountryOptions();
     // if (Get.arguments != null && Get.arguments is List && (Get.arguments as List).length == 2) {
     //   multipleSelect = Get.arguments[0];
     //   selectedCountries = Get.arguments[1];
@@ -58,9 +58,9 @@ class SelectCountryController extends GetxController {
 }
 
 class SelectCountryOptions {
-  SelectCountryOptions(
+  const SelectCountryOptions(
       {this.multipleSelect = false, this.selectedCountries = const [], this.disabledCountriesIso2 = const []});
   final bool multipleSelect;
-  List<Country> selectedCountries;
+  final List<Country> selectedCountries;
   final List<String> disabledCountriesIso2;
 }

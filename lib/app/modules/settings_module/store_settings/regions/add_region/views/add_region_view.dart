@@ -148,9 +148,10 @@ class AddRegionView extends StatelessWidget {
                                 onTap: () async {
                                   final result = await Get.toNamed(Routes.SELECT_COUNTRY,
                                       arguments: SelectCountryOptions(
-                                          disabledCountriesIso2: RegionsController.instance.disabledCountriesIso2(),
-                                          multipleSelect: true,
-                                          selectedCountries: [...controller.selectedCountries]));
+                                        disabledCountriesIso2: RegionsController.instance.disabledCountriesIso2(),
+                                        multipleSelect: true,
+                                        selectedCountries: controller.selectedCountries,
+                                      ));
                                   if (result != null && result is List<Country>) {
                                     controller.selectedCountries = result;
                                     controller.update();

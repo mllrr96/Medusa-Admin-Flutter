@@ -17,7 +17,8 @@ class UserRetrieveProductTagsRes extends PaginatedResponse {
 
   UserRetrieveProductTagsRes.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     if (json['product_tags'] != null) {
-      tags = json['product_tags']!.map((v) => ProductTag.fromJson(v)).toList();
+      tags = <ProductTag>[];
+      json['product_tags'].forEach((e) => tags!.add(ProductTag.fromJson(e)));
     }
   }
 }

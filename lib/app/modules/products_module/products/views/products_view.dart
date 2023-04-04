@@ -31,7 +31,7 @@ class ProductsView extends StatelessWidget {
               KeepAliveWidget(
                   child:
                       controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView()),
-              const KeepAliveWidget(child: CollectionsView())
+              const KeepAliveWidget(child: CollectionsView()),
             ],
           )),
         );
