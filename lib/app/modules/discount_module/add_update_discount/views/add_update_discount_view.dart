@@ -86,13 +86,34 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
       }
     }
 
+    Future<void> scrollToSelectedContent({required GlobalKey expansionTileKey}) async {
+      await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
+        final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
+        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
+        final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
+        if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
+          await controller.scrollController
+              .animateTo(scrollPoint, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        } else {
+          await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        }
+      });
+    }
+
     final discountType = Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           child: Obx(() {
             return ExpansionTile(
+              key: controller.discountKey,
               maintainState: true,
+              onExpansionChanged: (expanded) async {
+                if (expanded) {
+                  await scrollToSelectedContent(expansionTileKey: controller.discountKey);
+                }
+              },
               initiallyExpanded: true,
               title: Row(
                 children: [
@@ -128,33 +149,41 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   onTap: (val) => controller.discountRuleType.value = val,
                 ),
                 space,
-                if (controller.discountRuleType.value == DiscountRuleType.fixed)
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: controller.discountRuleType.value == DiscountRuleType.fixed
+                      ? Column(
+                          key: const Key('allocation'),
                           children: [
-                            Text('Allocation', style: Theme.of(context).textTheme.bodyLarge),
-                            Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                children: [
+                                  Text('Allocation', style: Theme.of(context).textTheme.bodyLarge),
+                                  Text('*',
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
+                                ],
+                              ),
+                            ),
+                            halfSpace,
+                            DiscountAllocationTypeDiscount(
+                              allocationType: AllocationType.total,
+                              groupValue: controller.allocationType.value,
+                              onTap: (val) => controller.allocationType.value = val,
+                            ),
+                            space,
+                            DiscountAllocationTypeDiscount(
+                              allocationType: AllocationType.item,
+                              groupValue: controller.allocationType.value,
+                              onTap: (val) => controller.allocationType.value = val,
+                            ),
+                            space,
                           ],
+                        )
+                      : const SizedBox.shrink(
+                          key: Key('noAllocation'),
                         ),
-                      ),
-                      halfSpace,
-                      DiscountAllocationTypeDiscount(
-                        allocationType: AllocationType.total,
-                        groupValue: controller.allocationType.value,
-                        onTap: (val) => controller.allocationType.value = val,
-                      ),
-                      space,
-                      DiscountAllocationTypeDiscount(
-                        allocationType: AllocationType.item,
-                        groupValue: controller.allocationType.value,
-                        onTap: (val) => controller.allocationType.value = val,
-                      ),
-                      space,
-                    ],
-                  ),
+                )
               ],
             );
           }),
@@ -165,7 +194,13 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           child: Obx(() {
             return ExpansionTile(
+              key: controller.generalKey,
               initiallyExpanded: controller.updateMode,
+              onExpansionChanged: (expanded) async {
+                if (expanded) {
+                  await scrollToSelectedContent(expansionTileKey: controller.generalKey);
+                }
+              },
               maintainState: true,
               title: Row(
                 children: [
@@ -207,6 +242,11 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   },
                   readOnly: true,
                   decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    filled: true,
+                    fillColor: Theme.of(context).scaffoldBackgroundColor,
                     hintText: controller.selectedRegions.isNotEmpty
                         ? controller.selectedRegions.length == 1
                             ? 'Region'
@@ -226,62 +266,74 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   ),
                 ),
                 space,
-                if (controller.discountRuleType.value == DiscountRuleType.fixed)
-                  NumericTextField(
-                    label: 'Amount',
-                    required: true,
-                    hintText: '0.00',
-                    controller: controller.amountCtrl,
-                    onPlusPressed: () {
-                      var text = controller.amountCtrl.text;
-                      text = text.replaceAll(RegExp(r'[^0-9]'), '');
-                      var val = int.tryParse(text);
-                      val ??= 0;
-                      controller.amountCtrl.text = CurrencyTextInputFormatter(
-                        name: controller.selectedRegions.first.currencyCode,
-                      ).format((val + 1).toString());
-                    },
-                    onMinusPressed: () {
-                      var text = controller.amountCtrl.text;
-                      text = text.replaceAll(RegExp(r'[^0-9]'), '');
-                      var val = int.tryParse(text);
-                      val ??= 0;
-                      if (val == 0) {
-                        return;
-                      }
-                      controller.amountCtrl.text = CurrencyTextInputFormatter(
-                        name: controller.selectedRegions.first.currencyCode,
-                      ).format((val - 1).toString());
-                    },
-                    inputFormatters: [
-                      if (controller.selectedRegions.isNotEmpty)
-                        CurrencyTextInputFormatter(
-                          name: controller.selectedRegions.first.currencyCode,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: controller.discountRuleType.value == DiscountRuleType.fixed
+                      ? NumericTextField(
+                          key: const Key('amount'),
+                          label: 'Amount',
+                          required: true,
+                          hintText: '0.00',
+                          controller: controller.amountCtrl,
+                          onPlusPressed: () {
+                            var text = controller.amountCtrl.text;
+                            text = text.replaceAll(RegExp(r'[^0-9]'), '');
+                            var val = int.tryParse(text);
+                            val ??= 0;
+                            controller.amountCtrl.text = CurrencyTextInputFormatter(
+                              name: controller.selectedRegions.first.currencyCode,
+                            ).format((val + 1).toString());
+                          },
+                          onMinusPressed: () {
+                            var text = controller.amountCtrl.text;
+                            text = text.replaceAll(RegExp(r'[^0-9]'), '');
+                            var val = int.tryParse(text);
+                            val ??= 0;
+                            if (val == 0) {
+                              return;
+                            }
+                            controller.amountCtrl.text = CurrencyTextInputFormatter(
+                              name: controller.selectedRegions.first.currencyCode,
+                            ).format((val - 1).toString());
+                          },
+                          inputFormatters: [
+                            if (controller.selectedRegions.isNotEmpty)
+                              CurrencyTextInputFormatter(
+                                name: controller.selectedRegions.first.currencyCode,
+                              )
+                          ],
+                          prefixText:
+                              '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                         )
-                    ],
-                    prefixText:
-                        '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Required';
-                      }
-                      return null;
-                    },
-                  ),
-                if (controller.discountRuleType.value == DiscountRuleType.percentage)
-                  NumericTextField(
-                    label: 'Percentage',
-                    required: true,
-                    prefixText: '  % ',
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Required';
-                      }
-                      return null;
-                    },
-                    hintText: '10',
-                    controller: controller.percentageCtrl,
-                  ),
+                      : const SizedBox.shrink(),
+                ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: controller.discountRuleType.value == DiscountRuleType.percentage
+                      ? NumericTextField(
+                          key: const Key('percentage'),
+                          label: 'Percentage',
+                          required: true,
+                          prefixText: '  % ',
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          hintText: '10',
+                          controller: controller.percentageCtrl,
+                        )
+                      : const SizedBox.shrink(
+                          key: Key('noPercentage'),
+                        ),
+                ),
                 space,
                 CustomTextField(
                   label: 'Code',
@@ -350,7 +402,13 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: Obx(() {
           return ExpansionTile(
+            key: controller.configKey,
             maintainState: true,
+            onExpansionChanged: (expanded) async {
+              if (expanded) {
+                await scrollToSelectedContent(expansionTileKey: controller.configKey);
+              }
+            },
             initiallyExpanded: controller.updateMode,
             title: Text('Configuration', style: Theme.of(context).textTheme.bodyLarge),
             expandedAlignment: Alignment.centerLeft,
@@ -399,9 +457,10 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                       width: double.maxFinite,
                       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
+                          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          border:
+                              Border.all(color: controller.startDate.value != null ? Colors.grey : Colors.transparent)),
                       child: controller.startDate.value == null
                           ? Center(
                               child: Text(
@@ -472,9 +531,9 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                     width: double.maxFinite,
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
+                        borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        border: Border.all(color: controller.endDate.value != null ? Colors.grey : Colors.transparent)),
                     child: controller.endDate.value == null
                         ? Center(
                             child: Text(
@@ -563,7 +622,13 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: Obx(() {
           return ExpansionTile(
+            key: controller.conditionsKey,
             maintainState: true,
+            onExpansionChanged: (expanded) async {
+              if (expanded) {
+                await scrollToSelectedContent(expansionTileKey: controller.conditionsKey);
+              }
+            },
             initiallyExpanded: controller.updateMode,
             title: Text('Conditions', style: Theme.of(context).textTheme.bodyLarge),
             expandedAlignment: Alignment.center,
@@ -621,7 +686,6 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         }),
       ),
     );
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -637,6 +701,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
+            controller: controller.scrollController,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
               child: Form(

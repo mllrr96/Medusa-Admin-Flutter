@@ -26,38 +26,32 @@ class DiscountCard extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           color: Theme.of(context).appBarTheme.backgroundColor,
         ),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.discount_outlined, size: 20, color: lightWhite),
-                      const SizedBox(width: 6.0),
-                      Flexible(child: Text(discount.code ?? '')),
+                      Row(
+                        children: [
+                          Icon(Icons.discount_outlined, size: 20, color: lightWhite),
+                          const SizedBox(width: 6.0),
+                          Flexible(child: Text(discount.code ?? '')),
+                        ],
+                      ),
+                      if (discount.rule?.description?.isNotEmpty ?? false)
+                        Text(
+                          discount.rule?.description ?? '',
+                          style: smallTextStyle?.copyWith(color: lightWhite),
+                        ),
                     ],
                   ),
-                  if (discount.rule?.description?.isNotEmpty ?? false)
-                    Text(
-                      discount.rule?.description ?? '',
-                      style: smallTextStyle?.copyWith(color: lightWhite),
-                    ),
-                  space,
-                  Text(
-                    'Redemptions: ${discount.usageCount}',
-                    style: smallTextStyle?.copyWith(color: lightWhite),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
+                ),
                 Row(
                   children: [
                     DiscountRuleTypeLabel(discount: discount),
@@ -103,6 +97,16 @@ class DiscountCard extends StatelessWidget {
                         },
                         icon: const Icon(Icons.more_horiz))
                   ],
+                ),
+              ],
+            ),
+            space,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Redemptions: ${discount.usageCount}',
+                  style: smallTextStyle?.copyWith(color: lightWhite),
                 ),
                 DiscountStatusDot(disabled: discount.isDisabled ?? true),
               ],

@@ -20,7 +20,7 @@ class ConditionCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
             color: Theme.of(context).appBarTheme.backgroundColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +96,7 @@ class DetailedConditionCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

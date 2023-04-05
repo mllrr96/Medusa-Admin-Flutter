@@ -36,13 +36,25 @@ class AddUpdateDiscountController extends GetxController {
   final formKey = GlobalKey<FormState>();
   Discount? _loadedDiscount;
   RxList<Region> selectedRegions = <Region>[].obs;
+  late ScrollController scrollController;
+  final discountKey = GlobalKey();
+  final generalKey = GlobalKey();
+  final configKey = GlobalKey();
+  final conditionsKey = GlobalKey();
 
   @override
   void onInit() {
     if (id != null) {
       _loadDiscount();
     }
+    scrollController = ScrollController();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 
   Future<void> _loadDiscount() async {
@@ -107,7 +119,6 @@ class AddUpdateDiscountController extends GetxController {
       endsAt: hasEndDate.value ? endDate.value : null,
       usageLimit: hasLimit.value ? int.tryParse(limitCtrl.text) : null,
       code: codeCtrl.text,
-
       rule: DiscountRule(
         type: discountRuleType.value,
         conditions: discountConditions.isNotEmpty ? discountConditions : null,

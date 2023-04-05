@@ -19,19 +19,26 @@ class OrdersView extends GetView<OrdersController> {
       body: SafeArea(
         child: TabBarView(physics: const NeverScrollableScrollPhysics(), controller: tabController, children: [
           KeepAliveWidget(
-            child: SmartRefresher(
-              controller: controller.refreshController,
-              onRefresh: () => controller.pagingController.refresh(),
-              header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-              child: PagedListView.separated(
-                padding: const EdgeInsets.all(12.0),
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Order>(
-                    itemBuilder: (context, order, index) => AlternativeOrderCard(order),
-                    noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet!')),
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive())),
-                separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+            child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                heroTag: 'orders',
+                onPressed: () {},
+                child: Icon(Icons.adaptive.share),
+              ),
+              body: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () => controller.pagingController.refresh(),
+                header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+                child: PagedListView.separated(
+                  padding: const EdgeInsets.all(12.0),
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Order>(
+                      itemBuilder: (context, order, index) => AlternativeOrderCard(order),
+                      noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet!')),
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const Center(child: CircularProgressIndicator.adaptive())),
+                  separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+                ),
               ),
             ),
           ),

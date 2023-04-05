@@ -17,11 +17,16 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.autoFocus = false,
     this.enabled = true,
+    this.fillColor,
+    this.obscureText = false,
+    this.readOnly = false,
+    this.onTap,
   });
 
   final bool required;
   final bool autoFocus;
   final bool enabled;
+  final bool readOnly;
   final String label;
   final String? hintText;
   final int? maxLines;
@@ -30,9 +35,12 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
   final void Function(String)? onChanged;
+  final void Function()? onTap;
   final double? width;
   final bool lightLabelColor;
+  final bool obscureText;
   final String? Function(String?)? validator;
+  final Color? fillColor;
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
@@ -51,7 +59,10 @@ class CustomTextField extends StatelessWidget {
           const SizedBox(height: 6.0),
           TextFormField(
             autofocus: autoFocus,
+            readOnly: readOnly,
+            onTap: onTap,
             enabled: enabled,
+            obscureText: obscureText,
             textCapitalization: textCapitalization,
             controller: controller,
             textInputAction: textInputAction,
@@ -61,8 +72,16 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(color: enabled ? null : lightWhite),
             decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  // borderRadius: BorderRadius.all(Radius.circular(16.0))
+                ),
+                filled: true,
+                fillColor: fillColor ?? Theme.of(context).scaffoldBackgroundColor,
                 hintText: hintText,
-                border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0)))),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                )),
           ),
           const SizedBox(height: 12.0),
         ],

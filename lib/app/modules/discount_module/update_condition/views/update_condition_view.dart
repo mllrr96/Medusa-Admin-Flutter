@@ -19,8 +19,14 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
   @override
   Widget build(BuildContext context) {
     final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
+
     return GetBuilder<UpdateConditionController>(
       builder: (controller) {
+        final buttonText = AnimatedSwitcher(
+            duration: const Duration(milliseconds: 220),
+            child: controller.selectedItems.isEmpty
+                ? const Text('Delete condition', style: TextStyle(color: Colors.white), key: Key('delete'))
+                : const Text('Update', style: TextStyle(color: Colors.white), key: Key('update')));
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
@@ -45,7 +51,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
               buttonWidth: Get.width / 3,
               buttonColor: controller.selectedItems.isEmpty ? Colors.redAccent : null,
               onPressed: () => controller.save(),
-              child: controller.selectedItems.isEmpty ? const Text('Delete condition') : const Text('Save'),
+              child: buttonText,
             ),
           ),
           body: SafeArea(

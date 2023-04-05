@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import '../controller/country_controller.dart';
 import 'dart:math' as math;
 
@@ -20,11 +21,11 @@ class SelectCountryView extends StatelessWidget {
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
+                leading: const AdaptiveCloseButton(),
                 pinned: true,
                 title: multipleSelect
                     ? Text('Select Countries ${selectedCountries.isNotEmpty ? '(${selectedCountries.length})' : ''}')
                     : const Text('Select Country'),
-                centerTitle: true,
                 actions: [
                   AdaptiveButton(
                       onPressed: selectedCountries.isEmpty ? null : () => Get.back(result: selectedCountries),

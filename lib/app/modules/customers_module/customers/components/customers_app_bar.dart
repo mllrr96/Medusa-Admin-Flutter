@@ -78,22 +78,35 @@ class _CustomersAppBarState extends State<CustomersAppBar> {
       ),
     );
 
-    final customersAppBar = AdaptiveIcon(
-        onPressed: () {}, icon: Platform.isIOS ? const Icon(CupertinoIcons.search) : const Icon(Icons.search));
-
-    final groupsAppBar = Row(
+    final customersAppBar = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AdaptiveIcon(
             onPressed: () {}, icon: Platform.isIOS ? const Icon(CupertinoIcons.search) : const Icon(Icons.search)),
         AdaptiveIcon(
             onPressed: () async {
-              final result = await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
-              if (result is bool && result) {
-                GroupsController.instance.pagingController.refresh();
+              final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS);
+              if (result is bool) {
+                CustomersController.instance.pagingController.refresh();
               }
             },
-            icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add))
+            icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
+      ],
+    );
+
+    final groupsAppBar = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AdaptiveIcon(
+            onPressed: () {}, icon: Platform.isIOS ? const Icon(CupertinoIcons.search) : const Icon(Icons.search)),
+        // AdaptiveIcon(
+        //     onPressed: () async {
+        //       final result = await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
+        //       if (result is bool && result) {
+        //         GroupsController.instance.pagingController.refresh();
+        //       }
+        //     },
+        //     icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add))
       ],
     );
 
@@ -110,12 +123,8 @@ class _CustomersAppBarState extends State<CustomersAppBar> {
           SizedBox(height: topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
-          if (widget.tabController.index == 0) SizedBox(
-              height: kToolbarHeight,
-              child: customersAppBar),
-          if (widget.tabController.index == 1) SizedBox(
-              height: kToolbarHeight,
-              child: groupsAppBar),
+          if (widget.tabController.index == 0) SizedBox(height: kToolbarHeight, child: customersAppBar),
+          if (widget.tabController.index == 1) SizedBox(height: kToolbarHeight, child: groupsAppBar),
         ],
       ),
     );

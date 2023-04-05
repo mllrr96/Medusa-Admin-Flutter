@@ -11,6 +11,7 @@ class PickCustomerController extends GetxController with StateMixin<List<Custome
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 4);
   List<Customer> selectedCustomers = [];
+  List<Customer> disabledCustomers = [];
   final searchCtrl = TextEditingController();
   final PickCustomerReq pickCustomerReq = Get.arguments ?? PickCustomerReq();
   @override
@@ -19,8 +20,11 @@ class PickCustomerController extends GetxController with StateMixin<List<Custome
     if (pickCustomerReq.selectedCustomers != null) {
       selectedCustomers.addAll(pickCustomerReq.selectedCustomers!);
     }
+    if (pickCustomerReq.disabledCustomers != null) {
+      disabledCustomers.addAll(pickCustomerReq.disabledCustomers!);
+    }
     searchCtrl.addListener(() {
-        pagingController.refresh();
+      pagingController.refresh();
     });
 
     super.onInit();
@@ -50,10 +54,12 @@ class PickCustomerController extends GetxController with StateMixin<List<Custome
 
 class PickCustomerReq {
   final List<Customer>? selectedCustomers;
+  final List<Customer>? disabledCustomers;
   final bool multipleSelection;
   PickCustomerReq({
     this.multipleSelection = false,
     this.selectedCustomers,
+    this.disabledCustomers,
   });
 }
 

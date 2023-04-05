@@ -16,12 +16,12 @@ class CustomerDetailsController extends GetxController with StateMixin<Customer>
   String customerId = Get.arguments;
   @override
   Future<void> onInit() async {
-    await _loadCustomer();
+    await loadCustomer();
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
   }
 
-  Future<void> _loadCustomer() async {
+  Future<void> loadCustomer() async {
     change(null, status: RxStatus.loading());
     final result = await customerRepo.retrieve(id: customerId, queryParameters: {
       'expand': 'shipping_addresses,groups,billing_address',
@@ -53,7 +53,7 @@ class CustomerDetailsController extends GetxController with StateMixin<Customer>
   }
 
   Future<void> refreshView() async {
-    await _loadCustomer();
+    await loadCustomer();
     pagingController.refresh();
   }
 }

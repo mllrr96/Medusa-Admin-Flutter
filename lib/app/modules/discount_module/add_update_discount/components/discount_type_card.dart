@@ -36,17 +36,19 @@ class DiscountTypeCard extends StatelessWidget {
     }
 
     final borderColor = groupValue == discountType ? ColorManager.primary : Colors.transparent;
-
+    final selected = discountType == groupValue;
     return InkWell(
       onTap: () {
         if (onTap != null && !disabled) {
           onTap!(discountType);
         }
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius:
+                selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
             color: disabled ? lightWhite.withOpacity(0.3) : Theme.of(context).scaffoldBackgroundColor,
             border: Border.all(
               color: borderColor,

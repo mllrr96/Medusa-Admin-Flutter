@@ -8,6 +8,10 @@ class AppTheme {
       useMaterial3: true,
       primaryColor: ColorManager.primary,
       brightness: Brightness.light,
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: ColorManager.primary,
+        foregroundColor: Colors.white,
+      ),
       scaffoldBackgroundColor: const Color(0xFFF2F2F7),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -62,6 +66,10 @@ class AppTheme {
       primaryColor: ColorManager.primary,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xFF18191A),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: ColorManager.primary,
+        foregroundColor: Colors.white,
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: const Color(0xff242527),
         selectedItemColor: ColorManager.primary,

@@ -25,7 +25,7 @@ class FulfillmentStatusLabel extends StatelessWidget {
       case FulfillmentStatus.notFulfilled:
         containerColor = Colors.deepOrange.withOpacity(0.17);
         textColor = Colors.deepOrange;
-        text = 'Not Fulfilled';
+        text = 'Awaiting Fulfillment';
         break;
       case FulfillmentStatus.partiallyFulfilled:
         containerColor = Colors.orange.withOpacity(0.17);

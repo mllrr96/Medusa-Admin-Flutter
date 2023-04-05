@@ -607,6 +607,11 @@ class NumericTextField extends StatelessWidget {
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(16.0)),
               ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              filled: true,
+              fillColor: Theme.of(context).scaffoldBackgroundColor,
             ),
           ),
         ),

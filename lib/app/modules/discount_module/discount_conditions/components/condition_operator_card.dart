@@ -30,17 +30,19 @@ class ConditionOperatorCard extends StatelessWidget {
     }
 
     final borderColor = groupValue == conditionOperator ? ColorManager.primary : Colors.transparent;
-
+    final selected = conditionOperator == groupValue;
     return InkWell(
       onTap: () {
         if (onTap != null) {
           onTap!(conditionOperator);
         }
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius:
+                selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
             color: Theme.of(context).appBarTheme.backgroundColor,
             border: Border.all(
               color: borderColor,

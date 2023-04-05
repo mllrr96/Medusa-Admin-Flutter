@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -231,6 +233,15 @@ class AlternativeOrderCard extends StatelessWidget {
       return name;
     }
 
+    String getCurrencyText() {
+      var value = order.total?.roundToDouble() ?? 0.0;
+      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
+      if (valueFormatter.decimalDigits != null) {
+        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+      }
+      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+    }
+
     return InkWell(
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
@@ -244,7 +255,7 @@ class AlternativeOrderCard extends StatelessWidget {
               children: [
                 Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium),
                 Text(
-                  '${order.currency?.symbol ?? ''} ${order.total}',
+                  getCurrencyText(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],

@@ -203,7 +203,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                   child: Row(
@@ -232,7 +232,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
               Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                     color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                   child: Row(
@@ -358,7 +358,49 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
           leading: const AdaptiveBackButton(),
           title: const Text('Discount Details'),
         ),
-        bottomNavigationBar: bottomNavBar,
+        floatingActionButton: controller.obx(
+                (discount) => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FloatingActionButton(
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white,
+                        heroTag: 'delete',
+                        onPressed: () async {
+                          await showOkCancelAlertDialog(
+                              context: context,
+                              title: 'Delete Promotion',
+                              message: 'Are you sure you want to delete this promotion?',
+                              okLabel: 'Yes, delete',
+                              cancelLabel: 'Cancel',
+                              isDestructiveAction: true)
+                              .then((value) async {
+                            if (value == OkCancelResult.ok) {
+                              await controller.deleteDiscount();
+                            }
+                          });
+                        },
+                        child: const Icon(Icons.delete_forever)),
+                    SizedBox(width: 12.0),
+                    FloatingActionButton(
+                      backgroundColor: ColorManager.primary,
+                      foregroundColor: Colors.white,
+                      heroTag: 'add',
+                        onPressed: () async {
+                          await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount!.id)?.then((value) async {
+                            if (value is bool && value == true) {
+                              await controller.loadDiscount();
+                              DiscountsController.instance.pagingController.refresh();
+                            }
+                          });
+                        },
+                        child: const Icon(Icons.edit)),
+                  ],
+                ),
+            onLoading: const SizedBox.shrink(),
+            onError: (_) => const SizedBox.shrink()),
+        // bottomNavigationBar: bottomNavBar,
         body: SafeArea(
             child: controller.obx(
           (discount) => ListView(

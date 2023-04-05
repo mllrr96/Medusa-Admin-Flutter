@@ -14,7 +14,7 @@ class PaymentStatusLabel extends StatelessWidget {
       case PaymentStatus.awaiting:
         containerColor = ColorManager.primary.withOpacity(0.17);
         textColor = ColorManager.primary;
-        text = 'Awaiting';
+        text = 'Awaiting Payment';
         break;
       case PaymentStatus.canceled:
         containerColor = Colors.red.withOpacity(0.17);
@@ -109,4 +109,3 @@ class PaymentStatusDot extends StatelessWidget {
     );
   }
 }
-

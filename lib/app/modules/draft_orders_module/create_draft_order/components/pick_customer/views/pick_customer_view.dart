@@ -45,6 +45,7 @@ class PickCustomerView extends StatelessWidget {
                         ? '${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})'
                         : customer.email;
                     return CheckboxListTile(
+                        enabled: !controller.disabledCustomers.map((e) => e.id!).contains(customer.id),
                         title: Text(titleText),
                         value: controller.selectedCustomers.map((e) => e.id).toList().contains(customer.id),
                         selected: controller.selectedCustomers.map((e) => e.id).toList().contains(customer.id),

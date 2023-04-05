@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -11,9 +14,14 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
   const DraftOrdersView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'draft',
+        onPressed: () {},
+        child: Platform.isIOS ?const Icon(CupertinoIcons.add) : const Icon(Icons.add),
+      ),
       body: SafeArea(
-        child:  KeepAliveWidget(
+        child: KeepAliveWidget(
           child: SmartRefresher(
             controller: controller.refreshController,
             onRefresh: () => controller.pagingController.refresh(),
@@ -25,7 +33,7 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
                   itemBuilder: (context, draftOrder, index) => DraftOrderCard(draftOrder),
                   noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No draft orders!')),
                   firstPageProgressIndicatorBuilder: (context) =>
-                  const Center(child: CircularProgressIndicator.adaptive())),
+                      const Center(child: CircularProgressIndicator.adaptive())),
               separatorBuilder: (_, __) => const SizedBox(height: 12.0),
             ),
           ),
