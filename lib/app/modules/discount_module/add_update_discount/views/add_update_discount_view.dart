@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -13,10 +13,11 @@ import 'package:medusa_admin/app/modules/pick_regions/controllers/pick_regions_c
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../../components/adaptive_date_picker.dart';
+import '../../../components/currency_formatter.dart';
+import '../../../components/date_time_card.dart';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
-import '../components/currency_formatter.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
 
@@ -28,72 +29,17 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
 
-    Future<DateTime?> adaptiveDateTimePicker(DateTime? date) async {
-      DateTime? selectedDate;
-      if (Platform.isIOS) {
-        return await showCupertinoModalBottomSheet(
-            // isDismissible: false,
-            context: context,
-            builder: (context) {
-              return SizedBox(
-                height: 300,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AdaptiveButton(onPressed: () => Get.back(), child: const Text('Cancel')),
-                        AdaptiveButton(
-                            onPressed: () => Get.back(
-                                  result: selectedDate ?? date ?? DateTime.now(),
-                                ),
-                            child: const Text('Done')),
-                      ],
-                    ),
-                    Flexible(
-                      child: CupertinoDatePicker(
-                        initialDateTime: date,
-                        onDateTimeChanged: (DateTime value) {
-                          selectedDate = value;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            });
-      } else {
-        return await showDatePicker(
-                context: context,
-                initialDate: date ?? DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 365)))
-            .then((value) async {
-          if (value != null) {
-            final time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay(hour: date?.hour ?? value.hour, minute: date?.minute ?? value.minute));
-            if (time != null) {
-              return DateTime(value.year, value.month, value.day, time.hour, time.minute);
-            }
-          }
-          return null;
-        });
-      }
-    }
-
-    Future<void> scrollToSelectedContent({required GlobalKey expansionTileKey}) async {
-      await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
-        final box = expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
+    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
+      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
+        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
+        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
         final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
         if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
           await controller.scrollController
-              .animateTo(scrollPoint, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+              .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
         } else {
           await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
@@ -111,7 +57,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               maintainState: true,
               onExpansionChanged: (expanded) async {
                 if (expanded) {
-                  await scrollToSelectedContent(expansionTileKey: controller.discountKey);
+                  await scrollToSelectedContent(globalKey: controller.discountKey);
                 }
               },
               initiallyExpanded: true,
@@ -130,25 +76,23 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   style: smallTextStyle!.copyWith(color: lightWhite),
                 ),
                 halfSpace,
-                DiscountTypeCard(
-                  discountType: DiscountRuleType.percentage,
-                  groupValue: controller.discountRuleType.value,
-                  onTap: (val) => controller.discountRuleType.value = val,
-                ),
-                space,
-                DiscountTypeCard(
-                  discountType: DiscountRuleType.fixed,
-                  groupValue: controller.discountRuleType.value,
-                  onTap: (val) => controller.discountRuleType.value = val,
-                  disabled: controller.selectedRegions.length > 1,
-                ),
-                space,
-                DiscountTypeCard(
-                  discountType: DiscountRuleType.freeShipping,
-                  groupValue: controller.discountRuleType.value,
-                  onTap: (val) => controller.discountRuleType.value = val,
-                ),
-                space,
+                ...DiscountRuleType.values
+                    .map((e) => Column(
+                          children: [
+                            DiscountTypeCard(
+                              discountType: e,
+                              groupValue: controller.discountRuleType.value,
+                              onTap: (val) {
+                                if (controller.discountRuleType.value != val) {
+                                  controller.discountRuleType.value = val;
+                                  controller.formKey.currentState!.reset();
+                                }
+                              },
+                            ),
+                            space,
+                          ],
+                        ))
+                    .toList(),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
                   child: controller.discountRuleType.value == DiscountRuleType.fixed
@@ -166,18 +110,18 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                               ),
                             ),
                             halfSpace,
-                            DiscountAllocationTypeDiscount(
-                              allocationType: AllocationType.total,
-                              groupValue: controller.allocationType.value,
-                              onTap: (val) => controller.allocationType.value = val,
-                            ),
-                            space,
-                            DiscountAllocationTypeDiscount(
-                              allocationType: AllocationType.item,
-                              groupValue: controller.allocationType.value,
-                              onTap: (val) => controller.allocationType.value = val,
-                            ),
-                            space,
+                            ...AllocationType.values
+                                .map((e) => Column(
+                                      children: [
+                                        DiscountAllocationTypeDiscount(
+                                          allocationType: e,
+                                          groupValue: controller.allocationType.value,
+                                          onTap: (val) => controller.allocationType.value = val,
+                                        ),
+                                        space,
+                                      ],
+                                    ))
+                                .toList(),
                           ],
                         )
                       : const SizedBox.shrink(
@@ -198,7 +142,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               initiallyExpanded: controller.updateMode,
               onExpansionChanged: (expanded) async {
                 if (expanded) {
-                  await scrollToSelectedContent(expansionTileKey: controller.generalKey);
+                  await scrollToSelectedContent(globalKey: controller.generalKey);
                 }
               },
               maintainState: true,
@@ -213,13 +157,23 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               children: [
                 Row(
                   children: [
-                    Text('Choose valid regions', style: mediumTextStyle),
+                    Text(
+                        controller.discountRuleType.value == DiscountRuleType.fixed
+                            ? 'Choose valid region'
+                            : 'Choose valid regions',
+                        style: mediumTextStyle),
                     Text('*', style: mediumTextStyle?.copyWith(color: Colors.red)),
                   ],
                 ),
                 halfSpace,
                 TextFormField(
                   style: Theme.of(context).textTheme.titleSmall,
+                  validator: (val) {
+                    if (controller.selectedRegions.isEmpty) {
+                      return 'Select at least one region';
+                    }
+                    return null;
+                  },
                   onTap: () async {
                     await Get.toNamed(Routes.PICK_REGIONS,
                         arguments: PickRegionsReq(
@@ -256,10 +210,10 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                     prefixIconConstraints: const BoxConstraints(minWidth: 48 * 1.5),
                     prefixIcon: controller.selectedRegions.isNotEmpty
                         ? Chip(
-                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                             label: Text(controller.selectedRegions.length.toString()),
                             labelStyle: smallTextStyle,
-                            side: const BorderSide(color: Colors.transparent),
+                            side: const BorderSide(color: Colors.grey),
                           )
                         : null,
                     border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -386,11 +340,18 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                         onChanged: (val) => controller.templateDiscount.value = val)
                   ],
                 ),
-                if (controller.showTemplateDiscountInfo.value)
-                  Text(
-                    'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
-                    style: smallTextStyle.copyWith(color: lightWhite),
-                  ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: controller.showTemplateDiscountInfo.value
+                      ? Text(
+                          'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
+                          key: const Key('template'),
+                          style: smallTextStyle.copyWith(color: lightWhite),
+                        )
+                      : const SizedBox.shrink(
+                          key: Key('templateDisabled'),
+                        ),
+                ),
                 if (controller.showTemplateDiscountInfo.value) space,
               ],
             );
@@ -406,7 +367,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
             maintainState: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(expansionTileKey: controller.configKey);
+                await scrollToSelectedContent(globalKey: controller.configKey);
               }
             },
             initiallyExpanded: controller.updateMode,
@@ -419,176 +380,72 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 style: smallTextStyle!.copyWith(color: lightWhite),
               ),
               space,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Start date', style: mediumTextStyle),
-                      Text(
-                        'Schedule the discount to activate in the future.',
-                        style: smallTextStyle.copyWith(color: lightWhite),
-                      ),
-                    ],
-                  ),
-                  Switch.adaptive(
-                      activeColor: ColorManager.primary,
-                      value: controller.hasStartDate.value,
-                      onChanged: (val) {
-                        controller.hasStartDate.value = val;
-                        if (!val) {
-                          controller.startDate.value = null;
-                        }
-                      })
-                ],
+              ConfigSwitchTile(
+                title: 'Start date',
+                subtitle: 'Schedule the discount to activate in the future.',
+                tileValue: controller.hasStartDate.value,
+                onChanged: (val) async {
+                  controller.hasStartDate.value = val;
+                  if (!val) {
+                    controller.startDate.value = null;
+                  } else {
+                    await scrollToSelectedContent(globalKey: controller.configKey);
+                  }
+                },
               ),
               halfSpace,
               if (controller.hasStartDate.value)
-                InkWell(
+                DateTimeCard(
+                  dateTime: controller.startDate.value,
+                  dateText: 'Start',
                   onTap: () async {
-                    await adaptiveDateTimePicker(controller.startDate.value).then((result) {
+                    await adaptiveDateTimePicker(date: controller.startDate.value, context: context).then((result) {
                       if (result != null) {
                         controller.startDate.value = result;
                       }
                     });
                   },
-                  child: Container(
-                      width: double.maxFinite,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          border:
-                              Border.all(color: controller.startDate.value != null ? Colors.grey : Colors.transparent)),
-                      child: controller.startDate.value == null
-                          ? Center(
-                              child: Text(
-                              'Tap to select start date',
-                              style: largeTextStyle?.copyWith(color: lightWhite),
-                            ))
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Start Date', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                                    halfSpace,
-                                    Text(DateFormat.yMMMEd().format(controller.startDate.value!)),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Start Time', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                                    halfSpace,
-                                    Text(DateFormat.jm().format(controller.startDate.value!)),
-                                  ],
-                                ),
-                              ],
-                            )),
                 ),
               space,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Discount has an expiry date?', style: mediumTextStyle),
-                        Text(
-                          'Schedule the discount to deactivate in the future.',
-                          style: smallTextStyle.copyWith(color: lightWhite),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Switch.adaptive(
-                    activeColor: ColorManager.primary,
-                    value: controller.hasEndDate.value,
-                    onChanged: (val) {
-                      controller.hasEndDate.value = val;
-                      if (!val) {
-                        controller.endDate.value = null;
-                      }
-                    },
-                  )
-                ],
+              ConfigSwitchTile(
+                title: 'Discount has an expiry date?',
+                subtitle: 'Schedule the discount to deactivate in the future.',
+                tileValue: controller.hasEndDate.value,
+                onChanged: (val) async {
+                  controller.hasEndDate.value = val;
+                  if (!val) {
+                    controller.endDate.value = null;
+                  } else {
+                    await scrollToSelectedContent(globalKey: controller.configKey);
+                  }
+                },
               ),
               halfSpace,
               if (controller.hasEndDate.value)
-                InkWell(
+                DateTimeCard(
+                  dateTime: controller.endDate.value,
+                  dateText: 'Expiry',
                   onTap: () async {
-                    await adaptiveDateTimePicker(controller.endDate.value).then((result) {
+                    await adaptiveDateTimePicker(date: controller.endDate.value, context: context).then((result) {
                       if (result != null) {
                         controller.endDate.value = result;
                       }
                     });
                   },
-                  child: Container(
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        border: Border.all(color: controller.endDate.value != null ? Colors.grey : Colors.transparent)),
-                    child: controller.endDate.value == null
-                        ? Center(
-                            child: Text(
-                            'Tap to select expiry date',
-                            style: largeTextStyle?.copyWith(color: lightWhite),
-                          ))
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Expiry Date', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                                  halfSpace,
-                                  Text(DateFormat.yMMMEd().format(controller.endDate.value!)),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Expiry Time', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                                  halfSpace,
-                                  Text(DateFormat.jm().format(controller.endDate.value!)),
-                                ],
-                              ),
-                            ],
-                          ),
-                  ),
                 ),
               space,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Limit the number of redemptions?', style: mediumTextStyle),
-                        Text(
-                          'Limit applies across all customers, not per customer.',
-                          style: smallTextStyle.copyWith(color: lightWhite),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Switch.adaptive(
-                      activeColor: ColorManager.primary,
-                      value: controller.hasLimit.value,
-                      onChanged: (val) {
-                        controller.hasLimit.value = val;
-                        if (!val) {
-                          controller.limitCtrl.clear();
-                        }
-                      })
-                ],
+              ConfigSwitchTile(
+                title: 'Limit the number of redemptions?',
+                subtitle: 'Limit applies across all customers, not per customer.',
+                tileValue: controller.hasLimit.value,
+                onChanged: (val) async {
+                  controller.hasLimit.value = val;
+                  if (!val) {
+                    controller.limitCtrl.clear();
+                  } else {
+                    await scrollToSelectedContent(globalKey: controller.configKey);
+                  }
+                },
               ),
               halfSpace,
               if (controller.hasLimit.value)
@@ -626,7 +483,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
             maintainState: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(expansionTileKey: controller.conditionsKey);
+                await scrollToSelectedContent(globalKey: controller.conditionsKey);
               }
             },
             initiallyExpanded: controller.updateMode,
@@ -670,6 +527,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                           productCollections: result.productCollections?.map((e) => e.id!).toList(),
                           productTypes: result.productTypes?.map((e) => e.id!).toList(),
                         ));
+                        await scrollToSelectedContent(globalKey: controller.conditionsKey);
                       }
                     },
                     child: Row(
@@ -690,7 +548,19 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
+          leading: AdaptiveCloseButton(onPressed: () async {
+            if (controller.updateMode && !controller.sameDiscount()) {
+              await showOkCancelAlertDialog(
+                context: context,
+                title: 'Discard changes',
+                message: 'Are you sure you want to discard changes?',
+                okLabel: 'Discard',
+                isDestructiveAction: true,
+              ).then((result) => result == OkCancelResult.ok ? Get.back() : null);
+            } else {
+              Get.back();
+            }
+          }),
           title: controller.updateMode ? const Text('Update discount') : const Text('Create new discount'),
           actions: [
             AdaptiveButton(

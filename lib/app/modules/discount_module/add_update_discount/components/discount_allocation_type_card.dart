@@ -8,7 +8,7 @@ class DiscountAllocationTypeDiscount extends StatelessWidget {
   const DiscountAllocationTypeDiscount({Key? key, required this.allocationType, required this.groupValue, this.onTap})
       : super(key: key);
   final AllocationType allocationType;
-  final AllocationType groupValue;
+  final AllocationType? groupValue;
   final void Function(AllocationType allocationType)? onTap;
 
   @override

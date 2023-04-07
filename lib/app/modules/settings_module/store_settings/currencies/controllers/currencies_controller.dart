@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 import '../../../../../data/models/store/currency.dart';
 
-
 class CurrenciesController extends GetxController {
   CurrenciesController({required this.currencyRepo, required this.storeRepo});
   final CurrencyRepo currencyRepo;

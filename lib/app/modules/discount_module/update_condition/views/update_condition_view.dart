@@ -61,7 +61,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                 switch (controller.updateConditionReq.discountConditionType) {
                   case DiscountConditionType.products:
                     final item = controller.items[index] as Product;
-                    return ConditionProductListTile(
+                    return ProductListTileWithVariantCount(
                       product: item,
                       value: (controller.selectedItems as List<Product>).map((e) => e.id!).toList().contains(item.id),
                       onChanged: (val) {

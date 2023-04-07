@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/currency_formatter.dart';
+import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/req/discount.dart';
 import '../../../../data/models/store/discount.dart';
@@ -41,7 +42,6 @@ class AddUpdateDiscountController extends GetxController {
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
   final conditionsKey = GlobalKey();
-
   @override
   void onInit() {
     if (id != null) {
@@ -147,6 +147,11 @@ class AddUpdateDiscountController extends GetxController {
     if (!_valid()) {
       return;
     }
+    if (sameDiscount()) {
+      Get.back();
+      return;
+    }
+
     loading();
     final value = discountRuleType.value == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)
@@ -201,5 +206,35 @@ class AddUpdateDiscountController extends GetxController {
           snackPosition: SnackPosition.BOTTOM, icon: const Icon(Icons.warning_rounded, color: Colors.red));
       return false;
     }
+  }
+
+  bool sameDiscount() {
+    final value = discountRuleType.value == DiscountRuleType.percentage
+        ? int.tryParse(percentageCtrl.text)
+        : int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), ''));
+    final a = _loadedDiscount!;
+    final b = Discount(
+      startsAt: startDate.value,
+      endsAt: endDate.value,
+      usageLimit: int.tryParse(limitCtrl.text),
+      code: codeCtrl.text,
+      rule: DiscountRule(
+        id: _loadedDiscount!.ruleId,
+        description: descriptionCtrl.text,
+        value: discountRuleType.value == DiscountRuleType.freeShipping ? 0 : value,
+      ),
+      regions: selectedRegions.map((e) => e).toList(),
+    );
+    if (a.startsAt == b.startsAt &&
+        a.endsAt == b.endsAt &&
+        (a.regions?.map((e) => e.id!).toList().listEquals(b.regions?.map((e) => e.id!).toList() ?? []) ?? false) &&
+        a.usageLimit == b.usageLimit &&
+        a.code == b.code &&
+        a.rule?.id == b.rule?.id &&
+        a.rule?.description == b.rule?.description &&
+        a.rule?.value == b.rule?.value) {
+      return true;
+    }
+    return false;
   }
 }

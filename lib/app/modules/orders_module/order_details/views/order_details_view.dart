@@ -21,7 +21,7 @@ class OrderDetailsView extends StatelessWidget {
     const space = SizedBox(height: 12.0);
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
 
     Widget buildFulfillmentExpansionTile(Order order) {
       return Theme(

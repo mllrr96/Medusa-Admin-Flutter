@@ -1,19 +1,17 @@
-import 'dart:io';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/keep_alive_widget.dart';
-import '../components/expandable_fab.dart';
 import '../components/products_app_bar.dart';
 import '../controllers/products_controller.dart';
 
@@ -107,21 +105,55 @@ class ProductsListView extends GetView<ProductsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
-        distance: 120,
+        key: Key('product'),
+        // key: controller.fabKey,
+        // distance: 80,
+        type: ExpandableFabType.fan,
         children: [
+          FloatingActionButton(
+              heroTag: null,
+              onPressed: () async {
+              },
+              child: const Icon(MedusaIcons.arrow_down_tray),
+          ),FloatingActionButton(
+              heroTag: null,
 
-          ActionButton(icon: const Icon(Icons.download_outlined), onPressed: (){}),
-          ActionButton(icon: Icon(Icons.adaptive.share), onPressed: (){}),
-          ActionButton(icon: Platform.isIOS ? const Icon(CupertinoIcons.add, color: Colors.white,) : const Icon(Icons.add),onPressed: () async {
-            await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
-              if (result != null && result is bool && result == true) {
-                controller.pagingController.refresh();
-              }
-            });
-          },),
+              onPressed: () async {
+              },
+              child: const Icon(MedusaIcons.arrow_up_tray),
+          ),
+          FloatingActionButton(
+              heroTag: null,
+                    onPressed: () async {
+                      await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+                        if (result != null && result is bool && result == true) {
+                          controller.pagingController.refresh();
+                        }
+                      });
+                    },
+            child: const Icon(MedusaIcons.plus_mini, color: Colors.white),
+          ),
         ],
       ),
+      // floatingActionButton: ExpandableFab(
+      //   distance: 120,
+      //   children: [
+      //     ActionButton(icon: const Icon(MedusaIcons.arrow_down_tray), onPressed: () {}),
+      //     ActionButton(icon: const Icon(MedusaIcons.arrow_up_tray), onPressed: () {}),
+      //     ActionButton(
+      //       icon: const Icon(MedusaIcons.plus_mini, color: Colors.white),
+      //       onPressed: () async {
+      //         await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+      //           if (result != null && result is bool && result == true) {
+      //             controller.pagingController.refresh();
+      //           }
+      //         });
+      //       },
+      //     ),
+      //   ],
+      // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // floatingActionButton: Row(
       //   mainAxisSize: MainAxisSize.min,

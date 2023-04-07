@@ -1,13 +1,14 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/controllers/collections_controller.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/search_text_field.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../data/models/store/product.dart';
@@ -35,7 +36,8 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
   bool collectionSearch = false;
   bool productSearch = false;
   final ProductsController controller = Get.find<ProductsController>();
-  final searchCtrl = TextEditingController();
+  final collectionCtrl = CollectionsController.instance;
+  // final searchCtrl = TextEditingController();
   final searchNode = FocusNode();
   IconData getSortIcon(SortOptions sortOptions) {
     switch (sortOptions) {
@@ -127,30 +129,41 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                 Expanded(
                     child: CupertinoSearchTextField(
                   focusNode: searchNode,
-                  controller: searchCtrl,
-                  placeholder: 'Search for product name, variant title ...',
+                  controller: collectionCtrl.searchCtrl,
+                  placeholder: 'Search for collection name, handle',
+                  onChanged: (val) {
+                    if (collectionCtrl.searchTerm.value != val) {
+                      collectionCtrl.searchTerm.value = val;
+                    }
+                  },
                 )),
               if (GetPlatform.isAndroid)
                 Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: TextFormField(
-                    style: Theme.of(context).textTheme.titleSmall,
-                    focusNode: searchNode,
-                    controller: searchCtrl,
-                    decoration: const InputDecoration(
-                      hintText: 'Search for product name, variant title ...',
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: TextFormField(
+                      style: Theme.of(context).textTheme.titleSmall,
+                      focusNode: searchNode,
+                      controller: collectionCtrl.searchCtrl,
+                      decoration: const InputDecoration(
+                        hintText: 'Search for collection name, handle',
+                      ),
+                      onChanged: (val) {
+                        if (collectionCtrl.searchTerm.value != val) {
+                          collectionCtrl.searchTerm.value = val;
+                        }
+                      },
                     ),
                   ),
-                )),
+                ),
               AdaptiveButton(
                   child: const Text('Cancel'),
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    // await Future.delayed(Duration(milliseconds: 150));
                     setState(() {
                       collectionSearch = false;
-                      searchCtrl.clear();
+                      collectionCtrl.searchCtrl.clear();
+                      collectionCtrl.searchTerm.value = '';
                     });
                   }),
             ],
@@ -169,7 +182,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     await Future.delayed(kDuration);
                     searchNode.requestFocus();
                   },
-                  icon: const Icon(CupertinoIcons.search)),
+                  icon: const Icon(MedusaIcons.magnifying_glass)),
               const SizedBox(width: 6.0),
               AdaptiveIcon(
                   onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),
@@ -187,26 +200,18 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
           child: Row(
             children: [
               const SizedBox(width: 12.0),
-              if (GetPlatform.isIOS)
-                Expanded(
-                    child: CupertinoSearchTextField(
+              Expanded(
+                child: SearchTextField(
                   focusNode: searchNode,
                   controller: controller.searchCtrl,
-                  placeholder: 'Search for product name, variant title ...',
-                )),
-              if (GetPlatform.isAndroid)
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: TextFormField(
-                    style: Theme.of(context).textTheme.titleSmall,
-                    focusNode: searchNode,
-                    controller: controller.searchCtrl,
-                    decoration: const InputDecoration(
-                      hintText: 'Search for product name, variant title ...',
-                    ),
-                  ),
-                )),
+                  hintText: 'Search for product name, variant title ...',
+                  onChanged: (val) {
+                    if (controller.searchTerm.value != val) {
+                      controller.searchTerm.value = val;
+                    }
+                  },
+                ),
+              ),
               AdaptiveButton(
                   child: const Text('Cancel'),
                   onPressed: () async {
@@ -215,6 +220,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     setState(() {
                       productSearch = false;
                       controller.searchCtrl.clear();
+                      controller.searchTerm.value = '';
                     });
                   }),
             ],
@@ -228,12 +234,13 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
               Row(
                 children: [
                   AdaptiveIcon(
-                      onPressed: () async {
-                        setState(() => productSearch = true);
-                        await Future.delayed(kDuration);
-                        searchNode.requestFocus();
-                      },
-                      icon: const Icon(CupertinoIcons.search)),
+                    onPressed: () async {
+                      setState(() => productSearch = true);
+                      await Future.delayed(kDuration);
+                      searchNode.requestFocus();
+                    },
+                    icon: const Icon(MedusaIcons.magnifying_glass),
+                  ),
                   Obx(() {
                     return AdaptiveIcon(
                         onPressed: () async {
@@ -290,7 +297,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                                             childrenPadding: const EdgeInsets.only(left: 20.0),
                                             children: ProductStatus.values
                                                 .map((e) => CheckboxListTile(
-                                                    title: Text(e.value), value: false, onChanged: (val) {}))
+                                                title: Text(e.value), value: false, onChanged: (val) {}))
                                                 .toList(),
                                           ),
                                         ),
@@ -305,7 +312,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                                             childrenPadding: const EdgeInsets.only(left: 20.0),
                                             children: ProductStatus.values
                                                 .map((e) => CheckboxListTile(
-                                                    title: Text(e.value), value: false, onChanged: (val) {}))
+                                                title: Text(e.value), value: false, onChanged: (val) {}))
                                                 .toList(),
                                           ),
                                         ),
@@ -320,7 +327,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                                             childrenPadding: const EdgeInsets.only(left: 20.0),
                                             children: ProductStatus.values
                                                 .map((e) => CheckboxListTile(
-                                                    title: Text(e.value), value: false, onChanged: (val) {}))
+                                                title: Text(e.value), value: false, onChanged: (val) {}))
                                                 .toList(),
                                           ),
                                         ),
@@ -363,15 +370,15 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                         });
                       },
                       icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
-                    AdaptiveIcon(
-                        onPressed: () async {
-                          // ignore: unused_local_variable
-                          final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-                            const SheetAction(label: 'Export Products'),
-                            const SheetAction(label: 'Import Products'),
-                          ]);
-                        },
-                        icon: const Icon(Icons.more_horiz)),
+                  AdaptiveIcon(
+                      onPressed: () async {
+                        // ignore: unused_local_variable
+                        final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+                          const SheetAction(label: 'Export Products'),
+                          const SheetAction(label: 'Import Products'),
+                        ]);
+                      },
+                      icon: const Icon(Icons.more_horiz)),
                 ],
               ),
             ],

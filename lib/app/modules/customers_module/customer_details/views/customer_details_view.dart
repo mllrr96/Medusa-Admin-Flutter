@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
@@ -59,7 +59,7 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(e ?? 'Error loading customer details'),
-            AdaptiveButton(onPressed: () async => await controller.refreshView(), child: const Text('Retry')),
+            AdaptiveFilledButton(onPressed: () async => await controller.refreshView(), child: const Text('Retry')),
           ],
         )),
         onLoading: const Center(child: CircularProgressIndicator.adaptive()),

@@ -13,11 +13,15 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   RefreshController refreshController = RefreshController();
   RxInt ordersCount = 0.obs;
   late TabController tabController;
+  RxString searchTerm = ''.obs;
+  late Worker searchDebouncer;
 
-  final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController = PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   @override
   Future<void> onInit() async {
+    searchDebouncer =
+        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
@@ -27,6 +31,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     final result = await ordersRepository.retrieveOrders(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
+      if (searchTerm.value.removeAllWhitespace.isNotEmpty) 'q': searchTerm.value,
       'expand': 'items,cart,customer,shipping_address,sales_channel,currency',
       'fields': 'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
     });

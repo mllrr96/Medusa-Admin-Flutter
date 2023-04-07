@@ -5,8 +5,8 @@ import 'package:medusa_admin/app/data/repository/product_variant/product_variant
 import 'package:collection/collection.dart';
 import '../../../../../../data/models/store/product_variant.dart';
 
-class AddProductVariantsController extends GetxController {
-  AddProductVariantsController({required this.productVariantRepo});
+class PickProductVariantsController extends GetxController {
+  PickProductVariantsController({required this.productVariantRepo});
 
   ProductVariantRepo productVariantRepo;
   final int _pageSize = 12;

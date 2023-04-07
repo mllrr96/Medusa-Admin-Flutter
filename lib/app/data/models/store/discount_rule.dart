@@ -1,24 +1,30 @@
-import 'discount_condition.dart';
+import 'package:equatable/equatable.dart';
 
-class DiscountRule {
-  String? id;
-  DiscountRuleType? type;
-  String? description;
+import 'discount_condition.dart';
+// ignore: depend_on_referenced_packages
+import 'package:copy_with_extension/copy_with_extension.dart';
+part 'discount_rule.g.dart';
+
+@CopyWith()
+class DiscountRule extends Equatable {
+  final String? id;
+  final DiscountRuleType? type;
+  final String? description;
 
   /// The value that the discount represents; this will depend on the type of the discount
-  int? value;
-  AllocationType? allocation;
-  List<DiscountCondition>? conditions;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
-  Map<String, dynamic>? metadata;
+  final int? value;
+  final AllocationType? allocation;
+  final List<DiscountCondition>? conditions;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final Map<String, dynamic>? metadata;
 
-  DiscountRule({
+  const DiscountRule({
     this.id,
-     this.type,
+    this.type,
     this.description,
-     this.value,
+    this.value,
     this.allocation,
     this.conditions,
     this.createdAt,
@@ -27,22 +33,25 @@ class DiscountRule {
     this.metadata,
   });
 
-  DiscountRule.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    type = DiscountRuleType.values.firstWhere((e) => e.value == (json['type'] ?? ''));
-    description = json['description'];
-    value = json['value'];
-    if (AllocationType.values.any((e) => e.value == (json['allocation'] ?? ''))) {
-      allocation = AllocationType.values.firstWhere((e) => e.value == (json['allocation'] ?? ''));
-    }
+  factory DiscountRule.fromJson(Map<String, dynamic> json) {
+    List<DiscountCondition>? conditions;
     if (json['conditions'] != null) {
       conditions = <DiscountCondition>[];
       json['conditions'].forEach((e) => conditions!.add(DiscountCondition.fromJson(e)));
     }
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'];
+
+    return DiscountRule(
+      id: json['id'],
+      allocation: AllocationType.values.firstWhere((e) => e.value == (json['allocation'] ?? '')),
+      description: json['description'],
+      conditions: conditions,
+      type: DiscountRuleType.values.firstWhere((e) => e.value == (json['type'] ?? '')),
+      value: json['value'],
+      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
+      metadata: json['metadata'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +95,20 @@ class DiscountRule {
 
     return json;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        type,
+        description,
+        value,
+        allocation,
+        conditions,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        metadata,
+      ];
 }
 
 enum DiscountRuleType {

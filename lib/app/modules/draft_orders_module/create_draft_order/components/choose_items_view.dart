@@ -7,7 +7,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/controllers/create_draft_order_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
-import 'add_product_variants/controllers/add_product_variants_controller.dart';
+import 'pick_product_variants/controllers/pick_product_variants_controller.dart';
 
 class ChooseItemsView extends StatelessWidget {
   const ChooseItemsView({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class ChooseItemsView extends StatelessWidget {
                     )),
                 AdaptiveButton(
                     onPressed: () async {
-                      final result = await Get.toNamed(Routes.SELECT_PRODUCTS,
+                      final result = await Get.toNamed(Routes.PICK_PRODUCT_VARIANTS,
                           arguments: SelectProductsReq(selectedProducts: controller.selectedProducts));
                       if (result is SelectProductsRes) {
                         controller.selectedProducts = result.selectedProductVariants ?? [];

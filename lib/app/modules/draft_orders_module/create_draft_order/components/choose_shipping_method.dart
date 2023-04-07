@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/choose_region_view.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/controllers/create_draft_order_controller.dart';
 
@@ -35,8 +35,7 @@ class ChooseShippingMethodView extends StatelessWidget {
                     items: state!
                         .map((e) => DropdownMenuItem(
                             value: e,
-                            child:
-                                Text('${e.name!} ${e.amount ??''} ${e.region?.currencyCode?.toUpperCase() ?? ''}')))
+                            child: Text('${e.name!} ${e.amount ?? ''} ${e.region?.currencyCode?.toUpperCase() ?? ''}')))
                         .toList(),
                     hint: const Text('Shipping Option'),
                     onChanged: (value) {
@@ -58,7 +57,7 @@ class ChooseShippingMethodView extends StatelessWidget {
                 child: Column(
               children: [
                 Text(e ?? 'Error loading shipping options'),
-                AdaptiveButton(
+                AdaptiveFilledButton(
                     onPressed: () async => await controller.loadShippingMethods(), child: const Text('Retry')),
               ],
             )),

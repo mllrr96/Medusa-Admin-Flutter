@@ -162,6 +162,7 @@ class PriceListRepo extends BasePriceList {
       }
       final response = await _dataProvider.get(
         uri: '/price-lists/$id',
+        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserPriceListRes.fromJson(response.data));
@@ -176,7 +177,7 @@ class PriceListRepo extends BasePriceList {
 
   /// Retrieves a list of Product that are part of a Price List
   @override
-  Future<Result<UserPriceListsRes, Failure>> retrievePriceListProducts({
+  Future<Result<UserPriceListsProductsRes, Failure>> retrievePriceListProducts({
     /// ID of the price list.
     required String id,
     Map<String, dynamic>? queryParameters,
@@ -191,7 +192,7 @@ class PriceListRepo extends BasePriceList {
         queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
-        return Success(UserPriceListsRes.fromJson(response.data));
+        return Success(UserPriceListsProductsRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }

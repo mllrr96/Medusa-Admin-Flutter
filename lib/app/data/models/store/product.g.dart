@@ -294,8 +294,7 @@ class _$ProductCWProxyImpl implements _$ProductCWProxy {
           // ignore: cast_nullable_to_non_nullable
           : isGiftCard as bool?,
       status: status == const $CopyWithPlaceholder() || status == null
-          // ignore: unnecessary_non_null_assertion
-          ? _value.status!
+          ? _value.status
           // ignore: cast_nullable_to_non_nullable
           : status as ProductStatus,
       images: images == const $CopyWithPlaceholder()
@@ -376,8 +375,7 @@ class _$ProductCWProxyImpl implements _$ProductCWProxy {
           : tags as List<ProductTag>?,
       discountable:
           discountable == const $CopyWithPlaceholder() || discountable == null
-              // ignore: unnecessary_non_null_assertion
-              ? _value.discountable!
+              ? _value.discountable
               // ignore: cast_nullable_to_non_nullable
               : discountable as bool,
       externalId: externalId == const $CopyWithPlaceholder()

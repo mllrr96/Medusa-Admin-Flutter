@@ -1,47 +1,61 @@
+import 'package:equatable/equatable.dart';
 import 'index.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 
-class PriceList {
-  String? id;
-  String? name;
-  String? description;
-  PriceListType type = PriceListType.sale;
-  PriceListStatus status = PriceListStatus.draft;
-  DateTime? startsAt;
-  DateTime? endsAt;
-  List<CustomerGroup>? customerGroups;
+part 'price_list.g.dart';
 
-  // TODO: implement prices, object ref - #https://docs.medusajs.com/api/store/#tag/Auth/operation/PostAuth
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
+@CopyWith()
+class PriceList extends Equatable {
+  final String? id;
+  final String? name;
+  final String? description;
+  final PriceListType type;
+  final PriceListStatus status;
+  final DateTime? startsAt;
+  final DateTime? endsAt;
+  final List<CustomerGroup>? customerGroups;
+  final List<MoneyAmount>? prices;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
 
-  PriceList({
+  const PriceList({
     this.id,
     this.name,
+    this.prices,
     this.description,
-    this.type = PriceListType.sale,
-    this.status = PriceListStatus.draft,
+    required this.type,
+    required this.status,
     this.startsAt,
     this.endsAt,
     this.customerGroups,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
   });
 
-  PriceList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    type = PriceListType.values.firstWhere((element) => json['type'] ?? '', orElse: () => PriceListType.sale);
-    status = PriceListStatus.values.firstWhere((element) => json['status'] ?? '', orElse: () => PriceListStatus.draft);
-    startsAt = DateTime.tryParse(json['starts_at'] ?? '');
-    endsAt = DateTime.tryParse(json['ends_at'] ?? '');
-    if (json['customer_groups'] != null) {
-      customerGroups = <CustomerGroup>[];
-      customerGroups = json['customer_groups'].forEach((e) => customerGroups!.add(CustomerGroup.fromJson(e)));
-    }
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+  factory PriceList.fromJson(Map<String, dynamic> json) {
+    return PriceList(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      prices: (json['prices'] as List<dynamic>?)?.map((e) => MoneyAmount.fromJson(e)).toList(),
+      customerGroups: (json['customer_groups'] as List<dynamic>?)?.map((e) => CustomerGroup.fromJson(e)).toList(),
+      type:
+          PriceListType.values.firstWhere((element) => element.value == json['type'], orElse: () => PriceListType.sale),
+      status: PriceListStatus.values
+          .firstWhere((element) => element.value == json['status'], orElse: () => PriceListStatus.draft),
+      startsAt: DateTime.tryParse(json['starts_at'] ?? ''),
+      endsAt: DateTime.tryParse(json['ends_at'] ?? ''),
+      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
+    );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 
 //TODO: implement priceList to json
 }

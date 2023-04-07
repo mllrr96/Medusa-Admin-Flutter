@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../components/product_details_components.dart';
@@ -96,7 +97,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Error loading product'),
-              AdaptiveButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
+              AdaptiveFilledButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
             ],
           )),
           onLoading: const Center(

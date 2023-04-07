@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
@@ -12,6 +14,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   final DiscountRepo discountRepo;
   final DiscountConditionRepo discountConditionRepo;
   String id = Get.arguments;
+  final fabKey = GlobalKey<ExpandableFabState>();
 
   @override
   Future<void> onInit() async {

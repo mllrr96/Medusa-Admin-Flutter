@@ -50,6 +50,7 @@ dependencies:
   custom_refresh_indicator: ^2.0.1
   multiple_result: ^4.0.0
   loading_animation_widget: ^1.2.0+4
+  flutter_expandable_fab: ^1.7.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.1
@@ -63,7 +64,10 @@ flutter:
   assets:
     - assets/images/
   uses-material-design: true
-
+  fonts:
+    - family: MedusaIcons
+      fonts:
+        - asset: fonts/MedusaIcons.ttf
 flutter_icons:
   remove_alpha_ios: true
   android: "launcher_icon"

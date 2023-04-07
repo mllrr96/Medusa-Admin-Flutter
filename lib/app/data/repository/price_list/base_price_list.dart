@@ -26,7 +26,7 @@ abstract class BasePriceList {
     Map<String, dynamic>? customHeaders,
   });
 
-  Future<Result<UserPriceListsRes, Failure>> retrievePriceListProducts({
+  Future<Result<UserPriceListsProductsRes, Failure>> retrievePriceListProducts({
     required String id,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,

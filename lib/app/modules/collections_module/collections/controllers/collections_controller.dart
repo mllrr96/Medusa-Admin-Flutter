@@ -15,6 +15,9 @@ class CollectionsController extends GetxController {
   final PagingController<int, ProductCollection> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
+  final searchCtrl = TextEditingController();
+  RxString searchTerm = ''.obs;
+  late Worker searchDebouncer;
 
   @override
   void onInit() {
@@ -22,15 +25,25 @@ class CollectionsController extends GetxController {
       debugPrint('Getting data');
       _fetchPage(pageKey);
     });
+    searchDebouncer =
+        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
+
     super.onInit();
   }
 
-
+  @override
+  void onClose() {
+    pagingController.dispose();
+    searchDebouncer.dispose();
+    searchCtrl.dispose();
+    super.onClose();
+  }
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await collectionRepo.retrieveAll(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
+      if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
     });
     result.when((success) {
       final isLastPage = success.collections!.length < _pageSize;

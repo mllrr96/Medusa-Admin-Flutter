@@ -16,19 +16,33 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   RxInt customersCount = 0.obs;
+  final searchCtrl = TextEditingController();
+  RxString searchTerm = ''.obs;
+  late Worker searchDebouner;
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
+    searchDebouner =
+        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    searchCtrl.dispose();
+    searchDebouner.dispose();
+    pagingController.dispose();
+    super.onClose();
+  }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await customerRepo.retrieveCustomers(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
+      if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
       'expand': 'orders',
     });
     result.when((success) {

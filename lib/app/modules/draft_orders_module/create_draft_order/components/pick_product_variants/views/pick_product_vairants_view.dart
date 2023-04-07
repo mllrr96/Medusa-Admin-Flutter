@@ -5,13 +5,13 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/adaptive_close_button.dart';
 import '../components/product_variant_list_tile.dart';
-import '../controllers/add_product_variants_controller.dart';
+import '../controllers/pick_product_variants_controller.dart';
 
-class AddProductVariantsView extends GetView<AddProductVariantsController> {
-  const AddProductVariantsView({Key? key}) : super(key: key);
+class PickProductVariantsView extends GetView<PickProductVariantsController> {
+  const PickProductVariantsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AddProductVariantsController>(
+    return GetBuilder<PickProductVariantsController>(
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(

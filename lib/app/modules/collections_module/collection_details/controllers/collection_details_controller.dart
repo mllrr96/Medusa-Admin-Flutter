@@ -18,8 +18,6 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     super.onInit();
   }
 
-
-
   Future<void> loadCollection() async {
     change(null, status: RxStatus.loading());
     final result = await collectionRepo.retrieve(id: id, queryParameters: {'expand': 'products'});
@@ -39,11 +37,11 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     loading();
     final result = await collectionRepo.delete(id: id);
     result.when((success) {
-      if(success.deleted!=null && success.deleted!){
+      if (success.deleted != null && success.deleted!) {
         EasyLoading.showSuccess('Collection deleted');
         Get.back();
         CollectionsController.instance.pagingController.refresh();
-      }else {
+      } else {
         EasyLoading.showError('Error deleting collection');
       }
     }, (error) {
@@ -52,10 +50,10 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     });
   }
 
-  Future<void> removeProduct(String productId) async {
+  Future<void> removeProducts(List<String> productIds) async {
     loading();
     final result = await collectionRepo.removeProducts(
-        userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(collectionId: id, productsIds: [productId]));
+        userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(collectionId: id, productsIds: productIds));
 
     result.when((success) async {
       EasyLoading.showSuccess('Product removed');
@@ -65,5 +63,47 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
       EasyLoading.showError('Error removing product');
       debugPrint(error.toString());
     });
+  }
+
+  Future<void> addProducts({required List<String> addedProducts, required List<String> removedProducts}) async {
+    loading();
+    if (addedProducts.isNotEmpty) {
+      final result = await collectionRepo.updateProducts(
+          userCollectionUpdateProductsReq:
+              UserCollectionUpdateProductsReq(collectionId: id, productsIds: addedProducts));
+      result.when((success) async {
+        if (removedProducts.isEmpty) {
+          await loadCollection();
+          CollectionsController.instance.pagingController.refresh();
+          EasyLoading.showSuccess('Product updated');
+        }
+      }, (error) {
+        EasyLoading.showError('Error updating product');
+        debugPrint(error.toString());
+        return;
+      });
+    }
+    if (removedProducts.isNotEmpty) {
+      final result = await collectionRepo.removeProducts(
+          userCollectionRemoveProductsReq:
+              UserCollectionRemoveProductsReq(collectionId: id, productsIds: removedProducts));
+      result.when((success) async {
+        if (addedProducts.isEmpty) {
+          await loadCollection();
+          CollectionsController.instance.pagingController.refresh();
+          EasyLoading.showSuccess('Product updated');
+        }
+      }, (error) {
+        EasyLoading.showError('Error updating product');
+        debugPrint(error.toString());
+        return;
+      });
+    }
+    if(removedProducts.isNotEmpty && addedProducts.isNotEmpty){
+      await loadCollection();
+      CollectionsController.instance.pagingController.refresh();
+      EasyLoading.showSuccess('Product updated');
+    }
+
   }
 }

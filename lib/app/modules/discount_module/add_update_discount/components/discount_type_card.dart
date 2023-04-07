@@ -9,7 +9,7 @@ class DiscountTypeCard extends StatelessWidget {
       {Key? key, required this.discountType, this.onTap, required this.groupValue, this.disabled = false})
       : super(key: key);
   final DiscountRuleType discountType;
-  final DiscountRuleType groupValue;
+  final DiscountRuleType? groupValue;
   final void Function(DiscountRuleType discountRuleType)? onTap;
   final bool disabled;
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'dart:io' show Platform;
@@ -119,10 +120,7 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
                   focusNode: searchNode,
                   controller: searchCtrl,
                   placeholder: 'Search for product name, variant title ...',
-                  onChanged: (val) {
-                    // controller.searchTerm = val;
-                    // controller.pagingController.refresh();
-                  },
+                  onChanged: (val) {},
                 )),
               if (GetPlatform.isAndroid)
                 Expanded(
@@ -189,46 +187,28 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
           child: Row(
             children: [
               const SizedBox(width: 12.0),
-              if (GetPlatform.isIOS)
-                Expanded(
-                    child: CupertinoSearchTextField(
-                  focusNode: searchNode,
+              Expanded(
+                child: SearchTextField(
                   controller: searchCtrl,
-                  placeholder: 'Search for product name, variant title ...',
+                  hintText: 'Search for orders\' email, ID',
                   onChanged: (val) {
-                    // controller.searchTerm = val;
-                    // controller.pagingController.refresh();
+                    if (controller.searchTerm.value != val) {
+                      controller.searchTerm.value = val;
+                    }
                   },
-                )),
-              if (GetPlatform.isAndroid)
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: TextFormField(
-                    style: Theme.of(context).textTheme.titleSmall,
-                    focusNode: searchNode,
-                    controller: searchCtrl,
-                    onChanged: (val) {
-                      // controller.searchTerm = val;
-                      // controller.pagingController.refresh();
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Search for product name, variant title ...',
-                    ),
-                  ),
-                )),
+                  focusNode: searchNode,
+                ),
+              ),
               AdaptiveButton(
                   child: const Text('Cancel'),
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    // await Future.delayed(Duration(milliseconds: 150));
                     setState(() {
                       productSearch = false;
-                      // if (controller.searchTerm.isNotEmpty) {
-                      //   controller.searchTerm = '';
-                      //   controller.pagingController.refresh();
-                      // }
                       searchCtrl.clear();
+                      if (controller.searchTerm.value.isNotEmpty) {
+                        controller.searchTerm.value = '';
+                      }
                     });
                   }),
             ],

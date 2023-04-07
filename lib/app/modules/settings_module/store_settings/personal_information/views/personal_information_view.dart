@@ -12,7 +12,7 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
   const PersonalInformationView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     Future<void> updatePersonalInformation(User user) async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/more/controller/more_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import '../../../../core/utils/colors.dart';
@@ -16,6 +17,7 @@ class MoreView extends StatelessWidget {
       assignId: true,
       builder: (controller) {
         return Scaffold(
+          appBar: AppBar(),
           body: SafeArea(
               child: SettingsList(
             lightTheme: SettingsThemeData(
@@ -26,6 +28,7 @@ class MoreView extends StatelessWidget {
                 settingsSectionBackground: Theme.of(context).cardColor),
             sections: [
               SettingsSection(
+                title: const Text('More'),
                 tiles: <SettingsTile>[
                   SettingsTile.navigation(
                     leading: Icon(Icons.discount_outlined, color: ColorManager.primary),
@@ -38,7 +41,7 @@ class MoreView extends StatelessWidget {
                     onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
                   ),
                   SettingsTile.navigation(
-                    leading: Icon(CupertinoIcons.money_dollar_circle, color: ColorManager.primary),
+                    leading: Icon(MedusaIcons.currency_dollar, color: ColorManager.primary),
                     title: const Text('Pricing'),
                     onPressed: (_) => Get.toNamed(Routes.PRICING),
                   ),
@@ -53,7 +56,7 @@ class MoreView extends StatelessWidget {
                     onPressed: (_) => Get.toNamed(Routes.STORE_SETTINGS),
                   ),
                   SettingsTile.navigation(
-                    leading: Icon(CupertinoIcons.settings, color: ColorManager.primary),
+                    leading: Icon(MedusaIcons.cog_six_tooth, color: ColorManager.primary),
                     title: const Text('App Setting'),
                     onPressed: (_) => {},
                   ),
@@ -70,13 +73,13 @@ class MoreView extends StatelessWidget {
                   ),
                   SettingsTile(
                     title: const Text('Light'),
-                    leading: const Icon(Icons.brightness_7),
+                    leading: const Icon(MedusaIcons.sun),
                     trailing: controller.themeMode == ThemeMode.light ? const Icon(Icons.check) : null,
                     onPressed: (_) async => await controller.changeThemeMode(ThemeMode.light),
                   ),
                   SettingsTile(
                     title: const Text('Dark'),
-                    leading: const Icon(Icons.brightness_2),
+                    leading: const Icon(MedusaIcons.moon),
                     trailing: controller.themeMode == ThemeMode.dark ? const Icon(Icons.check) : null,
                     onPressed: (_) async => await controller.changeThemeMode(ThemeMode.dark),
                   ),

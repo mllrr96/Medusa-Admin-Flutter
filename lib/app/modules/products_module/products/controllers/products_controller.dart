@@ -14,7 +14,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
 
   ProductsController({required this.productsRepo});
   ProductsRepo productsRepo;
-  final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   ViewOptions viewOptions = ViewOptions.list;
   RefreshController gridRefreshController = RefreshController();
@@ -23,16 +23,15 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   Rx<SortOptions> sortOptions = SortOptions.dateRecent.obs;
   late TabController tabController;
   final searchCtrl = TextEditingController();
-
+  RxString searchTerm = ''.obs;
+  late Worker searchDebouner;
   @override
   void onInit() {
+    searchDebouner =
+        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
-    });
-
-    searchCtrl.addListener(() {
-      pagingController.refresh();
     });
 
     super.onInit();
@@ -41,6 +40,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   @override
   void onClose() {
     tabController.dispose();
+    searchDebouner.dispose();
     super.onClose();
   }
 
@@ -79,7 +79,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
       queryParams: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
-        'q': searchCtrl.text,
+        if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
         'order': _getSortOption(),
         'is_giftcard': 'false',
       },

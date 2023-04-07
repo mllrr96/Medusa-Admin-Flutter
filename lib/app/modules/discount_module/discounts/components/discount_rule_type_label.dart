@@ -34,8 +34,8 @@ class DiscountRuleTypeLabel extends StatelessWidget {
         text = '${valueText ?? ''} %';
         break;
       case DiscountRuleType.freeShipping:
-        containerColor = Colors.red.withOpacity(0.17);
-        textColor = Colors.red;
+        containerColor = Colors.green.withOpacity(0.17);
+        textColor = Colors.green;
         text = 'Free shipping';
         break;
     }

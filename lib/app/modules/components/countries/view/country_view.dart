@@ -96,9 +96,6 @@ class SelectCountryView extends StatelessWidget {
                     value: selectedCountries.contains(country),
                     enabled: !disabledCountriesIso.contains(country.iso2),
                     onChanged: (val) {
-                      // if (FocusScope.of(context).hasFocus) {
-                      //   FocusScope.of(context).unfocus();
-                      // }
                       if (multipleSelect) {
                         if (val != null && val) {
                           selectedCountries.add(country);

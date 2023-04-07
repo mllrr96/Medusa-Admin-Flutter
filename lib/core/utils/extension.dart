@@ -49,11 +49,10 @@ extension ListEquals on List<String> {
     if (length != b.length) {
       return false;
     }
-    // if (identical(this, b)) {
-    //   return true;
-    // }
-    for (int index = 0; index < length; index += 1) {
-      if (this[index] != b[index]) {
+    final a = toSet().toList();
+    final bSorted = b.toSet().toList();
+    for (int index = 0; index < a.length; index += 1) {
+      if (a[index] != bSorted[index]) {
         return false;
       }
     }

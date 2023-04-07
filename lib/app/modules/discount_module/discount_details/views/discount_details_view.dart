@@ -10,15 +10,18 @@ import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/components/discount_rule_type_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../data/models/req/user_discount_condition_req.dart';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../../discounts/controllers/discounts_controller.dart';
 import '../../update_condition/controllers/update_condition_controller.dart';
 import '../controllers/discount_details_controller.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 class DiscountDetailsView extends GetView<DiscountDetailsController> {
   const DiscountDetailsView({Key? key}) : super(key: key);
@@ -62,59 +65,6 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
         ],
       );
     }
-
-    final bottomNavBar = controller.obx(
-        (discount) => Container(
-              color: Theme.of(context).appBarTheme.backgroundColor,
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewPadding.bottom,
-                left: 12.0,
-                right: 12,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AdaptiveButton(
-                      onPressed: () async {
-                        await showOkCancelAlertDialog(
-                                context: context,
-                                title: 'Delete Promotion',
-                                message: 'Are you sure you want to delete this promotion?',
-                                okLabel: 'Yes, delete',
-                                cancelLabel: 'Cancel',
-                                isDestructiveAction: true)
-                            .then((value) async {
-                          if (value == OkCancelResult.ok) {
-                            await controller.deleteDiscount();
-                          }
-                        });
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.delete_forever, color: Colors.red),
-                          SizedBox(width: 6.0),
-                          Text(
-                            'Delete',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ],
-                      )),
-                  AdaptiveButton(
-                      onPressed: () async {
-                        await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount!.id)?.then((value) async {
-                          if (value is bool && value == true) {
-                            await controller.loadDiscount();
-                            DiscountsController.instance.pagingController.refresh();
-                          }
-                        });
-                      },
-                      child: const Text('Edit')),
-                ],
-              ),
-            ),
-        onLoading: const SizedBox.shrink(),
-        onError: (_) => const SizedBox.shrink());
 
     Widget discountDetails(Discount discount) {
       return Container(
@@ -200,65 +150,22 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
             const Text('Configurations'),
             space,
             if (discount.startsAt != null)
-              Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Start Date', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                          halfSpace,
-                          Text(DateFormat.yMMMEd().format(discount.startsAt!), style: mediumTextStyle),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Start Time', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                          halfSpace,
-                          Text(DateFormat.jm().format(discount.startsAt!), style: mediumTextStyle),
-                        ],
-                      ),
-                    ],
-                  )),
+              DateTimeCard(
+                dateTime: discount.startsAt,
+                dateText: 'Start',
+                dateTimeTextStyle: mediumTextStyle,
+                dateTextStyle: mediumTextStyle?.copyWith(color: lightWhite),
+                borderColor: Colors.transparent,
+              ),
             space,
             if (discount.endsAt != null)
-              Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Expiry Date', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                          halfSpace,
-                          Text(
-                            DateFormat.yMMMEd().format(discount.endsAt!),
-                            style: mediumTextStyle,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Expiry Time', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                          halfSpace,
-                          Text(DateFormat.jm().format(discount.endsAt!), style: mediumTextStyle),
-                        ],
-                      ),
-                    ],
-                  )),
+              DateTimeCard(
+                dateTime: discount.endsAt,
+                dateText: 'Expiry',
+                dateTimeTextStyle: mediumTextStyle,
+                dateTextStyle: mediumTextStyle?.copyWith(color: lightWhite),
+                borderColor: Colors.transparent,
+              ),
             if (discount.endsAt != null) space,
           ],
         ),
@@ -358,36 +265,39 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
           leading: const AdaptiveBackButton(),
           title: const Text('Discount Details'),
         ),
+        floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: controller.obx(
-                (discount) => Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            (discount) => ExpandableFab(
+                  key: controller.fabKey,
+                  distance: 80,
+                  type: ExpandableFabType.fan,
                   children: [
                     FloatingActionButton(
+                        heroTag: null,
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
-                        heroTag: 'delete',
                         onPressed: () async {
                           await showOkCancelAlertDialog(
-                              context: context,
-                              title: 'Delete Promotion',
-                              message: 'Are you sure you want to delete this promotion?',
-                              okLabel: 'Yes, delete',
-                              cancelLabel: 'Cancel',
-                              isDestructiveAction: true)
+                                  context: context,
+                                  title: 'Delete Promotion',
+                                  message: 'Are you sure you want to delete this promotion?',
+                                  okLabel: 'Yes, delete',
+                                  cancelLabel: 'Cancel',
+                                  isDestructiveAction: true)
                               .then((value) async {
                             if (value == OkCancelResult.ok) {
                               await controller.deleteDiscount();
                             }
                           });
+                          controller.fabKey.currentState?.toggle();
                         },
-                        child: const Icon(Icons.delete_forever)),
-                    SizedBox(width: 12.0),
+                        child: const Icon(MedusaIcons.trash)),
                     FloatingActionButton(
-                      backgroundColor: ColorManager.primary,
-                      foregroundColor: Colors.white,
-                      heroTag: 'add',
+                        heroTag: null,
+                        backgroundColor: ColorManager.primary,
+                        foregroundColor: Colors.white,
                         onPressed: () async {
+                          controller.fabKey.currentState?.toggle();
                           await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount!.id)?.then((value) async {
                             if (value is bool && value == true) {
                               await controller.loadDiscount();
@@ -395,12 +305,11 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                             }
                           });
                         },
-                        child: const Icon(Icons.edit)),
+                        child: const Icon(MedusaIcons.pencil_square_solid)),
                   ],
                 ),
             onLoading: const SizedBox.shrink(),
             onError: (_) => const SizedBox.shrink()),
-        // bottomNavigationBar: bottomNavBar,
         body: SafeArea(
             child: controller.obx(
           (discount) => ListView(

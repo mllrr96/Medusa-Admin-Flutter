@@ -49,7 +49,7 @@ abstract class Routes {
       _Paths.DASHBOARD + _Paths.DRAFT_ORDER_DETAILS;
   static const CREATE_DRAFT_ORDER =
       _Paths.DASHBOARD + _Paths.CREATE_DRAFT_ORDER;
-  static const SELECT_PRODUCTS = _Paths.ADD_PRODUCT_VARIANTS;
+  static const PICK_PRODUCT_VARIANTS = _Paths.ADD_PRODUCT_VARIANTS;
   static const PICK_CUSTOMER = _Paths.PICK_CUSTOMER;
   static const GROUPS = _Paths.GROUPS;
   static const CREATE_UPDATE_GROUP = _Paths.CREATE_UPDATE_GROUP;
@@ -60,6 +60,9 @@ abstract class Routes {
   static const DISCOUNT_CONDITIONS = _Paths.DISCOUNT_CONDITIONS;
   static const UPDATE_CONDITION = _Paths.UPDATE_CONDITION;
   static const UPDATE_CUSTOMER_DETAILS = _Paths.ADD_UPDATE_CUSTOMER;
+  static const PRICE_LIST_DETAILS = _Paths.PRICE_LIST_DETAILS;
+  static const ADD_UPDATE_PRICE_LIST = _Paths.ADD_UPDATE_PRICE_LIST;
+  static const PICK_PRODUCTS = _Paths.PICK_PRODUCTS;
 }
 
 abstract class _Paths {
@@ -98,7 +101,7 @@ abstract class _Paths {
   static const TRANSFER_ORDER = '/transfer-order';
   static const DRAFT_ORDER_DETAILS = '/draft-order-details';
   static const CREATE_DRAFT_ORDER = '/create-draft-order';
-  static const ADD_PRODUCT_VARIANTS = '/add-product-variants';
+  static const ADD_PRODUCT_VARIANTS = '/pick-product-variants';
   static const PICK_CUSTOMER = '/pick-customer';
   static const GROUPS = '/groups';
   static const CREATE_UPDATE_GROUP = '/create-update-group';
@@ -109,4 +112,7 @@ abstract class _Paths {
   static const DISCOUNT_CONDITIONS = '/discount-conditions';
   static const UPDATE_CONDITION = '/update-condition';
   static const ADD_UPDATE_CUSTOMER = '/add-update-customer';
+  static const PRICE_LIST_DETAILS = '/price-list-details';
+  static const ADD_UPDATE_PRICE_LIST = '/add-update-price-list';
+  static const PICK_PRODUCTS = '/pick-products';
 }

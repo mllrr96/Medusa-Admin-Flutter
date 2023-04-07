@@ -87,3 +87,13 @@ class UserPriceListsRes extends PaginatedResponse {
     json['price_lists'].forEach((v) => priceLists!.add(PriceList.fromJson(v)));
   }
 }
+
+class UserPriceListsProductsRes extends PaginatedResponse {
+  List<Product>? products;
+
+  UserPriceListsProductsRes.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+    if (json['products'] == null) return;
+    products = <Product>[];
+    json['products'].forEach((v) => products!.add(Product.fromJson(v)));
+  }
+}

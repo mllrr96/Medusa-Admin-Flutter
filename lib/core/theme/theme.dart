@@ -13,6 +13,9 @@ class AppTheme {
         foregroundColor: Colors.white,
       ),
       scaffoldBackgroundColor: const Color(0xFFF2F2F7),
+      checkboxTheme: const CheckboxThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+      ),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -66,6 +69,9 @@ class AppTheme {
       primaryColor: ColorManager.primary,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xFF18191A),
+      checkboxTheme: const CheckboxThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+      ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
         foregroundColor: Colors.white,

@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-
+import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
-import '../../collections/controllers/collections_controller.dart';
-import '../components/collection_products_list.dart';
 import '../controllers/collection_details_controller.dart';
 
 class CollectionDetailsView extends GetView<CollectionDetailsController> {
@@ -19,7 +17,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
@@ -80,11 +78,19 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   if (collection.products != null && collection.products!.isNotEmpty)
                     AdaptiveButton(
                         onPressed: () async {
-                          final result = await Get.to(() => const CollectionProductsList(),
-                              binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
-                          if (result != null) {
-                            await controller.loadCollection();
-                            CollectionsController.instance.pagingController.refresh();
+                          final result = await Get.toNamed(Routes.PICK_PRODUCTS,
+                              arguments: PickProductsReq(
+                                selectedProducts: collection.products,
+                              ));
+                          if (result is PickProductsRes) {
+                            final originalProducts = collection.products?.map((e) => e.id!).toList();
+                            final selectedProducts = result.selectedProducts.map((e) => e.id!).toList();
+                            final removedProducts =
+                                originalProducts?.toSet().difference(selectedProducts.toSet()).toList() ?? [];
+                            await controller.addProducts(
+                              addedProducts: selectedProducts,
+                              removedProducts: removedProducts,
+                            );
                           }
                         },
                         padding: EdgeInsets.zero,
@@ -109,11 +115,10 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   const Text('No products on this collection'),
                   AdaptiveButton(
                       onPressed: () async {
-                        final result = await Get.to(() => const CollectionProductsList(),
-                            binding: CollectionProductsBinding(), arguments: collection.id!, fullscreenDialog: true);
-                        if (result != null) {
-                          await controller.loadCollection();
-                          CollectionsController.instance.pagingController.refresh();
+                        final result = await Get.toNamed(Routes.PICK_PRODUCTS);
+                        if (result is PickProductsRes) {
+                          final selectedProducts = result.selectedProducts.map((e) => e.id!).toList();
+                          await controller.addProducts(addedProducts: selectedProducts, removedProducts: []);
                         }
                       },
                       child: const Text('Add Products'))
@@ -162,7 +167,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                                 isDestructiveAction: true)
                             .then((result) async {
                           if (result == OkCancelResult.ok) {
-                            await controller.removeProduct(product.id!);
+                            await controller.removeProducts([product.id!]);
                           }
                         });
                       },

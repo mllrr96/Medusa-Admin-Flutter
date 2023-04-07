@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/keep_alive_widget.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../draft_orders_module/draft_orders/views/draft_orders_view.dart';
@@ -23,7 +24,7 @@ class OrdersView extends GetView<OrdersController> {
               floatingActionButton: FloatingActionButton(
                 heroTag: 'orders',
                 onPressed: () {},
-                child: Icon(Icons.adaptive.share),
+                child: const Icon(MedusaIcons.arrow_up_tray),
               ),
               body: SmartRefresher(
                 controller: controller.refreshController,

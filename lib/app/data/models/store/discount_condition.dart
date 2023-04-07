@@ -1,23 +1,30 @@
+import 'package:equatable/equatable.dart';
+
 import 'customer_group.dart';
 import 'discount_rule.dart';
+// ignore: depend_on_referenced_packages
+import 'package:copy_with_extension/copy_with_extension.dart';
 
-class DiscountCondition {
-  String? id;
-  DiscountConditionType? type;
-  DiscountConditionOperator? operator;
-  String? discountRuleId;
-  DiscountRule? discountRule;
-  List<String>? products;
-  List<String>? productTypes;
-  List<String>? productTags;
-  List<String>? productCollections;
-  List<CustomerGroup>? customerGroups;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
-  Map<String, dynamic>? metadata;
+part 'discount_condition.g.dart';
 
-  DiscountCondition({
+@CopyWith()
+class DiscountCondition extends Equatable {
+  final String? id;
+  final DiscountConditionType? type;
+  final DiscountConditionOperator? operator;
+  final String? discountRuleId;
+  final DiscountRule? discountRule;
+  final List<String>? products;
+  final List<String>? productTypes;
+  final List<String>? productTags;
+  final List<String>? productCollections;
+  final List<CustomerGroup>? customerGroups;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final Map<String, dynamic>? metadata;
+
+  const DiscountCondition({
     this.id,
     this.type,
     this.operator,
@@ -34,36 +41,30 @@ class DiscountCondition {
     this.metadata,
   });
 
-  DiscountCondition.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    if (json['type'] != null) {
-      type = DiscountConditionType.values.firstWhere((e) => e.value == (json['type'] ?? ''));
-    }
-    if (json['operator'] != null) {
-      operator = DiscountConditionOperator.values.firstWhere((e) => e.value == (json['operator'] ?? ''));
-    }
-    discountRuleId = json['discount_rule_id'];
-    discountRule = json['discount_rule'] != null ? DiscountRule.fromJson(json['discount_rule']) : null;
-    if (json['products'] != null) {
-      json['products'] = products;
-    }
-    if (json['product_types'] != null) {
-      json['product_types'] = productTypes;
-    }
-    if (json['product_tags'] != null) {
-      json['product_tags'] = productTags;
-    }
-    if (json['product_collections'] != null) {
-      json['product_collections'] = productCollections;
-    }
+  factory DiscountCondition.fromJson(Map<String, dynamic> json) {
+    List<CustomerGroup>? customerGroups;
     if (json['customer_groups'] != null) {
       customerGroups = <CustomerGroup>[];
       json['customer_groups'].forEach((e) => customerGroups!.add(CustomerGroup.fromJson(e)));
     }
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'];
+    return DiscountCondition(
+      id: json['id'],
+      type: json['type'] != null ? DiscountConditionType.values.firstWhere((e) => e.value == (json['type'])) : null,
+      operator: json['operator'] != null
+          ? DiscountConditionOperator.values.firstWhere((e) => e.value == (json['operator']))
+          : null,
+      discountRuleId: json['discount_rule_id'],
+      discountRule: json['discount_rule'] != null ? DiscountRule.fromJson(json['discount_rule']) : null,
+      products: json['products'],
+      productTypes: json['product_types'],
+      productTags: json['product_tags'],
+      productCollections: json['product_collections'],
+      customerGroups: customerGroups,
+      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
+      metadata: json['metadata'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -113,6 +114,24 @@ class DiscountCondition {
 
     return json;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        type,
+        operator,
+        discountRuleId,
+        discountRule,
+        products,
+        productTypes,
+        productTags,
+        productCollections,
+        customerGroups,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        metadata,
+      ];
 }
 
 enum DiscountConditionType {

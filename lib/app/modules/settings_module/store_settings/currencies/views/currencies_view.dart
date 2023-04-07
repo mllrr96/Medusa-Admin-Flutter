@@ -159,6 +159,7 @@ class AllCurrenciesView extends StatelessWidget {
   final List<Currency> storeCurrencies;
   @override
   Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return GetBuilder<AllCurrenciesController>(
       init: AllCurrenciesController(currencyRepo: CurrencyRepo(), storeCurrencies: storeCurrencies),
       builder: (controller) {
@@ -181,8 +182,10 @@ class AllCurrenciesView extends StatelessWidget {
                   builderDelegate: PagedChildBuilderDelegate<Currency>(
                       itemBuilder: (context, currency, index) => CheckboxListTile(
                             contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.leading,
+                            controlAffinity: ListTileControlAffinity.trailing,
                             title: Text(currency.name ?? ''),
+                            secondary: Text(currency.code?.toUpperCase() ?? '',
+                                style: mediumTextStyle?.copyWith(fontWeight: FontWeight.bold)),
                             onChanged: (bool? value) {
                               var selectedCurrencies = controller.selectedCurrencies;
                               if (selectedCurrencies.any((element) => element.code == currency.code)) {
