@@ -51,9 +51,9 @@ class InviteRepo extends BaseInvite {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.post(
-        uri: '/invites/accept',
+        uri: '/invites',
         data: {
-          'email': email,
+          'user': email,
           'role': role.value,
         },
       );

@@ -41,9 +41,10 @@ class RegionsView extends GetView<RegionsController> {
 }
 
 class RegionCard extends StatelessWidget {
-  const RegionCard({super.key, required this.region, this.onTap});
+  const RegionCard({super.key, required this.region, this.onTap,  this.showProviders = true});
   final Region region;
   final void Function()? onTap;
+  final bool showProviders;
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
@@ -70,17 +71,20 @@ class RegionCard extends StatelessWidget {
                         maxLines: 2)),
               ],
             ),
+            if(showProviders)
             const SizedBox(height: 6.0),
-            Row(
+            if(showProviders)
+              Row(
               children: [
-                Text('Payment Providers: ', style: smallTextStyle!.copyWith(color: lightWhite)),
-                Expanded(child: Text(getPaymentProviders(), style: smallTextStyle.copyWith(color: lightWhite))),
+                Text('Payment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
+                Expanded(child: Text(getPaymentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
               ],
             ),
-            Row(
+            if(showProviders)
+              Row(
               children: [
-                Text('Fulfillment Providers: ', style: smallTextStyle.copyWith(color: lightWhite)),
-                Expanded(child: Text(getFulfilmentProviders(), style: smallTextStyle.copyWith(color: lightWhite))),
+                Text('Fulfillment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
+                Expanded(child: Text(getFulfilmentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
               ],
             ),
           ],

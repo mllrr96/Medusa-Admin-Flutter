@@ -1,26 +1,41 @@
+import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
-import '../../../../../../core/utils/colors.dart';
-import '../../../../../data/models/store/user.dart';
+import 'package:medusa_admin/app/modules/components/search_text_field.dart';
+import 'package:medusa_admin/app/modules/settings_module/store_settings/team/controllers/team_controller.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../../../components/adaptive_filled_button.dart';
 import '../../../../components/adaptive_icon.dart';
-import '../controllers/team_controller.dart';
+import '../components/index.dart';
+import '../controllers/invite_controller.dart';
 
-class TeamView extends GetView<TeamController> {
+class TeamView extends StatelessWidget {
   const TeamView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const kDuration = Duration(milliseconds: 200);
+    final teamController = Get.find<TeamController>();
+    final inviteController = Get.find<InviteController>();
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Scaffold(
       appBar: AppBar(
+        leading: const AdaptiveBackButton(),
         title: const Text('The Team'),
-        centerTitle: true,
         actions: [
           AdaptiveButton(
-              onPressed: () {},
+              onPressed: () async {
+                if (Platform.isIOS) {
+                  await showCupertinoModalBottomSheet(context: context, builder: (_) => const InviteUserCard());
+                } else {
+                  await showModalBottomSheet(
+                      context: context, builder: (_) => const InviteUserCard(), isScrollControlled: true);
+                }
+              },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [Icon(Icons.add), SizedBox(width: 5.0), Text('Invite users')],
@@ -29,40 +44,28 @@ class TeamView extends GetView<TeamController> {
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Obx(() {
-              final membersCount = controller.membersCount.value == 1
-                  ? '${controller.membersCount.value} Member'
-                  : '${controller.membersCount.value} Members';
+              final membersCount = teamController.membersCount.value == 1
+                  ? '${teamController.membersCount.value} Member'
+                  : '${teamController.membersCount.value} Members';
               return AnimatedCrossFade(
                 firstChild: Row(
                   children: [
                     const SizedBox(width: 12.0),
-                    if (GetPlatform.isIOS)
-                      Expanded(
-                          child: CupertinoSearchTextField(
-                        placeholder: 'Search for product name, variant title ...',
-                        onChanged: (val) {
-                          // controller.searchTerm = val;
-                          // controller.pagingController.refresh();
-                        },
-                      )),
-                    if (GetPlatform.isAndroid)
-                      Expanded(
-                          child: TextFormField(
-                        style: Theme.of(context).textTheme.titleSmall,
-                        onChanged: (val) {
-                          // controller.searchTerm = val;
-                          // controller.pagingController.refresh();
-                        },
-                        decoration: const InputDecoration(
-                          hintText: 'Search for product name, variant title ...',
-                        ),
-                      )),
+                    Expanded(
+                        child: SearchTextField(
+                      controller: teamController.searchCtrl,
+                      hintText: 'Search for team email, name',
+                      onChanged: (val) {
+                        if(val != teamController.searchCtrl.text){}
+                      },
+                    )),
                     AdaptiveButton(
-                        child: const Text('Cancel'),
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          controller.search.value = false;
-                        }),
+                      child: const Text('Cancel'),
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        teamController.search.value = false;
+                      },
+                    ),
                   ],
                 ),
                 secondChild: SizedBox(
@@ -74,13 +77,13 @@ class TeamView extends GetView<TeamController> {
                         children: [
                           AdaptiveIcon(
                               onPressed: () async {
-                                controller.search.value = true;
+                                teamController.search.value = true;
                               },
                               icon: const Icon(CupertinoIcons.search)),
                           AdaptiveIcon(onPressed: () async {}, icon: const Icon(CupertinoIcons.sort_down)),
                         ],
                       ),
-                      if (controller.membersCount.value != 0)
+                      if (teamController.membersCount.value != 0)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(membersCount, style: Theme.of(context).textTheme.titleSmall),
@@ -88,138 +91,146 @@ class TeamView extends GetView<TeamController> {
                     ],
                   ),
                 ),
-                crossFadeState: controller.search.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                crossFadeState: teamController.search.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: kDuration,
               );
             })),
       ),
       body: SafeArea(
-        child: controller.obx(
-          (users) => ListView.builder(
-            itemCount: users!.length,
-            itemBuilder: (context, index) => TeamCard(user: users[index]),
-          ),
-          onLoading: const Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
-          onError: (e) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(e ?? 'Error loading users'),
-              AdaptiveButton(onPressed: () async => controller.loadUser(), child: const Text('Retry'))
-            ],
-          ),
+        child: CustomScrollView(
+          slivers: [
+            SliverPersistentHeader(delegate: PersistentHeader('Team members')),
+            teamController.obx(
+              (users) => SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return TeamCard(
+                    user: users[index],
+                    onEditTap: () async {
+                      if (Platform.isIOS) {
+                        await showCupertinoModalBottomSheet(
+                            context: context, builder: (_) => UpdateUserCard(user: users[index]));
+                      } else {
+                        await showModalBottomSheet(
+                            context: context,
+                            builder: (_) => UpdateUserCard(user: users[index]),
+                            isScrollControlled: true);
+                      }
+                    },
+                    onDeleteTap: () async {
+                      await showOkCancelAlertDialog(
+                        context: context,
+                        title: 'Remove user',
+                        message: 'Are you sure you want to remove this user?',
+                        okLabel: 'Yes, remove',
+                        isDestructiveAction: true,
+                      ).then(
+                        (value) async {
+                          if (value == OkCancelResult.ok) {
+                            await teamController.deleteUser(users[index].id!);
+                          }
+                        },
+                      );
+                    },
+                  );
+                },
+                childCount: users!.length,
+              )),
+              onLoading: const SliverFillRemaining(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+              onError: (e) => SliverToBoxAdapter(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(e ?? 'Error loading users'),
+                    AdaptiveFilledButton(onPressed: () async => teamController.loadUsers(), child: const Text('Retry'))
+                  ],
+                ),
+              ),
+            ),
+            SliverPersistentHeader(pinned: true, delegate: PersistentHeader('Invites')),
+            inviteController.obx(
+              (invites) => SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return InviteCard(
+                    invite: invites[index],
+                    onResendTap: () => inviteController.resendInvite(invites[index].id!),
+                    onDeleteTap: () async {
+                      await showOkCancelAlertDialog(
+                        context: context,
+                        title: 'Remove invite',
+                        message: 'Are you sure you want to remove this invite?',
+                        okLabel: 'Yes, remove',
+                        isDestructiveAction: true,
+                      ).then((value) async {
+                        if (value == OkCancelResult.ok) {
+                          await inviteController.deleteInvite(invites[index].id!);
+                        }
+                      });
+                    },
+                  );
+                },
+                childCount: invites!.length,
+              )),
+              onLoading: const SliverToBoxAdapter(
+                child: Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+              ),
+              onError: (e) => SliverToBoxAdapter(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(e ?? 'Error loading invites'),
+                    AdaptiveFilledButton(
+                        onPressed: () async => inviteController.loadInvites(), child: const Text('Retry'))
+                  ],
+                ),
+              ),
+              onEmpty: SliverToBoxAdapter(
+                child: Center(
+                  child: Text(
+                    'No invites',
+                    style: TextStyle(color: lightWhite),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class TeamCard extends StatelessWidget {
-  const TeamCard({
-    super.key,
-    required this.user,
-  });
-  final User user;
+class PersistentHeader extends SliverPersistentHeaderDelegate {
+  PersistentHeader(this.text);
+  final String text;
   @override
-  Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final email = user.email ?? '';
-    final name = getName(user: user);
-    final firstLetter = getName(user: user, firstLetterOnly: true);
-    return Container(
-      decoration: BoxDecoration(
-          color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(16.0))),
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Flexible(
-                child: Row(
-                  children: [
-                    if (firstLetter != null || email.isNotEmpty)
-                      CircleAvatar(
-                        child: Text(firstLetter ?? email[0], style: largeTextStyle),
-                      ),
-                    if (firstLetter != null || email.isNotEmpty) const SizedBox(width: 6.0),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (name != null) Text(name, style: largeTextStyle),
-                          if (name != null) const SizedBox(height: 6.0),
-                          Text(email, style: mediumTextStyle),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  AdaptiveIcon(onPressed: () {}, icon: const Icon(Icons.more_horiz_rounded)),
-                  if (user.role != null) UserRoleLabel(userRole: user.role!),
-                ],
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  String? getName({required User user, bool firstLetterOnly = false}) {
-    if (user.firstName != null && user.lastName != null) {
-      if (firstLetterOnly) {
-        return user.firstName![0];
-      } else {
-        return '${user.firstName!} ${user.lastName!}';
-      }
-    }
-    return null;
-  }
-}
-
-class UserRoleLabel extends StatelessWidget {
-  const UserRoleLabel({Key? key, required this.userRole}) : super(key: key);
-  final UserRole userRole;
-  @override
-  Widget build(BuildContext context) {
-    var containerColor = ColorManager.primary.withOpacity(0.17);
-    var textColor = ColorManager.primary;
-    String text = 'Admin';
-    switch (userRole) {
-      case UserRole.admin:
-        containerColor = Colors.redAccent.withOpacity(0.17);
-        textColor = Colors.redAccent;
-        text = 'Admin';
-        break;
-      case UserRole.developer:
-        containerColor = Colors.orange.withOpacity(0.17);
-        textColor = Colors.orange;
-        text = 'Developer';
-        break;
-      case UserRole.member:
-        containerColor = ColorManager.primary.withOpacity(0.17);
-        textColor = ColorManager.primary;
-        text = 'Member';
-        break;
-    }
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      decoration: BoxDecoration(
-        color: containerColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor),
-      ),
-    );
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        color: Theme.of(context).scaffoldBackgroundColor,
+        height: kToolbarHeight,
+        child: Text(
+          text,
+          style: TextStyle(color: lightWhite),
+        ));
+  }
+
+  @override
+  double get maxExtent => kToolbarHeight;
+
+  @override
+  double get minExtent => kToolbarHeight / 1.5;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }

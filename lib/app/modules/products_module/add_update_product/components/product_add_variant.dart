@@ -20,7 +20,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;

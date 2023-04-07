@@ -17,38 +17,30 @@ abstract class Routes {
   static const SIGN_IN = _Paths.SIGN_IN;
   static const ORDER_DETAILS = _Paths.DASHBOARD + _Paths.ORDER_DETAILS;
   static const PRODUCT_DETAILS = _Paths.DASHBOARD + _Paths.PRODUCT_DETAILS;
-  static const ADD_UPDATE_PRODUCT =
-      _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
+  static const ADD_UPDATE_PRODUCT = _Paths.DASHBOARD + _Paths.ADD_UPDATE_PRODUCT;
   static const STORE_DETAILS = _Paths.DASHBOARD + _Paths.STORE_DETAILS;
   static const CUSTOMER_DETAILS = _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS;
   static const CURRENCIES = _Paths.DASHBOARD + _Paths.CURRENCIES;
   static const COLLECTIONS = _Paths.COLLECTIONS;
-  static const COLLECTION_DETAILS =
-      _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
+  static const COLLECTION_DETAILS = _Paths.DASHBOARD + _Paths.COLLECTION_DETAILS;
   static const PRODUCT_ADD_VARIANT = _Paths.PRODUCT_ADD_VARIANT;
   static const CREATE_COLLECTION = _Paths.DASHBOARD + _Paths.CREATE_COLLECTION;
   static const REGIONS = _Paths.DASHBOARD + _Paths.REGIONS;
-  static const ADD_REGION =
-      _Paths.DASHBOARD + _Paths.REGIONS + _Paths.ADD_REGION;
-  static const REGION_DETAILS =
-      _Paths.DASHBOARD + _Paths.REGIONS + _Paths.REGION_DETAILS;
+  static const ADD_REGION = _Paths.DASHBOARD + _Paths.REGIONS + _Paths.ADD_REGION;
+  static const REGION_DETAILS = _Paths.DASHBOARD + _Paths.REGIONS + _Paths.REGION_DETAILS;
   static const SELECT_COUNTRY = _Paths.SELECT_COUNTRY;
-  static const PERSONAL_INFORMATION =
-      _Paths.DASHBOARD + _Paths.PERSONAL_INFORMATION;
+  static const PERSONAL_INFORMATION = _Paths.DASHBOARD + _Paths.PERSONAL_INFORMATION;
   static const RETURN_REASONS = _Paths.DASHBOARD + _Paths.RETURN_REASONS;
   static const SHIPPING = _Paths.DASHBOARD + _Paths.SHIPPING;
   static const TEAM = _Paths.DASHBOARD + _Paths.TEAM;
-  static const TAX_SETTINGS = _Paths.DASHBOARD + _Paths.TAX_SETTINGS;
-  static const CREATE_UPDATE_RETURN_REASON = _Paths.DASHBOARD +
-      _Paths.RETURN_REASONS +
-      _Paths.CREATE_UPDATE_RETURN_REASON;
+  static const TAX_SETTINGS = _Paths.DASHBOARD +  _Paths.TAX_SETTINGS_SELECT_REGION +_Paths.TAX_SETTINGS;
+  static const TAX_SETTINGS_SELECT_REGION = _Paths.DASHBOARD + _Paths.TAX_SETTINGS_SELECT_REGION;
+  static const CREATE_UPDATE_RETURN_REASON =
+      _Paths.DASHBOARD + _Paths.RETURN_REASONS + _Paths.CREATE_UPDATE_RETURN_REASON;
   static const RESET_PASSWORD = _Paths.SIGN_IN + _Paths.RESET_PASSWORD;
-  static const TRANSFER_ORDER =
-      _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS + _Paths.TRANSFER_ORDER;
-  static const DRAFT_ORDER_DETAILS =
-      _Paths.DASHBOARD + _Paths.DRAFT_ORDER_DETAILS;
-  static const CREATE_DRAFT_ORDER =
-      _Paths.DASHBOARD + _Paths.CREATE_DRAFT_ORDER;
+  static const TRANSFER_ORDER = _Paths.DASHBOARD + _Paths.CUSTOMER_DETAILS + _Paths.TRANSFER_ORDER;
+  static const DRAFT_ORDER_DETAILS = _Paths.DASHBOARD + _Paths.DRAFT_ORDER_DETAILS;
+  static const CREATE_DRAFT_ORDER = _Paths.DASHBOARD + _Paths.CREATE_DRAFT_ORDER;
   static const PICK_PRODUCT_VARIANTS = _Paths.ADD_PRODUCT_VARIANTS;
   static const PICK_CUSTOMER = _Paths.PICK_CUSTOMER;
   static const GROUPS = _Paths.GROUPS;
@@ -96,6 +88,7 @@ abstract class _Paths {
   static const SHIPPING = '/shipping';
   static const TEAM = '/team';
   static const TAX_SETTINGS = '/tax-settings';
+  static const TAX_SETTINGS_SELECT_REGION = '/tax-settings-select-region';
   static const CREATE_UPDATE_RETURN_REASON = '/create-update-return-reason';
   static const RESET_PASSWORD = '/reset-password';
   static const TRANSFER_ORDER = '/transfer-order';

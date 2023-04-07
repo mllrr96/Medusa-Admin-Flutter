@@ -107,9 +107,7 @@ class ProductsListView extends GetView<ProductsController> {
     return Scaffold(
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
-        key: Key('product'),
-        // key: controller.fabKey,
-        // distance: 80,
+        key: const Key('product'),
         type: ExpandableFabType.fan,
         children: [
           FloatingActionButton(

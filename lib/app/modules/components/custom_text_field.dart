@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
     this.fillColor,
     this.obscureText = false,
     this.readOnly = false,
-    this.onTap,
+    this.onTap, this.onFieldSubmitted,
   });
 
   final bool required;
@@ -40,6 +40,7 @@ class CustomTextField extends StatelessWidget {
   final bool lightLabelColor;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final void Function(String)? onFieldSubmitted;
   final Color? fillColor;
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class CustomTextField extends StatelessWidget {
             controller: controller,
             textInputAction: textInputAction,
             onChanged: onChanged,
+            onFieldSubmitted: onFieldSubmitted,
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,

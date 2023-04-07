@@ -67,9 +67,12 @@ class CurrenciesView extends StatelessWidget {
                                     controller.currencies.where((element) => element.code == value).first;
                               }
                             },
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                            decoration: InputDecoration(
+                              fillColor: Theme.of(context).scaffoldBackgroundColor,
+                              filled: true,
+                              border:  const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                borderSide: BorderSide(color: Colors.grey)
                               ),
                             ),
                           ),
@@ -100,7 +103,7 @@ class CurrenciesView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            TextButton(
+                            AdaptiveButton(
                                 onPressed: () async {
                                   List<Currency>? result = await showCupertinoModalBottomSheet(
                                     expand: true,
@@ -168,6 +171,7 @@ class AllCurrenciesView extends StatelessWidget {
           child: Material(
             child: Scaffold(
               appBar: AppBar(
+                leading: const AdaptiveBackButton(),
                 title: const Text('Add Store Currencies'),
                 actions: [
                   if (controller.selectedCurrencies.isNotEmpty)

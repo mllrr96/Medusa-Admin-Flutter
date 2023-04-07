@@ -29,7 +29,7 @@ abstract class BaseSalesChannel {
   });
 
   /// Remove a list of products from a sales channel.
-  Future<Result<UserRemoveProductsToSalesChannelRes, Failure>> removeProductsToSalesChannel({
+  Future<Result<UserRemoveProductsFromSalesChannelRes, Failure>> removeProductsFromSalesChannel({
     /// The ID of the Sales channel.
     required String id,
 
@@ -49,7 +49,7 @@ abstract class BaseSalesChannel {
   });
 
   /// Removes a stock location to a Sales Channel.
-  Future<Result<UserRemoveStockLocationToSalesChannelRes, Failure>> removeStockLocationToSalesChannel({
+  Future<Result<UserRemoveStockLocationFromSalesChannelRes, Failure>> removeStockLocationFromSalesChannel({
     /// The ID of the Sales channel.
     required String id,
     /// The ID of the stock location

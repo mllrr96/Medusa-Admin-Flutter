@@ -17,7 +17,7 @@ class MoreView extends StatelessWidget {
       assignId: true,
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(title: const Text('Medusa')),
           body: SafeArea(
               child: SettingsList(
             lightTheme: SettingsThemeData(
@@ -31,17 +31,17 @@ class MoreView extends StatelessWidget {
                 title: const Text('More'),
                 tiles: <SettingsTile>[
                   SettingsTile.navigation(
-                    leading: Icon(Icons.discount_outlined, color: ColorManager.primary),
+                    leading: const Icon(Icons.discount_outlined),
                     title: const Text('Discounts'),
                     onPressed: (_) => Get.toNamed(Routes.DISCOUNTS),
                   ),
                   SettingsTile.navigation(
-                    leading: Icon(CupertinoIcons.gift, color: ColorManager.primary),
+                    leading: const Icon(CupertinoIcons.gift),
                     title: const Text('Gift Cards'),
                     onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
                   ),
                   SettingsTile.navigation(
-                    leading: Icon(MedusaIcons.currency_dollar, color: ColorManager.primary),
+                    leading: const Icon(MedusaIcons.currency_dollar),
                     title: const Text('Pricing'),
                     onPressed: (_) => Get.toNamed(Routes.PRICING),
                   ),
@@ -51,12 +51,12 @@ class MoreView extends StatelessWidget {
                 title: const Text('Settings'),
                 tiles: <SettingsTile>[
                   SettingsTile.navigation(
-                    leading: Icon(Icons.store, color: ColorManager.primary),
+                    leading: const Icon(Icons.store),
                     title: const Text('Store Settings'),
                     onPressed: (_) => Get.toNamed(Routes.STORE_SETTINGS),
                   ),
                   SettingsTile.navigation(
-                    leading: Icon(MedusaIcons.cog_six_tooth, color: ColorManager.primary),
+                    leading: const Icon(MedusaIcons.cog_six_tooth),
                     title: const Text('App Setting'),
                     onPressed: (_) => {},
                   ),

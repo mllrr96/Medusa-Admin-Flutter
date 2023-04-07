@@ -9,7 +9,7 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
   const CreateCollectionView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);

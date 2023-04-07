@@ -40,9 +40,9 @@ class UserAddProductsToSalesChannelRes {
   }
 }
 
-class UserRemoveProductsToSalesChannelRes {
+class UserRemoveProductsFromSalesChannelRes {
   SalesChannel? salesChannel;
-  UserRemoveProductsToSalesChannelRes.fromJson(Map<String, dynamic> json) {
+  UserRemoveProductsFromSalesChannelRes.fromJson(Map<String, dynamic> json) {
     if (json['sales_channel'] == null) return;
     salesChannel = SalesChannel.fromJson(json['sales_channel']);
   }
@@ -56,7 +56,7 @@ class UserAssociateStockLocationToSalesChannelRes {
   }
 }
 
-class UserRemoveStockLocationToSalesChannelRes {
+class UserRemoveStockLocationFromSalesChannelRes {
   /// The ID of the deleted Product.
   String? id;
 
@@ -70,7 +70,7 @@ class UserRemoveStockLocationToSalesChannelRes {
   /// Default: "product"
   String? object;
 
-  UserRemoveStockLocationToSalesChannelRes.fromJson(Map<String, dynamic> json) {
+  UserRemoveStockLocationFromSalesChannelRes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     deleted = json['deleted'] ?? false;
     object = json['object'];

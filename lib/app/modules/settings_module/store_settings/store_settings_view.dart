@@ -52,7 +52,7 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: Icon(Icons.percent, color: ColorManager.primary),
                 title: const Text('Tax Settings'),
-                onPressed: (_) => Get.toNamed(Routes.TAX_SETTINGS),
+                onPressed: (_) => Get.toNamed(Routes.TAX_SETTINGS_SELECT_REGION),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.currency_exchange, color: ColorManager.primary),
@@ -62,6 +62,11 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
                 title: const Text('Shipping'),
+                onPressed: (_) => Get.toNamed(Routes.SHIPPING),
+              ),
+              SettingsTile.navigation(
+                leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
+                title: const Text('Sales channels'),
                 onPressed: (_) => Get.toNamed(Routes.SHIPPING),
               ),
               SettingsTile.navigation(

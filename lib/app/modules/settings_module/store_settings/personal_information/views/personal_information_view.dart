@@ -24,7 +24,7 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
               top: 8.0,
               left: 12.0,
               right: 12.0,
-              bottom: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).padding.bottom),
+              bottom: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).viewPadding.bottom),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -69,6 +69,20 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
                         label: 'Last Name',
                         hintText: 'Last Name ...',
                         controller: controller.lastNameCtrl,
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (_) async {
+                          if (!controller.formKey.currentState!.validate()) {
+                            return;
+                          }
+                          if (controller.firstNameCtrl.text == user.firstName &&
+                              controller.lastNameCtrl.text == user.lastName) {
+                            Get.back();
+                          } else {
+                            FocusScope.of(context).unfocus();
+                            await controller.updateUser();
+                            Get.back();
+                          }
+                        },
                         validator: (val) {
                           if (val != null && val.isEmpty) {
                             return 'Field is required';

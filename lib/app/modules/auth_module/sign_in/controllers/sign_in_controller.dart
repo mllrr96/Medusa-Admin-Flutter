@@ -17,6 +17,8 @@ class SignInController extends GetxController {
   AuthRepo authRepository;
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
+  final emailFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
   RxString errorMessage = ''.obs;
 
   @override
@@ -30,6 +32,8 @@ class SignInController extends GetxController {
   void onClose() {
     emailCtrl.dispose();
     passwordCtrl.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
     super.onClose();
   }
 

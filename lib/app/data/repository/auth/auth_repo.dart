@@ -12,8 +12,10 @@ class AuthRepo extends BaseAuth {
 
   /// Authenticates a user using email and password combination
   @override
-  Future<Result<UserAuthRes, Failure>> signIn(
-      {required UserPostAuthReq req, Map<String, dynamic>? customHeaders}) async {
+  Future<Result<UserAuthRes, Failure>> signIn({
+    required UserPostAuthReq req,
+    Map<String, dynamic>? customHeaders,
+  }) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
@@ -33,7 +35,9 @@ class AuthRepo extends BaseAuth {
 
   /// Removes authentication session and sign out
   @override
-  Future<bool> signOut({Map<String, dynamic>? customHeaders}) async {
+  Future<bool> signOut({
+    Map<String, dynamic>? customHeaders,
+  }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -54,7 +58,9 @@ class AuthRepo extends BaseAuth {
 
   /// Retrieves an authenticated session
   @override
-  Future<UserAuthRes?> getSession({Map<String, dynamic>? customHeaders}) async {
+  Future<UserAuthRes?> getSession({
+    Map<String, dynamic>? customHeaders,
+  }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);

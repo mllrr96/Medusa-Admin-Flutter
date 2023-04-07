@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
@@ -12,7 +13,6 @@ class PasswordTextField extends StatefulWidget {
   }) : super(key: key);
   final TextEditingController controller;
   final void Function(String)? onChanged;
-
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
 }
@@ -22,12 +22,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Container(
       alignment: Alignment.center,
       height: size.height / 16,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(4.0),
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
       ),
       child: Padding(
@@ -113,7 +113,8 @@ class EmailTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     this.onChanged,
-    this.textInputAction = TextInputAction.next, this.onSubmitted,
+    this.textInputAction = TextInputAction.next,
+    this.onSubmitted,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -128,7 +129,7 @@ class EmailTextField extends StatelessWidget {
       alignment: Alignment.center,
       height: size.height / 16,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(4.0),
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
       ),
       child: Padding(
@@ -154,7 +155,6 @@ class EmailTextField extends StatelessWidget {
             const SizedBox(
               width: 16,
             ),
-
             //email address textField
             Expanded(
               child: TextField(
