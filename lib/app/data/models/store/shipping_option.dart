@@ -114,7 +114,7 @@ class ShippingOption {
     adminOnly = json['admin_only'];
     if (json['requirements'] != null) {
       requirements = <ShippingOptionRequirement>[];
-      json['requirements'].forEach((e) => requirements!.add(ShippingOptionRequirement.fromJson(json['requirements'])));
+      json['requirements'].forEach((e) => requirements!.add(ShippingOptionRequirement.fromJson(e)));
     }
     data = json['data'];
     includesTax = json['includes_tax'];

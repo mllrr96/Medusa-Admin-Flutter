@@ -7,7 +7,7 @@ class UserCreateShippingOptionRes {
   final ShippingOption shippingOption;
 
   factory UserCreateShippingOptionRes.fromJson(Map<String, dynamic> json) {
-    return UserCreateShippingOptionRes(shippingOption: json['shipping_option']);
+    return UserCreateShippingOptionRes(shippingOption: ShippingOption.fromJson(json['shipping_option']));
   }
 }
 
@@ -36,25 +36,25 @@ class UserUpdateShippingOptionRes {
   UserUpdateShippingOptionRes({required this.shippingOption});
   final ShippingOption shippingOption;
   factory UserUpdateShippingOptionRes.fromJson(Map<String, dynamic> json) =>
-      UserUpdateShippingOptionRes(shippingOption: json['shipping_option']);
+      UserUpdateShippingOptionRes(shippingOption: ShippingOption.fromJson(json['shipping_option']));
 }
 
 class UserRetrieveShippingOptionRes {
   UserRetrieveShippingOptionRes({required this.shippingOption});
   final ShippingOption shippingOption;
   factory UserRetrieveShippingOptionRes.fromJson(Map<String, dynamic> json) =>
-      UserRetrieveShippingOptionRes(shippingOption: json['shipping_option']);
+      UserRetrieveShippingOptionRes(shippingOption: ShippingOption.fromJson(json['shipping_option']));
 }
 
 class UserRetrieveAllShippingOptionRes extends PaginatedResponse {
   List<ShippingOption>? shippingOptions;
 
   UserRetrieveAllShippingOptionRes.fromJson(json) : super.fromJson(json) {
-    if (json['shipping_options'] != null) {
+    if (json['shipping_options'] == null) return;
       shippingOptions = <ShippingOption>[];
-      json['shipping_options'].forEach((v) {
-        shippingOptions?.add(ShippingOption.fromJson(v));
-      });
-    }
+      json['shipping_options'].forEach((v) =>
+        shippingOptions?.add(ShippingOption.fromJson(v))
+      );
+
   }
 }

@@ -5,10 +5,12 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import '../components/index.dart';
 import '../controllers/region_details_controller.dart';
 
 class RegionDetailsView extends GetView<RegionDetailsController> {
   const RegionDetailsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
@@ -112,7 +114,7 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Currency', style: mediumTextStyle!.copyWith(color: lightWhite)),
-                        Text(region?.currencyCode?.capitalize ?? '-', style: mediumTextStyle),
+                        Text(region?.currencyCode?.toUpperCase() ?? '-', style: mediumTextStyle),
                       ],
                     ),
                     halfSpace,
@@ -144,94 +146,68 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16.0)), color: Theme.of(context).cardColor),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Shipping Options', style: Theme.of(context).textTheme.bodyLarge),
-                    Text('Enter specifics about available regional shipment methods.',
-                        style: mediumTextStyle.copyWith(color: lightWhite)),
-                    halfSpace,
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                        color: Theme.of(context).cardColor,
-                        border: Border.all(color: const Color(0xFFF2F2F7), width: 3),
+              GetBuilder<RegionDetailsController>(
+                builder: (controller) {
+                  return Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                            color: Theme.of(context).cardColor),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Shipping Options', style: Theme.of(context).textTheme.bodyLarge),
+                            Text('Enter specifics about available regional shipment methods.',
+                                style: mediumTextStyle.copyWith(color: lightWhite)),
+                            halfSpace,
+                            if (controller.shippingOptions != null)
+                              ListView.separated(
+                                  separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: controller.shippingOptions!.length,
+                                  itemBuilder: (context, index) =>
+                                      ShippingOptionCard(shippingOption: controller.shippingOptions![index])),
+                            if (controller.shippingOptions == null)
+                              const Center(child: CircularProgressIndicator.adaptive()),
+                            Center(child: AdaptiveButton(onPressed: () {}, child: const Text('Add Option')))
+                          ],
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(child: Text('PostFake Standard', style: mediumTextStyle)),
-                                  AdaptiveIcon(onPressed: () {}, icon: const Icon(Icons.more_horiz))
-                                ],
-                              ),
-                              halfSpace,
-                              Text('Flat Rate: 10.00 EUR - Min. subtotal: N/A - Max. subtotal: N/A',
-                                  style: smallTextStyle!.copyWith(color: lightWhite)),
-                              space,
-                            ],
-                          ),
-                        ],
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                            color: Theme.of(context).cardColor),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Return Shipping Options', style: Theme.of(context).textTheme.bodyLarge),
+                            Text('Enter specifics about available regional shipment methods.',
+                                style: mediumTextStyle.copyWith(color: lightWhite)),
+                            halfSpace,
+                            if (controller.returnShippingOptions != null)
+                              ListView.separated(
+                                  separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: controller.returnShippingOptions!.length,
+                                  itemBuilder: (context, index) =>
+                                      ShippingOptionCard(shippingOption: controller.returnShippingOptions![index])),
+                            if (controller.returnShippingOptions == null)
+                              const Center(child: CircularProgressIndicator.adaptive()),
+                            Center(child: AdaptiveButton(onPressed: () {}, child: const Text('Add Option')))
+                          ],
+                        ),
                       ),
-                    ),
-                    Center(child: AdaptiveButton(onPressed: () {}, child: const Text('Add Option')))
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16.0)), color: Theme.of(context).cardColor),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Return Shipping Options', style: Theme.of(context).textTheme.bodyLarge),
-                    Text('Enter specifics about available regional shipment methods.',
-                        style: mediumTextStyle.copyWith(color: lightWhite)),
-                    halfSpace,
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                        color: Theme.of(context).cardColor,
-                        border: Border.all(color: const Color(0xFFF2F2F7), width: 3),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(child: Text('PostFake Standard', style: mediumTextStyle)),
-                                  AdaptiveIcon(onPressed: () {}, icon: const Icon(Icons.more_horiz))
-                                ],
-                              ),
-                              halfSpace,
-                              Text('Flat Rate: 10.00 EUR - Min. subtotal: N/A - Max. subtotal: N/A',
-                                  style: smallTextStyle.copyWith(color: lightWhite)),
-                              space,
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Center(child: AdaptiveButton(onPressed: () {}, child: const Text('Add Option')))
-                  ],
-                ),
-              ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
         ),
