@@ -134,53 +134,13 @@ class ProductsListView extends GetView<ProductsController> {
           ),
         ],
       ),
-      // floatingActionButton: ExpandableFab(
-      //   distance: 120,
-      //   children: [
-      //     ActionButton(icon: const Icon(MedusaIcons.arrow_down_tray), onPressed: () {}),
-      //     ActionButton(icon: const Icon(MedusaIcons.arrow_up_tray), onPressed: () {}),
-      //     ActionButton(
-      //       icon: const Icon(MedusaIcons.plus_mini, color: Colors.white),
-      //       onPressed: () async {
-      //         await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
-      //           if (result != null && result is bool && result == true) {
-      //             controller.pagingController.refresh();
-      //           }
-      //         });
-      //       },
-      //     ),
-      //   ],
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: Row(
-      //   mainAxisSize: MainAxisSize.min,
-      //   children: [
-      //     InkWell(
-      //       onTap: () async {
-      //         Get.to(()=>FilterView());
-      //       },
-      //       child: Container(
-      //         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      //         decoration: BoxDecoration(
-      //           borderRadius: const BorderRadius.all(Radius.circular(8)),
-      //           color: Theme.of(context).appBarTheme.backgroundColor,
-      //           // border: Border.all(color: ColorManager.primary),
-      //         ),
-      //         child: Row(
-      //           mainAxisSize: MainAxisSize.min,
-      //           children: const [Icon(CupertinoIcons.sort_down_circle_fill), SizedBox(width: 12.0), Text('Filters')],
-      //         ),
-      //       ),
-      //     ),
-      //     AdaptiveIcon(onPressed: (){}, icon: Icon(Icons.search)),
-      //   ],
-      // ),
       body: SmartRefresher(
         controller: controller.listRefreshController,
         onRefresh: () => controller.pagingController.refresh(),
         header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
         child: PagedListView.separated(
           separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+          padding: const EdgeInsets.only(bottom: kToolbarHeight),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Product>(
               itemBuilder: (context, product, index) => ProductListTile(

@@ -7,6 +7,7 @@ class AppTheme {
   static final light = ThemeData(
       useMaterial3: true,
       primaryColor: ColorManager.primary,
+      cardColor: Colors.white,
       brightness: Brightness.light,
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,

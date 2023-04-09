@@ -102,13 +102,14 @@ class AddUpdateDiscountController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> createDiscount() async {
+  Future<void> createDiscount(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     if (!_valid()) {
       return;
     }
+    FocusScope.of(context).unfocus();
     loading();
     final value = discountRuleType.value == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)
@@ -140,7 +141,7 @@ class AddUpdateDiscountController extends GetxController {
     });
   }
 
-  Future<void> updateDiscount() async {
+  Future<void> updateDiscount(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -151,7 +152,7 @@ class AddUpdateDiscountController extends GetxController {
       Get.back();
       return;
     }
-
+    FocusScope.of(context).unfocus();
     loading();
     final value = discountRuleType.value == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)

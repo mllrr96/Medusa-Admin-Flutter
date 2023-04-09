@@ -58,7 +58,6 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                     context: context,
                     emptyChildHeight: 0,
                     horizontalPadding: 12.0,
-                    radius: 10.0,
                   ),
                 ),
                 const SizedBox(height: 9.0),

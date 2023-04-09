@@ -576,8 +576,9 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
           title: controller.updateMode ? const Text('Update discount') : const Text('Create new discount'),
           actions: [
             AdaptiveButton(
-                onPressed: () async =>
-                    controller.updateMode ? await controller.updateDiscount() : await controller.createDiscount(),
+                onPressed: () async => controller.updateMode
+                    ? await controller.updateDiscount(context)
+                    : await controller.createDiscount(context),
                 child: controller.updateMode ? const Text('Update') : const Text('Create')),
           ],
         ),

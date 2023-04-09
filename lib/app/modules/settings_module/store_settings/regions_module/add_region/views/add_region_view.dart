@@ -117,13 +117,12 @@ class AddRegionView extends GetView<AddRegionController> {
                               }
                             },
                             decoration: InputDecoration(
-                              enabledBorder: border,
-                              isDense: true,
-                              filled: true,
-                              fillColor: Theme.of(context).scaffoldBackgroundColor,
-                              border: border,
-                              errorBorder: border
-                            ),
+                                enabledBorder: border,
+                                isDense: true,
+                                filled: true,
+                                fillColor: Theme.of(context).scaffoldBackgroundColor,
+                                border: border,
+                                errorBorder: border),
                           ),
                           space,
                           CustomTextField(
@@ -232,7 +231,7 @@ class AddRegionView extends GetView<AddRegionController> {
                             duration: const Duration(milliseconds: 300),
                             child: controller.paymentProviders != null
                                 ? DropDownMultiSelect(
-                                    hintStyle: mediumTextStyle,
+                                    hintStyle: smallTextStyle,
                                     selected_values_style: smallTextStyle,
                                     options: controller.paymentProviders!.map((e) => e.id ?? '').toList(),
                                     validator: (val) {

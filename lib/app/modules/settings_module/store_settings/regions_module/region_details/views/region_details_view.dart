@@ -237,7 +237,8 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                                     itemCount: controller.shippingOptions!.length,
                                     itemBuilder: (context, index) => ShippingOptionCard(
                                       shippingOption: controller.shippingOptions![index],
-                                      onDeleteTap: ()async=> await controller.deleteShippingOption(controller.shippingOptions![index].id!),
+                                      onDeleteTap: () async =>
+                                          await controller.deleteShippingOption(controller.shippingOptions![index].id!),
                                       onEditTap: () => Get.toNamed(
                                         Routes.ADD_UPDATE_SHIPPING_OPTION,
                                         arguments: AddUpdateShippingOptionReq(
@@ -287,18 +288,20 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
                                     itemCount: controller.returnShippingOptions!.length,
-                                    itemBuilder: (context, index) =>
-                                        ShippingOptionCard(shippingOption: controller.returnShippingOptions![index],
-                                          onDeleteTap: ()async=> await controller.deleteShippingOption(controller.returnShippingOptions![index].id!, returnShippingOption: true),
-                                          onEditTap: () => Get.toNamed(
-                                            Routes.ADD_UPDATE_SHIPPING_OPTION,
-                                            arguments: AddUpdateShippingOptionReq(
-                                              regionId: region.id!,
-                                              shippingOption: controller.shippingOptions![index],
-                                            ),
-                                          ),
+                                    itemBuilder: (context, index) => ShippingOptionCard(
+                                      shippingOption: controller.returnShippingOptions![index],
+                                      onDeleteTap: () async => await controller.deleteShippingOption(
+                                          controller.returnShippingOptions![index].id!,
+                                          returnShippingOption: true),
+                                      onEditTap: () => Get.toNamed(
+                                        Routes.ADD_UPDATE_SHIPPING_OPTION,
+                                        arguments: AddUpdateShippingOptionReq(
+                                          regionId: region.id!,
+                                          shippingOption: controller.returnShippingOptions![index],
                                         ),
-                            ),
+                                      ),
+                                    ),
+                                  ),
                           ),
                           Center(
                             child: AdaptiveButton(

@@ -96,8 +96,7 @@ class DetailedConditionCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-          color: Theme.of(context).scaffoldBackgroundColor),
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)), color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -113,10 +112,14 @@ class DetailedConditionCard extends StatelessWidget {
           ),
           AdaptiveIcon(
               onPressed: () async {
-                await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                  const SheetAction(label: 'Edit', key: 0),
-                  const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
-                ]).then((result) {
+                await showModalActionSheet<int>(
+                    title: 'Manage condition',
+                    message: title,
+                    context: context,
+                    actions: <SheetAction<int>>[
+                      const SheetAction(label: 'Edit', key: 0),
+                      const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                    ]).then((result) {
                   if (result == null) return;
                   switch (result) {
                     case 0:

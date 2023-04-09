@@ -6,6 +6,8 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_profile/shipping_profile_repo.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 
 class AddUpdateShippingOptionController extends GetxController {
@@ -48,11 +50,15 @@ class AddUpdateShippingOptionController extends GetxController {
     super.onClose();
   }
 
-  Future<void> createShippingOption() async {
-    if (fulfillmentOptions != null && shippingProfiles != null && !formKey.currentState!.validate()) {
+  Future<void> createShippingOption(BuildContext context) async {
+    if (fulfillmentOptions == null &&
+        shippingProfiles == null &&
+        !formKey.currentState!.validate() &&
+        selectedFulfillmentOption == null) {
       return;
     }
-
+    loading();
+    FocusScope.of(context).unfocus();
     final result = await shippingOptionsRepo.create(
       userCreateShippingOptionReq: UserCreateShippingOptionReq(
         shippingOption: ShippingOption(
@@ -64,12 +70,26 @@ class AddUpdateShippingOptionController extends GetxController {
         ),
       ),
     );
+
+    result.when((success) async {
+      Get.back();
+      if (addUpdateShippingOptionReq.returnShippingOption) {
+        await RegionDetailsController.instance.loadReturnShippingOptions();
+      } else {
+        await RegionDetailsController.instance.loadShippingOptions();
+      }
+    }, (error) {
+      Get.snackbar('Error creating shipping option ${error.code ?? ''}', error.message,
+          snackPosition: SnackPosition.BOTTOM);
+      dismissLoading();
+    });
   }
 
-  Future<void> updateShippingOption() async {
+  Future<void> updateShippingOption(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
+    FocusScope.of(context).unfocus();
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
     final result = await shippingOptionsRepo.update(
       id: shippingOption.id!,
@@ -83,6 +103,18 @@ class AddUpdateShippingOptionController extends GetxController {
         ),
       ),
     );
+    result.when((success) async {
+      Get.back();
+      if (addUpdateShippingOptionReq.returnShippingOption) {
+        await RegionDetailsController.instance.loadReturnShippingOptions();
+      } else {
+        await RegionDetailsController.instance.loadShippingOptions();
+      }
+    }, (error) {
+      Get.snackbar('Error updating shipping option ${error.code ?? ''}', error.message,
+          snackPosition: SnackPosition.BOTTOM);
+      dismissLoading();
+    });
   }
 
   Future<void> loadFulfillmentOptions() async {
@@ -114,7 +146,7 @@ class AddUpdateShippingOptionController extends GetxController {
 
   void loadShippingOption() {
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
-    visibleInStore = !addUpdateShippingOptionReq.shippingOption!.adminOnly;
+    visibleInStore = !shippingOption.adminOnly;
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;
     update();

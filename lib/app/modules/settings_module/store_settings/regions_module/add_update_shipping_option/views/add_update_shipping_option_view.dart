@@ -27,7 +27,11 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
               leading: const AdaptiveBackButton(),
               title: controller.updateMode ? const Text('Update Shipping Option') : const Text('Add Shipping Option'),
               actions: [
-                AdaptiveButton(onPressed: () async => await controller.createShippingOption(), child: Text('Add'))
+                AdaptiveButton(
+                    onPressed: () async => controller.updateMode
+                        ? await controller.updateShippingOption(context)
+                        : await controller.createShippingOption(context),
+                    child: controller.updateMode ? const Text('Update') : const Text('Add'))
               ],
             ),
             body: SafeArea(
@@ -110,6 +114,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                           .toList(),
                                       onChanged: (val) {
                                         controller.selectedPriceType = val;
+                                        controller.update();
                                       },
                                     ),
                                     space,

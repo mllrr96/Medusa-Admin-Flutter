@@ -58,7 +58,10 @@ class DiscountCard extends StatelessWidget {
                 ),
                 AdaptiveIcon(
                     onPressed: () async {
-                      await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+                      await showModalActionSheet<int>(
+                          title: 'Manage discount',
+                          message: discount.code ?? '',
+                          context: context, actions: <SheetAction<int>>[
                         const SheetAction(label: 'Edit', key: 0),
                         discount.isDisabled == null || !discount.isDisabled!
                             ? const SheetAction(label: 'Disable', key: 1)

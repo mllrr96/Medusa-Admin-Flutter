@@ -60,7 +60,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
             Flexible(
                 child: Text('${discount.regions?.first.currency?.symbolNative ?? ''} ',
                     style: Theme.of(context).textTheme.bodyLarge)),
-          Flexible(child: Text(valueText, style: Theme.of(context).textTheme.bodyLarge)),
+          Text(valueText, style: Theme.of(context).textTheme.bodyLarge),
           if (detail.isNotEmpty) Text(detail.toUpperCase(), style: smallTextStyle?.copyWith(color: lightWhite)),
         ],
       );
@@ -147,8 +147,11 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Configurations'),
-            space,
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Text('Configurations'),
+            ),
+            halfSpace,
             if (discount.startsAt != null)
               DateTimeCard(
                 dateTime: discount.startsAt,

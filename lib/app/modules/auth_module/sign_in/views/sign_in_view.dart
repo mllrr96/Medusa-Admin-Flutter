@@ -35,7 +35,6 @@ class SignInView extends GetView<SignInController> {
                     context: context,
                     emptyChildHeight: 0,
                     horizontalPadding: 12.0,
-                    radius: 10.0,
                   ),
                 ),
                 const SizedBox(height: 18.0),

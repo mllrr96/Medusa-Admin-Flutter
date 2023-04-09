@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
 class OrderSummeryCard extends StatelessWidget {
@@ -11,6 +14,24 @@ class OrderSummeryCard extends StatelessWidget {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final item = order.items![index];
+    String itemPriceText() {
+      var value = item.unitPrice?.roundToDouble() ?? 0;
+      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
+      if (valueFormatter.decimalDigits != null) {
+        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+      }
+      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+    }
+
+    String itemTotalText() {
+      var value = item.total?.roundToDouble() ?? 0;
+      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
+      if (valueFormatter.decimalDigits != null) {
+        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+      }
+      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
       child: Row(
@@ -47,12 +68,9 @@ class OrderSummeryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Flexible(
-                    child:
-                        Text('${order.currency!.symbol}${item.unitPrice!} x ${item.quantity!}', style: smallTextStyle)),
+                Flexible(child: Text('${itemPriceText()} x ${item.quantity!}', style: smallTextStyle)),
                 const Divider(height: 1),
-                Flexible(
-                    child: Text(order.currency!.symbol.toString() + item.total!.toString(), style: mediumTextStyle)),
+                Flexible(child: Text(itemTotalText(), style: mediumTextStyle)),
               ],
             ),
           ),

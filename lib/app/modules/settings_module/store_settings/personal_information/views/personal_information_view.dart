@@ -33,7 +33,7 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
                 children: [
                   AdaptiveButton(child: const Text('Cancel'), onPressed: () => Get.back()),
                   AdaptiveButton(
-                      child: const Text('Add'),
+                      child: const Text('Update'),
                       onPressed: () async {
                         if (!controller.formKey.currentState!.validate()) {
                           return;
@@ -127,7 +127,10 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
                         editMode: true,
                         label: '',
                         children: [
-                          Text('Manage your Medusa profile', style: smallTextStyle!.copyWith(color: lightWhite)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text('Manage your Medusa profile', style: smallTextStyle!.copyWith(color: lightWhite)),
+                          ),
                           const Divider(),
                           Row(
                             children: [

@@ -43,13 +43,13 @@ class TaxSettingsSelectRegionView extends GetView<TaxSettingsSelectRegionControl
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Region>(
-                itemBuilder: (context, region, index) => RegionCard(
-                      region: region,
-                      onTap: () => Get.toNamed(Routes.TAX_SETTINGS, arguments: region.id!),
-                      showProviders: false,
-                    ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator.adaptive())),
+              itemBuilder: (context, region, index) => RegionCard(
+                region: region,
+                onTap: () => Get.toNamed(Routes.TAX_SETTINGS, arguments: region),
+                showProviders: false,
+              ),
+              firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
+            ),
           ),
         ),
       ),

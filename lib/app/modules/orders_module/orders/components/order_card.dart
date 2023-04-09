@@ -9,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 
 class OrderCard extends StatelessWidget {
@@ -266,7 +267,7 @@ class AlternativeOrderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    order.cart!.createdAt != null
+                    order.cart?.createdAt != null
                         ? '${DateFormat.yMMMd().format(order.cart!.createdAt!)} at ${DateFormat.jm().format(order.cart!.createdAt!)}'
                         : '',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(color: const Color(0xff6B7280)),
@@ -285,8 +286,10 @@ class AlternativeOrderCard extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
+                        backgroundColor: ColorManager.primary,
                         radius: 16,
-                        child: Text(getName()?[0].toUpperCase() ?? order.customer!.email[0].toUpperCase()),
+                        child: Text(getName()?[0].toUpperCase() ?? order.customer!.email[0].toUpperCase(),
+                            style: const TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(width: 6.0),
                       if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),

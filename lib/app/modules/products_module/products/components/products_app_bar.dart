@@ -382,7 +382,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     buttonBuilder: (context, showMenu) => AdaptiveButton(
                       onPressed: showMenu,
                       padding: EdgeInsets.zero,
-                      child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).iconTheme.color),
+                      child: Icon(controller.viewOptions != ViewOptions.list ? Icons.grid_view_rounded : Icons.list ,color: Theme.of(context).iconTheme.color),
                     ),
                   ),
                   AdaptiveIcon(
