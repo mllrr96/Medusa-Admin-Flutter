@@ -9,7 +9,7 @@ import '../../models/res/store.dart';
 import '../../service/storage_service.dart';
 
 class StoreRepo extends BaseStore {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl:StorageService.baseUrl);
+  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
 
   @override
   Future<Result<UserStoreRes, Failure>> retrieve(
@@ -39,6 +39,48 @@ class StoreRepo extends BaseStore {
       final response = await _dataProvider.post(uri: '/store', data: storePostReq.toJson());
       if (response.statusCode == 200) {
         return Success(UserStoreRes.fromJson(response.data));
+      } else {
+        return Error(Failure.from(response));
+      }
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
+  @override
+  Future<Result<UserStoreRetrievePaymentProvidersRes, Failure>> retrievePaymentProviders({
+    Map<String, dynamic>? customHeaders,
+  }) async {
+    if (customHeaders != null) {
+      _dataProvider.dio.options.headers.addAll(customHeaders);
+    }
+    try {
+      final response = await _dataProvider.get(
+        uri: '/store/payment-providers',
+      );
+      if (response.statusCode == 200) {
+        return Success(UserStoreRetrievePaymentProvidersRes.fromJson(response.data));
+      } else {
+        return Error(Failure.from(response));
+      }
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
+  @override
+  Future<Result<UserStoreRetrieveTaxProvidersRes, Failure>> retrieveTaxProviders({
+    Map<String, dynamic>? customHeaders,
+  }) async {
+    if (customHeaders != null) {
+      _dataProvider.dio.options.headers.addAll(customHeaders);
+    }
+    try {
+      final response = await _dataProvider.get(
+        uri: '/store/tax-providers',
+      );
+      if (response.statusCode == 200) {
+        return Success(UserStoreRetrieveTaxProvidersRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));
       }

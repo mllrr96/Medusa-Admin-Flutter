@@ -105,10 +105,9 @@ class ShippingOption {
     profile = json['profile'] != null ? ShippingProfile.fromJson(json['profile']) : null;
     providerId = json['provider_id'];
     provider = json['provider'] != null ? FulfillmentProvider.fromJson(json['provider']) : null;
-    // priceType = json['price_type'] != null
-    //     ? ShippingOptionPriceType.values
-    //         .firstWhere((e) => e.value == json['price_type'])
-    //     : null;
+    priceType = json['price_type'] != null
+        ? ShippingOptionPriceType.values.firstWhere((e) => e.value == json['price_type'])
+        : null;
     amount = json['amount'];
     isReturn = json['is_return'];
     adminOnly = json['admin_only'];
@@ -199,7 +198,7 @@ class ShippingOption {
 }
 
 enum ShippingOptionPriceType {
-  flatRate('flatRate'),
+  flatRate('flat_rate'),
   calculated('calculated');
 
   final String value;

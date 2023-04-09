@@ -10,4 +10,12 @@ abstract class BaseStore {
 
   Future<Result<UserStoreRes, Failure>> update(
       {required StorePostReq storePostReq, Map<String, dynamic>? customHeaders});
+
+  /// Retrieves the configured Payment Providers
+  Future<Result<UserStoreRetrievePaymentProvidersRes, Failure>> retrievePaymentProviders(
+      {Map<String,dynamic>? customHeaders});
+
+  /// Retrieves the configured Payment Providers
+  Future<Result<UserStoreRetrieveTaxProvidersRes, Failure>> retrieveTaxProviders(
+      {Map<String,dynamic>? customHeaders});
 }

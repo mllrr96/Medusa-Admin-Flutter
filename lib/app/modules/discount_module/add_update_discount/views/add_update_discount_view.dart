@@ -20,13 +20,14 @@ import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
+import 'package:info_popup/info_popup.dart';
 
 class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
   const AddUpdateDiscountView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     const space = SizedBox(height: 12.0);
@@ -36,7 +37,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
         final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
+        final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQueryPadding.top - 56;
         if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
           await controller.scrollController
               .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
@@ -222,53 +223,6 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 space,
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  child: controller.discountRuleType.value == DiscountRuleType.fixed
-                      ? NumericTextField(
-                          key: const Key('amount'),
-                          label: 'Amount',
-                          required: true,
-                          hintText: '0.00',
-                          controller: controller.amountCtrl,
-                          onPlusPressed: () {
-                            var text = controller.amountCtrl.text;
-                            text = text.replaceAll(RegExp(r'[^0-9]'), '');
-                            var val = int.tryParse(text);
-                            val ??= 0;
-                            controller.amountCtrl.text = CurrencyTextInputFormatter(
-                              name: controller.selectedRegions.first.currencyCode,
-                            ).format((val + 1).toString());
-                          },
-                          onMinusPressed: () {
-                            var text = controller.amountCtrl.text;
-                            text = text.replaceAll(RegExp(r'[^0-9]'), '');
-                            var val = int.tryParse(text);
-                            val ??= 0;
-                            if (val == 0) {
-                              return;
-                            }
-                            controller.amountCtrl.text = CurrencyTextInputFormatter(
-                              name: controller.selectedRegions.first.currencyCode,
-                            ).format((val - 1).toString());
-                          },
-                          inputFormatters: [
-                            if (controller.selectedRegions.isNotEmpty)
-                              CurrencyTextInputFormatter(
-                                name: controller.selectedRegions.first.currencyCode,
-                              )
-                          ],
-                          prefixText:
-                              '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
                   child: controller.discountRuleType.value == DiscountRuleType.percentage
                       ? NumericTextField(
                           key: const Key('percentage'),
@@ -284,9 +238,52 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                           hintText: '10',
                           controller: controller.percentageCtrl,
                         )
-                      : const SizedBox.shrink(
-                          key: Key('noPercentage'),
-                        ),
+                      : controller.discountRuleType.value == DiscountRuleType.fixed
+                          ? NumericTextField(
+                              key: const Key('amount'),
+                              label: 'Amount',
+                              required: true,
+                              hintText: '0.00',
+                              controller: controller.amountCtrl,
+                              onPlusPressed: () {
+                                var text = controller.amountCtrl.text;
+                                text = text.replaceAll(RegExp(r'[^0-9]'), '');
+                                var val = int.tryParse(text);
+                                val ??= 0;
+                                controller.amountCtrl.text = CurrencyTextInputFormatter(
+                                  name: controller.selectedRegions.first.currencyCode,
+                                ).format((val + 1).toString());
+                              },
+                              onMinusPressed: () {
+                                var text = controller.amountCtrl.text;
+                                text = text.replaceAll(RegExp(r'[^0-9]'), '');
+                                var val = int.tryParse(text);
+                                val ??= 0;
+                                if (val == 0) {
+                                  return;
+                                }
+                                controller.amountCtrl.text = CurrencyTextInputFormatter(
+                                  name: controller.selectedRegions.first.currencyCode,
+                                ).format((val - 1).toString());
+                              },
+                              inputFormatters: [
+                                if (controller.selectedRegions.isNotEmpty)
+                                  CurrencyTextInputFormatter(
+                                    name: controller.selectedRegions.first.currencyCode,
+                                  )
+                              ],
+                              prefixText:
+                                  '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
+                            )
+                          : const SizedBox.shrink(
+                              key: Key('noPercentage'),
+                            ),
                 ),
                 space,
                 CustomTextField(
@@ -327,6 +324,22 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                       child: Row(
                         children: [
                           Flexible(child: Text('This is a template discount', style: mediumTextStyle)),
+                          InfoPopupWidget(
+                            arrowTheme: InfoPopupArrowTheme(
+                              arrowDirection: ArrowDirection.up,
+                              color: ColorManager.primary,
+                            ),
+                            contentTheme: InfoPopupContentTheme(
+                              infoContainerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              infoTextStyle: smallTextStyle,
+                              contentPadding: const EdgeInsets.all(8),
+                              contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                              infoTextAlign: TextAlign.start,
+                            ),
+                            contentTitle:
+                                'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
+                            child: Icon(Icons.info_outline, color: lightWhite),
+                          ),
                           AdaptiveIcon(
                               onPressed: () => controller.showTemplateDiscountInfo.value =
                                   !controller.showTemplateDiscountInfo.value,
@@ -352,7 +365,6 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                           key: Key('templateDisabled'),
                         ),
                 ),
-                if (controller.showTemplateDiscountInfo.value) space,
               ],
             );
           })),

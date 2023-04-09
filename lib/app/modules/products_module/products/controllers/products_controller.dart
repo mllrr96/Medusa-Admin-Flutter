@@ -44,7 +44,13 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
     super.onClose();
   }
 
-  void changeViewOption() {
+  void changeViewOption({ViewOptions? option}) {
+    if(option != null && option != viewOptions){
+      viewOptions = option;
+      update();
+      return;
+    }
+
     switch (viewOptions) {
       case ViewOptions.list:
         viewOptions = ViewOptions.grid;

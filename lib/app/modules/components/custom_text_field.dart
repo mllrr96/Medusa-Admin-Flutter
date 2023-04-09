@@ -20,7 +20,10 @@ class CustomTextField extends StatelessWidget {
     this.fillColor,
     this.obscureText = false,
     this.readOnly = false,
-    this.onTap, this.onFieldSubmitted,
+    this.onTap,
+    this.onFieldSubmitted,
+    this.decoration,
+    this.isDense,
   });
 
   final bool required;
@@ -30,7 +33,7 @@ class CustomTextField extends StatelessWidget {
   final String label;
   final String? hintText;
   final int? maxLines;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
@@ -38,15 +41,20 @@ class CustomTextField extends StatelessWidget {
   final void Function()? onTap;
   final double? width;
   final bool lightLabelColor;
+  final bool? isDense;
   final bool obscureText;
   final String? Function(String?)? validator;
   final void Function(String)? onFieldSubmitted;
   final Color? fillColor;
+  final InputDecoration? decoration;
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    Color lightWhite = isDarkMode ? Colors.white54 : Colors.black54;
+    final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final lightWhite = isDarkMode ? Colors.white54 : Colors.black54;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    const space = SizedBox(height: 12.0);
+    const halfSpace = SizedBox(height: 6.0);
     return SizedBox(
       width: width,
       child: Column(
@@ -57,7 +65,7 @@ class CustomTextField extends StatelessWidget {
               if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
             ],
           ),
-          const SizedBox(height: 6.0),
+          halfSpace,
           TextFormField(
             autofocus: autoFocus,
             readOnly: readOnly,
@@ -72,20 +80,24 @@ class CustomTextField extends StatelessWidget {
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: enabled ? null : lightWhite),
-            decoration: InputDecoration(
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                  // borderRadius: BorderRadius.all(Radius.circular(16.0))
+            style: smallTextStyle?.copyWith(color: enabled ? null : lightWhite),
+            decoration: decoration ??
+                InputDecoration(
+                  isDense: isDense,
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  filled: true,
+                  fillColor: fillColor ?? Theme.of(context).scaffoldBackgroundColor,
+                  hintText: hintText,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                  ),
                 ),
-                filled: true,
-                fillColor: fillColor ?? Theme.of(context).scaffoldBackgroundColor,
-                hintText: hintText,
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                )),
           ),
-          const SizedBox(height: 12.0),
+          space,
         ],
       ),
     );

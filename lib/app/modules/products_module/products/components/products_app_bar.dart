@@ -9,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../data/models/store/product.dart';
@@ -297,7 +298,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                                             childrenPadding: const EdgeInsets.only(left: 20.0),
                                             children: ProductStatus.values
                                                 .map((e) => CheckboxListTile(
-                                                title: Text(e.value), value: false, onChanged: (val) {}))
+                                                    title: Text(e.value), value: false, onChanged: (val) {}))
                                                 .toList(),
                                           ),
                                         ),
@@ -312,7 +313,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                                             childrenPadding: const EdgeInsets.only(left: 20.0),
                                             children: ProductStatus.values
                                                 .map((e) => CheckboxListTile(
-                                                title: Text(e.value), value: false, onChanged: (val) {}))
+                                                    title: Text(e.value), value: false, onChanged: (val) {}))
                                                 .toList(),
                                           ),
                                         ),
@@ -327,7 +328,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                                             childrenPadding: const EdgeInsets.only(left: 20.0),
                                             children: ProductStatus.values
                                                 .map((e) => CheckboxListTile(
-                                                title: Text(e.value), value: false, onChanged: (val) {}))
+                                                    title: Text(e.value), value: false, onChanged: (val) {}))
                                                 .toList(),
                                           ),
                                         ),
@@ -361,6 +362,29 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                   AdaptiveIcon(
                       onPressed: () => controller.changeViewOption(),
                       icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+                  PullDownButton(
+                    itemBuilder: (context) => [
+                      PullDownMenuItem.selectable(
+                        selected: controller.viewOptions == ViewOptions.grid,
+                        title: 'Grid',
+                        icon: CupertinoIcons.square_grid_2x2,
+                        onTap: () => controller.changeViewOption(option: ViewOptions.grid),
+                      ),
+                      const PullDownMenuDivider(),
+                      PullDownMenuItem.selectable(
+                        selected: controller.viewOptions == ViewOptions.list,
+                        title: 'List',
+                        icon: CupertinoIcons.list_bullet,
+                        onTap: () => controller.changeViewOption(option: ViewOptions.list),
+                      ),
+                    ],
+                    position: PullDownMenuPosition.automatic,
+                    buttonBuilder: (context, showMenu) => AdaptiveButton(
+                      onPressed: showMenu,
+                      padding: EdgeInsets.zero,
+                      child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).iconTheme.color),
+                    ),
+                  ),
                   AdaptiveIcon(
                       onPressed: () async {
                         await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {

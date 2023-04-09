@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/regions_controller.dart';
@@ -20,6 +22,9 @@ class RegionsView extends GetView<RegionsController> {
         title: const Text('Regions'),
         centerTitle: true,
         actions: [AdaptiveIcon(onPressed: () => Get.toNamed(Routes.ADD_REGION), icon: const Icon(Icons.add))],
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: () => Get.toNamed(Routes.ADD_REGION),
+      child: const Icon(MedusaIcons.plus_mini),
       ),
       body: SafeArea(
           child: SmartRefresher(
@@ -47,7 +52,7 @@ class RegionCard extends StatelessWidget {
   final bool showProviders;
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return InkWell(

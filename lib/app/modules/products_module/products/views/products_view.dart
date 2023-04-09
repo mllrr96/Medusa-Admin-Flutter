@@ -1,14 +1,15 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/keep_alive_widget.dart';
@@ -111,26 +112,24 @@ class ProductsListView extends GetView<ProductsController> {
         type: ExpandableFabType.fan,
         children: [
           FloatingActionButton(
-              heroTag: null,
-              onPressed: () async {
-              },
-              child: const Icon(MedusaIcons.arrow_down_tray),
-          ),FloatingActionButton(
-              heroTag: null,
-
-              onPressed: () async {
-              },
-              child: const Icon(MedusaIcons.arrow_up_tray),
+            heroTag: null,
+            onPressed: () async {},
+            child: const Icon(MedusaIcons.arrow_down_tray),
           ),
           FloatingActionButton(
-              heroTag: null,
-                    onPressed: () async {
-                      await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
-                        if (result != null && result is bool && result == true) {
-                          controller.pagingController.refresh();
-                        }
-                      });
-                    },
+            heroTag: null,
+            onPressed: () async {},
+            child: const Icon(MedusaIcons.arrow_up_tray),
+          ),
+          FloatingActionButton(
+            heroTag: null,
+            onPressed: () async {
+              await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+                if (result != null && result is bool && result == true) {
+                  controller.pagingController.refresh();
+                }
+              });
+            },
             child: const Icon(MedusaIcons.plus_mini, color: Colors.white),
           ),
         ],
@@ -233,6 +232,27 @@ class ProductListTile extends StatelessWidget {
               }
             });
           },
+      onLongPress: () async {
+        await showModalActionSheet(
+            title: 'Manage Product',
+            message: product.title ?? '',
+            context: context, actions: <SheetAction>[
+          const SheetAction(label: 'Edit'),
+          SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
+          const SheetAction(label: 'Duplicate'),
+          const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
+        ]).then((result) async {
+          if (result == 'delete') {
+            if (onDelete != null) {
+              onDelete!();
+            }
+          } else if (result == 'publish') {
+            if (onPublish != null) {
+              onPublish!();
+            }
+          }
+        });
+      },
       title: Text(product.title!),
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
@@ -252,26 +272,61 @@ class ProductListTile extends StatelessWidget {
                 errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
               ))
           : null,
-      trailing: AdaptiveIcon(
-          onPressed: () async {
-            await showModalActionSheet(context: context, actions: <SheetAction>[
-              const SheetAction(label: 'Edit'),
-              SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
-              const SheetAction(label: 'Duplicate'),
-              const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
-            ]).then((result) async {
-              if (result == 'delete') {
-                if (onDelete != null) {
-                  onDelete!();
-                }
-              } else if (result == 'publish') {
-                if (onPublish != null) {
-                  onPublish!();
-                }
-              }
-            });
-          },
-          icon: const Icon(Icons.more_horiz)),
+      trailing: PullDownButton(
+        itemBuilder: (context) => [
+          PullDownMenuItem(
+            title: 'Edit',
+            icon: MedusaIcons.pencil_square_solid,
+            onTap: () {},
+          ),
+          const PullDownMenuDivider(),
+          PullDownMenuItem(
+            title: 'Delete',
+            icon: MedusaIcons.trash,
+            isDestructive: true,
+            onTap: onDelete,
+          ),
+          const PullDownMenuDivider(),
+          PullDownMenuItem(
+            title: product.status == ProductStatus.published ? 'Unpublish' : 'Publish',
+            icon: product.status == ProductStatus.published ? MedusaIcons.eye_slash : MedusaIcons.eye,
+            onTap: onPublish,
+          ),
+          const PullDownMenuDivider(),
+          PullDownMenuItem(
+            title: 'Duplicate',
+            icon: Icons.copy,
+            onTap: (){},
+          ),
+        ],
+        position: PullDownMenuPosition.automatic,
+        buttonBuilder: (context, showMenu) => CupertinoButton(
+          onPressed: showMenu,
+          padding: EdgeInsets.zero,
+          child: Icon(Icons.more_horiz, color: Theme.of(context).iconTheme.color),
+        ),
+      ),
+
+      // AdaptiveIcon(
+      //     onPressed: () async {
+      //       await showModalActionSheet(context: context, actions: <SheetAction>[
+      //         const SheetAction(label: 'Edit'),
+      //         SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
+      //         const SheetAction(label: 'Duplicate'),
+      //         const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
+      //       ]).then((result) async {
+      //         if (result == 'delete') {
+      //           if (onDelete != null) {
+      //             onDelete!();
+      //           }
+      //         } else if (result == 'publish') {
+      //           if (onPublish != null) {
+      //             onPublish!();
+      //           }
+      //         }
+      //       });
+      //     },
+      //     icon: const Icon(Icons.more_horiz)),
     );
   }
 

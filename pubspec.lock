@@ -374,6 +374,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -552,6 +557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  info_popup:
+    dependency: "direct main"
+    description:
+      name: info_popup
+      sha256: f1b34ec4cb159838a1282b3879d05073622e9b96828cb99e38bc968b067a215a
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   intersperse:
     dependency: transitive
     description:
@@ -564,10 +577,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.0"
+    version: "0.17.0"
   io:
     dependency: transitive
     description:
@@ -672,6 +685,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  multiselect:
+    dependency: "direct main"
+    description:
+      name: multiselect
+      sha256: "8d0c4a7b89bee6c5e5e4a25ecba68c796dafc1917492d5606f0caa3947d5905a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
+  navigation_builder:
+    dependency: transitive
+    description:
+      name: navigation_builder
+      sha256: cbf966253e1f5b1798f3fbcae571fb6d452e5c7a606a5c451e2b9a3d343920f0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2+4"
   octo_image:
     dependency: transitive
     description:
@@ -824,6 +853,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+  pull_down_button:
+    dependency: "direct main"
+    description:
+      name: pull_down_button
+      sha256: a520b53b612e283dd079a93ae0fcffe0a4e2bd1ec494a167eaaae490f7f923dd
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.1"
   pull_to_refresh:
     dependency: "direct main"
     description:
@@ -973,6 +1010,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  states_rebuilder:
+    dependency: transitive
+    description:
+      name: states_rebuilder
+      sha256: e8612993e97a5caeb9d983f6081304ef10868ba436ae49a723ee089ab51e2d12
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.0"
   stream_channel:
     dependency: transitive
     description:

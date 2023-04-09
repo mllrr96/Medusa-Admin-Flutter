@@ -20,19 +20,7 @@ class ShippingOptionCard extends StatelessWidget {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
-    String priceTypeText = '';
-    switch (shippingOption.priceType) {
-      case ShippingOptionPriceType.flatRate:
-        priceTypeText = 'Flat Rate: ';
-        break;
-      case ShippingOptionPriceType.calculated:
-        priceTypeText = 'Calculated: ';
-        break;
-      case null:
-        break;
-    }
     final currencyCode = shippingOption.region?.currencyCode;
     final valueFormatter = NumberFormat.currency(name: currencyCode);
     var amount = shippingOption.amount!.roundToDouble();
@@ -81,7 +69,7 @@ class ShippingOptionCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: const Color(0xFFF2F2F7), width: 2),
+        border: Border.all(color: Colors.grey),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
@@ -98,8 +86,8 @@ class ShippingOptionCard extends StatelessWidget {
                   AdaptiveIcon(
                       onPressed: () async {
                         await showModalActionSheet<int>(
-                            title: shippingOption.name,
-                            message: 'Manage shipping option',
+                            title: shippingOption.isReturn ? 'Manage return shipping option' : 'Manage shipping option',
+                            message: shippingOption.name,
                             context: context,
                             actions: <SheetAction<int>>[
                               const SheetAction(label: 'Edit', key: 0),
@@ -126,9 +114,11 @@ class ShippingOptionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      'Flat Rate: ${valueFormatter.format(amount).split(currencyCode!)[1]} ${currencyCode.toUpperCase()}',
-                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Flexible(
+                    child: Text(
+                        'Flat Rate: ${valueFormatter.format(amount).split(currencyCode!)[1]} ${currencyCode.toUpperCase()}',
+                        style: smallTextStyle?.copyWith(color: lightWhite)),
+                  ),
                   ShippingOptionLabel(adminOnly: shippingOption.adminOnly)
                 ],
               ),

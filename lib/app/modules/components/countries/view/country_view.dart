@@ -16,7 +16,6 @@ class SelectCountryView extends StatelessWidget {
         var selectedCountries = controller.selectCountryOptions.selectedCountries;
         var disabledCountriesIso = controller.selectCountryOptions.disabledCountriesIso2;
         final multipleSelect = controller.selectCountryOptions.multipleSelect;
-        final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -67,19 +66,9 @@ class SelectCountryView extends StatelessWidget {
               ),
               //TODO: make this persistent header warning when disabledCountries is not empty
               if (controller.selectCountryOptions.disabledCountriesIso2.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.warning_rounded, color: Colors.amber),
-                        const SizedBox(width: 6.0),
-                        Flexible(
-                            child: Text('Greyed out countries are selected in other regions', style: mediumTextStyle)),
-                      ],
-                    ),
-                  ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: PersistentHeaderDelegate(),
                 ),
               SliverSafeArea(
                 top: false,
@@ -134,4 +123,36 @@ class SelectCountryView extends StatelessWidget {
       },
     );
   }
+}
+class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate{
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    return Container(
+      height: kToolbarHeight,
+      color: Theme.of(context).appBarTheme.backgroundColor,
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.warning_rounded, color: Colors.amber),
+          const SizedBox(width: 6.0),
+          Flexible(
+              child: Text('Greyed out countries are selected in other regions', style: mediumTextStyle)),
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => kToolbarHeight;
+
+  @override
+  double get minExtent => kToolbarHeight;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+   return false;
+  }
+
 }

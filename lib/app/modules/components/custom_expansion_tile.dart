@@ -4,7 +4,7 @@ class CustomExpansionTile extends StatelessWidget {
   const CustomExpansionTile({
     super.key,
     this.leading,
-    required this.title,
+    this.title,
     this.subtitle,
     this.onExpansionChanged,
     this.children = const <Widget>[],
@@ -25,13 +25,16 @@ class CustomExpansionTile extends StatelessWidget {
     this.collapsedShape,
     this.clipBehavior,
     this.controlAffinity,
+    this.required = false,
+    this.label,
   }) : assert(
           expandedCrossAxisAlignment != CrossAxisAlignment.baseline,
           'CrossAxisAlignment.baseline is not supported since the expanded children '
           'are aligned in a column, not a row. Try to use another constant.',
         );
   final Widget? leading;
-  final Widget title;
+  final Widget? title;
+  final String? label;
   final Widget? subtitle;
   final ValueChanged<bool>? onExpansionChanged;
   final List<Widget> children;
@@ -51,6 +54,7 @@ class CustomExpansionTile extends StatelessWidget {
   final EdgeInsetsGeometry? childrenPadding;
 
   final Color? iconColor;
+  final bool required;
 
   final Color? collapsedIconColor;
 
@@ -73,7 +77,17 @@ class CustomExpansionTile extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
-          title: title,
+          title: required
+              ? Row(
+                  children: [
+                    if (label != null) Text(label!, style: Theme.of(context).textTheme.bodyLarge),
+                    if (title != null) title!,
+                    Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
+                  ],
+                )
+              : label != null
+                  ? Text(label!, style: Theme.of(context).textTheme.bodyLarge)
+                  : title!,
           onExpansionChanged: onExpansionChanged,
           trailing: trailing,
           initiallyExpanded: initiallyExpanded,
@@ -87,7 +101,7 @@ class CustomExpansionTile extends StatelessWidget {
           textColor: textColor,
           shape: shape,
           subtitle: subtitle,
-          childrenPadding: childrenPadding,
+          childrenPadding: childrenPadding ?? const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
           clipBehavior: clipBehavior,
           collapsedBackgroundColor: collapsedBackgroundColor,
           collapsedIconColor: collapsedIconColor,
