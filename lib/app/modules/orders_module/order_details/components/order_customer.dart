@@ -10,31 +10,13 @@ import '../../../components/countries/components/countries.dart';
 import '../../../components/custom_expansion_tile.dart';
 
 class OrderCustomer extends GetView<OrderDetailsController> {
-  const OrderCustomer(this.order, {Key? key}) : super(key: key);
+  const OrderCustomer(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
 final Order order;
+final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        var topPadding = kToolbarHeight;
-        if (Get.context != null) {
-          topPadding = Get.context!.mediaQueryPadding.top + kToolbarHeight;
-        }
-        final scrollPoint = controller.scrollController.offset + yPosition - topPadding;
-        if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController
-              .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-        } else {
-          await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
-
     String getCountry() {
       String countryName = '';
       final countryCode = order.shippingAddress?.countryCode;
@@ -48,11 +30,7 @@ final Order order;
 
     return CustomExpansionTile(
       key: controller.customerKey,
-      onExpansionChanged: (expanded) async {
-        if (expanded) {
-          await scrollToSelectedContent(globalKey: controller.customerKey);
-        }
-      },
+      onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Customer'),
       trailing: AdaptiveIcon(

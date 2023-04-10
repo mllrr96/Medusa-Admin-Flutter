@@ -13,6 +13,22 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     const space = SizedBox(height: 12.0);
+    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
+      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
+        final yPosition =
+            (globalKey.currentContext?.findRenderObject() as RenderBox?)?.localToGlobal(Offset.zero).dy ?? 0.0;
+        var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
+        final scrollPoint = controller.scrollController.offset + yPosition - topPadding;
+        if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
+          await controller.scrollController
+              .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        } else {
+          await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        }
+      });
+    }
+
     return GetBuilder<OrderDetailsController>(
       builder: (controller) {
         return Scaffold(
@@ -57,17 +73,39 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                   child: Column(
                     children: [
-                      OrderOverview(order: order!),
+                      OrderOverview(
+                        order: order!,
+                      ),
                       space,
-                      OrderSummery(order),
+                      OrderSummery(
+                        order,
+                        onExpansionChanged: (val) async =>
+                            await scrollToSelectedContent(globalKey: controller.summeryKey),
+                      ),
                       space,
-                      OrderPayment(order),
+                      OrderPayment(
+                        order,
+                        onExpansionChanged: (val) async =>
+                            await scrollToSelectedContent(globalKey: controller.paymentKey),
+                      ),
                       space,
-                      OrderFulfillment(order),
+                      OrderFulfillment(
+                        order,
+                        onExpansionChanged: (val) async =>
+                            await scrollToSelectedContent(globalKey: controller.fulfillmentKey),
+                      ),
                       space,
-                      OrderCustomer(order),
+                      OrderCustomer(
+                        order,
+                        onExpansionChanged: (val) async =>
+                            await scrollToSelectedContent(globalKey: controller.customerKey),
+                      ),
                       space,
-                      OrderTimeline(order),
+                      OrderTimeline(
+                        order,
+                        onExpansionChanged: (val) async =>
+                            await scrollToSelectedContent(globalKey: controller.timelineKey),
+                      ),
                     ],
                   ),
                 ),

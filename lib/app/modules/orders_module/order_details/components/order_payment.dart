@@ -11,40 +11,18 @@ import '../../../components/adaptive_button.dart';
 import '../../orders/components/payment_status_label.dart';
 
 class OrderPayment extends GetView<OrderDetailsController> {
-  const OrderPayment(this.order, {Key? key}) : super(key: key);
+  const OrderPayment(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
   final Order order;
+  final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
     final refunded = order.refunds != null && order.refunds!.isNotEmpty;
     const space = SizedBox(height: 12.0);
-    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        var topPadding = kToolbarHeight;
-        if (Get.context != null) {
-          topPadding = Get.context!.mediaQueryPadding.top + kToolbarHeight;
-        }
-        final scrollPoint = controller.scrollController.offset + yPosition - topPadding;
-        if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController
-              .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-        } else {
-          await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
-
     const halfSpace = SizedBox(height: 6.0);
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return CustomExpansionTile(
       key: controller.paymentKey,
-      onExpansionChanged: (expanded) async {
-        if (expanded) {
-          await scrollToSelectedContent(globalKey: controller.paymentKey);
-        }
-      },
+      onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Payment'),
       trailing: AdaptiveButton(
