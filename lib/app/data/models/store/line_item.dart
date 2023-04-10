@@ -1,6 +1,5 @@
 import 'index.dart';
 
-
 class LineItem {
   String? id;
   String? cartId;
@@ -56,7 +55,7 @@ class LineItem {
     this.claimOrder,
     this.taxLines,
     this.adjustments,
-    required this.title,
+    this.title,
     this.description,
     this.thumbnail,
     this.isReturn,
@@ -64,10 +63,10 @@ class LineItem {
     this.shouldMerge,
     this.allowDiscounts,
     this.hasShipping,
-    required this.unitPrice,
+    this.unitPrice,
     this.variantId,
     this.variant,
-    required this.quantity,
+    this.quantity,
     this.fulfilledQuantity,
     this.returnedQuantity,
     this.shippedQuantity,
@@ -97,18 +96,14 @@ class LineItem {
     swapId = json['swap_id'];
     swap = json['swap'] != null ? Swap.fromJson(json['swap']) : null;
     claimOrderId = json['claim_order_id'];
-    claimOrder = json['claim_order'] != null
-        ? ClaimOrder.fromJson(json['claim_order'])
-        : null;
+    claimOrder = json['claim_order'] != null ? ClaimOrder.fromJson(json['claim_order']) : null;
     if (json['tax_lines'] != null) {
       taxLines = <LineItemTaxLine>[];
-      json['tax_lines']
-          .forEach((e) => taxLines!.add(LineItemTaxLine.fromJson(e)));
+      json['tax_lines'].forEach((e) => taxLines!.add(LineItemTaxLine.fromJson(e)));
     }
     if (json['adjustments'] != null) {
       adjustments = <LineItemAdjustment>[];
-      json['adjustments']
-          .forEach((e) => adjustments!.add(LineItemAdjustment.fromJson(e)));
+      json['adjustments'].forEach((e) => adjustments!.add(LineItemAdjustment.fromJson(e)));
     }
     title = json['title'];
     description = json['description'];
@@ -120,9 +115,7 @@ class LineItem {
     hasShipping = json['has_shipping'];
     unitPrice = json['unit_price'];
     variantId = json['variant_id'];
-    variant = json['variant'] != null
-        ? ProductVariant.fromJson(json['variant'])
-        : null;
+    variant = json['variant'] != null ? ProductVariant.fromJson(json['variant']) : null;
     quantity = json['quantity'] ?? 0;
     fulfilledQuantity = json['fulfilled_quantity'] ?? 0;
     shippedQuantity = json['shipped_quantity'] ?? 0;
@@ -137,9 +130,7 @@ class LineItem {
     includesTax = json['includes_tax'];
     originalItemId = json['original_item_id'];
     orderEditId = json['order_edit_id'];
-    orderEdit = json['order_edit'] != null
-        ? OrderEdit.fromJson(json['order_edit'])
-        : null;
+    orderEdit = json['order_edit'] != null ? OrderEdit.fromJson(json['order_edit']) : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     metadata = json['metadata'];
@@ -147,46 +138,155 @@ class LineItem {
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
-    json['id'] = id;
-    json['cart_id'] = cartId;
-    json['cart'] = cart?.toJson() ?? {};
-    json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
-    json['swap_id'] = swapId;
-    json['swap'] = swap?.toJson() ?? {};
-    json['claim_order_id'] = claimOrderId;
-    json['claim_order'] = claimOrder?.toJson() ?? {};
-    json['tax_lines'] = taxLines?.map((e) => e.toJson()).toList() ?? [];
-    json['adjustments'] = adjustments?.map((e) => e.toJson()).toList() ?? [];
-    json['title'] = title;
-    json['description'] = description;
-    json['thumbnail'] = thumbnail;
-    json['is_return'] = isReturn;
-    json['is_giftcard'] = isGiftCard;
-    json['should_merge'] = shouldMerge;
-    json['allow_discounts'] = allowDiscounts;
-    json['has_shipping'] = hasShipping;
-    json['unit_price'] = unitPrice;
-    json['variant_id'] = variantId;
-    json['variant'] = variant?.toJson() ?? {};
-    json['quantity'] = quantity;
-    json['fulfilled_quantity'] = fulfilledQuantity;
-    json['shipped_quantity'] = shippedQuantity;
-    json['refundable'] = refundable;
-    json['subtotal'] = subtotal;
-    json['tax_total'] = taxTotal;
-    json['total'] = total;
-    json['original_total'] = originalTotal;
-    json['original_tax_total'] = originalTaxTotal;
-    json['discount_total'] = discountTotal;
-    json['gift_card_total'] = giftCardTotal;
-    json['includes_tax'] = includesTax;
-    json['original_item_id'] = originalItemId;
-    json['order_edit_id'] = orderEditId;
-    json['order_edit'] = orderEdit?.toJson() ?? {};
-    json['created_at'] = createdAt.toString();
-    json['updated_at'] = updatedAt.toString();
-    json['metadata'] = metadata.toString();
+    if (id != null) {
+      json['item_id'] = id;
+    }
+
+    if (cartId != null) {
+      json['cart_id'] = cartId;
+    }
+
+    if (cart != null) {
+      json['cart'] = cart?.toJson();
+    }
+
+    if (orderId != null) {
+      json['order_id'] = orderId;
+    }
+
+    if (order != null) {
+      json['order'] = order?.toJson();
+    }
+
+    if (swapId != null) {
+      json['swap_id'] = swapId;
+    }
+
+    if (swap != null) {
+      json['swap'] = swap?.toJson();
+    }
+
+    if (claimOrderId != null) {
+      json['claim_order_id'] = claimOrderId;
+    }
+
+    if (claimOrder != null) {
+      json['claim_order'] = claimOrder?.toJson();
+    }
+
+    if (taxLines != null) {
+      json['tax_lines'] = taxLines?.map((e) => e.toJson()).toList();
+    }
+
+    if (adjustments != null) {
+      json['adjustments'] = adjustments?.map((e) => e.toJson()).toList();
+    }
+
+    if (title != null) {
+      json['title'] = title;
+    }
+
+    if (description != null) {
+      json['description'] = description;
+    }
+
+    if (thumbnail != null) {
+      json['thumbnail'] = thumbnail;
+    }
+
+    if (isReturn != null) {
+      json['is_return'] = isReturn;
+    }
+
+    if (isGiftCard != null) {
+      json['is_giftcard'] = isGiftCard;
+    }
+
+    if (shouldMerge != null) {
+      json['should_merge'] = shouldMerge;
+    }
+
+    if (allowDiscounts != null) {
+      json['allow_discounts'] = allowDiscounts;
+    }
+
+    if (hasShipping != null) {
+      json['has_shipping'] = hasShipping;
+    }
+
+    if (unitPrice != null) {
+      json['unit_price'] = unitPrice;
+    }
+
+    if (variantId != null) {
+      json['variant_id'] = variantId;
+    }
+
+    if (variant != null) {
+      json['variant'] = variant?.toJson();
+    }
+
+    if (quantity != null) {
+      json['quantity'] = quantity;
+    }
+
+    if (fulfilledQuantity != null) {
+      json['fulfilled_quantity'] = fulfilledQuantity;
+    }
+
+    if (shippedQuantity != null) {
+      json['shipped_quantity'] = shippedQuantity;
+    }
+
+    if (refundable != null) {
+      json['refundable'] = refundable;
+    }
+
+    if (subtotal != null) {
+      json['subtotal'] = subtotal;
+    }
+
+    if (taxTotal != null) {
+      json['tax_total'] = taxTotal;
+    }
+
+    if (total != null) {
+      json['total'] = total;
+    }
+    if (originalTotal != null) {
+      json['original_total'] = originalTotal;
+    }
+    if (originalTaxTotal != null) {
+      json['original_tax_total'] = originalTaxTotal;
+    }
+    if (discountTotal != null) {
+      json['discount_total'] = discountTotal;
+    }
+    if (giftCardTotal != null) {
+      json['gift_card_total'] = giftCardTotal;
+    }
+    if (includesTax != null) {
+      json['includes_tax'] = includesTax;
+    }
+    if (originalItemId != null) {
+      json['original_item_id'] = originalItemId;
+    }
+    if (orderEditId != null) {
+      json['order_edit_id'] = orderEditId;
+    }
+    if (orderEdit != null) {
+      json['order_edit'] = orderEdit?.toJson();
+    }
+    if (createdAt != null) {
+      json['created_at'] = createdAt.toString();
+    }
+    if (updatedAt != null) {
+      json['updated_at'] = updatedAt.toString();
+    }
+    if (metadata != null) {
+      json['metadata'] = metadata.toString();
+    }
+
     return json;
   }
 }

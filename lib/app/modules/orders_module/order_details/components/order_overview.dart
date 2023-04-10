@@ -7,7 +7,7 @@ import 'order_status_label.dart';
 
 class OrderOverview extends StatelessWidget {
   const OrderOverview({Key? key, required this.order}) : super(key: key);
-final Order order;
+  final Order order;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;

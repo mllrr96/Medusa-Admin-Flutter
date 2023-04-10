@@ -55,6 +55,11 @@ class Fulfillment {
     this.metadata,
   });
 
+  @override
+  String toString (){
+    return 'id: $id, providerId: $providerId \n createdAt: $createdAt , updatedAt: $updatedAt , deletedAt: $deletedAt, canceledAt: $canceledAt';
+  }
+
   Fulfillment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     claimOrderId = json['claim_order_id'];

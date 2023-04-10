@@ -90,6 +90,7 @@ class OrderEditRepo extends BaseOrderEdit {
   Future<Result<UserCreateOrderEditRes, Failure>> createOrderEdit({
     /// The ID of the order to create the edit for.
     required String id,
+
     /// An optional note to create for the order edit.
     String? internalNote,
     Map<String, dynamic>? customHeaders,
@@ -120,6 +121,7 @@ class OrderEditRepo extends BaseOrderEdit {
   Future<Result<UserDeleteLineItemRes, Failure>> deleteLineItem({
     /// The ID of the Order Edit to delete from.
     required String id,
+
     /// The ID of the order edit item to delete from order.
     required String itemId,
     Map<String, dynamic>? customHeaders,
@@ -171,6 +173,7 @@ class OrderEditRepo extends BaseOrderEdit {
   Future<Result<UserDeleteOrderEditRes, Failure>> deleteOrderEdit({
     /// The ID of the order to create the edit for.
     required String id,
+
     /// An optional note to create for the order edit.
     String? internalNote,
     Map<String, dynamic>? customHeaders,
@@ -269,6 +272,7 @@ class OrderEditRepo extends BaseOrderEdit {
   @override
   Future<Result<UserUpdateOrderEditRes, Failure>> updateOrderEdit({
     required String id,
+
     /// An optional note to create or update for the order edit.
     String? internalNote,
     Map<String, dynamic>? customHeaders,
@@ -300,8 +304,10 @@ class OrderEditRepo extends BaseOrderEdit {
   Future<Result<UserUpsertLineItemChangeRes, Failure>> upsertLineItemChange({
     /// The ID of the Order Edit to update.
     required String id,
+
     /// The ID of the order edit item to update.
     required String itemId,
+
     /// The quantity to update
     required int quantity,
     Map<String, dynamic>? customHeaders,

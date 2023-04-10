@@ -12,46 +12,15 @@ import 'order_summery_card.dart';
 
 class OrderSummery extends GetView<OrderDetailsController> {
   const OrderSummery(this.order, {Key? key}) : super(key: key);
-
-  String subtotalText() {
-    var value = order.subTotal?.roundToDouble() ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
-  }
-
-  String shippingTotalText() {
-    var value = order.shippingTotal?.roundToDouble() ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
-  }
-
-  String taxTotalText() {
-    var value = order.taxTotal?.roundToDouble() ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
-  }
-
-  String totalText() {
-    var value = order.total?.roundToDouble() ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
-  }
-
   final Order order;
+
   @override
   Widget build(BuildContext context) {
+    final refunded = order.refunds != null && order.refunds!.isNotEmpty;
+    const halfSpace = SizedBox(height: 6.0);
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final totalTextTheme = refunded ? mediumTextStyle : Theme.of(context).textTheme.displayLarge;
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
@@ -67,9 +36,6 @@ class OrderSummery extends GetView<OrderDetailsController> {
       });
     }
 
-    const halfSpace = SizedBox(height: 6.0);
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return CustomExpansionTile(
       key: controller.summeryKey,
       onExpansionChanged: (expanded) async {
@@ -87,62 +53,116 @@ class OrderSummery extends GetView<OrderDetailsController> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: order.items!.length,
             itemBuilder: (context, index) => OrderSummeryCard(order: order, index: index)),
+        const Divider(),
         Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Subtotal', style: mediumTextStyle),
-                Row(
-                  children: [
-                    Text(subtotalText(), style: mediumTextStyle),
-                    Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
-                        style: mediumTextStyle?.copyWith(color: lightWhite)),
-                  ],
-                ),
-              ],
-            ),
-            halfSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Shipping', style: mediumTextStyle),
-                Row(
-                  children: [
-                    Text(shippingTotalText(), style: mediumTextStyle),
-                    Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
-                        style: mediumTextStyle?.copyWith(color: lightWhite)),
-                  ],
-                ),
-              ],
-            ),
-            if (order.taxTotal != null && order.taxTotal! != 0) halfSpace,
-            if (order.taxTotal != null && order.taxTotal! != 0)
-              Row(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Tax', style: mediumTextStyle),
+                  Text('Subtotal', style: mediumTextStyle),
                   Row(
                     children: [
-                      Text(taxTotalText(), style: mediumTextStyle),
+                      Text(getPrice(order.subTotal), style: mediumTextStyle),
                       Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
                           style: mediumTextStyle?.copyWith(color: lightWhite)),
                     ],
                   ),
                 ],
               ),
+            ),
             halfSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Total', style: Theme.of(context).textTheme.displayLarge),
-                Text(totalText(), style: Theme.of(context).textTheme.displayLarge),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Shipping', style: mediumTextStyle),
+                  Row(
+                    children: [
+                      Text(getPrice(order.shippingTotal), style: mediumTextStyle),
+                      Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
+                          style: mediumTextStyle?.copyWith(color: lightWhite)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            halfSpace,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Tax', style: mediumTextStyle),
+                  Row(
+                    children: [
+                      Text(getPrice(order.taxTotal), style: mediumTextStyle),
+                      Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
+                          style: mediumTextStyle?.copyWith(color: lightWhite)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            halfSpace,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(refunded ? 'Original Total' : 'Total', style: totalTextTheme),
+                  Text(getPrice(order.total), style: Theme.of(context).textTheme.displayLarge),
+                ],
+              ),
             ),
             halfSpace,
           ],
         ),
+        if (refunded)
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Manually refunded', style: mediumTextStyle),
+                    Row(
+                      children: [
+                        Text(getPrice(order.refundedTotal), style: mediumTextStyle),
+                        Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
+                            style: mediumTextStyle?.copyWith(color: lightWhite)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              halfSpace,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Net Total', style: mediumTextStyle),
+                    Text(getPrice(order.refundableAmount), style: Theme.of(context).textTheme.bodyLarge),
+                  ],
+                ),
+              ),
+              halfSpace,
+            ],
+          ),
       ],
     );
+  }
+
+  String getPrice(num? price) {
+    var value = price ?? 0;
+    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
+    if (valueFormatter.decimalDigits != null) {
+      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+    }
+    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
   }
 }
