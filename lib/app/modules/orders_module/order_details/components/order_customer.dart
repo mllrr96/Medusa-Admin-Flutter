@@ -20,7 +20,11 @@ final Order order;
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
         final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQueryPadding.top - 56;
+        var topPadding = kToolbarHeight;
+        if (Get.context != null) {
+          topPadding = Get.context!.mediaQueryPadding.top + kToolbarHeight;
+        }
+        final scrollPoint = controller.scrollController.offset + yPosition - topPadding;
         if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
           await controller.scrollController
               .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
