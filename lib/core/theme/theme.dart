@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/colors.dart';
 
@@ -24,11 +25,16 @@ class AppTheme {
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme:  AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
         backgroundColor: CupertinoColors.white,
         centerTitle: true,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: ColorManager.primary,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.light,
+        ),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
@@ -83,11 +89,16 @@ class AppTheme {
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
       cardColor: const Color(0xff242527),
-      appBarTheme: const AppBarTheme(
+      appBarTheme:  AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
-        backgroundColor: Color(0xff242527),
+        backgroundColor: const Color(0xff242527),
         centerTitle: true,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: ColorManager.primary,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(

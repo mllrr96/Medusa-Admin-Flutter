@@ -51,22 +51,26 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
           ),
           body: SafeArea(
             child: controller.obx(
-              (order) => ListView(
+              (order) => SingleChildScrollView(
                 controller: controller.scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-                children: [
-                  OrderOverview(order: order!),
-                  space,
-                  OrderSummery(order),
-                  space,
-                  OrderPayment(order),
-                  space,
-                  OrderFulfillment(order),
-                  space,
-                  OrderCustomer(order),
-                  space,
-                  OrderTimeline(order),
-                ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                  child: Column(
+                    children: [
+                      OrderOverview(order: order!),
+                      space,
+                      OrderSummery(order),
+                      space,
+                      OrderPayment(order),
+                      space,
+                      OrderFulfillment(order),
+                      space,
+                      OrderCustomer(order),
+                      space,
+                      OrderTimeline(order),
+                    ],
+                  ),
+                ),
               ),
               onEmpty: const Center(child: Text('No order details found')),
               onError: (e) => Center(child: Text(e ?? 'Error loading order details')),
