@@ -9,6 +9,9 @@ class AppTheme {
       useMaterial3: true,
       primaryColor: ColorManager.primary,
       cardColor: Colors.white,
+      dialogTheme: const DialogTheme(
+        titleTextStyle: TextStyle(color: Colors.black)
+      ),
       brightness: Brightness.light,
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
@@ -75,6 +78,9 @@ class AppTheme {
       useMaterial3: true,
       primaryColor: ColorManager.primary,
       brightness: Brightness.dark,
+      dialogTheme: const DialogTheme(
+          titleTextStyle: TextStyle(color: Colors.white)
+      ),
       scaffoldBackgroundColor: const Color(0xFF18191A),
       checkboxTheme: const CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
