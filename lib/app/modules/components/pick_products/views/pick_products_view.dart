@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import '../../../../data/models/store/product.dart';
@@ -9,10 +10,12 @@ import '../controllers/pick_products_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class PickProductsView extends GetView<PickProductsController> {
-  const PickProductsView({Key? key}) : super(key: key);
+  const PickProductsView({Key? key, this.pickProductsReq}) : super(key: key);
+  final PickProductsReq? pickProductsReq;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickProductsController>(
+      init: PickProductsController(productsRepo: ProductsRepo(), pickProductsReq: pickProductsReq),
       builder: (controller) {
         final smallTextStyle = Theme.of(context).textTheme.titleSmall;
         final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
@@ -26,7 +29,7 @@ class PickProductsView extends GetView<PickProductsController> {
                   onPressed: controller.selectedProducts
                           .map((e) => e.id!)
                           .toList()
-                          .listEquals(controller.pickProductsReq.selectedProducts?.map((e) => e.id!).toList() ?? [])
+                          .listEquals(controller.productsReq.selectedProducts?.map((e) => e.id!).toList() ?? [])
                       ? null
                       : () {
                           controller.save();
@@ -39,8 +42,8 @@ class PickProductsView extends GetView<PickProductsController> {
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Product>(
                 itemBuilder: (context, product, index) {
-                  final enabled = controller.pickProductsReq.disabledProducts != null
-                      ? !controller.pickProductsReq.disabledProducts!.map((e) => e.id).toList().contains(product.id)
+                  final enabled = controller.productsReq.disabledProducts != null
+                      ? !controller.productsReq.disabledProducts!.map((e) => e.id).toList().contains(product.id)
                       : true;
                   return CheckboxListTile(
                     enabled: enabled,
@@ -48,7 +51,7 @@ class PickProductsView extends GetView<PickProductsController> {
                     subtitle: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (controller.pickProductsReq.includeVariantCount)
+                        if (controller.productsReq.includeVariantCount)
                           Text('Variants: ${product.variants?.length ?? '0'}',
                               style: smallTextStyle?.copyWith(color: enabled ? null : lightWhite)),
                         _getStatusIcon(product.status),
@@ -68,7 +71,7 @@ class PickProductsView extends GetView<PickProductsController> {
                         : null,
                     value: controller.selectedProducts.map((e) => e.id).toList().contains(product.id),
                     selected:
-                        controller.pickProductsReq.selectedProducts?.map((e) => e.id!).toList().contains(product.id) ??
+                        controller.productsReq.selectedProducts?.map((e) => e.id!).toList().contains(product.id) ??
                             false,
                     onChanged: (value) {
                       if (value != null && value) {

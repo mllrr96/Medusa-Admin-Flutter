@@ -6,19 +6,21 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 
+import '../../../data/repository/regions/regions_repo.dart';
 import '../controllers/pick_regions_controller.dart';
 
 class PickRegionsView extends StatelessWidget {
-  const PickRegionsView({Key? key}) : super(key: key);
-
+  const PickRegionsView({Key? key, this.pickRegionsReq}) : super(key: key);
+  final PickRegionsReq? pickRegionsReq;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickRegionsController>(
+      init: PickRegionsController(regionsRepo: RegionsRepo(), pickRegionsReq: pickRegionsReq),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveCloseButton(),
-            title: controller.pickRegionsReq.multipleSelect ? const Text('Pick Regions') : const Text('Pick Region'),
+            title: controller.regionsReq.multipleSelect ? const Text('Pick Regions') : const Text('Pick Region'),
             actions: [
               AdaptiveButton(
                   onPressed: controller.selectedRegions.isNotEmpty
@@ -36,7 +38,7 @@ class PickRegionsView extends StatelessWidget {
                     title: Text(region.name ?? ''),
                     value: controller.selectedRegions.map((e) => e.id).toList().contains(region.id),
                     onChanged: (val) {
-                      if (!controller.pickRegionsReq.multipleSelect) {
+                      if (!controller.regionsReq.multipleSelect) {
                         controller.selectedRegions = [region];
                         controller.update();
                         return;

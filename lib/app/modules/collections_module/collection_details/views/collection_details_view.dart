@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
+import 'package:medusa_admin/app/modules/components/pick_products/views/pick_products_view.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_back_button.dart';
@@ -78,10 +80,12 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   if (collection.products != null && collection.products!.isNotEmpty)
                     AdaptiveButton(
                         onPressed: () async {
-                          final result = await Get.toNamed(Routes.PICK_PRODUCTS,
-                              arguments: PickProductsReq(
-                                selectedProducts: collection.products,
-                              ));
+                          final result = await showBarModalBottomSheet(
+                              context: context,
+                              builder: (context) => PickProductsView(
+                                      pickProductsReq: PickProductsReq(
+                                    selectedProducts: collection.products,
+                                  )));
                           if (result is PickProductsRes) {
                             final originalProducts = collection.products?.map((e) => e.id!).toList();
                             final selectedProducts = result.selectedProducts.map((e) => e.id!).toList();
@@ -115,7 +119,12 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   const Text('No products on this collection'),
                   AdaptiveButton(
                       onPressed: () async {
-                        final result = await Get.toNamed(Routes.PICK_PRODUCTS);
+                        final result = await showBarModalBottomSheet(
+                            context: context,
+                            builder: (context) => PickProductsView(
+                                pickProductsReq: PickProductsReq(
+                                  selectedProducts: collection.products,
+                                )));
                         if (result is PickProductsRes) {
                           final selectedProducts = result.selectedProducts.map((e) => e.id!).toList();
                           await controller.addProducts(addedProducts: selectedProducts, removedProducts: []);

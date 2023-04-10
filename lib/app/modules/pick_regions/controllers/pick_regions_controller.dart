@@ -4,27 +4,26 @@ import 'package:medusa_admin/app/data/models/store/region.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 
 class PickRegionsController extends GetxController {
-  PickRegionsController({required this.regionsRepo});
+  PickRegionsController({required this.regionsRepo, this.pickRegionsReq});
   final RegionsRepo regionsRepo;
+  final PickRegionsReq? pickRegionsReq;
   final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  PickRegionsReq pickRegionsReq = Get.arguments ?? PickRegionsReq();
+  late PickRegionsReq regionsReq;
   var selectedRegions = <Region>[];
 
   @override
   void onInit() {
-
-
+    regionsReq = Get.arguments ?? pickRegionsReq ?? PickRegionsReq();
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-    if(pickRegionsReq.selectedRegions?.isNotEmpty ?? false){
-      selectedRegions = pickRegionsReq.selectedRegions!;
+    if (regionsReq.selectedRegions?.isNotEmpty ?? false) {
+      selectedRegions = regionsReq.selectedRegions!;
     }
 
     super.onInit();
   }
-
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await regionsRepo.retrieveAll(

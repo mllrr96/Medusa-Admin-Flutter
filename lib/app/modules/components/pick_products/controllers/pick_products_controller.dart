@@ -5,19 +5,21 @@ import '../../../../data/repository/product/products_repo.dart';
 import 'package:collection/collection.dart';
 
 class PickProductsController extends GetxController {
-  PickProductsController({required this.productsRepo});
-  ProductsRepo productsRepo;
+  PickProductsController({required this.productsRepo, this.pickProductsReq});
+  final ProductsRepo productsRepo;
+  final PickProductsReq? pickProductsReq;
   final int _pageSize = 20;
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   List<Product> selectedProducts = [];
   Function eq = const SetEquality().equals;
   // bool get isEqual => eq(productsIds.toSet(), originalProductsIds.toSet());
-  PickProductsReq pickProductsReq = Get.arguments ?? PickProductsReq();
+  late PickProductsReq productsReq;
 
   @override
   void onInit() {
+    productsReq = Get.arguments ?? pickProductsReq ?? PickProductsReq();
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
-    selectedProducts.addAllIf(pickProductsReq.selectedProducts != null, pickProductsReq.selectedProducts ?? []);
+    selectedProducts.addAllIf(productsReq.selectedProducts != null, productsReq.selectedProducts ?? []);
     super.onInit();
   }
 
@@ -43,7 +45,7 @@ class PickProductsController extends GetxController {
 
   Future<void> save() async {
     List<Product> removedProducts = [];
-    removedProducts.addAllIf(pickProductsReq.selectedProducts != null, pickProductsReq.selectedProducts ?? []);
+    removedProducts.addAllIf(productsReq.selectedProducts != null, productsReq.selectedProducts ?? []);
     removedProducts.removeWhere((e) => selectedProducts.map((e) => e.id).contains(e.id));
     Get.back(
       result: PickProductsRes(

@@ -6,6 +6,6 @@ import '../controllers/pick_regions_controller.dart';
 class PickRegionsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<PickRegionsController>(() => PickRegionsController(regionsRepo: RegionsRepo()));
+    // Get.lazyPut<PickRegionsController>(() => PickRegionsController(regionsRepo: RegionsRepo()));
   }
 }

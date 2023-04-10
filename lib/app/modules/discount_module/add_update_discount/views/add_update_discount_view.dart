@@ -10,9 +10,11 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/pick_regions/controllers/pick_regions_controller.dart';
+import 'package:medusa_admin/app/modules/pick_regions/views/pick_regions_view.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/date_time_card.dart';
@@ -177,15 +179,17 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                     return null;
                   },
                   onTap: () async {
-                    await Get.toNamed(Routes.PICK_REGIONS,
-                        arguments: PickRegionsReq(
-                          multipleSelect: controller.discountRuleType.value == DiscountRuleType.fixed ? false : true,
-                          selectedRegions: controller.discountRuleType.value == DiscountRuleType.fixed
-                              ? controller.selectedRegions.isNotEmpty
-                                  ? [controller.selectedRegions.first]
-                                  : []
-                              : [...controller.selectedRegions],
-                        ))?.then((result) {
+                    final regionReq = PickRegionsReq(
+                      multipleSelect: controller.discountRuleType.value == DiscountRuleType.fixed ? false : true,
+                      selectedRegions: controller.discountRuleType.value == DiscountRuleType.fixed
+                          ? controller.selectedRegions.isNotEmpty
+                              ? [controller.selectedRegions.first]
+                              : []
+                          : [...controller.selectedRegions],
+                    );
+                    await showBarModalBottomSheet(
+                        context: context,
+                        builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
                       if (result is PickRegionsRes) {
                         controller.selectedRegions.value = result.regions;
                         if (controller.discountRuleType.value == DiscountRuleType.fixed) {

@@ -6,6 +6,6 @@ import '../controllers/pick_products_controller.dart';
 class PickProductsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<PickProductsController>(() => PickProductsController(productsRepo: ProductsRepo()));
+    // Get.lazyPut<PickProductsController>(() => PickProductsController(productsRepo: ProductsRepo()));
   }
 }
