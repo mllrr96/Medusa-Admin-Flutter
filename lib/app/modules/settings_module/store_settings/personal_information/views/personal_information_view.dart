@@ -53,7 +53,7 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
                   key: controller.formKey,
                   child: Column(
                     children: [
-                      CustomTextField(
+                      LabeledTextField(
                         label: 'First Name',
                         hintText: 'First Name ...',
                         controller: controller.firstNameCtrl,
@@ -65,7 +65,7 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
                           return null;
                         },
                       ),
-                      CustomTextField(
+                      LabeledTextField(
                         label: 'Last Name',
                         hintText: 'Last Name ...',
                         controller: controller.lastNameCtrl,

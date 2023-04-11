@@ -33,8 +33,8 @@ class ShippingMethodTaxLine {
     code = json['code'];
     name = json['name'];
     rate = json['rate'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     metadata = json['metadata'] ;
   }
 

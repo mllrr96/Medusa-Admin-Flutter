@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 
 import '../../../../../components/custom_text_field.dart';
 import '../../../../../products_module/add_update_product/components/product_general_info.dart';
@@ -15,12 +16,13 @@ class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonContr
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          leading: const AdaptiveCloseButton(),
           title: controller.updateMode ? const Text('Update Return Reason') : const Text('Create Return Reason'),
-          centerTitle: true,
           actions: [
             AdaptiveButton(
-                onPressed: () async => await controller.save(context),
-                child: controller.updateMode ? const Text('Update') : const Text('Create'))
+              onPressed: () async => await controller.save(context),
+              child: controller.updateMode ? const Text('Update') : const Text('Create'),
+            )
           ],
         ),
         body: SafeArea(
@@ -31,7 +33,7 @@ class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonContr
                 label: '',
                 editMode: true,
                 children: [
-                  CustomTextField(
+                  LabeledTextField(
                     label: 'Label',
                     controller: controller.labelCtrl,
                     required: true,
@@ -43,7 +45,7 @@ class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonContr
                       return null;
                     },
                   ),
-                  CustomTextField(
+                  LabeledTextField(
                     label: 'Value',
                     controller: controller.valueCtrl,
                     required: !controller.updateMode,
@@ -59,7 +61,7 @@ class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonContr
                       return null;
                     },
                   ),
-                  CustomTextField(
+                  LabeledTextField(
                     label: 'Description',
                     controller: controller.descriptionCtrl,
                     hintText: 'Customer received the wrong size',

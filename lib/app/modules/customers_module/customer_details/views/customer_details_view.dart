@@ -121,10 +121,14 @@ class Delegate extends SliverPersistentHeaderDelegate {
                 ),
                 AdaptiveIcon(
                     onPressed: () async {
-                      await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                        const SheetAction(label: 'Edit', key: 0),
-                        const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
-                      ]).then((value) async {
+                      await showModalActionSheet<int>(
+                          title: 'Manage customer',
+                          message: '${customer.firstName ?? ''} ${customer.lastName ?? ''}',
+                          context: context,
+                          actions: <SheetAction<int>>[
+                            const SheetAction(label: 'Edit', key: 0),
+                            const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                          ]).then((value) async {
                         switch (value) {
                           case 0:
                             final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS, arguments: customer);

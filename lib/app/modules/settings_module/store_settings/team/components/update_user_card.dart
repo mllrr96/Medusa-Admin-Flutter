@@ -80,7 +80,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                 ],
               ),
               const SizedBox(height: 12.0),
-              CustomTextField(
+              LabeledTextField(
                 label: 'First Name',
                 autoFocus: true,
                 controller: firstNameCtrl,
@@ -94,7 +94,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                 },
               ),
               const SizedBox(height: 12.0),
-              CustomTextField(
+              LabeledTextField(
                 label: 'Last Name',
                 controller: lastNameCtrl,
                 textInputAction: TextInputAction.done,
@@ -108,7 +108,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                 },
               ),
               const SizedBox(height: 12.0),
-              CustomTextField(
+              LabeledTextField(
                 label: 'Email',
                 readOnly: true,
                 controller: emailCtrl,

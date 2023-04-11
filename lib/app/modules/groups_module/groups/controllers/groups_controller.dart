@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
@@ -15,13 +16,24 @@ class GroupsController extends GetxController {
   RefreshController refreshController = RefreshController();
   final int _pageSize = 20;
   RxInt customerGroupsCount = 0.obs;
-
+  final searchCtrl = TextEditingController();
+  RxString searchTerm = ''.obs;
+  late Worker searchDebouner;
   @override
   void onInit() {
+    searchDebouner =
+        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    searchCtrl.dispose();
+    searchDebouner.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -29,6 +41,7 @@ class GroupsController extends GetxController {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'customers',
+      if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
     });
     result.when((success) {
       final isLastPage = success.customerGroups!.length < _pageSize;
@@ -52,8 +65,7 @@ class GroupsController extends GetxController {
     result.when((success) {
       pagingController.refresh();
       Get.snackbar('Success', 'Customer Group deleted', snackPosition: SnackPosition.BOTTOM);
-    }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message)
-    );
+    }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message));
 
     dismissLoading();
   }

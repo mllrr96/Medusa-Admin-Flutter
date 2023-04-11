@@ -81,7 +81,7 @@ class DraftOrderCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                DraftOrderStatusLabel(draftOrderStatus: draftOrder.status!),
+                DraftOrderStatusLabel(draftOrder.status!),
               ],
             ),
           ],

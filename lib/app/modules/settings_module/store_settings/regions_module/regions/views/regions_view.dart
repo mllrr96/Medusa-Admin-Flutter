@@ -20,11 +20,10 @@ class RegionsView extends GetView<RegionsController> {
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
         title: const Text('Regions'),
-        centerTitle: true,
-        actions: [AdaptiveIcon(onPressed: () => Get.toNamed(Routes.ADD_REGION), icon: const Icon(Icons.add))],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () => Get.toNamed(Routes.ADD_REGION),
-      child: const Icon(MedusaIcons.plus_mini),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(Routes.ADD_REGION),
+        child: const Icon(MedusaIcons.plus_mini),
       ),
       body: SafeArea(
           child: SmartRefresher(
@@ -46,7 +45,7 @@ class RegionsView extends GetView<RegionsController> {
 }
 
 class RegionCard extends StatelessWidget {
-  const RegionCard({super.key, required this.region, this.onTap,  this.showProviders = true});
+  const RegionCard({super.key, required this.region, this.onTap, this.showProviders = true});
   final Region region;
   final void Function()? onTap;
   final bool showProviders;
@@ -76,22 +75,21 @@ class RegionCard extends StatelessWidget {
                         maxLines: 2)),
               ],
             ),
-            if(showProviders)
-            const SizedBox(height: 6.0),
-            if(showProviders)
+            if (showProviders) const SizedBox(height: 6.0),
+            if (showProviders)
               Row(
-              children: [
-                Text('Payment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
-                Expanded(child: Text(getPaymentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
-              ],
-            ),
-            if(showProviders)
+                children: [
+                  Text('Payment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Expanded(child: Text(getPaymentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                ],
+              ),
+            if (showProviders)
               Row(
-              children: [
-                Text('Fulfillment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
-                Expanded(child: Text(getFulfilmentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
-              ],
-            ),
+                children: [
+                  Text('Fulfillment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Expanded(child: Text(getFulfilmentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                ],
+              ),
           ],
         ),
       ),

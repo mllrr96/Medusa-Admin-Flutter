@@ -291,7 +291,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                             ),
                 ),
                 space,
-                CustomTextField(
+                LabeledTextField(
                   label: 'Code',
                   validator: (val) {
                     if (val == null || val.isEmpty) {
@@ -310,7 +310,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                   style: smallTextStyle!.copyWith(color: lightWhite),
                 ),
                 space,
-                CustomTextField(
+                LabeledTextField(
                   label: 'Description',
                   controller: controller.descriptionCtrl,
                   required: true,

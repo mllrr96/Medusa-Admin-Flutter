@@ -61,7 +61,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                         children: [
                           Text('Details', style: Theme.of(context).textTheme.displayLarge),
                           space,
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Title',
                             controller: controller.titleCtrl,
                             required: true,
@@ -126,7 +126,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                 child: AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.selectedPriceType == ShippingOptionPriceType.flatRate
-                                      ? CustomTextField(
+                                      ? LabeledTextField(
                                           label: 'Price',
                                           controller: TextEditingController(),
                                         )
@@ -247,13 +247,13 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                         children: [
                           Text('Requirements', style: Theme.of(context).textTheme.displayLarge),
                           space,
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Min. subtotal (Tax excl. price)',
                             controller: TextEditingController(),
                             hintText: '-',
                             keyboardType: TextInputType.number,
                           ),
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Max. subtotal (Tax excl. price)',
                             controller: TextEditingController(),
                             hintText: '-',

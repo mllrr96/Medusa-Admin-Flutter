@@ -42,7 +42,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                     children: [
                       const Text('General'),
                       halfSpace,
-                      CustomTextField(
+                      LabeledTextField(
                         label: 'First Name',
                         required: !updateMode,
                         controller: controller.firstNameCtrl,
@@ -56,7 +56,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                                 return null;
                               },
                       ),
-                      CustomTextField(
+                      LabeledTextField(
                         label: 'Last Name',
                         required: !updateMode,
                         controller: controller.lastNameCtrl,
@@ -71,7 +71,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                               },
                       ),
                       if (!updateMode)
-                        CustomTextField(
+                        LabeledTextField(
                           label: 'Password',
                           required: !updateMode,
                           controller: controller.passwordCtrl,
@@ -88,7 +88,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                       const Divider(),
                       const Text('Contact'),
                       halfSpace,
-                      CustomTextField(
+                      LabeledTextField(
                         label: 'Email',
                         required: true,
                         controller: controller.emailNameCtrl,
@@ -103,7 +103,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                           return null;
                         },
                       ),
-                      CustomTextField(
+                      LabeledTextField(
                         label: 'Phone Number',
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.phone,

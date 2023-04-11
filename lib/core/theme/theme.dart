@@ -10,8 +10,7 @@ class AppTheme {
       primaryColor: ColorManager.primary,
       cardColor: Colors.white,
       dialogTheme: const DialogTheme(
-        titleTextStyle: TextStyle(color: Colors.black)
-      ),
+          titleTextStyle: TextStyle(color: Colors.black), contentTextStyle: TextStyle(color: Colors.black)),
       brightness: Brightness.light,
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
@@ -28,7 +27,7 @@ class AppTheme {
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
-      appBarTheme:  AppBarTheme(
+      appBarTheme: AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
         backgroundColor: CupertinoColors.white,
@@ -79,8 +78,7 @@ class AppTheme {
       primaryColor: ColorManager.primary,
       brightness: Brightness.dark,
       dialogTheme: const DialogTheme(
-          titleTextStyle: TextStyle(color: Colors.white)
-      ),
+          titleTextStyle: TextStyle(color: Colors.white), contentTextStyle: TextStyle(color: Colors.white)),
       scaffoldBackgroundColor: const Color(0xFF18191A),
       checkboxTheme: const CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -95,7 +93,7 @@ class AppTheme {
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
       cardColor: const Color(0xff242527),
-      appBarTheme:  AppBarTheme(
+      appBarTheme: AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
         backgroundColor: const Color(0xff242527),

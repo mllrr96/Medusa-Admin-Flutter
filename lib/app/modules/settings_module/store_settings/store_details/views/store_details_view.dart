@@ -44,7 +44,7 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                   children: [
                     Text('General', style: largeTextStyle),
                     space,
-                    CustomTextField(
+                    LabeledTextField(
                       label: 'Store Name',
                       controller: controller.storeCtrl,
                       validator: (value) {
@@ -57,7 +57,7 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                     const Divider(),
                     Text('Advanced settings', style: largeTextStyle),
                     space,
-                    CustomTextField(
+                    LabeledTextField(
                       label: 'Swap link template',
                       controller: controller.swapLinkCtrl,
                       hintText: 'https://acme.inc/swap={swap_id}',
@@ -68,7 +68,7 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                         return null;
                       },
                     ),
-                    CustomTextField(
+                    LabeledTextField(
                       label: 'Draft order link template',
                       controller: controller.draftOrderCtrl,
                       hintText: 'https://acme.inc/payment={payment_id}',
@@ -79,7 +79,7 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
                         return null;
                       },
                     ),
-                    CustomTextField(
+                    LabeledTextField(
                       label: 'Invite link template',
                       controller: controller.inviteLinkCtrl,
                       hintText: 'https://acme.inc/invite?token={invite_token}',

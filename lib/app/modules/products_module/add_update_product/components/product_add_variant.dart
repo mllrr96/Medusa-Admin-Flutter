@@ -91,12 +91,12 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                 Text('Configure the general information for this variant.',
                                     style: smallTextStyle!.copyWith(color: lightWhite)),
                                 space,
-                                CustomTextField(
+                                LabeledTextField(
                                   label: 'Custom title',
                                   controller: controller.customTitleCtrl,
                                   hintText: 'Green / XL',
                                 ),
-                                CustomTextField(
+                                LabeledTextField(
                                   label: 'Material',
                                   controller: controller.materialCtrl,
                                   hintText: '80% wool, 20% cotton',
@@ -273,7 +273,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                     'When checked the product will be available for purchase despite the product being sold out',
                                     style: smallTextStyle.copyWith(color: lightWhite)),
                                 space,
-                                CustomTextField(
+                                LabeledTextField(
                                   label: 'Stock keeping unit (SKU)',
                                   controller: TextEditingController(),
                                   hintText: 'SUN-G, JK1234...',
@@ -283,17 +283,17 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                   label: 'Quantity in stock',
                                 ),
                                 space,
-                                CustomTextField(
+                                LabeledTextField(
                                   label: 'EAN (Barcode)',
                                   controller: controller.eanCtrl,
                                   hintText: '123456789123...',
                                 ),
-                                CustomTextField(
+                                LabeledTextField(
                                   label: 'UPC (Barcode)',
                                   controller: controller.upcCtrl,
                                   hintText: '023456789104',
                                 ),
-                                CustomTextField(
+                                LabeledTextField(
                                   label: 'Barcode',
                                   controller: controller.barcodeCtrl,
                                   hintText: '123456789104...',
@@ -352,17 +352,17 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                             Text('Configure if you are shipping internationally.',
                                 style: smallTextStyle.copyWith(color: lightWhite)),
                             space,
-                            CustomTextField(
+                            LabeledTextField(
                               label: 'MID Code',
                               controller: controller.midCtrl,
                               hintText: 'XDSKLAD9999...',
                             ),
-                            CustomTextField(
+                            LabeledTextField(
                               label: 'HS Code',
                               controller: controller.hsCtrl,
                               hintText: 'BDJSK39277W...',
                             ),
-                            CustomTextField(
+                            LabeledTextField(
                               label: 'Country of origin',
                               controller: controller.countryOfOriginCtrl,
                               hintText: 'Country of origin',
@@ -517,10 +517,10 @@ class ProductAddVariantBinding extends Bindings {
 class NumericTextField extends StatelessWidget {
   const NumericTextField({
     Key? key,
+    required this.label,
     required this.controller,
     this.onPlusPressed,
     this.onMinusPressed,
-    required this.label,
     this.validator,
     this.hintText,
     this.width,
@@ -546,8 +546,9 @@ class NumericTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    const space = SizedBox(height: 12.0);
+    const halfSpace = SizedBox(height: 6.0);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -557,7 +558,7 @@ class NumericTextField extends StatelessWidget {
             if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
           ],
         ),
-        const SizedBox(height: 6.0),
+        halfSpace,
         SizedBox(
           width: width,
           child: TextFormField(
@@ -615,6 +616,7 @@ class NumericTextField extends StatelessWidget {
             ),
           ),
         ),
+        space,
       ],
     );
   }

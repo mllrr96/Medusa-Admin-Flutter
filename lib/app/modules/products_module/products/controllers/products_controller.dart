@@ -45,7 +45,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   }
 
   void changeViewOption({ViewOptions? option}) {
-    if(option != null && option != viewOptions){
+    if (option != null && option != viewOptions) {
       viewOptions = option;
       update();
       return;
@@ -93,7 +93,9 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
 
     result.when((success) {
       final isLastPage = success.products!.length < _pageSize;
-      productsCount.value = success.count ?? 0;
+      if (searchTerm.value.isEmpty) {
+        productsCount.value = success.count ?? 0;
+      }
       update([5]);
       if (isLastPage) {
         pagingController.appendLastPage(success.products!);

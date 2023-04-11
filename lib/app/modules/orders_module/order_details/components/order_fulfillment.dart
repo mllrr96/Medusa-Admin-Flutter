@@ -26,7 +26,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       title: const Text('Fulfillment'),
       trailing:
-          order.fulfillmentStatus != FulfillmentStatus.fulfilled || order.fulfillmentStatus == FulfillmentStatus.shipped
+          order.fulfillmentStatus == FulfillmentStatus.fulfilled || order.fulfillmentStatus == FulfillmentStatus.shipped
               ? null
               : AdaptiveButton(
                   onPressed: () async {
@@ -54,10 +54,10 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
               itemCount: order.shippingMethods!.length,
               itemBuilder: (context, index) =>
                   Text(order.shippingMethods![index].shippingOption?.name ?? '', style: mediumTextStyle)),
-        Divider(),
+        if (order.fulfillments != null && order.fulfillments!.isNotEmpty) const Divider(),
         if (order.fulfillments != null)
           ListView.separated(
-            separatorBuilder: (_, __) => Divider(height: 0, indent: 16.0),
+            separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: order.fulfillments!.length,

@@ -79,7 +79,7 @@ class AddRegionView extends GetView<AddRegionController> {
                             ],
                           ),
                           space,
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Title',
                             controller: controller.titleCtrl,
                             required: true,
@@ -125,7 +125,7 @@ class AddRegionView extends GetView<AddRegionController> {
                                 errorBorder: border),
                           ),
                           space,
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Default Tax Rate',
                             controller: controller.defaultTaxRateCtrl,
                             required: true,
@@ -137,7 +137,7 @@ class AddRegionView extends GetView<AddRegionController> {
                               return null;
                             },
                           ),
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Default Tax Code',
                             controller: controller.defaultTextCode,
                             hintText: '1000',
@@ -148,7 +148,7 @@ class AddRegionView extends GetView<AddRegionController> {
                               return null;
                             },
                           ),
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Countries',
                             controller: null,
                             readOnly: true,

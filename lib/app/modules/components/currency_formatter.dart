@@ -25,6 +25,7 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     this.customPattern,
     this.turnOffGrouping = false,
     this.enableNegative = false,
+    this.includeSymbol = false,
   });
 
   /// Defaults `locale` is null.
@@ -62,6 +63,7 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
   /// This is used in compact number formatting, where we omit the normal grouping.
   /// Best to know what you're doing if you call it.
   final bool turnOffGrouping;
+  final bool includeSymbol;
 
   /// Defaults `enableNegative` is true.
   ///
@@ -89,7 +91,12 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
       _newNum /= pow(10, format.decimalDigits!);
     }
     _newString = _newNum.toString();
-    _newString = (_isNegative ? '-' : '') + format.format(_newNum).trim().split(format.currencyName!)[1];
+    if (includeSymbol) {
+      _newString =
+          '${_isNegative ? '-' : ''}${format.currencySymbol} ${format.format(_newNum).trim().split(format.currencyName!)[1]}';
+    } else {
+      _newString = (_isNegative ? '-' : '') + format.format(_newNum).trim().split(format.currencyName!)[1];
+    }
   }
 
   @override
@@ -161,8 +168,6 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
   num getUnformattedValue() {
     return _isNegative ? (_newNum * -1) : _newNum;
   }
-
-
 
   /// Method for formatting value.
   /// You can use initialValue with this method.

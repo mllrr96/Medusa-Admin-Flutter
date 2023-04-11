@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'dart:io' show Platform;
 import '../../../../../core/utils/colors.dart';
 import '../../../components/adaptive_button.dart';
@@ -169,7 +170,7 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
                     await Future.delayed(kDuration);
                     searchNode.requestFocus();
                   },
-                  icon: const Icon(CupertinoIcons.search)),
+                  icon: const Icon(MedusaIcons.magnifying_glass)),
               const SizedBox(width: 6.0),
               AdaptiveIcon(
                   onPressed: () async => await Get.toNamed(Routes.CREATE_DRAFT_ORDER),
@@ -227,7 +228,7 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
                         await Future.delayed(kDuration);
                         searchNode.requestFocus();
                       },
-                      icon: const Icon(CupertinoIcons.search)),
+                      icon: const Icon(MedusaIcons.magnifying_glass)),
                   const SizedBox(width: 6.0),
                   InkWell(
                     onTap: () {},

@@ -4,6 +4,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
@@ -32,6 +33,19 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
+    String regionsName(Discount discount) {
+      String regions = '';
+      discount.regions?.forEach((element) {
+        if (regions.isNotEmpty) {
+          regions = '$regions, ${element.name ?? ''}';
+        } else {
+          regions = element.name ?? '';
+        }
+      });
+
+      return regions;
+    }
+
     Widget discountValueText(Discount discount) {
       String valueText = '';
       String detail = '';
@@ -109,13 +123,27 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                   ),
                   const VerticalDivider(width: 0),
                   Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(discount.regions?.length.toString() ?? '', style: Theme.of(context).textTheme.bodyLarge),
-                        Text('Valid Regions', style: smallTextStyle?.copyWith(color: lightWhite))
-                      ],
+                    child: InfoPopupWidget(
+                      arrowTheme: InfoPopupArrowTheme(
+                        arrowDirection: ArrowDirection.up,
+                        color: ColorManager.primary,
+                      ),
+                      contentTheme: InfoPopupContentTheme(
+                        infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+                        infoTextStyle: smallTextStyle!,
+                        contentPadding: const EdgeInsets.all(8),
+                        contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                        infoTextAlign: TextAlign.start,
+                      ),
+                      contentTitle: regionsName(discount),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(discount.regions?.length.toString() ?? '', style: Theme.of(context).textTheme.bodyLarge),
+                          Text('Valid Regions', style: smallTextStyle?.copyWith(color: lightWhite))
+                        ],
+                      ),
                     ),
                   ),
                   const VerticalDivider(width: 0),

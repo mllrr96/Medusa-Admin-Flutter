@@ -38,7 +38,6 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
   bool productSearch = false;
   final ProductsController controller = Get.find<ProductsController>();
   final collectionCtrl = CollectionsController.instance;
-  // final searchCtrl = TextEditingController();
   final searchNode = FocusNode();
   IconData getSortIcon(SortOptions sortOptions) {
     switch (sortOptions) {
@@ -357,54 +356,55 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  AdaptiveIcon(
-                      onPressed: () => controller.changeViewOption(),
-                      icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
-                  PullDownButton(
-                    itemBuilder: (context) => [
-                      PullDownMenuItem.selectable(
-                        selected: controller.viewOptions == ViewOptions.grid,
-                        title: 'Grid',
-                        icon: CupertinoIcons.square_grid_2x2,
-                        onTap: () => controller.changeViewOption(option: ViewOptions.grid),
-                      ),
-                      const PullDownMenuDivider(),
-                      PullDownMenuItem.selectable(
-                        selected: controller.viewOptions == ViewOptions.list,
-                        title: 'List',
-                        icon: CupertinoIcons.list_bullet,
-                        onTap: () => controller.changeViewOption(option: ViewOptions.list),
-                      ),
-                    ],
-                    position: PullDownMenuPosition.automatic,
-                    buttonBuilder: (context, showMenu) => AdaptiveButton(
-                      onPressed: showMenu,
-                      padding: EdgeInsets.zero,
-                      child: Icon(controller.viewOptions != ViewOptions.list ? Icons.grid_view_rounded : Icons.list ,color: Theme.of(context).iconTheme.color),
-                    ),
-                  ),
-                  AdaptiveIcon(
-                      onPressed: () async {
-                        await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
-                          if (result != null && result is bool && result == true) {
-                            controller.pagingController.refresh();
-                          }
-                        });
-                      },
-                      icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
-                  AdaptiveIcon(
-                      onPressed: () async {
-                        // ignore: unused_local_variable
-                        final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-                          const SheetAction(label: 'Export Products'),
-                          const SheetAction(label: 'Import Products'),
-                        ]);
-                      },
-                      icon: const Icon(Icons.more_horiz)),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     AdaptiveIcon(
+              //         onPressed: () => controller.changeViewOption(),
+              //         icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+              //     PullDownButton(
+              //       itemBuilder: (context) => [
+              //         PullDownMenuItem.selectable(
+              //           selected: controller.viewOptions == ViewOptions.grid,
+              //           title: 'Grid',
+              //           icon: CupertinoIcons.square_grid_2x2,
+              //           onTap: () => controller.changeViewOption(option: ViewOptions.grid),
+              //         ),
+              //         const PullDownMenuDivider(),
+              //         PullDownMenuItem.selectable(
+              //           selected: controller.viewOptions == ViewOptions.list,
+              //           title: 'List',
+              //           icon: CupertinoIcons.list_bullet,
+              //           onTap: () => controller.changeViewOption(option: ViewOptions.list),
+              //         ),
+              //       ],
+              //       position: PullDownMenuPosition.automatic,
+              //       buttonBuilder: (context, showMenu) => AdaptiveButton(
+              //         onPressed: showMenu,
+              //         padding: EdgeInsets.zero,
+              //         child: Icon(controller.viewOptions != ViewOptions.list ? Icons.grid_view_rounded : Icons.list,
+              //             color: Theme.of(context).iconTheme.color),
+              //       ),
+              //     ),
+              //     AdaptiveIcon(
+              //         onPressed: () async {
+              //           await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+              //             if (result != null && result is bool && result == true) {
+              //               controller.pagingController.refresh();
+              //             }
+              //           });
+              //         },
+              //         icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
+              //     AdaptiveIcon(
+              //         onPressed: () async {
+              //           // ignore: unused_local_variable
+              //           final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+              //             const SheetAction(label: 'Export Products'),
+              //             const SheetAction(label: 'Import Products'),
+              //           ]);
+              //         },
+              //         icon: const Icon(Icons.more_horiz)),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -426,8 +426,8 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
           SizedBox(height: topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
-          if (widget.tabController.index == 1) collectionAppBar,
           if (widget.tabController.index == 0) productsAppBar,
+          if (widget.tabController.index == 1) collectionAppBar,
         ],
       ),
     );

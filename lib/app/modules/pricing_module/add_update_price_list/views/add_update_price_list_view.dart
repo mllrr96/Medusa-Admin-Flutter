@@ -120,7 +120,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 style: smallTextStyle!.copyWith(color: lightWhite),
               ),
               space,
-              CustomTextField(
+              LabeledTextField(
                 label: 'Name',
                 controller: TextEditingController(),
                 required: true,
@@ -132,7 +132,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                   return null;
                 },
               ),
-              CustomTextField(
+              LabeledTextField(
                 label: 'Description',
                 controller: TextEditingController(),
                 required: true,
@@ -262,7 +262,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
               AnimatedSwitcher(
                   duration: kDuration,
                   child: controller.priceList.customerGroups != null
-                      ? CustomTextField(
+                      ? LabeledTextField(
                           key: const Key('group'), label: 'Customer Groups', controller: TextEditingController())
                       : const SizedBox.shrink(key: Key('noGroup')))
             ],

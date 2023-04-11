@@ -11,31 +11,27 @@ class SelectCountryController extends GetxController {
   late SelectCountryOptions selectCountryOptions;
   final searchFocusNode = FocusNode();
   final searchCtrl = TextEditingController();
-  var countriesList = countries;
+  List<Country> countriesList = [];
   @override
   void onInit() {
-    countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
-
+    countriesList.addAll(countries);
     selectCountryOptions = Get.arguments ?? const SelectCountryOptions();
-    // if (Get.arguments != null && Get.arguments is List && (Get.arguments as List).length == 2) {
-    //   multipleSelect = Get.arguments[0];
-    //   selectedCountries = Get.arguments[1];
-    //   countriesList.sort((a, b) => a.displayName!.compareTo(b.displayName!));
-    //   // countriesList.sort((a, b) {
-    //   //   if (selectedCountries.contains(a)) {
-    //   //     return 0 + a.displayName!.compareTo(b.displayName!);
-    //   //   }
-    //   //   return 1 + a.displayName!.compareTo(b.displayName!);
-    //   // });
-    // } else {
-    //   multipleSelect = false;
-    //   selectedCountries = [];
-    // }
-    searchFocusNode.addListener(() {
-      update();
-    });
+    countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
+    sort();
+    // searchFocusNode.addListener(() {
+    //   update();
+    // });
     searchCtrl.addListener(() => search());
     super.onInit();
+  }
+
+  void sort() {
+    countriesList.sort((a, b) {
+      if (selectCountryOptions.selectedCountries.contains(a)) {
+        return -1;
+      }
+      return 0;
+    });
   }
 
   @override
@@ -45,13 +41,22 @@ class SelectCountryController extends GetxController {
     super.onClose();
   }
 
-  search() {
+  void search() {
     if (searchCtrl.text.removeAllWhitespace.isNotEmpty) {
-      countriesList = countriesList
-          .where((element) => element.displayName!.toLowerCase().contains(searchCtrl.text.toLowerCase()))
+      countriesList = countries
+          .where(
+            (element) =>
+                element.displayName!.toLowerCase().contains(searchCtrl.text.toLowerCase()) ||
+                element.iso2!.contains(searchCtrl.text) ||
+                element.iso3!.contains(searchCtrl.text) ||
+                element.iso2 == searchCtrl.text.toLowerCase() ||
+                element.iso3 == searchCtrl.text.toLowerCase() ||
+                element.numCode == int.tryParse(searchCtrl.text),
+          )
           .toList();
     } else {
-      countriesList = countries;
+      countriesList.addAll(countries);
+      sort();
     }
     update();
   }

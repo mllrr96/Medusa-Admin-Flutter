@@ -4,48 +4,48 @@ class Country {
   /// The country's ID
   ///
   /// Example: 109
-  int? id;
+  final int? id;
 
   /// The 2 character ISO code of the country in lower case
   ///
   /// Example: "it"
   ///
   /// See a list of codes at: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
-  String? iso2;
+  final String? iso2;
 
   /// The 2 character ISO code of the country in lower case
   ///
   /// Example: "ita"
   ///
   /// See a list of codes at: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements
-  String? iso3;
+  final String? iso3;
 
   /// The numerical ISO code for the country.
   ///
   /// Example: 380
   ///
   /// See a list of codes at: https://en.wikipedia.org/wiki/ISO_3166-1_numeric#Officially_assigned_code_elements
-  int? numCode;
+  final int? numCode;
 
   /// The normalized country name in upper case.
   ///
   /// Example: "ITALY"
-  String? name;
+  final String? name;
 
   /// The region ID this country is associated with.
   ///
   /// Example: "reg_01G1G5V26T9H8Y0M4JNE3YGA4G"
-  String? regionId;
+  final String? regionId;
 
   /// The country name appropriate for display.
   ///
   /// Example: "Italy"
-  String? displayName;
+  final String? displayName;
 
   /// A region object. Available if the relation region is expanded.
-  Region? region;
+  final Region? region;
 
-  Country({
+  const Country({
     this.id,
     required this.iso2,
     required this.iso3,
@@ -56,15 +56,17 @@ class Country {
     this.region,
   });
 
-  Country.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    iso2 = json['iso_2'];
-    iso3 = json['iso_3'];
-    numCode = json['num_code'];
-    name = json['name'];
-    displayName = json['display_name'];
-    regionId = json['region_id'];
-    region = json['region'] != null ? Region.fromJson(json['region']) : null;
+  factory Country.fromJson(Map<String, dynamic> json) {
+    return Country(
+      id: json['id'],
+      iso2: json['iso_2'],
+      iso3: json['iso_3'],
+      numCode: json['num_code'],
+      name: json['name'],
+      displayName: json['display_name'],
+      regionId: json['region_id'],
+      region: json['region'] != null ? Region.fromJson(json['region']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {

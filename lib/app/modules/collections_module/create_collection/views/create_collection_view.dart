@@ -52,7 +52,7 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                       Text('To create a collection, all you need is a title and a handle.',
                           style: smallTextStyle!.copyWith(color: lightWhite)),
                     space,
-                    CustomTextField(
+                    LabeledTextField(
                       label: 'Title',
                       controller: controller.titleCtrl,
                       required: true,
@@ -64,7 +64,7 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                         return null;
                       },
                     ),
-                    CustomTextField(label: 'Handle', controller: controller.handleCtrl, hintText: '/sunglasses'),
+                    LabeledTextField(label: 'Handle', controller: controller.handleCtrl, hintText: '/sunglasses'),
                     Row(
                       children: [
                         Text('Metadata', style: largeTextStyle),
@@ -81,8 +81,8 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(onPressed: () {}, icon: const Icon(Icons.delete_forever, color: Colors.red)),
-                          CustomTextField(label: 'Key', controller: TextEditingController(), hintText: 'Some key'),
-                          CustomTextField(label: 'Value', controller: TextEditingController(), hintText: 'Some value'),
+                          LabeledTextField(label: 'Key', controller: TextEditingController(), hintText: 'Some key'),
+                          LabeledTextField(label: 'Value', controller: TextEditingController(), hintText: 'Some value'),
                         ],
                       ),
                     ),

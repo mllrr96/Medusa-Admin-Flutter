@@ -56,7 +56,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
             const SizedBox(height: 12.0),
             Form(
               key: formKey,
-              child: CustomTextField(
+              child: LabeledTextField(
                 label: 'Email',
                 autoFocus: true,
                 controller: emailCtrl,

@@ -2,7 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import '../../../../data/models/store/order.dart';
 import '../components/index.dart';
 import '../controllers/order_details_controller.dart';
@@ -38,31 +38,44 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
             centerTitle: true,
             actions: [
               if (controller.state != null)
-                AdaptiveButton(
-                  onPressed: controller.state!.status != OrderStatus.canceled
-                      ? () async {
-                          final order = controller.state!;
-                          await showTextAnswerDialog(
-                            title: 'Cancel order',
-                            message:
-                                'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
-                            retryMessage:
-                                'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
-                            retryOkLabel: 'Retry',
-                            context: context,
-                            keyword: 'order #${order.displayId!}',
+                AdaptiveIcon(
+                    onPressed: () async {
+                      await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+                        const SheetAction(label: 'Request Return', key: 0),
+                        const SheetAction(label: 'Register Exchange', key: 1),
+                        const SheetAction(label: 'Register Claim', key: 2),
+                        if (controller.state!.status != OrderStatus.canceled)
+                          const SheetAction(
+                            label: 'Cancel Order',
+                            key: 3,
                             isDestructiveAction: true,
-                            hintText: 'order #${order.displayId!}',
-                            okLabel: 'Yes, confirm',
-                          ).then((value) async {
-                            if (value) {
-                              await controller.cancelOrder();
-                            }
-                          });
+                          ),
+                      ]).then((result) async {
+                        switch (result) {
+                          case 3:
+                            final order = controller.state!;
+                            await showTextAnswerDialog(
+                              title: 'Cancel order',
+                              message:
+                                  'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
+                              retryMessage:
+                                  'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
+                              retryOkLabel: 'Retry',
+                              context: context,
+                              keyword: 'order #${order.displayId!}',
+                              isDestructiveAction: true,
+                              hintText: 'order #${order.displayId!}',
+                              okLabel: 'Yes, confirm',
+                            ).then((value) async {
+                              if (value) {
+                                await controller.cancelOrder();
+                              }
+                            });
+                            return;
                         }
-                      : null,
-                  child: const Text('Cancel'),
-                ),
+                      });
+                    },
+                    icon: const Icon(Icons.more_horiz)),
             ],
           ),
           body: SafeArea(
@@ -79,33 +92,51 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                       space,
                       OrderSummery(
                         order,
-                        onExpansionChanged: (val) async =>
-                            await scrollToSelectedContent(globalKey: controller.summeryKey),
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await scrollToSelectedContent(globalKey: controller.summeryKey);
+                          }
+
+                        },
+                        key: controller.summeryKey,
                       ),
                       space,
                       OrderPayment(
                         order,
-                        onExpansionChanged: (val) async =>
-                            await scrollToSelectedContent(globalKey: controller.paymentKey),
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await scrollToSelectedContent(globalKey: controller.paymentKey);
+                          }
+                        },
                       ),
                       space,
                       OrderFulfillment(
                         order,
-                        onExpansionChanged: (val) async =>
-                            await scrollToSelectedContent(globalKey: controller.fulfillmentKey),
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await scrollToSelectedContent(globalKey: controller.fulfillmentKey);
+                          }
+                        },
                       ),
                       space,
                       OrderCustomer(
                         order,
-                        onExpansionChanged: (val) async =>
-                            await scrollToSelectedContent(globalKey: controller.customerKey),
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await scrollToSelectedContent(globalKey: controller.customerKey);
+                          }
+                        },
                       ),
                       space,
                       OrderTimeline(
                         order,
-                        onExpansionChanged: (val) async =>
-                            await scrollToSelectedContent(globalKey: controller.timelineKey),
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await scrollToSelectedContent(globalKey: controller.timelineKey);
+                          }
+                        },
                       ),
+                      const SizedBox(height: 25.0),
                     ],
                   ),
                 ),

@@ -10,9 +10,10 @@ import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import 'order_summery_card.dart';
 
-class OrderSummery extends GetView<OrderDetailsController> {
+class OrderSummery extends StatelessWidget {
   const OrderSummery(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
   final Order order;
+
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,6 @@ class OrderSummery extends GetView<OrderDetailsController> {
     final totalTextTheme = refunded ? mediumTextStyle : Theme.of(context).textTheme.displayLarge;
 
     return CustomExpansionTile(
-      key: controller.summeryKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Summery'),
@@ -33,7 +33,7 @@ class OrderSummery extends GetView<OrderDetailsController> {
         ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: order.items!.length,
+            itemCount:order.items!.length ,
             itemBuilder: (context, index) => OrderSummeryCard(order: order, index: index)),
         const Divider(),
         Column(

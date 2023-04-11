@@ -47,7 +47,9 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
     });
     result.when((success) {
       final isLastPage = success.customers!.length < _pageSize;
-      customersCount.value = success.count ?? 0;
+      if(searchTerm.value.isEmpty){
+        customersCount.value = success.count ?? 0;
+      }
       if (isLastPage) {
         pagingController.appendLastPage(success.customers!);
       } else {

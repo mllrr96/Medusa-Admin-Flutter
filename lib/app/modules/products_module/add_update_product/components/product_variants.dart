@@ -139,7 +139,7 @@ class AddOptionView extends StatelessWidget {
             key: formKey,
             child: Column(
               children: [
-                CustomTextField(
+                LabeledTextField(
                   label: 'Option title',
                   controller: optionCtrl,
                   autoFocus: true,
@@ -151,7 +151,7 @@ class AddOptionView extends StatelessWidget {
                     return null;
                   },
                 ),
-                CustomTextField(
+                LabeledTextField(
                   label: 'Variations (comma separated)',
                   controller: variationsCtrl,
                   hintText: 'Blue, Red, Black...',

@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart' as medusa;
 import '../../../../data/models/req/user_fulfillment_req.dart';
+import '../../../../data/models/req/user_order.dart';
 import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
 import '../../../../data/repository/note/note_repo.dart';
 import '../../../../data/repository/notification/notification_repo.dart';
@@ -212,6 +213,49 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) async {
         EasyLoading.showSuccess('Fulfillment canceled');
+        await loadOrderDetails();
+      },
+      (error) {
+        debugPrint(error.toString());
+        dismissLoading();
+        Get.snackbar(
+          'Error ${error.code}',
+          error.message,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      },
+    );
+  }
+
+  Future<void> createRefund(UserCreateRefundOrdersReq userCreateRefundOrdersReq) async {
+    loading();
+    final result = await ordersRepo.createRefund(
+      id: orderId,
+      userCreateRefundOrdersReq: userCreateRefundOrdersReq,
+    );
+    result.when(
+      (success) async {
+        EasyLoading.showSuccess('Refund created');
+        await loadOrderDetails();
+      },
+      (error) {
+        debugPrint(error.toString());
+        dismissLoading();
+        Get.snackbar(
+          'Error ${error.code}',
+          error.message,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      },
+    );
+  }
+
+  Future<void> capturePayment() async {
+    loading();
+    final result = await ordersRepo.captureOrderPayment(id: orderId);
+    result.when(
+      (success) async {
+        EasyLoading.showSuccess('Payment captured');
         await loadOrderDetails();
       },
       (error) {

@@ -21,7 +21,10 @@ class GroupCard extends GetView<GroupsController> {
       subtitle: Text('Members: ${customerGroup.customers?.length ?? ''}', style: smallTextStyle),
       trailing: AdaptiveIcon(
           onPressed: () async {
-            await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+            await showModalActionSheet<int>(
+                title: 'Manage group',
+                message: customerGroup.name ?? '',
+                context: context, actions: <SheetAction<int>>[
               const SheetAction(label: 'Edit', key: 0),
               const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
             ]).then((result) async {

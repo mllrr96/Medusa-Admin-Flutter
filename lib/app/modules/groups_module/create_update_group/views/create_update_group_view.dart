@@ -48,7 +48,7 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CustomTextField(
+                          LabeledTextField(
                             label: 'Title',
                             required: true,
                             controller: controller.groupTitleCtrl,

@@ -54,12 +54,12 @@ class TransferOrderView extends GetView<TransferOrderController> {
               ],
             ),
             space,
-            CustomTextField(
+            LabeledTextField(
               label: 'Current Owner',
               controller: controller.currentOwnerCtrl,
               readOnly: true,
             ),
-            CustomTextField(
+            LabeledTextField(
               label: 'New Owner',
               controller: controller.newOwnerCtrl,
               hintText: 'Select...',

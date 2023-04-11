@@ -6,7 +6,8 @@ class UserDraftOrderRes {
 
   UserDraftOrderRes(this.draftOrder);
 
-  factory UserDraftOrderRes.fromJson(Map<String, dynamic> json) => UserDraftOrderRes(json['draft_order']);
+  factory UserDraftOrderRes.fromJson(Map<String, dynamic> json) =>
+      UserDraftOrderRes(DraftOrder.fromJson(json['draft_order']));
 }
 
 class UserRegisterPaymentRes {

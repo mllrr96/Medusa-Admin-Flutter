@@ -22,7 +22,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
       space,
       Form(
         key: controller.keyForm,
-        child: CustomTextField(
+        child: LabeledTextField(
           label: 'Title',
           hintText: 'Winter Jacket',
           controller: controller.titleCtrl,
@@ -35,13 +35,13 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
           },
         ),
       ),
-      CustomTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: controller.subtitleCtrl),
+      LabeledTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: controller.subtitleCtrl),
       Text('Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
           style: smallTextStyle.copyWith(color: lightWhite)),
       space,
-      CustomTextField(label: 'Handle', hintText: '/winter-jacket', controller: controller.handleCtrl),
-      CustomTextField(label: 'Material', hintText: '100% cotton', controller: controller.materialCtrl),
-      CustomTextField(
+      LabeledTextField(label: 'Handle', hintText: '/winter-jacket', controller: controller.handleCtrl),
+      LabeledTextField(label: 'Material', hintText: '100% cotton', controller: controller.materialCtrl),
+      LabeledTextField(
         label: 'Description',
         hintText: 'A warm and cozy jacket...',
         maxLines: null,

@@ -39,8 +39,6 @@ class _SearchTextFieldState extends State<SearchTextField> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.focusNode == null) {}
-
     if (Platform.isIOS) {
       return CupertinoSearchTextField(
         focusNode: widget.focusNode,

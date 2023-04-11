@@ -1,7 +1,7 @@
 
 import '../../../../data/models/store/country.dart';
 
-List<Country> countries = [
+const List<Country> countries = [
   Country(id: 001, iso2: 'af', numCode: 4, name: 'AFGHANISTAN', iso3: 'afg', displayName: 'Afghanistan'),
   Country(id: 002, iso2: 'al', numCode: 8, name: 'ALBANIA', iso3: 'alb', displayName: 'Albania'),
   Country(id: 003, iso2: 'dz', numCode: 12, name: 'ALGERIA', iso3: 'dza', displayName: 'Algeria'),
