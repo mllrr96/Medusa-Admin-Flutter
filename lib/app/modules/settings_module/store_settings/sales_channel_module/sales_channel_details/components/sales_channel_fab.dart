@@ -28,8 +28,7 @@ class SalesChannelFAB extends StatelessWidget {
                   context: context,
                   title: 'Remove products?',
                   message: 'Are you sure you want to remove selected products from this sales channel?',
-                  okLabel: 'Yes, delete',
-                  cancelLabel: 'No, cancel',
+                  okLabel: 'Yes, remove',
                   isDestructiveAction: true,
                 ).then((value) async {
                   if (value == OkCancelResult.ok) {

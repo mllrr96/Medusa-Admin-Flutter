@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -9,8 +8,10 @@ import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart'
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/product.dart';
+import '../../../../../components/pick_products/views/pick_products_view.dart';
 import '../components/index.dart';
 import '../controllers/sales_channel_details_controller.dart';
 
@@ -99,12 +100,21 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                           await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel);
                           break;
                         case 1:
-                          await Get.toNamed(Routes.PICK_PRODUCTS,
-                              arguments: PickProductsReq(
+                          final result = await showBarModalBottomSheet(
+                            context: context,
+                            builder: (context) => PickProductsView(
+                              pickProductsReq: PickProductsReq(
                                 disabledProducts: controller.pagingController.itemList,
-                              ));
+                              ),
+                            ),
+                          );
+                          if (result is PickProductsRes) {
+                            final ids = result.selectedProducts.map((e) => e.id!).toList();
+                            await controller.addProducts(ids);
+                          }
                           break;
                         case 2:
+                          await controller.deleteChannel();
                           break;
                       }
                     });
@@ -135,7 +145,21 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 12.0),
-                      AdaptiveFilledButton(onPressed: () {}, child: const Text('Add products'))
+                      AdaptiveFilledButton(
+                          onPressed: () async {
+                            final result = await showBarModalBottomSheet(
+                                context: context,
+                                builder: (context) => PickProductsView(
+                                        pickProductsReq: PickProductsReq(
+                                      disabledProducts: controller.pagingController.itemList,
+                                    )));
+                            if (result is PickProductsRes) {
+                              final ids = result.selectedProducts.map((e) => e.id!).toList();
+
+                              await controller.addProducts(ids);
+                            }
+                          },
+                          child: const Text('Add products'))
                     ],
                   ),
                 ),

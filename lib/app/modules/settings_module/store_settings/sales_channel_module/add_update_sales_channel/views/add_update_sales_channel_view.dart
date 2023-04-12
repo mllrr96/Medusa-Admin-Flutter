@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
@@ -18,8 +19,8 @@ class AddUpdateSalesChannelView extends GetView<AddUpdateSalesChannelController>
         final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
         return Scaffold(
           appBar: AppBar(
+            leading: const AdaptiveBackButton(),
             title: controller.updateMode ? const Text('Update sales channel') : const Text('Create new sales channel'),
-            centerTitle: true,
           ),
           bottomNavigationBar: Container(
             margin: const EdgeInsets.symmetric(horizontal: 18.0),

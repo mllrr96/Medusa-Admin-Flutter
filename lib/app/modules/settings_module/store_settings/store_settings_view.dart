@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import '../../../../core/utils/colors.dart';
+import '../../../../core/utils/medusa_icons_icons.dart';
 import '../../../routes/app_pages.dart';
 
 class StoreSettingsView extends StatelessWidget {
@@ -68,6 +70,11 @@ class StoreSettingsView extends StatelessWidget {
                 leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
                 title: const Text('Sales channels'),
                 onPressed: (_) => Get.toNamed(Routes.SALES_CHANNELS),
+              ),
+              SettingsTile.navigation(
+                leading: Icon(Icons.key, color: ColorManager.primary),
+                title: const Text('API key management'),
+                onPressed: (_) => Get.toNamed(Routes.API_KEY_MANAGEMENT),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.group, color: ColorManager.primary),

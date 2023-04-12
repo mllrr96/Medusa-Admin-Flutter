@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channels/controllers/sales_channels_controller.dart';
 import '../../../../../../data/models/store/index.dart';
 import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 
@@ -57,10 +58,36 @@ class SalesChannelDetailsController extends GetxController {
       EasyLoading.showSuccess('Sales channel updated');
       if (id != null) {
         selectedProducts.remove(id);
-        update();
+      } else {
+        selectedProducts.removeWhere((element) => selectedProducts.contains(element));
       }
+      update();
     }, (error) {
       Get.snackbar('Product removal failed ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      dismissLoading();
+    });
+  }
+
+  Future<void> addProducts(List<String> ids) async {
+    loading();
+    final result = await salesChannelRepo.addProductsToSalesChannel(id: salesChannel.id!, productIds: ids);
+    result.when((success) {
+      pagingController.refresh();
+      EasyLoading.showSuccess('Sales channel updated');
+    }, (error) {
+      Get.snackbar('Product removal failed ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      dismissLoading();
+    });
+  }
+
+  Future<void> deleteChannel() async {
+    loading();
+    final result = await salesChannelRepo.delete(id: salesChannel.id!);
+    result.when((success) {
+      EasyLoading.showSuccess('Sales channel deleted');
+      Get.find<SalesChannelsController>().pagingController.refresh();
+    }, (error) {
+      Get.snackbar('Deletion failed ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
       dismissLoading();
     });
   }

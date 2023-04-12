@@ -12,15 +12,18 @@ class SalesChannelRepo extends BaseSalesChannel {
   Future<Result<UserAddProductsToSalesChannelRes, Failure>> addProductsToSalesChannel({
     required String id,
     required List<String> productIds,
-    Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   }) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
     try {
+      var data = <Map<String, dynamic>>[];
+      for (var id in productIds) {
+        data.add({'id': id});
+      }
       final response = await _dataProvider.post(uri: '/sales-channels/$id/products/batch', data: {
-        'product_ids': productIds,
+        'product_ids': data,
       });
       if (response.statusCode == 200) {
         return Success(UserAddProductsToSalesChannelRes.fromJson(response.data));

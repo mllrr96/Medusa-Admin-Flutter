@@ -24,7 +24,6 @@ abstract class BaseSalesChannel {
 
     /// The IDs of the products to add to the Sales Channel
     required List<String> productIds,
-    Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   });
 

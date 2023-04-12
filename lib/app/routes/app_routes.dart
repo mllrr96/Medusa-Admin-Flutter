@@ -71,6 +71,8 @@ abstract class Routes {
   static const SALES_CHANNELS = _Paths.SALES_CHANNELS;
   static const SALES_CHANNEL_DETAILS = _Paths.SALES_CHANNEL_DETAILS;
   static const ADD_UPDATE_SALES_CHANNEL = _Paths.ADD_UPDATE_SALES_CHANNEL;
+  static const API_KEY_MANAGEMENT = _Paths.API_KEY_MANAGEMENT;
+  static const ADD_UPDATE_API_KEY = _Paths.ADD_UPDATE_API_KEY;
 }
 
 abstract class _Paths {
@@ -128,4 +130,6 @@ abstract class _Paths {
   static const SALES_CHANNELS = '/sales-channels';
   static const SALES_CHANNEL_DETAILS = '/sales-channel-details';
   static const ADD_UPDATE_SALES_CHANNEL = '/add-update-sales-channel';
+  static const API_KEY_MANAGEMENT = '/api-key-management';
+  static const ADD_UPDATE_API_KEY = '/add-update-api-key';
 }

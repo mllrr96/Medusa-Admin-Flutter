@@ -10,7 +10,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
 
   OrdersController({required this.ordersRepository});
   OrdersRepo ordersRepository;
-  RefreshController refreshController = RefreshController();
+  final refreshController = RefreshController();
   RxInt ordersCount = 0.obs;
   late TabController tabController;
   RxString searchTerm = ''.obs;

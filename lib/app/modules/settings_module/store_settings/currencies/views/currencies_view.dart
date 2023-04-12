@@ -17,7 +17,7 @@ class CurrenciesView extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return GetBuilder<CurrenciesController>(
       builder: (controller) {
         return GestureDetector(

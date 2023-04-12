@@ -10,8 +10,10 @@ class ProductVariantRepo extends BaseProductVariant {
   final _dataProvider = DioService.instance.dio;
 
   @override
-  Future<Result<UserRetrieveProductVariantsRes, Failure>> retrieveProductVariants(
-      {Map<String, dynamic>? queryParameters, Map<String, dynamic>? customHeaders,}) async{
+  Future<Result<UserRetrieveProductVariantsRes, Failure>> retrieveProductVariants({
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? customHeaders,
+  }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -20,17 +22,19 @@ class ProductVariantRepo extends BaseProductVariant {
       if (response.statusCode == 200) {
         return Success(UserRetrieveProductVariantsRes.fromJson(response.data));
       } else {
-        return Error( Failure.from(response));
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      return Error( Failure.from(error));
+      return Error(Failure.from(error));
     }
   }
 
   @override
-  Future<Result<UserRetrieveVariantInventoryRes, Failure>> retrieveVariantInventory(
-      {required String id, Map<String, dynamic>? customHeaders,}) async{
+  Future<Result<UserRetrieveVariantInventoryRes, Failure>> retrieveVariantInventory({
+    required String id,
+    Map<String, dynamic>? customHeaders,
+  }) async {
     // TODO: implement retrieveVariantInventory
     throw UnimplementedError();
   }

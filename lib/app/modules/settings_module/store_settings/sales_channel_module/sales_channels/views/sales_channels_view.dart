@@ -53,7 +53,7 @@ class SalesChannelsView extends GetView<SalesChannelsController> {
         onRefresh: () => controller.pagingController.refresh(),
         header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
         child: PagedListView.separated(
-          separatorBuilder: (_, __) => const Divider(height: 0),
+          separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
           padding: const EdgeInsets.only(bottom: kToolbarHeight),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<SalesChannel>(
