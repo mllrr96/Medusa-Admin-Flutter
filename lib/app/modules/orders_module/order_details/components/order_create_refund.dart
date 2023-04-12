@@ -5,11 +5,11 @@ import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/req/user_order.dart';
 import '../../../components/currency_formatter.dart';
+import '../../../components/labeled_numeric_text_field.dart';
 
 class OrderCreateRefund extends StatefulWidget {
   const OrderCreateRefund(this.order, {Key? key}) : super(key: key);
@@ -91,7 +91,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                         const SizedBox(width: 12.0),
                         Flexible(
                           flex: 3,
-                          child: NumericTextField(
+                          child: LabeledNumericTextField(
                             label: 'Refund Amount',
                             required: true,
                             hintText: '0.00',

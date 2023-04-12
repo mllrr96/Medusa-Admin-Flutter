@@ -141,7 +141,7 @@ class ProductsListView extends GetView<ProductsController> {
         header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
         child: PagedListView.separated(
           separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
-          padding: const EdgeInsets.only(bottom: kToolbarHeight *1.4),
+          padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => ProductListTile(

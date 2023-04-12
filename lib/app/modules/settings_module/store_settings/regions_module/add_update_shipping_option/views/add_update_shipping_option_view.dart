@@ -117,7 +117,6 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                         controller.update();
                                       },
                                     ),
-                                    space,
                                   ],
                                 ),
                               ),

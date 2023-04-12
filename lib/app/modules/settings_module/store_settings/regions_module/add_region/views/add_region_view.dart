@@ -162,7 +162,7 @@ class AddRegionView extends GetView<AddRegionController> {
                             },
                             onTap: () async {
                               final result = await Get.toNamed(Routes.SELECT_COUNTRY,
-                                  arguments: SelectCountryOptions(
+                                  arguments: SelectCountryReq(
                                     disabledCountriesIso2: RegionsController.instance.disabledCountriesIso2(),
                                     multipleSelect: true,
                                     selectedCountries: [...controller.selectedCountries],

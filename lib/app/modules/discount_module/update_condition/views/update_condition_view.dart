@@ -33,15 +33,16 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
             title: const Text('Update Condition'),
             actions: [
               AdaptiveButton(
-                  onPressed: () async => await controller.add(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (Platform.isIOS) const Icon(CupertinoIcons.add),
-                      if (Platform.isAndroid) const Icon(Icons.add),
-                      const Text('Add'),
-                    ],
-                  )),
+                onPressed: () async => await controller.add(),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (Platform.isIOS) const Icon(CupertinoIcons.add),
+                    if (Platform.isAndroid) const Icon(Icons.add),
+                    const Text('Add'),
+                  ],
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: Container(

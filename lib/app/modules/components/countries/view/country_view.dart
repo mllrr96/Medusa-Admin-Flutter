@@ -8,29 +8,35 @@ import '../controller/country_controller.dart';
 import 'dart:math' as math;
 
 class SelectCountryView extends StatelessWidget {
-  const SelectCountryView({Key? key}) : super(key: key);
-
+  const SelectCountryView({Key? key, this.selectCountryReq}) : super(key: key);
+  final SelectCountryReq? selectCountryReq;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return GetBuilder<SelectCountryController>(
+      init: SelectCountryController(selectCountryReq: selectCountryReq),
       builder: (controller) {
-        var selectedCountries = controller.selectCountryOptions.selectedCountries;
+        // var selectedCountries = controller.selectedCountries;
         var disabledCountriesIso = controller.selectCountryOptions.disabledCountriesIso2;
         final multipleSelect = controller.selectCountryOptions.multipleSelect;
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveCloseButton(),
             title: multipleSelect
-                ? Text('Select Countries ${selectedCountries.isNotEmpty ? '(${selectedCountries.length})' : ''}')
+                ? Text(
+                    'Select Countries ${controller.selectedCountries.isNotEmpty ? '(${controller.selectedCountries.length})' : ''}')
                 : const Text('Select Country'),
             actions: [
               AdaptiveButton(
-                  onPressed: selectedCountries.isEmpty ? null : () => Get.back(result: selectedCountries),
+                  onPressed: controller.selectedCountries.isEmpty
+                      ? null
+                      : () => Get.back(result: controller.selectedCountries),
                   child: const Text('Save'))
             ],
             bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(kToolbarHeight * 2),
+                preferredSize: controller.selectCountryOptions.disabledCountriesIso2.isNotEmpty
+                    ? const Size.fromHeight(kToolbarHeight * 2)
+                    : const Size.fromHeight(kToolbarHeight),
                 child: Column(
                   children: [
                     Container(
@@ -50,6 +56,7 @@ class SelectCountryView extends StatelessWidget {
                                   onPressed: () {
                                     controller.searchFocusNode.unfocus();
                                     controller.searchCtrl.clear();
+                                    controller.update();
                                   },
                                   child: const Text('Cancel')),
                               secondChild: const SizedBox(),
@@ -91,20 +98,20 @@ class SelectCountryView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final country = controller.countriesList[index];
                 return CheckboxListTile(
-                  value: selectedCountries.contains(country),
+                  value: controller.selectedCountries.contains(country),
                   enabled: !disabledCountriesIso.contains(country.iso2),
                   onChanged: (val) {
                     if (multipleSelect) {
                       if (val != null && val) {
-                        selectedCountries.add(country);
+                        controller.selectedCountries.add(country);
                       } else if (val != null && !val) {
-                        selectedCountries.remove(country);
+                        controller.selectedCountries.remove(country);
                       }
                     } else {
                       if (val != null && val) {
-                        selectedCountries = [country];
+                        controller.selectedCountries = [country];
                       } else if (val != null && !val) {
-                        selectedCountries.remove(country);
+                        controller.selectedCountries.remove(country);
                       }
                     }
                     controller.update();

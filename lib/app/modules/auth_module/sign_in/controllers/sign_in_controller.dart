@@ -11,7 +11,6 @@ import '../../../../data/service/storage_service.dart';
 import '../../../../data/service/store_service.dart';
 import '../../../components/easy_loading.dart';
 
-
 class SignInController extends GetxController {
   SignInController({required this.authRepository});
   AuthRepo authRepository;
@@ -55,7 +54,11 @@ class SignInController extends GetxController {
       Get.offAllNamed(Routes.DASHBOARD);
       dismissLoading();
     }, (error) {
-      errorMessage.value = error.message;
+      if (error.code == 401) {
+        errorMessage.value = 'Email or password is incorrect';
+      }  else {
+        errorMessage.value= error.message;
+      }
       dismissLoading();
     });
   }

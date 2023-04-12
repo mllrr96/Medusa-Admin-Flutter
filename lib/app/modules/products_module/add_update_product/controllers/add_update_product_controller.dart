@@ -2,29 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
-import 'package:medusa_admin/app/data/models/store/product.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-import '../../../../data/models/store/product_option.dart';
-import '../../../../data/models/store/product_option_value.dart';
-import '../components/product_variants.dart';
 
 class AddUpdateProductController extends GetxController {
-  AddUpdateProductController({required this.productsRepo});
-  ProductsRepo productsRepo;
+  AddUpdateProductController({required this.productsRepo, required this.productTypeRepo, required this.collectionRepo});
+  final ProductsRepo productsRepo;
+  final ProductTypeRepo productTypeRepo;
+  final CollectionRepo collectionRepo;
   final titleCtrl = TextEditingController();
   final subtitleCtrl = TextEditingController();
   final handleCtrl = TextEditingController();
   final materialCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
+  final generalKey = GlobalKey();
+  final organizeKey = GlobalKey();
+  final variantKey = GlobalKey();
+  final attributesKey = GlobalKey();
+
+
+  List<ProductCollection>? collections;
+  List<ProductType>? productTypes;
+  ProductCollection? selectedCollection;
+  ProductType? selectedProductType;
   RxBool discountable = true.obs;
   RxBool salesChannels = true.obs;
   final optionCtrl = TextEditingController();
   final variationsCtrl = TextEditingController();
+  final widthCtrl = TextEditingController();
+  final lengthCtrl = TextEditingController();
+  final heightCtrl = TextEditingController();
+  final weightCtrl = TextEditingController();
+  final midCodeCtrl = TextEditingController();
+  final hsCodeCtrl = TextEditingController();
+  final countryCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
   bool updateMode = false;
   ProductComponents productComponents = ProductComponents.addVariant;
@@ -34,10 +50,23 @@ class AddUpdateProductController extends GetxController {
   Future<void> onInit() async {
     scrollController = ScrollController();
     loadProduct();
+    await loadOrganize();
     super.onInit();
   }
 
-
+  Future<void> loadOrganize() async {
+    final result = await productTypeRepo.retrieveProductTypes();
+    result.when((success) {
+      productTypes = success.productTypes;
+      print(success.productTypes?.length);
+    }, (error) => null);
+    final result2 = await collectionRepo.retrieveAll();
+    result2.when((success) {
+      collections = success.collections;
+      print(success.collections?.length);
+    }, (error) => null);
+    update([1]);
+  }
 
   @override
   void onClose() {
@@ -117,49 +146,6 @@ class AddUpdateProductController extends GetxController {
       EasyLoading.showError('Error updating product');
       debugPrint(error.message);
     });
-  }
-
-  Future<void> addAnOption(BuildContext context) async {
-    Widget Function(BuildContext) builder() {
-      return (context) => AddOptionView(
-            formKey: optionKeyForm,
-            variationsCtrl: variationsCtrl,
-            optionCtrl: optionCtrl,
-            onAddPressed: () {
-              if (!optionKeyForm.currentState!.validate()) {
-                return;
-              }
-              List<ProductOption>? options = product.options;
-              List<String> variations = variationsCtrl.text.removeAllWhitespace.split(',');
-              var variationsValue = <ProductOptionValue>[];
-              if (variations.isNotEmpty) {
-                variations.removeWhere((element) => element.removeAllWhitespace.isEmpty);
-                for (var element in variations) {
-                  variationsValue.add(ProductOptionValue(value: element));
-                }
-              }
-              ProductOption newOption =
-                  ProductOption(title: optionCtrl.text.removeAllWhitespace, values: variationsValue);
-              if (options != null) {
-                options.add(newOption);
-              } else {
-                options = [newOption];
-              }
-              product = product.copyWith(options: options);
-              update([3]);
-              Get.back();
-            },
-          );
-    }
-
-    if (GetPlatform.isIOS) {
-      await showCupertinoModalBottomSheet(context: context, builder: builder());
-    } else {
-      await showModalBottomSheet(context: context, builder: builder(), isScrollControlled: true);
-    }
-
-    optionCtrl.clear();
-    variationsCtrl.clear();
   }
 
   void loadProduct() {

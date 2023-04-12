@@ -1,6 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -11,9 +11,10 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_general_info.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../../../core/utils/colors.dart';
+import '../../../components/countries/view/country_view.dart';
 import '../../../components/custom_text_field.dart';
+import '../../../components/labeled_numeric_text_field.dart';
 
 class ProductAddVariant extends GetView<ProductAddVariantController> {
   const ProductAddVariant({Key? key}) : super(key: key);
@@ -278,7 +279,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                   controller: TextEditingController(),
                                   hintText: 'SUN-G, JK1234...',
                                 ),
-                                NumericTextField(
+                                LabeledNumericTextField(
                                   controller: controller.quantityCtrl,
                                   label: 'Quantity in stock',
                                 ),
@@ -324,9 +325,9 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                NumericTextField(
+                                LabeledNumericTextField(
                                     controller: controller.widthCtrl, label: 'Width', width: (Get.width - 55) / 2),
-                                NumericTextField(
+                                LabeledNumericTextField(
                                     controller: controller.lengthCtrl, label: 'Length', width: (Get.width - 55) / 2),
                               ],
                             ),
@@ -335,9 +336,9 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                NumericTextField(
+                                LabeledNumericTextField(
                                     controller: controller.heightCtrl, label: 'Height', width: (Get.width - 55) / 2),
-                                NumericTextField(
+                                LabeledNumericTextField(
                                     controller: controller.weightCtrl, label: 'Weight', width: (Get.width - 55) / 2),
                               ],
                             ),
@@ -363,9 +364,38 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                               hintText: 'BDJSK39277W...',
                             ),
                             LabeledTextField(
+                              readOnly: true,
+                              onTap: () async {
+                                final result = await showBarModalBottomSheet(
+                                    context: context, builder: (context) => const SelectCountryView());
+                                if (result is List<Country>) {
+                                  controller.countryCtrl.text = result.first.displayName!;
+                                  controller.update([3]);
+                                }
+                              },
                               label: 'Country of origin',
-                              controller: controller.countryOfOriginCtrl,
-                              hintText: 'Country of origin',
+                              controller: controller.countryCtrl,
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                hintText: 'Choose a country',
+                                suffixIcon: controller.countryCtrl.text.isEmpty
+                                    ? const Icon(Icons.keyboard_arrow_down_outlined)
+                                    : IconButton(
+                                        onPressed: () {
+                                          controller.countryCtrl.clear();
+                                          controller.update([3]);
+                                        },
+                                        icon: const Icon(CupertinoIcons.clear_circled_solid)),
+                                filled: true,
+                                fillColor: Theme.of(context).scaffoldBackgroundColor,
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4.0),
+                                  ),
+                                ),
+                              ),
                             ),
                           ]),
                     ],
@@ -394,7 +424,7 @@ class ProductAddVariantController extends GetxController {
   final lengthCtrl = TextEditingController();
   final midCtrl = TextEditingController();
   final hsCtrl = TextEditingController();
-  final countryOfOriginCtrl = TextEditingController();
+  final countryCtrl = TextEditingController();
   final skuCtrl = TextEditingController();
   final eanCtrl = TextEditingController();
   final upcCtrl = TextEditingController();
@@ -417,7 +447,7 @@ class ProductAddVariantController extends GetxController {
       weightCtrl.text = product.weight?.toString() ?? '';
       midCtrl.text = product.midCode ?? '';
       hsCtrl.text = product.hsCode ?? '';
-      countryOfOriginCtrl.text = product.originCountry ?? '';
+      countryCtrl.text = product.originCountry ?? '';
     }
     super.onInit();
   }
@@ -437,7 +467,7 @@ class ProductAddVariantController extends GetxController {
         weightCtrl.text.removeAllWhitespace.isNotEmpty ||
         midCtrl.text.removeAllWhitespace.isNotEmpty ||
         hsCtrl.text.removeAllWhitespace.isNotEmpty ||
-        countryOfOriginCtrl.text.removeAllWhitespace.isNotEmpty) {
+        countryCtrl.text.removeAllWhitespace.isNotEmpty) {
       return true;
     }
     return false;
@@ -457,7 +487,7 @@ class ProductAddVariantController extends GetxController {
         width: int.tryParse(widthCtrl.text),
         midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
         hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
-        originCountry: countryOfOriginCtrl.text.removeAllWhitespace.isEmpty ? null : countryOfOriginCtrl.text,
+        originCountry: countryCtrl.text.removeAllWhitespace.isEmpty ? null : countryCtrl.text,
       ));
       result.when((success) {
         EasyLoading.showSuccess('Attributes updated');
@@ -500,7 +530,7 @@ class ProductAddVariantController extends GetxController {
           upc: upcCtrl.text.removeAllWhitespace.isEmpty ? null : upcCtrl.text,
           barcode: barcodeCtrl.text.removeAllWhitespace.isEmpty ? null : barcodeCtrl.text,
           midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
-          originCountry: countryOfOriginCtrl.text.removeAllWhitespace.isEmpty ? null : countryOfOriginCtrl.text,
+          originCountry: countryCtrl.text.removeAllWhitespace.isEmpty ? null : countryCtrl.text,
         ),
       );
     }
@@ -511,113 +541,5 @@ class ProductAddVariantBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(ProductAddVariantController(productsRepo: ProductsRepo()));
-  }
-}
-
-class NumericTextField extends StatelessWidget {
-  const NumericTextField({
-    Key? key,
-    required this.label,
-    required this.controller,
-    this.onPlusPressed,
-    this.onMinusPressed,
-    this.validator,
-    this.hintText,
-    this.width,
-    this.required = false,
-    this.prefixText,
-    this.onTapOutside,
-    this.inputFormatters,
-    this.onChanged,
-  }) : super(key: key);
-  final TextEditingController controller;
-  final void Function()? onPlusPressed;
-  final void Function()? onMinusPressed;
-  final double? width;
-  final String label;
-  final String? hintText;
-  final String? prefixText;
-  final String? Function(String?)? validator;
-  final bool required;
-  final void Function(PointerDownEvent)? onTapOutside;
-  final List<TextInputFormatter>? inputFormatters;
-  final void Function(String)? onChanged;
-  @override
-  Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            Text(label, style: mediumTextStyle!),
-            if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
-          ],
-        ),
-        halfSpace,
-        SizedBox(
-          width: width,
-          child: TextFormField(
-            style: smallTextStyle,
-            validator: validator,
-            controller: controller,
-            onTapOutside: onTapOutside,
-            onChanged: onChanged,
-            inputFormatters: inputFormatters,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              suffixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // TODO: see if InkWell or GestureDetector is better than IconButton (too much padding, looks bad on small phones e.g. iPhone X)
-                  IconButton(
-                      onPressed: onMinusPressed ??
-                          () {
-                            int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                            if (stock != null && stock != 0) {
-                              controller.text = (stock - 1).toString();
-                            }
-                          },
-                      icon: const Icon(Icons.remove)),
-                  IconButton(
-                      // padding: EdgeInsets.zero,
-                      onPressed: onPlusPressed ??
-                          () {
-                            int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                            if (stock != null) {
-                              controller.text = (stock + 1).toString();
-                            } else {
-                              controller.text = 1.toString();
-                            }
-                          },
-                      icon: const Icon(Icons.add)),
-                ],
-              ),
-              hintText: hintText ?? '100...',
-              prefixIcon: prefixText != null
-                  ? Text(
-                      prefixText!,
-                      style: smallTextStyle?.copyWith(color: lightWhite),
-                    )
-                  : null,
-              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16.0)),
-              ),
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              filled: true,
-              fillColor: Theme.of(context).scaffoldBackgroundColor,
-            ),
-          ),
-        ),
-        space,
-      ],
-    );
   }
 }

@@ -70,10 +70,9 @@ class CurrenciesView extends StatelessWidget {
                             decoration: InputDecoration(
                               fillColor: Theme.of(context).scaffoldBackgroundColor,
                               filled: true,
-                              border:  const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                                borderSide: BorderSide(color: Colors.grey)
-                              ),
+                              border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                  borderSide: BorderSide(color: Colors.grey)),
                             ),
                           ),
                         const SizedBox(height: 6.0),
@@ -105,7 +104,7 @@ class CurrenciesView extends StatelessWidget {
                             ),
                             AdaptiveButton(
                                 onPressed: () async {
-                                  List<Currency>? result = await showCupertinoModalBottomSheet(
+                                  List<Currency>? result = await showBarModalBottomSheet(
                                     expand: true,
                                     context: context,
                                     backgroundColor: Colors.transparent,

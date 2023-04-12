@@ -5,11 +5,18 @@ import '../../../../../core/utils/colors.dart';
 
 class ConfigSwitchTile extends StatelessWidget {
   const ConfigSwitchTile(
-      {Key? key, this.onChanged, required this.title, required this.subtitle, required this.tileValue})
+      {Key? key,
+      this.onChanged,
+      required this.title,
+      required this.subtitle,
+      required this.tileValue,
+      this.titleStyle,
+      this.subtitleStyle})
       : super(key: key);
   final String title, subtitle;
   final void Function(bool)? onChanged;
   final bool tileValue;
+  final TextStyle? titleStyle, subtitleStyle;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
@@ -22,10 +29,10 @@ class ConfigSwitchTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: mediumTextStyle),
+              Text(title, style: titleStyle ?? mediumTextStyle),
               Text(
                 subtitle,
-                style: smallTextStyle?.copyWith(color: lightWhite),
+                style: subtitleStyle ?? smallTextStyle?.copyWith(color: lightWhite),
               ),
             ],
           ),

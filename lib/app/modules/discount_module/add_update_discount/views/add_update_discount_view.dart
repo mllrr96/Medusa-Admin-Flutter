@@ -11,18 +11,17 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/pick_regions/controllers/pick_regions_controller.dart';
 import 'package:medusa_admin/app/modules/pick_regions/views/pick_regions_view.dart';
-import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/date_time_card.dart';
+import '../../../components/labeled_numeric_text_field.dart';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
-import 'package:info_popup/info_popup.dart';
 
 class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
   const AddUpdateDiscountView({Key? key}) : super(key: key);
@@ -229,7 +228,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
                   child: controller.discountRuleType.value == DiscountRuleType.percentage
-                      ? NumericTextField(
+                      ? LabeledNumericTextField(
                           key: const Key('percentage'),
                           label: 'Percentage',
                           required: true,
@@ -244,7 +243,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                           controller: controller.percentageCtrl,
                         )
                       : controller.discountRuleType.value == DiscountRuleType.fixed
-                          ? NumericTextField(
+                          ? LabeledNumericTextField(
                               key: const Key('amount'),
                               label: 'Amount',
                               required: true,
@@ -329,22 +328,6 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                       child: Row(
                         children: [
                           Flexible(child: Text('This is a template discount', style: mediumTextStyle)),
-                          InfoPopupWidget(
-                            arrowTheme: InfoPopupArrowTheme(
-                              arrowDirection: ArrowDirection.up,
-                              color: ColorManager.primary,
-                            ),
-                            contentTheme: InfoPopupContentTheme(
-                              infoContainerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              infoTextStyle: smallTextStyle,
-                              contentPadding: const EdgeInsets.all(8),
-                              contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
-                              infoTextAlign: TextAlign.start,
-                            ),
-                            contentTitle:
-                                'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
-                            child: Icon(Icons.info_outline, color: lightWhite),
-                          ),
                           AdaptiveIcon(
                               onPressed: () => controller.showTemplateDiscountInfo.value =
                                   !controller.showTemplateDiscountInfo.value,
@@ -411,18 +394,23 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 },
               ),
               halfSpace,
-              if (controller.hasStartDate.value)
-                DateTimeCard(
-                  dateTime: controller.startDate.value,
-                  dateText: 'Start',
-                  onTap: () async {
-                    await adaptiveDateTimePicker(date: controller.startDate.value, context: context).then((result) {
-                      if (result != null) {
-                        controller.startDate.value = result;
-                      }
-                    });
-                  },
-                ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: controller.hasStartDate.value
+                    ? DateTimeCard(
+                        dateTime: controller.startDate.value,
+                        dateText: 'Start',
+                        onTap: () async {
+                          await adaptiveDateTimePicker(date: controller.startDate.value, context: context)
+                              .then((result) {
+                            if (result != null) {
+                              controller.startDate.value = result;
+                            }
+                          });
+                        },
+                      )
+                    : const SizedBox.shrink(),
+              ),
               space,
               ConfigSwitchTile(
                 title: 'Discount has an expiry date?',
@@ -438,18 +426,22 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 },
               ),
               halfSpace,
-              if (controller.hasEndDate.value)
-                DateTimeCard(
-                  dateTime: controller.endDate.value,
-                  dateText: 'Expiry',
-                  onTap: () async {
-                    await adaptiveDateTimePicker(date: controller.endDate.value, context: context).then((result) {
-                      if (result != null) {
-                        controller.endDate.value = result;
-                      }
-                    });
-                  },
-                ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: controller.hasEndDate.value
+                    ? DateTimeCard(
+                        dateTime: controller.endDate.value,
+                        dateText: 'Expiry',
+                        onTap: () async {
+                          await adaptiveDateTimePicker(date: controller.endDate.value, context: context).then((result) {
+                            if (result != null) {
+                              controller.endDate.value = result;
+                            }
+                          });
+                        },
+                      )
+                    : const SizedBox.shrink(),
+              ),
               space,
               ConfigSwitchTile(
                 title: 'Limit the number of redemptions?',
@@ -465,25 +457,29 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                 },
               ),
               halfSpace,
-              if (controller.hasLimit.value)
-                Row(
-                  children: [
-                    Flexible(
-                      child: NumericTextField(
-                        label: 'Number of redemptions',
-                        controller: controller.limitCtrl,
-                        hintText: '5',
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const Flexible(child: SizedBox())
-                  ],
-                ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: controller.hasLimit.value
+                    ? Row(
+                        children: [
+                          Flexible(
+                            child: LabeledNumericTextField(
+                              label: 'Number of redemptions',
+                              controller: controller.limitCtrl,
+                              hintText: '5',
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const Flexible(child: SizedBox())
+                        ],
+                      )
+                    : const SizedBox.shrink(),
+              ),
               space,
             ],
           );

@@ -51,10 +51,13 @@ class AddUpdateShippingOptionController extends GetxController {
   }
 
   Future<void> createShippingOption(BuildContext context) async {
-    if (fulfillmentOptions == null &&
-        shippingProfiles == null &&
-        !formKey.currentState!.validate() &&
+    if (fulfillmentOptions == null ||
+        shippingProfiles == null ||
+        !formKey.currentState!.validate() ||
         selectedFulfillmentOption == null) {
+      return;
+    }
+    if (!formKey.currentState!.validate()) {
       return;
     }
     loading();

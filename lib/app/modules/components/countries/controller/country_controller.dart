@@ -5,17 +5,19 @@ import '../../../../data/models/store/country.dart';
 import '../components/countries.dart';
 
 class SelectCountryController extends GetxController {
-  // late bool multipleSelect;
-  // late List<Country> selectedCountries;
-  // late List<Country> disabledCountries;
-  late SelectCountryOptions selectCountryOptions;
+  SelectCountryController({this.selectCountryReq});
+  final SelectCountryReq? selectCountryReq;
+
+  late SelectCountryReq selectCountryOptions;
   final searchFocusNode = FocusNode();
   final searchCtrl = TextEditingController();
   List<Country> countriesList = [];
+  List<Country> selectedCountries = [];
   @override
   void onInit() {
     countriesList.addAll(countries);
-    selectCountryOptions = Get.arguments ?? const SelectCountryOptions();
+    selectCountryOptions = Get.arguments ?? selectCountryReq ?? const SelectCountryReq();
+    selectedCountries.addAll(selectCountryOptions.selectedCountries);
     countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
     sort();
     // searchFocusNode.addListener(() {
@@ -62,8 +64,8 @@ class SelectCountryController extends GetxController {
   }
 }
 
-class SelectCountryOptions {
-  const SelectCountryOptions(
+class SelectCountryReq {
+  const SelectCountryReq(
       {this.multipleSelect = false, this.selectedCountries = const [], this.disabledCountriesIso2 = const []});
   final bool multipleSelect;
   final List<Country> selectedCountries;

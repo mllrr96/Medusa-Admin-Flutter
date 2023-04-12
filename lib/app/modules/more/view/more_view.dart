@@ -6,8 +6,6 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import '../../../../core/utils/colors.dart';
-
 class MoreView extends StatelessWidget {
   const MoreView({Key? key}) : super(key: key);
 

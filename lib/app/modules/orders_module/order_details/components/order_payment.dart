@@ -71,21 +71,23 @@ class OrderPayment extends GetView<OrderDetailsController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      order.payments!.first.id!,
-                      style: mediumTextStyle,
-                    ),
-                    halfSpace,
-                    if (order.payments != null &&
-                        order.payments!.isNotEmpty &&
-                        order.payments!.first.capturedAt != null)
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                          'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
-                          style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54)),
-                  ],
+                        order.payments!.first.id!,
+                        style: mediumTextStyle,
+                      ),
+                      halfSpace,
+                      if (order.payments != null &&
+                          order.payments!.isNotEmpty &&
+                          order.payments!.first.capturedAt != null)
+                        Text(
+                            'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
+                            style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54)),
+                    ],
+                  ),
                 ),
                 Text(getPrice(order.payments?.first.amount), style: largeTextStyle),
               ],
