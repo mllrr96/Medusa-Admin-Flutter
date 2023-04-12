@@ -8,6 +8,7 @@ import '../../../../../../data/repository/publishable_api_key/publishable_api_ke
 class ApiKeyManagementController extends GetxController {
   ApiKeyManagementController({required this.apiKeyRepo});
   final PublishableApiKeyRepo apiKeyRepo;
+  static ApiKeyManagementController get instance => Get.find<ApiKeyManagementController>();
 
   final pagingController = PagingController<int, PublishableApiKey>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;

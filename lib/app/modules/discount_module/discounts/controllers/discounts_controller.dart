@@ -8,7 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../data/models/req/discount.dart';
 
 class DiscountsController extends GetxController {
-  static final DiscountsController instance = Get.find<DiscountsController>();
+  static DiscountsController get instance => Get.find<DiscountsController>();
   DiscountsController({required this.discountRepo});
   final DiscountRepo discountRepo;
 

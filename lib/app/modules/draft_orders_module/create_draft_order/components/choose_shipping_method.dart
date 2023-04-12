@@ -72,7 +72,7 @@ class ChooseShippingMethodView extends StatelessWidget {
 
 class ChooseShippingMethodController extends GetxController with StateMixin<List<ShippingOption>> {
   static ShippingOption? get shippingOption => Get.find<ChooseShippingMethodController>().selectedShippingOption.value;
-  static ChooseShippingMethodController instance = Get.find<ChooseShippingMethodController>();
+  static ChooseShippingMethodController get instance => Get.find<ChooseShippingMethodController>();
 
   ChooseShippingMethodController({required this.shippingOptionsRepo});
   final ShippingOptionsRepo shippingOptionsRepo;

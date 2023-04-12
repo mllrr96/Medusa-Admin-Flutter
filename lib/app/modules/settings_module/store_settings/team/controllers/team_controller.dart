@@ -8,7 +8,7 @@ import '../../../../components/easy_loading.dart';
 
 class TeamController extends GetxController with StateMixin<List<User>> {
   TeamController({required this.userRepo});
-  static TeamController instance = Get.find<TeamController>();
+  static TeamController get instance => Get.find<TeamController>();
   final UserRepo userRepo;
   RxBool search = false.obs;
   final searchCtrl = TextEditingController();

@@ -6,7 +6,7 @@ import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CollectionsController extends GetxController {
-  static CollectionsController instance = Get.find<CollectionsController>();
+  static CollectionsController get instance => Get.find<CollectionsController>();
   CollectionsController({required this.collectionRepo});
   final CollectionRepo collectionRepo;
   RxInt collectionCount = 0.obs;

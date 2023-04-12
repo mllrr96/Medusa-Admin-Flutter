@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.da
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DraftOrdersController extends GetxController {
-  static DraftOrdersController instance = Get.find<DraftOrdersController>();
+  static DraftOrdersController get instance => Get.find<DraftOrdersController>();
   DraftOrdersController({required this.draftOrderRepo});
   final DraftOrderRepo draftOrderRepo;
   final int _pageSize = 20;

@@ -10,7 +10,7 @@ import '../../../../../../data/repository/regions/regions_repo.dart';
 
 class RegionDetailsController extends GetxController with StateMixin<Region> {
   RegionDetailsController({required this.regionsRepo, required this.shippingOptionsRepo});
-  static final instance = Get.find<RegionDetailsController>();
+  static RegionDetailsController get instance => Get.find<RegionDetailsController>();
   final RegionsRepo regionsRepo;
   final ShippingOptionsRepo shippingOptionsRepo;
   late String regionId;

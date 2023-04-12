@@ -5,7 +5,7 @@ import '../../../../data/models/store/product_variant.dart';
 import '../components/choose_customer.dart';
 
 class CreateDraftOrderController extends GetxController with GetSingleTickerProviderStateMixin {
-  static final CreateDraftOrderController instance = Get.find<CreateDraftOrderController>();
+  static CreateDraftOrderController get instance => Get.find<CreateDraftOrderController>();
   late TabController tabController;
   var selectedProducts = <ProductVariant>[];
   RxInt index = 0.obs;
@@ -46,7 +46,7 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
           return null;
         }
       case 3:
-        if(Get.find<ChooseCustomerController>().selectedCustomer.value !=null){
+        if(ChooseCustomerController.instance.selectedCustomer.value !=null){
           return () => tabController.animateTo(tabController.index + 1);
         }
          else {

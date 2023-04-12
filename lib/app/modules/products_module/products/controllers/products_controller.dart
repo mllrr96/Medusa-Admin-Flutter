@@ -10,7 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../data/models/store/product.dart';
 
 class ProductsController extends GetxController with GetSingleTickerProviderStateMixin {
-  static ProductsController instance = Get.find<ProductsController>();
+  static ProductsController get instance => Get.find<ProductsController>();
 
   ProductsController({required this.productsRepo});
   ProductsRepo productsRepo;

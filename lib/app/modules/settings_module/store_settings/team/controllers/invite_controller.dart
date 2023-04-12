@@ -8,7 +8,7 @@ import '../../../../components/easy_loading.dart';
 
 class InviteController extends GetxController with StateMixin<List<Invite>> {
   InviteController({required this.inviteRepo});
-
+static InviteController get instance => Get.find<InviteController>();
   final InviteRepo inviteRepo;
   RxString searchTerm = ''.obs;
   @override

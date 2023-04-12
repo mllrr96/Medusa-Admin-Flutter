@@ -85,7 +85,7 @@ class SalesChannelDetailsController extends GetxController {
     final result = await salesChannelRepo.delete(id: salesChannel.id!);
     result.when((success) {
       EasyLoading.showSuccess('Sales channel deleted');
-      Get.find<SalesChannelsController>().pagingController.refresh();
+      SalesChannelsController.instance.pagingController.refresh();
     }, (error) {
       Get.snackbar('Deletion failed ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
       dismissLoading();

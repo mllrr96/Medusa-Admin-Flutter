@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RegionsController extends GetxController {
-  static RegionsController instance = Get.find<RegionsController>();
+  static RegionsController get instance => Get.find<RegionsController>();
   RegionsController({required this.regionsRepo});
   final RegionsRepo regionsRepo;
   final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);

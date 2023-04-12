@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 
 class ThemeService extends GetxService {
-  static ThemeService instance = Get.find<ThemeService>();
+  static ThemeService get instance => Get.find<ThemeService>();
   late ThemeMode themeMode;
 
 

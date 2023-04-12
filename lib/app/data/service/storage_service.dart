@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/strings.dart';
 
 class StorageService extends GetxService {
-  static StorageService instance = Get.find<StorageService>();
-  static String baseUrl = Get.find<StorageService>()._baseUrl;
+  static StorageService get instance => Get.find<StorageService>();
+  static String get baseUrl => Get.find<StorageService>()._baseUrl;
   static String? get cookie => Get.find<StorageService>()._cookie;
 
   late SharedPreferences _prefs;

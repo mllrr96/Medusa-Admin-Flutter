@@ -6,7 +6,7 @@ import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CustomersController extends GetxController with GetSingleTickerProviderStateMixin {
-  static CustomersController instance = Get.find<CustomersController>();
+  static CustomersController get instance => Get.find<CustomersController>();
   CustomersController({required this.customerRepo});
   final CustomerRepo customerRepo;
 

@@ -5,7 +5,7 @@ import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 
 
 class DashboardController extends GetxController {
-  static DashboardController instance = Get.find<DashboardController>();
+  static DashboardController get instance => Get.find<DashboardController>();
   int currentScreen = 0;
   final bottomNavBarItems = GetPlatform.isIOS
       ? const <BottomNavigationBarItem>[

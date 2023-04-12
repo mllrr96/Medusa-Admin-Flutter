@@ -7,8 +7,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class SalesChannelsController extends GetxController {
   SalesChannelsController({required this.salesChannelRepo});
   final SalesChannelRepo salesChannelRepo;
+  static SalesChannelsController get instance => Get.find<SalesChannelsController>();
 
-  final  pagingController = PagingController<int, SalesChannel>(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController = PagingController<int, SalesChannel>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final refreshController = RefreshController();
 
@@ -20,7 +21,6 @@ class SalesChannelsController extends GetxController {
     super.onInit();
   }
 
-
   @override
   void onReady() {
     super.onReady();
@@ -30,7 +30,6 @@ class SalesChannelsController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await salesChannelRepo.retrieveAll(
@@ -54,5 +53,4 @@ class SalesChannelsController extends GetxController {
       refreshController.refreshFailed();
     });
   }
-
 }

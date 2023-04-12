@@ -68,7 +68,7 @@ class ChooseCustomerView extends StatelessWidget {
 }
 
 class ChooseCustomerController extends GetxController {
-  static final ChooseCustomerController instance = Get.find<ChooseCustomerController>();
+  static ChooseCustomerController get instance => Get.find<ChooseCustomerController>();
 
   ChooseCustomerController();
 

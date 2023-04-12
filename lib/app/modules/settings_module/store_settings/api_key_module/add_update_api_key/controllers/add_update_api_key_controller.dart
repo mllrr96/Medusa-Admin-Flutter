@@ -37,7 +37,7 @@ class AddUpdateApiKeyController extends GetxController {
     final result = await publishableApiKeyRepo.createPublishableApiKey(title: titleCtrl.text);
     result.when((success) {
       EasyLoading.showSuccess('Api key created');
-      Get.find<ApiKeyManagementController>().pagingController.refresh();
+      ApiKeyManagementController.instance.pagingController.refresh();
       Get.back();
     }, (error) {
       Get.snackbar('Error creating api key ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);

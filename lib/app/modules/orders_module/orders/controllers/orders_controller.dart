@@ -6,7 +6,7 @@ import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OrdersController extends GetxController with GetSingleTickerProviderStateMixin {
-  static OrdersController instance = Get.find<OrdersController>();
+  static OrdersController get instance => Get.find<OrdersController>();
 
   OrdersController({required this.ordersRepository});
   OrdersRepo ordersRepository;

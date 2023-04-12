@@ -32,7 +32,7 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
                 onChanged: (value) async {
                   if (value != null) {
                     controller.selectedRegion.value = value;
-                    await Get.find<ChooseShippingMethodController>().loadShippingMethods(regionId: value.id!);
+                    await ChooseShippingMethodController.instance.loadShippingMethods(regionId: value.id!);
                   }
                 },
                 decoration: const InputDecoration(
@@ -53,7 +53,7 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
 
 class ChooseRegionController extends GetxController with StateMixin<List<Region>> {
   static Region? get region => Get.find<ChooseRegionController>().selectedRegion.value;
-  static ChooseRegionController instance = Get.find<ChooseRegionController>();
+  static ChooseRegionController get instance => Get.find<ChooseRegionController>();
 
   ChooseRegionController({required this.regionsRepo});
   final RegionsRepo regionsRepo;

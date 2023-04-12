@@ -7,7 +7,7 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GroupsController extends GetxController {
-  static final GroupsController instance = Get.find<GroupsController>();
+  static  GroupsController get instance => Get.find<GroupsController>();
   GroupsController({required this.customerGroupRepo});
 
   final CustomerGroupRepo customerGroupRepo;

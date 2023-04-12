@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 
 class StoreService extends GetxService {
   StoreService({required this.storeRepo});
-  static StoreService instance = Get.find<StoreService>();
+  static StoreService get instance => Get.find<StoreService>();
   static Store get store => instance._store;
   StoreRepo storeRepo;
   late Store _store;

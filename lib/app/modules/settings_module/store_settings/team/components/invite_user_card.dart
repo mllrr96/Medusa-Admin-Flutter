@@ -47,7 +47,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
                 AdaptiveButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        await Get.find<InviteController>().inviteUser(email: emailCtrl.text, role: selectedRole);
+                        await InviteController.instance.inviteUser(email: emailCtrl.text, role: selectedRole);
                       }
                     },
                     child: const Text('Invite')),
