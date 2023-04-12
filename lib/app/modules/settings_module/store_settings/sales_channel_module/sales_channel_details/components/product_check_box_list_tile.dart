@@ -18,6 +18,7 @@ class ProductCheckboxListTile extends GetView<SalesChannelDetailsController> {
       groupTag: const Key('sales'),
       key: ValueKey(product.id!),
       endActionPane: ActionPane(
+        extentRatio: 0.4,
         motion: const DrawerMotion(),
         children: [
           SlidableAction(

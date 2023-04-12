@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/data/repository/discount_condition/discount_condition_repo.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
 
+import '../../../../data/models/req/discount.dart';
 import '../../../../data/models/req/user_discount_condition_req.dart';
 import '../../../components/easy_loading.dart';
 
@@ -50,6 +51,16 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     },
         (error) => Get.snackbar('Error deleting promotion ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM));
+    dismissLoading();
+  }
+
+  Future<void> toggleDiscount({required Discount discount}) async {
+    loading();
+    bool toggle = discount.isDisabled != null && discount.isDisabled! ? false : true;
+    final result = await discountRepo.updateDiscount(
+        id: discount.id!, userUpdateDiscountReq: UserUpdateDiscountReq(isDisabled: toggle));
+    result.when((success) async => await loadDiscount(),
+        (error) => Get.snackbar('Error ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM));
     dismissLoading();
   }
 

@@ -80,6 +80,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
     }
 
     Widget discountDetails(Discount discount) {
+      final disabled = discount.isDisabled ?? true;
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: BoxDecoration(
@@ -96,7 +97,21 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                   discount.code ?? '',
                   style: Theme.of(context).textTheme.displayLarge,
                 ),
-                DiscountStatusDot(disabled: discount.isDisabled ?? true),
+                InkWell(
+                    onTap: () async {
+                      await showOkCancelAlertDialog(
+                              context: context,
+                              title: disabled ? 'Enable' : 'Disable',
+                              message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
+                              okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
+                              isDestructiveAction: true)
+                          .then((value) async {
+                        if (value == OkCancelResult.ok) {
+                          await controller.toggleDiscount(discount: discount);
+                        }
+                      });
+                    },
+                    child: DiscountStatusDot(disabled: disabled)),
               ],
             ),
             if (discount.rule?.description?.isNotEmpty ?? false) space,
@@ -140,7 +155,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(discount.regions?.length.toString() ?? '', style: Theme.of(context).textTheme.bodyLarge),
-                          Text('Valid Regions', style: smallTextStyle?.copyWith(color: lightWhite))
+                          Text('Valid Regions', style: smallTextStyle.copyWith(color: lightWhite))
                         ],
                       ),
                     ),

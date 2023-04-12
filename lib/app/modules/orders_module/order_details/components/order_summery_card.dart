@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
+import '../../../components/currency_formatter.dart';
+
 class OrderSummeryCard extends StatelessWidget {
   const OrderSummeryCard({Key? key, required this.order, required this.index}) : super(key: key);
   final Order order;
@@ -14,22 +16,12 @@ class OrderSummeryCard extends StatelessWidget {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final item = order.items![index];
-    String itemPriceText() {
-      var value = item.unitPrice?.roundToDouble() ?? 0;
-      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
-    }
 
-    String itemTotalText() {
-      var value = item.total?.roundToDouble() ?? 0;
-      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+    String getPrice(num? price) {
+      var value = price ?? 0;
+      final currencyFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
+      final symbolNative = order.currency?.symbolNative;
+      return '${symbolNative ?? ''} ${currencyFormatter.format(value.toString())}';
     }
 
     return Container(
@@ -42,7 +34,6 @@ class OrderSummeryCard extends StatelessWidget {
               child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!)),
           const SizedBox(width: 6.0),
           Expanded(
-            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -63,14 +54,14 @@ class OrderSummeryCard extends StatelessWidget {
               ],
             ),
           ),
-          Flexible(
+          IntrinsicWidth(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Flexible(child: Text('${itemPriceText()} x ${item.quantity!}', style: smallTextStyle)),
-                const Divider(height: 1),
-                Flexible(child: Text(itemTotalText(), style: mediumTextStyle)),
+                Text('${getPrice(item.unitPrice)} x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
+                const Divider(height: 5),
+                Text(getPrice(item.total), style: mediumTextStyle, maxLines: 1),
               ],
             ),
           ),

@@ -35,7 +35,6 @@ class DraftOrderSummeryCard extends StatelessWidget {
               child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!)),
           const SizedBox(width: 6.0),
           Expanded(
-            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
