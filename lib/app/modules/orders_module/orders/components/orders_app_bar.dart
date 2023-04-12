@@ -115,31 +115,13 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
           child: Row(
             children: [
               const SizedBox(width: 12.0),
-              if (GetPlatform.isIOS)
-                Expanded(
-                    child: CupertinoSearchTextField(
+              Expanded(
+                child: SearchTextField(
                   focusNode: searchNode,
                   controller: searchCtrl,
-                  placeholder: 'Search for product name, variant title ...',
-                  onChanged: (val) {},
-                )),
-              if (GetPlatform.isAndroid)
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: TextFormField(
-                    style: Theme.of(context).textTheme.titleSmall,
-                    focusNode: searchNode,
-                    controller: searchCtrl,
-                    onChanged: (val) {
-                      // controller.searchTerm = val;
-                      // controller.pagingController.refresh();
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Search for product name, variant title ...',
-                    ),
-                  ),
-                )),
+                  hintText: 'Search for product name, variant title ...',
+                ),
+              ),
               AdaptiveButton(
                   child: const Text('Cancel'),
                   onPressed: () async {
@@ -171,10 +153,6 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
                     searchNode.requestFocus();
                   },
                   icon: const Icon(MedusaIcons.magnifying_glass)),
-              const SizedBox(width: 6.0),
-              AdaptiveIcon(
-                  onPressed: () async => await Get.toNamed(Routes.CREATE_DRAFT_ORDER),
-                  icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
             ],
           ),
         ),
@@ -185,79 +163,94 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
         key: const ValueKey(0),
         firstChild: SizedBox(
           height: kToolbarHeight,
-          child: Row(
+          child: Column(
             children: [
-              const SizedBox(width: 12.0),
               Expanded(
-                child: SearchTextField(
-                  controller: searchCtrl,
-                  hintText: 'Search for orders\' email, ID',
-                  onChanged: (val) {
-                    if (controller.searchTerm.value != val) {
-                      controller.searchTerm.value = val;
-                    }
-                  },
-                  focusNode: searchNode,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 12.0),
+                    Expanded(
+                      child: SearchTextField(
+                        controller: searchCtrl,
+                        hintText: 'Search for orders\' email, ID',
+                        onChanged: (val) {
+                          if (controller.searchTerm.value != val) {
+                            controller.searchTerm.value = val;
+                          }
+                        },
+                        focusNode: searchNode,
+                      ),
+                    ),
+                    AdaptiveButton(
+                        child: const Text('Cancel'),
+                        onPressed: () async {
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            productSearch = false;
+                            searchCtrl.clear();
+                            if (controller.searchTerm.value.isNotEmpty) {
+                              controller.searchTerm.value = '';
+                            }
+                          });
+                        }),
+                  ],
                 ),
               ),
-              AdaptiveButton(
-                  child: const Text('Cancel'),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    setState(() {
-                      productSearch = false;
-                      searchCtrl.clear();
-                      if (controller.searchTerm.value.isNotEmpty) {
-                        controller.searchTerm.value = '';
-                      }
-                    });
-                  }),
+              const Divider(height: 0),
             ],
           ),
         ),
         secondChild: SizedBox(
           height: kToolbarHeight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Row(
-                children: [
-                  AdaptiveIcon(
-                      onPressed: () async {
-                        setState(() => productSearch = true);
-                        await Future.delayed(kDuration);
-                        searchNode.requestFocus();
-                      },
-                      icon: const Icon(MedusaIcons.magnifying_glass)),
-                  const SizedBox(width: 6.0),
-                  InkWell(
-                    onTap: () {},
-                    child: Chip(
-                      side: const BorderSide(color: Colors.transparent),
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Filters', style: Theme.of(context).textTheme.titleSmall),
-                          Text(' 0',
-                              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
-                        ],
-                      ),
-                      padding: EdgeInsets.zero,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        AdaptiveIcon(
+                            onPressed: () async {
+                              setState(() => productSearch = true);
+                              await Future.delayed(kDuration);
+                              searchNode.requestFocus();
+                            },
+                            icon: const Icon(MedusaIcons.magnifying_glass)),
+                        const SizedBox(width: 6.0),
+                        InkWell(
+                          onTap: () {},
+                          child: Chip(
+                            side: const BorderSide(color: Colors.transparent),
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                            label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Filters', style: Theme.of(context).textTheme.titleSmall),
+                                Text(' 0',
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
+                              ],
+                            ),
+                            padding: EdgeInsets.zero,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    Row(
+                      children: [
+                        if (Platform.isAndroid)
+                          AdaptiveButton(
+                              onPressed: () {},
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: const Text('Export')),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  if (Platform.isAndroid)
-                    AdaptiveButton(
-                        onPressed: () {},
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: const Text('Export')),
-                ],
-              ),
+              const Divider(height: 0),
             ],
           ),
         ),

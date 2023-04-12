@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_status_label.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 
 class DraftOrderOverview extends StatelessWidget {
   const DraftOrderOverview(this.draftOrder, {Key? key}) : super(key: key);
@@ -37,31 +35,21 @@ class DraftOrderOverview extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('#${draftOrder.displayId!}', style: Theme.of(context).textTheme.titleLarge),
                   halfSpace,
-                  if (draftOrder.cart != null && draftOrder.cart!.completedAt != null)
+                  if (draftOrder.cart != null && draftOrder.cart!.createdAt != null)
                     Text(
-                      'on ${DateFormat.MEd().format(draftOrder.cart!.completedAt!)} at ${DateFormat.jm().format(draftOrder.cart!.completedAt!)}',
+                      'on ${DateFormat.MEd().format(draftOrder.cart!.createdAt!)} at ${DateFormat.jm().format(draftOrder.cart!.createdAt!)}',
                       style: Theme.of(context).textTheme.titleMedium,
                     )
                 ],
               ),
-              Column(
-                children: [
-                  DraftOrderStatusLabel(draftOrder.status!),
-                  if (draftOrder.status! == DraftOrderStatus.completed)
-                    AdaptiveButton(
-                      onPressed: () => Get.toNamed(Routes.ORDER_DETAILS, arguments: draftOrder.orderId!),
-                      padding: EdgeInsets.zero,
-                      child: const Text('Go to order'),
-                    )
-                ],
-              ),
+              DraftOrderStatusLabel(draftOrder.status!),
             ],
           ),
           space,
@@ -73,7 +61,7 @@ class DraftOrderOverview extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(email ?? '', style: mediumTextStyle),
+                      Text(email ?? 'Email: N/A', style: mediumTextStyle),
                       const SizedBox(height: 6.0),
                       Text(billingAddress?.phone?.toString() ?? 'Phone: N/A',
                           style: smallTextStyle?.copyWith(color: lightWhite)),

@@ -68,6 +68,9 @@ abstract class Routes {
   static const ADD_UPDATE_PRICE_LIST = _Paths.ADD_UPDATE_PRICE_LIST;
   static const PICK_PRODUCTS = _Paths.PICK_PRODUCTS;
   static const ADD_UPDATE_SHIPPING_OPTION = _Paths.ADD_UPDATE_SHIPPING_OPTION;
+  static const SALES_CHANNELS = _Paths.SALES_CHANNELS;
+  static const SALES_CHANNEL_DETAILS = _Paths.SALES_CHANNEL_DETAILS;
+  static const ADD_UPDATE_SALES_CHANNEL = _Paths.ADD_UPDATE_SALES_CHANNEL;
 }
 
 abstract class _Paths {
@@ -122,4 +125,7 @@ abstract class _Paths {
   static const ADD_UPDATE_PRICE_LIST = '/add-update-price-list';
   static const PICK_PRODUCTS = '/pick-products';
   static const ADD_UPDATE_SHIPPING_OPTION = '/add-update-shipping-option';
+  static const SALES_CHANNELS = '/sales-channels';
+  static const SALES_CHANNEL_DETAILS = '/sales-channel-details';
+  static const ADD_UPDATE_SALES_CHANNEL = '/add-update-sales-channel';
 }

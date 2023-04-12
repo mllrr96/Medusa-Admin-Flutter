@@ -10,7 +10,7 @@ class RegionsController extends GetxController {
   final RegionsRepo regionsRepo;
   final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  RefreshController refreshController = RefreshController();
+  final refreshController = RefreshController();
 
   @override
   void onInit() {

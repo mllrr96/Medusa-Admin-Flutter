@@ -103,7 +103,7 @@ class PaymentStatusDot extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        Icon(Icons.circle, color: textColor, size: 12),
+        Icon(Icons.circle, color: textColor, size: 10),
         Icon(Icons.circle, color: containerColor, size: 24),
       ],
     );

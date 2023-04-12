@@ -67,14 +67,7 @@ abstract class BaseSalesChannel {
 
   /// Creates a Sales Channel.
   Future<Result<UserCreateSalesChannelRes, Failure>> create({
-    /// The name of the Sales Channel
-    required String name,
-
-    /// The description of the Sales Channel
-    String? description,
-
-    /// Whether the Sales Channel is disabled or not.
-    String? isDisabled,
+    required  UserSalesChannelCreateReq userSalesChannelCreateReq,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   });

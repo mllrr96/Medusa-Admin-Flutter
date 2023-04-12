@@ -54,6 +54,7 @@ dependencies:
   info_popup: ^3.0.0
   pull_down_button: ^0.8.1
   multiselect: ^0.1.0
+  flutter_slidable: ^2.0.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.1

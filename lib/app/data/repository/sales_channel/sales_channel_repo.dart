@@ -57,9 +57,7 @@ class SalesChannelRepo extends BaseSalesChannel {
 
   @override
   Future<Result<UserCreateSalesChannelRes, Failure>> create({
-    required String name,
-    String? description,
-    String? isDisabled,
+    required UserSalesChannelCreateReq userSalesChannelCreateReq,
     Map<String, dynamic>? queryParams,
     Map<String, dynamic>? customHeaders,
   }) async {
@@ -69,11 +67,7 @@ class SalesChannelRepo extends BaseSalesChannel {
     try {
       final response = await _dataProvider.post(
         uri: '/sales-channels',
-        data: {
-          'name': name,
-          if (description != null) 'description': description,
-          if (isDisabled != null) 'is_disabled': isDisabled,
-        },
+        data: userSalesChannelCreateReq.toJson(),
       );
       if (response.statusCode == 200) {
         return Success(UserCreateSalesChannelRes.fromJson(response.data));
@@ -120,10 +114,14 @@ class SalesChannelRepo extends BaseSalesChannel {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
     try {
+      var data = <Map<String, dynamic>>[];
+      for (var id in productIds) {
+        data.add({'id': id});
+      }
       final response = await _dataProvider.delete(
         '/sales-channels/$id/products/batch',
         data: {
-          'product_ids': productIds,
+          'product_ids': data,
         },
         queryParameters: queryParams,
       );
@@ -245,7 +243,7 @@ class SalesChannelRepo extends BaseSalesChannel {
     }
     try {
       final response = await _dataProvider.post(
-        uri: '/stock-locations',
+        uri: '/sales-channels/$id',
         data: userSalesChannelUpdateRes.toJson(),
         queryParameters: queryParams,
       );

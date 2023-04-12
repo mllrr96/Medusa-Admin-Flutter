@@ -31,14 +31,14 @@ class OrdersView extends GetView<OrdersController> {
                 onRefresh: () => controller.pagingController.refresh(),
                 header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
                 child: PagedListView.separated(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Order>(
                       itemBuilder: (context, order, index) => AlternativeOrderCard(order),
                       noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet!')),
                       firstPageProgressIndicatorBuilder: (context) =>
                           const Center(child: CircularProgressIndicator.adaptive())),
-                  separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+                  separatorBuilder: (_, __) => const Divider(height: 1),
                 ),
               ),
             ),

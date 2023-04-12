@@ -17,6 +17,7 @@ class AppTheme {
         foregroundColor: Colors.white,
       ),
       scaffoldBackgroundColor: const Color(0xFFF2F2F7),
+      // scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       checkboxTheme: const CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
       ),

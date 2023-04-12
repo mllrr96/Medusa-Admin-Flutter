@@ -1,12 +1,4 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/add_region/bindings/add_region_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/add_region/views/add_region_view.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/add_update_shipping_option/bindings/add_update_shipping_option_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/add_update_shipping_option/views/add_update_shipping_option_view.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/bindings/region_details_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/views/region_details_view.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/regions/bindings/regions_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/regions/views/regions_view.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -79,10 +71,24 @@ import '../modules/settings_module/store_settings/currencies/bindings/currencies
 import '../modules/settings_module/store_settings/currencies/views/currencies_view.dart';
 import '../modules/settings_module/store_settings/personal_information/bindings/personal_information_binding.dart';
 import '../modules/settings_module/store_settings/personal_information/views/personal_information_view.dart';
+import '../modules/settings_module/store_settings/regions_module/add_region/bindings/add_region_binding.dart';
+import '../modules/settings_module/store_settings/regions_module/add_region/views/add_region_view.dart';
+import '../modules/settings_module/store_settings/regions_module/add_update_shipping_option/bindings/add_update_shipping_option_binding.dart';
+import '../modules/settings_module/store_settings/regions_module/add_update_shipping_option/views/add_update_shipping_option_view.dart';
+import '../modules/settings_module/store_settings/regions_module/region_details/bindings/region_details_binding.dart';
+import '../modules/settings_module/store_settings/regions_module/region_details/views/region_details_view.dart';
+import '../modules/settings_module/store_settings/regions_module/regions/bindings/regions_binding.dart';
+import '../modules/settings_module/store_settings/regions_module/regions/views/regions_view.dart';
 import '../modules/settings_module/store_settings/return_reasons/bindings/return_reasons_binding.dart';
 import '../modules/settings_module/store_settings/return_reasons/create_update_return_reason/bindings/create_update_return_reason_binding.dart';
 import '../modules/settings_module/store_settings/return_reasons/create_update_return_reason/views/create_update_return_reason_view.dart';
 import '../modules/settings_module/store_settings/return_reasons/views/return_reasons_view.dart';
+import '../modules/settings_module/store_settings/sales_channel_module/add_update_sales_channel/bindings/add_update_sales_channel_binding.dart';
+import '../modules/settings_module/store_settings/sales_channel_module/add_update_sales_channel/views/add_update_sales_channel_view.dart';
+import '../modules/settings_module/store_settings/sales_channel_module/sales_channel_details/bindings/sales_channel_details_binding.dart';
+import '../modules/settings_module/store_settings/sales_channel_module/sales_channel_details/views/sales_channel_details_view.dart';
+import '../modules/settings_module/store_settings/sales_channel_module/sales_channels/bindings/sales_channels_binding.dart';
+import '../modules/settings_module/store_settings/sales_channel_module/sales_channels/views/sales_channels_view.dart';
 import '../modules/settings_module/store_settings/shipping/bindings/shipping_binding.dart';
 import '../modules/settings_module/store_settings/shipping/views/shipping_view.dart';
 import '../modules/settings_module/store_settings/store_details/bindings/store_details_binding.dart';
@@ -107,139 +113,135 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
-        name: _Paths.DASHBOARD,
-        page: () => const DashboardView(),
-        bindings: [
-          DashboardBinding(),
-          OrdersBinding(),
-          DraftOrdersBinding(),
-          ProductsBinding(),
-          CustomersBinding(),
-          CollectionsBinding(),
-          GroupsBinding(),
-          MoreBinding(),
-          // CurrenciesBinding(),
-        ],
+    GetPage(name: _Paths.DASHBOARD, page: () => const DashboardView(), bindings: [
+      DashboardBinding(),
+      OrdersBinding(),
+      DraftOrdersBinding(),
+      ProductsBinding(),
+      CustomersBinding(),
+      CollectionsBinding(),
+      GroupsBinding(),
+      MoreBinding(),
+      // CurrenciesBinding(),
+    ], children: [
+      GetPage(
+        name: _Paths.ORDER_DETAILS,
+        page: () => const OrderDetailsView(),
+        binding: OrderDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.DRAFT_ORDER_DETAILS,
+        page: () => const DraftOrderDetailsView(),
+        binding: DraftOrderDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CREATE_DRAFT_ORDER,
+        page: () => const CreateDraftOrderView(),
+        binding: CreateDraftOrderBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.PRODUCT_DETAILS,
+        page: () => const ProductDetailsView(),
+        binding: ProductDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.ADD_UPDATE_PRODUCT,
+        page: () => const AddUpdateProductView(),
+        binding: AddUpdateProductBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.STORE_DETAILS,
+        page: () => const StoreDetailsView(),
+        binding: StoreDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CUSTOMER_DETAILS,
+        page: () => const CustomerDetailsView(),
+        binding: CustomerDetailsBinding(),
         children: [
           GetPage(
-            name: _Paths.ORDER_DETAILS,
-            page: () => const OrderDetailsView(),
-            binding: OrderDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.DRAFT_ORDER_DETAILS,
-            page: () => const DraftOrderDetailsView(),
-            binding: DraftOrderDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CREATE_DRAFT_ORDER,
-            page: () => const CreateDraftOrderView(),
-            binding: CreateDraftOrderBinding(),
+            name: _Paths.TRANSFER_ORDER,
+            page: () => const TransferOrderView(),
+            binding: TransferOrderBinding(),
             fullscreenDialog: true,
           ),
+        ],
+      ),
+      GetPage(
+        name: _Paths.CURRENCIES,
+        page: () => const CurrenciesView(),
+        binding: CurrenciesBinding(),
+      ),
+      GetPage(
+        name: _Paths.COLLECTION_DETAILS,
+        page: () => const CollectionDetailsView(),
+        binding: CollectionDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CREATE_COLLECTION,
+        page: () => const CreateCollectionView(),
+        binding: CreateCollectionBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.REGIONS,
+        page: () => const RegionsView(),
+        binding: RegionsBinding(),
+        children: [
           GetPage(
-            name: _Paths.PRODUCT_DETAILS,
-            page: () => const ProductDetailsView(),
-            binding: ProductDetailsBinding(),
+            name: _Paths.ADD_REGION,
+            page: () => const AddRegionView(),
+            binding: AddRegionBinding(),
           ),
           GetPage(
-            name: _Paths.ADD_UPDATE_PRODUCT,
-            page: () => const AddUpdateProductView(),
-            binding: AddUpdateProductBinding(),
+            name: _Paths.REGION_DETAILS,
+            page: () => const RegionDetailsView(),
+            binding: RegionDetailsBinding(),
+          ),
+        ],
+      ),
+      GetPage(
+        name: _Paths.PERSONAL_INFORMATION,
+        page: () => const PersonalInformationView(),
+        binding: PersonalInformationBinding(),
+      ),
+      GetPage(
+        name: _Paths.RETURN_REASONS,
+        page: () => const ReturnReasonsView(),
+        binding: ReturnReasonsBinding(),
+        children: [
+          GetPage(
+            name: _Paths.CREATE_UPDATE_RETURN_REASON,
+            page: () => const CreateUpdateReturnReasonView(),
+            binding: CreateUpdateReturnReasonBinding(),
             fullscreenDialog: true,
           ),
-          GetPage(
-            name: _Paths.STORE_DETAILS,
-            page: () => const StoreDetailsView(),
-            binding: StoreDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CUSTOMER_DETAILS,
-            page: () => const CustomerDetailsView(),
-            binding: CustomerDetailsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.TRANSFER_ORDER,
-                page: () => const TransferOrderView(),
-                binding: TransferOrderBinding(),
-                fullscreenDialog: true,
-              ),
-            ],
-          ),
-          GetPage(
-            name: _Paths.CURRENCIES,
-            page: () => const CurrenciesView(),
-            binding: CurrenciesBinding(),
-          ),
-          GetPage(
-            name: _Paths.COLLECTION_DETAILS,
-            page: () => const CollectionDetailsView(),
-            binding: CollectionDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CREATE_COLLECTION,
-            page: () => const CreateCollectionView(),
-            binding: CreateCollectionBinding(),
-            fullscreenDialog: true,
-          ),
-          GetPage(
-            name: _Paths.REGIONS,
-            page: () => const RegionsView(),
-            binding: RegionsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.ADD_REGION,
-                page: () => const AddRegionView(),
-                binding: AddRegionBinding(),
-              ),
-              GetPage(
-                name: _Paths.REGION_DETAILS,
-                page: () => const RegionDetailsView(),
-                binding: RegionDetailsBinding(),
-              ),
-            ],
-          ),
-          GetPage(
-            name: _Paths.PERSONAL_INFORMATION,
-            page: () => const PersonalInformationView(),
-            binding: PersonalInformationBinding(),
-          ),
-          GetPage(
-            name: _Paths.RETURN_REASONS,
-            page: () => const ReturnReasonsView(),
-            binding: ReturnReasonsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.CREATE_UPDATE_RETURN_REASON,
-                page: () => const CreateUpdateReturnReasonView(),
-                binding: CreateUpdateReturnReasonBinding(),
-                fullscreenDialog: true,
-              ),
-            ],
-          ),
-          GetPage(
-            name: _Paths.SHIPPING,
-            page: () => const ShippingView(),
-            binding: ShippingBinding(),
-          ),
-          GetPage(
-            name: _Paths.TEAM,
-            page: () => const TeamView(),
-            binding: TeamBinding(),
-          ),
-          GetPage(
-              name: _Paths.TAX_SETTINGS_SELECT_REGION,
-              page: () => const TaxSettingsSelectRegionView(),
-              binding: TaxSettingsSelectRegionBinding(),
-              children: [
-                GetPage(
-                  name: _Paths.TAX_SETTINGS,
-                  page: () => const TaxSettingsView(),
-                  binding: TaxSettingsBinding(),
-                ),
-              ]),
-        ]),
+        ],
+      ),
+      GetPage(
+        name: _Paths.SHIPPING,
+        page: () => const ShippingView(),
+        binding: ShippingBinding(),
+      ),
+      GetPage(
+        name: _Paths.TEAM,
+        page: () => const TeamView(),
+        binding: TeamBinding(),
+      ),
+      GetPage(
+          name: _Paths.TAX_SETTINGS_SELECT_REGION,
+          page: () => const TaxSettingsSelectRegionView(),
+          binding: TaxSettingsSelectRegionBinding(),
+          children: [
+            GetPage(
+              name: _Paths.TAX_SETTINGS,
+              page: () => const TaxSettingsView(),
+              binding: TaxSettingsBinding(),
+            ),
+          ]),
+    ]),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
@@ -371,6 +373,21 @@ class AppPages {
       name: _Paths.ADD_UPDATE_SHIPPING_OPTION,
       page: () => const AddUpdateShippingOptionView(),
       binding: AddUpdateShippingOptionBinding(),
+    ),
+    GetPage(
+      name: _Paths.SALES_CHANNELS,
+      page: () => const SalesChannelsView(),
+      binding: SalesChannelsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SALES_CHANNEL_DETAILS,
+      page: () => const SalesChannelDetailsView(),
+      binding: SalesChannelDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_UPDATE_SALES_CHANNEL,
+      page: () => const AddUpdateSalesChannelView(),
+      binding: AddUpdateSalesChannelBinding(),
     ),
   ];
 }

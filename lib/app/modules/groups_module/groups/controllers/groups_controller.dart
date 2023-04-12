@@ -18,11 +18,18 @@ class GroupsController extends GetxController {
   RxInt customerGroupsCount = 0.obs;
   final searchCtrl = TextEditingController();
   RxString searchTerm = ''.obs;
+  final focusNode = FocusNode();
+  RxBool focused = false.obs;
   late Worker searchDebouner;
+
   @override
   void onInit() {
-    searchDebouner =
-        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
+    focusNode.addListener(() {
+      focused.value = focusNode.hasFocus;
+    });
+    searchDebouner = debounce(searchTerm, (callback) {
+      pagingController.refresh();
+    }, time: const Duration(milliseconds: 300));
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -41,7 +48,7 @@ class GroupsController extends GetxController {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'customers',
-      if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
+      'q': searchTerm.value,
     });
     result.when((success) {
       final isLastPage = success.customerGroups!.length < _pageSize;

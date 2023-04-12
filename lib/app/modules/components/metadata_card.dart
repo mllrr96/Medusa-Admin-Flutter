@@ -23,7 +23,7 @@ class MetadataCard extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: LabeledTextField(
@@ -38,7 +38,12 @@ class MetadataCard extends StatelessWidget {
                       },
                     ),
                   ),
-                  AdaptiveIcon(onPressed: onDelete, icon: const Icon(Icons.delete_forever, color: Colors.red)),
+                  Expanded(
+                    child: AdaptiveIcon(
+                      onPressed: onDelete,
+                      icon: const Icon(Icons.delete_forever, color: Colors.red),
+                    ),
+                  ),
                 ],
               ),
               LabeledTextField(

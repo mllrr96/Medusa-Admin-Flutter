@@ -141,34 +141,33 @@ class ProductsListView extends GetView<ProductsController> {
         header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
         child: PagedListView.separated(
           separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
-          padding: const EdgeInsets.only(bottom: kToolbarHeight),
+          padding: const EdgeInsets.only(bottom: kToolbarHeight *1.4),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Product>(
-              itemBuilder: (context, product, index) => ProductListTile(
-                    product: product,
-                    onDelete: () async {
-                      final confirmDelete = await showOkCancelAlertDialog(
-                          context: context,
-                          title: 'Confirm product deletion',
-                          message: 'Are you sure you want to delete this product? \n This action is irreversible',
-                          isDestructiveAction: true);
+            itemBuilder: (context, product, index) => ProductListTile(
+              product: product,
+              onDelete: () async {
+                final confirmDelete = await showOkCancelAlertDialog(
+                    context: context,
+                    title: 'Confirm product deletion',
+                    message: 'Are you sure you want to delete this product? \n This action is irreversible',
+                    isDestructiveAction: true);
 
-                      if (confirmDelete != OkCancelResult.ok) {
-                        return;
-                      }
-                      await controller.deleteProduct(product.id!);
-                    },
-                    onPublish: () async {
-                      await controller.updateProduct(Product(
-                        id: product.id!,
-                        discountable: product.discountable,
-                        status:
-                            product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
-                      ));
-                    },
-                  ),
-              firstPageProgressIndicatorBuilder: (context) =>
-                  const Center(child: CircularProgressIndicator.adaptive())),
+                if (confirmDelete != OkCancelResult.ok) {
+                  return;
+                }
+                await controller.deleteProduct(product.id!);
+              },
+              onPublish: () async {
+                await controller.updateProduct(Product(
+                  id: product.id!,
+                  discountable: product.discountable,
+                  status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+                ));
+              },
+            ),
+            firstPageProgressIndicatorBuilder: (_) => const Center(child: CircularProgressIndicator.adaptive()),
+          ),
         ),
       ),
     );
@@ -197,12 +196,13 @@ class ProductListTile extends StatelessWidget {
         await showModalActionSheet(
             title: 'Manage Product',
             message: product.title ?? '',
-            context: context, actions: <SheetAction>[
-          const SheetAction(label: 'Edit'),
-          SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
-          const SheetAction(label: 'Duplicate'),
-          const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
-        ]).then((result) async {
+            context: context,
+            actions: <SheetAction>[
+              const SheetAction(label: 'Edit'),
+              SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
+              const SheetAction(label: 'Duplicate'),
+              const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
+            ]).then((result) async {
           if (result == 'delete') {
             if (onDelete != null) {
               onDelete!();
@@ -257,7 +257,7 @@ class ProductListTile extends StatelessWidget {
           PullDownMenuItem(
             title: 'Duplicate',
             icon: Icons.copy,
-            onTap: (){},
+            onTap: () {},
           ),
         ],
         position: PullDownMenuPosition.automatic,

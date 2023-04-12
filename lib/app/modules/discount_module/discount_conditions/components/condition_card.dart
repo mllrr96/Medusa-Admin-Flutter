@@ -65,28 +65,38 @@ class DetailedConditionCard extends StatelessWidget {
     switch (discountCondition.type) {
       case DiscountConditionType.products:
         title = 'Product';
-        subtitle = 'Discount is applicable to specific products';
+        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+            ? 'Discount is applicable to all products except specific products'
+            : 'Discount is applicable to specific products';
         defaultEdit = () => Get.to(() => const ConditionProductView());
         break;
       case DiscountConditionType.productType:
         title = 'Product Type';
-        subtitle = 'Discount is applicable to specific product types';
+        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+            ? 'Discount is applicable to all product types expect specific product types'
+            : 'Discount is applicable to specific product types';
         defaultEdit = () => Get.to(() => const ConditionTypeView());
 
         break;
       case DiscountConditionType.productCollections:
         title = 'Collection';
-        subtitle = 'Discount is applicable to specific collections';
+        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+            ? 'Discount is applicable to all collections expect specific collections'
+            : 'Discount is applicable to specific collections';
         defaultEdit = () => Get.to(() => const ConditionCollectionView());
         break;
       case DiscountConditionType.productTags:
         title = 'Tag';
-        subtitle = 'Discount is applicable to specific product tags';
+        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+            ? 'Discount is applicable to all product tags except specific product tags'
+            : 'Discount is applicable to specific product tags';
         defaultEdit = () => Get.to(() => const ConditionTagView());
         break;
       case DiscountConditionType.customerGroups:
         title = 'Customer Group';
-        subtitle = 'Discount is applicable to specific customer group';
+        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+            ? 'Discount is applicable to all customer groups except specific customer groups'
+            : 'Discount is applicable to specific customer groups';
         defaultEdit = () => Get.to(() => const ConditionCustomerGroupView());
         break;
       case null:
@@ -94,12 +104,19 @@ class DetailedConditionCard extends StatelessWidget {
         break;
     }
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(4.0)), color: Theme.of(context).scaffoldBackgroundColor),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Container(
+            width: 4.0,
+            height: 40.0,
+            decoration: BoxDecoration(
+                color: discountCondition.operator! == DiscountConditionOperator.notIn ? Colors.red : null,
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4))),
+          ),
+          const SizedBox(width: 12.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

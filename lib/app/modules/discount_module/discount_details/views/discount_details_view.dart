@@ -22,7 +22,6 @@ import '../../discount_conditions/controllers/discount_conditions_controller.dar
 import '../../discounts/controllers/discounts_controller.dart';
 import '../../update_condition/controllers/update_condition_controller.dart';
 import '../controllers/discount_details_controller.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 class DiscountDetailsView extends GetView<DiscountDetailsController> {
   const DiscountDetailsView({Key? key}) : super(key: key);
@@ -261,7 +260,6 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                             await controller.deleteCondition(condition.id!);
                             return;
                           }
-
                           final addedItems =
                               result.updatedItemIds.toSet().difference(result.originalItemIds.toSet()).toList();
                           final deletedItems =
@@ -296,12 +294,9 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
           leading: const AdaptiveBackButton(),
           title: const Text('Discount Details'),
         ),
-        floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: controller.obx(
-            (discount) => ExpandableFab(
-                  key: controller.fabKey,
-                  distance: 80,
-                  type: ExpandableFabType.fan,
+            (discount) => Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     FloatingActionButton(
                         heroTag: null,
@@ -323,6 +318,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                           controller.fabKey.currentState?.toggle();
                         },
                         child: const Icon(MedusaIcons.trash)),
+                    const SizedBox(width: 12.0),
                     FloatingActionButton(
                         heroTag: null,
                         backgroundColor: ColorManager.primary,
@@ -344,7 +340,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
         body: SafeArea(
             child: controller.obx(
           (discount) => ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+            padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, kToolbarHeight * 2),
             children: [
               discountDetails(discount!),
               space,

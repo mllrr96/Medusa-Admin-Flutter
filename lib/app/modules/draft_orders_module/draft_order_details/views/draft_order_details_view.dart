@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 
+import '../../../components/adaptive_button.dart';
 import '../components/draft_order_summery.dart';
 import '../components/index.dart';
 import '../controllers/draft_order_details_controller.dart';
@@ -34,7 +37,13 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
             title: const Text('Draft Order Details'),
-            centerTitle: true,
+            actions: [
+              if (controller.state?.status == DraftOrderStatus.completed)
+                AdaptiveButton(
+                  onPressed: () => Get.toNamed(Routes.ORDER_DETAILS, arguments: controller.state!.orderId!),
+                  child: const Text('Go to order'),
+                )
+            ],
           ),
           body: SafeArea(
             child: controller.obx(

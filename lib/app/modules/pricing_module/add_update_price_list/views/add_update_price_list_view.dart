@@ -300,9 +300,10 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
               ),
               space,
               AdaptiveButton(
-                  onPressed: () => Get.toNamed(Routes.PICK_PRODUCTS, arguments: PickProductsReq(
-                    includeVariantCount: true,
-                  )),
+                  onPressed: () => Get.toNamed(Routes.PICK_PRODUCTS,
+                      arguments: PickProductsReq(
+                        includeVariantCount: true,
+                      )),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
