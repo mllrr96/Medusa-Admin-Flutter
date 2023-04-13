@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -30,6 +29,7 @@ class GroupsView extends GetView<GroupsController> {
           child: const Icon(Icons.group_add),
         ),
         body: Scaffold(
+          // ignore: prefer_const_constructors
           appBar: GroupAppBar(),
           body: SmartRefresher(
             controller: controller.refreshController,

@@ -130,7 +130,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
       if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
         await controller.scrollController
-            .animateTo(scrollPoint, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+            .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
       } else {
         await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);

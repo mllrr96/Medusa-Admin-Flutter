@@ -34,6 +34,7 @@ class AddUpdateDiscountController extends GetxController {
   final percentageCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
   final limitCtrl = TextEditingController();
+  final regionCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   Discount? _loadedDiscount;
   RxList<Region> selectedRegions = <Region>[].obs;
@@ -85,6 +86,8 @@ class AddUpdateDiscountController extends GetxController {
     codeCtrl.text = discount!.code ?? '';
     limitCtrl.text = discount!.usageLimit?.toString() ?? '';
     descriptionCtrl.text = discount!.rule?.description ?? '';
+    regionCtrl.text =
+        discount!.regions?.map((e) => e.name).toList().toString().replaceAll('[', '').replaceAll(']', '') ?? '';
 
     if (discount!.startsAt != null) {
       hasStartDate.value = true;

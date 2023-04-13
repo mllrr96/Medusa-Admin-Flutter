@@ -6,7 +6,6 @@ import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../routes/app_pages.dart';
-import '../../../components/adaptive_icon.dart';
 
 class GroupCard extends GetView<GroupsController> {
   const GroupCard({Key? key, required this.customerGroup, required this.index}) : super(key: key);

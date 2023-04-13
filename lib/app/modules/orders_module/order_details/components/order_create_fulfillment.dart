@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
 class OrderCreateFulfillment extends StatefulWidget {

@@ -14,16 +14,16 @@ class DiscountConditionsController extends GetxController {
     }
     super.onInit();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  //
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
+  //
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 }
 
 class DiscountConditionRes {

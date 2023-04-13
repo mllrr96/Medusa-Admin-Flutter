@@ -7,7 +7,6 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfill
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import '../../../../data/models/store/customer.dart';
 import '../../../components/adaptive_filled_button.dart';
 import '../controllers/transfer_order_controller.dart';
 
@@ -16,7 +15,6 @@ class TransferOrderView extends GetView<TransferOrderController> {
 
   @override
   Widget build(BuildContext context) {
-    const halfSpace = SizedBox(height: 6.0);
     const space = SizedBox(height: 12.0);
     final order = controller.order;
     final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;

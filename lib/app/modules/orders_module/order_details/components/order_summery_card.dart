@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-
 import '../../../components/currency_formatter.dart';
 
 class OrderSummeryCard extends StatelessWidget {

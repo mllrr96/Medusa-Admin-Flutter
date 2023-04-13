@@ -13,15 +13,15 @@ class AddUpdateApiKeyController extends GetxController {
   bool get updateMode => publishableApiKey != null;
   final titleCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  // }
+  //
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
 
   @override
   void onClose() {

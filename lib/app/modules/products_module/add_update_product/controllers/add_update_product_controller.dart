@@ -58,12 +58,10 @@ class AddUpdateProductController extends GetxController {
     final result = await productTypeRepo.retrieveProductTypes();
     result.when((success) {
       productTypes = success.productTypes;
-      print(success.productTypes?.length);
     }, (error) => null);
     final result2 = await collectionRepo.retrieveAll();
     result2.when((success) {
       collections = success.collections;
-      print(success.collections?.length);
     }, (error) => null);
     update([1]);
   }

@@ -141,7 +141,6 @@ class ConditionTypeController extends GetxController {
         pagingController.appendPage(success.productTypes!, nextPageKey);
       }
     }, (error) {
-      print(error.toString());
       pagingController.error = error.message;
     });
   }

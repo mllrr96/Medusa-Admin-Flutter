@@ -12,6 +12,7 @@ class TransferOrderController extends GetxController {
   final Order order = Get.arguments;
   final currentOwnerCtrl = TextEditingController();
   final newOwnerCtrl = TextEditingController();
+  // ignore: unnecessary_cast
   Rx<Customer?> selectedCustomer = (null as Customer?).obs;
   Future<void> updateOrder() async {
     loading();

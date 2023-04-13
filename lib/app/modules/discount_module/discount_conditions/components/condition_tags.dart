@@ -142,7 +142,6 @@ class ConditionTagController extends GetxController {
         pagingController.appendPage(success.tags!, nextPageKey);
       }
     }, (error) {
-      print(error.toString());
       pagingController.error = error.message;
     });
   }

@@ -17,20 +17,20 @@ class AddUpdatePriceListController extends GetxController {
   final configKey = GlobalKey();
   final pricesKey = GlobalKey();
   final scrollController = ScrollController();
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  // }
+  //
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
+  //
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 
   Future<void> create() async {
     if (!formKey.currentState!.validate()) {

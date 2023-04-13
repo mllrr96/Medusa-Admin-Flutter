@@ -20,15 +20,15 @@ class ApiKeyManagementController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
+  //
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await apiKeyRepo.retrievePublishableApiKeys(queryParameters: {

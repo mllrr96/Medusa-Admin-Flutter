@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'index.dart';
+// ignore: depend_on_referenced_packages
 import 'package:copy_with_extension/copy_with_extension.dart';
 
 part 'price_list.g.dart';

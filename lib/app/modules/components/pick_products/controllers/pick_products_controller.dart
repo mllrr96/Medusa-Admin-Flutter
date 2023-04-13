@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../data/models/store/product.dart';
 import '../../../../data/repository/product/products_repo.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
 class PickProductsController extends GetxController {

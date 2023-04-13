@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.da
 import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/index.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 

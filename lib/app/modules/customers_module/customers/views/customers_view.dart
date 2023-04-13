@@ -43,6 +43,7 @@ class _Customers extends GetView<CustomersController> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        // ignore: prefer_const_constructors
         appBar: CustomerCustomAppBar(),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {

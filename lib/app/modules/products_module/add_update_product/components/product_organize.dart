@@ -12,18 +12,8 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme
-        .of(context)
-        .textTheme
-        .titleSmall;
-    final mediumTextStyle = Theme
-        .of(context)
-        .textTheme
-        .titleMedium;
-    final largeTextStyle = Theme
-        .of(context)
-        .textTheme
-        .titleLarge;
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
     return GetBuilder<AddUpdateProductController>(
       id: 1,
@@ -52,31 +42,29 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                   duration: const Duration(milliseconds: 300),
                   child: controller.productTypes != null
                       ? DropdownButtonFormField<ProductType>(
-                    value: controller.selectedProductType,
-                    disabledHint: const Text('No options'),
-                    onChanged: (type) {
-                      if (type != null) {
-                        controller.selectedProductType = type;
-                      }
-                    },
-                    items: controller.productTypes!
-                        .map((e) =>
-                        DropdownMenuItem<ProductType>(value: e, child: Text(e.value?.capitalize ?? e.value!)))
-                        .toList(),
-                    decoration: InputDecoration(
-                      hintText: 'Choose a type',
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      filled: true,
-                      fillColor: Theme
-                          .of(context)
-                          .scaffoldBackgroundColor,
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                      ),
-                    ),
-                  )
+                          value: controller.selectedProductType,
+                          disabledHint: const Text('No options'),
+                          onChanged: (type) {
+                            if (type != null) {
+                              controller.selectedProductType = type;
+                            }
+                          },
+                          items: controller.productTypes!
+                              .map((e) =>
+                                  DropdownMenuItem<ProductType>(value: e, child: Text(e.value?.capitalize ?? e.value!)))
+                              .toList(),
+                          decoration: InputDecoration(
+                            hintText: 'Choose a type',
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            filled: true,
+                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                            ),
+                          ),
+                        )
                       : const Center(child: CircularProgressIndicator.adaptive()),
                 )
               ],
@@ -95,31 +83,28 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                   duration: const Duration(milliseconds: 300),
                   child: controller.collections != null
                       ? DropdownButtonFormField<ProductCollection>(
-                    value: controller.selectedCollection,
-                    disabledHint: const Text('No options'),
-                    onChanged: (collection) {
-                      if (collection != null) {
-                        controller.selectedCollection = collection;
-                      }
-                    },
-                    items: controller.collections!
-                        .map((e) =>
-                        DropdownMenuItem<ProductCollection>(
-                            value: e, child: Text(e.title?.capitalize ?? e.title!)))
-                        .toList(),
-                    decoration: InputDecoration(
-                        hintText: 'Choose a collection',
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        filled: true,
-                        fillColor: Theme
-                            .of(context)
-                            .scaffoldBackgroundColor,
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                        )),
-                  )
+                          value: controller.selectedCollection,
+                          disabledHint: const Text('No options'),
+                          onChanged: (collection) {
+                            if (collection != null) {
+                              controller.selectedCollection = collection;
+                            }
+                          },
+                          items: controller.collections!
+                              .map((e) => DropdownMenuItem<ProductCollection>(
+                                  value: e, child: Text(e.title?.capitalize ?? e.title!)))
+                              .toList(),
+                          decoration: InputDecoration(
+                              hintText: 'Choose a collection',
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).scaffoldBackgroundColor,
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                              )),
+                        )
                       : const Center(child: CircularProgressIndicator.adaptive()),
                 )
               ],
@@ -134,9 +119,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                   borderSide: BorderSide(color: Colors.grey),
                 ),
                 filled: true,
-                fillColor: Theme
-                    .of(context)
-                    .scaffoldBackgroundColor,
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
                 hintText: 'Tags (comma separated)',
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),

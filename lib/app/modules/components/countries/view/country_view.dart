@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import '../controller/country_controller.dart';
-import 'dart:math' as math;
 
 class SelectCountryView extends StatelessWidget {
   const SelectCountryView({Key? key, this.selectCountryReq}) : super(key: key);

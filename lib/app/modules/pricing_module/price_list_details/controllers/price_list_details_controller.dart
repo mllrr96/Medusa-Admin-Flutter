@@ -18,15 +18,15 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
+  //
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
 
   Future<void> loadPriceList() async {
     change(null, status: RxStatus.loading());

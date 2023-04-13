@@ -215,7 +215,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(''), Text('Customer groups', style: smallTextStyle?.copyWith(color: lightWhite))],
+                    children: [const Text(''), Text('Customer groups', style: smallTextStyle?.copyWith(color: lightWhite))],
                   ),
                 ),
                 const VerticalDivider(width: 0),

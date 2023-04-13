@@ -5,11 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
-
-import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../../components/adaptive_button.dart';
-import '../../../components/adaptive_icon.dart';
 
 class CustomersTabBar extends StatefulWidget with PreferredSizeWidget {
   const CustomersTabBar({Key? key, required this.tabController, required this.topViewPadding}) : super(key: key);

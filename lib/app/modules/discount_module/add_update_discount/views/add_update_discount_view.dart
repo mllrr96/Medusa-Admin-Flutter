@@ -158,48 +158,11 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
               expandedAlignment: Alignment.centerLeft,
               childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
               children: [
-                Row(
-                  children: [
-                    Text(
-                        controller.discountRuleType.value == DiscountRuleType.fixed
-                            ? 'Choose valid region'
-                            : 'Choose valid regions',
-                        style: mediumTextStyle),
-                    Text('*', style: mediumTextStyle?.copyWith(color: Colors.red)),
-                  ],
-                ),
-                halfSpace,
-                TextFormField(
-                  style: Theme.of(context).textTheme.titleSmall,
-                  validator: (val) {
-                    if (controller.selectedRegions.isEmpty) {
-                      return 'Select at least one region';
-                    }
-                    return null;
-                  },
-                  onTap: () async {
-                    final regionReq = PickRegionsReq(
-                      multipleSelect: controller.discountRuleType.value == DiscountRuleType.fixed ? false : true,
-                      selectedRegions: controller.discountRuleType.value == DiscountRuleType.fixed
-                          ? controller.selectedRegions.isNotEmpty
-                              ? [controller.selectedRegions.first]
-                              : []
-                          : [...controller.selectedRegions],
-                    );
-                    await showBarModalBottomSheet(
-                        context: context,
-                        builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
-                      if (result is PickRegionsRes) {
-                        controller.selectedRegions.value = result.regions;
-                        if (controller.discountRuleType.value == DiscountRuleType.fixed) {
-                          controller.amountCtrl.text = CurrencyTextInputFormatter(
-                            name: controller.selectedRegions.first.currencyCode,
-                          ).format(controller.amountCtrl.text);
-                        }
-                      }
-                    });
-                  },
-                  readOnly: true,
+                LabeledTextField(
+                  label: controller.discountRuleType.value == DiscountRuleType.fixed
+                      ? 'Choose valid region'
+                      : 'Choose valid regions',
+                  controller: controller.regionCtrl,
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
@@ -223,8 +186,39 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                         : null,
                     border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                   ),
+                  required: true,
+                  readOnly: true,
+                  onTap: () async {
+                    final regionReq = PickRegionsReq(
+                      multipleSelect: controller.discountRuleType.value == DiscountRuleType.fixed ? false : true,
+                      selectedRegions: controller.discountRuleType.value == DiscountRuleType.fixed
+                          ? controller.selectedRegions.isNotEmpty
+                              ? [controller.selectedRegions.first]
+                              : []
+                          : [...controller.selectedRegions],
+                    );
+                    await showBarModalBottomSheet(
+                        context: context,
+                        builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
+                      if (result is PickRegionsRes) {
+                        controller.selectedRegions.value = result.regions;
+                        final regionsName = result.regions.map((e) => e.name).toList();
+                        controller.regionCtrl.text = regionsName.toString().replaceAll('[', '').replaceAll(']', '');
+                        if (controller.discountRuleType.value == DiscountRuleType.fixed) {
+                          controller.amountCtrl.text = CurrencyTextInputFormatter(
+                            name: controller.selectedRegions.first.currencyCode,
+                          ).format(controller.amountCtrl.text);
+                        }
+                      }
+                    });
+                  },
+                  validator: (val) {
+                    if (controller.selectedRegions.isEmpty) {
+                      return 'Select at least one region';
+                    }
+                    return null;
+                  },
                 ),
-                space,
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
                   child: controller.discountRuleType.value == DiscountRuleType.percentage

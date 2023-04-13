@@ -1,8 +1,5 @@
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
-import '../store/payment_provider.dart';
-import '../store/store.dart';
-
 class UserStoreRes {
   const UserStoreRes({required this.store});
   final Store store;

@@ -167,7 +167,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
-                        Text('Total Redemptions', style: smallTextStyle?.copyWith(color: lightWhite))
+                        Text('Total Redemptions', style: smallTextStyle.copyWith(color: lightWhite))
                       ],
                     ),
                   ),
