@@ -1,5 +1,4 @@
 import 'package:multiple_result/multiple_result.dart';
-
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/req/user_product_category.dart';
 import '../../models/res/product_category.dart';
@@ -61,12 +60,6 @@ abstract class BaseProductCategory {
 
   /// Retrieve a list of product categories.
   Future<Result<UserRetrieveProductCategoriesRes, Failure>> retrieveProductCategories({
-    Map<String, dynamic>? customHeaders,
-    Map<String, dynamic>? queryParameters,
-  });
-
-  /// Retrieve a list of Reservations.
-  Future<Result<UserRetrieveReservationsRes, Failure>> retrieveReservations({
     Map<String, dynamic>? customHeaders,
     Map<String, dynamic>? queryParameters,
   });
