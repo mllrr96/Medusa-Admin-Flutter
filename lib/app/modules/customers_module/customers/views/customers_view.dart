@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import '../../../components/adaptive_button.dart';
 import '../../../groups_module/groups/views/groups_view.dart';
 import '../components/index.dart';
 import '../controllers/customers_controller.dart';
@@ -38,10 +39,11 @@ class _Customers extends GetView<CustomersController> {
 
   @override
   Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: const CustomerCustomAppBar(),
+        appBar: CustomerCustomAppBar(),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS);
@@ -71,8 +73,14 @@ class _Customers extends GetView<CustomersController> {
                     }
                   },
                 ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator.adaptive()),
+                firstPageProgressIndicatorBuilder: (_) => const Center(child: CircularProgressIndicator.adaptive()),
+                noItemsFoundIndicatorBuilder: (_) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (controller.searchTerm.value.isEmpty) Text('No customers yet!', style: mediumTextStyle),
+                    if (controller.searchTerm.value.isNotEmpty) Text('No customers found', style: mediumTextStyle),
+                  ],
+                ),
               ),
               // separatorBuilder: (_, __) => const Divider(height: 0),
             ),
@@ -88,32 +96,55 @@ class CustomerCustomAppBar extends GetView<CustomersController> with PreferredSi
 
   @override
   Widget build(BuildContext context) {
-    final searchTerm = controller.searchTerm.value;
     return Container(
       color: Theme.of(context).appBarTheme.backgroundColor,
       alignment: Alignment.center,
       height: kToolbarHeight,
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Padding(
-        padding: Platform.isIOS ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4.0),
-        child: SearchTextField(
-          controller: controller.searchCtrl,
-          hintText: 'Search for customer name, email, phone number ...',
-          onSuffixTap: () {
-            controller.searchCtrl.clear();
-            controller.searchTerm.value = '';
-            FocusScope.of(context).unfocus();
-          },
-          onChanged: (val) {
-            if (val.isEmpty && searchTerm.isNotEmpty) {
-              controller.searchTerm.value = '';
-            }
-
-            if (searchTerm != val && val.isNotEmpty) {
-              controller.searchTerm.value = val;
-            }
-          },
-        ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: Platform.isIOS ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4.0),
+              child: SearchTextField(
+                focusNode: controller.focusNode,
+                controller: controller.searchCtrl,
+                hintText: 'Search for customer name, email, phone number ...',
+                onSuffixTap: () {
+                  controller.searchCtrl.clear();
+                  controller.searchTerm.value = '';
+                  FocusScope.of(context).unfocus();
+                },
+                onChanged: (val) {
+                  if (val.isEmpty && controller.searchTerm.value.isNotEmpty) {
+                    controller.searchTerm.value = '';
+                  }
+                  if (controller.searchTerm.value != val && val.isNotEmpty) {
+                    controller.searchTerm.value = val;
+                  }
+                },
+              ),
+            ),
+          ),
+          Obx(() {
+            return AnimatedCrossFade(
+              sizeCurve: Curves.ease,
+              firstChild: AdaptiveButton(
+                  onPressed: () {
+                    controller.focusNode.unfocus();
+                    controller.searchCtrl.clear();
+                    if (controller.searchTerm.value.isNotEmpty) {
+                      controller.searchTerm.value = '';
+                    }
+                  },
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: const Text('Cancel', maxLines: 1)),
+              secondChild: const SizedBox.shrink(),
+              crossFadeState: controller.focused.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 250),
+            );
+          }),
+        ],
       ),
     );
   }

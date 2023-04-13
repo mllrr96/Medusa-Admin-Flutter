@@ -7,7 +7,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import '../../../../data/models/store/customer_group.dart';
 import '../controllers/group_details_controller.dart';
 
 class GroupDetailsView extends GetView<GroupDetailsController> {
@@ -34,17 +36,47 @@ class GroupDetailsView extends GetView<GroupDetailsController> {
           slivers: [
             SliverAppBar(
               pinned: true,
-              title: Obx(() {
-                if (controller.groupName.value.isNotEmpty) {
-                  return Text(controller.groupName.value);
-                }
-                return const Text('Group Details');
-              }),
-              // actions: [
-              //   AdaptiveIcon(
-              //       onPressed: () async => await controller.addCustomers(),
-              //       icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add))
-              // ],
+              title: Text(controller.customerGroup.name ?? ''),
+              actions: [
+                AdaptiveIcon(
+                    onPressed: () async {
+                      await showModalActionSheet<int>(
+                          title: 'Manage group',
+                          message: controller.customerGroup.name ?? '',
+                          context: context,
+                          actions: <SheetAction<int>>[
+                            const SheetAction(label: 'Edit', key: 0),
+                            const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                          ]).then((result) async {
+                        switch (result) {
+                          case 0:
+                            await Get.toNamed(Routes.CREATE_UPDATE_GROUP, arguments: controller.customerGroup)
+                                ?.then((value) {
+                              if (value is CustomerGroup) {
+                                controller.customerGroup = value;
+                                GroupsController.instance.pagingController.refresh();
+                              }
+                            });
+                            break;
+                          case 1:
+                            await showOkCancelAlertDialog(
+                              context: context,
+                              title: 'Delete the group',
+                              message: 'Are you sure you want to delete this customer group?',
+                              okLabel: 'Yes, delete',
+                              isDestructiveAction: true,
+                            ).then((value) async {
+                              if (value == OkCancelResult.ok) {
+                                await controller.deleteGroup();
+                              }
+                            });
+
+                            break;
+                        }
+                      });
+                    },
+                    icon: const Icon(Icons.more_horiz))
+              ],
             ),
             PagedSliverList(
               pagingController: controller.pagingController,

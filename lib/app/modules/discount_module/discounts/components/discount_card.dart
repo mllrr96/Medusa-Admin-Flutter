@@ -61,19 +61,20 @@ class DiscountCard extends StatelessWidget {
                       await showModalActionSheet<int>(
                           title: 'Manage discount',
                           message: discount.code ?? '',
-                          context: context, actions: <SheetAction<int>>[
-                        const SheetAction(label: 'Edit', key: 0),
-                        discount.isDisabled == null || !discount.isDisabled!
-                            ? const SheetAction(label: 'Disable', key: 1)
-                            : const SheetAction(label: 'Enable', key: 1),
-                        const SheetAction(label: 'Delete', isDestructiveAction: true, key: 2),
-                      ]).then((value) async {
+                          context: context,
+                          actions: <SheetAction<int>>[
+                            const SheetAction(label: 'Edit', key: 0),
+                            discount.isDisabled == null || !discount.isDisabled!
+                                ? const SheetAction(label: 'Disable', key: 1)
+                                : const SheetAction(label: 'Enable', key: 1),
+                            const SheetAction(label: 'Delete', isDestructiveAction: true, key: 2),
+                          ]).then((value) async {
                         if (value == null) {
                           return;
                         }
                         switch (value) {
                           case 0:
-                            Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount.id!);
+                            Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount);
                             break;
                           case 1:
                             if (onToggle != null) {

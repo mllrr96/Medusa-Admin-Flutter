@@ -19,6 +19,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
   @override
   Widget build(BuildContext context) {
     final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
 
     return GetBuilder<UpdateConditionController>(
       builder: (controller) {
@@ -44,6 +45,13 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                 ),
               ),
             ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight / 2),
+              child: SizedBox(
+                height: kToolbarHeight / 2,
+                child: Text(controller.operatorText, style: smallTextStyle, maxLines: 1),
+              ),
+            ),
           ),
           bottomNavigationBar: Container(
             padding: EdgeInsets.only(bottom: bottomViewPadding, left: 22.0, right: 22.0, top: bottomViewPadding / 2),

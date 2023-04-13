@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_down_button/pull_down_button.dart';
@@ -105,6 +106,7 @@ class ProductsListView extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return Scaffold(
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
@@ -167,6 +169,28 @@ class ProductsListView extends GetView<ProductsController> {
               },
             ),
             firstPageProgressIndicatorBuilder: (_) => const Center(child: CircularProgressIndicator.adaptive()),
+            noItemsFoundIndicatorBuilder: (_) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (controller.searchTerm.value.isEmpty)
+                  Column(
+                    children: [
+                      Text('No products yet!', style: mediumTextStyle),
+                      const SizedBox(height: 12.0),
+                      AdaptiveFilledButton(
+                          onPressed: () async {
+                            await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+                              if (result != null && result is bool && result == true) {
+                                controller.pagingController.refresh();
+                              }
+                            });
+                          },
+                          child: const Text('Add product', style: TextStyle(color: Colors.white)))
+                    ],
+                  ),
+                if (controller.searchTerm.value.isNotEmpty) Text('No products found', style: mediumTextStyle),
+              ],
+            ),
           ),
         ),
       ),

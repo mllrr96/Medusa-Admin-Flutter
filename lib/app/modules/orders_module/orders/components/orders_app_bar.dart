@@ -227,7 +227,7 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
                             label: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Filters', style: Theme.of(context).textTheme.titleSmall),
+                                Text('Filters', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: lightWhite)),
                                 Text(' 0',
                                     style:
                                         Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),

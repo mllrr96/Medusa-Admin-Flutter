@@ -4,20 +4,22 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
+import '../../../../data/models/store/customer_group.dart';
+
 class CreateUpdateGroupController extends GetxController {
   CreateUpdateGroupController({required this.customerGroupRepo});
-  final String? id = Get.arguments;
+  final CustomerGroup? customerGroup = Get.arguments;
   final groupTitleCtrl = TextEditingController();
   final CustomerGroupRepo customerGroupRepo;
   final formKey = GlobalKey<FormState>();
-  bool get updateMode => id != null;
+  bool get updateMode => customerGroup != null;
   final scrollController = ScrollController();
   var metadata = <Metadata>[];
   var metadataTextCtrl = <MetadataTextCtrl>[];
   final listKey = GlobalKey<AnimatedListState>();
   @override
   Future<void> onInit() async {
-    if (id != null) {
+    if (customerGroup != null) {
       await _loadCustomerGroup();
     }
     super.onInit();
@@ -31,20 +33,12 @@ class CreateUpdateGroupController extends GetxController {
   }
 
   Future<void> _loadCustomerGroup() async {
-    loading();
-    final result = await customerGroupRepo.retrieveCustomerGroup(id: id!);
-    result.when((success) {
-      groupTitleCtrl.text = success.customerGroup?.name ?? '';
-      success.customerGroup?.metadata?.forEach((key, value) {
-        metadataTextCtrl
-            .add(MetadataTextCtrl(key: TextEditingController(text: key), value: TextEditingController(text: value)));
-        update();
-      });
-    }, (error) {
-      Get.back();
-      Get.snackbar('Error code ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+    groupTitleCtrl.text = customerGroup?.name ?? '';
+    customerGroup?.metadata?.forEach((key, value) {
+      metadataTextCtrl
+          .add(MetadataTextCtrl(key: TextEditingController(text: key), value: TextEditingController(text: value)));
+      update();
     });
-    dismissLoading();
   }
 
   Future<void> updateCustomerGroup(BuildContext context) async {
@@ -57,9 +51,10 @@ class CreateUpdateGroupController extends GetxController {
     for (var e in metadataTextCtrl) {
       metadata.addAll({e.key.text: e.value.text});
     }
-    final result = await customerGroupRepo.updateCustomerGroup(id: id!, name: groupTitleCtrl.text, metadata: metadata);
+    final result = await customerGroupRepo.updateCustomerGroup(
+        id: customerGroup!.id!, name: groupTitleCtrl.text, metadata: metadata);
     result.when((success) {
-      Get.back(result: true);
+      Get.back(result: success.customerGroup);
       EasyLoading.showSuccess('Customer group updated!');
     }, (error) {
       dismissLoading();

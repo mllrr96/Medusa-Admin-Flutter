@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
@@ -15,6 +16,7 @@ class GroupsView extends GetView<GroupsController> {
 
   @override
   Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -32,16 +34,25 @@ class GroupsView extends GetView<GroupsController> {
           body: SmartRefresher(
             controller: controller.refreshController,
             onRefresh: () => controller.pagingController.refresh(),
-
             header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-            child: PagedListView(
-              padding: const EdgeInsets.only(bottom: kToolbarHeight *1.4),
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
+            child: SlidableAutoCloseBehavior(
+              child: PagedListView.separated(
+                separatorBuilder: (_, __) => Divider(height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
+                padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+                pagingController: controller.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
                   itemBuilder: (context, customerGroup, index) => GroupCard(customerGroup: customerGroup, index: index),
                   firstPageProgressIndicatorBuilder: (context) =>
-                      const Center(child: CircularProgressIndicator.adaptive())),
-              // separatorBuilder: (_, __) => const Divider(height: 0),
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  noItemsFoundIndicatorBuilder: (_) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (controller.searchTerm.value.isEmpty) Text('No group yet!', style: mediumTextStyle),
+                      if (controller.searchTerm.value.isNotEmpty) Text('No groups found', style: mediumTextStyle),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -73,28 +84,14 @@ class GroupAppBar extends GetView<GroupsController> with PreferredSizeWidget {
               },
               onChanged: (val) {
                 if (val.isEmpty && controller.searchTerm.value.isNotEmpty) {
-                  print('check');
                   controller.searchTerm.value = '';
                 }
-
                 if (controller.searchTerm.value != val && val.isNotEmpty) {
-                  print('check');
                   controller.searchTerm.value = val;
                 }
               },
             ),
           ),
-          // AnimatedSwitcher(
-          //   duration: const Duration(milliseconds: 250),
-          //   child: controller.focusNode.hasFocus
-          //       ? AdaptiveButton(
-          //           onPressed: () {
-          //             controller.focusNode.unfocus();
-          //           },
-          //           padding: const EdgeInsets.only(left: 12.0),
-          //           child: const Text('Cancel'))
-          //       : const SizedBox.shrink(),
-          // ),
           Obx(() {
             return AnimatedCrossFade(
               sizeCurve: Curves.ease,
@@ -102,7 +99,9 @@ class GroupAppBar extends GetView<GroupsController> with PreferredSizeWidget {
                   onPressed: () {
                     controller.focusNode.unfocus();
                     controller.searchCtrl.clear();
-                    controller.searchTerm.value = '';
+                    if (controller.searchTerm.value.isNotEmpty) {
+                      controller.searchTerm.value = '';
+                    }
                   },
                   padding: const EdgeInsets.only(left: 12.0),
                   child: const Text('Cancel', maxLines: 1)),

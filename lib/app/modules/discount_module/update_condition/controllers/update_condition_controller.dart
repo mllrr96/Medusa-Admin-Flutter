@@ -15,7 +15,7 @@ class UpdateConditionController extends GetxController {
   List conditionItems = [];
   List items = [];
   List selectedItems = [];
-
+  String operatorText = '';
   late ProductsRepo productsRepo;
   late ProductTypeRepo typeRepo;
   late CollectionRepo collectionRepo;
@@ -31,9 +31,15 @@ class UpdateConditionController extends GetxController {
 
   Future<void> loadData() async {
     loading();
+
     final condition = updateConditionReq.discountCondition;
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
+        if (condition.operator == DiscountConditionOperator.notIn) {
+          operatorText = 'Discount is applicable to all products except selected products';
+        } else {
+          operatorText = 'Discount is applicable to selected products only';
+        }
         productsRepo = ProductsRepo();
         final result = await productsRepo.retrieveAll(queryParams: {'discount_condition_id': condition.id!});
         result.when((success) {
@@ -51,6 +57,11 @@ class UpdateConditionController extends GetxController {
         });
         break;
       case DiscountConditionType.productType:
+        if (condition.operator == DiscountConditionOperator.notIn) {
+          operatorText = 'Discount is applicable to all product types except selected product types';
+        } else {
+          operatorText = 'Discount is applicable to selected product types only';
+        }
         typeRepo = ProductTypeRepo();
         final result = await typeRepo.retrieveProductTypes(queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
@@ -68,6 +79,11 @@ class UpdateConditionController extends GetxController {
         });
         break;
       case DiscountConditionType.productCollections:
+        if (condition.operator == DiscountConditionOperator.notIn) {
+          operatorText = 'Discount is applicable to all collections except selected collections';
+        } else {
+          operatorText = 'Discount is applicable to selected collections only';
+        }
         collectionRepo = CollectionRepo();
         final result = await collectionRepo.retrieveAll(queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
@@ -85,6 +101,11 @@ class UpdateConditionController extends GetxController {
         });
         break;
       case DiscountConditionType.productTags:
+        if (condition.operator == DiscountConditionOperator.notIn) {
+          operatorText = 'Discount is applicable to all tags except selected tags';
+        } else {
+          operatorText = 'Discount is applicable to selected tags only';
+        }
         tagRepo = ProductTagRepo();
         final result = await tagRepo.retrieveProductTags(queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
@@ -102,6 +123,11 @@ class UpdateConditionController extends GetxController {
         });
         break;
       case DiscountConditionType.customerGroups:
+        if (condition.operator == DiscountConditionOperator.notIn) {
+          operatorText = 'Discount is applicable to all groups except selected groups';
+        } else {
+          operatorText = 'Discount is applicable to selected groups only';
+        }
         groupRepo = CustomerGroupRepo();
         final result =
             await groupRepo.retrieveCustomerGroups(queryParameters: {'discount_condition_id': condition.id!});

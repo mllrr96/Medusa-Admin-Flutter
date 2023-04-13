@@ -7,7 +7,7 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GroupsController extends GetxController {
-  static  GroupsController get instance => Get.find<GroupsController>();
+  static GroupsController get instance => Get.find<GroupsController>();
   GroupsController({required this.customerGroupRepo});
 
   final CustomerGroupRepo customerGroupRepo;
@@ -24,9 +24,7 @@ class GroupsController extends GetxController {
 
   @override
   void onInit() {
-    focusNode.addListener(() {
-      focused.value = focusNode.hasFocus;
-    });
+    focusNode.addListener(() => focused.value = focusNode.hasFocus);
     searchDebouner = debounce(searchTerm, (callback) {
       pagingController.refresh();
     }, time: const Duration(milliseconds: 300));

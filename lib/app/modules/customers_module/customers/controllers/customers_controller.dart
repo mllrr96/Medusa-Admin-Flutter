@@ -17,11 +17,14 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
   final int _pageSize = 20;
   RxInt customersCount = 0.obs;
   final searchCtrl = TextEditingController();
+  final focusNode = FocusNode();
+  RxBool focused = false.obs;
   RxString searchTerm = ''.obs;
   late Worker searchDebouner;
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
+    focusNode.addListener(() => focused.value = focusNode.hasFocus);
     searchDebouner =
         debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     pagingController.addPageRequestListener((pageKey) {
@@ -35,6 +38,7 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
     searchCtrl.dispose();
     searchDebouner.dispose();
     pagingController.dispose();
+    focusNode.dispose();
     super.onClose();
   }
 

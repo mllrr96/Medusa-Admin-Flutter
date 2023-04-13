@@ -340,7 +340,7 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
                         foregroundColor: Colors.white,
                         onPressed: () async {
                           controller.fabKey.currentState?.toggle();
-                          await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount!.id)?.then((value) async {
+                          await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount)?.then((value) async {
                             if (value is bool && value == true) {
                               await controller.loadDiscount();
                               DiscountsController.instance.pagingController.refresh();

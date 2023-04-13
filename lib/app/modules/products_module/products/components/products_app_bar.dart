@@ -125,47 +125,30 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
           child: Row(
             children: [
               const SizedBox(width: 12.0),
-              if (GetPlatform.isIOS)
-                Expanded(
-                    child: CupertinoSearchTextField(
-                  focusNode: searchNode,
-                  controller: collectionCtrl.searchCtrl,
-                  placeholder: 'Search for collection name, handle',
-                  onChanged: (val) {
-                    if (collectionCtrl.searchTerm.value != val) {
-                      collectionCtrl.searchTerm.value = val;
-                    }
-                  },
-                )),
-              if (GetPlatform.isAndroid)
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: TextFormField(
-                      style: Theme.of(context).textTheme.titleSmall,
-                      focusNode: searchNode,
-                      controller: collectionCtrl.searchCtrl,
-                      decoration: const InputDecoration(
-                        hintText: 'Search for collection name, handle',
-                      ),
-                      onChanged: (val) {
-                        if (collectionCtrl.searchTerm.value != val) {
-                          collectionCtrl.searchTerm.value = val;
-                        }
-                      },
-                    ),
-                  ),
-                ),
+              Expanded(
+                  child: SearchTextField(
+                hintText: 'Search for collection name, handle',
+                focusNode: searchNode,
+                controller: collectionCtrl.searchCtrl,
+                onChanged: (val) {
+                  if (collectionCtrl.searchTerm.value != val) {
+                    collectionCtrl.searchTerm.value = val;
+                  }
+                },
+              )),
               AdaptiveButton(
-                  child: const Text('Cancel'),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    setState(() {
-                      collectionSearch = false;
-                      collectionCtrl.searchCtrl.clear();
+                child: const Text('Cancel'),
+                onPressed: () async {
+                  FocusScope.of(context).unfocus();
+                  setState(() {
+                    collectionSearch = false;
+                    collectionCtrl.searchCtrl.clear();
+                    if (collectionCtrl.searchTerm.value.isNotEmpty) {
                       collectionCtrl.searchTerm.value = '';
-                    });
-                  }),
+                    }
+                  });
+                },
+              ),
             ],
           ),
         ),
@@ -194,222 +177,224 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
         duration: kDuration);
 
     final productsAppBar = AnimatedCrossFade(
-        key: const ValueKey(0),
-        firstChild: SizedBox(
-          height: kToolbarHeight,
-          child: Row(
-            children: [
-              const SizedBox(width: 12.0),
-              Expanded(
-                child: SearchTextField(
-                  focusNode: searchNode,
-                  controller: controller.searchCtrl,
-                  hintText: 'Search for product name, variant title ...',
-                  onChanged: (val) {
-                    if (controller.searchTerm.value != val) {
-                      controller.searchTerm.value = val;
-                    }
-                  },
-                ),
+      key: const ValueKey(0),
+      // sizeCurve: Curves.linearToEaseOut,
+      firstChild: SizedBox(
+        height: kToolbarHeight,
+        child: Row(
+          children: [
+            const SizedBox(width: 12.0),
+            Expanded(
+              child: SearchTextField(
+                focusNode: searchNode,
+                controller: controller.searchCtrl,
+                hintText: 'Search for product name, variant title ...',
+                onChanged: (val) {
+                  if (controller.searchTerm.value != val) {
+                    controller.searchTerm.value = val;
+                  }
+                },
               ),
-              AdaptiveButton(
-                  child: const Text('Cancel'),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    // await Future.delayed(Duration(milliseconds: 150));
-                    setState(() {
-                      productSearch = false;
-                      controller.searchCtrl.clear();
-                      controller.searchTerm.value = '';
-                    });
-                  }),
-            ],
-          ),
+            ),
+            AdaptiveButton(
+                child: const Text('Cancel'),
+                onPressed: () async {
+                  FocusScope.of(context).unfocus();
+                  // await Future.delayed(Duration(milliseconds: 150));
+                  setState(() {
+                    productSearch = false;
+                    controller.searchCtrl.clear();
+                    controller.searchTerm.value = '';
+                  });
+                }),
+          ],
         ),
-        secondChild: SizedBox(
-          height: kToolbarHeight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  AdaptiveIcon(
-                    onPressed: () async {
-                      setState(() => productSearch = true);
-                      await Future.delayed(kDuration);
-                      searchNode.requestFocus();
-                    },
-                    icon: const Icon(MedusaIcons.magnifying_glass),
-                  ),
-                  Obx(() {
-                    return AdaptiveIcon(
-                        onPressed: () async {
-                          final result = await showModalActionSheet<SortOptions>(
-                              context: context,
-                              actions: <SheetAction<SortOptions>>[
-                                SheetAction(
-                                    label: 'A-Z',
-                                    key: SortOptions.aZ,
-                                    isDestructiveAction: controller.sortOptions.value == SortOptions.aZ),
-                                SheetAction(
-                                    label: 'Z-A',
-                                    key: SortOptions.zA,
-                                    isDestructiveAction: controller.sortOptions.value == SortOptions.zA),
-                                SheetAction(
-                                    label: 'Creation Date',
-                                    key: SortOptions.dateRecent,
-                                    isDestructiveAction: controller.sortOptions.value == SortOptions.dateRecent),
-                                SheetAction(
-                                    label: 'Creation Date - Ascending',
-                                    key: SortOptions.dateOld,
-                                    isDestructiveAction: controller.sortOptions.value == SortOptions.dateOld),
-                              ]);
-                          if (result != null) {
-                            controller.changeSortOption(result);
-                          }
-                        },
-                        icon: Icon(
-                          getSortIcon(controller.sortOptions.value),
-                          color: controller.sortOptions.value != SortOptions.dateRecent ? ColorManager.primary : null,
-                        ));
-                  }),
-                  const SizedBox(width: 6.0),
-                  InkWell(
-                    onTap: () {
-                      showBarModalBottomSheet(
-                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                          context: context,
-                          builder: (context) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Theme(
-                                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                          child: ExpansionTile(
-                                            title: const Text('Status'),
-                                            childrenPadding: const EdgeInsets.only(left: 20.0),
-                                            children: ProductStatus.values
-                                                .map((e) => CheckboxListTile(
-                                                    title: Text(e.value), value: false, onChanged: (val) {}))
-                                                .toList(),
-                                          ),
+      ),
+      secondChild: SizedBox(
+        height: kToolbarHeight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                AdaptiveIcon(
+                  onPressed: () async {
+                    setState(() => productSearch = true);
+                    await Future.delayed(kDuration);
+                    searchNode.requestFocus();
+                  },
+                  icon: const Icon(MedusaIcons.magnifying_glass),
+                ),
+                Obx(() {
+                  return AdaptiveIcon(
+                      onPressed: () async {
+                        final result = await showModalActionSheet<SortOptions>(
+                            context: context,
+                            actions: <SheetAction<SortOptions>>[
+                              SheetAction(
+                                  label: 'A-Z',
+                                  key: SortOptions.aZ,
+                                  isDestructiveAction: controller.sortOptions.value == SortOptions.aZ),
+                              SheetAction(
+                                  label: 'Z-A',
+                                  key: SortOptions.zA,
+                                  isDestructiveAction: controller.sortOptions.value == SortOptions.zA),
+                              SheetAction(
+                                  label: 'Creation Date',
+                                  key: SortOptions.dateRecent,
+                                  isDestructiveAction: controller.sortOptions.value == SortOptions.dateRecent),
+                              SheetAction(
+                                  label: 'Creation Date - Ascending',
+                                  key: SortOptions.dateOld,
+                                  isDestructiveAction: controller.sortOptions.value == SortOptions.dateOld),
+                            ]);
+                        if (result != null) {
+                          controller.changeSortOption(result);
+                        }
+                      },
+                      icon: Icon(
+                        getSortIcon(controller.sortOptions.value),
+                        color: controller.sortOptions.value != SortOptions.dateRecent ? ColorManager.primary : null,
+                      ));
+                }),
+                const SizedBox(width: 6.0),
+                InkWell(
+                  onTap: () {
+                    showBarModalBottomSheet(
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Theme(
+                                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                        child: ExpansionTile(
+                                          title: const Text('Status'),
+                                          childrenPadding: const EdgeInsets.only(left: 20.0),
+                                          children: ProductStatus.values
+                                              .map((e) => CheckboxListTile(
+                                                  title: Text(e.value), value: false, onChanged: (val) {}))
+                                              .toList(),
                                         ),
                                       ),
-                                      const SizedBox(height: 12.0),
-                                      Theme(
-                                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                          child: ExpansionTile(
-                                            title: const Text('Collection'),
-                                            childrenPadding: const EdgeInsets.only(left: 20.0),
-                                            children: ProductStatus.values
-                                                .map((e) => CheckboxListTile(
-                                                    title: Text(e.value), value: false, onChanged: (val) {}))
-                                                .toList(),
-                                          ),
+                                    ),
+                                    const SizedBox(height: 12.0),
+                                    Theme(
+                                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                        child: ExpansionTile(
+                                          title: const Text('Collection'),
+                                          childrenPadding: const EdgeInsets.only(left: 20.0),
+                                          children: ProductStatus.values
+                                              .map((e) => CheckboxListTile(
+                                                  title: Text(e.value), value: false, onChanged: (val) {}))
+                                              .toList(),
                                         ),
                                       ),
-                                      const SizedBox(height: 12.0),
-                                      Theme(
-                                        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                          child: ExpansionTile(
-                                            title: const Text('Status'),
-                                            childrenPadding: const EdgeInsets.only(left: 20.0),
-                                            children: ProductStatus.values
-                                                .map((e) => CheckboxListTile(
-                                                    title: Text(e.value), value: false, onChanged: (val) {}))
-                                                .toList(),
-                                          ),
+                                    ),
+                                    const SizedBox(height: 12.0),
+                                    Theme(
+                                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                        child: ExpansionTile(
+                                          title: const Text('Status'),
+                                          childrenPadding: const EdgeInsets.only(left: 20.0),
+                                          children: ProductStatus.values
+                                              .map((e) => CheckboxListTile(
+                                                  title: Text(e.value), value: false, onChanged: (val) {}))
+                                              .toList(),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          });
-                    },
-                    child: Chip(
-                      side: const BorderSide(color: Colors.transparent),
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Filters', style: Theme.of(context).textTheme.titleSmall),
-                          Text(' 0',
-                              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
-                        ],
-                      ),
-                      padding: EdgeInsets.zero,
+                            ),
+                          );
+                        });
+                  },
+                  child: Chip(
+                    side: const BorderSide(color: Colors.transparent),
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Filters', style: Theme.of(context).textTheme.titleSmall),
+                        Text(' 0',
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),
+                      ],
                     ),
+                    padding: EdgeInsets.zero,
                   ),
-                ],
-              ),
-              // Row(
-              //   children: [
-              //     AdaptiveIcon(
-              //         onPressed: () => controller.changeViewOption(),
-              //         icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
-              //     PullDownButton(
-              //       itemBuilder: (context) => [
-              //         PullDownMenuItem.selectable(
-              //           selected: controller.viewOptions == ViewOptions.grid,
-              //           title: 'Grid',
-              //           icon: CupertinoIcons.square_grid_2x2,
-              //           onTap: () => controller.changeViewOption(option: ViewOptions.grid),
-              //         ),
-              //         const PullDownMenuDivider(),
-              //         PullDownMenuItem.selectable(
-              //           selected: controller.viewOptions == ViewOptions.list,
-              //           title: 'List',
-              //           icon: CupertinoIcons.list_bullet,
-              //           onTap: () => controller.changeViewOption(option: ViewOptions.list),
-              //         ),
-              //       ],
-              //       position: PullDownMenuPosition.automatic,
-              //       buttonBuilder: (context, showMenu) => AdaptiveButton(
-              //         onPressed: showMenu,
-              //         padding: EdgeInsets.zero,
-              //         child: Icon(controller.viewOptions != ViewOptions.list ? Icons.grid_view_rounded : Icons.list,
-              //             color: Theme.of(context).iconTheme.color),
-              //       ),
-              //     ),
-              //     AdaptiveIcon(
-              //         onPressed: () async {
-              //           await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
-              //             if (result != null && result is bool && result == true) {
-              //               controller.pagingController.refresh();
-              //             }
-              //           });
-              //         },
-              //         icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
-              //     AdaptiveIcon(
-              //         onPressed: () async {
-              //           // ignore: unused_local_variable
-              //           final result = await showModalActionSheet(context: context, actions: <SheetAction>[
-              //             const SheetAction(label: 'Export Products'),
-              //             const SheetAction(label: 'Import Products'),
-              //           ]);
-              //         },
-              //         icon: const Icon(Icons.more_horiz)),
-              //   ],
-              // ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            // Row(
+            //   children: [
+            //     AdaptiveIcon(
+            //         onPressed: () => controller.changeViewOption(),
+            //         icon: Icon(controller.viewOptions == ViewOptions.list ? Icons.grid_view_rounded : Icons.list)),
+            //     PullDownButton(
+            //       itemBuilder: (context) => [
+            //         PullDownMenuItem.selectable(
+            //           selected: controller.viewOptions == ViewOptions.grid,
+            //           title: 'Grid',
+            //           icon: CupertinoIcons.square_grid_2x2,
+            //           onTap: () => controller.changeViewOption(option: ViewOptions.grid),
+            //         ),
+            //         const PullDownMenuDivider(),
+            //         PullDownMenuItem.selectable(
+            //           selected: controller.viewOptions == ViewOptions.list,
+            //           title: 'List',
+            //           icon: CupertinoIcons.list_bullet,
+            //           onTap: () => controller.changeViewOption(option: ViewOptions.list),
+            //         ),
+            //       ],
+            //       position: PullDownMenuPosition.automatic,
+            //       buttonBuilder: (context, showMenu) => AdaptiveButton(
+            //         onPressed: showMenu,
+            //         padding: EdgeInsets.zero,
+            //         child: Icon(controller.viewOptions != ViewOptions.list ? Icons.grid_view_rounded : Icons.list,
+            //             color: Theme.of(context).iconTheme.color),
+            //       ),
+            //     ),
+            //     AdaptiveIcon(
+            //         onPressed: () async {
+            //           await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)?.then((result) {
+            //             if (result != null && result is bool && result == true) {
+            //               controller.pagingController.refresh();
+            //             }
+            //           });
+            //         },
+            //         icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
+            //     AdaptiveIcon(
+            //         onPressed: () async {
+            //           // ignore: unused_local_variable
+            //           final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+            //             const SheetAction(label: 'Export Products'),
+            //             const SheetAction(label: 'Import Products'),
+            //           ]);
+            //         },
+            //         icon: const Icon(Icons.more_horiz)),
+            //   ],
+            // ),
+          ],
         ),
-        crossFadeState: productSearch ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-        duration: kDuration);
+      ),
+      crossFadeState: productSearch ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      duration: kDuration,
+    );
 
     widget.tabController.addListener(() {
       setState(() {

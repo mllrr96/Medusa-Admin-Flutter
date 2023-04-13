@@ -27,8 +27,8 @@ class AddUpdateDiscountController extends GetxController {
   Rx<DateTime?> startDate = (null as DateTime?).obs;
   // ignore: unnecessary_cast
   Rx<DateTime?> endDate = (null as DateTime?).obs;
-  String? id = Get.arguments;
-  bool get updateMode => id != null;
+  Discount? discount = Get.arguments;
+  bool get updateMode => discount != null;
   final codeCtrl = TextEditingController();
   final amountCtrl = TextEditingController();
   final percentageCtrl = TextEditingController();
@@ -44,7 +44,7 @@ class AddUpdateDiscountController extends GetxController {
   final conditionsKey = GlobalKey();
   @override
   void onInit() {
-    if (id != null) {
+    if (discount != null) {
       _loadDiscount();
     }
     scrollController = ScrollController();
@@ -58,48 +58,42 @@ class AddUpdateDiscountController extends GetxController {
   }
 
   Future<void> _loadDiscount() async {
-    loading();
-    final result = await discountRepo.retrieveDiscount(id: id!);
-    result.when((success) {
-      final discount = success.discount;
-      _loadedDiscount = discount;
-      final type = discount!.rule?.type;
-      final allocationType = discount.rule!.allocation;
-      discountRuleType.value = type!;
-      selectedRegions.value = [...?discount.regions];
-      switch (type) {
-        case DiscountRuleType.fixed:
-          this.allocationType.value = allocationType!;
-          if (selectedRegions.isNotEmpty) {
-            amountCtrl.text = CurrencyTextInputFormatter(name: selectedRegions.first.currencyCode)
-                .format(discount.rule?.value.toString() ?? '');
-          } else {
-            amountCtrl.text = discount.rule?.value.toString() ?? '';
-          }
-          break;
-        case DiscountRuleType.percentage:
-          percentageCtrl.text = discount.rule?.value.toString() ?? '';
-          break;
-        case DiscountRuleType.freeShipping:
-          break;
-      }
-      codeCtrl.text = discount.code ?? '';
-      limitCtrl.text = discount.usageLimit?.toString() ?? '';
-      descriptionCtrl.text = discount.rule?.description ?? '';
+    if (discount == null) {
+      return;
+    }
+    _loadedDiscount = discount;
+    final type = discount!.rule?.type;
+    final allocationType = discount!.rule!.allocation;
+    discountRuleType.value = type!;
+    selectedRegions.value = [...?discount!.regions];
+    switch (type) {
+      case DiscountRuleType.fixed:
+        this.allocationType.value = allocationType!;
+        if (selectedRegions.isNotEmpty) {
+          amountCtrl.text = CurrencyTextInputFormatter(name: selectedRegions.first.currencyCode)
+              .format(discount!.rule?.value.toString() ?? '');
+        } else {
+          amountCtrl.text = discount!.rule?.value.toString() ?? '';
+        }
+        break;
+      case DiscountRuleType.percentage:
+        percentageCtrl.text = discount!.rule?.value.toString() ?? '';
+        break;
+      case DiscountRuleType.freeShipping:
+        break;
+    }
+    codeCtrl.text = discount!.code ?? '';
+    limitCtrl.text = discount!.usageLimit?.toString() ?? '';
+    descriptionCtrl.text = discount!.rule?.description ?? '';
 
-      if (discount.startsAt != null) {
-        hasStartDate.value = true;
-        startDate.value = discount.startsAt;
-      }
-      if (discount.endsAt != null) {
-        hasEndDate.value = true;
-        endDate.value = discount.endsAt;
-      }
-    }, (error) {
-      Get.back();
-      Get.snackbar('Error loading discount ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
-    });
-    dismissLoading();
+    if (discount!.startsAt != null) {
+      hasStartDate.value = true;
+      startDate.value = discount!.startsAt;
+    }
+    if (discount!.endsAt != null) {
+      hasEndDate.value = true;
+      endDate.value = discount!.endsAt;
+    }
   }
 
   Future<void> createDiscount(BuildContext context) async {
@@ -171,7 +165,7 @@ class AddUpdateDiscountController extends GetxController {
       regionsIds: selectedRegions.map((e) => e.id!).toList(),
     );
 
-    final result = await discountRepo.updateDiscount(id: id!, userUpdateDiscountReq: updatedDiscount);
+    final result = await discountRepo.updateDiscount(id: discount!.id!, userUpdateDiscountReq: updatedDiscount);
 
     result.when((success) {
       Get.back(result: true);
