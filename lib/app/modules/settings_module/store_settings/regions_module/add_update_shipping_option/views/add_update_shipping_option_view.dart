@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/index.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
+import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
 
 class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionController> {
@@ -17,7 +18,16 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     const border = OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4.0)));
+    final inputFormatter = [
+      CurrencyTextInputFormatter(name: controller.addUpdateShippingOptionReq.region.currencyCode)
+    ];
+    final decoration = InputDecoration(
+      prefixIconConstraints: const BoxConstraints(minHeight: 0, minWidth: 0),
+      prefixIcon: Text('   ${controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase() ?? ''}   ',
+          style: smallTextStyle?.copyWith(color: lightWhite)),
+    );
     return GetBuilder<AddUpdateShippingOptionController>(
       builder: (controller) {
         return GestureDetector(
@@ -74,6 +84,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                             },
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Flexible(
                                 child: Column(
@@ -120,14 +131,26 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 12.0),
+                              if (controller.selectedPriceType == ShippingOptionPriceType.flatRate)
+                                const SizedBox(width: 12.0),
                               Flexible(
+                                flex: controller.selectedPriceType == ShippingOptionPriceType.flatRate ? 1 : 0,
                                 child: AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.selectedPriceType == ShippingOptionPriceType.flatRate
                                       ? LabeledTextField(
                                           label: 'Price',
-                                          controller: TextEditingController(),
+                                          includeSpace: false,
+                                          decoration: decoration,
+                                          inputFormatters: inputFormatter,
+                                          controller: controller.priceCtrl,
+                                          validator: (val) {
+                                            if (val == null || val.isEmpty) {
+                                              return 'Field is required';
+                                            }
+
+                                            return null;
+                                          },
                                         )
                                       : const SizedBox.shrink(),
                                 ),
@@ -248,14 +271,18 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                           space,
                           LabeledTextField(
                             label: 'Min. subtotal (Tax excl. price)',
-                            controller: TextEditingController(),
+                            controller: controller.minSubtotalCtrl,
                             hintText: '-',
+                            decoration: decoration,
                             keyboardType: TextInputType.number,
+                            inputFormatters: inputFormatter,
                           ),
                           LabeledTextField(
                             label: 'Max. subtotal (Tax excl. price)',
-                            controller: TextEditingController(),
+                            controller: controller.maxSubtotalCtrl,
                             hintText: '-',
+                            decoration: decoration,
+                            inputFormatters: inputFormatter,
                             keyboardType: TextInputType.number,
                           ),
                         ],

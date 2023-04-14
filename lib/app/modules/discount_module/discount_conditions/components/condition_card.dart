@@ -14,7 +14,7 @@ class ConditionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return InkWell(
       onTap: onTap,
       child: Ink(

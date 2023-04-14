@@ -116,6 +116,10 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                     ]).then((result) async {
                   switch (result) {
                     case 0:
+                      if (controller.state == null) {
+                        return;
+                      }
+                      Get.toNamed(Routes.ADD_REGION, arguments: controller.state!);
                       break;
                     case 1:
                       if (controller.state == null) {
@@ -242,7 +246,7 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                                       onEditTap: () => Get.toNamed(
                                         Routes.ADD_UPDATE_SHIPPING_OPTION,
                                         arguments: AddUpdateShippingOptionReq(
-                                          regionId: region.id!,
+                                          region: region,
                                           shippingOption: controller.shippingOptions![index],
                                         ),
                                       ),
@@ -252,7 +256,9 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                           Center(
                             child: AdaptiveButton(
                               onPressed: () => Get.toNamed(Routes.ADD_UPDATE_SHIPPING_OPTION,
-                                  arguments: AddUpdateShippingOptionReq(regionId: region.id!)),
+                                  arguments: AddUpdateShippingOptionReq(
+                                    region: region,
+                                  )),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -296,7 +302,7 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                                       onEditTap: () => Get.toNamed(
                                         Routes.ADD_UPDATE_SHIPPING_OPTION,
                                         arguments: AddUpdateShippingOptionReq(
-                                          regionId: region.id!,
+                                          region: region,
                                           shippingOption: controller.returnShippingOptions![index],
                                         ),
                                       ),
@@ -306,8 +312,10 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                           Center(
                             child: AdaptiveButton(
                               onPressed: () => Get.toNamed(Routes.ADD_UPDATE_SHIPPING_OPTION,
-                                  arguments:
-                                      AddUpdateShippingOptionReq(regionId: region.id!, returnShippingOption: true)),
+                                  arguments: AddUpdateShippingOptionReq(
+                                    region: region,
+                                    returnShippingOption: true,
+                                  )),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

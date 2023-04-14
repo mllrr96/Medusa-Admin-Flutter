@@ -26,9 +26,12 @@ class RegionsController extends GetxController {
     super.onClose();
   }
 
-  List<String> disabledCountriesIso2() {
+  List<String> disabledCountriesIso2({Region? excludedRegion}) {
     List<String> result = [];
     pagingController.value.itemList?.forEach((region) {
+      if(excludedRegion?.name == region.name){
+        return;
+      }
       final countries = region.countries;
       if (countries != null) {
         for (var element in countries) {

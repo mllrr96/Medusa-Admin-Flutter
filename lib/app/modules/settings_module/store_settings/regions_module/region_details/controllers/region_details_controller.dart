@@ -29,8 +29,12 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
 
   Future<void> loadRegion() async {
     change(null, status: RxStatus.loading());
-    final result = await regionsRepo
-        .retrieve(id: regionId, queryParams: {'expand': 'countries,tax_rates,payment_providers,fulfillment_providers'});
+    final result = await regionsRepo.retrieve(
+      id: regionId,
+      queryParams: {
+        'expand': 'countries,tax_rates,payment_providers,fulfillment_providers',
+      },
+    );
     result.when(
       (success) {
         change(success.region!, status: RxStatus.success());

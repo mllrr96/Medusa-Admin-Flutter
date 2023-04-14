@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LabeledTextField extends StatelessWidget {
   const LabeledTextField({
@@ -24,9 +25,12 @@ class LabeledTextField extends StatelessWidget {
     this.onFieldSubmitted,
     this.decoration,
     this.isDense,
+    this.inputFormatters,
+    this.includeSpace = true,
   });
 
   final bool required;
+  final bool includeSpace;
   final bool autoFocus;
   final bool enabled;
   final bool readOnly;
@@ -47,6 +51,7 @@ class LabeledTextField extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final Color? fillColor;
   final InputDecoration? decoration;
+  final List<TextInputFormatter>? inputFormatters;
   @override
   Widget build(BuildContext context) {
     final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
@@ -77,6 +82,7 @@ class LabeledTextField extends StatelessWidget {
             textInputAction: textInputAction,
             onChanged: onChanged,
             onFieldSubmitted: onFieldSubmitted,
+            inputFormatters: inputFormatters,
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
@@ -84,19 +90,10 @@ class LabeledTextField extends StatelessWidget {
             decoration: decoration ??
                 InputDecoration(
                   isDense: isDense,
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  filled: true,
-                  fillColor: fillColor ?? Theme.of(context).scaffoldBackgroundColor,
                   hintText: hintText,
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                  ),
                 ),
           ),
+          if(includeSpace)
           space,
         ],
       ),

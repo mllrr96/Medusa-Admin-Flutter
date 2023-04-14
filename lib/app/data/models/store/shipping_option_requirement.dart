@@ -10,7 +10,7 @@ class ShippingOptionRequirement {
 
   ShippingOptionRequirement({
     this.id,
-    required this.shippingOptionId,
+     this.shippingOptionId,
     this.shippingOption,
     required this.type,
     required this.amount,

@@ -96,7 +96,7 @@ class SelectCountryView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final country = controller.countriesList[index];
                 return CheckboxListTile(
-                  value: controller.selectedCountries.contains(country),
+                  value: controller.selectedCountries.map((e) => e.name!).toList().contains(country.name),
                   enabled: !disabledCountriesIso.contains(country.iso2),
                   onChanged: (val) {
                     if (multipleSelect) {

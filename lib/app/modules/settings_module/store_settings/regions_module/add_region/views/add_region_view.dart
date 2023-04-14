@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/country.dart';
+import 'package:medusa_admin/app/data/models/store/currency.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -51,11 +52,14 @@ class AddRegionView extends GetView<AddRegionController> {
           return Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
-              title: const Text('Add Region'),
+              title: controller.updateMode ? const Text('Update Region') : const Text('Add Region'),
               centerTitle: true,
               actions: [
                 AdaptiveButton(
-                    onPressed: () async => await controller.createRegion(context), child: const Text('Create'))
+                    onPressed: () async => controller.updateMode
+                        ? await controller.updateRegion(context)
+                        : await controller.createRegion(context),
+                    child: controller.updateMode ? const Text('Update') : const Text('Create'))
               ],
             ),
             body: SafeArea(
@@ -98,7 +102,7 @@ class AddRegionView extends GetView<AddRegionController> {
                             ],
                           ),
                           halfSpace,
-                          DropdownButtonFormField(
+                          DropdownButtonFormField<Currency>(
                             validator: (val) {
                               if (val == null) {
                                 return 'Field is required';
@@ -110,6 +114,7 @@ class AddRegionView extends GetView<AddRegionController> {
                                 .toList(),
                             hint: const Text('Choose currency'),
                             style: smallTextStyle,
+                            value: controller.selectedCurrency,
                             onChanged: (value) {
                               if (value != null) {
                                 controller.selectedCurrency = value;
@@ -125,29 +130,31 @@ class AddRegionView extends GetView<AddRegionController> {
                                 errorBorder: border),
                           ),
                           space,
-                          LabeledTextField(
-                            label: 'Default Tax Rate',
-                            controller: controller.defaultTaxRateCtrl,
-                            required: true,
-                            hintText: '% 25',
-                            validator: (val) {
-                              if (val == null || val.removeAllWhitespace.isEmpty) {
-                                return 'Field required';
-                              }
-                              return null;
-                            },
-                          ),
-                          LabeledTextField(
-                            label: 'Default Tax Code',
-                            controller: controller.defaultTextCode,
-                            hintText: '1000',
-                            validator: (val) {
-                              if (val == null || val.removeAllWhitespace.isEmpty) {
-                                return 'Field required';
-                              }
-                              return null;
-                            },
-                          ),
+                          if (controller.updateMode == false)
+                            LabeledTextField(
+                              label: 'Default Tax Rate',
+                              controller: controller.defaultTaxRateCtrl,
+                              required: true,
+                              hintText: '% 25',
+                              validator: (val) {
+                                if (val == null || val.removeAllWhitespace.isEmpty) {
+                                  return 'Field required';
+                                }
+                                return null;
+                              },
+                            ),
+                          if (controller.updateMode == false)
+                            LabeledTextField(
+                              label: 'Default Tax Code',
+                              controller: controller.defaultTextCode,
+                              hintText: '1000',
+                              validator: (val) {
+                                if (val == null || val.removeAllWhitespace.isEmpty) {
+                                  return 'Field required';
+                                }
+                                return null;
+                              },
+                            ),
                           LabeledTextField(
                             label: 'Countries',
                             controller: null,
@@ -157,13 +164,15 @@ class AddRegionView extends GetView<AddRegionController> {
                               if (controller.selectedCountries.isEmpty) {
                                 return 'Select at least one country';
                               }
-
                               return null;
                             },
                             onTap: () async {
                               final result = await Get.toNamed(Routes.SELECT_COUNTRY,
                                   arguments: SelectCountryReq(
-                                    disabledCountriesIso2: RegionsController.instance.disabledCountriesIso2(),
+                                    disabledCountriesIso2: controller.updateMode
+                                        ? RegionsController.instance
+                                            .disabledCountriesIso2(excludedRegion: controller.region!)
+                                        : RegionsController.instance.disabledCountriesIso2(),
                                     multipleSelect: true,
                                     selectedCountries: [...controller.selectedCountries],
                                   ));

@@ -47,14 +47,16 @@ class AppTheme {
       ),
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: Colors.grey),
-        // enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-        // focusedBorder: UnderlineInputBorder(
-        //     borderSide: BorderSide(
-        //       color: ColorManager.primary,
-        //     )),
-        // errorBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        // focusedErrorBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        // disabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        filled: true,
+        fillColor:Color(0xFFF2F2F7),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(4.0),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
       ),
       textTheme: GoogleFonts.cabinTextTheme().copyWith(
         displayLarge: GoogleFonts.cabin(color: Colors.black, fontSize: 26.0),
@@ -116,16 +118,17 @@ class AppTheme {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       inputDecorationTheme: const InputDecorationTheme(
-        labelStyle: TextStyle(color: Colors.white),
-        // enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-        // focusedBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: ColorManager.primary,
-        //   ),
-        // ),
-        // errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        // focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        // disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        labelStyle: TextStyle(color: Colors.grey),
+        filled: true,
+        fillColor: Color(0xFF18191A),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(4.0),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
       ),
       textTheme: GoogleFonts.cabinTextTheme().copyWith(
         displayLarge: GoogleFonts.cabin(color: Colors.white, fontSize: 26.0),

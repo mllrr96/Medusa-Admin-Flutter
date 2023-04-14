@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_profile/shipping_profile_repo.dart';
+import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
@@ -23,6 +24,9 @@ class AddUpdateShippingOptionController extends GetxController {
   bool get updateMode => addUpdateShippingOptionReq.shippingOption != null;
   bool visibleInStore = false;
   final titleCtrl = TextEditingController();
+  final priceCtrl = TextEditingController();
+  final minSubtotalCtrl = TextEditingController();
+  final maxSubtotalCtrl = TextEditingController();
   ShippingOptionPriceType? selectedPriceType;
   ShippingProfile? selectedShippingProfile;
   FulfillmentOption? selectedFulfillmentOption;
@@ -40,13 +44,11 @@ class AddUpdateShippingOptionController extends GetxController {
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     titleCtrl.dispose();
+    priceCtrl.dispose();
+    minSubtotalCtrl.dispose();
+    maxSubtotalCtrl.dispose();
     super.onClose();
   }
 
@@ -61,15 +63,26 @@ class AddUpdateShippingOptionController extends GetxController {
       return;
     }
     loading();
+    final price = int.tryParse(priceCtrl.text.replaceAll('.', '').replaceAll(',', ''));
+    final minSubtotal = int.tryParse(minSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
+    final maxSubtotal = int.tryParse(maxSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
+    List<ShippingOptionRequirement>? requirements = [
+      if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal),
+      if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal),
+    ];
     FocusScope.of(context).unfocus();
     final result = await shippingOptionsRepo.create(
       userCreateShippingOptionReq: UserCreateShippingOptionReq(
         shippingOption: ShippingOption(
           name: titleCtrl.text,
-          regionId: addUpdateShippingOptionReq.regionId,
+          regionId: addUpdateShippingOptionReq.region.id!,
           profileId: '',
+          isReturn: addUpdateShippingOptionReq.returnShippingOption,
+          data: {},
           providerId: selectedFulfillmentOption!.providerId,
           priceType: selectedPriceType,
+          amount: selectedPriceType == ShippingOptionPriceType.flatRate ? price : null,
+          requirements: requirements.isNotEmpty ? requirements : null,
         ),
       ),
     );
@@ -81,6 +94,7 @@ class AddUpdateShippingOptionController extends GetxController {
       } else {
         await RegionDetailsController.instance.loadShippingOptions();
       }
+      dismissLoading();
     }, (error) {
       Get.snackbar('Error creating shipping option ${error.code ?? ''}', error.message,
           snackPosition: SnackPosition.BOTTOM);
@@ -93,16 +107,25 @@ class AddUpdateShippingOptionController extends GetxController {
       return;
     }
     FocusScope.of(context).unfocus();
+    final price = int.tryParse(priceCtrl.text.replaceAll('.', '').replaceAll(',', ''));
+    final minSubtotal = int.tryParse(minSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
+    final maxSubtotal = int.tryParse(maxSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
+    List<ShippingOptionRequirement>? requirements = [
+      if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal),
+      if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal),
+    ];
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
     final result = await shippingOptionsRepo.update(
       id: shippingOption.id!,
       userUpdateReturnReasonReq: UserUpdateShippingOptionReq(
         shippingOption: ShippingOption(
           name: shippingOption.name == titleCtrl.text ? null : titleCtrl.text,
-          regionId: addUpdateShippingOptionReq.regionId,
+          regionId: addUpdateShippingOptionReq.region.id!,
           profileId: shippingOption.profileId,
           providerId: shippingOption.providerId,
           priceType: selectedPriceType,
+          amount: selectedPriceType == ShippingOptionPriceType.flatRate ? price : null,
+          requirements: requirements.isNotEmpty ? requirements : null,
         ),
       ),
     );
@@ -121,7 +144,7 @@ class AddUpdateShippingOptionController extends GetxController {
   }
 
   Future<void> loadFulfillmentOptions() async {
-    final result = await regionsRepo.retrieveFulfillmentOptions(id: addUpdateShippingOptionReq.regionId);
+    final result = await regionsRepo.retrieveFulfillmentOptions(id: addUpdateShippingOptionReq.region.id!);
     result.when(
       (success) {
         fulfillmentOptions = success.fulfillmentOptions;
@@ -149,20 +172,33 @@ class AddUpdateShippingOptionController extends GetxController {
 
   void loadShippingOption() {
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
+    final currencyFormatter = CurrencyTextInputFormatter(name: addUpdateShippingOptionReq.region.currencyCode);
     visibleInStore = !shippingOption.adminOnly;
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;
+    if (shippingOption.amount != null) {
+      priceCtrl.text = currencyFormatter.format(shippingOption.amount.toString());
+    }
+    if (shippingOption.requirements?.isNotEmpty ?? false) {
+      for (var element in shippingOption.requirements!) {
+        if (element.type == RequirementType.minSubtotal) {
+          minSubtotalCtrl.text = currencyFormatter.format(element.amount.toString());
+        } else {
+          maxSubtotalCtrl.text = currencyFormatter.format(element.amount.toString());
+        }
+      }
+    }
     update();
   }
 }
 
 class AddUpdateShippingOptionReq {
   AddUpdateShippingOptionReq({
-    required this.regionId,
+    required this.region,
     this.shippingOption,
     this.returnShippingOption = false,
   });
-  final String regionId;
+  final Region region;
   final ShippingOption? shippingOption;
   final bool returnShippingOption;
 }
