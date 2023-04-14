@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/price_list.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 
 import '../../../../data/models/store/product.dart';
@@ -34,8 +35,8 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
 
     return Scaffold(
         appBar: AppBar(
+          leading: const AdaptiveBackButton(),
           title: const Text('PriceListDetailsView'),
-          centerTitle: true,
         ),
         body: SafeArea(
             child: controller.obx(

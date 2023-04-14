@@ -16,7 +16,6 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   final DiscountConditionRepo discountConditionRepo;
   String id = Get.arguments;
   final fabKey = GlobalKey<ExpandableFabState>();
-
   @override
   Future<void> onInit() async {
     await loadDiscount();
@@ -101,8 +100,11 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     dismissLoading();
   }
 
-  Future<void> updateCondition(
-      {required List<String> deletedItems, required List<String> addedItems, required String conditionId}) async {
+  Future<void> updateCondition({
+    required List<String> deletedItems,
+    required List<String> addedItems,
+    required String conditionId,
+  }) async {
     loading();
 
     if (addedItems.isNotEmpty) {

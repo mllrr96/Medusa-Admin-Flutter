@@ -12,7 +12,8 @@ class SearchTextField extends StatefulWidget {
       this.hintText,
       this.onChanged,
       this.onSuffixTap,
-      this.suffixIcon})
+      this.suffixIcon,
+      this.adnroidPadding})
       : super(key: key);
   final FocusNode? focusNode;
   final TextEditingController controller;
@@ -20,6 +21,7 @@ class SearchTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final void Function()? onSuffixTap;
   final Icon? suffixIcon;
+  final EdgeInsets? adnroidPadding;
   @override
   State<SearchTextField> createState() => _SearchTextFieldState();
 }
@@ -53,29 +55,32 @@ class _SearchTextFieldState extends State<SearchTextField> {
     const outlineInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: Colors.grey));
 
-    return TextFormField(
-      style: Theme.of(context).textTheme.titleSmall,
-      controller: widget.controller,
-      autocorrect: false,
-      textInputAction: TextInputAction.search,
-      decoration: InputDecoration(
-        suffixIcon: empty
-            ? null
-            : IconButton(
-                icon: widget.suffixIcon ?? const Icon(Icons.clear),
-                onPressed: widget.onSuffixTap ??
-                    () {
-                      setState(() {
-                        widget.controller.clear();
-                      });
-                    },
-              ),
-        isDense: true,
-        focusedBorder: outlineInputBorder,
-        border: outlineInputBorder,
-        hintText: widget.hintText,
+    return Padding(
+      padding: widget.adnroidPadding ?? const EdgeInsets.symmetric(vertical: 4.0),
+      child: TextFormField(
+        style: Theme.of(context).textTheme.titleSmall,
+        controller: widget.controller,
+        autocorrect: false,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          suffixIcon: empty
+              ? null
+              : IconButton(
+                  icon: widget.suffixIcon ?? const Icon(Icons.clear),
+                  onPressed: widget.onSuffixTap ??
+                      () {
+                        setState(() {
+                          widget.controller.clear();
+                        });
+                      },
+                ),
+          isDense: true,
+          focusedBorder: outlineInputBorder,
+          border: outlineInputBorder,
+          hintText: widget.hintText,
+        ),
+        onChanged: widget.onChanged,
       ),
-      onChanged: widget.onChanged,
     );
   }
 }

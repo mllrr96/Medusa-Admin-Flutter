@@ -29,25 +29,28 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png', scale: 5)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset('assets/images/medusa.png', scale: 5),
                     Text('Reset your password', style: Theme.of(context).textTheme.displayLarge),
-                    const SizedBox(height: 18.0),
+                    // const SizedBox(height: 18.0),
                     Text(
                         "Enter your email address below, and we'll send you instructions on how to reset your password.",
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
-                        textAlign: TextAlign.center),
+                        textAlign: TextAlign.center, overflow: TextOverflow.fade),
                   ],
                 ),
                 const SizedBox(height: 18.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: EmailTextField(
-                    controller: controller.emailCtrl,
-                    textInputAction: TextInputAction.done,
-                    onSubmitted: (_) async => await controller.resetPassword(),
+                  child: Hero(
+                    tag: 'email',
+                    child: EmailTextField(
+                      controller: controller.emailCtrl,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) async => await controller.resetPassword(),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 9.0),

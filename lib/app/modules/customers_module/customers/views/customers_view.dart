@@ -105,26 +105,23 @@ class CustomerCustomAppBar extends GetView<CustomersController> with PreferredSi
       child: Row(
         children: [
           Expanded(
-            child: Padding(
-              padding: Platform.isIOS ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4.0),
-              child: SearchTextField(
-                focusNode: controller.focusNode,
-                controller: controller.searchCtrl,
-                hintText: 'Search for customer name, email, phone number ...',
-                onSuffixTap: () {
-                  controller.searchCtrl.clear();
+            child: SearchTextField(
+              focusNode: controller.focusNode,
+              controller: controller.searchCtrl,
+              hintText: 'Search for customer name, email, phone number ...',
+              onSuffixTap: () {
+                controller.searchCtrl.clear();
+                controller.searchTerm.value = '';
+                FocusScope.of(context).unfocus();
+              },
+              onChanged: (val) {
+                if (val.isEmpty && controller.searchTerm.value.isNotEmpty) {
                   controller.searchTerm.value = '';
-                  FocusScope.of(context).unfocus();
-                },
-                onChanged: (val) {
-                  if (val.isEmpty && controller.searchTerm.value.isNotEmpty) {
-                    controller.searchTerm.value = '';
-                  }
-                  if (controller.searchTerm.value != val && val.isNotEmpty) {
-                    controller.searchTerm.value = val;
-                  }
-                },
-              ),
+                }
+                if (controller.searchTerm.value != val && val.isNotEmpty) {
+                  controller.searchTerm.value = val;
+                }
+              },
             ),
           ),
           Obx(() {

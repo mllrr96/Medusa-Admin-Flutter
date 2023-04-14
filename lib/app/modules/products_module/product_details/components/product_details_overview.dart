@@ -41,13 +41,13 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                     if (result != null) {
                       switch (result) {
                         case ProductComponents.generalInfo:
-                          await Get.toNamed(Routes.ADD_UPDATE_PRODUCT,
-                              arguments: [product, ProductComponents.generalInfo])?.then((result) async {
-                            if (result != null) {
-                              await controller.loadProduct();
-                              ProductsController.instance.pagingController.refresh();
-                            }
-                          });
+                          // await Get.toNamed(Routes.ADD_UPDATE_PRODUCT,
+                          //     arguments: [product, ProductComponents.generalInfo])?.then((result) async {
+                          //   if (result != null) {
+                          //     await controller.loadProduct();
+                          //     ProductsController.instance.pagingController.refresh();
+                          //   }
+                          // });
                           break;
                         case ProductComponents.editVariants:
                           final confirmDelete = await showOkCancelAlertDialog(
@@ -55,10 +55,9 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                               title: 'Confirm product deletion',
                               message: 'Are you sure you want to delete this product? \n This action is irreversible',
                               isDestructiveAction: true);
-                          if (confirmDelete != OkCancelResult.ok) {
-                            return;
+                          if (confirmDelete == OkCancelResult.ok) {
+                            await controller.deleteProduct(product.id!);
                           }
-                          await controller.deleteProduct(product.id!);
                           break;
                         case ProductComponents.editOptions:
                         case ProductComponents.editAttributes:

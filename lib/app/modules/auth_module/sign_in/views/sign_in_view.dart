@@ -19,9 +19,9 @@ class SignInView extends GetView<SignInController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png', scale: 5)),
                 Column(
                   children: [
-                    Image.asset('assets/images/medusa.png', scale: 5),
                     Text('Welcome back!', style: Theme.of(context).textTheme.displayLarge),
                     Text('It\'s great to see you 👋🏼', style: Theme.of(context).textTheme.titleMedium),
                     Text('Log in to your account below', style: Theme.of(context).textTheme.titleMedium),
@@ -42,7 +42,7 @@ class SignInView extends GetView<SignInController> {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
                     children: [
-                      EmailTextField(controller: controller.emailCtrl),
+                      Hero(tag: 'email', child: EmailTextField(controller: controller.emailCtrl)),
                       const SizedBox(height: 12.0),
                       PasswordTextField(controller: controller.passwordCtrl),
                     ],
@@ -57,6 +57,7 @@ class SignInView extends GetView<SignInController> {
                     onPressed: () => Get.toNamed(Routes.RESET_PASSWORD),
                   ),
                 ),
+                const SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SignInButton(
@@ -66,14 +67,14 @@ class SignInView extends GetView<SignInController> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: SignInButton(
-                    onPressed: () async => await controller.updateBaseUrl(context),
-                    label: 'Change baseUrl',
-                    buttonWidth: double.maxFinite,
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                //   child: SignInButton(
+                //     onPressed: () async => await controller.updateBaseUrl(context),
+                //     label: 'Change baseUrl',
+                //     buttonWidth: double.maxFinite,
+                //   ),
+                // ),
               ],
             ),
           ),
