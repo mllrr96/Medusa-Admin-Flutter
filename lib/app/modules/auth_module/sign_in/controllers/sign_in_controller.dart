@@ -50,7 +50,7 @@ class SignInController extends GetxController {
         await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
 
     result.when((success) async {
-      await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
+      await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init());
       Get.offAllNamed(Routes.DASHBOARD);
       dismissLoading();
     }, (error) {

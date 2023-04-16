@@ -134,6 +134,7 @@ class AddRegionView extends GetView<AddRegionController> {
                             LabeledTextField(
                               label: 'Default Tax Rate',
                               controller: controller.defaultTaxRateCtrl,
+                              keyboardType: TextInputType.number,
                               required: true,
                               hintText: '% 25',
                               validator: (val) {
@@ -147,6 +148,7 @@ class AddRegionView extends GetView<AddRegionController> {
                             LabeledTextField(
                               label: 'Default Tax Code',
                               controller: controller.defaultTextCode,
+                              keyboardType: TextInputType.number,
                               hintText: '1000',
                               validator: (val) {
                                 if (val == null || val.removeAllWhitespace.isEmpty) {

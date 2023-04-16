@@ -16,7 +16,7 @@ class SplashController extends GetxController {
     if (cookie != null) {
       try {
         await authRepo.getSession();
-        await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init(), permanent: true);
+        await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init());
         Get.offAllNamed(Routes.DASHBOARD);
       } catch (e) {
         await StorageService.instance.clearCookie();

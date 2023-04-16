@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-
 import '../../../../../../data/models/req/user_sales_channel_req.dart';
 
 class AddUpdateSalesChannelController extends GetxController {
@@ -58,7 +57,12 @@ class AddUpdateSalesChannelController extends GetxController {
           isDisabled: disabled,
         ));
     result.when((success) {
-      Get.back(result: true);
+      if (success.salesChannel != null) {
+        Get.back(result: success.salesChannel);
+      } else {
+        Get.snackbar('Error updating sales channel', 'Received sales channel is empty',
+            snackPosition: SnackPosition.BOTTOM);
+      }
     }, (error) {
       Get.snackbar('Error updating sales channel ${error.code ?? ''}', error.message,
           snackPosition: SnackPosition.BOTTOM);

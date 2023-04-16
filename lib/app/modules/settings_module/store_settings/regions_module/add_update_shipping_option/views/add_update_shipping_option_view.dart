@@ -141,6 +141,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                       ? LabeledTextField(
                                           label: 'Price',
                                           includeSpace: false,
+                                          keyboardType: TextInputType.number,
                                           decoration: decoration,
                                           inputFormatters: inputFormatter,
                                           controller: controller.priceCtrl,

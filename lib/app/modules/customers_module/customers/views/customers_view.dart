@@ -54,11 +54,11 @@ class _Customers extends GetView<CustomersController> {
           },
           child: const Icon(Icons.person_add),
         ),
-        body: SmartRefresher(
-          controller: controller.refreshController,
-          onRefresh: () => controller.pagingController.refresh(),
-          header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-          child: SlidableAutoCloseBehavior(
+        body: SlidableAutoCloseBehavior(
+          child: SmartRefresher(
+            controller: controller.refreshController,
+            onRefresh: () => controller.pagingController.refresh(),
+            header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
             child: PagedListView(
               // Adding bottom padding to prevent FAB from covering last item
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 2),

@@ -81,6 +81,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
+                  enabledBorder: InputBorder.none,
+                    filled: false,
                     hintText: 'Enter your password',
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
@@ -169,6 +171,8 @@ class EmailTextField extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
+                    enabledBorder: InputBorder.none,
+                    filled: false,
                     hintText: 'Enter your email address',
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,

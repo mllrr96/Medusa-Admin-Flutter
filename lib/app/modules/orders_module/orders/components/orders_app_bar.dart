@@ -100,9 +100,10 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
               ],
             ),
           ),
-          if (widget.tabController.index == 0)
-            AdaptiveButton(
-                onPressed: () {}, padding: const EdgeInsets.symmetric(horizontal: 16.0), child: const Text('Export')),
+          // if (widget.tabController.index == 0)
+          //   AdaptiveButton(
+          //       onPressed: () {}, padding: const EdgeInsets.symmetric(horizontal: 16.0), child: const Text('Export')),
+          Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png')),
         ],
       ),
     );
@@ -226,7 +227,8 @@ class _OrdersAppBarState extends State<OrdersAppBar> {
                             label: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Filters', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: lightWhite)),
+                                Text('Filters',
+                                    style: Theme.of(context).textTheme.titleSmall?.copyWith(color: lightWhite)),
                                 Text(' 0',
                                     style:
                                         Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary)),

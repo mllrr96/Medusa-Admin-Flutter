@@ -11,7 +11,9 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/product.dart';
+import '../../../../../../data/models/store/sales_channel.dart';
 import '../../../../../components/pick_products/views/pick_products_view.dart';
+import '../../sales_channels/controllers/sales_channels_controller.dart';
 import '../components/index.dart';
 import '../controllers/sales_channel_details_controller.dart';
 
@@ -97,7 +99,13 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                         ]).then((value) async {
                       switch (value) {
                         case 0:
-                          await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel);
+                          final result =
+                              await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel);
+                          if (result is SalesChannel) {
+                            controller.salesChannel = result;
+                            controller.update();
+                            SalesChannelsController.instance.pagingController.refresh();
+                          }
                           break;
                         case 1:
                           final result = await showBarModalBottomSheet(

@@ -31,11 +31,11 @@ class GroupsView extends GetView<GroupsController> {
         body: Scaffold(
           // ignore: prefer_const_constructors
           appBar: GroupAppBar(),
-          body: SmartRefresher(
-            controller: controller.refreshController,
-            onRefresh: () => controller.pagingController.refresh(),
-            header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-            child: SlidableAutoCloseBehavior(
+          body: SlidableAutoCloseBehavior(
+            child: SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: () => controller.pagingController.refresh(),
+              header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
               child: PagedListView.separated(
                 separatorBuilder: (_, __) => Divider(height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
                 padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
