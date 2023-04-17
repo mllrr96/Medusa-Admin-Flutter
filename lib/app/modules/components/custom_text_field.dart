@@ -26,7 +26,7 @@ class LabeledTextField extends StatelessWidget {
     this.decoration,
     this.isDense,
     this.inputFormatters,
-    this.includeSpace = true,
+    this.includeSpace = true, this.style,
   });
 
   final bool required;
@@ -52,6 +52,7 @@ class LabeledTextField extends StatelessWidget {
   final Color? fillColor;
   final InputDecoration? decoration;
   final List<TextInputFormatter>? inputFormatters;
+  final TextStyle? style;
   @override
   Widget build(BuildContext context) {
     final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
@@ -86,7 +87,7 @@ class LabeledTextField extends StatelessWidget {
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
-            style: smallTextStyle?.copyWith(color: enabled ? null : lightWhite),
+            style: style  ?? smallTextStyle?.copyWith(color: enabled ? null : lightWhite),
             decoration: decoration ??
                 InputDecoration(
                   isDense: isDense,

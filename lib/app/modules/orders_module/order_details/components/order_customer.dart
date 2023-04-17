@@ -2,7 +2,9 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
@@ -11,8 +13,8 @@ import '../../../components/custom_expansion_tile.dart';
 
 class OrderCustomer extends GetView<OrderDetailsController> {
   const OrderCustomer(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
-final Order order;
-final void Function(bool)? onExpansionChanged;
+  final Order order;
+  final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -49,6 +51,17 @@ final void Function(bool)? onExpansionChanged;
                   break;
                 case 1:
                   await Get.toNamed(Routes.TRANSFER_ORDER, arguments: order);
+                  break;
+                case 2:
+
+                  await showBarModalBottomSheet(
+                    context: context,
+                    builder: (context) => EditShippingAddress(
+                      shippingAddress: order.shippingAddress!,
+                      countries: order.region?.countries ?? <Country>[],
+                      context: context,
+                    ),
+                  );
                   break;
               }
             });
@@ -125,5 +138,6 @@ final void Function(bool)? onExpansionChanged;
           ),
         ),
       ],
-    );  }
+    );
+  }
 }

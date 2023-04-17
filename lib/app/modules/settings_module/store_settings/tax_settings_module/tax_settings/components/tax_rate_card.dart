@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
-import '../../../../components/adaptive_icon.dart';
+import '../../../../../components/adaptive_icon.dart';
 
 class TaxRateCard extends StatelessWidget {
   const TaxRateCard({Key? key, required this.taxRate, this.onEditTap, this.onDeleteTap}) : super(key: key);

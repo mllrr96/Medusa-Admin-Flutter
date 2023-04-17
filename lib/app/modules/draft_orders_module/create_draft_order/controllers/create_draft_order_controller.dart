@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/index.dart';
 import '../../../../data/models/store/product_variant.dart';
+import '../../../../data/repository/regions/regions_repo.dart';
 import '../components/choose_customer.dart';
 
 class CreateDraftOrderController extends GetxController with GetSingleTickerProviderStateMixin {
+  CreateDraftOrderController({required this.regionsRepo});
   static CreateDraftOrderController get instance => Get.find<CreateDraftOrderController>();
   late TabController tabController;
   var selectedProducts = <ProductVariant>[];
   RxInt index = 0.obs;
+  final RegionsRepo regionsRepo;
+  Rx<List<Region>?> regions = (null as List<Region>?).obs;
 
   @override
   void onInit() {
@@ -24,7 +29,17 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
     tabController.dispose();
     super.onClose();
   }
-
+  Future<void> _loadRegions() async {
+    // regions = null;
+    //
+    // final result = await regionsRepo.retrieveAll();
+    //
+    // result.when((success) {
+    //   regions.value = <Region>[];
+    //   regions.value?.addAll(success.regions!);
+    // },
+    //         (error) => );
+  }
   void Function()? onNextTap() {
     switch (index.value) {
       case 0:

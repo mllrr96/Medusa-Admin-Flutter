@@ -16,7 +16,7 @@ class LabeledNumericTextField extends StatelessWidget {
     this.prefixText,
     this.onTapOutside,
     this.inputFormatters,
-    this.onChanged,
+    this.onChanged, this.keyboardType,
   }) : super(key: key);
   final TextEditingController controller;
   final void Function()? onPlusPressed;
@@ -30,6 +30,8 @@ class LabeledNumericTextField extends StatelessWidget {
   final void Function(PointerDownEvent)? onTapOutside;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
+  final TextInputType? keyboardType;
+
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -53,10 +55,11 @@ class LabeledNumericTextField extends StatelessWidget {
             style: smallTextStyle,
             validator: validator,
             controller: controller,
+
             onTapOutside: onTapOutside,
             onChanged: onChanged,
             inputFormatters: inputFormatters,
-            keyboardType: TextInputType.number,
+            keyboardType:keyboardType?? TextInputType.number,
             decoration: InputDecoration(
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -94,7 +97,7 @@ class LabeledNumericTextField extends StatelessWidget {
                   : null,
               prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
               border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
               enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),

@@ -1,12 +1,5 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/api_key_module/add_update_api_key/bindings/add_update_api_key_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/api_key_module/api_key_management/bindings/api_key_management_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/api_key_module/api_key_management/views/api_key_management_view.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/bindings/create_update_return_reason_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/views/create_update_return_reason_view.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/return_reasons_module/return_reasons/bindings/return_reasons_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/return_reasons_module/return_reasons/views/return_reasons_view.dart';
+
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
@@ -74,6 +67,10 @@ import '../modules/products_module/add_update_product/views/add_update_product_v
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
+import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/bindings/add_update_api_key_binding.dart';
+import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
+import '../modules/settings_module/store_settings/api_key_module/api_key_management/bindings/api_key_management_binding.dart';
+import '../modules/settings_module/store_settings/api_key_module/api_key_management/views/api_key_management_view.dart';
 import '../modules/settings_module/store_settings/currencies/bindings/currencies_binding.dart';
 import '../modules/settings_module/store_settings/currencies/views/currencies_view.dart';
 import '../modules/settings_module/store_settings/personal_information/bindings/personal_information_binding.dart';
@@ -86,6 +83,10 @@ import '../modules/settings_module/store_settings/regions_module/region_details/
 import '../modules/settings_module/store_settings/regions_module/region_details/views/region_details_view.dart';
 import '../modules/settings_module/store_settings/regions_module/regions/bindings/regions_binding.dart';
 import '../modules/settings_module/store_settings/regions_module/regions/views/regions_view.dart';
+import '../modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/bindings/create_update_return_reason_binding.dart';
+import '../modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/views/create_update_return_reason_view.dart';
+import '../modules/settings_module/store_settings/return_reasons_module/return_reasons/bindings/return_reasons_binding.dart';
+import '../modules/settings_module/store_settings/return_reasons_module/return_reasons/views/return_reasons_view.dart';
 import '../modules/settings_module/store_settings/sales_channel_module/add_update_sales_channel/bindings/add_update_sales_channel_binding.dart';
 import '../modules/settings_module/store_settings/sales_channel_module/add_update_sales_channel/views/add_update_sales_channel_view.dart';
 import '../modules/settings_module/store_settings/sales_channel_module/sales_channel_details/bindings/sales_channel_details_binding.dart';
@@ -97,10 +98,12 @@ import '../modules/settings_module/store_settings/shipping/views/shipping_view.d
 import '../modules/settings_module/store_settings/store_details/bindings/store_details_binding.dart';
 import '../modules/settings_module/store_settings/store_details/views/store_details_view.dart';
 import '../modules/settings_module/store_settings/store_settings_view.dart';
-import '../modules/settings_module/store_settings/tax_settings/bindings/tax_settings_binding.dart';
-import '../modules/settings_module/store_settings/tax_settings/bindings/tax_settings_select_region_binding.dart';
-import '../modules/settings_module/store_settings/tax_settings/views/tax_settings_select_region_view.dart';
-import '../modules/settings_module/store_settings/tax_settings/views/tax_settings_view.dart';
+import '../modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/bindings/add_update_tax_rate_binding.dart';
+import '../modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/views/add_update_tax_rate_view.dart';
+import '../modules/settings_module/store_settings/tax_settings_module/tax_settings/bindings/tax_settings_binding.dart';
+import '../modules/settings_module/store_settings/tax_settings_module/tax_settings/bindings/tax_settings_select_region_binding.dart';
+import '../modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_select_region_view.dart';
+import '../modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
 import '../modules/settings_module/store_settings/team/bindings/team_binding.dart';
 import '../modules/settings_module/store_settings/team/views/team_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -405,6 +408,11 @@ class AppPages {
       name: _Paths.ADD_UPDATE_API_KEY,
       page: () => const AddUpdateApiKeyView(),
       binding: AddUpdateApiKeyBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_UPDATE_TAX_RATE,
+      page: () => const AddUpdateTaxRateView(),
+      binding: AddUpdateTaxRateBinding(),
     ),
   ];
 }

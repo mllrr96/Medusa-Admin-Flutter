@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/repository/gift_card/gift_card_repo.dart';
 
 class GiftCardsController extends GetxController {
-  //TODO: Implement GiftCardsController
+  GiftCardsController({required this.giftCardRepo});
+  final GiftCardRepo giftCardRepo;
 
-  final count = 0.obs;
+  Future<void> loadGiftCards()async{
+    final result = await giftCardRepo.retrieveGiftCards();
+  }
 
-
-
-  void increment() => count.value++;
 }

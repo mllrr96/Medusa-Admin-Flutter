@@ -37,7 +37,7 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
                 },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
                   ),
                 ),
               ),
@@ -72,9 +72,5 @@ class ChooseRegionController extends GetxController with StateMixin<List<Region>
 
     result.when((success) => change(success.regions ?? [], status: RxStatus.success()),
         (error) => change(null, status: RxStatus.error(error.message)));
-  }
-
-  bool validate() {
-    return keyForm.currentState!.validate();
   }
 }

@@ -19,41 +19,41 @@ class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
       id: 0,
       builder: (controller) {
         return Scaffold(
-            appBar: AppBar(
-              leading: const AdaptiveCloseButton(),
-              title: const Text('Create Draft Order'),
-            ),
-            bottomNavigationBar: Container(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
-              color: Theme.of(context).appBarTheme.backgroundColor,
-              child: Obx(() {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AdaptiveButton(
-                        onPressed: controller.index.value != 0
-                            ? () {
-                                switch (tabController.index) {
-                                  case 0:
-                                  case 1:
-                                  case 2:
-                                  case 3:
-                                  case 4:
-                                  case 5:
-                                }
-                                tabController.animateTo(tabController.index - 1);
+          appBar: AppBar(
+            leading: const AdaptiveCloseButton(),
+            title: const Text('Create Draft Order'),
+          ),
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+            color: Theme.of(context).appBarTheme.backgroundColor,
+            child: Obx(() {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AdaptiveButton(
+                      onPressed: controller.index.value != 0
+                          ? () {
+                              switch (tabController.index) {
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 4:
+                                case 5:
                               }
-                            : null,
-                        child: const Text('Back')),
-                    if (controller.index.value != 5)
-                      AdaptiveButton(onPressed: controller.onNextTap(), child: const Text('Next')),
-                    if (controller.index.value == 5) AdaptiveButton(onPressed: () {}, child: const Text('Create')),
-                  ],
-                );
-              }),
-            ),
-            body: SafeArea(
-                child: TabBarView(
+                              tabController.animateTo(tabController.index - 1);
+                            }
+                          : null,
+                      child: const Text('Back')),
+                  if (controller.index.value != 5)
+                    AdaptiveButton(onPressed: controller.onNextTap(), child: const Text('Next')),
+                  if (controller.index.value == 5) AdaptiveButton(onPressed: () {}, child: const Text('Create')),
+                ],
+              );
+            }),
+          ),
+          body: SafeArea(
+            child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: tabController,
               children: const [
@@ -64,7 +64,9 @@ class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
                 Text('Billing address'),
                 Text('Overview'),
               ],
-            )));
+            ),
+          ),
+        );
       },
     );
   }

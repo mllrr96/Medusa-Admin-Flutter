@@ -7,3 +7,4 @@ export 'order_fulfillment.dart';
 export 'order_customer.dart';
 export 'order_timeline.dart';
 export 'order_create_refund.dart';
+export 'edit_shipping_address.dart';

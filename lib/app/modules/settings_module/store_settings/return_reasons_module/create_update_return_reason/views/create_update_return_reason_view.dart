@@ -51,6 +51,14 @@ class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonContr
                     required: !controller.updateMode,
                     hintText: 'wrong_size',
                     enabled: !controller.updateMode,
+                    style: controller.updateMode
+                        ? Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.grey)
+                        : null,
+                    decoration: controller.updateMode
+                        ? const InputDecoration(
+                            disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                          )
+                        : null,
                     validator: (val) {
                       if (controller.updateMode) {
                         return null;

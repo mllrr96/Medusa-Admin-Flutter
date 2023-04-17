@@ -23,6 +23,7 @@ class CollectionsView extends GetView<CollectionsController> {
           header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
           child: PagedListView(
             pagingController: controller.pagingController,
+            padding: const EdgeInsets.only(bottom: kToolbarHeight),
             builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
               itemBuilder: (context, collection, index) => CollectionListTile(collection,
                   tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null),

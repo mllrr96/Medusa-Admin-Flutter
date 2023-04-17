@@ -203,7 +203,10 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                   setState(() {
                     productSearch = false;
                     controller.searchCtrl.clear();
-                    controller.searchTerm.value = '';
+                    if(controller.searchTerm.value.isNotEmpty){
+                      controller.searchTerm.value = '';
+                    }
+
                   });
                 }),
           ],

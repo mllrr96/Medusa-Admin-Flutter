@@ -61,7 +61,7 @@ class _Customers extends GetView<CustomersController> {
             header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
             child: PagedListView(
               // Adding bottom padding to prevent FAB from covering last item
-              padding: const EdgeInsets.only(bottom: kToolbarHeight * 2),
+              padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<Customer>(
                 itemBuilder: (context, customer, index) => CustomerListTile(

@@ -5,8 +5,10 @@ import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
-import '../../../../../../core/utils/colors.dart';
-import '../../../../components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
+import '../../../../../../../core/utils/colors.dart';
+import '../../../../../components/adaptive_back_button.dart';
+import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
 import '../components/tax_rate_card.dart';
 import '../controllers/tax_settings_controller.dart';
 
@@ -27,7 +29,19 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
             title: Text(controller.region.name ?? ''),
-            actions: [AdaptiveButton(onPressed: () {}, child: const Text('New Tax Rate'))],
+            actions: [
+              AdaptiveButton(
+                  onPressed: () async {
+                    final result = await Get.toNamed(
+                      Routes.ADD_UPDATE_TAX_RATE,
+                      arguments: AddUpdateTaxRateReq(regionId: controller.region.id!),
+                    );
+                    if (result is bool) {
+                      controller.pagingController.refresh();
+                    }
+                  },
+                  child: const Text('New Tax Rate'))
+            ],
           ),
           bottomNavigationBar: Container(
             color: Theme.of(context).appBarTheme.backgroundColor,
@@ -65,6 +79,16 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                         builderDelegate: PagedChildBuilderDelegate<TaxRate>(
                             itemBuilder: (context, taxRate, index) => TaxRateCard(
                                   taxRate: taxRate,
+                                  onEditTap: () async {
+                                    final result = await Get.toNamed(
+                                      Routes.ADD_UPDATE_TAX_RATE,
+                                      arguments: AddUpdateTaxRateReq(regionId: controller.region.id!, taxRate: taxRate),
+                                    );
+                                    if (result is bool) {
+                                      controller.pagingController.refresh();
+                                    }
+                                  },
+                                  onDeleteTap: () async => await controller.deleteTaxRate(taxRate.id!),
                                 ),
                             firstPageProgressIndicatorBuilder: (context) =>
                                 const Center(child: CircularProgressIndicator.adaptive()),

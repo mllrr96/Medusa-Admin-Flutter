@@ -1,8 +1,10 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 class TaxSettingsController extends GetxController {
   TaxSettingsController({required this.taxRateRepo, required this.storeRepo});
@@ -69,8 +71,21 @@ class TaxSettingsController extends GetxController {
     });
   }
 
+  Future<void> deleteTaxRate(String id) async {
+    loading();
+    final result = await taxRateRepo.deleteTaxRate(id: id);
+    result.when((success) {
+      EasyLoading.showSuccess('Tax rate deleted');
+      pagingController.refresh();
+      dismissLoading();
+    }, (error) {
+      Get.snackbar('Error deleting tax rate ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      dismissLoading();
+    });
+  }
+
   bool same() {
-    if(automaticTaxes == region.automaticTaxes && giftCardsTaxable == region.giftCardsTaxable){
+    if (automaticTaxes == region.automaticTaxes && giftCardsTaxable == region.giftCardsTaxable) {
       return true;
     }
     return false;

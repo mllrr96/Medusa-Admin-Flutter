@@ -2,8 +2,9 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../../data/models/store/region.dart';
-import '../../../../../data/repository/regions/regions_repo.dart';
+import '../../../../../../data/models/store/region.dart';
+import '../../../../../../data/repository/regions/regions_repo.dart';
+
 
 class TaxSettingsSelectRegionController extends GetxController {
   TaxSettingsSelectRegionController({required this.regionsRepo});

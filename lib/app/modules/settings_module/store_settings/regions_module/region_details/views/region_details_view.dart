@@ -186,8 +186,9 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: Text('Countries', style: mediumTextStyle.copyWith(color: lightWhite))),
+                        Flexible(child: Text('Countries', style: mediumTextStyle.copyWith(color: lightWhite))),
                         Expanded(
+                          flex: 2,
                             child: Text(getCountriesText(region), style: mediumTextStyle, textAlign: TextAlign.right)),
                       ],
                     ),
