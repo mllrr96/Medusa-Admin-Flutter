@@ -53,8 +53,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   await Get.toNamed(Routes.TRANSFER_ORDER, arguments: order);
                   break;
                 case 2:
-
-                  await showBarModalBottomSheet(
+                  final result = await showBarModalBottomSheet(
                     context: context,
                     builder: (context) => EditShippingAddress(
                       shippingAddress: order.shippingAddress!,
@@ -62,6 +61,10 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                       context: context,
                     ),
                   );
+
+                  if (result is Address) {
+                    await controller.updateShippingAddress(result);
+                  }
                   break;
               }
             });

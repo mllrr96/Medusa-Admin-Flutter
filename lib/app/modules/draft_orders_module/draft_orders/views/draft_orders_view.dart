@@ -18,7 +18,7 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'draft_order',
         onPressed: () async {
-          await Get.toNamed(Routes.CREATE_DRAFT_ORDER);
+          // await Get.toNamed(Routes.CREATE_DRAFT_ORDER);
         },
         child: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add),
       ),

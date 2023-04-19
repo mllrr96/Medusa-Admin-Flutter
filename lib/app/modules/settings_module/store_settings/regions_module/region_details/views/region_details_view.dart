@@ -152,6 +152,7 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
           child: controller.obx(
         (region) => ListView(
           children: [
+            const SizedBox(height: 6.0),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
               margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),

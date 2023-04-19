@@ -70,24 +70,78 @@ class Address {
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
-    json['id'] = id;
-    json['customer_id'] = customerId;
-    json['customer'] = customer != null ? customer?.map((e) => e.toJson()).toList() : [];
-    json['company'] = company;
-    json['first_name'] = firstName;
-    json['last_name'] = lastName;
-    json['address_1'] = address1;
-    json['address_2'] = address2;
-    json['city'] = city;
-    json['country_code'] = countryCode;
-    json['country'] = country?.toJson() ?? {};
-    json['province'] = province;
-    json['postal_code'] = postalCode;
-    json['phone'] = phone;
-    json['created_at'] = createdAt.toString();
-    json['updated_at'] = updatedAt.toString();
-    json['deleted_at'] = deletedAt.toString();
-    json['metadata'] = metadata;
+
+    if (id != null) {
+      json['id'] = id;
+    }
+
+    if (customerId != null) {
+      json['customer_id'] = customerId;
+    }
+
+    if (customer != null) {
+      json['customer'] = customer?.map((e) => e.toJson()).toList();
+    }
+
+    if (company != null) {
+      json['company'] = company;
+    }
+
+    if (firstName != null) {
+      json['first_name'] = firstName;
+    }
+
+    if (lastName != null) {
+      json['last_name'] = lastName;
+    }
+
+    if (address1 != null) {
+      json['address_1'] = address1;
+    }
+
+    if (address2 != null) {
+      json['address_2'] = address2;
+    }
+
+    if (city != null) {
+      json['city'] = city;
+    }
+
+    if (countryCode != null) {
+      json['country_code'] = countryCode;
+    }
+
+    if (country != null) {
+      json['country'] = country?.toJson();
+    }
+
+    if (province != null) {
+      json['province'] = province;
+    }
+
+    if (postalCode != null) {
+      json['postal_code'] = postalCode;
+    }
+
+    if (phone != null) {
+      json['phone'] = phone;
+    }
+
+    if (createdAt != null) {
+      json['created_at'] = createdAt.toString();
+    }
+    if (updatedAt != null) {
+      json['updated_at'] = updatedAt.toString();
+    }
+
+    if (deletedAt != null) {
+      json['deleted_at'] = deletedAt.toString();
+    }
+
+    if (metadata != null) {
+      json['metadata'] = metadata;
+    }
+
     return json;
   }
 }

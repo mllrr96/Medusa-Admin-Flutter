@@ -262,68 +262,68 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                 const SizedBox(width: 6.0),
                 InkWell(
                   onTap: () {
-                    showBarModalBottomSheet(
-                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                        context: context,
-                        builder: (context) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Theme(
-                                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                        child: ExpansionTile(
-                                          title: const Text('Status'),
-                                          childrenPadding: const EdgeInsets.only(left: 20.0),
-                                          children: ProductStatus.values
-                                              .map((e) => CheckboxListTile(
-                                                  title: Text(e.value), value: false, onChanged: (val) {}))
-                                              .toList(),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12.0),
-                                    Theme(
-                                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                        child: ExpansionTile(
-                                          title: const Text('Collection'),
-                                          childrenPadding: const EdgeInsets.only(left: 20.0),
-                                          children: ProductStatus.values
-                                              .map((e) => CheckboxListTile(
-                                                  title: Text(e.value), value: false, onChanged: (val) {}))
-                                              .toList(),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12.0),
-                                    Theme(
-                                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                        child: ExpansionTile(
-                                          title: const Text('Status'),
-                                          childrenPadding: const EdgeInsets.only(left: 20.0),
-                                          children: ProductStatus.values
-                                              .map((e) => CheckboxListTile(
-                                                  title: Text(e.value), value: false, onChanged: (val) {}))
-                                              .toList(),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        });
+                    // showBarModalBottomSheet(
+                    //     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    //     context: context,
+                    //     builder: (context) {
+                    //       return Padding(
+                    //         padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                    //         child: Container(
+                    //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    //           child: SingleChildScrollView(
+                    //             child: Column(
+                    //               mainAxisSize: MainAxisSize.min,
+                    //               children: [
+                    //                 Theme(
+                    //                   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    //                   child: ClipRRect(
+                    //                     borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Status'),
+                    //                       childrenPadding: const EdgeInsets.only(left: 20.0),
+                    //                       children: ProductStatus.values
+                    //                           .map((e) => CheckboxListTile(
+                    //                               title: Text(e.value), value: false, onChanged: (val) {}))
+                    //                           .toList(),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //                 const SizedBox(height: 12.0),
+                    //                 Theme(
+                    //                   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    //                   child: ClipRRect(
+                    //                     borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Collection'),
+                    //                       childrenPadding: const EdgeInsets.only(left: 20.0),
+                    //                       children: ProductStatus.values
+                    //                           .map((e) => CheckboxListTile(
+                    //                               title: Text(e.value), value: false, onChanged: (val) {}))
+                    //                           .toList(),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //                 const SizedBox(height: 12.0),
+                    //                 Theme(
+                    //                   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    //                   child: ClipRRect(
+                    //                     borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    //                     child: ExpansionTile(
+                    //                       title: const Text('Status'),
+                    //                       childrenPadding: const EdgeInsets.only(left: 20.0),
+                    //                       children: ProductStatus.values
+                    //                           .map((e) => CheckboxListTile(
+                    //                               title: Text(e.value), value: false, onChanged: (val) {}))
+                    //                           .toList(),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     });
                   },
                   child: Chip(
                     side: const BorderSide(color: Colors.transparent),

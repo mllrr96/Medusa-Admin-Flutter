@@ -213,7 +213,6 @@ class AlternativeOrderCard extends StatelessWidget {
   const AlternativeOrderCard(this.order, {Key? key, this.onTap}) : super(key: key);
   final Order order;
   final void Function()? onTap;
-
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;

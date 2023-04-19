@@ -76,7 +76,6 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
     final lightWhite = isDarkMode ? Colors.white54 : Colors.black54;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then(
         (value) async {
@@ -95,13 +94,51 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
       );
     }
 
+    bool sameAddress() {
+      if (firstNameCtrl.text == shippingAddress.firstName &&
+          lastNameCtrl.text == shippingAddress.lastName &&
+          companyCtrl.text == shippingAddress.company &&
+          int.tryParse(phoneCtrl.text) == shippingAddress.phone &&
+          address1Ctrl.text == shippingAddress.address1 &&
+          address2Ctrl.text == shippingAddress.address2 &&
+          postalCodeCtrl.text == shippingAddress.postalCode &&
+          cityCtrl.text == shippingAddress.city &&
+          provinceCtrl.text == shippingAddress.province &&
+          selectedCountry?.iso2 == shippingAddress.countryCode) {
+        return true;
+      }
+      return false;
+    }
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
           title: const Text('Shipping Address'),
-          actions: [AdaptiveButton(onPressed: () {}, child: const Text('Save'))],
+          actions: [
+            AdaptiveButton(
+                onPressed: () {
+                  if (sameAddress()) {
+                    Get.back();
+                    return;
+                  }
+                  final address = Address(
+                    firstName: firstNameCtrl.text,
+                    lastName: lastNameCtrl.text,
+                    company: companyCtrl.text,
+                    phone: int.tryParse(phoneCtrl.text),
+                    address1: address1Ctrl.text,
+                    address2: address2Ctrl.text,
+                    postalCode: postalCodeCtrl.text,
+                    city: cityCtrl.text,
+                    province: provinceCtrl.text,
+                    countryCode: selectedCountry?.iso2,
+                  );
+                  Get.back(result: address);
+                },
+                child: const Text('Save'))
+          ],
         ),
         body: SafeArea(
           child: Form(
@@ -123,7 +160,12 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
                     LabeledTextField(label: 'First Name', hintText: 'First Name', controller: firstNameCtrl),
                     LabeledTextField(label: 'Last Name', hintText: 'Last Name', controller: lastNameCtrl),
                     LabeledTextField(label: 'Company', hintText: 'Company', controller: companyCtrl),
-                    LabeledTextField(label: 'Phone', hintText: 'Phone', controller: phoneCtrl),
+                    LabeledTextField(
+                      label: 'Phone',
+                      hintText: 'Phone',
+                      controller: phoneCtrl,
+                      keyboardType: TextInputType.number,
+                    ),
                   ],
                 ),
                 space,

@@ -42,7 +42,7 @@ class TransferOrderView extends GetView<TransferOrderController> {
             child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           children: [
-            AlternativeOrderCard(order),
+            AlternativeOrderCard(order, onTap: null),
             space,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

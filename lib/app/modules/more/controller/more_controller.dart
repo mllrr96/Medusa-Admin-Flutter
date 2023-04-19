@@ -14,7 +14,7 @@ import '../../components/easy_loading.dart';
 class MoreController extends GetxController {
   MoreController({required this.authRepo});
   final AuthRepo authRepo;
-
+  final scrollController = ScrollController();
   late ThemeMode themeMode;
   late PackageInfo packageInfo;
   String version = '';
@@ -30,6 +30,12 @@ class MoreController extends GetxController {
     appName = packageInfo.appName;
     update();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 
   Future<void> changeThemeMode(ThemeMode themeMode) async {
@@ -48,6 +54,11 @@ class MoreController extends GetxController {
         .then((value) async {
       if (value == OkCancelResult.ok) {
         loading();
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.fastOutSlowIn,
+        );
         final result = await authRepo.signOut();
         if (result) {
           await Get.delete(force: true);

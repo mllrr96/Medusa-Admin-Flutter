@@ -90,6 +90,10 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                                   controller.discountRuleType.value = val;
                                   controller.formKey.currentState!.reset();
                                 }
+                                if (val == DiscountRuleType.fixed && controller.selectedRegions.length > 1) {
+                                  controller.selectedRegions.value = [controller.selectedRegions.first];
+                                  controller.regionCtrl.text = controller.selectedRegions.first.name ?? '';
+                                }
                               },
                             ),
                             space,
@@ -184,7 +188,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
                             side: const BorderSide(color: Colors.grey),
                           )
                         : null,
-                    border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                    border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
                   ),
                   required: true,
                   readOnly: true,

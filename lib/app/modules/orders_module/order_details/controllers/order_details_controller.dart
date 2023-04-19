@@ -269,4 +269,24 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
       },
     );
   }
+
+  Future<void> updateShippingAddress(Address address) async {
+    loading();
+    final result = await ordersRepo.updateOrder(
+      id: orderId,
+      userUpdateOrderReq: UserUpdateOrderReq(shippingAddress: address),
+    );
+
+    result.when(
+      (success) async {
+        await loadOrderDetails();
+        dismissLoading();
+      },
+      (error) {
+        Get.snackbar('Error updating shipping address ${error.code ?? ''}', error.message,
+            snackPosition: SnackPosition.BOTTOM);
+        dismissLoading();
+      },
+    );
+  }
 }

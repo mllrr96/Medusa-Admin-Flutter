@@ -21,6 +21,7 @@ class MoreView extends StatelessWidget {
           appBar: AppBar(title: const Text('Medusa')),
           body: SafeArea(
             child: ListView(
+              controller: controller.scrollController,
               children: [
                 SettingsList(
                   contentPadding: EdgeInsets.zero,
