@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/views/customers_view.dart';
 import 'package:medusa_admin/app/modules/more/view/more_view.dart';
@@ -12,31 +13,35 @@ class DashboardView extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
       builder: (controller) {
-        return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: controller.currentScreen,
-            selectedItemColor: Theme.of(context).primaryColor,
-            selectedFontSize: 12.0,
-            unselectedFontSize: 12.0,
-            onTap: controller.onTap,
-            items: controller.bottomNavBarItems,
-          ),
-          body: PageSwitchingView(
-              currentPageIndex: controller.currentScreen,
-              pageCount: 4,
-              pageBuilder: (context, index) {
-                if (index == 0) {
+        // Since there no app bar, annotated region is used to apply theme ui overlay
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: Theme.of(context).appBarTheme.systemOverlayStyle!,
+          child: Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: controller.currentScreen,
+              selectedItemColor: Theme.of(context).primaryColor,
+              selectedFontSize: 12.0,
+              unselectedFontSize: 12.0,
+              onTap: controller.onTap,
+              items: controller.bottomNavBarItems,
+            ),
+            body: PageSwitchingView(
+                currentPageIndex: controller.currentScreen,
+                pageCount: 4,
+                pageBuilder: (context, index) {
+                  if (index == 0) {
+                    return const OrdersView();
+                  } else if (index == 1) {
+                    return const ProductsView();
+                  } else if (index == 2) {
+                    return const CustomersView();
+                  } else if (index == 3) {
+                    return const MoreView();
+                  }
                   return const OrdersView();
-                } else if (index == 1) {
-                  return const ProductsView();
-                } else if (index == 2) {
-                  return const CustomersView();
-                } else if (index == 3) {
-                  return const MoreView();
-                }
-                return const OrdersView();
-              }),
+                }),
+          ),
         );
       },
     );

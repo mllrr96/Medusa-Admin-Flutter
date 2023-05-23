@@ -25,6 +25,14 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
     focusNode.addListener(() => focused.value = focusNode.hasFocus);
+    tabController.addListener(() {
+      print('test');
+      if(tabController.indexIsChanging ){
+        print('test2');
+
+        focusNode.unfocus();
+      }
+    });
     searchDebouner =
         debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     pagingController.addPageRequestListener((pageKey) {

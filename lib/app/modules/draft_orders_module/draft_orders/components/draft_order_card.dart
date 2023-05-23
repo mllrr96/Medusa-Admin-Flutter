@@ -35,8 +35,9 @@ class DraftOrderCard extends StatelessWidget {
     }
 
     return InkWell(
+      borderRadius:  const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ?? () => Get.toNamed(Routes.DRAFT_ORDER_DETAILS, arguments: draftOrder.id),
-      child: Container(
+      child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(5.0))),

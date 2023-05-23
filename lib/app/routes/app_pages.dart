@@ -289,6 +289,7 @@ class AppPages {
         GetPage(
           name: _Paths.RESET_PASSWORD,
           page: () => const ResetPasswordView(),
+          transition: Transition.noTransition,
           binding: ResetPasswordBinding(),
           fullscreenDialog: true,
         ),

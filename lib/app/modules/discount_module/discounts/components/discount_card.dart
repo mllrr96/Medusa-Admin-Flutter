@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
+import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
@@ -33,8 +35,10 @@ class DiscountCard extends StatelessWidget {
     }
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return InkWell(
+      radius: 10.0,
+      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       onTap: () => Get.toNamed(Routes.DISCOUNT_DETAILS, arguments: discount.id!),
-      child: Container(
+      child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
@@ -74,7 +78,11 @@ class DiscountCard extends StatelessWidget {
                         }
                         switch (value) {
                           case 0:
-                            Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount);
+                           await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount)?.then((value) {
+                             if(value is bool && value == true){
+                               DiscountsController.instance.pagingController.refresh();
+                             }
+                           });
                             break;
                           case 1:
                             if (onToggle != null) {
@@ -121,7 +129,7 @@ class DiscountCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  DiscountStatusDot(disabled: discount.isDisabled ?? true),
+                  DiscountStatusDot(disabled: discount.isDisabled ?? true, date: discount.endsAt),
                   Flexible(
                     child: Text(
                       'Redemptions: ${discount.usageCount}',

@@ -18,7 +18,7 @@ class OrdersView extends GetView<OrdersController> {
     return Scaffold(
       appBar: OrdersAppBar(tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
       body: SafeArea(
-        child: TabBarView(physics: const NeverScrollableScrollPhysics(), controller: tabController, children: [
+        child: TabBarView(controller: tabController, children: [
           KeepAliveWidget(
             child: Scaffold(
               floatingActionButton: FloatingActionButton(

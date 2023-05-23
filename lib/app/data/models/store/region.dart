@@ -99,7 +99,7 @@ class Region {
     taxRate = json['tax_rate'];
     if (json['tax_rates'] != null) {
       taxRates = <TaxRate>[];
-      json['tax_rates'].forEach((e) => taxRates!.add(TaxRate.fromJson(json['tax_rates'])));
+      json['tax_rates'].forEach((e) => taxRates!.add(TaxRate.fromJson(e)));
     }
     taxCode = json['tax_code'];
     giftCardsTaxable = json['gift_cards_taxable'];

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/colors.dart';
 
@@ -21,8 +22,8 @@ class AppTheme {
       checkboxTheme: const CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
+      splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
+      highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: CupertinoColors.white,
         selectedItemColor: ColorManager.primary,
@@ -35,7 +36,7 @@ class AppTheme {
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.primary,
-          statusBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
         ),
       ),
@@ -46,9 +47,10 @@ class AppTheme {
         primaryColor: ColorManager.primary,
       ),
       inputDecorationTheme: const InputDecorationTheme(
+        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         labelStyle: TextStyle(color: Colors.grey),
         filled: true,
-        fillColor:Color(0xFFF2F2F7),
+        fillColor: Color(0xFFF2F2F7),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(4.0),
@@ -80,6 +82,7 @@ class AppTheme {
       useMaterial3: true,
       primaryColor: ColorManager.primary,
       brightness: Brightness.dark,
+      listTileTheme: const ListTileThemeData(textColor: Colors.white),
       dialogTheme: const DialogTheme(
           titleTextStyle: TextStyle(color: Colors.white), contentTextStyle: TextStyle(color: Colors.white)),
       scaffoldBackgroundColor: const Color(0xFF18191A),
@@ -115,9 +118,10 @@ class AppTheme {
         barBackgroundColor: const Color(0xff242527),
         primaryColor: ColorManager.primary,
       ),
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
+      splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
+      highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       inputDecorationTheme: const InputDecorationTheme(
+        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         labelStyle: TextStyle(color: Colors.grey),
         filled: true,
         fillColor: Color(0xFF18191A),

@@ -23,7 +23,6 @@ class CustomersView extends GetView<CustomersController> {
       body: SafeArea(
         child: TabBarView(
           controller: tabController,
-          physics: const NeverScrollableScrollPhysics(),
           children: const [
             _Customers(),
             GroupsView(),

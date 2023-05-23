@@ -55,32 +55,32 @@ class _SearchTextFieldState extends State<SearchTextField> {
     const outlineInputBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)), borderSide: BorderSide(color: Colors.grey));
 
-    return Padding(
-      padding: widget.adnroidPadding ?? const EdgeInsets.symmetric(vertical: 4.0),
-      child: TextFormField(
-        style: Theme.of(context).textTheme.titleSmall,
-        controller: widget.controller,
-        autocorrect: false,
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          suffixIcon: empty
-              ? null
-              : IconButton(
-                  icon: widget.suffixIcon ?? const Icon(Icons.clear),
-                  onPressed: widget.onSuffixTap ??
-                      () {
-                        setState(() {
-                          widget.controller.clear();
-                        });
-                      },
-                ),
-          isDense: true,
-          focusedBorder: outlineInputBorder,
-          border: outlineInputBorder,
-          hintText: widget.hintText,
+    return TextFormField(
+      style: Theme.of(context).textTheme.titleSmall,
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      autocorrect: false,
+      textInputAction: TextInputAction.search,
+      decoration: InputDecoration(
+        suffixIconConstraints: const BoxConstraints(maxHeight: 40, maxWidth: 40),
+        suffixIcon: empty
+            ? null
+            : IconButton(
+          padding: EdgeInsets.zero,
+          icon: widget.suffixIcon ?? const Icon(Icons.clear,),
+          onPressed: widget.onSuffixTap ??
+                  () {
+                setState(() {
+                  widget.controller.clear();
+                });
+              },
         ),
-        onChanged: widget.onChanged,
+        isDense: true,
+        focusedBorder: outlineInputBorder,
+        border: outlineInputBorder,
+        hintText: widget.hintText,
       ),
+      onChanged: widget.onChanged,
     );
   }
 }

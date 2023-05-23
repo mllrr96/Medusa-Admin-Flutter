@@ -9,6 +9,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_down_button/pull_down_button.dart';
@@ -30,7 +31,6 @@ class ProductsView extends StatelessWidget {
           appBar: ProductsAppBar(tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
           body: SafeArea(
               child: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
             controller: tabController,
             children: [
               KeepAliveWidget(
@@ -53,7 +53,9 @@ class ProductsGridView extends GetView<ProductsController> {
     return SmartRefresher(
       controller: controller.gridRefreshController,
       onRefresh: () => controller.pagingController.refresh(),
-      header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+      header: GetPlatform.isIOS
+          ? const ClassicHeader(completeText: '')
+          : MaterialClassicHeader(color: Colors.green,),
       child: PagedGridView(
         pagingController: controller.pagingController,
         // padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -217,7 +219,26 @@ class ProductListTile extends StatelessWidget {
               }
             });
           },
-      onLongPress: () async {
+      title: Text(product.title!),
+      subtitle: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _getStatusIcon(product.status),
+          const SizedBox(width: 4.0),
+          Text(product.status.name.capitalize ?? product.status.name, style: Theme.of(context).textTheme.titleSmall),
+        ],
+      ),
+      leading: product.thumbnail != null
+          ? SizedBox(
+              width: 45,
+              child: CachedNetworkImage(
+                key: ValueKey(product.thumbnail),
+                imageUrl: product.thumbnail!,
+                placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
+              ))
+          : null,
+      trailing:AdaptiveIcon(onPressed: ()async{
         await showModalActionSheet(
             title: 'Manage Product',
             message: product.title ?? '',
@@ -238,60 +259,7 @@ class ProductListTile extends StatelessWidget {
             }
           }
         });
-      },
-      title: Text(product.title!),
-      subtitle: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _getStatusIcon(product.status),
-          const SizedBox(width: 4.0),
-          Text(product.status.name.capitalize ?? product.status.name, style: Theme.of(context).textTheme.titleSmall),
-        ],
-      ),
-      leading: product.thumbnail != null
-          ? SizedBox(
-              width: 45,
-              child: CachedNetworkImage(
-                key: ValueKey(product.thumbnail),
-                imageUrl: product.thumbnail!,
-                placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
-              ))
-          : null,
-      trailing: PullDownButton(
-        itemBuilder: (context) => [
-          PullDownMenuItem(
-            title: 'Edit',
-            icon: MedusaIcons.pencil_square_solid,
-            onTap: () {},
-          ),
-          const PullDownMenuDivider(),
-          PullDownMenuItem(
-            title: 'Delete',
-            icon: MedusaIcons.trash,
-            isDestructive: true,
-            onTap: onDelete,
-          ),
-          const PullDownMenuDivider(),
-          PullDownMenuItem(
-            title: product.status == ProductStatus.published ? 'Unpublish' : 'Publish',
-            icon: product.status == ProductStatus.published ? MedusaIcons.eye_slash : MedusaIcons.eye,
-            onTap: onPublish,
-          ),
-          const PullDownMenuDivider(),
-          PullDownMenuItem(
-            title: 'Duplicate',
-            icon: Icons.copy,
-            onTap: () {},
-          ),
-        ],
-        position: PullDownMenuPosition.automatic,
-        buttonBuilder: (context, showMenu) => CupertinoButton(
-          onPressed: showMenu,
-          padding: EdgeInsets.zero,
-          child: Icon(Icons.more_horiz, color: Theme.of(context).iconTheme.color),
-        ),
-      ),
+      }, icon:const Icon(Icons.more_horiz) ,)
 
       // AdaptiveIcon(
       //     onPressed: () async {

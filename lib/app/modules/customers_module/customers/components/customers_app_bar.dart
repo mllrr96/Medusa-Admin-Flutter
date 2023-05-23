@@ -18,6 +18,19 @@ class CustomersTabBar extends StatefulWidget with PreferredSizeWidget {
 }
 
 class _CustomersTabBarState extends State<CustomersTabBar> {
+  var activeIndex = 0;
+  @override
+  void initState() {
+    if (Platform.isIOS) {
+      widget.tabController.addListener(() {
+        setState(() {
+          activeIndex = widget.tabController.index;
+        });
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final topViewPadding = MediaQuery.of(context).viewPadding.top;
@@ -53,9 +66,7 @@ class _CustomersTabBarState extends State<CustomersTabBar> {
               },
               alignment: Alignment.bottomCenter,
               child: AnimatedDefaultTextStyle(
-                  style: widget.tabController.index == 0
-                      ? displayLargeTextStyle!
-                      : largeTextStyle!.copyWith(color: lightWhite),
+                  style: activeIndex == 0 ? displayLargeTextStyle! : largeTextStyle!.copyWith(color: lightWhite),
                   duration: const Duration(milliseconds: 200),
                   child: customersText)),
           CupertinoButton(
@@ -66,9 +77,7 @@ class _CustomersTabBarState extends State<CustomersTabBar> {
             },
             alignment: Alignment.bottomCenter,
             child: AnimatedDefaultTextStyle(
-                style: widget.tabController.index == 1
-                    ? displayLargeTextStyle!
-                    : largeTextStyle!.copyWith(color: lightWhite),
+                style: activeIndex == 1 ? displayLargeTextStyle! : largeTextStyle!.copyWith(color: lightWhite),
                 duration: const Duration(milliseconds: 200),
                 child: customerGroupsText),
           ),

@@ -55,22 +55,31 @@ class DiscountRuleTypeLabel extends StatelessWidget {
 }
 
 class DiscountStatusDot extends StatelessWidget {
-  const DiscountStatusDot({Key? key, required this.disabled}) : super(key: key);
+  const DiscountStatusDot({Key? key, required this.disabled, this.date}) : super(key: key);
   final bool disabled;
+  final DateTime? date;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
 
     Color containerColor = ColorManager.primary.withOpacity(0.17);
     Color textColor = ColorManager.primary;
+    String text = 'Disabled';
+
     if (disabled) {
       containerColor = Colors.grey.withOpacity(0.17);
       textColor = Colors.grey;
+      text = 'Disabled';
     } else {
       containerColor = Colors.green.withOpacity(0.17);
       textColor = Colors.green;
+      text = 'Active';
     }
-
+    if(date!=null && date!.isBefore(DateTime.now())){
+      containerColor = Colors.red.withOpacity(0.17);
+      textColor = Colors.red;
+      text = 'Expired';
+    }
     return Row(
       children: [
         Stack(
@@ -80,7 +89,7 @@ class DiscountStatusDot extends StatelessWidget {
             Icon(Icons.circle, color: containerColor, size: 24),
           ],
         ),
-        Text(disabled ? 'Disabled' : 'Active', style: smallTextStyle),
+        Text(text, style: smallTextStyle),
       ],
     );
   }

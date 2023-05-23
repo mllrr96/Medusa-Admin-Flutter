@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
@@ -19,11 +20,13 @@ class SignInController extends GetxController {
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   RxString errorMessage = ''.obs;
+   Rx<ThemeMode> themeMode = ThemeMode.system.obs;
 
   @override
   void onInit() {
     emailCtrl.text = 'admin@medusa-test.com';
     passwordCtrl.text = 'supersecret';
+    themeMode.value = StorageService.instance.loadThemeMode();
     super.onInit();
   }
 
@@ -34,6 +37,23 @@ class SignInController extends GetxController {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
     super.onClose();
+  }
+
+  Future<void> changeThemeMode() async {
+    switch (themeMode.value) {
+
+      case ThemeMode.system:
+        await StorageService.instance.saveThemeMode(ThemeMode.light);
+        break;
+      case ThemeMode.light:
+        await StorageService.instance.saveThemeMode(ThemeMode.dark);
+        break;
+      case ThemeMode.dark:
+        await StorageService.instance.saveThemeMode(ThemeMode.system);
+        break;
+    }
+    themeMode.value = StorageService.instance.loadThemeMode();
+    update();
   }
 
   Future<void> signIn(BuildContext context) async {

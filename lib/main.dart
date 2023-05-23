@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: "Medusa Admin",
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBinding(),
-      themeMode: ThemeMode.system,
+      themeMode:StorageService.instance.loadThemeMode(),
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       initialRoute: AppPages.INITIAL,

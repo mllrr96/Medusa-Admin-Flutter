@@ -45,7 +45,7 @@ Future<DateTime?> adaptiveDateTimePicker({DateTime? date, required BuildContext 
     return await showDatePicker(
         context: context,
         initialDate: date ?? DateTime.now(),
-        firstDate: DateTime.now(),
+        firstDate: date ?? DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)))
         .then((value) async {
       if (value != null) {

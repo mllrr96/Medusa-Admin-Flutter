@@ -18,7 +18,8 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
+    final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom == 0 ? 12.0:MediaQuery.of(context).viewPadding.bottom ;
+    final topPadding = MediaQuery.of(context).viewPadding.bottom == 0 ? 12.0:MediaQuery.of(context).viewPadding.bottom /2 ;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
 
     return GetBuilder<UpdateConditionController>(
@@ -54,7 +55,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
             ),
           ),
           bottomNavigationBar: Container(
-            padding: EdgeInsets.only(bottom: bottomViewPadding, left: 22.0, right: 22.0, top: bottomViewPadding / 2),
+            padding: EdgeInsets.only(bottom: bottomViewPadding, left: 22.0, right: 22.0, top: topPadding ),
             color: Theme.of(context).appBarTheme.backgroundColor,
             child: AdaptiveFilledButton(
               buttonWidth: Get.width / 3,

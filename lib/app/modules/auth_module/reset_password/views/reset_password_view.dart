@@ -12,6 +12,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final bottomPadding =  MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0:  MediaQuery.of(context).viewPadding.bottom;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -20,10 +21,12 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
-          child:
-              SignInButton(onPressed: () async => await controller.resetPassword(), label: 'Send reset instructions'),
+          padding: EdgeInsets.only(bottom:bottomPadding),
+          margin: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Hero(
+              tag: 'continue',
+              child: SignInButton(
+                  onPressed: () async => await controller.resetPassword(), label: 'Send reset instructions')),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -38,7 +41,8 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                     Text(
                         "Enter your email address below, and we'll send you instructions on how to reset your password.",
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
-                        textAlign: TextAlign.center, overflow: TextOverflow.fade),
+                        textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 18.0),
