@@ -6,7 +6,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
 
@@ -14,7 +13,8 @@ class SignInView extends GetView<SignInController> {
   const SignInView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
+    // Since there no app bar, annotated region is used to apply theme ui overlay
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: Theme.of(context).appBarTheme.systemOverlayStyle!,
       child: GestureDetector(
@@ -27,29 +27,33 @@ class SignInView extends GetView<SignInController> {
                 children: [
                   Obx(() {
                     return AdaptiveIcon(
-                      onPressed: () async => controller.changeThemeMode(),
+                      onPressed: () async => await controller.changeThemeMode(),
                       icon: Icon(themeIcon(controller.themeMode.value)),
                     );
                   }),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png', scale: 5)),
+                      Image.asset('assets/images/medusa.png', scale: 5),
                       Column(
                         children: [
                           Text('Welcome back!', style: Theme
                               .of(context)
                               .textTheme
                               .displayLarge),
-                          Text('It\'s great to see you 👋🏼', style: Theme
-                              .of(context)
-                              .textTheme
-                              .titleMedium,
+                          Text(
+                            'It\'s great to see you 👋🏼',
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleMedium,
                           ),
-                          Text('Log in to your account below', style: Theme
-                              .of(context)
-                              .textTheme
-                              .titleMedium,
+                          Text(
+                            'Log in to your account below',
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .titleMedium,
                           ),
                         ],
                       ),

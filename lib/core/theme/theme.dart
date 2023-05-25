@@ -35,10 +35,10 @@ class AppTheme {
         backgroundColor: CupertinoColors.white,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: ColorManager.primary,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness: Brightness.light,
-        ),
+            statusBarColor: ColorManager.primary,
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.light,
+            systemNavigationBarColor: Colors.white),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
@@ -105,10 +105,10 @@ class AppTheme {
         backgroundColor: const Color(0xff242527),
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: ColorManager.primary,
-          statusBarIconBrightness: Brightness.light,
-          statusBarBrightness: Brightness.dark,
-        ),
+            statusBarColor: ColorManager.primary,
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.dark,
+            systemNavigationBarColor: Colors.black),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
