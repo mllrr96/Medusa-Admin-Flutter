@@ -30,15 +30,22 @@ class SignInView extends GetView<SignInController> {
                 alignment: Alignment.topRight,
                 children: [
                   Obx(() {
-                    return AdaptiveIcon(
-                      onPressed: () async => await controller.changeThemeMode(),
-                      icon: Icon(themeIcon(controller.themeMode.value)),
+                    return Hero(
+                      tag: 'closeReset',
+                      child: AdaptiveIcon(
+                        onPressed: () async =>
+                            await controller.changeThemeMode(),
+                        icon: Icon(themeIcon(controller.themeMode.value)),
+                      ),
                     );
                   }),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/medusa.png', scale: 5),
+                      Hero(
+                          tag: 'medusa',
+                          child: Image.asset('assets/images/medusa.png',
+                              scale: 5)),
                       Column(
                         children: [
                           Text(translate.welcome,

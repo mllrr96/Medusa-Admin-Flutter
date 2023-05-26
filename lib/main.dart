@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:medusa_admin/app/data/service/initial_binding.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'app/data/service/storage_service.dart';
 import 'app/data/service/theme_service.dart';
@@ -24,16 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Medusa Admin",
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ar'),
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBinding(),
       themeMode: StorageService.instance.loadThemeMode(),

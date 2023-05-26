@@ -1,9 +1,14 @@
 {
+  "@_SIGN_IN" :{},
   "welcome": "مرحباً بك",
   "greatToSeeYou": "سعيدون برؤيتك مجدداً",
   "loginBelow": "سجل دخول الى حسابك في الاسفل",
   "enterEmail": "ادخل البريد الالكتروني",
   "enterPassword": "ادخل كلمة المرور",
   "resetPassword": "نسيت كلمة السر",
-  "cont": "متابعة"
+  "cont": "متابعة",
+  "@_RESET_PASSWORD" :{},
+  "sendInstructions": "إرسال",
+  "resetYourPassword": "إعادة تعيين كلمة المرور",
+  "sendInstructionsDescription": "ادخل البريد الالكتروني الخاص بك, وسنقوم بارسال لك تعليمات عن كيفية إعادة تعيين كلمة المرور"
 }

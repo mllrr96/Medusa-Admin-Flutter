@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 
 import '../../../components/error_widget.dart';
 import '../controllers/reset_password_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordView extends GetView<ResetPasswordController> {
   const ResetPasswordView({Key? key}) : super(key: key);
@@ -13,11 +14,15 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final bottomPadding =  MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0:  MediaQuery.of(context).viewPadding.bottom;
+    final tr = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
+          leading: const Hero(
+              tag: 'closeReset',
+              child: AdaptiveCloseButton()),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         ),
         bottomNavigationBar: Container(
@@ -26,7 +31,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           child: Hero(
               tag: 'continue',
               child: SignInButton(
-                  onPressed: () async => await controller.resetPassword(), label: 'Send reset instructions')),
+                  onPressed: () async => await controller.resetPassword(), label: tr.sendInstructions)),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -36,10 +41,10 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Reset your password', style: Theme.of(context).textTheme.displayLarge),
+                    Text(tr.resetYourPassword, style: Theme.of(context).textTheme.displayLarge),
                     // const SizedBox(height: 18.0),
                     Text(
-                        "Enter your email address below, and we'll send you instructions on how to reset your password.",
+                      tr.sendInstructionsDescription,
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
                         textAlign: TextAlign.center,
                     ),

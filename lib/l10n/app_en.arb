@@ -1,9 +1,14 @@
 {
+  "@_SIGN_IN" :{},
   "welcome": "Welcome back!",
   "greatToSeeYou": "It's great to see you 👋🏼",
   "loginBelow": "Log in to your account below",
   "enterEmail": "Enter your email address",
   "enterPassword": "Enter your password",
   "resetPassword": "Reset password",
-  "cont": "Continue"
+  "cont": "Continue",
+  "@_RESET_PASSWORD" :{},
+  "sendInstructions": "Send reset instructions",
+  "resetYourPassword": "Reset your password",
+  "sendInstructionsDescription": "Enter your email address below, and we'll send you instructions on how to reset your password."
 }
