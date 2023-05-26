@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import '../../../../core/utils/colors.dart';
-import '../../../../core/utils/medusa_icons_icons.dart';
 import '../../../routes/app_pages.dart';
 
 class StoreSettingsView extends StatelessWidget {

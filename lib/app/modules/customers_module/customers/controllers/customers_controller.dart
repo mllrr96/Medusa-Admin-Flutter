@@ -26,10 +26,7 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
     tabController = TabController(length: 2, vsync: this);
     focusNode.addListener(() => focused.value = focusNode.hasFocus);
     tabController.addListener(() {
-      print('test');
       if(tabController.indexIsChanging ){
-        print('test2');
-
         focusNode.unfocus();
       }
     });

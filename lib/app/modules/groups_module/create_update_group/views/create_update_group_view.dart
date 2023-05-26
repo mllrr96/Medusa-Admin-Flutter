@@ -66,7 +66,7 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
                             children: [
                               Text('Metadata', style: largeTextStyle),
                               AdaptiveButton(
-                                child: Row(mainAxisSize: MainAxisSize.min, children: const [
+                                child: const Row(mainAxisSize: MainAxisSize.min, children: [
                                   Icon(Icons.add),
                                   Text('Add Metadata'),
                                 ]),

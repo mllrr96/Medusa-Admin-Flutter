@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -91,7 +90,7 @@ class _Customers extends GetView<CustomersController> {
   }
 }
 
-class CustomerCustomAppBar extends GetView<CustomersController> with PreferredSizeWidget {
+class CustomerCustomAppBar extends GetView<CustomersController> implements PreferredSizeWidget {
   const CustomerCustomAppBar({super.key});
 
   @override

@@ -58,7 +58,7 @@ class InviteCard extends StatelessWidget {
                               }
                               return;
                             case 1:
-                              await Clipboard.setData(ClipboardData(text: invite.token)).then((value) =>
+                              await Clipboard.setData(ClipboardData(text: invite.token ?? '' )).then((value) =>
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(content: Text('Token copied'))));
                               return;

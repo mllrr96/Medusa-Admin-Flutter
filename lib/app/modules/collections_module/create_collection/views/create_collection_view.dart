@@ -87,7 +87,7 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                       ),
                     ),
                     AdaptiveButton(
-                        child: Row(mainAxisSize: MainAxisSize.min, children: const [
+                        child: const Row(mainAxisSize: MainAxisSize.min, children: [
                           Icon(Icons.add),
                           Text('Add Metadata'),
                         ]),

@@ -13,10 +13,11 @@ class AppConstants {
   static const String favorites = 'favorites';
   static const String cookie = 'Cookie';
   static const String themeMode = 'theme';
-  static const String baseUrl = 'api';
+  static const String baseUrlKey = 'api';
+  static const String languageKey = 'language';
   static const String cart = 'cart';
   static const String svgDivider =
       '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';
 
-  // static const String baseUrl = 'http://localhost:9000/admin';
+  static const String baseUrl = 'https://medusa-backend-production-c81f.up.railway.app/admin';
 }

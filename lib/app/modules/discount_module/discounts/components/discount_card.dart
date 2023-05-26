@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
-
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import 'discount_rule_type_label.dart';

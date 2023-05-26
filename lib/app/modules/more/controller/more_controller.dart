@@ -1,9 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../data/repository/auth/auth_repo.dart';

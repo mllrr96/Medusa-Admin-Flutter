@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/keep_alive_widget.dart';
 import '../components/draft_order_card.dart';
 import '../controllers/draft_orders_controller.dart';

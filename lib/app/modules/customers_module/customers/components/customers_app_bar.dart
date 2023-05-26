@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 
-class CustomersTabBar extends StatefulWidget with PreferredSizeWidget {
+class CustomersTabBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomersTabBar({Key? key, required this.tabController, required this.topViewPadding}) : super(key: key);
   final TabController tabController;
   final double topViewPadding;

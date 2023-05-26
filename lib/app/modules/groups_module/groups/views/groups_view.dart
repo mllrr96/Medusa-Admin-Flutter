@@ -61,7 +61,7 @@ class GroupsView extends GetView<GroupsController> {
   }
 }
 
-class GroupAppBar extends GetView<GroupsController> with PreferredSizeWidget {
+class GroupAppBar extends GetView<GroupsController> implements PreferredSizeWidget {
   const GroupAppBar({super.key});
 
   @override

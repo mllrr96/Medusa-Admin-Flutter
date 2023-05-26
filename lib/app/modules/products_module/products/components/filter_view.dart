@@ -7,8 +7,8 @@ class FilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SafeArea(child: Column(
-        children: const [
+      body: const SafeArea(child: Column(
+        children: [
 
         ],
       )),

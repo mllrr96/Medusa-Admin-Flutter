@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
-
 import '../../../components/custom_expansion_tile.dart';
-import '../../products/controllers/products_controller.dart';
 import '../controllers/product_details_controller.dart';
 
 class ProductDetailsAttributes extends GetView<ProductDetailsController> {

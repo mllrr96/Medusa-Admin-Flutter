@@ -7,21 +7,25 @@ import '../../../core/utils/strings.dart';
 class StorageService extends GetxService {
   static StorageService get instance => Get.find<StorageService>();
   static String get baseUrl => Get.find<StorageService>()._baseUrl;
+  static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
 
   late SharedPreferences _prefs;
   late String _baseUrl;
+  late String _language;
   late String? _cookie;
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
     try {
       _baseUrl =
-          _prefs.getString(AppConstants.baseUrl) ?? 'https://medusa-backend-production-c81f.up.railway.app/admin';
+          _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookie);
+      _language =  _prefs.getString(AppConstants.languageKey) ?? 'en';
     } catch (e) {
-      _baseUrl = 'https://medusa-backend-production-c81f.up.railway.app/admin';
+      _baseUrl = AppConstants.baseUrl;
       _cookie = null;
+      _language = 'en';
     }
     return this;
   }
@@ -49,6 +53,12 @@ class StorageService extends GetxService {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }  Future<void> saveLanguage(String language) async {
+    try {
+      await _prefs.setString(AppConstants.languageKey, language);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   Future<bool> isFirstRun() async {
@@ -72,7 +82,7 @@ class StorageService extends GetxService {
 
   Future<bool> updateUrl(String value) async {
     try {
-      return await _prefs.setString(AppConstants.baseUrl, value);
+      return await _prefs.setString(AppConstants.baseUrlKey, value);
     } on Exception {
       return false;
     }

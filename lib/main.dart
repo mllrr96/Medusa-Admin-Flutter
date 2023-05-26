@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:medusa_admin/app/data/service/initial_binding.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'app/data/service/storage_service.dart';
 import 'app/data/service/theme_service.dart';
 import 'app/routes/app_pages.dart';
 import 'core/theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +24,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Medusa Admin",
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBinding(),
-      themeMode:StorageService.instance.loadThemeMode(),
+      themeMode: StorageService.instance.loadThemeMode(),
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       initialRoute: AppPages.INITIAL,
@@ -38,6 +49,7 @@ class MyApp extends StatelessWidget {
 Future<void> initServices() async {
   debugPrint('starting services ...');
   await Get.putAsync(() => StorageService().init());
+  Get.put(LanguageService().init());
   Get.put(ThemeService().init());
   Get.put(DioService().init());
   debugPrint('All services started...');

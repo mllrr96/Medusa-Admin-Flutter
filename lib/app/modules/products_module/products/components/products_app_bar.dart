@@ -8,10 +8,8 @@ import 'package:medusa_admin/app/modules/collections_module/collections/controll
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_button.dart';
 import '../controllers/products_controller.dart';

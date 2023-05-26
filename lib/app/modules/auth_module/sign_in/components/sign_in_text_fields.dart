@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
@@ -22,6 +23,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final translate = AppLocalizations.of(context)!;
     return Container(
       alignment: Alignment.center,
       height: size.height / 16,
@@ -83,7 +85,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                 decoration: InputDecoration(
                   enabledBorder: InputBorder.none,
                     filled: false,
-                    hintText: 'Enter your password',
+                    hintText: translate.enterPassword,
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
                       color: Get.isDarkMode ? Colors.white70 : Colors.black54,
@@ -125,6 +127,8 @@ class EmailTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final translate = AppLocalizations.of(context)!;
+
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return Container(
       alignment: Alignment.center,
@@ -173,7 +177,7 @@ class EmailTextField extends StatelessWidget {
                 decoration: InputDecoration(
                     enabledBorder: InputBorder.none,
                     filled: false,
-                    hintText: 'Enter your email address',
+                    hintText: translate.enterEmail,
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
                       color: Get.isDarkMode ? Colors.white70 : Colors.black54,

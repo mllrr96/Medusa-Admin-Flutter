@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/index.dart';
-import '../../../../data/models/store/product_variant.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
 import '../components/choose_customer.dart';
 
