@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -17,15 +18,18 @@ class StorageService extends GetxService {
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
+    final String defaultLocale = Platform.localeName.length == 2
+        ? Platform.localeName
+        : Platform.localeName.split('_')[0];
     try {
       _baseUrl =
           _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookie);
-      _language =  _prefs.getString(AppConstants.languageKey) ?? 'en';
+      _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
     } catch (e) {
       _baseUrl = AppConstants.baseUrl;
       _cookie = null;
-      _language = 'en';
+      _language = defaultLocale;
     }
     return this;
   }
@@ -53,7 +57,9 @@ class StorageService extends GetxService {
     } catch (e) {
       debugPrint(e.toString());
     }
-  }  Future<void> saveLanguage(String language) async {
+  }
+
+  Future<void> saveLanguage(String language) async {
     try {
       await _prefs.setString(AppConstants.languageKey, language);
     } catch (e) {

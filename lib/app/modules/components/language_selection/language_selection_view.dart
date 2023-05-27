@@ -10,6 +10,7 @@ class LanguageSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -20,9 +21,7 @@ class LanguageSelectionView extends StatelessWidget {
             ),
             child: Text('Select App Language'),
           ),
-          Divider(
-            height: 0,
-          ),
+          const Divider(height: 0),
           ListView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
@@ -41,9 +40,9 @@ class LanguageSelectionView extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(languageName),
+                    Text(languageName, style: mediumTextStyle),
                     if (languageName != languageNativeName)
-                      Text(languageNativeName),
+                      Text(languageNativeName, style: mediumTextStyle),
                   ],
                 ),
                 groupValue: LanguageService.language,

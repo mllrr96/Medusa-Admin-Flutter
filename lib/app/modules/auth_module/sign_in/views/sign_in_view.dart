@@ -48,16 +48,12 @@ class SignInView extends GetView<SignInController> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: AdaptiveButton(
-                        onPressed: () async {
-                          await showBarModalBottomSheet(
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            context: context,
-                            builder: (context) {
-                              return const LanguageSelectionView();
-                            },
-                          );
-                        },
+                        onPressed: () async => await showBarModalBottomSheet(
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          context: context,
+                          builder: (context) => const LanguageSelectionView(),
+                        ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
