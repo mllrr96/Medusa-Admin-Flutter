@@ -3,9 +3,12 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 
+import '../../modules/components/language_selection/language_locale.dart';
+
 class LanguageService extends GetxController {
   static LanguageService get instance => Get.find<LanguageService>();
   static String get language => Get.find<LanguageService>()._language;
+  static LanguageModel get languageModel => LanguageLocal().getDisplayLanguage(Get.find<LanguageService>()._language);
 
   late String _language;
 

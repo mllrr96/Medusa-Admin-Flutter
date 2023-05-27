@@ -10,44 +10,55 @@ class LanguageSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.0),
-          child: Text('Select App Language'),
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: AppLocalizations.supportedLocales.length,
-          itemBuilder: (context, index) {
-            final languageLocale = AppLocalizations.supportedLocales[index];
-            final languageName = LanguageLocal()
-                .getDisplayLanguage(languageLocale.languageCode)
-                .name;
-            final languageNativeName = LanguageLocal()
-                .getDisplayLanguage(languageLocale.languageCode)
-                .nativeName;
-            final languageText = languageName == languageNativeName
-                ? languageName
-                : '$languageName $languageNativeName';
-            return RadioListTile<String>(
-              value: languageLocale.languageCode,
-              title: Text(languageText),
-              groupValue: LanguageService.language,
-              onChanged: (val) async {
-                if (val == null) {
-                  return;
-                }
-                await LanguageService.instance.changeLanguage(val);
-                Get.back();
-              },
-            );
-          },
-        ),
-      ],
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 16.0,
+            ),
+            child: Text('Select App Language'),
+          ),
+          Divider(
+            height: 0,
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: AppLocalizations.supportedLocales.length,
+            itemBuilder: (context, index) {
+              final languageLocale = AppLocalizations.supportedLocales[index];
+              final languageName = LanguageLocal()
+                  .getDisplayLanguage(languageLocale.languageCode)
+                  .name;
+              final languageNativeName = LanguageLocal()
+                  .getDisplayLanguage(languageLocale.languageCode)
+                  .nativeName;
+              return RadioListTile<String>(
+                value: languageLocale.languageCode,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(languageName),
+                    if (languageName != languageNativeName)
+                      Text(languageNativeName),
+                  ],
+                ),
+                groupValue: LanguageService.language,
+                onChanged: (val) async {
+                  if (val == null) {
+                    return;
+                  }
+                  await LanguageService.instance.changeLanguage(val);
+                  Get.back();
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

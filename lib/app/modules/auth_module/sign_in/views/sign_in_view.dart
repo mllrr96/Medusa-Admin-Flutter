@@ -18,7 +18,7 @@ class SignInView extends GetView<SignInController> {
 
   @override
   Widget build(context) {
-    final translate = AppLocalizations.of(context)!;
+    final tr = AppLocalizations.of(context)!;
     final bool isRTL = Directionality.of(context) == TextDirection.rtl;
     // Since there no app bar, annotated region is used to apply theme ui overlay
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -29,11 +29,10 @@ class SignInView extends GetView<SignInController> {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Stack(
-                alignment: Alignment.topRight,
                 children: [
                   Obx(() {
                     return Align(
-                      alignment: Alignment.topRight,
+                      alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                       child: Hero(
                         tag: 'closeReset',
                         child: AdaptiveIcon(
@@ -45,7 +44,7 @@ class SignInView extends GetView<SignInController> {
                     );
                   }),
                   Align(
-                    alignment: Alignment.topLeft,
+                    alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: AdaptiveButton(
@@ -64,7 +63,7 @@ class SignInView extends GetView<SignInController> {
                           children: [
                             const Icon(Icons.language),
                             const SizedBox(width: 4.0),
-                            Text(LanguageService.language.capitalize!),
+                            Text(LanguageService.languageModel.nativeName),
                           ],
                         ),
                       ),
@@ -79,14 +78,14 @@ class SignInView extends GetView<SignInController> {
                               scale: 5)),
                       Column(
                         children: [
-                          Text(translate.welcome,
+                          Text(tr.welcome,
                               style: Theme.of(context).textTheme.displayLarge),
                           Text(
-                            translate.greatToSeeYou,
+                            tr.greatToSeeYou,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Text(
-                            translate.loginBelow,
+                            tr.loginBelow,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ],
@@ -125,7 +124,7 @@ class SignInView extends GetView<SignInController> {
                             : Alignment.centerRight,
                         child: AdaptiveButton(
                           child: Text(
-                            translate.resetPassword,
+                            tr.resetPassword,
                           ),
                           onPressed: () => Get.toNamed(Routes.RESET_PASSWORD),
                         ),
@@ -138,7 +137,7 @@ class SignInView extends GetView<SignInController> {
                           child: SignInButton(
                             onPressed: () async =>
                                 await controller.signIn(context),
-                            label: translate.cont,
+                            label: tr.cont,
                             buttonWidth: double.maxFinite,
                           ),
                         ),
