@@ -5,23 +5,19 @@ import 'package:medusa_admin/app/data/service/storage_service.dart';
 
 class LanguageService extends GetxController {
   static LanguageService get instance => Get.find<LanguageService>();
+  static String get language => Get.find<LanguageService>()._language;
 
-  late String language;
+  late String _language;
 
   LanguageService init() {
-    language = StorageService.language;
-    Get.updateLocale(Locale(language));
+    _language = StorageService.language;
+    Get.updateLocale(Locale(_language));
     return this;
   }
 
-  Future<void> changeLanguage() async{
-
-    if(language == 'ar'){
-      language = 'en';
-    } else {
-      language = 'ar';
-    }
+  Future<void> changeLanguage(String language) async {
+    _language = language;
     await StorageService.instance.saveLanguage(language);
-    Get.updateLocale(Locale(language));
+    await Get.updateLocale(Locale(language));
   }
 }

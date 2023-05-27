@@ -62,6 +62,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                     ),
                   ),
                 ),
+                const Hero(tag: 'password', child: SizedBox(width: double.maxFinite,)),
                 const SizedBox(height: 9.0),
                 InkWell(
                   onTap: () => controller.errorMessage.value = '',

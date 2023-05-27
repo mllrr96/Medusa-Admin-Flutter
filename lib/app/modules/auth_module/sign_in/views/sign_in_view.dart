@@ -7,6 +7,8 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../../components/language_selection/language_selection_view.dart';
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,15 +32,44 @@ class SignInView extends GetView<SignInController> {
                 alignment: Alignment.topRight,
                 children: [
                   Obx(() {
-                    return Hero(
-                      tag: 'closeReset',
-                      child: AdaptiveIcon(
-                        onPressed: () async =>
-                            await controller.changeThemeMode(),
-                        icon: Icon(themeIcon(controller.themeMode.value)),
+                    return Align(
+                      alignment: Alignment.topRight,
+                      child: Hero(
+                        tag: 'closeReset',
+                        child: AdaptiveIcon(
+                          onPressed: () async =>
+                              await controller.changeThemeMode(),
+                          icon: Icon(themeIcon(controller.themeMode.value)),
+                        ),
                       ),
                     );
                   }),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: AdaptiveButton(
+                        onPressed: () async {
+                          await showBarModalBottomSheet(
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            context: context,
+                            builder: (context) {
+                              return const LanguageSelectionView();
+                            },
+                          );
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.language),
+                            const SizedBox(width: 4.0),
+                            Text(LanguageService.language.capitalize!),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -80,8 +111,11 @@ class SignInView extends GetView<SignInController> {
                                 child: EmailTextField(
                                     controller: controller.emailCtrl)),
                             const SizedBox(height: 12.0),
-                            PasswordTextField(
-                                controller: controller.passwordCtrl),
+                            Hero(
+                              tag: 'password',
+                              child: PasswordTextField(
+                                  controller: controller.passwordCtrl),
+                            ),
                           ],
                         ),
                       ),
@@ -110,16 +144,6 @@ class SignInView extends GetView<SignInController> {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: SignInButton(
-                          onPressed: () async {
-                            await LanguageService.instance.changeLanguage();
-                          },
-                          label: LanguageService.instance.language,
-                          buttonWidth: double.maxFinite,
-                        ),
-                      ),
                     ],
                   ),
                 ],
