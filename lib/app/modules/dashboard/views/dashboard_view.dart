@@ -29,7 +29,7 @@ class DashboardView extends GetView<DashboardController> {
             body: PageSwitchingView(
                 currentPageIndex: controller.currentScreen,
                 pageCount: 4,
-                pageBuilder: (context, index) {
+                pageBuilder: (context, index){
                   if (index == 0) {
                     return const OrdersView();
                   } else if (index == 1) {

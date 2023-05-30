@@ -20,6 +20,7 @@ class SignInView extends GetView<SignInController> {
   Widget build(context) {
     final tr = AppLocalizations.of(context)!;
     final bool isRTL = Directionality.of(context) == TextDirection.rtl;
+    const space = SizedBox(height: 12.0);
     // Since there no app bar, annotated region is used to apply theme ui overlay
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: Theme.of(context).appBarTheme.systemOverlayStyle!,
@@ -28,118 +29,120 @@ class SignInView extends GetView<SignInController> {
         child: Scaffold(
           body: SafeArea(
             child: SingleChildScrollView(
-              child: Stack(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Obx(() {
-                    return Align(
-                      alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
-                      child: Hero(
-                        tag: 'closeReset',
-                        child: AdaptiveIcon(
-                          onPressed: () async =>
-                              await controller.changeThemeMode(),
-                          icon: Icon(themeIcon(controller.themeMode.value)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(
+                        () {
+                          return Align(
+                            alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
+                            child: Hero(
+                              tag: 'closeReset',
+                              child: AdaptiveIcon(
+                                iosPadding: const EdgeInsets.all(16.0),
+                                onPressed: () async => await controller.changeThemeMode(),
+                                icon: Icon(themeIcon(controller.themeMode.value)),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      Align(
+                        alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: AdaptiveButton(
+                            onPressed: () async => await showBarModalBottomSheet(
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              context: context,
+                              builder: (context) => const LanguageSelectionView(),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.language),
+                                const SizedBox(width: 4.0),
+                                Text(LanguageService.languageModel.nativeName),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    );
-                  }),
+                    ],
+                  ),
+                  Hero(
+                    tag: 'medusa',
+                    child: Image.asset(
+                      'assets/images/medusa.png',
+                      scale: 5,
+                    ),
+                  ),
+                  Text(
+                    tr.welcome,
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                  Text(
+                    tr.greatToSeeYou,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    tr.loginBelow,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  space,
+                  GestureDetector(
+                    onTap: () => controller.errorMessage.value = '',
+                    child: errorMessage(
+                      errorMessage: controller.errorMessage,
+                      context: context,
+                      emptyChildHeight: 0,
+                      horizontalPadding: 12.0,
+                    ),
+                  ),
+                  space,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      children: [
+                        Hero(tag: 'email', child: EmailTextField(controller: controller.emailCtrl)),
+                        const SizedBox(height: 12.0),
+                        Hero(
+                          tag: 'password',
+                          child: PasswordTextField(controller: controller.passwordCtrl),
+                        ),
+                      ],
+                    ),
+                  ),
                   Align(
-                    alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
+                    alignment: isRTL ? Alignment.centerLeft : Alignment.centerRight,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: AdaptiveButton(
-                        onPressed: () async => await showBarModalBottomSheet(
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          context: context,
-                          builder: (context) => const LanguageSelectionView(),
+                        child: Text(
+                          tr.resetPassword,
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.language),
-                            const SizedBox(width: 4.0),
-                            Text(LanguageService.languageModel.nativeName),
-                          ],
-                        ),
+                        onPressed: () {
+                          if (controller.errorMessage.value.isNotEmpty) {
+                            controller.errorMessage.value = '';
+                          }
+                          Get.toNamed(Routes.RESET_PASSWORD);
+                        },
                       ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Hero(
-                          tag: 'medusa',
-                          child: Image.asset('assets/images/medusa.png',
-                              scale: 5)),
-                      Column(
-                        children: [
-                          Text(tr.welcome,
-                              style: Theme.of(context).textTheme.displayLarge),
-                          Text(
-                            tr.greatToSeeYou,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Text(
-                            tr.loginBelow,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ],
+                  Hero(
+                    tag: 'continue',
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: SignInButton(
+                        onPressed: () async => await controller.signIn(context),
+                        label: tr.cont,
+                        buttonWidth: double.maxFinite,
                       ),
-                      const SizedBox(height: 12.0),
-                      GestureDetector(
-                        onTap: () => controller.errorMessage.value = '',
-                        child: errorMessage(
-                          errorMessage: controller.errorMessage,
-                          context: context,
-                          emptyChildHeight: 0,
-                          horizontalPadding: 12.0,
-                        ),
-                      ),
-                      const SizedBox(height: 12.0),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Column(
-                          children: [
-                            Hero(
-                                tag: 'email',
-                                child: EmailTextField(
-                                    controller: controller.emailCtrl)),
-                            const SizedBox(height: 12.0),
-                            Hero(
-                              tag: 'password',
-                              child: PasswordTextField(
-                                  controller: controller.passwordCtrl),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: isRTL
-                            ? Alignment.centerLeft
-                            : Alignment.centerRight,
-                        child: AdaptiveButton(
-                          child: Text(
-                            tr.resetPassword,
-                          ),
-                          onPressed: () => Get.toNamed(Routes.RESET_PASSWORD),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Hero(
-                        tag: 'continue',
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: SignInButton(
-                            onPressed: () async =>
-                                await controller.signIn(context),
-                            label: tr.cont,
-                            buttonWidth: double.maxFinite,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                    ],
+                    ),
                   ),
                 ],
               ),

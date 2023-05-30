@@ -18,12 +18,10 @@ class StorageService extends GetxService {
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
-    final String defaultLocale = Platform.localeName.length == 2
-        ? Platform.localeName
-        : Platform.localeName.split('_')[0];
+    final String defaultLocale =
+        Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
     try {
-      _baseUrl =
-          _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
+      _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookie);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
     } catch (e) {
@@ -36,13 +34,17 @@ class StorageService extends GetxService {
 
   ThemeMode loadThemeMode() {
     try {
-      final themeMode = _prefs.get(AppConstants.themeMode);
-      if (themeMode == null || themeMode == 0) {
-        return ThemeMode.system;
-      } else if (themeMode == 1) {
-        return ThemeMode.light;
-      } else {
-        return ThemeMode.dark;
+      final themeMode = _prefs.getInt(AppConstants.themeMode);
+      switch (themeMode) {
+        case null:
+        case 0:
+          return ThemeMode.system;
+        case 1:
+          return ThemeMode.light;
+        case 2:
+          return ThemeMode.dark;
+        default:
+          return ThemeMode.system;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -81,7 +83,7 @@ class StorageService extends GetxService {
   Future<void> resetFirstCall() async {
     try {
       await _prefs.remove(AppConstants.firstRun);
-    } on Exception catch (e) {
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
@@ -89,7 +91,8 @@ class StorageService extends GetxService {
   Future<bool> updateUrl(String value) async {
     try {
       return await _prefs.setString(AppConstants.baseUrlKey, value);
-    } on Exception {
+    } catch (e) {
+      debugPrint(e.toString());
       return false;
     }
   }
@@ -99,6 +102,7 @@ class StorageService extends GetxService {
       _cookie = null;
       await _prefs.remove(AppConstants.cookie);
     } catch (e) {
+      _cookie = null;
       debugPrint(e.toString());
     }
   }

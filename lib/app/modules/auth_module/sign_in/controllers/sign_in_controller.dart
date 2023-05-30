@@ -19,7 +19,7 @@ class SignInController extends GetxController {
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   RxString errorMessage = ''.obs;
-   Rx<ThemeMode> themeMode = ThemeMode.system.obs;
+  Rx<ThemeMode> themeMode = ThemeMode.system.obs;
 
   @override
   void onInit() {
@@ -40,7 +40,6 @@ class SignInController extends GetxController {
 
   Future<void> changeThemeMode() async {
     switch (themeMode.value) {
-
       case ThemeMode.system:
         await StorageService.instance.saveThemeMode(ThemeMode.light);
         break;
@@ -75,8 +74,8 @@ class SignInController extends GetxController {
     }, (error) {
       if (error.code == 401) {
         errorMessage.value = 'Email or password is incorrect';
-      }  else {
-        errorMessage.value= error.message;
+      } else {
+        errorMessage.value = error.message;
       }
       dismissLoading();
     });
