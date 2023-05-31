@@ -12,6 +12,7 @@ class CreateDraftOrderController extends GetxController with GetSingleTickerProv
   var selectedProducts = <ProductVariant>[];
   RxInt index = 0.obs;
   final RegionsRepo regionsRepo;
+  // ignore: unnecessary_cast
   Rx<List<Region>?> regions = (null as List<Region>?).obs;
 
   @override

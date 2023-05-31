@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/settings_module/store_settings/team/controllers/team_controller.dart';
-
 import '../../../../../../core/utils/enums.dart';
 import '../../../../components/adaptive_button.dart';
 import '../../../../components/custom_text_field.dart';

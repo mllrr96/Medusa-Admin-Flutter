@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_product_category.dart';
 import 'package:medusa_admin/app/data/models/res/product_category.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'base_product_category.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class ProductCategoryRepo extends BaseProductCategory {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserAddProductsToCategoryRes, Failure>> addProductsToCategory({

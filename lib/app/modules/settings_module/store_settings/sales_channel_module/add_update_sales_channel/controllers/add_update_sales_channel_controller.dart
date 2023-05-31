@@ -27,11 +27,6 @@ class AddUpdateSalesChannelController extends GetxController {
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     titleCtrl.dispose();
     descriptionCtrl.dispose();

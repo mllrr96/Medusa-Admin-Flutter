@@ -7,10 +7,10 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/base_products.dart';
 import '../../models/req/store_post_search_req.dart';
 import '../../models/res/products.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class ProductsRepo extends BaseProducts {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Retrieves a list of products
   @override

@@ -5,11 +5,11 @@ import 'package:medusa_admin/app/data/models/req/user_invite_req.dart';
 import 'package:medusa_admin/app/data/models/res/invite.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
 import 'base_invite.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class InviteRepo extends BaseInvite {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Accepts an Invite and creates a corresponding user
   @override

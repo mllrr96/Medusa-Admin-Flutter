@@ -1,9 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -12,7 +10,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart'
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:pull_down_button/pull_down_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/keep_alive_widget.dart';
@@ -55,7 +52,7 @@ class ProductsGridView extends GetView<ProductsController> {
       onRefresh: () => controller.pagingController.refresh(),
       header: GetPlatform.isIOS
           ? const ClassicHeader(completeText: '')
-          : MaterialClassicHeader(color: Colors.green,),
+          : const MaterialClassicHeader(color: Colors.green,),
       child: PagedGridView(
         pagingController: controller.pagingController,
         // padding: const EdgeInsets.symmetric(vertical: 8.0),

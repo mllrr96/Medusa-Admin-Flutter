@@ -2,11 +2,11 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/req/user_sales_channel_req.dart';
 import 'package:medusa_admin/app/data/models/res/sales_channel_res.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
 import 'base_sales_channel.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class SalesChannelRepo extends BaseSalesChannel {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserAddProductsToSalesChannelRes, Failure>> addProductsToSalesChannel({

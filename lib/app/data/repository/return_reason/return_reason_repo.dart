@@ -1,13 +1,14 @@
 import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:medusa_admin/app/data/datasource/remote/dio/dio_client.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_return_reason.dart';
 import 'package:medusa_admin/app/data/models/res/return_reason.dart';
 import 'base_return_reason.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 
 class ReturnReasonRepo extends BaseReturnReason {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
   static const String _returnReasons = '/return-reasons';
   @override
   Future<Result<UserCreateReturnReasonRes, Failure>> create({

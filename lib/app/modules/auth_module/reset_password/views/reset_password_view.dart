@@ -35,6 +35,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(height: 30.0),
                 Hero(
                   tag: 'medusa',
                   child: Image.asset(

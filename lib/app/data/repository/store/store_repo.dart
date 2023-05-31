@@ -6,10 +6,9 @@ import 'package:medusa_admin/app/data/repository/store/base_store.dart';
 
 import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/res/store.dart';
-import '../../service/storage_service.dart';
 
 class StoreRepo extends BaseStore {
-  final _dataProvider = DioClient(dio: Dio(), baseUrl: StorageService.baseUrl);
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserStoreRes, Failure>> retrieve(

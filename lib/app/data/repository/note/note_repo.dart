@@ -3,10 +3,10 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/note.dart';
 import 'package:medusa_admin/app/data/repository/note/base_note.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class NoteRepo extends BaseNote {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates a Note which can be associated with any resource as required.
   @override

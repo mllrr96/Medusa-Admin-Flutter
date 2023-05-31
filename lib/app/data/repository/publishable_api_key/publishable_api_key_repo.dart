@@ -4,11 +4,11 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/publishable_api_keys.dart';
 import 'package:medusa_admin/app/data/models/res/sales_channel_res.dart';
 import 'package:medusa_admin/app/data/repository/publishable_api_key/base_publishable_api_key.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:multiple_result/multiple_result.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class PublishableApiKeyRepo extends BasePublishableApiKey {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserPublishableApiKeyRes, Failure>> addSalesChannels({

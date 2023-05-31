@@ -5,10 +5,10 @@ import 'package:medusa_admin/app/data/models/req/user_inventory_items_req.dart';
 import 'package:medusa_admin/app/data/models/res/inventory_items.dart';
 import 'package:medusa_admin/app/data/repository/inventory_items/base_inventory_items.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class InventoryItemsRepo extends BaseInventoryItems {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates an Inventory Location Level for a given Inventory Item.
   @override

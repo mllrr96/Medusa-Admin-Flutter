@@ -4,10 +4,10 @@ import 'package:medusa_admin/app/data/models/req/user_draft_order_req.dart';
 import 'package:medusa_admin/app/data/models/res/draft_order.dart';
 import 'package:medusa_admin/app/data/repository/draft_order/base_draft_order.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class DraftOrderRepo extends BaseDraftOrder {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates a Draft Order
   @override

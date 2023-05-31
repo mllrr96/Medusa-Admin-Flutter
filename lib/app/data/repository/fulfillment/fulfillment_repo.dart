@@ -6,10 +6,10 @@ import 'package:medusa_admin/app/data/models/res/fulfillment.dart';
 import 'package:medusa_admin/app/data/repository/fulfillment/base_fulfillment.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class FulfillmentRepo extends BaseFulfillment {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Registers a claim's fulfillment as canceled.
   @override

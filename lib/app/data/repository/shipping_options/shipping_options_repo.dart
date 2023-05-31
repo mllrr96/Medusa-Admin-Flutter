@@ -4,10 +4,10 @@ import 'package:medusa_admin/app/data/models/req/user_shipping_option_req.dart';
 import 'package:medusa_admin/app/data/models/res/shipping_option_res.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/base_shipping_options.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class ShippingOptionsRepo extends BaseShippingOptions {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates a Shipping Option
   @override

@@ -22,7 +22,6 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final disabled = controller.salesChannel.isDisabled != null && controller.salesChannel.isDisabled! ? true : false;
     return GetBuilder<SalesChannelDetailsController>(

@@ -6,10 +6,10 @@ import 'package:medusa_admin/app/data/models/res/price_list.dart';
 import 'package:medusa_admin/app/data/repository/price_list/base_price_list.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class PriceListRepo extends BasePriceList {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates a Price List
   @override

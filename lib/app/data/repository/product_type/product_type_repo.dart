@@ -2,11 +2,11 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/product_type.dart';
 import 'package:medusa_admin/app/data/repository/product_type/base_product_type.dart';
 import 'package:multiple_result/multiple_result.dart';
-
-import '../../service/dio_service.dart';
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 
 class ProductTypeRepo extends BaseProductType {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserRetrieveProductTypesRes, Failure>> retrieveProductTypes({

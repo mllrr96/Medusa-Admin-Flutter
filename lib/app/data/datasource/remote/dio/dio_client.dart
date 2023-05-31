@@ -4,15 +4,13 @@ import '../../../service/storage_service.dart';
 
 class DioClient {
   final Dio dio;
-  final String baseUrl;
   final Map<String, dynamic>? headers;
   DioClient({
     required this.dio,
-    required this.baseUrl,
     this.headers,
   }) {
     dio
-      ..options.baseUrl = baseUrl
+      ..options.baseUrl = AppConstants.baseUrl
       ..options.connectTimeout = const Duration(milliseconds: 8000)
       // ..options.receiveTimeout = const Duration(milliseconds: 6000)
       ..options.sendTimeout = const Duration(milliseconds: 6000)
@@ -39,7 +37,7 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     return await dio.get(
-      baseUrl + uri,
+      AppConstants.baseUrl + uri,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
@@ -57,7 +55,7 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     var response = await dio.post(
-      baseUrl + uri,
+      AppConstants.baseUrl + uri,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -78,7 +76,7 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     var response = await dio.put(
-      baseUrl + uri,
+      AppConstants.baseUrl + uri,
       data: data,
       queryParameters: queryParameters,
       options: options,

@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/res/product_variant.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
 import 'base_product_variant.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class ProductVariantRepo extends BaseProductVariant {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserRetrieveProductVariantsRes, Failure>> retrieveProductVariants({

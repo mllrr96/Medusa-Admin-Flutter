@@ -1,14 +1,14 @@
 import 'dart:developer';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_shipping_profile_req.dart';
 import 'package:medusa_admin/app/data/models/res/shipping_profile.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
 import 'base_shipping_profile.dart';
 
 class ShippingProfileRepo extends BaseShippingProfile {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates a Shipping Profile
   @override

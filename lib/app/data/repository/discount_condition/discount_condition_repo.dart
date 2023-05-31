@@ -6,10 +6,10 @@ import 'package:medusa_admin/app/data/models/res/discount_condition.dart';
 import 'package:medusa_admin/app/data/repository/discount_condition/base_discount_condition.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class DiscountConditionRepo extends BaseDiscountCondition {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserAddBatchResourcesRes, Failure>> addBatchResources({

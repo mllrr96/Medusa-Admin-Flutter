@@ -4,11 +4,11 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/notification.dart';
 import 'package:medusa_admin/app/data/models/res/payment_collection.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
-import 'base_payment_collection.dart';
+import 'base_payment_collection.dart';import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 
 class PaymentCollectionRepo extends BasePaymentCollection {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Deletes a Payment Collection
   @override

@@ -36,9 +36,9 @@ class TeamView extends StatelessWidget {
                       context: context, builder: (_) => const InviteUserCard(), isScrollControlled: true);
                 }
               },
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [Icon(Icons.add), SizedBox(width: 5.0), Text('Invite users')],
+                children: [Icon(Icons.add), SizedBox(width: 5.0), Text('Invite users')],
               ))
         ],
         bottom: PreferredSize(

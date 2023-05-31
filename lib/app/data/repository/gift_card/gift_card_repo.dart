@@ -6,10 +6,10 @@ import 'package:medusa_admin/app/data/models/res/gift_card.dart';
 import 'package:medusa_admin/app/data/repository/gift_card/base_gift_card.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class GiftCardRepo extends BaseGiftCard {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Creates a Gift Card that can redeemed by its unique code. The Gift Card is only valid within 1 region.
   @override

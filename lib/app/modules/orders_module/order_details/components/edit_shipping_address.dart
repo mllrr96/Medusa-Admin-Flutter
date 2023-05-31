@@ -218,7 +218,7 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
                       await scrollToSelectedContent(globalKey: metadataKey);
                     }
                   },
-                  children: [],
+                  children: const [],
                 ),
               ],
             ),

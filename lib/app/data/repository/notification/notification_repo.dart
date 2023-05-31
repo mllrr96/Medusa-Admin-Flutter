@@ -2,11 +2,11 @@ import 'dart:developer';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/res/notification.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
 import 'base_notification.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class NotificationRepo extends BaseNotification {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Resends a previously sent notifications, with the same data but optionally to a different address
   @override

@@ -3,10 +3,10 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/upload.dart';
 import 'package:medusa_admin/app/data/repository/upload/base_upload.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class UploadRepo extends BaseUpload {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Removes an uploaded file using the installed file service
   @override

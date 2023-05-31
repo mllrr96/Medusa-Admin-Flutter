@@ -14,8 +14,8 @@ dependencies:
 
   # Image picker packages
   #--------------------
-  image_picker: ^0.8.7+3
-  image_cropper: ^3.0.2
+  image_picker: ^0.8.7+5
+  image_cropper: ^4.0.1
   uuid: ^3.0.7
   #--------------------
 
@@ -24,7 +24,7 @@ dependencies:
   adaptive_dialog: ^1.9.0-no-macos.2
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
-  flutter_svg: ^2.0.5
+  flutter_svg: ^2.0.6
   infinite_scroll_pagination: ^3.2.0
   intl: ^0.18.0
   pull_to_refresh: ^2.0.0
@@ -36,26 +36,26 @@ dependencies:
   copy_with_extension_gen: ^5.0.2
   # Storage packages
   # -------------------
-  shared_preferences: ^2.1.0
-  path_provider: ^2.0.14
+  shared_preferences: ^2.1.1
+  path_provider: ^2.0.15
   cached_network_image: ^3.2.3
   # -------------------
 
   google_fonts: ^4.0.3
-  dio: ^5.1.1
+  dio: ^5.1.2
 #  dartz: ^0.10.1
 
   flutter:
     sdk: flutter
   custom_refresh_indicator: ^2.0.1
-  multiple_result: ^4.0.0
+  multiple_result: ^5.0.0
   loading_animation_widget: ^1.2.0+4
-  flutter_expandable_fab: ^1.7.1
-  info_popup: ^3.0.1
-  pull_down_button: ^0.8.2
+  flutter_expandable_fab: ^1.8.0
+  info_popup: ^3.0.4
+  pull_down_button: ^0.9.1
   multiselect: ^0.1.0
   flutter_slidable: ^3.0.0
-  package_info_plus: ^3.1.0
+  package_info_plus: ^4.0.2
   flutter_animate: ^4.1.1+1
   flutter_localizations:
     sdk: flutter
@@ -63,7 +63,7 @@ dependencies:
 dev_dependencies: 
   flutter_lints: ^2.0.1
   build_runner: any
-  flutter_launcher_icons: ^0.13.0
+  flutter_launcher_icons: ^0.13.1
   #  copy_with_extension_gen: ^5.0.0
   flutter_test: 
     sdk: flutter

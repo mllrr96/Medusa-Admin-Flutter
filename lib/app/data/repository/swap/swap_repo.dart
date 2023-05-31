@@ -6,10 +6,10 @@ import 'package:medusa_admin/app/data/models/res/swap.dart';
 import 'package:medusa_admin/app/data/repository/swap/base_swap.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class SwapRepo extends BaseSwap {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Cancels a Swap
   @override

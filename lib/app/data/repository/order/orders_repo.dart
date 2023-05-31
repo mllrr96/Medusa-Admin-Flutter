@@ -4,10 +4,10 @@ import 'package:medusa_admin/app/data/models/req/user_order.dart';
 import 'package:medusa_admin/app/data/repository/order/base_orders.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../models/res/orders.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class OrdersRepo extends BaseOrders {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Retrieves an order
   @override

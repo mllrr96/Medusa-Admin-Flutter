@@ -5,10 +5,10 @@ import 'package:medusa_admin/app/data/models/res/payment.dart';
 import 'package:medusa_admin/app/data/repository/payment/base_payment.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class PaymentRepo extends BasePayment {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Captures a Payment.
   @override

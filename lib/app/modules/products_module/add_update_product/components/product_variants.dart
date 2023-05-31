@@ -106,9 +106,9 @@ class ProductVariants extends StatelessWidget {
                       }
                       controller.update();
                     },
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [Icon(Icons.add), Text('Add a variant')],
+                children: [Icon(Icons.add), Text('Add a variant')],
               ),
             ),
           ],

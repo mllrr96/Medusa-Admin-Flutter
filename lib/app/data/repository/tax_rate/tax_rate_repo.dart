@@ -1,14 +1,15 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
+import 'package:medusa_admin/app/data/datasource/remote/dio/dio_client.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/req/user_tax_rate.dart';
 import 'package:medusa_admin/app/data/models/res/tax_rate.dart';
 import 'package:medusa_admin/app/data/repository/tax_rate/base_tax_rate.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../service/dio_service.dart';
 
 class TaxRateRepo extends BaseTaxRate {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   /// Associates a Tax Rate with a list of Products
   @override

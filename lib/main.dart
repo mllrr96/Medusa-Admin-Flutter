@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 import 'package:medusa_admin/app/data/service/initial_binding.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'app/data/service/storage_service.dart';
@@ -42,6 +41,5 @@ Future<void> initServices() async {
   await Get.putAsync(() => StorageService().init());
   Get.put(LanguageService().init());
   Get.put(ThemeService().init());
-  Get.put(DioService().init());
   debugPrint('All services started...');
 }

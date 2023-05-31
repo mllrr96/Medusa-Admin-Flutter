@@ -8,10 +8,10 @@ import 'package:medusa_admin/app/data/repository/return/base_return.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../models/req/user_return_req.dart';
-import '../../service/dio_service.dart';
-
+import 'package:dio/dio.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 class ReturnRepo extends BaseReturn {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserCancelReturnOrderRes, Failure>> cancelReturn({

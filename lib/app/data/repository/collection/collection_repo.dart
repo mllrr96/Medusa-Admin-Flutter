@@ -1,12 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/res/collection.dart';
+import '../../datasource/remote/dio/dio_client.dart';
 import '../../models/req/user_collection_req.dart';
 import 'base_collection.dart';
-import 'package:medusa_admin/app/data/service/dio_service.dart';
 
 class CollectionRepo extends BaseCollection {
-  final _dataProvider = DioService.instance.dio;
+  final _dataProvider = DioClient(dio: Dio());
 
   @override
   Future<Result<UserCollectionRes, Failure>> retrieve({
