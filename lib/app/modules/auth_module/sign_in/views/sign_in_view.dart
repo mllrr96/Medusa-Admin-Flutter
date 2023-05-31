@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -80,17 +81,21 @@ class SignInView extends GetView<SignInController> {
                       scale: 5,
                     ),
                   ),
-                  Text(
-                    tr.welcome,
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  Text(
-                    tr.greatToSeeYou,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    tr.loginBelow,
-                    style: Theme.of(context).textTheme.titleMedium,
+                  Column(
+                    children: [
+                      Text(
+                        tr.welcome,
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                      Text(
+                        tr.greatToSeeYou,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        tr.loginBelow,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
                   ),
                   space,
                   GestureDetector(
@@ -119,7 +124,7 @@ class SignInView extends GetView<SignInController> {
                   Align(
                     alignment: isRTL ? Alignment.centerLeft : Alignment.centerRight,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: Platform.isAndroid ? const EdgeInsets.symmetric(horizontal: 12.0) : EdgeInsets.zero,
                       child: AdaptiveButton(
                         child: Text(
                           tr.resetPassword,

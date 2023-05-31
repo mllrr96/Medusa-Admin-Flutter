@@ -13,9 +13,8 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final bottomPadding = MediaQuery.of(context).viewPadding.bottom == 0
-        ? 20.0
-        : MediaQuery.of(context).viewPadding.bottom;
+    final bottomPadding =
+        MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
     final tr = AppLocalizations.of(context)!;
 
     return GestureDetector(
@@ -30,30 +29,28 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           margin: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Hero(
               tag: 'continue',
-              child: SignInButton(
-                  onPressed: () async => await controller.resetPassword(),
-                  label: tr.sendInstructions)),
+              child: SignInButton(onPressed: () async => await controller.resetPassword(), label: tr.sendInstructions)),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Hero(
-                    tag: 'medusa',
-                    child: Image.asset('assets/images/medusa.png', scale: 5)),
+                  tag: 'medusa',
+                  child: Image.asset(
+                    'assets/images/medusa.png',
+                    scale: 5,
+                  ),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(tr.resetYourPassword,
-                        style: Theme.of(context).textTheme.displayLarge),
+                    Text(tr.resetYourPassword, style: Theme.of(context).textTheme.displayLarge),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         tr.sendInstructionsDescription,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: lightWhite),
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -67,8 +64,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                     child: EmailTextField(
                       controller: controller.emailCtrl,
                       textInputAction: TextInputAction.done,
-                      onSubmitted: (_) async =>
-                          await controller.resetPassword(),
+                      onSubmitted: (_) async => await controller.resetPassword(),
                     ),
                   ),
                 ),

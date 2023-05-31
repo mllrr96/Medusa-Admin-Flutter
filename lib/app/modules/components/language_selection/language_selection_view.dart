@@ -15,34 +15,31 @@ class LanguageSelectionView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 16.0,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Text(
+              'Select App Language',
+              style: mediumTextStyle,
             ),
-            child: Text('Select App Language'),
           ),
           const Divider(height: 0),
-          ListView.builder(
+          ListView.separated(
+            separatorBuilder: (_, __) => const Divider(height: 0),
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: AppLocalizations.supportedLocales.length,
             itemBuilder: (context, index) {
               final languageLocale = AppLocalizations.supportedLocales[index];
-              final languageName = LanguageLocal()
-                  .getDisplayLanguage(languageLocale.languageCode)
-                  .name;
-              final languageNativeName = LanguageLocal()
-                  .getDisplayLanguage(languageLocale.languageCode)
-                  .nativeName;
+              final languageName = LanguageLocal().getDisplayLanguage(languageLocale.languageCode).name;
+              final languageNativeName = LanguageLocal().getDisplayLanguage(languageLocale.languageCode).nativeName;
               return RadioListTile<String>(
                 value: languageLocale.languageCode,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(languageName, style: mediumTextStyle),
-                    if (languageName != languageNativeName)
-                      Text(languageNativeName, style: mediumTextStyle),
+                    if (languageName != languageNativeName) Text(languageNativeName, style: mediumTextStyle),
                   ],
                 ),
                 groupValue: LanguageService.language,
@@ -56,6 +53,7 @@ class LanguageSelectionView extends StatelessWidget {
               );
             },
           ),
+          const Divider(height: 0),
         ],
       ),
     );

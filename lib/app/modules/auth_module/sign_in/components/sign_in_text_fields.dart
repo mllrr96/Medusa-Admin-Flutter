@@ -23,7 +23,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final translate = AppLocalizations.of(context)!;
+    final tr = AppLocalizations.of(context)!;
     return Container(
       alignment: Alignment.center,
       height: size.height / 16,
@@ -36,11 +36,6 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            //lock logo here
-            // Icon(
-            //   obscureText ? Icons.lock : Icons.lock_open,
-            //   color: Get.isDarkMode ? Colors.white70 : Colors.black54,
-            // ),
             AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
                 transitionBuilder: (child, anim) => FadeTransition(
@@ -50,11 +45,10 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                       child: FadeTransition(opacity: anim, child: child),
                     ),
                 child: obscureText
-                    ? Icon(Icons.lock,
-                        key: const ValueKey('icon1'), color: Get.isDarkMode ? Colors.white70 : Colors.black54)
+                    ? Icon(Icons.lock, key: const ValueKey('icon1'), color: lightWhite)
                     : Icon(
                         Icons.lock_open,
-                        color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                        color: lightWhite,
                         key: const ValueKey('icon2'),
                       )),
             const SizedBox(
@@ -74,7 +68,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               child: TextField(
                 maxLines: 1,
                 controller: widget.controller,
-                cursorColor: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                cursorColor: lightWhite,
                 keyboardType: TextInputType.visiblePassword,
                 onChanged: widget.onChanged,
                 obscureText: obscureText,
@@ -83,12 +77,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
-                  enabledBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
                     filled: false,
-                    hintText: translate.enterPassword,
+                    hintText: tr.enterPassword,
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
-                      color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                      color: lightWhite,
                       fontWeight: FontWeight.w500,
                     ),
                     suffixIcon: AdaptiveIcon(
@@ -99,7 +93,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                         },
                         icon: Icon(
                           obscureText ? Icons.visibility : Icons.visibility_off,
-                          color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                          color: lightWhite,
                         )),
                     border: InputBorder.none),
               ),
@@ -145,7 +139,7 @@ class EmailTextField extends StatelessWidget {
             //mail icon
             Icon(
               Icons.mail,
-              color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+              color: lightWhite,
             ),
             const SizedBox(
               width: 16,
@@ -180,7 +174,7 @@ class EmailTextField extends StatelessWidget {
                     hintText: translate.enterEmail,
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
-                      color: Get.isDarkMode ? Colors.white70 : Colors.black54,
+                      color: lightWhite,
                       fontWeight: FontWeight.w500,
                     ),
                     border: InputBorder.none),
