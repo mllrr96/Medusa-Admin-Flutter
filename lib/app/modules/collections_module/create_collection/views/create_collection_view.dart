@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_collection_controller.dart';
@@ -13,19 +14,20 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
+    final tr = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
-          title: controller.updateCollection ? const Text('Update Collection') : const Text('New Collection'),
+          title: controller.updateCollection ?  Text(tr.updateCollection) : Text(tr.newCollection),
           centerTitle: true,
           actions: [
             AdaptiveButton(
                 onPressed: controller.updateCollection
                     ? () async => await controller.edit()
                     : () async => await controller.publish(),
-                child: controller.updateCollection ? const Text('Update') : const Text('Publish'))
+                child: controller.updateCollection ?  Text(tr.update) : Text(tr.publish))
           ],
         ),
         body: SafeArea(
@@ -44,30 +46,30 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                   children: [
                     Row(
                       children: [
-                        Text('Details', style: largeTextStyle),
+                        Text(tr.details, style: largeTextStyle),
                       ],
                     ),
                     // Text('Add Collection', style: Theme.of(context).textTheme.bodyLarge),
                     if (!controller.updateCollection)
-                      Text('To create a collection, all you need is a title and a handle.',
+                      Text(tr.createCollectionInstruction,
                           style: smallTextStyle!.copyWith(color: lightWhite)),
                     space,
                     LabeledTextField(
-                      label: 'Title',
+                      label: tr.title,
                       controller: controller.titleCtrl,
                       required: true,
                       hintText: 'Sunglasses',
                       validator: (val) {
                         if (val == null || val.isEmpty) {
-                          return 'Field required';
+                          return tr.fieldRequired;
                         }
                         return null;
                       },
                     ),
-                    LabeledTextField(label: 'Handle', controller: controller.handleCtrl, hintText: '/sunglasses'),
+                    LabeledTextField(label: tr.handle, controller: controller.handleCtrl, hintText: '/sunglasses'),
                     Row(
                       children: [
-                        Text('Metadata', style: largeTextStyle),
+                        Text(tr.metadata, style: largeTextStyle),
                       ],
                     ),
                     space,
@@ -81,15 +83,15 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(onPressed: () {}, icon: const Icon(Icons.delete_forever, color: Colors.red)),
-                          LabeledTextField(label: 'Key', controller: TextEditingController(), hintText: 'Some key'),
-                          LabeledTextField(label: 'Value', controller: TextEditingController(), hintText: 'Some value'),
+                          LabeledTextField(label: tr.key, controller: TextEditingController(), hintText: tr.keyHint),
+                          LabeledTextField(label: tr.value, controller: TextEditingController(), hintText: tr.valueHint),
                         ],
                       ),
                     ),
                     AdaptiveButton(
-                        child: const Row(mainAxisSize: MainAxisSize.min, children: [
-                          Icon(Icons.add),
-                          Text('Add Metadata'),
+                        child:  Row(mainAxisSize: MainAxisSize.min, children: [
+                          const Icon(Icons.add),
+                          Text(tr.addMetadata),
                         ]),
                         onPressed: () {}),
                   ],

@@ -216,7 +216,7 @@ class ProductListTile extends StatelessWidget {
               }
             });
           },
-      title: Text(product.title!),
+      title: Text(product.title!, style: Theme.of(context).textTheme.titleMedium,),
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

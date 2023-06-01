@@ -20,6 +20,7 @@ class SignInController extends GetxController {
   final passwordFocusNode = FocusNode();
   RxString errorMessage = ''.obs;
   Rx<ThemeMode> themeMode = ThemeMode.system.obs;
+  RxBool animate = false.obs;
 
   @override
   void onInit() {

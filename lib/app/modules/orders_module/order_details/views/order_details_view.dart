@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../../../data/models/store/order.dart';
 import '../components/index.dart';
 import '../controllers/order_details_controller.dart';
@@ -13,6 +15,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     const space = SizedBox(height: 12.0);
+    final tr = AppLocalizations.of(context)!;
+
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final yPosition =
@@ -34,19 +38,19 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
-            title: const Text('Order Details'),
+            title:  Text(tr.orderAppBarTitle),
             centerTitle: true,
             actions: [
               if (controller.state != null)
                 AdaptiveIcon(
                     onPressed: () async {
                       await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                        const SheetAction(label: 'Request Return', key: 0),
-                        const SheetAction(label: 'Register Exchange', key: 1),
-                        const SheetAction(label: 'Register Claim', key: 2),
+                         SheetAction(label: tr.requestReturn, key: 0),
+                         SheetAction(label: tr.registerExchange, key: 1),
+                         SheetAction(label: tr.registerClaim, key: 2),
                         if (controller.state!.status != OrderStatus.canceled)
-                          const SheetAction(
-                            label: 'Cancel Order',
+                           SheetAction(
+                            label: tr.cancelOrder,
                             key: 3,
                             isDestructiveAction: true,
                           ),
@@ -55,9 +59,9 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           case 3:
                             final order = controller.state!;
                             await showTextAnswerDialog(
-                              title: 'Cancel order',
+                              title: tr.cancelOrder,
                               message:
-                                  'Are you sure you want to cancel the order? \n Type the name "order #${order.displayId!}" to confirm.',
+                                  tr.cancelOrderAlertMessage(order.displayId!),
                               retryMessage:
                                   'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
                               retryOkLabel: 'Retry',
@@ -96,7 +100,6 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           if (expanded) {
                             await scrollToSelectedContent(globalKey: controller.summeryKey);
                           }
-
                         },
                         key: controller.summeryKey,
                       ),
@@ -141,8 +144,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   ),
                 ),
               ),
-              onEmpty: const Center(child: Text('No order details found')),
-              onError: (e) => Center(child: Text(e ?? 'Error loading order details')),
+              onEmpty:  Center(child: Text(tr.noOrder)),
+              onError: (e) => Center(child: Text(e ?? tr.errorLoadingOrder)),
               onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),

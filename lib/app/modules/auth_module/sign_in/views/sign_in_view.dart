@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -44,6 +45,7 @@ class SignInView extends GetView<SignInController> {
                               tag: 'closeReset',
                               child: AdaptiveIcon(
                                 iosPadding: const EdgeInsets.all(16.0),
+                                androidPadding: const EdgeInsets.all(16.0),
                                 onPressed: () async => await controller.changeThemeMode(),
                                 icon: Icon(themeIcon(controller.themeMode.value)),
                               ),
@@ -74,13 +76,24 @@ class SignInView extends GetView<SignInController> {
                       ),
                     ],
                   ),
-                  Hero(
-                    tag: 'medusa',
-                    child: Image.asset(
-                      'assets/images/medusa.png',
-                      scale: 5,
-                    ),
-                  ),
+                  Obx(() {
+                    return GestureDetector(
+                      onTap: () {
+                        controller.animate.value = !controller.animate.value;
+                      },
+                      child: Hero(
+                        tag: 'medusa',
+                        child: Image.asset(
+                          'assets/images/medusa.png',
+                          scale: 5,
+                        ).animate(
+                          effects: [const RotateEffect()],
+                          target: controller.animate.value ? 1 : 0,
+                          autoPlay: false,
+                        ),
+                      ),
+                    );
+                  }),
                   Column(
                     children: [
                       Text(
@@ -138,10 +151,10 @@ class SignInView extends GetView<SignInController> {
                       ),
                     ),
                   ),
-                  Hero(
-                    tag: 'continue',
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Hero(
+                      tag: 'continue',
                       child: SignInButton(
                         onPressed: () async => await controller.signIn(context),
                         label: tr.cont,

@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/keep_alive_widget.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../draft_orders_module/draft_orders/views/draft_orders_view.dart';
 import '../components/order_card.dart';
@@ -15,6 +16,8 @@ class OrdersView extends GetView<OrdersController> {
   @override
   Widget build(BuildContext context) {
     final tabController = controller.tabController;
+    final tr = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: OrdersAppBar(tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
       body: SafeArea(
@@ -35,7 +38,7 @@ class OrdersView extends GetView<OrdersController> {
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Order>(
                       itemBuilder: (context, order, index) => AlternativeOrderCard(order),
-                      noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet!')),
+                      noItemsFoundIndicatorBuilder: (_) =>  Center(child: Text(tr.noOrders)),
                       firstPageProgressIndicatorBuilder: (context) =>
                           const Center(child: CircularProgressIndicator.adaptive())),
                   separatorBuilder: (_, __) => const Divider(height: 1),

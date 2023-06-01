@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_button.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../components/error_widget.dart';
 import '../controllers/reset_password_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordView extends GetView<ResetPasswordController> {
   const ResetPasswordView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;

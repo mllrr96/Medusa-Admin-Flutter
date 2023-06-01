@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -20,10 +21,12 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final tr = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
-        title: const Text('Collection Details'),
+        title:  Text(tr.collectionDetails),
         centerTitle: true,
         actions: [
           AdaptiveButton(
@@ -32,8 +35,8 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   return;
                 }
                 await showModalActionSheet(context: context, actions: <SheetAction>[
-                  const SheetAction(label: 'Edit Collection', key: 0),
-                  const SheetAction(label: 'Delete Collection', isDestructiveAction: true, key: 1),
+                   SheetAction(label: tr.editCollection, key: 0),
+                   SheetAction(label: tr.deleteCollection, isDestructiveAction: true, key: 1),
                 ]).then((result) async {
                   if (result == 0) {
                     await Get.toNamed(Routes.CREATE_COLLECTION, arguments: [controller.state!, true])
@@ -45,10 +48,10 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   } else if (result == 1) {
                     await showOkCancelAlertDialog(
                             context: context,
-                            title: 'Delete collection?',
-                            message: 'Are you sure you want to delete this collection?',
-                            okLabel: 'Yes, delete',
-                            cancelLabel: 'No, cancel',
+                            title: tr.deleteCollectionAlertTitle,
+                            message: tr.deleteCollectionAlertMessage,
+                            okLabel: tr.deleteCollectionAlertOkLabel,
+                            cancelLabel: tr.deleteCollectionAlertCancelLabel,
                             isDestructiveAction: true)
                         .then((result) async {
                       if (result == OkCancelResult.ok) await controller.deleteCollection();
@@ -98,7 +101,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                           }
                         },
                         padding: EdgeInsets.zero,
-                        child: const Text('Edit Products'))
+                        child: Text(tr.editCollectionProducts))
                 ],
               ),
             ),
@@ -116,13 +119,13 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('No products on this collection'),
+                  Text(tr.noProductsInCollection),
                   AdaptiveButton(
                       onPressed: () async {
                         final result = await showBarModalBottomSheet(
                             context: context,
                             builder: (context) => PickProductsView(
-                                pickProductsReq: PickProductsReq(
+                                    pickProductsReq: PickProductsReq(
                                   selectedProducts: collection.products,
                                 )));
                         if (result is PickProductsRes) {
@@ -130,7 +133,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                           await controller.addProducts(addedProducts: selectedProducts, removedProducts: []);
                         }
                       },
-                      child: const Text('Add Products'))
+                      child: Text(tr.addProductsToCollection))
                 ],
               ),
             );
@@ -169,10 +172,10 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                       onPressed: () async {
                         await showOkCancelAlertDialog(
                                 context: context,
-                                // title: 'Confirm your action',
-                                message: 'Remove product from this collection?',
-                                okLabel: 'Yes, remove',
-                                cancelLabel: 'No, cancel',
+                                title: tr.removeProductsFromCollectionAlertTitle,
+                                message: tr.removeProductsFromCollectionAlertMessage,
+                                okLabel: tr.removeProductsFromCollectionAlertOkLabel,
+                                cancelLabel: tr.removeProductsFromCollectionAlertCancelLabel,
                                 isDestructiveAction: true)
                             .then((result) async {
                           if (result == OkCancelResult.ok) {
@@ -184,7 +187,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                 );
               });
         },
-        onError: (e) => const Center(child: Text('Error loading collection details')),
+        onError: (e) =>  Center(child: Text(tr.errorLoadingCollectionDetails)),
         onLoading: const Center(child: CircularProgressIndicator.adaptive()),
       )),
     );

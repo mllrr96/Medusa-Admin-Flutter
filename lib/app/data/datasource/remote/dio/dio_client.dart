@@ -37,7 +37,7 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     return await dio.get(
-      AppConstants.baseUrl + uri,
+      uri,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
@@ -54,8 +54,8 @@ class DioClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    var response = await dio.post(
-      AppConstants.baseUrl + uri,
+    return await dio.post(
+      uri,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -63,7 +63,6 @@ class DioClient {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    return response;
   }
 
   Future<Response> put({
@@ -75,8 +74,8 @@ class DioClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    var response = await dio.put(
-      AppConstants.baseUrl + uri,
+    return await dio.put(
+      uri,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -84,7 +83,6 @@ class DioClient {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    return response;
   }
 
   Future<Response> delete(
@@ -94,13 +92,12 @@ class DioClient {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    var response = await dio.delete(
+    return await dio.delete(
       uri,
       data: data,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
     );
-    return response;
   }
 }

@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../data/service/language_service.dart';
 import '../../components/language_selection/language_selection_view.dart';
@@ -16,13 +17,14 @@ class MoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return GetBuilder<MoreController>(
       assignId: true,
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(title: const Text('Medusa')),
+          appBar: AppBar(title: Text(tr.moreAppBarTitle)),
           body: SafeArea(
             child: ListView(
               controller: controller.scrollController,
@@ -32,93 +34,85 @@ class MoreView extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   lightTheme: SettingsThemeData(
-                      settingsListBackground:
-                          Theme.of(context).scaffoldBackgroundColor,
+                      settingsListBackground: Theme.of(context).scaffoldBackgroundColor,
                       settingsSectionBackground: Theme.of(context).cardColor),
                   darkTheme: SettingsThemeData(
-                      settingsListBackground:
-                          Theme.of(context).scaffoldBackgroundColor,
+                      settingsListBackground: Theme.of(context).scaffoldBackgroundColor,
                       settingsSectionBackground: Theme.of(context).cardColor),
                   sections: [
                     SettingsSection(
-                      title: const Text('More'),
+                      title: Text(tr.more),
                       tiles: <SettingsTile>[
                         SettingsTile.navigation(
                           leading: const Icon(Icons.discount_outlined),
-                          title: const Text('Discounts'),
+                          title: Text(tr.discounts),
                           onPressed: (_) => Get.toNamed(Routes.DISCOUNTS),
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(CupertinoIcons.gift),
-                          title: const Text('Gift Cards'),
+                          title: Text(tr.giftCards),
                           onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.currency_dollar),
-                          title: const Text('Pricing'),
+                          title: Text(tr.pricing),
                           onPressed: (_) => Get.toNamed(Routes.PRICING),
                         ),
                       ],
                     ),
                     SettingsSection(
-                      title: const Text('Settings'),
+                      title: Text(tr.settings),
                       tiles: <SettingsTile>[
                         SettingsTile.navigation(
                           leading: const Icon(Icons.store),
-                          title: const Text('Store Settings'),
+                          title: Text(tr.storeSettings),
                           onPressed: (_) => Get.toNamed(Routes.STORE_SETTINGS),
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.cog_six_tooth),
-                          title: const Text('App Setting'),
+                          title: Text(tr.appSettings),
                           onPressed: (_) => {},
                         ),
                       ],
                     ),
                     SettingsSection(
-                      title: const Text('Appearance'),
+                      title: Text(tr.appearance),
                       tiles: <SettingsTile>[
                         SettingsTile(
-                          title: const Text('Automatic (Follow system)'),
+                          title: Text(tr.automaticAppearance),
                           leading: const Icon(Icons.brightness_auto),
-                          trailing: controller.themeMode == ThemeMode.system
-                              ? const Icon(Icons.check)
-                              : null,
-                          onPressed: (_) async => await controller
-                              .changeThemeMode(ThemeMode.system),
+                          trailing: controller.themeMode == ThemeMode.system ? const Icon(Icons.check) : null,
+                          onPressed: (_) async => await controller.changeThemeMode(ThemeMode.system),
                         ),
                         SettingsTile(
-                          title: const Text('Light'),
+                          title: Text(tr.lightAppearance),
                           leading: const Icon(MedusaIcons.sun),
-                          trailing: controller.themeMode == ThemeMode.light
-                              ? const Icon(Icons.check)
-                              : null,
-                          onPressed: (_) async =>
-                              await controller.changeThemeMode(ThemeMode.light),
+                          trailing: controller.themeMode == ThemeMode.light ? const Icon(Icons.check) : null,
+                          onPressed: (_) async => await controller.changeThemeMode(ThemeMode.light),
                         ),
                         SettingsTile(
-                          title: const Text('Dark'),
+                          title: Text(tr.darkAppearance),
                           leading: const Icon(MedusaIcons.moon),
-                          trailing: controller.themeMode == ThemeMode.dark
-                              ? const Icon(Icons.check)
-                              : null,
-                          onPressed: (_) async =>
-                              await controller.changeThemeMode(ThemeMode.dark),
+                          trailing: controller.themeMode == ThemeMode.dark ? const Icon(Icons.check) : null,
+                          onPressed: (_) async => await controller.changeThemeMode(ThemeMode.dark),
                         ),
                       ],
                     ),
                     SettingsSection(
-                      title: const Text('Language'),
+                      title: Text(tr.language),
                       tiles: <SettingsTile>[
                         SettingsTile.navigation(
-                          title: Text(LanguageService.languageModel.nativeName),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(LanguageService.languageModel.nativeName),
+                              if (LanguageService.languageModel.name != LanguageService.languageModel.nativeName)
+                                Text(LanguageService.languageModel.name),
+                            ],
+                          ),
                           leading: const Icon(Icons.language),
-                          trailing: controller.themeMode == ThemeMode.system
-                              ? const Icon(Icons.check)
-                              : null,
                           onPressed: (_) async => await showBarModalBottomSheet(
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                             context: context,
                             builder: (context) => const LanguageSelectionView(),
                           ),
@@ -128,11 +122,9 @@ class MoreView extends StatelessWidget {
                     SettingsSection(
                       tiles: <SettingsTile>[
                         SettingsTile(
-                          leading: const Icon(Icons.exit_to_app,
-                              color: Colors.redAccent),
-                          title: const Text('Sign Out'),
-                          onPressed: (_) async =>
-                              await controller.signOut(context),
+                          leading: const Icon(Icons.exit_to_app, color: Colors.redAccent),
+                          title: Text(tr.signOut),
+                          onPressed: (_) async => await controller.signOut(context),
                         ),
                       ],
                     ),
@@ -141,16 +133,14 @@ class MoreView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: () {
                         controller.animate = !controller.animate;
                         controller.update();
                       },
                       child: Hero(
                         tag: 'medusa',
-                        child: Image.asset('assets/images/medusa.png',
-                                height: 100, width: 100)
-                            .animate(
+                        child: Image.asset('assets/images/medusa.png', height: 100, width: 100).animate(
                           effects: [const RotateEffect()],
                           target: controller.animate ? 1 : 0,
                         ),
@@ -159,8 +149,7 @@ class MoreView extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(controller.appName,
-                            style: smallTextStyle?.copyWith(color: lightWhite)),
+                        Text(controller.appName, style: smallTextStyle?.copyWith(color: lightWhite)),
                         Text('Version ${controller.version}+${controller.code}',
                             style: smallTextStyle?.copyWith(color: lightWhite)),
                       ],

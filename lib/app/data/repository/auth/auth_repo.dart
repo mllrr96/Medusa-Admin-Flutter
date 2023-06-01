@@ -10,7 +10,6 @@ import '../../models/res/auth.dart';
 
 class AuthRepo extends BaseAuth {
   final _dataProvider = DioClient(dio: Dio());
-
   /// Authenticates a user using email and password combination
   @override
   Future<Result<UserAuthRes, Failure>> signIn({

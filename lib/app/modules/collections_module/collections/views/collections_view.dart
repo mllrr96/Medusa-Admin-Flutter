@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../components/collection_list_tile.dart';
@@ -15,6 +16,8 @@ class CollectionsView extends GetView<CollectionsController> {
   Widget build(BuildContext context) {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final tr = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: SafeArea(
         child: SmartRefresher(
@@ -34,14 +37,14 @@ class CollectionsView extends GetView<CollectionsController> {
                   if (controller.searchTerm.value.isEmpty)
                     Column(
                       children: [
-                        Text('No collections yet!', style: largeTextStyle, textAlign: TextAlign.center),
+                        Text(tr.noCollection, style: largeTextStyle, textAlign: TextAlign.center),
                         const SizedBox(height: 12.0),
                         AdaptiveFilledButton(
                             onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),
-                            child: const Text('Add collection', style: TextStyle(color: Colors.white)))
+                            child: Text( tr.addCollection, style: const TextStyle(color: Colors.white)))
                       ],
                     ),
-                  if (controller.searchTerm.value.isNotEmpty) Text('No collections found', style: mediumTextStyle),
+                  if (controller.searchTerm.value.isNotEmpty) Text(tr.noResultCollection, style: mediumTextStyle),
                 ],
               ),
             ),
