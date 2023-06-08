@@ -1066,6 +1066,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  super_banners:
+    dependency: "direct main"
+    description:
+      name: super_banners
+      sha256: fa62db0b34d87ad3f92257c94ee22c2a4a20b56fc246bce4c1c249682e15bb90
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   synchronized:
     dependency: transitive
     description:

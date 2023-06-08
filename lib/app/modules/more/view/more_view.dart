@@ -77,26 +77,28 @@ class MoreView extends StatelessWidget {
                     ),
                     SettingsSection(
                       title: Text(tr.appearance),
-                      tiles: <SettingsTile>[
-                        SettingsTile(
-                          title: Text(tr.automaticAppearance),
-                          leading: const Icon(Icons.brightness_auto),
-                          trailing: controller.themeMode == ThemeMode.system ? const Icon(Icons.check) : null,
-                          onPressed: (_) async => await controller.changeThemeMode(ThemeMode.system),
-                        ),
-                        SettingsTile(
-                          title: Text(tr.lightAppearance),
-                          leading: const Icon(MedusaIcons.sun),
-                          trailing: controller.themeMode == ThemeMode.light ? const Icon(Icons.check) : null,
-                          onPressed: (_) async => await controller.changeThemeMode(ThemeMode.light),
-                        ),
-                        SettingsTile(
-                          title: Text(tr.darkAppearance),
-                          leading: const Icon(MedusaIcons.moon),
-                          trailing: controller.themeMode == ThemeMode.dark ? const Icon(Icons.check) : null,
-                          onPressed: (_) async => await controller.changeThemeMode(ThemeMode.dark),
-                        ),
-                      ],
+                      tiles: ThemeMode.values.map((e) {
+                        String title = tr.automaticAppearance;
+                        IconData iconData = Icons.brightness_auto;
+                        switch (e) {
+                          case ThemeMode.system:
+                            break;
+                          case ThemeMode.light:
+                            title = tr.lightAppearance;
+                            iconData = MedusaIcons.sun;
+                            break;
+                          case ThemeMode.dark:
+                            title = tr.darkAppearance;
+                            iconData = MedusaIcons.moon;
+                            break;
+                        }
+                        return SettingsTile(
+                          title: Text(title),
+                          leading: Icon(iconData),
+                          trailing: controller.themeMode == e ? const Icon(Icons.check) : null,
+                          onPressed: (_) async => await controller.changeThemeMode(e),
+                        );
+                      }).toList(),
                     ),
                     SettingsSection(
                       title: Text(tr.language),

@@ -42,18 +42,14 @@ class DiscountsView extends GetView<DiscountsController> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Discount>(
-              itemBuilder: (context, discount, index) {
-                return DiscountCard(discount,
-                    onDelete: () async => await controller.deleteDiscount(id: discount.id!),
-                    onToggle: () async => await controller.toggleDiscount(discount: discount));
-              },
+              itemBuilder: (context, discount, index) => DiscountCard(discount,
+                  onDelete: () async => await controller.deleteDiscount(id: discount.id!),
+                  onToggle: () async => await controller.toggleDiscount(discount: discount)),
               firstPageProgressIndicatorBuilder: (context) => const Center(child: CircularProgressIndicator.adaptive()),
               noItemsFoundIndicatorBuilder: (_) => Center(
                   child: Text('No discounts yet!\n Tap on + to add discount',
                       style: largeTextStyle, textAlign: TextAlign.center)),
             ),
-            // separatorBuilder: (_, __) =>
-            //     GetPlatform.isAndroid ? const Divider(height: 0) : const Divider(height: 0, indent: 16.0),
           ),
         ),
       ),

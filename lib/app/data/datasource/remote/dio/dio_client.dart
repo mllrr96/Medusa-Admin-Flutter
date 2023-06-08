@@ -18,7 +18,7 @@ class DioClient {
       ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
         String? cookie = StorageService.cookie;
         if (cookie != null && cookie.isNotEmpty) {
-          options.headers[AppConstants.cookie] = cookie;
+          options.headers[AppConstants.cookieKey] = cookie;
         }
         return handler.next(options);
       }))

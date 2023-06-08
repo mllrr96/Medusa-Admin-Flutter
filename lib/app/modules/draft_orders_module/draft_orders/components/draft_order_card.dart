@@ -15,6 +15,7 @@ class DraftOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     String? getName() {
       if (draftOrder.order == null) return null;
@@ -35,7 +36,7 @@ class DraftOrderCard extends StatelessWidget {
     }
 
     return InkWell(
-      borderRadius:  const BorderRadius.all(Radius.circular(5.0)),
+      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ?? () => Get.toNamed(Routes.DRAFT_ORDER_DETAILS, arguments: draftOrder.id),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
@@ -46,9 +47,9 @@ class DraftOrderCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('#${draftOrder.displayId}', style: Theme.of(context).textTheme.titleMedium),
+                Text('#${draftOrder.displayId}', style: mediumTextStyle),
                 if (draftOrder.order?.displayId != null)
-                  Text('Order #${draftOrder.order!.displayId}', style: Theme.of(context).textTheme.titleMedium),
+                  Text('Order #${draftOrder.order!.displayId}', style: mediumTextStyle),
               ],
             ),
             Padding(
@@ -60,7 +61,7 @@ class DraftOrderCard extends StatelessWidget {
                     draftOrder.cart!.createdAt != null
                         ? '${DateFormat.yMMMd().format(draftOrder.cart!.createdAt!)} at ${DateFormat.jm().format(draftOrder.cart!.createdAt!)}'
                         : '',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: const Color(0xff6B7280)),
+                    style: mediumTextStyle!.copyWith(color: lightWhite),
                   ),
                 ],
               ),

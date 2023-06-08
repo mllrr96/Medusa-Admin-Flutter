@@ -217,6 +217,8 @@ class AlternativeOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightMediumTextStyle = Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite);
     // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     String? getName() {
       String? name;
@@ -241,7 +243,6 @@ class AlternativeOrderCard extends StatelessWidget {
       }
       return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
     }
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
 
     return InkWell(
       // borderRadius:  const BorderRadius.all(Radius.circular(5.0)),
@@ -249,18 +250,14 @@ class AlternativeOrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: const BorderRadius.all(Radius.circular(5.0))),
+            color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium),
-                Text(
-                  getCurrencyText(),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+                Text('#${order.displayId}', style: mediumTextStyle),
+                Text(getCurrencyText(), style: mediumTextStyle),
               ],
             ),
             Padding(
@@ -272,11 +269,11 @@ class AlternativeOrderCard extends StatelessWidget {
                     order.cart?.createdAt != null
                         ? '${DateFormat.yMMMd().format(order.cart!.createdAt!)} at ${DateFormat.jm().format(order.cart!.createdAt!)}'
                         : '',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
+                    style: lightMediumTextStyle,
                   ),
                   Text(
                     order.currencyCode?.toUpperCase() ?? '',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
+                    style: lightMediumTextStyle,
                   ),
                 ],
               ),
@@ -459,6 +456,7 @@ class CustomerOrderCard extends StatelessWidget {
     final orderNumberBackgroundColor =
         index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
     return InkWell(
+      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),

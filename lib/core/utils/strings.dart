@@ -11,7 +11,7 @@ class AppConstants {
   static const String googleLogoAsset = 'assets/icons/google-icon.svg';
   static const String firstRun = 'firstRun';
   static const String favorites = 'favorites';
-  static const String cookie = 'Cookie';
+  static const String cookieKey = 'Cookie';
   static const String themeMode = 'theme';
   static const String baseUrlKey = 'api';
   static const String languageKey = 'language';

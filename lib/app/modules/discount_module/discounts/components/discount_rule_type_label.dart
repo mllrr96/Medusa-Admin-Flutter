@@ -55,38 +55,31 @@ class DiscountRuleTypeLabel extends StatelessWidget {
 }
 
 class DiscountStatusDot extends StatelessWidget {
-  const DiscountStatusDot({Key? key, required this.disabled, this.date}) : super(key: key);
+  const DiscountStatusDot({Key? key, required this.disabled}) : super(key: key);
   final bool disabled;
-  final DateTime? date;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-
-    Color containerColor = ColorManager.primary.withOpacity(0.17);
-    Color textColor = ColorManager.primary;
+    Color circleColor = ColorManager.primary;
+    Color outerCircleColor = ColorManager.primary.withOpacity(0.17);
     String text = 'Disabled';
 
     if (disabled) {
-      containerColor = Colors.grey.withOpacity(0.17);
-      textColor = Colors.grey;
+      circleColor = Colors.grey.withOpacity(0.17);
+      outerCircleColor = Colors.grey;
       text = 'Disabled';
     } else {
-      containerColor = Colors.green.withOpacity(0.17);
-      textColor = Colors.green;
+      circleColor = Colors.green.withOpacity(0.17);
+      outerCircleColor = Colors.green;
       text = 'Active';
-    }
-    if(date!=null && date!.isBefore(DateTime.now())){
-      containerColor = Colors.red.withOpacity(0.17);
-      textColor = Colors.red;
-      text = 'Expired';
     }
     return Row(
       children: [
         Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            Icon(Icons.circle, color: textColor, size: 12),
-            Icon(Icons.circle, color: containerColor, size: 24),
+            Icon(Icons.circle, color: outerCircleColor, size: 12),
+            Icon(Icons.circle, color: circleColor, size: 24),
           ],
         ),
         Text(text, style: smallTextStyle),

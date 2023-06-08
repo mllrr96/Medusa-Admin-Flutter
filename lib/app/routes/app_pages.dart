@@ -4,6 +4,8 @@ import '../modules/auth_module/reset_password/bindings/reset_password_binding.da
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
 import '../modules/auth_module/sign_in/views/sign_in_view.dart';
+import '../modules/categories/bindings/categories_binding.dart';
+import '../modules/categories/views/categories_view.dart';
 import '../modules/collections_module/collection_details/bindings/collection_details_binding.dart';
 import '../modules/collections_module/collection_details/views/collection_details_view.dart';
 import '../modules/collections_module/collections/bindings/collections_binding.dart';
@@ -129,6 +131,7 @@ class AppPages {
           ProductsBinding(),
           CustomersBinding(),
           CollectionsBinding(),
+          CategoriesBinding(),
           GroupsBinding(),
           MoreBinding(),
           // CurrenciesBinding(),
@@ -414,6 +417,11 @@ class AppPages {
       name: _Paths.ADD_UPDATE_TAX_RATE,
       page: () => const AddUpdateTaxRateView(),
       binding: AddUpdateTaxRateBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORIES,
+      page: () => const CategoriesView(),
+      binding: CategoriesBinding(),
     ),
   ];
 }

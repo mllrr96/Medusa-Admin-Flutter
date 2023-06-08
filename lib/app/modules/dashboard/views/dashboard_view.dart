@@ -27,20 +27,23 @@ class DashboardView extends GetView<DashboardController> {
               items: controller.bottomNavBarItems,
             ),
             body: PageSwitchingView(
-                currentPageIndex: controller.currentScreen,
-                pageCount: 4,
-                pageBuilder: (context, index){
-                  if (index == 0) {
+              currentPageIndex: controller.currentScreen,
+              pageCount: 4,
+              pageBuilder: (context, index) {
+                switch (index) {
+                  case 0:
                     return const OrdersView();
-                  } else if (index == 1) {
+                  case 1:
                     return const ProductsView();
-                  } else if (index == 2) {
+                  case 2:
                     return const CustomersView();
-                  } else if (index == 3) {
+                  case 3:
                     return const MoreView();
-                  }
-                  return const OrdersView();
-                }),
+                  default:
+                    return const OrdersView();
+                }
+              },
+            ),
           ),
         );
       },

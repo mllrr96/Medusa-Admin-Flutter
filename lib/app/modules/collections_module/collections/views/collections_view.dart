@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../components/collection_list_tile.dart';
+import '../components/collections_app_bar.dart';
 import '../controllers/collections_controller.dart';
 
 class CollectionsView extends GetView<CollectionsController> {
@@ -19,6 +20,7 @@ class CollectionsView extends GetView<CollectionsController> {
     final tr = AppLocalizations.of(context)!;
 
     return Scaffold(
+      appBar: const CollectionsAppBar(),
       body: SafeArea(
         child: SmartRefresher(
           controller: controller.refreshController,

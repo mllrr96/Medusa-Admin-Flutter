@@ -22,7 +22,7 @@ class StorageService extends GetxService {
         Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
     try {
       _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
-      _cookie = _prefs.getString(AppConstants.cookie);
+      _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
     } catch (e) {
       _baseUrl = AppConstants.baseUrl;
@@ -100,7 +100,7 @@ class StorageService extends GetxService {
   Future<void> clearCookie() async {
     try {
       _cookie = null;
-      await _prefs.remove(AppConstants.cookie);
+      await _prefs.remove(AppConstants.cookieKey);
     } catch (e) {
       _cookie = null;
       debugPrint(e.toString());
@@ -110,7 +110,7 @@ class StorageService extends GetxService {
   Future<void> saveCookie(String cookie) async {
     try {
       _cookie = cookie;
-      await _prefs.setString(AppConstants.cookie, cookie);
+      await _prefs.setString(AppConstants.cookieKey, cookie);
     } catch (e) {
       debugPrint(e.toString());
     }

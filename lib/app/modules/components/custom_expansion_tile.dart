@@ -73,7 +73,8 @@ class CustomExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent, splashColor: Colors.transparent, highlightColor: Colors.transparent),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(

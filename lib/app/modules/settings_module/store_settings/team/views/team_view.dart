@@ -137,7 +137,7 @@ class TeamView extends StatelessWidget {
                 childCount: users!.length,
               )),
               onLoading: const SliverFillRemaining(
-                child: CircularProgressIndicator.adaptive(),
+                child: Center(child: CircularProgressIndicator.adaptive()),
               ),
               onError: (e) => SliverToBoxAdapter(
                 child: Column(
