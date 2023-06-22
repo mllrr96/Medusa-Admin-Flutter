@@ -62,7 +62,7 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
                 title: const Text('Shipping'),
-                onPressed: (_) => Get.toNamed(Routes.SHIPPING),
+                onPressed: (_) {},
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.call_split, color: ColorManager.primary),

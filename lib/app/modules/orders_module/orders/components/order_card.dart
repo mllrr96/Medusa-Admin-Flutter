@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 
 class OrderCard extends StatelessWidget {
@@ -219,6 +218,12 @@ class AlternativeOrderCard extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final lightMediumTextStyle = Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite);
+    const colors = [
+      Color(0xff60A5FA),
+      Color(0xff23D3EE),
+      Color(0xffFB923C),
+      Color(0xffF473B6),
+    ];
     // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     String? getName() {
       String? name;
@@ -285,7 +290,7 @@ class AlternativeOrderCard extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor: ColorManager.primary,
+                        backgroundColor: colors[Random().nextInt(colors.length)],
                         radius: 16,
                         child: Text(getName()?[0].toUpperCase() ?? order.customer!.email[0].toUpperCase(),
                             style: const TextStyle(color: Colors.white)),

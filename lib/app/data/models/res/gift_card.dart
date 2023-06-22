@@ -14,7 +14,7 @@ class UserGiftCardsRes extends PaginatedResponse {
   List<GiftCard>? giftCards;
 
   UserGiftCardsRes.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    if (json['gift_cards']) return;
+    if (json['gift_cards'] == null) return;
     giftCards = <GiftCard>[];
 
     json['gift_cards'].forEach((v) => giftCards!.add(GiftCard.fromJson(v)));

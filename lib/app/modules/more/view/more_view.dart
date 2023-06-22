@@ -51,12 +51,14 @@ class MoreView extends StatelessWidget {
                         SettingsTile.navigation(
                           leading: const Icon(CupertinoIcons.gift),
                           title: Text(tr.giftCards),
-                          onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
+                          // onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
+                          onPressed: (_) {},
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.currency_dollar),
                           title: Text(tr.pricing),
-                          onPressed: (_) => Get.toNamed(Routes.PRICING),
+                          // onPressed: (_) => Get.toNamed(Routes.PRICING),
+                          onPressed: (_) {},
                         ),
                       ],
                     ),
@@ -101,13 +103,16 @@ class MoreView extends StatelessWidget {
                       }).toList(),
                     ),
                     SettingsSection(
-                      title: Text(tr.language),
+                      // title: Text(tr.language),
                       tiles: <SettingsTile>[
                         SettingsTile.navigation(
-                          title: Row(
+                          title: Text(tr.language),
+                          value: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(LanguageService.languageModel.nativeName),
+                              if (LanguageService.languageModel.name != LanguageService.languageModel.nativeName)
+                                const SizedBox(width: 6.0),
                               if (LanguageService.languageModel.name != LanguageService.languageModel.nativeName)
                                 Text(LanguageService.languageModel.name),
                             ],

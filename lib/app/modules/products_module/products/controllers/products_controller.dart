@@ -29,7 +29,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   void onInit() {
     searchDebouner =
         debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });

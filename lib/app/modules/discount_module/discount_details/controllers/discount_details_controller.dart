@@ -107,6 +107,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   }) async {
     loading();
 
+    // Adding items
     if (addedItems.isNotEmpty) {
       final result =
           await discountConditionRepo.addBatchResources(discountId: id, conditionId: conditionId, itemIds: addedItems);
@@ -121,6 +122,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
               snackPosition: SnackPosition.BOTTOM));
     }
 
+    // Deleting items
     if (deletedItems.isNotEmpty) {
       final result = await discountConditionRepo.deleteBatchResources(
           discountId: id, conditionId: conditionId, itemIds: deletedItems);

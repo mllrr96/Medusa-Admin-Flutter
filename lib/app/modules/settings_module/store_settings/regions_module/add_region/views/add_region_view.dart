@@ -8,8 +8,9 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multiselect/multiselect.dart';
+import '../../../../../components/countries/view/country_view.dart';
 import '../../../../../components/custom_expansion_tile.dart';
 import '../../../../../components/custom_text_field.dart';
 import '../../regions/controllers/regions_controller.dart';
@@ -169,16 +170,27 @@ class AddRegionView extends GetView<AddRegionController> {
                               return null;
                             },
                             onTap: () async {
-                              final result = await Get.toNamed(Routes.SELECT_COUNTRY,
-                                  arguments: SelectCountryReq(
-                                    disabledCountriesIso2: controller.updateMode
-                                        ? RegionsController.instance
-                                            .disabledCountriesIso2(excludedRegion: controller.region!)
-                                        : RegionsController.instance.disabledCountriesIso2(),
-                                    multipleSelect: true,
-                                    selectedCountries: [...controller.selectedCountries],
-                                  ));
-                              if (result != null && result is List<Country>) {
+                              // final result = await Get.toNamed(Routes.SELECT_COUNTRY,
+                              //     arguments: SelectCountryReq(
+                              //       disabledCountriesIso2: controller.updateMode
+                              //           ? RegionsController.instance
+                              //               .disabledCountriesIso2(excludedRegion: controller.region!)
+                              //           : RegionsController.instance.disabledCountriesIso2(),
+                              //       multipleSelect: true,
+                              //       selectedCountries: [...controller.selectedCountries],
+                              //     ));
+                              final result = await showBarModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => SelectCountryView(
+                                          selectCountryReq: SelectCountryReq(
+                                        disabledCountriesIso2: controller.updateMode
+                                            ? RegionsController.instance
+                                                .disabledCountriesIso2(excludedRegion: controller.region!)
+                                            : RegionsController.instance.disabledCountriesIso2(),
+                                        multipleSelect: true,
+                                        selectedCountries: [...controller.selectedCountries],
+                                      )));
+                              if (result is List<Country>) {
                                 controller.selectedCountries = result;
                                 controller.update();
                               }

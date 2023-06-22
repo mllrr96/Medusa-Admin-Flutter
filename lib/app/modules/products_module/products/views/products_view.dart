@@ -6,7 +6,6 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/categories/views/categories_view.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -41,7 +40,7 @@ class ProductsView extends StatelessWidget {
                   child:
                       controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView()),
               const KeepAliveWidget(child: CollectionsView()),
-              const KeepAliveWidget(child: CategoriesView()),
+              // const KeepAliveWidget(child: CategoriesView()),
             ],
           )),
         );
@@ -121,19 +120,19 @@ class ProductsListView extends GetView<ProductsController> {
       appBar: const ProductsAppBar(),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
-        closeButtonHeroTag: 'product',
-        openButtonHeroTag: 'product2',
+        // closeButtonHeroTag: 'product',
+        // openButtonHeroTag: 'product2',
         type: ExpandableFabType.fan,
         children: [
           FloatingActionButton(
             heroTag: null,
             onPressed: () async {},
-            child: const Icon(MedusaIcons.arrow_down_tray),
+            child: const Icon(MedusaIcons.arrow_down_tray, size: 20),
           ),
           FloatingActionButton(
             heroTag: null,
             onPressed: () async {},
-            child: const Icon(MedusaIcons.arrow_up_tray),
+            child: const Icon(MedusaIcons.arrow_up_tray, size: 20),
           ),
           FloatingActionButton(
             heroTag: null,
@@ -144,7 +143,7 @@ class ProductsListView extends GetView<ProductsController> {
                 }
               });
             },
-            child: const Icon(MedusaIcons.plus_mini, color: Colors.white),
+            child: const Icon(Icons.add, color: Colors.white),
           ),
         ],
       ),

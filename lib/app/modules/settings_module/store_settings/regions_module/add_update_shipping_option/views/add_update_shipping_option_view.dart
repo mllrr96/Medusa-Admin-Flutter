@@ -39,7 +39,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
               actions: [
                 AdaptiveButton(
                     onPressed: () async => controller.updateMode
-                        ? await controller.updateShippingOption(context)
+                        ? null
                         : await controller.createShippingOption(context),
                     child: controller.updateMode ? const Text('Update') : const Text('Add'))
               ],
@@ -100,6 +100,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                       value: controller.selectedPriceType,
                                       style: smallTextStyle,
                                       hint: const Text('Choose a price type'),
+                                      iconSize: 20,
                                       dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
                                       validator: (val) {
                                         if (val == null) {

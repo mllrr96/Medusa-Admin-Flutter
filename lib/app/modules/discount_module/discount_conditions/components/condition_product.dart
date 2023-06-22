@@ -131,7 +131,7 @@ class ConditionProductController extends GetxController {
   final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   List<Product> selectedProducts = <Product>[];
-  final List<Product> disabledProducts = Get.arguments ?? [];
+  final List<Product> disabledProducts = Get.arguments is List<Product> ? Get.arguments : [];
 
   bool get updateMode => disabledProducts.isNotEmpty;
   final searchCtrl = TextEditingController();

@@ -1,18 +1,10 @@
-import 'dart:async';
 import 'dart:io';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/controllers/collections_controller.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/search_text_field.dart';
-import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../categories/controllers/categories_controller.dart';
-import '../../../components/adaptive_button.dart';
 import '../controllers/products_controller.dart';
 
 class ProductsCollectionsAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -77,7 +69,7 @@ class _ProductsCollectionsAppBarState extends State<ProductsCollectionsAppBar> {
       tabs: [
         Tab(child: productsText),
         Tab(child: collectionText),
-        Tab(child: categoriesText),
+        // Tab(child: categoriesText),
       ],
     );
 

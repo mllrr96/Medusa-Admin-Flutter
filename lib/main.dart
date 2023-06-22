@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/initial_binding.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'app/data/service/storage_service.dart';
-import 'app/data/service/theme_service.dart';
 import 'app/routes/app_pages.dart';
 import 'core/theme/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,6 +39,6 @@ Future<void> initServices() async {
   debugPrint('starting services ...');
   await Get.putAsync(() => StorageService().init());
   Get.put(LanguageService().init());
-  Get.put(ThemeService().init());
+  // Get.put(ThemeService().init());
   debugPrint('All services started...');
 }

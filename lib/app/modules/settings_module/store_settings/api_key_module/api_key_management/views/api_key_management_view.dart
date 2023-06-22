@@ -16,8 +16,8 @@ class ApiKeyManagementView extends GetView<ApiKeyManagementController> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    // final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
 
     return Scaffold(

@@ -46,7 +46,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
               backgroundColor: Colors.redAccent,
               foregroundColor: Colors.white,
               icon: Icons.delete_forever,
-              label: 'Delete',
+              // label: 'Delete',
             ),
           ],
         ),

@@ -33,7 +33,7 @@ class GroupCard extends GetView<GroupsController> {
             backgroundColor: const Color(0xFF7BC043),
             foregroundColor: Colors.white,
             icon: MedusaIcons.pencil_square_solid,
-            label: 'Edit',
+            // label: 'Edit',
           ),
           SlidableAction(
             onPressed: (_) async{
@@ -52,7 +52,7 @@ class GroupCard extends GetView<GroupsController> {
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
             icon: Icons.delete_forever,
-            label: 'Delete',
+            // label: 'Delete',
           ),
         ],
       ),

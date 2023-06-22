@@ -29,7 +29,7 @@ class ProductCheckboxListTile extends GetView<SalesChannelDetailsController> {
             backgroundColor: const Color(0xFF7BC043),
             foregroundColor: Colors.white,
             icon: CupertinoIcons.person_crop_square,
-            label: 'Details',
+            // label: 'Details',
           ),
           SlidableAction(
             onPressed: (_) async {
@@ -38,7 +38,7 @@ class ProductCheckboxListTile extends GetView<SalesChannelDetailsController> {
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
             icon: Icons.delete_forever,
-            label: 'Remove',
+            // label: 'Remove',
           ),
         ],
       ),

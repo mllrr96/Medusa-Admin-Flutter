@@ -34,7 +34,7 @@ class StorageService extends GetxService {
 
   ThemeMode loadThemeMode() {
     try {
-      final themeMode = _prefs.getInt(AppConstants.themeMode);
+      final themeMode = _prefs.getInt(AppConstants.themeModeKey);
       switch (themeMode) {
         case null:
         case 0:
@@ -54,7 +54,7 @@ class StorageService extends GetxService {
 
   Future<void> saveThemeMode(ThemeMode themeMode) async {
     try {
-      await _prefs.setInt(AppConstants.themeMode, themeMode.value());
+      await _prefs.setInt(AppConstants.themeModeKey, themeMode.value());
       Get.changeThemeMode(themeMode);
     } catch (e) {
       debugPrint(e.toString());

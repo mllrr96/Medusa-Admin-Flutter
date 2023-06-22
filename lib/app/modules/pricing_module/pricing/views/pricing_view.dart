@@ -4,7 +4,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../controllers/pricing_controller.dart';
 
@@ -33,7 +32,7 @@ class PricingView extends GetView<PricingController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST),
-        child: const Icon(MedusaIcons.plus_mini),
+        child: const Icon(Icons.add),
       ),
       body: SafeArea(
         child: SmartRefresher(

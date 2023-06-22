@@ -19,7 +19,7 @@ class SelectCountryController extends GetxController {
     selectCountryOptions = Get.arguments ?? selectCountryReq ?? const SelectCountryReq();
     selectedCountries.addAll(selectCountryOptions.selectedCountries);
     countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
-    sort();
+    // sort();
     // searchFocusNode.addListener(() {
     //   update();
     // });
@@ -58,7 +58,7 @@ class SelectCountryController extends GetxController {
           .toList();
     } else {
       countriesList.addAll(countries);
-      sort();
+      // sort();
     }
     update();
   }
