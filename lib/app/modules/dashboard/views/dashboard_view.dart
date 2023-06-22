@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/views/customers_view.dart';
 import 'package:medusa_admin/app/modules/more/view/more_view.dart';
-import '../../orders_module/orders/views/orders_view.dart';
+import '../../orders_module/shared_view.dart';
 import '../../products_module/products/views/products_view.dart';
 import '../controllers/dashboard_controller.dart';
 
@@ -32,7 +32,7 @@ class DashboardView extends GetView<DashboardController> {
               pageBuilder: (context, index) {
                 switch (index) {
                   case 0:
-                    return const OrdersView();
+                    return const OrdersDraftsTabBarView();
                   case 1:
                     return const ProductsView();
                   case 2:
@@ -40,7 +40,7 @@ class DashboardView extends GetView<DashboardController> {
                   case 3:
                     return const MoreView();
                   default:
-                    return const OrdersView();
+                    return const OrdersDraftsTabBarView();
                 }
               },
             ),

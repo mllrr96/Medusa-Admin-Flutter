@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:medusa_admin/app/modules/components/drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_icon.dart';
-import '../../../components/keep_alive_widget.dart';
 import '../../../components/search_text_field.dart';
 import '../components/draft_order_card.dart';
 import '../controllers/draft_orders_controller.dart';
@@ -19,9 +20,20 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
+    final isDrawer = StorageService.appSettings.isDrawer;
+    PreferredSizeWidget getAppBar() {
+      if (isDrawer) {
+        return AppBar(
+          title: Text('Draft Orders'),
+          bottom: DraftOrdersBottomAppBar(),
+        );
+      }
+      return DraftOrdersBottomAppBar();
+    }
 
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: getAppBar(),
+      drawer: isDrawer ? AppDrawer() : null,
       floatingActionButton: FloatingActionButton(
         heroTag: 'draft_order',
         onPressed: () async {
@@ -30,38 +42,37 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
         child: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add),
       ),
       body: SafeArea(
-        child: KeepAliveWidget(
-          child: SmartRefresher(
-            controller: controller.refreshController,
-            onRefresh: () => controller.pagingController.refresh(),
-            header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-            child: PagedListView.separated(
-              padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, kToolbarHeight * 1.4),
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
-                  itemBuilder: (context, draftOrder, index) => DraftOrderCard(draftOrder),
-                  noItemsFoundIndicatorBuilder: (_) =>  Center(child: Text(tr.noDraftOrders)),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const Center(child: CircularProgressIndicator.adaptive())),
-              separatorBuilder: (_, __) => const SizedBox(height: 12.0),
-            ),
+        child: SmartRefresher(
+          controller: controller.refreshController,
+          onRefresh: () => controller.pagingController.refresh(),
+          header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+          child: PagedListView.separated(
+            padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, kToolbarHeight * 1.4),
+            pagingController: controller.pagingController,
+            builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
+                itemBuilder: (context, draftOrder, index) => DraftOrderCard(draftOrder),
+                noItemsFoundIndicatorBuilder: (_) => Center(child: Text(tr.noDraftOrders)),
+                firstPageProgressIndicatorBuilder: (context) =>
+                    const Center(child: CircularProgressIndicator.adaptive())),
+            separatorBuilder: (_, __) => const SizedBox(height: 12.0),
           ),
         ),
       ),
     );
   }
 }
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+
+class DraftOrdersBottomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const DraftOrdersBottomAppBar({super.key});
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+  State<DraftOrdersBottomAppBar> createState() => _DraftOrdersBottomAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _DraftOrdersBottomAppBarState extends State<DraftOrdersBottomAppBar> {
   final searchCtrl = TextEditingController();
   final searchNode = FocusNode();
   bool collectionSearch = false;

@@ -91,6 +91,9 @@ class AppTheme {
         textColor: Colors.white,
         titleTextStyle: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
       ),
+      drawerTheme: const DrawerThemeData(
+        backgroundColor:Color(0xff242527),
+      ),
       dialogTheme: const DialogTheme(
           titleTextStyle: TextStyle(color: Colors.white), contentTextStyle: TextStyle(color: Colors.white)),
       scaffoldBackgroundColor: const Color(0xFF18191A),

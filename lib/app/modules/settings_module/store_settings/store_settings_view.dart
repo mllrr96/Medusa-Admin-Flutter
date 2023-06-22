@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/drawer.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import '../../../../core/utils/colors.dart';
@@ -11,10 +13,12 @@ class StoreSettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDrawer = StorageService.appSettings.isDrawer;
     return Scaffold(
+      drawer: isDrawer ? AppDrawer() : null,
       appBar: AppBar(
         title: const Text('Store Settings'),
-        leading: const AdaptiveBackButton(),
+        leading: isDrawer ? null : const AdaptiveBackButton(),
         centerTitle: true,
       ),
       body: SafeArea(

@@ -1,6 +1,7 @@
 class AppConstants {
   static const String appName = 'Medusa Admin';
   static const String firstRun = 'firstRun';
+  static const String appSettingsKey = 'appSettings';
   static const String cookieKey = 'Cookie';
   static const String themeModeKey = 'theme';
   static const String baseUrlKey = 'api';

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/keep_alive_widget.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,66 +10,66 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_icon.dart';
+import '../../../components/drawer.dart';
 import '../../../components/search_text_field.dart';
-import '../../../draft_orders_module/draft_orders/views/draft_orders_view.dart';
 import '../components/order_card.dart';
-import '../components/orders_app_bar.dart';
 import '../controllers/orders_controller.dart';
 
 class OrdersView extends GetView<OrdersController> {
   const OrdersView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final tabController = controller.tabController;
     final tr = AppLocalizations.of(context)!;
+    final isDrawer = StorageService.appSettings.isDrawer;
+
+    PreferredSizeWidget getAppBar() {
+      if (isDrawer) {
+        return AppBar(
+          title: const Text('Orders'),
+          bottom: const OrdersBottomAppBar(),
+        );
+      }
+      return const OrdersBottomAppBar();
+    }
 
     return Scaffold(
-      appBar: OrdersAppBar(tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
-      body: SafeArea(
-        child: TabBarView(controller: tabController, children: [
-          KeepAliveWidget(
-            child: Scaffold(
-              appBar: const CustomAppBar(),
-              floatingActionButton: FloatingActionButton(
-                heroTag: 'orders',
-                onPressed: () {},
-                child: const Icon(MedusaIcons.arrow_up_tray, size: 20),
-              ),
-              body: SmartRefresher(
-                controller: controller.refreshController,
-                onRefresh: () => controller.pagingController.refresh(),
-                header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
-                child: PagedListView.separated(
-                  padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
-                  pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<Order>(
-                      itemBuilder: (context, order, index) => AlternativeOrderCard(order),
-                      noItemsFoundIndicatorBuilder: (_) => Center(child: Text(tr.noOrders)),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(child: CircularProgressIndicator.adaptive())),
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                ),
-              ),
-            ),
-          ),
-          const KeepAliveWidget(child: DraftOrdersView())
-        ]),
+      drawer: isDrawer ? AppDrawer() : null,
+      appBar: getAppBar(),
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'orders',
+        onPressed: () {},
+        child: const Icon(MedusaIcons.arrow_up_tray, size: 20),
+      ),
+      body: SmartRefresher(
+        controller: controller.refreshController,
+        onRefresh: () => controller.pagingController.refresh(),
+        header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+        child: PagedListView.separated(
+          padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+          pagingController: controller.pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Order>(
+              itemBuilder: (context, order, index) => AlternativeOrderCard(order),
+              noItemsFoundIndicatorBuilder: (_) => Center(child: Text(tr.noOrders)),
+              firstPageProgressIndicatorBuilder: (context) =>
+                  const Center(child: CircularProgressIndicator.adaptive())),
+          separatorBuilder: (_, __) => const Divider(height: 1),
+        ),
       ),
     );
   }
 }
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+class OrdersBottomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const OrdersBottomAppBar({super.key});
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+  State<OrdersBottomAppBar> createState() => _OrdersBottomAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _OrdersBottomAppBarState extends State<OrdersBottomAppBar> {
   final searchCtrl = TextEditingController();
   final searchNode = FocusNode();
   bool productSearch = false;

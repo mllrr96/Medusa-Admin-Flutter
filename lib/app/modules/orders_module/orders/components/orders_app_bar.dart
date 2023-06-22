@@ -5,8 +5,8 @@ import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders
 import 'dart:io' show Platform;
 import '../../../draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 
-class OrdersAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const OrdersAppBar({
+class OrdersDraftTabBarAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const OrdersDraftTabBarAppBar({
     super.key,
     required this.tabController,
     required this.topViewPadding,
@@ -16,12 +16,12 @@ class OrdersAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double topViewPadding;
 
   @override
-  State<OrdersAppBar> createState() => _OrdersAppBarState();
+  State<OrdersDraftTabBarAppBar> createState() => _OrdersDraftTabBarAppBarState();
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight + topViewPadding);
 }
 
-class _OrdersAppBarState extends State<OrdersAppBar> {
+class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
   bool collectionSearch = false;
   bool productSearch = false;
   final OrdersController controller = Get.find<OrdersController>();
