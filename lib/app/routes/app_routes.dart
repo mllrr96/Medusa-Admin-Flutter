@@ -8,6 +8,7 @@ abstract class Routes {
   static const DASHBOARD = _Paths.DASHBOARD;
   static const SPLASH = _Paths.SPLASH;
   static const ORDERS = _Paths.ORDERS;
+  static const DRAFT_ORDERS = _Paths.DRAFT_ORDERS;
   static const PRODUCTS = _Paths.PRODUCTS;
   static const CUSTOMERS = _Paths.CUSTOMERS;
   static const DISCOUNTS = _Paths.DISCOUNTS;
@@ -75,6 +76,7 @@ abstract class Routes {
   static const ADD_UPDATE_API_KEY = _Paths.ADD_UPDATE_API_KEY;
   static const ADD_UPDATE_TAX_RATE = _Paths.ADD_UPDATE_TAX_RATE;
   static const CATEGORIES = _Paths.CATEGORIES;
+  static const APP_SETTINGS = _Paths.APP_SETTINGS;
 }
 
 abstract class _Paths {
@@ -82,6 +84,7 @@ abstract class _Paths {
   static const DASHBOARD = '/dashboard';
   static const SPLASH = '/splash';
   static const ORDERS = '/orders';
+  static const DRAFT_ORDERS = '/draft-orders';
   static const PRODUCTS = '/products';
   static const CUSTOMERS = '/customers';
   static const DISCOUNTS = '/discounts';
@@ -136,4 +139,5 @@ abstract class _Paths {
   static const ADD_UPDATE_API_KEY = '/add-update-api-key';
   static const ADD_UPDATE_TAX_RATE = '/add-update-tax-rate';
   static const CATEGORIES = '/categories';
+  static const APP_SETTINGS = '/app-settings';
 }

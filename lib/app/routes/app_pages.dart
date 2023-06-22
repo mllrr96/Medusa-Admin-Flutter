@@ -44,6 +44,7 @@ import '../modules/draft_orders_module/create_draft_order/views/create_draft_ord
 import '../modules/draft_orders_module/draft_order_details/bindings/draft_order_details_binding.dart';
 import '../modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
 import '../modules/draft_orders_module/draft_orders/bindings/draft_orders_binding.dart';
+import '../modules/draft_orders_module/draft_orders/views/draft_orders_view.dart';
 import '../modules/gift_cards/bindings/gift_cards_binding.dart';
 import '../modules/gift_cards/views/gift_cards_view.dart';
 import '../modules/groups_module/create_update_group/bindings/create_update_group_binding.dart';
@@ -55,6 +56,7 @@ import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
 import '../modules/orders_module/orders/bindings/orders_binding.dart';
+import '../modules/orders_module/orders/views/orders_view.dart';
 import '../modules/pick_regions/bindings/pick_regions_binding.dart';
 import '../modules/pick_regions/views/pick_regions_view.dart';
 import '../modules/pricing_module/add_update_price_list/bindings/add_update_price_list_binding.dart';
@@ -69,6 +71,8 @@ import '../modules/products_module/add_update_product/views/add_update_product_v
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
+import '../modules/settings_module/app_settings/bindings/app_settings_binding.dart';
+import '../modules/settings_module/app_settings/views/app_settings_view.dart';
 import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/bindings/add_update_api_key_binding.dart';
 import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
 import '../modules/settings_module/store_settings/api_key_module/api_key_management/bindings/api_key_management_binding.dart';
@@ -121,6 +125,16 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
+    GetPage(
+      name: _Paths.ORDERS,
+      page: () => const OrdersView(),
+      binding: OrdersBinding(),
+    ),
+    GetPage(
+      name: _Paths.DRAFT_ORDERS,
+      page: () => const DraftOrdersView(),
+      binding: DraftOrdersBinding(),
+    ),
     GetPage(
         name: _Paths.DASHBOARD,
         page: () => const DashboardView(),
@@ -422,6 +436,11 @@ class AppPages {
       name: _Paths.CATEGORIES,
       page: () => const CategoriesView(),
       binding: CategoriesBinding(),
+    ),
+    GetPage(
+      name: _Paths.APP_SETTINGS,
+      page: () => const AppSettingsView(),
+      binding: AppSettingsBinding(),
     ),
   ];
 }

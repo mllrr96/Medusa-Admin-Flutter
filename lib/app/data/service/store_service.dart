@@ -32,4 +32,6 @@ class StoreService extends GetxService {
       debugPrint(e.toString());
     }
   }
+
+
 }

@@ -1,20 +1,24 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/strings.dart';
+import '../models/app/settings.dart';
 
 class StorageService extends GetxService {
   static StorageService get instance => Get.find<StorageService>();
   static String get baseUrl => Get.find<StorageService>()._baseUrl;
   static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
+  static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
 
   late SharedPreferences _prefs;
   late String _baseUrl;
   late String _language;
   late String? _cookie;
+  late AppSettings _appSettings;
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -24,12 +28,25 @@ class StorageService extends GetxService {
       _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
+      _appSettings = AppSettings.fromJson(jsonDecode(_prefs.getString(AppConstants.appSettingsKey) ?? ''));
     } catch (e) {
       _baseUrl = AppConstants.baseUrl;
       _cookie = null;
       _language = defaultLocale;
+      _appSettings = AppSettings();
     }
     return this;
+  }
+
+  Future<bool> updateAppSettings(AppSettings appSettings) async {
+    try {
+      _prefs.setString(AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
+      _appSettings = appSettings;
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
   }
 
   ThemeMode loadThemeMode() {
