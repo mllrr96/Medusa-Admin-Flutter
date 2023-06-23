@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/drawer.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -16,6 +18,7 @@ class DiscountsView extends GetView<DiscountsController> {
   @override
   Widget build(BuildContext context) {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final isDrawer = StorageService.appSettings.isDrawer;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorManager.primary,
@@ -28,8 +31,9 @@ class DiscountsView extends GetView<DiscountsController> {
         },
         child: Platform.isAndroid ? const Icon(Icons.add) : const Icon(CupertinoIcons.add),
       ),
+      drawer: isDrawer ? const AppDrawer() : null,
       appBar: AppBar(
-        leading: const AdaptiveBackButton(),
+        leading: isDrawer ? null : const AdaptiveBackButton(),
         title: const Text('Discounts'),
       ),
       body: SafeArea(

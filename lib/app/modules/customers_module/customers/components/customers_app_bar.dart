@@ -6,18 +6,18 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 
-class CustomersTabBar extends StatefulWidget implements PreferredSizeWidget {
-  const CustomersTabBar({Key? key, required this.tabController, required this.topViewPadding}) : super(key: key);
+class CustomersGroupsTabBar extends StatefulWidget implements PreferredSizeWidget {
+  const CustomersGroupsTabBar({Key? key, required this.tabController, required this.topViewPadding}) : super(key: key);
   final TabController tabController;
   final double topViewPadding;
   @override
-  State<CustomersTabBar> createState() => _CustomersTabBarState();
+  State<CustomersGroupsTabBar> createState() => _CustomersGroupsTabBarState();
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight * 2 + topViewPadding);
 }
 
-class _CustomersTabBarState extends State<CustomersTabBar> {
+class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
   var activeIndex = 0;
   @override
   void initState() {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/customers_module/customers/views/customers_view.dart';
 import 'package:medusa_admin/app/modules/more/view/more_view.dart';
+import '../../customers_module/shared_view.dart';
 import '../../orders_module/shared_view.dart';
-import '../../products_module/products/views/products_view.dart';
+import '../../products_module/shared_view.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
@@ -34,9 +34,9 @@ class DashboardView extends GetView<DashboardController> {
                   case 0:
                     return const OrdersDraftsTabBarView();
                   case 1:
-                    return const ProductsView();
+                    return const ProductsCollectionsTabBarView();
                   case 2:
-                    return const CustomersView();
+                    return const CustomersGroupsTabBarView();
                   case 3:
                     return const MoreView();
                   default:
