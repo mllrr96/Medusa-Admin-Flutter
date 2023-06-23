@@ -78,7 +78,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   leading: const Icon(CupertinoIcons.cart),
                   onTap: () {
                     Get.back();
-                    Get.offNamed(Routes.ORDERS);
+                    Get.toNamed(Routes.ORDERS);
                   },
                 ),
                 ListTile(
@@ -86,7 +86,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   leading: const Icon(CupertinoIcons.cart_badge_plus),
                   onTap: () {
                     Get.back();
-                    Get.offNamed(Routes.DRAFT_ORDERS);
+                    Get.toNamed(Routes.DRAFT_ORDERS);
                   },
                 ),
                 divider,

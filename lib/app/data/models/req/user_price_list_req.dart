@@ -56,7 +56,11 @@ class UserCreatePriceListReq {
     }
 
     if (customerGroupIds != null) {
-      json['customer_groups'] = customerGroupIds;
+      var data = <Map<String, dynamic>>[];
+      for (var id in customerGroupIds!) {
+        data.add({'id': id});
+      }
+      json['customer_groups'] = data;
     }
 
     if (endsAt != null) {
@@ -136,7 +140,11 @@ class UserUpdatePriceListReq {
     }
 
     if (customerGroupIds != null) {
-      json['customer_groups'] = customerGroupIds;
+      var data = <Map<String, dynamic>>[];
+      for (var id in customerGroupIds!) {
+        data.add({'id': id});
+      }
+      json['customer_groups'] = data;
     }
 
     if (endsAt != null) {

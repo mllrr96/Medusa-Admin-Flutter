@@ -60,8 +60,8 @@ class MoreView extends StatelessWidget {
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.currency_dollar),
                           title: Text(tr.pricing),
-                          // onPressed: (_) => Get.toNamed(Routes.PRICING),
-                          onPressed: (_) {},
+                          onPressed: (_) => Get.toNamed(Routes.PRICING),
+                          // onPressed: (_) {},
                         ),
                       ],
                     ),

@@ -77,6 +77,7 @@ abstract class Routes {
   static const ADD_UPDATE_TAX_RATE = _Paths.ADD_UPDATE_TAX_RATE;
   static const CATEGORIES = _Paths.CATEGORIES;
   static const APP_SETTINGS = _Paths.APP_SETTINGS;
+  static const PICK_GROUPS = _Paths.PICK_GROUPS;
 }
 
 abstract class _Paths {
@@ -140,4 +141,5 @@ abstract class _Paths {
   static const ADD_UPDATE_TAX_RATE = '/add-update-tax-rate';
   static const CATEGORIES = '/categories';
   static const APP_SETTINGS = '/app-settings';
+  static const PICK_GROUPS = '/pick-groups';
 }

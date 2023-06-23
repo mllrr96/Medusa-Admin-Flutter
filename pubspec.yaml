@@ -46,7 +46,7 @@ dependencies:
 
   flutter:
     sdk: flutter
-  custom_refresh_indicator: ^2.0.1
+  custom_refresh_indicator: ^2.2.1
   multiple_result: ^5.0.0
   loading_animation_widget: ^1.2.0+4
   flutter_expandable_fab: ^1.8.0

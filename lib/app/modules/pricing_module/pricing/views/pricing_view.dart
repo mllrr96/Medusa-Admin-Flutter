@@ -16,11 +16,18 @@ class PricingView extends GetView<PricingController> {
     Widget statusIcon(bool enabled) {
       final containerColor = enabled ? Colors.green.withOpacity(0.17) : Colors.grey.withOpacity(0.17);
       final textColor = enabled ? Colors.green : Colors.grey;
-      return Stack(
-        alignment: AlignmentDirectional.center,
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(Icons.circle, color: textColor, size: 12),
-          Icon(Icons.circle, color: containerColor, size: 24),
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Icon(Icons.circle, color: textColor, size: 12),
+              Icon(Icons.circle, color: containerColor, size: 24),
+            ],
+          ),
+          Text(enabled ? 'Active' : 'Draft'),
         ],
       );
     }
@@ -50,6 +57,7 @@ class PricingView extends GetView<PricingController> {
               itemBuilder: (context, priceList, index) {
                 return ListTile(
                   onTap: () => Get.toNamed(Routes.PRICE_LIST_DETAILS, arguments: priceList.id!),
+                  onLongPress: () => Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST, arguments: priceList.id!),
                   title: Text(priceList.name ?? ''),
                   subtitle: Text(priceList.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
                   trailing: statusIcon(priceList.status == PriceListStatus.active ? true : false),

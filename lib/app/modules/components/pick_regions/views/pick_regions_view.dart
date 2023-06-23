@@ -6,7 +6,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 
-import '../../../data/repository/regions/regions_repo.dart';
+import '../../../../data/repository/regions/regions_repo.dart';
 import '../controllers/pick_regions_controller.dart';
 
 class PickRegionsView extends StatelessWidget {
