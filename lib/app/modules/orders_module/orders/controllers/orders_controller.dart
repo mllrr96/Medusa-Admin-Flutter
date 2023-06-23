@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -11,6 +12,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   OrdersController({required this.ordersRepository});
   OrdersRepo ordersRepository;
   final refreshController = RefreshController();
+  final indicatorController = IndicatorController();
   RxInt ordersCount = 0.obs;
   late TabController tabController;
   RxString searchTerm = ''.obs;

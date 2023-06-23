@@ -5,12 +5,17 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/config_switch_tile.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
+import '../../../components/adaptive_icon.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../../components/date_time_card.dart';
+import '../../../components/pick_groups/controllers/pick_groups_controller.dart';
 import '../../../components/pick_products/controllers/pick_products_controller.dart';
 import '../components/index.dart';
 import '../controllers/add_update_price_list_controller.dart';
@@ -53,12 +58,8 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 FocusScope.of(context).unfocus();
               }
             },
-            title: Row(
-              children: [
-                Text('Price list type', style: Theme.of(context).textTheme.bodyLarge),
-                Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
-              ],
-            ),
+            label: 'Price List Type',
+            required: true,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -105,12 +106,8 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 FocusScope.of(context).unfocus();
               }
             },
-            title: Row(
-              children: [
-                Text('General', style: Theme.of(context).textTheme.bodyLarge),
-                Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
-              ],
-            ),
+            label: 'General',
+            required: true,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -122,7 +119,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
               space,
               LabeledTextField(
                 label: 'Name',
-                controller: TextEditingController(),
+                controller: controller.nameCtrl,
                 required: true,
                 hintText: 'B2B, Black Friday...',
                 validator: (val) {
@@ -134,7 +131,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
               ),
               LabeledTextField(
                 label: 'Description',
-                controller: TextEditingController(),
+                controller: controller.descriptionCtrl,
                 required: true,
                 hintText: 'For our business partners',
                 validator: (val) {
@@ -163,7 +160,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 FocusScope.of(context).unfocus();
               }
             },
-            title: Text('Configuration', style: Theme.of(context).textTheme.bodyLarge),
+            label: 'Configuration',
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -246,14 +243,14 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
               ConfigSwitchTile(
                 title: 'Customer availability',
                 subtitle: 'Specify which customer groups the price overrides should apply for.',
-                tileValue: controller.priceList.customerGroups != null,
+                tileValue: controller.specifyCustomers,
                 onChanged: (val) async {
                   if (val) {
-                    controller.priceList = controller.priceList.copyWith.customerGroups([]);
+                    controller.specifyCustomers = val;
                     controller.update([2]);
                     await scrollToSelectedContent(globalKey: controller.configKey);
                   } else {
-                    controller.priceList = controller.priceList.copyWith.customerGroups(null);
+                    controller.specifyCustomers = val;
                     controller.update([2]);
                   }
                 },
@@ -261,10 +258,58 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
               halfSpace,
               AnimatedSwitcher(
                   duration: kDuration,
-                  child: controller.priceList.customerGroups != null
+                  child: controller.specifyCustomers
                       ? LabeledTextField(
-                          key: const Key('group'), label: 'Customer Groups', controller: TextEditingController())
-                      : const SizedBox.shrink(key: Key('noGroup')))
+                          validator: (val) {
+                            if (!controller.specifyCustomers) {
+                              return null;
+                            }
+                            if (val == null || val.isEmpty) {
+                              return 'Field is required';
+                            }
+
+                            return null;
+                          },
+                          readOnly: true,
+                          onTap: () async {
+                            final result = await showBarModalBottomSheet(
+                                context: context,
+                                builder: (context) => PickGroupsView(
+                                    pickGroupsReq: PickGroupsReq(
+                                        multipleSelect: true, selectedGroups: controller.priceList.customerGroups)));
+                            if (result is List<CustomerGroup>) {
+                              controller.priceList = controller.priceList.copyWith.customerGroups(result);
+                              controller.groupCtrl.text =
+                                  result.map((e) => e.name).toList().toString().replaceAll('[', '').replaceAll(']', '');
+                              controller.update([2]);
+                            }
+                          },
+                          label: 'Customer Groups',
+                          controller: controller.groupCtrl,
+                          decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            hintText: 'Select group(s)',
+                            suffixIcon: controller.priceList.customerGroups?.isEmpty ?? true
+                                ? const Icon(Icons.keyboard_arrow_down_outlined)
+                                : AdaptiveIcon(
+                                    onPressed: () {
+                                      controller.priceList = controller.priceList.copyWith.customerGroups(null);
+                                      controller.groupCtrl.clear();
+                                      controller.update([2]);
+                                    },
+                                    icon: const Icon(CupertinoIcons.clear_circled_solid)),
+                            filled: true,
+                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(4.0),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink())
             ],
           );
         },
@@ -284,12 +329,8 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 FocusScope.of(context).unfocus();
               }
             },
-            title: Row(
-              children: [
-                Text('Prices', style: Theme.of(context).textTheme.bodyLarge),
-                Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
-              ],
-            ),
+            label: 'Prices',
+            required: true,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.center,
             childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -327,6 +368,13 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
             appBar: AppBar(
               leading: const AdaptiveCloseButton(),
               title: controller.updateMode ? const Text('Update price list') : const Text('Create price list'),
+              actions: [
+                AdaptiveButton(
+                  onPressed: () async =>
+                      controller.updateMode ? await controller.updatePriceList() : await controller.create(),
+                  child: controller.updateMode ? const Text('Update') : const Text('Create'),
+                )
+              ],
             ),
             body: SafeArea(
               child: Form(
@@ -335,6 +383,17 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                   controller: controller.scrollController,
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                   children: [
+                    SwitchListTile.adaptive(
+                      activeColor: ColorManager.primary,
+                      value: controller.saveAsDraft,
+                      onChanged: (val) {
+                        controller.saveAsDraft = val;
+                        controller.update();
+                      },
+                      title: controller.updateMode ? const Text('Unpublish') : const Text('Save as draft'),
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    const Divider(),
                     buildPriceListType(),
                     space,
                     buildGeneral(),

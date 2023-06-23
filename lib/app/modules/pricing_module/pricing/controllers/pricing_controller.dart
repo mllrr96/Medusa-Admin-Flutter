@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PricingController extends GetxController {
+  static PricingController get instance => Get.find<PricingController>();
   PricingController({required this.priceListRepo});
   final PriceListRepo priceListRepo;
 

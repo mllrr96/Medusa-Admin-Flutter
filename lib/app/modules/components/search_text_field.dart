@@ -13,7 +13,7 @@ class SearchTextField extends StatefulWidget {
       this.onChanged,
       this.onSuffixTap,
       this.suffixIcon,
-      this.adnroidPadding})
+      this.androidPadding})
       : super(key: key);
   final FocusNode? focusNode;
   final TextEditingController controller;
@@ -21,7 +21,7 @@ class SearchTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final void Function()? onSuffixTap;
   final Icon? suffixIcon;
-  final EdgeInsets? adnroidPadding;
+  final EdgeInsets? androidPadding;
   @override
   State<SearchTextField> createState() => _SearchTextFieldState();
 }

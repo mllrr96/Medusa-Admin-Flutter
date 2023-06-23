@@ -34,12 +34,12 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          leading: const AdaptiveBackButton(),
-          title: const Text('PriceListDetailsView'),
-        ),
-        body: SafeArea(
-            child: controller.obx(
+      appBar: AppBar(
+        leading: const AdaptiveBackButton(),
+        title: const Text('Price List Details'),
+      ),
+      body: SafeArea(
+        child: controller.obx(
           (priceList) => CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -158,15 +158,19 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
             ],
           ),
           onError: (e) => Center(
-              child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(e ?? 'Error loading customer details'),
-              AdaptiveFilledButton(onPressed: () async => await controller.loadPriceList(), child: const Text('Retry')),
-            ],
-          )),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(e ?? 'Error loading products'),
+                AdaptiveFilledButton(
+                    onPressed: () async => await controller.loadPriceList(), child: const Text('Retry')),
+              ],
+            ),
+          ),
           onLoading: const Center(child: CircularProgressIndicator.adaptive()),
-        )));
+        ),
+      ),
+    );
   }
 }
 
@@ -216,7 +220,10 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [const Text(''), Text('Customer groups', style: smallTextStyle?.copyWith(color: lightWhite))],
+                    children: [
+                      const Text(''),
+                      Text('Customer groups', style: smallTextStyle?.copyWith(color: lightWhite))
+                    ],
                   ),
                 ),
                 const VerticalDivider(width: 0),

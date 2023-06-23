@@ -240,7 +240,7 @@ class PriceListRepo extends BasePriceList {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.post(
-        uri: '/price-lists',
+        uri: '/price-lists/$id',
         data: userUpdatePriceListReq.toJson(),
       );
       if (response.statusCode == 200) {

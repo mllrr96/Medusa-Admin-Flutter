@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../components/adaptive_button.dart';
@@ -33,7 +33,7 @@ class OrdersView extends GetView<OrdersController> {
     }
 
     return Scaffold(
-      drawer: isDrawer ? AppDrawer() : null,
+      drawer: isDrawer ? const AppDrawer() : null,
       appBar: getAppBar(),
       floatingActionButton: FloatingActionButton(
         heroTag: 'orders',
