@@ -7,8 +7,8 @@ import '../../../../../core/utils/enums.dart';
 import '../../../categories/controllers/categories_controller.dart';
 import '../controllers/products_controller.dart';
 
-class ProductsCollectionsAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const ProductsCollectionsAppBar({
+class ProductsCollectionsTabBarAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const ProductsCollectionsTabBarAppBar({
     super.key,
     required this.tabController,
     required this.topViewPadding,
@@ -18,12 +18,12 @@ class ProductsCollectionsAppBar extends StatefulWidget implements PreferredSizeW
   final double topViewPadding;
 
   @override
-  State<ProductsCollectionsAppBar> createState() => _ProductsCollectionsAppBarState();
+  State<ProductsCollectionsTabBarAppBar> createState() => _ProductsCollectionsTabBarAppBarState();
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight * 2 + topViewPadding);
 }
 
-class _ProductsCollectionsAppBarState extends State<ProductsCollectionsAppBar> {
+class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTabBarAppBar> {
   bool collectionSearch = false;
   bool productSearch = false;
   final ProductsController controller = Get.find<ProductsController>();

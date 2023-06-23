@@ -6,7 +6,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
@@ -16,9 +16,8 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../collections_module/collections/controllers/collections_controller.dart';
 import '../../../components/adaptive_button.dart';
-import '../../../components/keep_alive_widget.dart';
+import '../../../components/drawer.dart';
 import '../../../components/search_text_field.dart';
-import '../components/products_collections_app_bar.dart';
 import '../controllers/products_controller.dart';
 
 class ProductsView extends StatelessWidget {
@@ -28,22 +27,7 @@ class ProductsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ProductsController>(
       builder: (controller) {
-        final tabController = controller.tabController;
-        return Scaffold(
-          appBar: ProductsCollectionsAppBar(
-              tabController: tabController, topViewPadding: MediaQuery.of(context).viewPadding.top),
-          body: SafeArea(
-              child: TabBarView(
-            controller: tabController,
-            children: [
-              KeepAliveWidget(
-                  child:
-                      controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView()),
-              const KeepAliveWidget(child: CollectionsView()),
-              // const KeepAliveWidget(child: CategoriesView()),
-            ],
-          )),
-        );
+        return controller.viewOptions == ViewOptions.grid ? const ProductsGridView() : const ProductsListView();
       },
     );
   }
@@ -115,9 +99,21 @@ class ProductsListView extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDrawer = StorageService.appSettings.isDrawer;
+    PreferredSizeWidget getAppBar() {
+      if (isDrawer) {
+        return AppBar(
+          title: const Text('Products'),
+          bottom: const ProductsAppBar(),
+        );
+      }
+      return const ProductsAppBar();
+    }
+
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return Scaffold(
-      appBar: const ProductsAppBar(),
+      appBar: getAppBar(),
+      drawer: isDrawer ? const AppDrawer() : null,
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
         // closeButtonHeroTag: 'product',

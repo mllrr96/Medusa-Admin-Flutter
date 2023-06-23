@@ -4,6 +4,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/drawer.dart';
+import '../../../data/service/storage_service.dart';
 import '../controllers/gift_cards_controller.dart';
 
 class GiftCardsView extends GetView<GiftCardsController> {
@@ -12,11 +14,13 @@ class GiftCardsView extends GetView<GiftCardsController> {
   Widget build(BuildContext context) {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final isDrawer = StorageService.appSettings.isDrawer;
     return Scaffold(
       appBar: AppBar(
-        leading: const AdaptiveBackButton(),
+        leading: isDrawer ? null : const AdaptiveBackButton(),
         title: const Text('Gift Cards'),
       ),
+      drawer: isDrawer ? const AppDrawer() : null,
       body: CustomScrollView(
         slivers: [
           SliverPadding(

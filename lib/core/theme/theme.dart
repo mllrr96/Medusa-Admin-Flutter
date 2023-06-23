@@ -17,6 +17,9 @@ class AppTheme {
         textColor: Colors.black,
         titleTextStyle: GoogleFonts.cabin(color: Colors.black, fontSize: 16.0),
       ),
+      drawerTheme: const DrawerThemeData(
+        backgroundColor: Color(0xFFF2F2F7),
+      ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
         foregroundColor: Colors.white,
@@ -27,7 +30,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
-      splashColor:  Colors.transparent ,
+      splashColor: Colors.transparent,
       highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary.withOpacity(0.6),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: CupertinoColors.white,
@@ -92,7 +95,7 @@ class AppTheme {
         titleTextStyle: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
       ),
       drawerTheme: const DrawerThemeData(
-        backgroundColor:Color(0xff242527),
+        backgroundColor: Color(0xff242527),
       ),
       dialogTheme: const DialogTheme(
           titleTextStyle: TextStyle(color: Colors.white), contentTextStyle: TextStyle(color: Colors.white)),
@@ -131,7 +134,7 @@ class AppTheme {
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
-      splashColor:  Colors.transparent ,
+      splashColor: Colors.transparent,
       highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary.withOpacity(0.6),
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),

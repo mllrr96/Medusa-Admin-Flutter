@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/collections_module/collections/views/collections_view.dart';
+import 'package:medusa_admin/app/modules/customers_module/customers/views/customers_view.dart';
+import 'package:medusa_admin/app/modules/groups_module/groups/views/groups_view.dart';
+import 'package:medusa_admin/app/modules/products_module/products/views/products_view.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -20,7 +24,6 @@ import '../modules/customers_module/add_update_customer/views/update_customer_de
 import '../modules/customers_module/customer_details/bindings/customer_details_binding.dart';
 import '../modules/customers_module/customer_details/views/customer_details_view.dart';
 import '../modules/customers_module/customers/bindings/customers_binding.dart';
-import '../modules/customers_module/customers/views/customers_view.dart';
 import '../modules/customers_module/transfer_order/bindings/transfer_order_binding.dart';
 import '../modules/customers_module/transfer_order/views/transfer_order_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -136,139 +139,150 @@ class AppPages {
       binding: DraftOrdersBinding(),
     ),
     GetPage(
-        name: _Paths.DASHBOARD,
-        page: () => const DashboardView(),
-        bindings: [
-          DashboardBinding(),
-          OrdersBinding(),
-          DraftOrdersBinding(),
-          ProductsBinding(),
-          CustomersBinding(),
-          CollectionsBinding(),
-          CategoriesBinding(),
-          GroupsBinding(),
-          MoreBinding(),
-          // CurrenciesBinding(),
-        ],
+      name: _Paths.PRODUCTS,
+      page: () => const ProductsView(),
+      binding: ProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.COLLECTIONS,
+      page: () => const CollectionsView(),
+      binding: CollectionsBinding(),
+    ),
+    GetPage(
+      name: _Paths.GROUPS,
+      page: () => const GroupsView(),
+      binding: GroupsBinding(),
+    ),
+    GetPage(name: _Paths.DASHBOARD, page: () => const DashboardView(), bindings: [
+      DashboardBinding(),
+      OrdersBinding(),
+      DraftOrdersBinding(),
+      ProductsBinding(),
+      CustomersBinding(),
+      CollectionsBinding(),
+      CategoriesBinding(),
+      GroupsBinding(),
+      MoreBinding(),
+      // CurrenciesBinding(),
+    ], children: [
+      GetPage(
+        name: _Paths.ORDER_DETAILS,
+        page: () => const OrderDetailsView(),
+        binding: OrderDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.DRAFT_ORDER_DETAILS,
+        page: () => const DraftOrderDetailsView(),
+        binding: DraftOrderDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CREATE_DRAFT_ORDER,
+        page: () => const CreateDraftOrderView(),
+        binding: CreateDraftOrderBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.PRODUCT_DETAILS,
+        page: () => const ProductDetailsView(),
+        binding: ProductDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.ADD_UPDATE_PRODUCT,
+        page: () => const AddUpdateProductView(),
+        binding: AddUpdateProductBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.STORE_DETAILS,
+        page: () => const StoreDetailsView(),
+        binding: StoreDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CUSTOMER_DETAILS,
+        page: () => const CustomerDetailsView(),
+        binding: CustomerDetailsBinding(),
         children: [
           GetPage(
-            name: _Paths.ORDER_DETAILS,
-            page: () => const OrderDetailsView(),
-            binding: OrderDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.DRAFT_ORDER_DETAILS,
-            page: () => const DraftOrderDetailsView(),
-            binding: DraftOrderDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CREATE_DRAFT_ORDER,
-            page: () => const CreateDraftOrderView(),
-            binding: CreateDraftOrderBinding(),
+            name: _Paths.TRANSFER_ORDER,
+            page: () => const TransferOrderView(),
+            binding: TransferOrderBinding(),
             fullscreenDialog: true,
           ),
+        ],
+      ),
+      GetPage(
+        name: _Paths.CURRENCIES,
+        page: () => const CurrenciesView(),
+        binding: CurrenciesBinding(),
+      ),
+      GetPage(
+        name: _Paths.COLLECTION_DETAILS,
+        page: () => const CollectionDetailsView(),
+        binding: CollectionDetailsBinding(),
+      ),
+      GetPage(
+        name: _Paths.CREATE_COLLECTION,
+        page: () => const CreateCollectionView(),
+        binding: CreateCollectionBinding(),
+        fullscreenDialog: true,
+      ),
+      GetPage(
+        name: _Paths.REGIONS,
+        page: () => const RegionsView(),
+        binding: RegionsBinding(),
+        children: [
           GetPage(
-            name: _Paths.PRODUCT_DETAILS,
-            page: () => const ProductDetailsView(),
-            binding: ProductDetailsBinding(),
+            name: _Paths.ADD_REGION,
+            page: () => const AddRegionView(),
+            binding: AddRegionBinding(),
           ),
           GetPage(
-            name: _Paths.ADD_UPDATE_PRODUCT,
-            page: () => const AddUpdateProductView(),
-            binding: AddUpdateProductBinding(),
+            name: _Paths.REGION_DETAILS,
+            page: () => const RegionDetailsView(),
+            binding: RegionDetailsBinding(),
+          ),
+        ],
+      ),
+      GetPage(
+        name: _Paths.PERSONAL_INFORMATION,
+        page: () => const PersonalInformationView(),
+        binding: PersonalInformationBinding(),
+      ),
+      GetPage(
+        name: _Paths.RETURN_REASONS,
+        page: () => const ReturnReasonsView(),
+        binding: ReturnReasonsBinding(),
+        children: [
+          GetPage(
+            name: _Paths.CREATE_UPDATE_RETURN_REASON,
+            page: () => const CreateUpdateReturnReasonView(),
+            binding: CreateUpdateReturnReasonBinding(),
             fullscreenDialog: true,
           ),
-          GetPage(
-            name: _Paths.STORE_DETAILS,
-            page: () => const StoreDetailsView(),
-            binding: StoreDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CUSTOMER_DETAILS,
-            page: () => const CustomerDetailsView(),
-            binding: CustomerDetailsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.TRANSFER_ORDER,
-                page: () => const TransferOrderView(),
-                binding: TransferOrderBinding(),
-                fullscreenDialog: true,
-              ),
-            ],
-          ),
-          GetPage(
-            name: _Paths.CURRENCIES,
-            page: () => const CurrenciesView(),
-            binding: CurrenciesBinding(),
-          ),
-          GetPage(
-            name: _Paths.COLLECTION_DETAILS,
-            page: () => const CollectionDetailsView(),
-            binding: CollectionDetailsBinding(),
-          ),
-          GetPage(
-            name: _Paths.CREATE_COLLECTION,
-            page: () => const CreateCollectionView(),
-            binding: CreateCollectionBinding(),
-            fullscreenDialog: true,
-          ),
-          GetPage(
-            name: _Paths.REGIONS,
-            page: () => const RegionsView(),
-            binding: RegionsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.ADD_REGION,
-                page: () => const AddRegionView(),
-                binding: AddRegionBinding(),
-              ),
-              GetPage(
-                name: _Paths.REGION_DETAILS,
-                page: () => const RegionDetailsView(),
-                binding: RegionDetailsBinding(),
-              ),
-            ],
-          ),
-          GetPage(
-            name: _Paths.PERSONAL_INFORMATION,
-            page: () => const PersonalInformationView(),
-            binding: PersonalInformationBinding(),
-          ),
-          GetPage(
-            name: _Paths.RETURN_REASONS,
-            page: () => const ReturnReasonsView(),
-            binding: ReturnReasonsBinding(),
-            children: [
-              GetPage(
-                name: _Paths.CREATE_UPDATE_RETURN_REASON,
-                page: () => const CreateUpdateReturnReasonView(),
-                binding: CreateUpdateReturnReasonBinding(),
-                fullscreenDialog: true,
-              ),
-            ],
-          ),
-          GetPage(
-            name: _Paths.SHIPPING,
-            page: () => const ShippingView(),
-            binding: ShippingBinding(),
-          ),
-          GetPage(
-            name: _Paths.TEAM,
-            page: () => const TeamView(),
-            binding: TeamBinding(),
-          ),
-          GetPage(
-              name: _Paths.TAX_SETTINGS_SELECT_REGION,
-              page: () => const TaxSettingsSelectRegionView(),
-              binding: TaxSettingsSelectRegionBinding(),
-              children: [
-                GetPage(
-                  name: _Paths.TAX_SETTINGS,
-                  page: () => const TaxSettingsView(),
-                  binding: TaxSettingsBinding(),
-                ),
-              ]),
-        ]),
+        ],
+      ),
+      GetPage(
+        name: _Paths.SHIPPING,
+        page: () => const ShippingView(),
+        binding: ShippingBinding(),
+      ),
+      GetPage(
+        name: _Paths.TEAM,
+        page: () => const TeamView(),
+        binding: TeamBinding(),
+      ),
+      GetPage(
+          name: _Paths.TAX_SETTINGS_SELECT_REGION,
+          page: () => const TaxSettingsSelectRegionView(),
+          binding: TaxSettingsSelectRegionBinding(),
+          children: [
+            GetPage(
+              name: _Paths.TAX_SETTINGS,
+              page: () => const TaxSettingsView(),
+              binding: TaxSettingsBinding(),
+            ),
+          ]),
+    ]),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
