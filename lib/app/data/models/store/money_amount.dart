@@ -1,16 +1,27 @@
 import 'index.dart';
 
 class MoneyAmount {
+  /// The ID of the price.
   String? id;
+
+
+  /// The 3 character ISO currency code for which the price will be used.
+  ///
+  /// Only required if region_id is not provided.
   String? currencyCode;
   Currency? currency;
+  /// The amount to charge for the Product Variant.
   int? amount;
+  /// The minimum quantity for which the price will be used.
   int? minQuantity;
+  /// The maximum quantity for which the price will be used.
   int? maxQuantity;
   String? priceListId;
   List<PriceList>? priceList;
+  /// The ID of the Variant for which the price is used.
   String? variantId;
   ProductVariant? variant;
+  /// The ID of the Region for which the price is used. Only required if currency_code is not provided.
   String? regionId;
   Region? region;
   DateTime? createdAt;
