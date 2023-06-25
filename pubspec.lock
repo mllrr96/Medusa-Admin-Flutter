@@ -210,18 +210,10 @@ packages:
     source: hosted
     version: "3.1.1"
   copy_with_extension:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: copy_with_extension
       sha256: "968ecc772545217d46ce3c8a7512fd71c2694c02d5a2d39c41a1965a1f52e55f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.3"
-  copy_with_extension_gen:
-    dependency: "direct main"
-    description:
-      name: copy_with_extension_gen
-      sha256: c6c34e122ceab6e9560c626c60942dfaab2e39c0bc75d468b0360a8b2068f1b6
       url: "https://pub.dev"
     source: hosted
     version: "5.0.3"
@@ -249,14 +241,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  custom_refresh_indicator:
-    dependency: "direct main"
-    description:
-      name: custom_refresh_indicator
-      sha256: "65a463f09623f6baf75e45e0c9034e9304810be3f5dfb00a54edde7252f4a524"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1"
   dart_style:
     dependency: transitive
     description:
@@ -933,14 +917,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  pull_down_button:
-    dependency: "direct main"
-    description:
-      name: pull_down_button
-      sha256: "9450d682c92092c528f855e42343cda1c5182092862c7adae6e37e205804ce69"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.1"
   pull_to_refresh:
     dependency: "direct main"
     description:
@@ -1050,14 +1026,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.10"
-  source_gen:
-    dependency: transitive
-    description:
-      name: source_gen
-      sha256: "373f96cf5a8744bc9816c1ff41cf5391bbdbe3d7a96fe98c622b6738a8a7bd33"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.2"
   source_span:
     dependency: transitive
     description:

@@ -388,7 +388,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                               ],
                             ),
                           ),
-                          if (product.variants != null)
+                          if (product.variants != null && controller.priceList.prices !=null)
                             ...product.variants!.map((e) {
                               final priceCount = controller.priceList.prices!
                                   .where((element) => element.variantId == e.id)

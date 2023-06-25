@@ -54,8 +54,8 @@ class MoreView extends StatelessWidget {
                         SettingsTile.navigation(
                           leading: const Icon(CupertinoIcons.gift),
                           title: Text(tr.giftCards),
-                          // onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
-                          onPressed: (_) {},
+                          onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
+                          // onPressed: (_) {},
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.currency_dollar),

@@ -33,7 +33,7 @@ dependencies:
   # Miscellaneous packages
   # -------------------
   equatable: ^2.0.5
-  copy_with_extension_gen: ^5.0.2
+
   # Storage packages
   # -------------------
   shared_preferences: ^2.1.1
@@ -45,12 +45,10 @@ dependencies:
 
   flutter:
     sdk: flutter
-  custom_refresh_indicator: ^2.2.1
   multiple_result: ^5.0.0
   loading_animation_widget: ^1.2.0+4
   flutter_expandable_fab: ^1.8.0
   info_popup: ^3.0.4
-  pull_down_button: ^0.9.1
   multiselect: ^0.1.0
   flutter_slidable: ^3.0.0
   package_info_plus: ^4.0.2
@@ -59,6 +57,7 @@ dependencies:
     sdk: flutter
   super_banners: ^0.0.1
   google_fonts: ^4.0.4
+  copy_with_extension: ^5.0.3
 
 dev_dependencies: 
   flutter_lints: ^2.0.1
