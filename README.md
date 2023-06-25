@@ -1,19 +1,19 @@
 # Medusa Admin For Mobile
 Manage your [MedusaJs](https://medusajs.com/) ecommerce store from your mobile phone.
 
+![Alt text](/screenshots/Medusa-Admin-Mobile-Screenshot.png?raw=true)
+
 
 ## Getting Started
 Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim to ease managing ecommerce store that are built using [MedusaJs](https://medusajs.com/), it's available for iOS and Android, it's still in beta so expect to see some bugs/unimplemented features.
-
-## Contributing
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-
 
 ## NOTE
 I am new to programming so expect to see some old spaghetti code or weird implemetation, I'm glad to take notes from expercined devs and fix my code
 
 
 ## How to use
+
+Make sure to [install flutter](https://docs.flutter.dev/get-started/install) before trying build the app :)
 
 ### Building apk or ipa
 Change the baseUrl (found in "lib/core/utils/strings.dart" ) to your backend URL
@@ -55,6 +55,9 @@ TODO
 - [ ] App settings
 - [x] Support for light/dark mode
       
+
+## Contributing
+TODO
 
 
 
