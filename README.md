@@ -8,7 +8,7 @@ Manage your [MedusaJs](https://medusajs.com/) ecommerce store from your mobile p
 Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim to ease managing ecommerce store that are built using [MedusaJs](https://medusajs.com/), it's available for iOS and Android, it's still in beta so expect to see some bugs/unimplemented features.
 
 ## NOTE
-I am new to programming so expect to see some old spaghetti code or weird implemetation, I'm glad to take notes from expercined devs and fix my code
+I am new to programming so expect to see some old spaghetti code or weird implementation, I'm glad to take notes from experienced devs and fix my code
 
 ##  Installation
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine

@@ -64,8 +64,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   build_runner: any
   flutter_launcher_icons: ^0.13.1
-  #  copy_with_extension_gen: ^5.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
 flutter:
