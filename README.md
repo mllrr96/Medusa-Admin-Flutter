@@ -1,4 +1,4 @@
-# Medusa Admin For Mobile
+# Medusa Admin Mobile
 Manage your [MedusaJs](https://medusajs.com/) ecommerce store from your mobile phone.
 
 ![Alt text](/screenshots/Medusa-Admin-Mobile-Screenshot.png?raw=true)
@@ -10,36 +10,14 @@ Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim t
 ## NOTE
 I am new to programming so expect to see some old spaghetti code or weird implemetation, I'm glad to take notes from expercined devs and fix my code
 
+##  Installation
+Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
 
-## How to use
+Open this project folder with Terminal/CMD and run flutter packages get
 
-Make sure to [install flutter](https://docs.flutter.dev/get-started/install) before trying build the app :)
-
-### Building apk or ipa
 Change the baseUrl (found in "lib/core/utils/strings.dart" ) to your backend URL
-and run the command
 
-For Android
-    
-
-    flutter build apk
-
-    
-For iOS
-    
-
-    flutter build ipa
-Note: to build ipa file you need to have a mac
-
-This will build (apk or ipa) file to install on your device
-    
-### Installing to device
-
-#### For android 
-Copy the generated apk file located in "build/app/outputs/flutter-apk/app-release.apk" to your device and install it 
-
-#### For iOS 
-TODO
+Run flutter run to build and run the debug app on your emulator/phone
 
 ## Features
 - [x] View and update store settings ( Regions, Return reasons, sales channels etc)
@@ -60,7 +38,9 @@ TODO
 TODO
 
 
+## License
 
+All the code available under the MIT license. See [LICENSE](LICENSE).
 
 
 
