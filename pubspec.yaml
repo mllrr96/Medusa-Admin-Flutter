@@ -42,7 +42,6 @@ dependencies:
   # -------------------
 
   dio: ^5.1.2
-#  dartz: ^0.10.1
 
   flutter:
     sdk: flutter
