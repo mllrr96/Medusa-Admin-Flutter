@@ -11,7 +11,7 @@ class UserCreatePriceListReq {
   final PriceListType type;
 
   /// The prices of the Price List.
-  final List<Price> prices;
+  final List<MoneyAmount> prices;
 
   /// The date with timezone that the Price List starts being valid.
   final DateTime? startsAt;
@@ -86,7 +86,7 @@ class UserUpdatePriceListReq {
   final PriceListType? type;
 
   /// The prices of the Price List.
-  final List<Price>? prices;
+  final List<MoneyAmount>? prices;
 
   /// The date with timezone that the Price List starts being valid.
   final DateTime? startsAt;
@@ -160,7 +160,7 @@ class UserUpdatePriceListReq {
 }
 
 class UserUpdatePricesReq {
-  List<Price> prices;
+  List<MoneyAmount> prices;
 
   /// If true the prices will replace all existing prices associated with the Price List.
   final bool? override;
@@ -178,65 +178,65 @@ class UserUpdatePricesReq {
   }
 }
 
-class Price {
-  /// The amount to charge for the Product Variant.
-  final int amount;
-
-  /// The ID of the Variant for which the price is used.
-  final String variantId;
-
-  /// The ID of the price.
-  final String? id;
-
-  /// The ID of the Region for which the price is used. Only required if currency_code is not provided.
-  final String? regionId;
-
-  /// The 3 character ISO currency code for which the price will be used.
-  ///
-  /// Only required if region_id is not provided.
-  final String? currencyCode;
-
-  /// The minimum quantity for which the price will be used.
-  final int? minQuantity;
-
-  /// The maximum quantity for which the price will be used.
-  final int? maxQuantity;
-
-  Price({
-    required this.amount,
-    required this.variantId,
-    this.id,
-    this.regionId,
-    this.currencyCode,
-    this.maxQuantity,
-    this.minQuantity,
-  });
-
-  Map<String, dynamic> toJson() {
-    var json = <String, dynamic>{};
-    json['amount'] = amount;
-    json['variant_id'] = variantId;
-
-    if (id != null) {
-      json['id'] = id;
-    }
-
-    if (regionId != null) {
-      json['region_id'] = regionId;
-    }
-
-    if (currencyCode != null) {
-      json['currency_code'] = currencyCode;
-    }
-
-    if (maxQuantity != null) {
-      json['max_quantity'] = maxQuantity;
-    }
-
-    if (minQuantity != null) {
-      json['min_quantity'] = minQuantity;
-    }
-
-    return json;
-  }
-}
+// class Price {
+//   /// The amount to charge for the Product Variant.
+//   final int amount;
+//
+//   /// The ID of the Variant for which the price is used.
+//   final String variantId;
+//
+//   /// The ID of the price.
+//   final String? id;
+//
+//   /// The ID of the Region for which the price is used. Only required if currency_code is not provided.
+//   final String? regionId;
+//
+//   /// The 3 character ISO currency code for which the price will be used.
+//   ///
+//   /// Only required if region_id is not provided.
+//   final String? currencyCode;
+//
+//   /// The minimum quantity for which the price will be used.
+//   final int? minQuantity;
+//
+//   /// The maximum quantity for which the price will be used.
+//   final int? maxQuantity;
+//
+//   Price({
+//     required this.amount,
+//     required this.variantId,
+//     this.id,
+//     this.regionId,
+//     this.currencyCode,
+//     this.maxQuantity,
+//     this.minQuantity,
+//   });
+//
+//   Map<String, dynamic> toJson() {
+//     var json = <String, dynamic>{};
+//     json['amount'] = amount;
+//     json['variant_id'] = variantId;
+//
+//     if (id != null) {
+//       json['id'] = id;
+//     }
+//
+//     if (regionId != null) {
+//       json['region_id'] = regionId;
+//     }
+//
+//     if (currencyCode != null) {
+//       json['currency_code'] = currencyCode;
+//     }
+//
+//     if (maxQuantity != null) {
+//       json['max_quantity'] = maxQuantity;
+//     }
+//
+//     if (minQuantity != null) {
+//       json['min_quantity'] = minQuantity;
+//     }
+//
+//     return json;
+//   }
+// }

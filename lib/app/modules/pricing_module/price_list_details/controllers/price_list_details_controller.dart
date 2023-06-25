@@ -1,7 +1,12 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 
 class PriceListDetailsController extends GetxController with StateMixin<PriceList> {
   PriceListDetailsController({required this.priceListRepo});
@@ -27,6 +32,36 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
   // void onClose() {
   //   super.onClose();
   // }
+
+  Future<void> deletePriceList(BuildContext context) async {
+    final confirmDelete = await showOkCancelAlertDialog(
+      context: context,
+      title: 'Delete price list',
+      message: 'Are you sure you want to delete this price list?',
+      okLabel: 'Yes, delete',
+      isDestructiveAction: true,
+    );
+    if (confirmDelete != OkCancelResult.ok) {
+      return;
+    }
+
+    loading();
+    final result = await priceListRepo.deletePriceList(id: id);
+
+    result.when(
+      (success) {
+        if (success.deleted) {
+          EasyLoading.showSuccess('Price list deleted');
+          PricingController.instance.pagingController.refresh();
+          Get.back();
+        } else {
+          Get.snackbar('Error deleting price list', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
+        }
+      },
+      (error) => Get.snackbar('Error deleting price list ${error.code ?? ''}', error.message,
+          snackPosition: SnackPosition.BOTTOM),
+    );
+  }
 
   Future<void> loadPriceList() async {
     change(null, status: RxStatus.loading());

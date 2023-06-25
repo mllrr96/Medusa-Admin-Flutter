@@ -24,6 +24,7 @@ class AddUpdatePriceListController extends GetxController {
   final groupCtrl = TextEditingController();
   final nameCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
+  List<Product> products = [];
   bool saveAsDraft = false;
   @override
   Future<void> onInit() async {
@@ -88,7 +89,6 @@ class AddUpdatePriceListController extends GetxController {
         name: nameCtrl.text,
         description: descriptionCtrl.text,
         type: priceList.type,
-        prices: [],
         startsAt: priceList.startsAt,
         endsAt: priceList.endsAt,
         customerGroupIds: priceList.customerGroups?.map((e) => e.id!).toList(),

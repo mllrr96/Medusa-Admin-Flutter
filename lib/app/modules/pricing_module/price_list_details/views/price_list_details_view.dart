@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/price_list.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../../../discount_module/discounts/components/discount_rule_type_label.dart';
@@ -37,6 +40,25 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
         title: const Text('Price List Details'),
+        actions: [
+          AdaptiveIcon(
+              onPressed: () async {
+                final result = await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+                  const SheetAction(label: 'Edit price list details', key: 0),
+                  const SheetAction(label: 'Remove price list', isDestructiveAction: true, key: 1),
+                ]);
+
+                switch (result) {
+                  case 0:
+                    Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST, arguments: controller.id);
+                    return;
+                  case 1:
+                    await controller.deletePriceList(context);
+                    return;
+                }
+              },
+              icon: const Icon(Icons.more_horiz))
+        ],
       ),
       body: SafeArea(
         child: controller.obx(
@@ -114,7 +136,7 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
                                 borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                                 color: Theme.of(context).scaffoldBackgroundColor),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Price overrides', style: smallTextStyle?.copyWith(color: lightWhite)),
@@ -132,28 +154,65 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
                 separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Product>(
-                    itemBuilder: (context, product, index) => ListTile(
-                          leading: product.thumbnail != null
-                              ? SizedBox(
-                                  width: 45,
-                                  child: CachedNetworkImage(
-                                    key: ValueKey(product.thumbnail),
-                                    imageUrl: product.thumbnail!,
-                                    placeholder: (context, text) =>
-                                        const Center(child: CircularProgressIndicator.adaptive()),
-                                    errorWidget: (context, string, error) =>
-                                        const Icon(Icons.warning_rounded, color: Colors.redAccent),
-                                  ))
-                              : null,
-                          title: Text(product.title ?? ''),
-                          subtitle: product.collection != null
-                              ? Text('${product.collection!.title} collection',
-                                  style: smallTextStyle?.copyWith(color: lightWhite))
-                              : null,
-                          trailing: Text('Variants: ${product.variants?.length ?? 'N/A'}', style: mediumTextStyle),
+                  itemBuilder: (context, product, index) => ListTile(
+                    onTap: () async {
+                      final result = await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+                        const SheetAction(label: 'Edit prices', key: 0),
+                        const SheetAction(label: 'Remove product', isDestructiveAction: true, key: 1),
+                      ]);
+                    },
+                    leading: product.thumbnail != null
+                        ? SizedBox(
+                            width: 45,
+                            child: CachedNetworkImage(
+                              key: ValueKey(product.thumbnail),
+                              imageUrl: product.thumbnail!,
+                              placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                              errorWidget: (context, string, error) =>
+                                  const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                            ))
+                        : null,
+                    title: Text(product.title ?? ''),
+                    subtitle: product.collection != null
+                        ? Text('${product.collection!.title} collection',
+                            style: smallTextStyle?.copyWith(color: lightWhite))
+                        : null,
+                    trailing: Text('Variants: ${product.variants?.length ?? 'N/A'}', style: mediumTextStyle),
+                  ),
+                  firstPageProgressIndicatorBuilder: (context) =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  noItemsFoundIndicatorBuilder: (context) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: AdaptiveIcon(
+                              onPressed: () async {
+                                final result = await showModalActionSheet<int>(
+                                    title: 'Prices settings',
+                                    context: context,
+                                    actions: <SheetAction<int>>[
+                                      const SheetAction(label: 'Edit manually', key: 0),
+                                      const SheetAction(label: 'Import price list', isDestructiveAction: true, key: 1),
+                                    ]);
+                              },
+                              icon: const Icon(Icons.more_horiz)),
                         ),
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive())),
+                        Expanded(
+                            child: Center(
+                                child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('No prices added yet'),
+                            const SizedBox(height: 12.0),
+                            AdaptiveFilledButton(onPressed: () {}, child: const Text('Add Prices'))
+                          ],
+                        ))),
+                      ],
+                    );
+                  },
+                ),
               ),
             ],
           ),

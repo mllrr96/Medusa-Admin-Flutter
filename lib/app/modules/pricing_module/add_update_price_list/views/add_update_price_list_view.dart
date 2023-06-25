@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     const halfSpace = SizedBox(height: 6.0);
     const space = SizedBox(height: 12.0);
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
@@ -340,20 +341,99 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 style: smallTextStyle!.copyWith(color: lightWhite),
               ),
               space,
+              ...controller.products
+                  .map((product) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: double.maxFinite,
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            margin: const EdgeInsets.only(bottom: 10.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: const BorderRadius.all(Radius.circular(6))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(product.title ?? '', style: smallTextStyle),
+                                AdaptiveIcon(
+                                    onPressed: () async {
+                                      await showModalActionSheet<int>(
+                                          title: 'Manage Product',
+                                          message: product.title ?? '',
+                                          context: context,
+                                          actions: <SheetAction<int>>[
+                                            const SheetAction(label: 'Edit prices', key: 0),
+                                            const SheetAction(label: 'Remove', isDestructiveAction: true, key: 1),
+                                          ]).then((result) async {
+                                        switch (result) {
+                                          case 0:
+                                            // Get.to(()=> ProductPriceList(product: product));
+                                            final result = await showBarModalBottomSheet(
+                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                              context: context,
+                                              builder: (context) => ProductPriceList(product: product),
+                                            );
+                                            if (result is List<MoneyAmount>) {
+                                              controller.priceList = controller.priceList.copyWith.prices(result);
+                                              controller.update([3]);
+                                            }
+                                            return;
+                                          case 1:
+                                            return;
+                                        }
+                                      });
+                                    },
+                                    icon: const Icon(Icons.more_horiz))
+                              ],
+                            ),
+                          ),
+                          if (product.variants != null)
+                            ...product.variants!.map((e) {
+                              final priceCount = controller.priceList.prices!
+                                  .where((element) => element.variantId == e.id)
+                                  .toList()
+                                  .length;
+                              return Container(
+                                width: Get.width * 0.85,
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                                margin: const EdgeInsets.only(bottom: 10.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: const BorderRadius.all(Radius.circular(6))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(e.title ?? '', style: smallTextStyle),
+                                    if (controller.priceList.prices != null)
+                                      Text('${priceCount == 0 ? 'Add' : priceCount} prices', style: smallTextStyle),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                        ],
+                      ))
+                  .toList(),
+              space,
               AdaptiveButton(
-                  onPressed: () => Get.toNamed(Routes.PICK_PRODUCTS,
-                      arguments: PickProductsReq(
-                        includeVariantCount: true,
-                      )),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (Platform.isIOS) const Icon(CupertinoIcons.add),
-                      if (Platform.isAndroid) const Icon(Icons.add),
-                      const SizedBox(width: 6.0),
-                      const Text('Add Products Manually'),
-                    ],
-                  ))
+                onPressed: () async {
+                  final result =
+                      await Get.toNamed(Routes.PICK_PRODUCTS, arguments: PickProductsReq(includeVariantCount: true));
+                  if (result is PickProductsRes) {
+                    controller.products = result.selectedProducts;
+                    controller.update([3]);
+                  }
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (Platform.isIOS) const Icon(CupertinoIcons.add),
+                    if (Platform.isAndroid) const Icon(Icons.add),
+                    const SizedBox(width: 6.0),
+                    const Text('Add Products Manually'),
+                  ],
+                ),
+              ),
             ],
           );
         },
@@ -400,7 +480,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                     space,
                     buildConfig(),
                     space,
-                    buildPrices(),
+                    if (!controller.updateMode) buildPrices(),
                   ],
                 ),
               ),
