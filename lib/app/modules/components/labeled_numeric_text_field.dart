@@ -16,13 +16,13 @@ class LabeledNumericTextField extends StatelessWidget {
     this.prefixText,
     this.onTapOutside,
     this.inputFormatters,
-    this.onChanged, this.keyboardType,
+    this.onChanged, this.keyboardType,  this.noEndSpace = false,
   }) : super(key: key);
   final TextEditingController controller;
   final void Function()? onPlusPressed;
   final void Function()? onMinusPressed;
   final double? width;
-  final String label;
+  final String? label;
   final String? hintText;
   final String? prefixText;
   final String? Function(String?)? validator;
@@ -31,7 +31,7 @@ class LabeledNumericTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
-
+final bool noEndSpace;
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
@@ -42,13 +42,15 @@ class LabeledNumericTextField extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if(label !=null)
         Row(
           children: [
-            Text(label, style: mediumTextStyle!),
+            Text(label!, style: mediumTextStyle!),
             if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
           ],
         ),
-        halfSpace,
+        if(label !=null)
+          halfSpace,
         SizedBox(
           width: width,
           child: TextFormField(
@@ -107,6 +109,7 @@ class LabeledNumericTextField extends StatelessWidget {
             ),
           ),
         ),
+        if(!noEndSpace)
         space,
       ],
     );

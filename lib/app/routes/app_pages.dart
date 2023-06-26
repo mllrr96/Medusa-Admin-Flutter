@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/gift_cards/components/create_gift_card/create_gift_card_view.dart';
+import 'package:medusa_admin/app/modules/gift_cards/components/custom_gift_cards_view.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -51,6 +53,7 @@ import '../modules/draft_orders_module/draft_order_details/views/draft_order_det
 import '../modules/draft_orders_module/draft_orders/bindings/draft_orders_binding.dart';
 import '../modules/draft_orders_module/draft_orders/views/draft_orders_view.dart';
 import '../modules/gift_cards/bindings/gift_cards_binding.dart';
+import '../modules/gift_cards/components/create_gift_card/create_gift_card_binding.dart';
 import '../modules/gift_cards/views/gift_cards_view.dart';
 import '../modules/groups_module/create_update_group/bindings/create_update_group_binding.dart';
 import '../modules/groups_module/create_update_group/views/create_update_group_view.dart';
@@ -308,6 +311,16 @@ class AppPages {
       name: _Paths.GIFT_CARDS,
       page: () => const GiftCardsView(),
       binding: GiftCardsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CUSTOM_GIFT_CARDS,
+      page: () => const CustomGiftCardsView(),
+      binding: CustomGiftCardsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_GIFT_CARD,
+      page: () => const CreateGiftCardView(),
+      binding: CreateGiftCardBinding(),
     ),
     GetPage(
       name: _Paths.PRICING,

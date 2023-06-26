@@ -13,6 +13,8 @@ abstract class Routes {
   static const CUSTOMERS = _Paths.CUSTOMERS;
   static const DISCOUNTS = _Paths.DISCOUNTS;
   static const GIFT_CARDS = _Paths.GIFT_CARDS;
+  static const CREATE_GIFT_CARD = _Paths.CREATE_GIFT_CARD;
+  static const CUSTOM_GIFT_CARDS = _Paths.CUSTOM_GIFT_CARDS;
   static const PRICING = _Paths.PRICING;
   static const STORE_SETTINGS = _Paths.STORE_SETTINGS;
   static const SIGN_IN = _Paths.SIGN_IN;
@@ -90,6 +92,8 @@ abstract class _Paths {
   static const CUSTOMERS = '/customers';
   static const DISCOUNTS = '/discounts';
   static const GIFT_CARDS = '/gift-cards';
+  static const CREATE_GIFT_CARD = '/create-gift-cards';
+  static const CUSTOM_GIFT_CARDS = '/custom-gift-cards';
   static const PRICING = '/pricing';
   static const STORE_SETTINGS = '/store-settings';
   static const SIGN_IN = '/sign-in';
