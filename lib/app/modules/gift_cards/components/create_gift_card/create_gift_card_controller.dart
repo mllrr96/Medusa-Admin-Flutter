@@ -20,21 +20,7 @@ class CreateGiftCardController extends GetxController {
     super.dispose();
   }
 
-  var denominations = <(Currency? currency, String? amount)>[];
-  (Currency? currency, TextEditingController? textCtrl) denominationsRecord = (null, null);
-  ProductVariant denominationTemplate = ProductVariant(
-    prices: [
-      MoneyAmount(
-        amount: 0,
-        currencyCode: 'usd',
-      )
-    ],
-    options: [
-      ProductOptionValue(
-        value: '0',
-      ),
-    ],
-  );
+  var denominations = <(Currency? currency, String? amount, int index)>[];
 
   Future<void> createGiftCard() async {
     if (!formKey.currentState!.validate()) {
@@ -57,7 +43,8 @@ class CreateGiftCardController extends GetxController {
             return ProductVariant(
                 title: (denominations.indexOf(e) + 1).toString(),
                 inventoryQuantity: 0,
-                manageInventory: false,allowBackorder: false,
+                manageInventory: false,
+                allowBackorder: false,
                 prices: [
                   MoneyAmount(
                     amount: int.tryParse(e.$2?.replaceAll(',', '').replaceAll('.', '') ?? '') ?? 0,
@@ -78,7 +65,7 @@ class CreateGiftCardController extends GetxController {
       GiftCardsController.instance.productsPagingController.refresh();
       Get.back();
     }, (error) {
-      print(error.toString());
+      debugPrint(error.toString());
       dismissLoading();
       Get.snackbar('Error creating gift card (${error.code ?? ''})', error.message,
           snackPosition: SnackPosition.BOTTOM);

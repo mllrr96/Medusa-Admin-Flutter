@@ -4,7 +4,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/drawer.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../data/service/storage_service.dart';
@@ -49,7 +48,6 @@ class GiftCardsView extends GetView<GiftCardsController> {
           onTap: () => Get.toNamed(Routes.CUSTOM_GIFT_CARDS),
         ),
       ),
-      drawer: isDrawer ? const AppDrawer() : null,
       body: CustomScrollView(
         slivers: [
           SliverPadding(

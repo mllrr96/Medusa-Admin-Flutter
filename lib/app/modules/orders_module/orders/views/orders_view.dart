@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -10,7 +9,6 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_icon.dart';
-import '../../../components/drawer.dart';
 import '../../../components/search_text_field.dart';
 import '../components/order_card.dart';
 import '../controllers/orders_controller.dart';
@@ -20,21 +18,8 @@ class OrdersView extends GetView<OrdersController> {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
-    final isDrawer = StorageService.appSettings.isDrawer;
-
-    PreferredSizeWidget getAppBar() {
-      if (isDrawer) {
-        return AppBar(
-          title: const Text('Orders'),
-          bottom: const OrdersBottomAppBar(),
-        );
-      }
-      return const OrdersBottomAppBar();
-    }
-
     return Scaffold(
-      drawer: isDrawer ? const AppDrawer() : null,
-      appBar: getAppBar(),
+      appBar: const OrdersBottomAppBar(),
       floatingActionButton: FloatingActionButton(
         heroTag: 'orders',
         onPressed: () {},

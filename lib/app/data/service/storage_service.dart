@@ -25,16 +25,16 @@ class StorageService extends GetxService {
     final String defaultLocale =
         Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
     try {
-      _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
+      // _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
       _appSettings = AppSettings.fromJson(jsonDecode(_prefs.getString(AppConstants.appSettingsKey) ?? ''));
     } catch (e) {
-      _baseUrl = AppConstants.baseUrl;
       _cookie = null;
       _language = defaultLocale;
       _appSettings = AppSettings();
     }
+    _baseUrl = AppConstants.baseUrl;
     return this;
   }
 

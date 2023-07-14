@@ -19,6 +19,7 @@ class CreateGiftCardView extends StatelessWidget {
     return GetBuilder<CreateGiftCardController>(
       init: CreateGiftCardController(productsRepo: ProductsRepo()),
       builder: (controller) {
+        // print(controller.denominations.length);
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
@@ -88,15 +89,16 @@ class CreateGiftCardView extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: controller.denominations.length,
                             itemBuilder: (context, index) {
+                              // print('Index is:' + index.toString());
                               return DenominationWidget(
                                 index,
-                                key: ValueKey(index),
+                                key: Key(index.toString()),
                               );
                             }),
                         Center(
                           child: AdaptiveButton(
                             onPressed: () {
-                              controller.denominations.add((null, null));
+                              controller.denominations.add((null, null, controller.denominations.length));
                               controller.update();
                             },
                             child: const Row(
@@ -152,9 +154,10 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 value: selectedCurrency,
                 disabledHint: const Text('No options'),
                 onChanged: (currency) {
+                  print('changed');
                   setState(() {
                     selectedCurrency = currency;
-                    controller.denominations[widget.index] = (currency, textCtrl.text);
+                    controller.denominations[widget.index] = (currency, textCtrl.text, widget.index);
                   });
                 },
                 validator: (currency) {
@@ -172,8 +175,12 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 child: Center(
                     child: AdaptiveIcon(
                         onPressed: () {
-                          controller.denominations.removeAt(widget.index);
-                          controller.update();
+                          // print(controller.denominations.length);
+                          setState(() {
+                            controller.denominations.removeAt(widget.index);
+                            controller.update();
+                          });
+                          // controller.denominations.removeWhere((element) => element.$3 == widget.index);
                         },
                         icon: const Icon(Icons.delete_forever, color: Colors.red)))),
           ],
@@ -184,7 +191,8 @@ class _DenominationWidgetState extends State<DenominationWidget> {
           hintText: 'Amount',
           controller: textCtrl,
           onChanged: (val) {
-            controller.denominations[widget.index] = (selectedCurrency, val);
+            print('Amount onChanged triggered');
+            controller.denominations[widget.index] = (selectedCurrency, val, widget.index);
           },
           prefixText: '    ${selectedCurrency?.code?.toUpperCase() ?? ''} | ',
           noEndSpace: true,
