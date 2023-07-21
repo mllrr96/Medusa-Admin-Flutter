@@ -3,12 +3,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../components/adaptive_button.dart';
-import '../../../components/drawer.dart';
 import '../components/index.dart';
 import '../controllers/customers_controller.dart';
 
@@ -18,25 +16,11 @@ class CustomersView extends GetView<CustomersController> {
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final isDrawer = StorageService.appSettings.isDrawer;
-
-    PreferredSizeWidget getAppBar() {
-      if (isDrawer) {
-        return AppBar(
-          title: const Text('Customers'),
-          // ignore: prefer_const_constructors
-          bottom: CustomerCustomAppBar(),
-        );
-      }
-      // ignore: prefer_const_constructors
-      return CustomerCustomAppBar();
-    }
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: getAppBar(),
-        drawer: isDrawer ? const AppDrawer() : null,
+        // ignore: prefer_const_constructors
+      appBar: CustomerCustomAppBar(),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS);

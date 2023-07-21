@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/drawer.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../controllers/pricing_controller.dart';
@@ -34,13 +32,11 @@ class PricingView extends GetView<PricingController> {
 
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final isDrawer = StorageService.appSettings.isDrawer;
     return Scaffold(
       appBar: AppBar(
-        leading: isDrawer ? null : const AdaptiveBackButton(),
+        leading: const AdaptiveBackButton(),
         title: const Text('Price List'),
       ),
-      drawer: isDrawer ? const AppDrawer() : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST),
         child: const Icon(Icons.add),

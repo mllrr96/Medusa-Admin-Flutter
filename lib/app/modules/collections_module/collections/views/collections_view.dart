@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../routes/app_pages.dart';
-import '../../../components/drawer.dart';
 import '../components/collection_list_tile.dart';
 import '../components/collections_app_bar.dart';
 import '../controllers/collections_controller.dart';
@@ -20,22 +18,9 @@ class CollectionsView extends GetView<CollectionsController> {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final tr = AppLocalizations.of(context)!;
-    final isDrawer = StorageService.appSettings.isDrawer;
-
-    PreferredSizeWidget getAppBar() {
-      if (isDrawer) {
-        return AppBar(
-          title: const Text('Collections'),
-          bottom: const CollectionsAppBar(),
-        );
-      }
-
-      return const CollectionsAppBar();
-    }
 
     return Scaffold(
-      appBar: getAppBar(),
-      drawer: isDrawer ? const AppDrawer() : null,
+      appBar: const CollectionsAppBar(),
       body: SafeArea(
         child: SmartRefresher(
           controller: controller.refreshController,

@@ -1,12 +1,9 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/more/controller/more_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -127,26 +124,6 @@ class MoreView extends StatelessWidget {
                             builder: (context) => const LanguageSelectionView(),
                           ),
                         ),
-                        SettingsTile.switchTile(
-                            activeSwitchColor: ColorManager.primary,
-                            initialValue: StorageService.appSettings.isDrawer,
-                            onToggle: (val) async {
-                              await showOkCancelAlertDialog(
-                                      context: context,
-                                      title: 'Switch to ${val ? 'drawer' : 'navigation bar'}',
-                                      message: 'Are you sure you want to switch, app will restart?',
-                                      okLabel: 'Restart App',
-                                      isDestructiveAction: true)
-                                  .then((value) async {
-                                if (value == OkCancelResult.ok) {
-                                  await StorageService.instance
-                                      .updateAppSettings(StorageService.appSettings.copyWith(isDrawer: val));
-                                  controller.update();
-                                  Get.offAllNamed(Routes.SPLASH);
-                                }
-                              });
-                            },
-                            title: Text('Drawer'))
                       ],
                     ),
                     SettingsSection(

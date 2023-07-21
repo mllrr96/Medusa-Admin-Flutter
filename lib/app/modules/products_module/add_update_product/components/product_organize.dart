@@ -53,17 +53,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                               .map((e) =>
                                   DropdownMenuItem<ProductType>(value: e, child: Text(e.value?.capitalize ?? e.value!)))
                               .toList(),
-                          decoration: InputDecoration(
-                            hintText: 'Choose a type',
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            filled: true,
-                            fillColor: Theme.of(context).scaffoldBackgroundColor,
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                            ),
-                          ),
+                          decoration: const InputDecoration(hintText: 'Choose a type'),
                         )
                       : const Center(child: CircularProgressIndicator.adaptive()),
                 )
