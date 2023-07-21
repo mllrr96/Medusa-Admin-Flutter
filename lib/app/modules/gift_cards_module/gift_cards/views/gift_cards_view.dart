@@ -6,7 +6,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../data/service/storage_service.dart';
 import '../components/index.dart';
 import '../controllers/gift_cards_controller.dart';
 
@@ -16,27 +15,17 @@ class GiftCardsView extends GetView<GiftCardsController> {
   Widget build(BuildContext context) {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final isDrawer = StorageService.appSettings.isDrawer;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 12.0 : context.mediaQueryViewPadding.bottom;
     return Scaffold(
       appBar: AppBar(
-        leading: isDrawer ? null : const AdaptiveBackButton(),
+        leading: const AdaptiveBackButton(),
         title: const Text('Gift Cards'),
-        actions: [
-          if (controller.productsPagingController.itemList?.isNotEmpty ?? false)
-            AdaptiveButton(
-              onPressed: () async {
-                await showBarModalBottomSheet(context: context, builder: (context) => const CreateGiftCardView());
-              },
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add),
-                  Text('Add'),
-                ],
-              ),
-            ),
-        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async =>
+            await showBarModalBottomSheet(context: context, builder: (context) => const CreateGiftCardView()),
+        label: const Text('Gift Card'),
+        icon: const Icon(Icons.add),
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: bottomPadding),
@@ -50,6 +39,7 @@ class GiftCardsView extends GetView<GiftCardsController> {
       ),
       body: CustomScrollView(
         slivers: [
+          // if(controller.productsPagingController.itemList?.isNotEmpty ?? false)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             sliver: SliverToBoxAdapter(

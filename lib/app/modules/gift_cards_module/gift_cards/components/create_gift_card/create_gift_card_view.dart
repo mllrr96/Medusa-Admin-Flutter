@@ -8,7 +8,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
-import '../../../components/currency_formatter.dart';
+import '../../../../components/currency_formatter.dart';
 import 'create_gift_card_controller.dart';
 
 class CreateGiftCardView extends StatelessWidget {
@@ -191,7 +191,6 @@ class _DenominationWidgetState extends State<DenominationWidget> {
           hintText: 'Amount',
           controller: textCtrl,
           onChanged: (val) {
-            print('Amount onChanged triggered');
             controller.denominations[widget.index] = (selectedCurrency, val, widget.index);
           },
           prefixText: '    ${selectedCurrency?.code?.toUpperCase() ?? ''} | ',

@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/gift_cards/components/create_gift_card/create_gift_card_view.dart';
-import 'package:medusa_admin/app/modules/gift_cards/components/custom_gift_cards_view.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -52,9 +50,14 @@ import '../modules/draft_orders_module/draft_order_details/bindings/draft_order_
 import '../modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
 import '../modules/draft_orders_module/draft_orders/bindings/draft_orders_binding.dart';
 import '../modules/draft_orders_module/draft_orders/views/draft_orders_view.dart';
-import '../modules/gift_cards/bindings/gift_cards_binding.dart';
-import '../modules/gift_cards/components/create_gift_card/create_gift_card_binding.dart';
-import '../modules/gift_cards/views/gift_cards_view.dart';
+import '../modules/gift_cards_module/create_update_custom_gift_card/bindings/create_update_custom_gift_card_binding.dart';
+import '../modules/gift_cards_module/create_update_custom_gift_card/views/create_update_custom_gift_card_view.dart';
+import '../modules/gift_cards_module/custom_gift_cards/bindings/custom_gift_cards_binding.dart';
+import '../modules/gift_cards_module/custom_gift_cards/views/custom_gift_cards_view.dart';
+import '../modules/gift_cards_module/gift_cards/bindings/gift_cards_binding.dart';
+import '../modules/gift_cards_module/gift_cards/components/create_gift_card/create_gift_card_binding.dart';
+import '../modules/gift_cards_module/gift_cards/components/create_gift_card/create_gift_card_view.dart';
+import '../modules/gift_cards_module/gift_cards/views/gift_cards_view.dart';
 import '../modules/groups_module/create_update_group/bindings/create_update_group_binding.dart';
 import '../modules/groups_module/create_update_group/views/create_update_group_view.dart';
 import '../modules/groups_module/group_details/bindings/group_details_binding.dart';
@@ -479,6 +482,11 @@ class AppPages {
       name: _Paths.PICK_GROUPS,
       page: () => const PickGroupsView(),
       binding: PickGroupsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD,
+      page: () => const CreateUpdateCustomGiftCardView(),
+      binding: CreateUpdateCustomGiftCardBinding(),
     ),
   ];
 }

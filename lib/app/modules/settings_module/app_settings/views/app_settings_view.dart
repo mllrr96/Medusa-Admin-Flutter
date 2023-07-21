@@ -22,8 +22,6 @@ class AppSettingsView extends StatelessWidget {
           title: const Text('App Settings'),
         ),
         body: SettingsList(
-          // contentPadding: EdgeInsets.zero,
-          // physics: const NeverScrollableScrollPhysics(),
           lightTheme: SettingsThemeData(
               settingsListBackground: Theme.of(context).scaffoldBackgroundColor,
               settingsSectionBackground: Theme.of(context).cardColor),

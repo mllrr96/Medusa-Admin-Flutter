@@ -80,6 +80,8 @@ abstract class Routes {
   static const CATEGORIES = _Paths.CATEGORIES;
   static const APP_SETTINGS = _Paths.APP_SETTINGS;
   static const PICK_GROUPS = _Paths.PICK_GROUPS;
+  static const CREATE_UPDATE_CUSTOM_GIFT_CARD =
+      _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD;
 }
 
 abstract class _Paths {
@@ -146,4 +148,6 @@ abstract class _Paths {
   static const CATEGORIES = '/categories';
   static const APP_SETTINGS = '/app-settings';
   static const PICK_GROUPS = '/pick-groups';
+  static const CREATE_UPDATE_CUSTOM_GIFT_CARD =
+      '/create-update-custom-gift-card';
 }

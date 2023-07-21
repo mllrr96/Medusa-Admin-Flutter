@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/gift_cards/controllers/gift_cards_controller.dart';
-import '../../../../data/models/req/user_post_product_req.dart';
-import '../../../../data/models/store/index.dart';
-import '../../../../data/repository/product/products_repo.dart';
+import '../../../../../data/models/req/user_post_product_req.dart';
+import '../../../../../data/models/store/currency.dart';
+import '../../../../../data/models/store/money_amount.dart';
+import '../../../../../data/models/store/product.dart';
+import '../../../../../data/models/store/product_option.dart';
+import '../../../../../data/models/store/product_option_value.dart';
+import '../../../../../data/models/store/product_variant.dart';
+import '../../../../../data/repository/product/products_repo.dart';
+import '../../controllers/gift_cards_controller.dart';
 
 class CreateGiftCardController extends GetxController {
   static CreateGiftCardController get instance => Get.find<CreateGiftCardController>();
