@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfill
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../../../../data/models/store/order.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(this.order, {Key? key, this.onTap}) : super(key: key);
@@ -20,6 +21,7 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final tr = AppLocalizations.of(context)!;
     // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     // const space = SizedBox(height: 12.0);
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
@@ -81,11 +83,11 @@ class OrderCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Payment Status',
+                      tr.paymentStatus,
                       style: smallTextStyle!.copyWith(color: lightWhite),
                     ),
                     Text(
-                      'Customer',
+                      tr.customer,
                       style: smallTextStyle.copyWith(color: lightWhite),
                     ),
                   ],
@@ -457,6 +459,7 @@ class CustomerOrderCard extends StatelessWidget {
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final cardDefaultColor =
         index.isEven ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
+    final tr = AppLocalizations.of(context)!;
 
     final orderNumberBackgroundColor =
         index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
@@ -499,7 +502,7 @@ class CustomerOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Payment Status',
+                      tr.paymentStatus,
                       style: smallTextStyle!.copyWith(color: lightWhite),
                     ),
                     const SizedBox(height: 6.0),
@@ -511,7 +514,7 @@ class CustomerOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Fulfillment',
+                      tr.fulfillment,
                       style: smallTextStyle.copyWith(color: lightWhite),
                     ),
                     const SizedBox(height: 6.0),

@@ -12,5 +12,5 @@ class AppConstants {
   
   // Change this to your backend url, make sure to add "/admin" to the url
   // Example https://medusa-backend.app/admin
-  static const String baseUrl = 'https://medusa-backend-production-e85b.up.railway.app/admin';
+  static const String baseUrl = 'http://localhost:9000/admin';
 }

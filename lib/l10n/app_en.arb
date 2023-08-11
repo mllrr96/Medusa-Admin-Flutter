@@ -70,6 +70,7 @@
   "errorLoadingOrder": "Error loading order",
   "summery": "Summery",
   "payment": "Payment",
+  "paymentStatus": "Payment Status",
   "capturePayment": "Capture payment",
   "fulfillment": "Fulfillment",
   "customer": "Customer",
@@ -82,7 +83,6 @@
   "cancelFulfillmentQuestion": "Cancel fulfillment ?",
   "cancelFulfillmentMessage": "Are you sure you want to cancel the fulfillment?",
   "fulfillmentCanceled": "Fulfillment has been canceled",
-
   "okLabel": "Yes, confirm",
   "shippingMethod": "Shipping Method",
   "subtotal": "Subtotal",
@@ -123,5 +123,16 @@
   "appSettings": "App Settings",
   "automaticAppearance": "Automatic (Follow system)",
   "lightAppearance": "Light",
-  "darkAppearance": "Dark"
+  "darkAppearance": "Dark",
+  "@_CUSTOMER_DETAILS" :{},
+  "customerDetails": "Customer Details",
+  "manageCustomer": "Manage Customer",
+  "edit": "Edit",
+  "delete": "Delete",
+  "firstSeen": "First seen:",
+  "orders": "Orders",
+  "user": "User",
+  "phone": "Phone",
+  "errorLoadingCustomDetails": "Error loading customer details",
+  "retry": "Retry"
 }
