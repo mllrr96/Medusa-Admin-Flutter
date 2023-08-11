@@ -9,6 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../components/search_text_field.dart';
 import '../components/group_card.dart';
 import '../controllers/groups_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GroupsView extends GetView<GroupsController> {
   const GroupsView({Key? key}) : super(key: key);
@@ -16,7 +17,6 @@ class GroupsView extends GetView<GroupsController> {
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -46,8 +46,8 @@ class GroupsView extends GetView<GroupsController> {
                 noItemsFoundIndicatorBuilder: (_) => Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (controller.searchTerm.value.isEmpty) Text('No group yet!', style: mediumTextStyle),
-                    if (controller.searchTerm.value.isNotEmpty) Text('No groups found', style: mediumTextStyle),
+                    if (controller.searchTerm.value.isEmpty) Text(tr.noGroups, style: mediumTextStyle),
+                    if (controller.searchTerm.value.isNotEmpty) Text(tr.noGroupsFound, style: mediumTextStyle),
                   ],
                 ),
               ),
@@ -64,6 +64,7 @@ class GroupAppBar extends GetView<GroupsController> implements PreferredSizeWidg
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Container(
       color: Theme.of(context).appBarTheme.backgroundColor,
       alignment: Alignment.center,
@@ -75,7 +76,7 @@ class GroupAppBar extends GetView<GroupsController> implements PreferredSizeWidg
             child: SearchTextField(
               controller: controller.searchCtrl,
               focusNode: controller.focusNode,
-              hintText: 'Search for group name ...',
+              hintText: tr.groupsSearchHint,
               onSuffixTap: () {
                 controller.searchCtrl.clear();
                 controller.searchTerm.value = '';
@@ -102,7 +103,7 @@ class GroupAppBar extends GetView<GroupsController> implements PreferredSizeWidg
                     }
                   },
                   padding: const EdgeInsets.only(left: 12.0),
-                  child: const Text('Cancel', maxLines: 1)),
+                  child: Text(tr.cancel, maxLines: 1)),
               secondChild: const SizedBox.shrink(),
               crossFadeState: controller.focused.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 250),

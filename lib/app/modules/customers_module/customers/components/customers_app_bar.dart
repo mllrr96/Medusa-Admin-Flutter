@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomersGroupsTabBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomersGroupsTabBar({Key? key, required this.tabController, required this.topViewPadding}) : super(key: key);
@@ -37,14 +38,15 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final displayLargeTextStyle = Theme.of(context).textTheme.displayLarge;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final tr = AppLocalizations.of(context)!;
 
     final customersText = Obx(() {
       final count = CustomersController.instance.customersCount.value;
-      return Text(count != 0 ? 'Customers ($count)' : 'Customers');
+      return Text(count != 0 ? '${tr.customers} ($count)' : tr.customers);
     });
     final customerGroupsText = Obx(() {
       final count = GroupsController.instance.customerGroupsCount.value;
-      return Text(count != 0 ? 'Groups ($count)' : 'Groups');
+      return Text(count != 0 ? '${tr.groups} ($count)' : tr.groups);
     });
     final androidTabBar = TabBar(controller: widget.tabController, tabs: [
       Tab(

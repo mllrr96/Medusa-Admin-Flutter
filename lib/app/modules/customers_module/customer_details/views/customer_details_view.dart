@@ -14,14 +14,16 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../../data/models/store/order.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomerDetailsView extends GetView<CustomerDetailsController> {
   const CustomerDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Customer Details'),
+        title: Text(tr.customerDetails),
         leading: const AdaptiveBackButton(),
       ),
       body: SafeArea(
@@ -46,7 +48,7 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                               OrdersController.instance.pagingController.refresh();
                             }
                           })),
-                  noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Orders')),
+                  noItemsFoundIndicatorBuilder: (_) => Center(child: Text(tr.noOrders)),
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator.adaptive()),
                 ),
@@ -58,8 +60,8 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
             child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(e ?? 'Error loading customer details'),
-            AdaptiveFilledButton(onPressed: () async => await controller.refreshView(), child: const Text('Retry')),
+            Text(e ?? tr.errorLoadingCustomDetails),
+            AdaptiveFilledButton(onPressed: () async => await controller.refreshView(), child: Text(tr.retry)),
           ],
         )),
         onLoading: const Center(child: CircularProgressIndicator.adaptive()),
@@ -80,6 +82,8 @@ class Delegate extends SliverPersistentHeaderDelegate {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final controller = Get.find<CustomerDetailsController>();
+    final tr = AppLocalizations.of(context)!;
+
     final nameText = customer.firstName != null
         ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}', style: mediumTextStyle)
         : Text(customer.email, style: mediumTextStyle);
@@ -122,12 +126,12 @@ class Delegate extends SliverPersistentHeaderDelegate {
                 AdaptiveIcon(
                     onPressed: () async {
                       await showModalActionSheet<int>(
-                          title: 'Manage customer',
+                          title: tr.manageCustomer,
                           message: '${customer.firstName ?? ''} ${customer.lastName ?? ''}',
                           context: context,
                           actions: <SheetAction<int>>[
-                            const SheetAction(label: 'Edit', key: 0),
-                            const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                            SheetAction(label: tr.edit, key: 0),
+                            SheetAction(label: tr.delete, isDestructiveAction: true, key: 1),
                           ]).then((value) async {
                         switch (value) {
                           case 0:
@@ -155,10 +159,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
                     children: [
                       if (customer.createdAt != null)
                         Text(
-                          'First seen: ${DateFormat.yMMMd().format(customer.createdAt!)}',
+                          '${tr.firstSeen} ${DateFormat.yMMMd().format(customer.createdAt!)}',
                           style: smallTextStyle,
                         ),
-                      Obx(() => Text('Orders: ${controller.ordersCount.value}', style: smallTextStyle)),
+                      Obx(() => Text('${tr.orders}: ${controller.ordersCount.value}', style: smallTextStyle)),
                     ],
                   ),
                 ),
@@ -167,10 +171,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'User: ${customer.hasAccount.toString().capitalizeFirst}',
+                        '${tr.user}: ${customer.hasAccount.toString().capitalizeFirst}',
                         style: smallTextStyle,
                       ),
-                      Text('Phone: ${customer.phone ?? 'N/A'}', style: smallTextStyle),
+                      Text('${tr.phone}: ${customer.phone ?? 'N/A'}', style: smallTextStyle),
                     ],
                   ),
                 ),

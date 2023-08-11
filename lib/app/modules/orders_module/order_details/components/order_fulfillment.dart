@@ -9,6 +9,7 @@ import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../orders/components/fulfillment_label.dart';
 import 'order_create_fulfillment.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderFulfillment extends GetView<OrderDetailsController> {
   const OrderFulfillment(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
@@ -19,12 +20,13 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final tr = AppLocalizations.of(context)!;
     return CustomExpansionTile(
       key: controller.fulfillmentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      title: const Text('Fulfillment'),
+      title: Text(tr.fulfillment),
       trailing:
           order.fulfillmentStatus == FulfillmentStatus.fulfilled || order.fulfillmentStatus == FulfillmentStatus.shipped
               ? null
@@ -36,17 +38,17 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                     }
                   },
                   padding: EdgeInsets.zero,
-                  child: const Text('Create Fulfillment'),
+                  child: Text(tr.createFulfillment),
                 ),
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Shipping method', style: mediumTextStyle!.copyWith(color: lightWhite)),
+            Text(tr.shippingMethod, style: mediumTextStyle!.copyWith(color: lightWhite)),
             FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus),
           ],
         ),
-        if (order.shippingMethods == null) Text('None', style: mediumTextStyle),
+        if (order.shippingMethods == null) Text(tr.none, style: mediumTextStyle),
         if (order.shippingMethods != null)
           ListView.builder(
               shrinkWrap: true,
@@ -68,7 +70,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
               return ListTile(
                 isThreeLine: canceled,
                 title: Text(canceled
-                    ? 'Fulfillment has been canceled'
+                    ? tr.fulfillmentCanceled
                     : 'Fulfillment #${index + 1} fulfilled by ${fulfillment.providerId}'),
                 subtitle: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -79,7 +81,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                           'at ${DateFormat.yMMMEd().format(fulfillment.canceledAt!)}, ${DateFormat.jm().format(fulfillment.canceledAt!)}',
                           style: smallTextStyle),
                     if (canceled) const SizedBox(height: 6.0),
-                    Text(shipped ? 'Tracking' : 'Not shipped', style: smallTextStyle?.copyWith(color: lightWhite)),
+                    Text(shipped ? tr.tracking : tr.notShipped, style: smallTextStyle?.copyWith(color: lightWhite)),
                   ],
                 ),
                 trailing: canceled || shipped
@@ -87,8 +89,8 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                     : AdaptiveIcon(
                         onPressed: () async {
                           await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                            const SheetAction(label: 'Mark Shipped', key: 0),
-                            const SheetAction(label: 'Cancel Fulfillment', isDestructiveAction: true, key: 1),
+                            SheetAction(label: tr.markShipped, key: 0),
+                            SheetAction(label: tr.cancelFulfillment, isDestructiveAction: true, key: 1),
                           ]).then((val) async {
                             switch (val) {
                               case 0:
@@ -97,9 +99,9 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                               case 1:
                                 await showOkCancelAlertDialog(
                                   context: context,
-                                  title: 'Cancel fulfillment?',
-                                  message: 'Are you sure you want to cancel the fulfillment?',
-                                  okLabel: 'Yes, confirm',
+                                  title: tr.cancelFulfillmentQuestion,
+                                  message: tr.cancelFulfillmentMessage,
+                                  okLabel: tr.okLabel,
                                   isDestructiveAction: true,
                                 ).then((value) async {
                                   if (value == OkCancelResult.ok) {
