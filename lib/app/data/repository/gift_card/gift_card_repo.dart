@@ -123,7 +123,7 @@ class GiftCardRepo extends BaseGiftCard {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.post(
-        uri: '/gift-cards',
+        uri: '/gift-cards/$id',
         data: userUpdateGiftCardReq.toJson(),
       );
       if (response.statusCode == 200) {

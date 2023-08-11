@@ -13,6 +13,8 @@ abstract class Routes {
   static const CUSTOMERS = _Paths.CUSTOMERS;
   static const DISCOUNTS = _Paths.DISCOUNTS;
   static const GIFT_CARDS = _Paths.GIFT_CARDS;
+  static const CREATE_GIFT_CARD = _Paths.CREATE_GIFT_CARD;
+  static const CUSTOM_GIFT_CARDS = _Paths.CUSTOM_GIFT_CARDS;
   static const PRICING = _Paths.PRICING;
   static const STORE_SETTINGS = _Paths.STORE_SETTINGS;
   static const SIGN_IN = _Paths.SIGN_IN;
@@ -78,6 +80,8 @@ abstract class Routes {
   static const CATEGORIES = _Paths.CATEGORIES;
   static const APP_SETTINGS = _Paths.APP_SETTINGS;
   static const PICK_GROUPS = _Paths.PICK_GROUPS;
+  static const CREATE_UPDATE_CUSTOM_GIFT_CARD =
+      _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD;
 }
 
 abstract class _Paths {
@@ -90,6 +94,8 @@ abstract class _Paths {
   static const CUSTOMERS = '/customers';
   static const DISCOUNTS = '/discounts';
   static const GIFT_CARDS = '/gift-cards';
+  static const CREATE_GIFT_CARD = '/create-gift-cards';
+  static const CUSTOM_GIFT_CARDS = '/custom-gift-cards';
   static const PRICING = '/pricing';
   static const STORE_SETTINGS = '/store-settings';
   static const SIGN_IN = '/sign-in';
@@ -142,4 +148,6 @@ abstract class _Paths {
   static const CATEGORIES = '/categories';
   static const APP_SETTINGS = '/app-settings';
   static const PICK_GROUPS = '/pick-groups';
+  static const CREATE_UPDATE_CUSTOM_GIFT_CARD =
+      '/create-update-custom-gift-card';
 }

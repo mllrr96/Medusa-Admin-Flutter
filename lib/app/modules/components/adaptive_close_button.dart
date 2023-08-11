@@ -27,7 +27,7 @@ class AdaptiveCloseButton extends StatelessWidget {
     assert(debugCheckHasMaterialLocalizations(context));
     if (Platform.isIOS || Platform.isMacOS) {
       return Tooltip(
-        message: MaterialLocalizations.of(context).backButtonTooltip,
+        message: MaterialLocalizations.of(context).closeButtonTooltip,
         child: CupertinoTheme(
           data: CupertinoThemeData(primaryColor: Theme.of(context).iconTheme.color),
           child: CupertinoButton(

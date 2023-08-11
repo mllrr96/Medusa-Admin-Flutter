@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
-import 'package:medusa_admin/app/modules/components/drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
@@ -20,20 +18,8 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
-    final isDrawer = StorageService.appSettings.isDrawer;
-    PreferredSizeWidget getAppBar() {
-      if (isDrawer) {
-        return AppBar(
-          title: Text('Draft Orders'),
-          bottom: DraftOrdersBottomAppBar(),
-        );
-      }
-      return DraftOrdersBottomAppBar();
-    }
-
     return Scaffold(
-      appBar: getAppBar(),
-      drawer: isDrawer ? AppDrawer() : null,
+      appBar: DraftOrdersBottomAppBar(),
       floatingActionButton: FloatingActionButton(
         heroTag: 'draft_order',
         onPressed: () async {
