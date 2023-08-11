@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
 import 'order_status_label.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderOverview extends StatelessWidget {
   const OrderOverview({Key? key, required this.order}) : super(key: key);
@@ -12,6 +13,8 @@ class OrderOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final tr = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -42,7 +45,7 @@ class OrderOverview extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Order Status', style: smallTextStyle!.copyWith(color: lightWhite)),
+                  Text(tr.orderStatus, style: smallTextStyle!.copyWith(color: lightWhite)),
                   const SizedBox(height: 6.0),
                   OrderStatusLabel(orderStatus: order.status),
                 ],
@@ -66,7 +69,7 @@ class OrderOverview extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('Payment', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
+                  Text(tr.payment, style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
                   if (order.payments?.isNotEmpty ?? false)
                     Text(order.payments!.first.providerId?.capitalize ?? '',
                         style: Theme.of(context).textTheme.titleMedium),

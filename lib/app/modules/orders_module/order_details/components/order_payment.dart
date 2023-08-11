@@ -10,6 +10,7 @@ import '../../../../data/models/req/user_order.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../components/adaptive_button.dart';
 import '../../orders/components/payment_status_label.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderPayment extends GetView<OrderDetailsController> {
   const OrderPayment(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
@@ -22,6 +23,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
     const halfSpace = SizedBox(height: 6.0);
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final tr = AppLocalizations.of(context)!;
 
     Widget? getButton() {
       switch (order.paymentStatus) {
@@ -29,7 +31,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
           return AdaptiveButton(
             onPressed: () async => await controller.capturePayment(),
             padding: EdgeInsets.zero,
-            child: const Text('Capture payment'),
+            child: Text(tr.capturePayment),
           );
         case PaymentStatus.notPaid:
         case PaymentStatus.awaiting:
@@ -44,7 +46,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
               }
             },
             padding: EdgeInsets.zero,
-            child: const Text('Refund'),
+            child:  Text(tr.refund),
           );
         case PaymentStatus.canceled:
           break;
@@ -58,7 +60,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
       key: controller.paymentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
-      title: const Text('Payment'),
+      title: Text(tr.payment),
       trailing: getButton(),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +104,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                       const SizedBox(width: 12.0),
                       const Icon(Icons.double_arrow_rounded),
                       Text(
-                        'Refunded',
+                        tr.refunded,
                         style: mediumTextStyle,
                       ),
                     ],
@@ -116,7 +118,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Total Paid', style: largeTextStyle),
+            Text(tr.totalPaid, style: largeTextStyle),
             Text(getPrice(refunded ? order.refundableAmount : order.payments?.first.amount), style: largeTextStyle),
           ],
         ),
