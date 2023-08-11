@@ -154,7 +154,6 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 value: selectedCurrency,
                 disabledHint: const Text('No options'),
                 onChanged: (currency) {
-                  print('changed');
                   setState(() {
                     selectedCurrency = currency;
                     controller.denominations[widget.index] = (currency, textCtrl.text, widget.index);

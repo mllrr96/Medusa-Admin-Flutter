@@ -16,6 +16,7 @@ class GroupsView extends GetView<GroupsController> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
