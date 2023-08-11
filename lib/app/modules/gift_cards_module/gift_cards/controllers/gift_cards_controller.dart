@@ -11,7 +11,6 @@ class GiftCardsController extends GetxController {
   final ProductsRepo productsRepo;
   final productsPagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-
   @override
   void onInit() {
     productsPagingController.addPageRequestListener((pageKey) => _fetchProductGiftCards(pageKey));

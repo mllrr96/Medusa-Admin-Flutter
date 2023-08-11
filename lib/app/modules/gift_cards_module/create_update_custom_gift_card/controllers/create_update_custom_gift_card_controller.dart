@@ -69,6 +69,10 @@ class CreateUpdateCustomGiftCardController extends GetxController {
   }
 
   Future<void> createGiftCard() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
     loading();
     final result = await giftCardRepo.createGiftCard(
         userCreateGiftCardReq: UserCreateGiftCardReq(

@@ -11,10 +11,14 @@ import '../controllers/gift_cards_controller.dart';
 
 class GiftCardsView extends GetView<GiftCardsController> {
   const GiftCardsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = Theme
+        .of(context)
+        .textTheme
+        .titleSmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 12.0 : context.mediaQueryViewPadding.bottom;
     return Scaffold(
       appBar: AppBar(
@@ -23,9 +27,9 @@ class GiftCardsView extends GetView<GiftCardsController> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async =>
-            await showBarModalBottomSheet(context: context, builder: (context) => const CreateGiftCardView()),
-        label: const Text('Gift Card'),
+        await showBarModalBottomSheet(context: context, builder: (context) => const CreateGiftCardView()),
         icon: const Icon(Icons.add),
+        label: const Text('Gift Card'),
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: bottomPadding),
@@ -83,7 +87,7 @@ class GiftCardsView extends GetView<GiftCardsController> {
                   );
                 },
                 firstPageProgressIndicatorBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator.adaptive()),
+                const Center(child: CircularProgressIndicator.adaptive()),
               ),
               separatorBuilder: (_, __) => const Divider(height: 0)),
         ],
