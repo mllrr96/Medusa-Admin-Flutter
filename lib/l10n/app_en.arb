@@ -4,6 +4,7 @@
   "update": "update",
   "details": "Details",
   "title": "Title",
+  "cancel": "Cancel",
   "metadata": "Metadata",
   "addMetadata": "Add Metadata",
   "key": "Key",
@@ -134,5 +135,11 @@
   "user": "User",
   "phone": "Phone",
   "errorLoadingCustomDetails": "Error loading customer details",
-  "retry": "Retry"
+  "retry": "Retry",
+  "@_GROUPS" :{},
+  "groups": "Groups",
+  "noGroups": "No group yet!",
+  "noGroupsFound": "No groups found",
+  "customers": "Customers",
+  "groupsSearchHint": "Search for group name ..."
 }
