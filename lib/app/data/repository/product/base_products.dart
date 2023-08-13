@@ -25,6 +25,8 @@ abstract class BaseProducts {
       {required String id, Map<String, dynamic>? customHeaders});
 
   Future<Result<UserUpdateProductRes, Failure>> update(
-      {required Product product, Map<String, dynamic>? customHeaders});
+      {required UserPostUpdateProductReq userPostUpdateProductReq,
+        required String id,
+        Map<String, dynamic>? customHeaders});
 
 }

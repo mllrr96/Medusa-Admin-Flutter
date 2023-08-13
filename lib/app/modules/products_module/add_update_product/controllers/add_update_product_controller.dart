@@ -101,49 +101,49 @@ class AddUpdateProductController extends GetxController {
   Future<void> updateProduct(BuildContext context) async {
     // Check if there's no update to the product, in that case just go back.
 
-    Product updatedProduct = Product(id: product.id!, status: product.status, discountable: product.discountable);
-    switch (productComponents) {
-      case ProductComponents.generalInfo:
-        updatedProduct = updatedProduct.copyWith(
-          title: product.title == titleCtrl.text ? null : titleCtrl.text,
-          subtitle: product.subtitle == subtitleCtrl.text ? null : subtitleCtrl.text,
-          handle: product.handle == handleCtrl.text ? null : handleCtrl.text,
-          material: product.material == materialCtrl.text ? null : materialCtrl.text,
-          description: product.description == descriptionCtrl.text ? null : descriptionCtrl.text,
-          discountable: product.discountable == discountable.value ? null : discountable.value,
-        );
-        break;
-      case ProductComponents.salesChannel:
-        // TODO: Handle this case.
-        break;
-      case ProductComponents.addVariant:
-        // TODO: Handle this case.
-        break;
-      case ProductComponents.editVariants:
-        // updatedProduct = updatedProduct.copyWith(
-        //   width: product.width == widthC
-        // );
-        break;
-      case ProductComponents.editOptions:
-        // TODO: Handle this case.
-        break;
-      case ProductComponents.editAttributes:
-      case ProductComponents.editThumbnail:
-      case ProductComponents.editMedia:
-        break;
-    }
-
-    // Hide the keyboard
-    FocusScope.of(context).unfocus();
-    loading();
-    final result = await productsRepo.update(product: updatedProduct);
-    result.when((success) {
-      Get.back(result: success.product!);
-      EasyLoading.showSuccess('Product Updated');
-    }, (error) {
-      EasyLoading.showError('Error updating product');
-      debugPrint(error.message);
-    });
+    // Product updatedProduct = Product(id: product.id!, status: product.status, discountable: product.discountable);
+    // switch (productComponents) {
+    //   case ProductComponents.generalInfo:
+    //     updatedProduct = updatedProduct.copyWith(
+    //       title: product.title == titleCtrl.text ? null : titleCtrl.text,
+    //       subtitle: product.subtitle == subtitleCtrl.text ? null : subtitleCtrl.text,
+    //       handle: product.handle == handleCtrl.text ? null : handleCtrl.text,
+    //       material: product.material == materialCtrl.text ? null : materialCtrl.text,
+    //       description: product.description == descriptionCtrl.text ? null : descriptionCtrl.text,
+    //       discountable: product.discountable == discountable.value ? null : discountable.value,
+    //     );
+    //     break;
+    //   case ProductComponents.salesChannel:
+    //     // TODO: Handle this case.
+    //     break;
+    //   case ProductComponents.addVariant:
+    //     // TODO: Handle this case.
+    //     break;
+    //   case ProductComponents.editVariants:
+    //     // updatedProduct = updatedProduct.copyWith(
+    //     //   width: product.width == widthC
+    //     // );
+    //     break;
+    //   case ProductComponents.editOptions:
+    //     // TODO: Handle this case.
+    //     break;
+    //   case ProductComponents.editAttributes:
+    //   case ProductComponents.editThumbnail:
+    //   case ProductComponents.editMedia:
+    //     break;
+    // }
+    //
+    // // Hide the keyboard
+    // FocusScope.of(context).unfocus();
+    // loading();
+    // final result = await productsRepo.update(product: updatedProduct);
+    // result.when((success) {
+    //   Get.back(result: success.product!);
+    //   EasyLoading.showSuccess('Product Updated');
+    // }, (error) {
+    //   EasyLoading.showError('Error updating product');
+    //   debugPrint(error.message);
+    // });
   }
 
   void loadProduct() {

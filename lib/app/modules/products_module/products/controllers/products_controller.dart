@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
@@ -128,7 +129,13 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
 
   Future<void> updateProduct(Product product) async {
     loading();
-    final result = await productsRepo.update(product: product);
+    final result = await productsRepo.update(
+      id: product.id!,
+      userPostUpdateProductReq: UserPostUpdateProductReq(
+        discountable: product.discountable,
+        status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+      ),
+    );
     result.when((success) {
       if (success.product != null) {
         EasyLoading.showSuccess('Product updated');

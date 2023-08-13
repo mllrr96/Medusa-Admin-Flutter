@@ -89,14 +89,14 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
   }
 
   Future<void> updateProduct(Product product) async {
-    loading();
-    final result = await productsRepo.update(product: product);
-    result.when((success) async{
-      EasyLoading.showSuccess('Updated');
-      await loadProduct();
-    }, (error) {
-      EasyLoading.showError('Failed to update');
-      debugPrint(error.toString());
-    });
+    // loading();
+    // final result = await productsRepo.update(product: product);
+    // result.when((success) async{
+    //   EasyLoading.showSuccess('Updated');
+    //   await loadProduct();
+    // }, (error) {
+    //   EasyLoading.showError('Failed to update');
+    //   debugPrint(error.toString());
+    // });
   }
 }

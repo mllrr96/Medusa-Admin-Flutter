@@ -9,6 +9,7 @@ import '../../models/req/store_post_search_req.dart';
 import '../../models/res/products.dart';
 import 'package:dio/dio.dart';
 import '../../datasource/remote/dio/dio_client.dart';
+
 class ProductsRepo extends BaseProducts {
   final _dataProvider = DioClient(dio: Dio());
 
@@ -134,13 +135,14 @@ class ProductsRepo extends BaseProducts {
 
   @override
   Future<Result<UserUpdateProductRes, Failure>> update(
-      {required Product product, Map<String, dynamic>? customHeaders}) async {
+      {required UserPostUpdateProductReq userPostUpdateProductReq,
+      required String id,
+      Map<String, dynamic>? customHeaders}) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
-    String id = product.id!;
     try {
-      final response = await _dataProvider.post(uri: '/products/$id', data: product.copyWith(id: null).toJson());
+      final response = await _dataProvider.post(uri: '/products/$id', data: userPostUpdateProductReq.toJson());
       if (response.statusCode == 200) {
         return Success(UserUpdateProductRes.fromJson(response.data));
       } else {

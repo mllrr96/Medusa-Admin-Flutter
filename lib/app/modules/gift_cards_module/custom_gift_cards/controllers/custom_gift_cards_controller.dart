@@ -46,12 +46,16 @@ class CustomGiftCardsController extends GetxController {
     });
   }
 
-  Future<void> updateCustomGiftCard({required String id, required UserUpdateGiftCardReq userUpdateGiftCardReq}) async {
+  Future<void> updateCustomGiftCard({required String id, required UserUpdateGiftCardReq userUpdateGiftCardReq,
+  bool getBack= true
+  }) async {
     loading();
     final result = await giftCardRepo.updateGiftCard(id: id, userUpdateGiftCardReq: userUpdateGiftCardReq);
 
     result.when((success) {
-      Get.back();
+      if(getBack){
+        Get.back();
+      }
       customGiftCardsPagingController.refresh();
       EasyLoading.showSuccess('Gift Card Updated');
     }, (error) => Get.snackbar('Error updating gift card', error.message, snackPosition: SnackPosition.BOTTOM));

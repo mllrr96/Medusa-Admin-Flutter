@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
+import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_icon.dart';
@@ -41,8 +43,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD),
-        label: Text('Custom Gift Card'),
-        icon: Icon(Icons.add),
+        label: const Text('Custom Gift Card'),
+        icon: const Icon(Icons.add),
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -60,15 +62,36 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                 pagingController: controller.customGiftCardsPagingController,
                 builderDelegate: PagedChildBuilderDelegate<GiftCard>(
                   itemBuilder: (context, giftCard, index) {
-                    return ListTile(
+                    final isDisabled = giftCard.isDisabled ?? false;
+
+                    final listTile = ListTile(
                       onTap: () {
                         showBarModalBottomSheet(
                           context: context,
-                          builder: (context) => SizedBox(
-                            height: context.height / 2,
-                            child: CustomGiftCardView(giftCard),
-                          ),
+                          builder: (context) => CustomGiftCardView(giftCard),
                         );
+                      },
+                      onLongPress: () async {
+                        await showModalActionSheet<int>(
+                            title: 'Manage Custom Gift Card',
+                            context: context,
+                            actions: <SheetAction<int>>[
+                              const SheetAction(label: 'Edit details', key: 0),
+                              SheetAction(label: isDisabled ? 'Enable' : 'Disable', isDestructiveAction: true, key: 1),
+                            ]).then((value) async {
+                          switch (value) {
+                            case 0:
+                              Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
+                              break;
+                            case 1:
+                              await controller.updateCustomGiftCard(
+                                id: giftCard.id!,
+                                userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled),
+                                getBack: false,
+                              );
+                              break;
+                          }
+                        });
                       },
                       tileColor: Theme.of(context).appBarTheme.backgroundColor,
                       title: Text(giftCard.code ?? ''),
@@ -85,6 +108,21 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                         ],
                       ),
                     );
+                    const disabledDot = Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.circle, color: Colors.red, size: 10),
+                    );
+                    if (isDisabled) {
+                      return Stack(
+                        alignment: AlignmentDirectional.topEnd,
+                        children: [
+                          listTile,
+                          disabledDot,
+                        ],
+                      );
+                    } else {
+                      return listTile;
+                    }
                   },
                   noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Gift cards')),
                   firstPageProgressIndicatorBuilder: (context) =>
