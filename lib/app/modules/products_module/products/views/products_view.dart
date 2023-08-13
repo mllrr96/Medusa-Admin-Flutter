@@ -153,11 +153,7 @@ class ProductsListView extends GetView<ProductsController> {
                 await controller.deleteProduct(product.id!);
               },
               onPublish: () async {
-                await controller.updateProduct(Product(
-                  id: product.id!,
-                  discountable: product.discountable,
-                  status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
-                ));
+                await controller.updateProduct(product);
               },
             ),
             firstPageProgressIndicatorBuilder: (_) => const Center(child: CircularProgressIndicator.adaptive()),

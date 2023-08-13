@@ -1,9 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../components/index.dart';
@@ -15,10 +17,7 @@ class GiftCardsView extends GetView<GiftCardsController> {
   @override
   Widget build(BuildContext context) {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme
-        .of(context)
-        .textTheme
-        .titleSmall;
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 12.0 : context.mediaQueryViewPadding.bottom;
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +26,7 @@ class GiftCardsView extends GetView<GiftCardsController> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async =>
-        await showBarModalBottomSheet(context: context, builder: (context) => const CreateGiftCardView()),
+            await showBarModalBottomSheet(context: context, builder: (context) => const CreateGiftCardView()),
         icon: const Icon(Icons.add),
         label: const Text('Gift Card'),
       ),
@@ -58,14 +57,61 @@ class GiftCardsView extends GetView<GiftCardsController> {
               builderDelegate: PagedChildBuilderDelegate<Product>(
                 itemBuilder: (context, product, index) {
                   final published = product.status == ProductStatus.published;
-                  return ListTile(
-                    title: Text(product.title ?? ''),
-                    subtitle: Text(
-                      product.description ?? '',
-                      style: smallTextStyle?.copyWith(color: lightWhite),
-                    ),
-                    trailing: Text(published ? 'Published' : 'Disabled'),
+                  final listTile = ListTile(
+                      tileColor: Theme.of(context).appBarTheme.backgroundColor,
+                      contentPadding: const EdgeInsets.only(left: 16.0),
+                      title: Text(product.title ?? ''),
+                      subtitle: product.description != null
+                          ? Text(
+                              product.description!,
+                              style: smallTextStyle?.copyWith(color: lightWhite),
+                            )
+                          : null,
+                      trailing: AdaptiveIcon(
+                          onPressed: () async {
+                            await showModalActionSheet<int>(
+                                title: 'Manage gift card',
+                                message: product.title,
+                                context: context,
+                                actions: <SheetAction<int>>[
+                                  const SheetAction(label: 'Edit', key: 0),
+                                  SheetAction(label: published ? 'Unpublish' : 'Publish', key: 1),
+                                  const SheetAction(label: 'Delete', isDestructiveAction: true, key: 2),
+                                ]).then((result) async {
+                              switch (result) {
+                                case 0:
+                                  break;
+                                case 1:
+                                  await controller.toggleProduct(product);
+                                  break;
+                                case 2:
+                                  await showOkCancelAlertDialog(
+                                          context: context,
+                                          title: 'Confirm gift card deletion',
+                                          message: 'Are you sure you want to delete this gift card?',
+                                          isDestructiveAction: true)
+                                      .then((result) async {
+                                    if (result == OkCancelResult.ok) {
+                                      await controller.deleteProduct(product.id!);
+                                    }
+                                  });
+                                  break;
+                              }
+                            });
+                          },
+                          icon: const Icon(Icons.more_horiz)));
+                  const disabledDot = Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.circle, color: Colors.red, size: 8),
                   );
+                  if (published) {
+                    return listTile;
+                  } else {
+                    return Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [listTile, disabledDot],
+                    );
+                  }
                 },
                 noItemsFoundIndicatorBuilder: (_) {
                   return Column(
@@ -87,7 +133,7 @@ class GiftCardsView extends GetView<GiftCardsController> {
                   );
                 },
                 firstPageProgressIndicatorBuilder: (context) =>
-                const Center(child: CircularProgressIndicator.adaptive()),
+                    const Center(child: CircularProgressIndicator.adaptive()),
               ),
               separatorBuilder: (_, __) => const Divider(height: 0)),
         ],

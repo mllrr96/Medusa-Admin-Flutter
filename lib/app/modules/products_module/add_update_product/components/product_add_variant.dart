@@ -11,6 +11,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
+import '../../../../data/models/req/user_post_product_req.dart';
 import '../../../components/countries/view/country_view.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -563,18 +564,18 @@ class ProductAddVariantController extends GetxController {
   Future<void> updateVariant() async {
     loading();
     final result = await productsRepo.update(
-        product: Product(
-      id: product.id!,
-      status: product.status,
-      discountable: product.discountable,
-      weight: int.tryParse(weightCtrl.text),
-      length: int.tryParse(lengthCtrl.text),
-      height: int.tryParse(heightCtrl.text),
-      width: int.tryParse(widthCtrl.text),
-      midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
-      hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
-      originCountry: countryCtrl.text.removeAllWhitespace.isEmpty ? null : countryCtrl.text,
-    ));
+        id: product.id!,
+        userPostUpdateProductReq: UserPostUpdateProductReq(
+          status: product.status,
+          discountable: product.discountable,
+          weight: int.tryParse(weightCtrl.text),
+          length: int.tryParse(lengthCtrl.text),
+          height: int.tryParse(heightCtrl.text),
+          width: int.tryParse(widthCtrl.text),
+          midCode: midCtrl.text.removeAllWhitespace.isEmpty ? null : midCtrl.text,
+          hsCode: hsCtrl.text.removeAllWhitespace.isEmpty ? null : hsCtrl.text,
+          originCountry: countryCtrl.text.removeAllWhitespace.isEmpty ? null : countryCtrl.text,
+        ));
     result.when((success) {
       EasyLoading.showSuccess('Attributes updated');
       Get.back(result: true);

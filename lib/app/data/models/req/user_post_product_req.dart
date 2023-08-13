@@ -117,3 +117,161 @@ class UserPostProductReq {
     return data;
   }
 }
+
+class UserPostUpdateProductReq {
+  UserPostUpdateProductReq({
+    this.title,
+    this.description,
+    this.subtitle,
+    this.handle,
+    this.thumbnail,
+    this.collectionId,
+    this.discountable,
+    this.images,
+    this.tags,
+    this.type,
+    this.status,
+    this.salesChannels,
+    this.categories,
+    this.variants,
+    this.weight,
+    this.height,
+    this.width,
+    this.length,
+    this.hsCode,
+    this.originCountry,
+    this.midCode,
+    this.material,
+    this.metadata,
+  });
+  final String? title;
+  final String? subtitle;
+  final String? description;
+  final String? handle;
+  final ProductStatus? status;
+  final List<String>? images;
+  final String? thumbnail;
+  final List<ProductVariant>? variants;
+  final List<String>? categories;
+  final num? weight;
+  final num? height;
+  final num? width;
+  final num? length;
+  final String? hsCode;
+  final String? originCountry;
+  final String? midCode;
+  final String? material;
+  final String? collectionId;
+  final ProductType? type;
+  final List<ProductTag>? tags;
+  final bool? discountable;
+  final List<SalesChannel>? salesChannels;
+  final Map<String, dynamic>? metadata;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+
+    if (title != null) {
+      data['title'] = title;
+    }
+
+    if (subtitle != null) {
+      data['title'] = subtitle;
+    }
+
+    if (description != null) {
+      data['description'] = description;
+    }
+
+    if (images != null) {
+      data['images'] = images;
+    }
+
+    if (thumbnail != null) {
+      data['thumbnail'] = thumbnail;
+    }
+
+    if (handle != null) {
+      data['handle'] = handle;
+    }
+
+    if (type != null) {
+      data['type'] = type?.toJson();
+    }
+
+    if (collectionId != null) {
+      data['collection_id'] = collectionId;
+    }
+
+    if (weight != null) {
+      data['weight'] = weight;
+    }
+
+    if (length != null) {
+      data['length'] = length;
+    }
+    if (height != null) {
+      data['height'] = height;
+    }
+
+    if (width != null) {
+      data['width'] = width;
+    }
+
+    if (hsCode != null) {
+      data['hs_code'] = hsCode;
+    }
+
+    if (originCountry != null) {
+      data['origin_country'] = originCountry;
+    }
+
+    if (midCode != null) {
+      data['mid_code'] = midCode;
+    }
+
+    if (material != null) {
+      data['material'] = material;
+    }
+    if (variants != null) {
+      List<Map<String, dynamic>> variantsList = [];
+      for (var element in variants!) {
+        variantsList.add(element.toJson());
+      }
+      data['variants'] = variantsList;
+    }
+
+    if (salesChannels != null) {
+      List<Map<String, dynamic>> salesChannelsList = [];
+      for (var element in salesChannels!) {
+        salesChannelsList.add(element.toJson());
+      }
+      data['sales_channels'] = salesChannelsList;
+    }
+
+    if (tags != null) {
+      List<Map<String, dynamic>> tagsList = [];
+      for (var element in tags!) {
+        tagsList.add(element.toJson());
+      }
+      data['tags'] = tagsList;
+    }
+    if (type != null) {
+      List<Map<String, dynamic>> typeList = [];
+      for (var element in tags!) {
+        typeList.add(element.toJson());
+      }
+      data['type'] = typeList;
+    }
+
+    if (status != null) {
+      data['status'] = status!.name;
+    }
+
+    if (discountable != null) {
+      data['discountable'] = discountable;
+    }
+
+    return data;
+  }
+}
