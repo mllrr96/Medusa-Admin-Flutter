@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -12,7 +13,7 @@ class PricingController extends GetxController {
   final pagingController = PagingController<int, PriceList>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final refreshController = RefreshController();
-
+  final scrollController = ScrollController();
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
@@ -21,11 +22,17 @@ class PricingController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await priceListRepo.retrievePriceLists(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
-      'expand' :'customer_groups,prices'
+      'expand': 'customer_groups,prices'
     });
     result.when((success) {
       final isLastPage = success.priceLists!.length < _pageSize;

@@ -59,11 +59,12 @@ class TeamCard extends StatelessWidget {
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage user',
-                            message: '${user.firstName ?? ''} ${user.lastName??''}',
-                            context: context, actions: <SheetAction<int>>[
-                          const SheetAction(label: 'Edit User', key: 0),
-                          const SheetAction(label: 'Remove User', isDestructiveAction: true, key: 1),
-                        ]).then((result) async {
+                            message: '${user.firstName ?? ''} ${user.lastName ?? ''}',
+                            context: context,
+                            actions: <SheetAction<int>>[
+                              const SheetAction(label: 'Edit User', key: 0),
+                              const SheetAction(label: 'Remove User', isDestructiveAction: true, key: 1),
+                            ]).then((result) async {
                           switch (result) {
                             case 0:
                               if (onEditTap != null) {
@@ -91,6 +92,9 @@ class TeamCard extends StatelessWidget {
 
   String? getName({required User user, bool firstLetterOnly = false}) {
     if (user.firstName != null && user.lastName != null) {
+      if (user.firstName!.isEmpty) {
+        return null;
+      }
       if (firstLetterOnly) {
         return user.firstName![0];
       } else {

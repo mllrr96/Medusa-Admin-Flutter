@@ -15,7 +15,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   late TabController tabController;
   RxString searchTerm = ''.obs;
   late Worker searchDebouncer;
-
+  final scrollController = ScrollController();
   final pagingController = PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   @override
@@ -27,6 +27,11 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
   Future<void> _fetchPage(int pageKey) async {
     final result = await ordersRepository.retrieveOrders(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,

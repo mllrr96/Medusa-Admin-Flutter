@@ -61,7 +61,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
           ),
           space,
           if (discount.rule?.conditions?.isEmpty ?? true)
-            Text('This discount has no conditions', style: smallTextStyle?.copyWith(color: lightWhite)),
+            Center(child: Text('This discount has no conditions', style: smallTextStyle?.copyWith(color: lightWhite))),
           if (discount.rule?.conditions?.isNotEmpty ?? false)
             ListView.separated(
                 separatorBuilder: (_, __) => space,

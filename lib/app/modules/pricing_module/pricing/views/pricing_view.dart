@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../controllers/pricing_controller.dart';
@@ -37,9 +38,8 @@ class PricingView extends GetView<PricingController> {
         leading: const AdaptiveBackButton(),
         title: const Text('Price List'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST),
-        child: const Icon(Icons.add),
+      floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Price List', icon: const Icon(Icons.add),
+      onPressed: () => Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST),
       ),
       body: SafeArea(
         child: SmartRefresher(
@@ -47,6 +47,7 @@ class PricingView extends GetView<PricingController> {
           onRefresh: () => controller.pagingController.refresh(),
           header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
           child: PagedListView.separated(
+            scrollController: controller.scrollController,
             separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<PriceList>(

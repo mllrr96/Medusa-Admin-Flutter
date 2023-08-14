@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
+import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -21,14 +22,13 @@ class CustomersView extends GetView<CustomersController> {
       child: Scaffold(
         // ignore: prefer_const_constructors
       appBar: CustomerCustomAppBar(),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Customer', icon:const Icon(Icons.person_add),
           onPressed: () async {
             final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS);
             if (result is bool) {
               CustomersController.instance.pagingController.refresh();
             }
           },
-          child: const Icon(Icons.person_add),
         ),
         body: SlidableAutoCloseBehavior(
           child: SmartRefresher(
@@ -36,6 +36,7 @@ class CustomersView extends GetView<CustomersController> {
             onRefresh: () => controller.pagingController.refresh(),
             header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
             child: PagedListView(
+              scrollController: controller.scrollController,
               // Adding bottom padding to prevent FAB from covering last item
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: controller.pagingController,

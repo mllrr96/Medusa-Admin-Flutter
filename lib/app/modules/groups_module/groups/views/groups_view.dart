@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../components/search_text_field.dart';
@@ -21,14 +22,13 @@ class GroupsView extends GetView<GroupsController> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Group', icon: const Icon(Icons.group_add),
           onPressed: () async {
             final result = await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
             if (result is bool && result) {
               GroupsController.instance.pagingController.refresh();
             }
           },
-          child: const Icon(Icons.group_add),
         ),
         appBar: const GroupAppBar(),
         body: SlidableAutoCloseBehavior(
@@ -37,6 +37,7 @@ class GroupsView extends GetView<GroupsController> {
             onRefresh: () => controller.pagingController.refresh(),
             header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
             child: PagedListView.separated(
+              scrollController: controller.scrollController,
               separatorBuilder: (_, __) => Divider(height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: controller.pagingController,

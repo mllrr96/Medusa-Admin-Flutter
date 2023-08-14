@@ -15,6 +15,7 @@ class GroupsController extends GetxController {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   RefreshController refreshController = RefreshController();
   final int _pageSize = 20;
+  final scrollController = ScrollController();
   RxInt customerGroupsCount = 0.obs;
   final searchCtrl = TextEditingController();
   RxString searchTerm = ''.obs;
@@ -38,6 +39,7 @@ class GroupsController extends GetxController {
   void dispose() {
     searchCtrl.dispose();
     searchDebouner.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 

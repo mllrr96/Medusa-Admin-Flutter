@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/repository/gift_card/gift_card_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 import '../../../components/currency_formatter.dart';
+import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';
 
 class CreateUpdateCustomGiftCardController extends GetxController {
   CreateUpdateCustomGiftCardController({required this.giftCardRepo});
@@ -76,6 +77,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     loading();
     final result = await giftCardRepo.createGiftCard(
         userCreateGiftCardReq: UserCreateGiftCardReq(
+          value: int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')),
       regionId: selectedRegion!.id!,
       endsAt: expiryDate,
     ));
@@ -83,6 +85,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     result.when((success) {
       Get.back();
       EasyLoading.showSuccess('Updated');
+      CustomGiftCardsController.instance.customGiftCardsPagingController.refresh();
       return;
     },
         (error) =>

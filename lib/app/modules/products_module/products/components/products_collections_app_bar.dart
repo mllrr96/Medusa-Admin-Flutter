@@ -59,10 +59,10 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
       final count = CollectionsController.instance.collectionCount.value;
       return Text(count != 0 ? 'Collections ($count)' : 'Collections', overflow: TextOverflow.ellipsis);
     });
-    final categoriesText = Obx(() {
-      final count = categoriesCtrl.categoriesCount.value;
-      return Text(count != 0 ? 'Categories ($count)' : 'Categories', overflow: TextOverflow.ellipsis);
-    });
+    // final categoriesText = Obx(() {
+    //   final count = categoriesCtrl.categoriesCount.value;
+    //   return Text(count != 0 ? 'Categories ($count)' : 'Categories', overflow: TextOverflow.ellipsis);
+    // });
 
     final androidTabBar = TabBar(
       controller: widget.tabController,
@@ -76,10 +76,10 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
     final iosTabBar = SizedBox(
       height: kToolbarHeight,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CupertinoButton(
-              padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+              // padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
               onPressed: () {
                 widget.tabController.index = 0;
                 setState(() {});
@@ -105,22 +105,22 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
                 duration: const Duration(milliseconds: 200),
                 child: collectionText),
           ),
-          Flexible(
-            child: CupertinoButton(
-              padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-              onPressed: () {
-                widget.tabController.index = 2;
-                setState(() {});
-              },
-              alignment: Alignment.bottomCenter,
-              child: AnimatedDefaultTextStyle(
-                  style: widget.tabController.index == 2
-                      ? displayLargeTextStyle!
-                      : largeTextStyle!.copyWith(color: lightWhite),
-                  duration: const Duration(milliseconds: 200),
-                  child: categoriesText),
-            ),
-          ),
+          // Flexible(
+          //   child: CupertinoButton(
+          //     padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+          //     onPressed: () {
+          //       widget.tabController.index = 2;
+          //       setState(() {});
+          //     },
+          //     alignment: Alignment.bottomCenter,
+          //     child: AnimatedDefaultTextStyle(
+          //         style: widget.tabController.index == 2
+          //             ? displayLargeTextStyle!
+          //             : largeTextStyle!.copyWith(color: lightWhite),
+          //         duration: const Duration(milliseconds: 200),
+          //         child: categoriesText),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -140,7 +140,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
           SizedBox(height: topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
-          if (Platform.isIOS) const Divider(height: 0),
+          // if (Platform.isIOS) const Divider(height: 0),
         ],
       ),
     );

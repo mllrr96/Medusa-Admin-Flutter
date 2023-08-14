@@ -14,6 +14,7 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
   late TabController tabController;
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final scrollController = ScrollController();
   final int _pageSize = 20;
   RxInt customersCount = 0.obs;
   final searchCtrl = TextEditingController();
@@ -44,6 +45,7 @@ class CustomersController extends GetxController with GetSingleTickerProviderSta
     searchDebouner.dispose();
     pagingController.dispose();
     focusNode.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 

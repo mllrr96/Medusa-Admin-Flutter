@@ -30,6 +30,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
   final ProductsController controller = Get.find<ProductsController>();
   final collectionCtrl = CollectionsController.instance;
   final searchNode = FocusNode();
+  final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
 
   IconData getSortIcon(SortOptions sortOptions) {
     switch (sortOptions) {
@@ -148,7 +149,7 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Filters', style: Theme.of(context).textTheme.titleSmall),
+                          Text('Filters', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: lightWhite)),
                           if (controller.productFilter?.count() != null)
                             Text(' ${controller.productFilter?.count() ?? ''}',
                                 style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ColorManager.primary)),

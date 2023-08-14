@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -16,6 +17,7 @@ class GroupDetailsController extends GetxController {
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
+  final scrollController = ScrollController();
   RxInt customerGroupsCount = 0.obs;
   CustomerGroup customerGroup = Get.arguments;
   @override
@@ -24,6 +26,12 @@ class GroupDetailsController extends GetxController {
       _fetchPage(pageKey);
     });
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 
   Future<void> _fetchPage(int pageKey) async {

@@ -1,12 +1,11 @@
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../../../../data/models/store/customer_group.dart';
@@ -28,11 +27,14 @@ class GroupDetailsView extends GetView<GroupDetailsController> {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
 
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: ScrollingExpandableFab(
+          controller: controller.scrollController,
+          label: 'Add Customers',
+          icon: const Icon(CupertinoIcons.person_add_solid),
           onPressed: () async => await controller.addCustomers(),
-          child: const Icon(CupertinoIcons.person_add_solid),
         ),
         body: CustomScrollView(
+          controller: controller.scrollController,
           slivers: [
             SliverAppBar(
               pinned: true,
@@ -124,23 +126,8 @@ class GroupDetailsView extends GetView<GroupDetailsController> {
                   },
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator.adaptive()),
-                  noItemsFoundIndicatorBuilder: (context) => Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('No customers in this group yet'),
-                          AdaptiveButton(
-                              onPressed: () async => await controller.addCustomers(),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add),
-                                  const SizedBox(width: 6.0),
-                                  const Text('Add customers'),
-                                ],
-                              ))
-                        ],
-                      )),
-              // separatorBuilder: (_, __) => const Divider(height: 0),
+                  noItemsFoundIndicatorBuilder: (context) =>
+                      const Center(child: Text('No customers in this group yet'))),
             ),
           ],
         ));

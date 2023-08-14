@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -20,17 +21,19 @@ class OrdersView extends GetView<OrdersController> {
     final tr = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: const OrdersBottomAppBar(),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'orders',
+      floatingActionButton: ScrollingExpandableFab(
+        controller: controller.scrollController,
+        label: 'Export Orders',
+        icon: const Icon(MedusaIcons.arrow_up_tray, size: 20),
         onPressed: () {},
-        child: const Icon(MedusaIcons.arrow_up_tray, size: 20),
       ),
       body: SmartRefresher(
         controller: controller.refreshController,
         onRefresh: () => controller.pagingController.refresh(),
         header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
         child: PagedListView.separated(
-          padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+          scrollController: controller.scrollController,
+          padding: const EdgeInsets.only(bottom: 120, top: 4.0),
           pagingController: controller.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Order>(
               itemBuilder: (context, order, index) => AlternativeOrderCard(order),
@@ -160,7 +163,7 @@ class _OrdersBottomAppBarState extends State<OrdersBottomAppBar> {
                     ],
                   ),
                 ),
-                const Divider(height: 0),
+                // const Divider(height: 0),
               ],
             ),
           ),

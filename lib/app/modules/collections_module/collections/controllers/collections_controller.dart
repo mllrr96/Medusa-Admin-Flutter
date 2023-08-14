@@ -16,9 +16,9 @@ class CollectionsController extends GetxController {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final searchCtrl = TextEditingController();
+  final scrollController = ScrollController();
   RxString searchTerm = ''.obs;
   late Worker searchDebouncer;
-
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
@@ -36,6 +36,7 @@ class CollectionsController extends GetxController {
     pagingController.dispose();
     searchDebouncer.dispose();
     searchCtrl.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 

@@ -85,6 +85,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           space,
           CustomExpansionTile(
             title: Text('Collection', style: smallTextStyle),
+            initiallyExpanded: productFilter.collection?.isNotEmpty ?? false,
             children: [
               if (controller.collections?.isNotEmpty ?? false)
                 ...controller.collections!

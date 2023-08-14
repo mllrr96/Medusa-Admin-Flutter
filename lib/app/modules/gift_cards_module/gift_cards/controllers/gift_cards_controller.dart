@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -14,10 +15,18 @@ class GiftCardsController extends GetxController {
   final ProductsRepo productsRepo;
   final productsPagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
+  final scrollController = ScrollController();
   @override
   void onInit() {
     productsPagingController.addPageRequestListener((pageKey) => _fetchProductGiftCards(pageKey));
     super.onInit();
+  }
+
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 
   Future<void> _fetchProductGiftCards(int pageKey) async {
