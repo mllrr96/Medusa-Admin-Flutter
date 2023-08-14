@@ -33,7 +33,6 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
                           await controller.deleteDiscount();
                         }
                       });
-                      controller.fabKey.currentState?.toggle();
                     },
                     child: const Icon(MedusaIcons.trash)),
                 const SizedBox(width: 12.0),
@@ -42,7 +41,6 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
                     backgroundColor: ColorManager.primary,
                     foregroundColor: Colors.white,
                     onPressed: () async {
-                      controller.fabKey.currentState?.toggle();
                       await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount)?.then((value) async {
                         if (value is bool && value == true) {
                           await controller.loadDiscount();
