@@ -52,7 +52,7 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
                     backgroundColor: Colors.red,
                     labelBackgroundColor: Colors.red,
                     foregroundColor: Colors.white,
-                    labelStyle: smallTextStyle,
+                    labelStyle: smallTextStyle?.copyWith(color: Colors.white),
                     onTap: onDeleteTap,
                     onLongPress: () {},
                   ),

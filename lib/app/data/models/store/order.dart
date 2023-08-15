@@ -249,6 +249,27 @@ enum OrderStatus {
 
   final String value;
 
+  String name() {
+    switch (index) {
+      case 0:
+        return 'Pending';
+
+      case 1:
+        return 'Completed';
+
+      case 2:
+        return 'Archived';
+
+      case 3:
+        return 'Canceled';
+
+      case 4:
+        return 'Requires Action';
+      default:
+        return 'Pending';
+    }
+  }
+
   const OrderStatus(this.value);
 }
 
@@ -265,6 +286,40 @@ enum FulfillmentStatus {
 
   final String value;
 
+  String name() {
+    switch (index) {
+      case 0:
+        return 'Not Fulfilled';
+
+      case 1:
+        return 'Partially Fulfilled';
+
+      case 2:
+        return 'Fulfilled';
+
+      case 3:
+        return 'Partially Shipped';
+
+      case 4:
+        return 'Shipped';
+
+      case 5:
+        return 'Partially Returned';
+
+      case 6:
+        return 'Returned';
+
+      case 7:
+        return 'Canceled';
+
+      case 8:
+        return 'Requires Action';
+
+      default:
+        return 'Not Paid';
+    }
+  }
+
   const FulfillmentStatus(this.value);
 }
 
@@ -278,6 +333,34 @@ enum PaymentStatus {
   requiresAction('requires_action');
 
   final String value;
+
+  String name() {
+    switch (index) {
+      case 0:
+        return 'Not Paid';
+
+      case 1:
+        return 'Awaiting';
+
+      case 2:
+        return 'Captured';
+
+      case 3:
+        return 'Partially Refunded';
+
+      case 4:
+        return 'Refunded';
+
+      case 5:
+        return 'Canceled';
+
+      case 6:
+        return 'Requires Action';
+
+      default:
+        return 'Not Paid';
+    }
+  }
 
   const PaymentStatus(this.value);
 }

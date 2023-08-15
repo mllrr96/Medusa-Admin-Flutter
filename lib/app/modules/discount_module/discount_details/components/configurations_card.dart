@@ -5,15 +5,15 @@ import 'package:medusa_admin/app/data/models/store/discount.dart';
 import '../../../components/date_time_card.dart';
 
 class ConfigurationsCard extends StatelessWidget {
-  const ConfigurationsCard(this.discount,{Key? key}) : super(key: key);
-final Discount discount;
+  const ConfigurationsCard(this.discount, {Key? key}) : super(key: key);
+  final Discount discount;
   @override
   Widget build(BuildContext context) {
-
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
+    final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -42,7 +42,7 @@ final Discount discount;
             DateTimeCard(
               dateTime: discount.endsAt,
               dateText: 'Expiry',
-              dateTimeTextStyle: mediumTextStyle,
+              dateTimeTextStyle: mediumTextStyle?.copyWith(color: expired ? Colors.redAccent : null),
               dateTextStyle: mediumTextStyle?.copyWith(color: lightWhite),
               borderColor: Colors.transparent,
             ),

@@ -142,10 +142,10 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                     child: Chip(
                       side: BorderSide(
                           color: (controller.productFilter?.count() ?? 0) != 0
-                              ? ColorManager.primary.withOpacity(0.4)
+                              ? ColorManager.primary
                               : Colors.transparent),
                       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                      // shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

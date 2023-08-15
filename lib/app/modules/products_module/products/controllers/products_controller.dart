@@ -162,6 +162,9 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   }
 
   void resetFilter() {
+    if (productFilter == null || productFilter?.count() == 0) {
+      return;
+    }
     productFilter = null;
     pagingController.refresh();
     update();

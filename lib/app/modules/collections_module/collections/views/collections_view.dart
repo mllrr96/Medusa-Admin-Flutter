@@ -22,7 +22,8 @@ class CollectionsView extends GetView<CollectionsController> {
 
     return Scaffold(
       appBar: const CollectionsAppBar(),
-      floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Collection', icon: const Icon(Icons.add)),
+      floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Collection', icon: const Icon(Icons.add)
+      ,onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),),
       body: SafeArea(
         child: SmartRefresher(
           controller: controller.refreshController,

@@ -4,6 +4,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/products_module/products/controllers/products_controller.dart';
 
+import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_filled_button.dart';
 
@@ -32,29 +33,25 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
       appBar: AppBar(
         leading: const AdaptiveCloseButton(),
         title: const Text('Filter Products'),
+        actions: [
+          AdaptiveButton(
+            onPressed: () {
+              controller.resetFilter();
+              Get.back();
+            },
+            child: const Text('Reset'),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.fromLTRB(12.0, 4.0, 12.0, bottomPadding),
+        padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, bottomPadding),
         color: context.theme.appBarTheme.backgroundColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AdaptiveFilledButton(
-              onPressed: () {
-                controller.resetFilter();
-                Get.back();
-              },
-              buttonColor: Colors.transparent,
-              child: Text('Reset', style: smallTextStyle),
-            ),
-            AdaptiveFilledButton(
-                onPressed: () {
-                  controller.updateFilter(productFilter);
-                  Get.back();
-                },
-                child: Text('Apply', style: smallTextStyle)),
-          ],
-        ),
+        child: AdaptiveFilledButton(
+            onPressed: () {
+              controller.updateFilter(productFilter);
+              Get.back();
+            },
+            child: Text('Apply', style: smallTextStyle?.copyWith(color: Colors.white))),
       ),
       body: ListView(
         shrinkWrap: true,
@@ -67,6 +64,8 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                 .map((e) => CheckboxListTile(
                       title: Text(e.name.capitalize ?? e.name, style: smallTextStyle),
                       value: productFilter.status?.contains(e) ?? false,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
                       onChanged: (bool? value) {
                         if (value == null) {
                           return;
@@ -90,6 +89,8 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
               if (controller.collections?.isNotEmpty ?? false)
                 ...controller.collections!
                     .map((e) => CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  contentPadding: EdgeInsets.zero,
                           value: productFilter.collection?.map((e) => e.id).toList().contains(e.id),
                           onChanged: (val) {
                             if (val == null) {
@@ -102,7 +103,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                             }
                             setState(() {});
                           },
-                          title: Text(e.title ?? ''),
+                          title: Text(e.title ?? '', style: smallTextStyle),
                         ))
                     .toList()
             ],
@@ -119,7 +120,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                   children: controller.tags!
                       .map(
                         (e) => ChoiceChip(
-                          label: Text(e.value ?? ''),
+                          label: Text(e.value ?? '', style: smallTextStyle),
                           labelStyle: smallTextStyle,
                           onSelected: (val) {
                             if (val) {

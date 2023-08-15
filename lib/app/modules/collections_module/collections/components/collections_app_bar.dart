@@ -1,11 +1,5 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/search_text_field.dart';
@@ -68,7 +62,7 @@ class _CollectionsAppBarState extends State<CollectionsAppBar> {
           secondChild: SizedBox(
             height: kToolbarHeight,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 AdaptiveIcon(
                     onPressed: () async {
@@ -79,10 +73,6 @@ class _CollectionsAppBarState extends State<CollectionsAppBar> {
                       searchNode.requestFocus();
                     },
                     icon: const Icon(MedusaIcons.magnifying_glass)),
-                const SizedBox(width: 6.0),
-                AdaptiveIcon(
-                    onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),
-                    icon: Platform.isIOS ? const Icon(CupertinoIcons.add) : const Icon(Icons.add)),
               ],
             ),
           ),
