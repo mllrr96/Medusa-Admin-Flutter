@@ -13,16 +13,11 @@ class SplashController extends GetxController {
   void onReady() async {
     super.onReady();
     String? cookie = StorageService.cookie;
-    final isDrawer = StorageService.appSettings.isDrawer;
     if (cookie != null) {
       try {
         await authRepo.getSession();
         await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init());
-        if (isDrawer) {
-          Get.offAllNamed(Routes.ORDERS);
-        } else {
-          Get.offAllNamed(Routes.DASHBOARD);
-        }
+        Get.offAllNamed(Routes.DASHBOARD);
       } catch (e) {
         await StorageService.instance.clearCookie();
         Get.offAllNamed(Routes.SIGN_IN);

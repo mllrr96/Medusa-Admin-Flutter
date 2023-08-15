@@ -67,15 +67,10 @@ class SignInController extends GetxController {
     loading();
     final result =
         await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
-    final isDrawer = StorageService.appSettings.isDrawer;
 
     result.when((success) async {
       await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init());
-      if (isDrawer) {
-        Get.offAllNamed(Routes.ORDERS);
-      } else {
-        Get.offAllNamed(Routes.DASHBOARD);
-      }
+      Get.offAllNamed(Routes.DASHBOARD);
       dismissLoading();
     }, (error) {
       if (error.code == 401) {

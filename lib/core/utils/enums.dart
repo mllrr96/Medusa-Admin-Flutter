@@ -46,3 +46,30 @@ enum UserRole {
     }
   }
 }
+
+enum DateType { day, month }
+
+enum DateFilterType {
+  isInTheLast,
+  isOlderThan,
+  isAfter,
+  isBefore,
+  isEqualTo;
+
+  String name() {
+    switch (index) {
+      case 0:
+        return 'Is in the last';
+      case 1:
+        return 'Is older than';
+      case 2:
+        return 'Is after';
+      case 3:
+        return 'Is before';
+      case 4:
+        return 'Is equal to';
+      default:
+        return 'Is in the last';
+    }
+  }
+}

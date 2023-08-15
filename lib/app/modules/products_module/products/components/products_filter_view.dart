@@ -59,11 +59,11 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         children: [
           CustomExpansionTile(
             title: Text('Status', style: smallTextStyle),
-            initiallyExpanded: productFilter.status?.isNotEmpty ?? false,
+            initiallyExpanded: productFilter.status.isNotEmpty,
             children: ProductStatus.values
                 .map((e) => CheckboxListTile(
                       title: Text(e.name.capitalize ?? e.name, style: smallTextStyle),
-                      value: productFilter.status?.contains(e) ?? false,
+                      value: productFilter.status.contains(e),
                       controlAffinity: ListTileControlAffinity.leading,
                       contentPadding: EdgeInsets.zero,
                       onChanged: (bool? value) {
@@ -72,9 +72,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                         }
 
                         if (value) {
-                          productFilter.status?.add(e);
+                          productFilter.status.add(e);
                         } else {
-                          productFilter.status?.remove(e);
+                          productFilter.status.remove(e);
                         }
                         setState(() {});
                       },
@@ -84,22 +84,22 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           space,
           CustomExpansionTile(
             title: Text('Collection', style: smallTextStyle),
-            initiallyExpanded: productFilter.collection?.isNotEmpty ?? false,
+            initiallyExpanded: productFilter.collection.isNotEmpty,
             children: [
               if (controller.collections?.isNotEmpty ?? false)
                 ...controller.collections!
                     .map((e) => CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                          value: productFilter.collection?.map((e) => e.id).toList().contains(e.id),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          contentPadding: EdgeInsets.zero,
+                          value: productFilter.collection.map((e) => e.id).toList().contains(e.id),
                           onChanged: (val) {
                             if (val == null) {
                               return;
                             }
                             if (val) {
-                              productFilter.collection?.add(e);
+                              productFilter.collection.add(e);
                             } else {
-                              productFilter.collection?.removeWhere((element) => element.id == e.id);
+                              productFilter.collection.removeWhere((element) => element.id == e.id);
                             }
                             setState(() {});
                           },
@@ -111,7 +111,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           space,
           CustomExpansionTile(
             title: Text('Tags', style: smallTextStyle),
-            initiallyExpanded: productFilter.tags?.isNotEmpty ?? false,
+            initiallyExpanded: productFilter.tags.isNotEmpty,
             children: [
               if (controller.tags?.isNotEmpty ?? false)
                 Wrap(
@@ -124,13 +124,13 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                           labelStyle: smallTextStyle,
                           onSelected: (val) {
                             if (val) {
-                              productFilter.tags?.add(e);
+                              productFilter.tags.add(e);
                             } else {
-                              productFilter.tags?.remove(e);
+                              productFilter.tags.remove(e);
                             }
                             setState(() {});
                           },
-                          selected: productFilter.tags?.contains(e) ?? false,
+                          selected: productFilter.tags.contains(e),
                         ),
                       )
                       .toList(),
@@ -144,34 +144,34 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
 }
 
 class ProductFilter {
-  final List<ProductStatus>? status;
-  final List<ProductTag>? tags;
-  final List<ProductCollection>? collection;
+  final List<ProductStatus> status;
+  final List<ProductTag> tags;
+  final List<ProductCollection> collection;
 
-  ProductFilter({this.status, this.tags, this.collection});
+  ProductFilter({required this.status, required this.tags, required this.collection});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
-    if (status != null && status!.isNotEmpty) {
-      for (int i = 0; i < status!.length; i++) {
-        data['status[$i]'] = status![i].name;
+    if (status.isNotEmpty) {
+      for (int i = 0; i < status.length; i++) {
+        data['status[$i]'] = status[i].name;
       }
     }
 
-    if (tags != null && tags!.isNotEmpty) {
+    if (tags.isNotEmpty) {
       // For whatever reason when passing a list with single item an error occur, so this is a solution to solve the issue
-      if (tags!.length == 1) {
-        data['tags'] = <String>[tags![0].id!, ''];
+      if (tags.length == 1) {
+        data['tags'] = <String>[tags[0].id!, ''];
       } else {
-        data['tags'] = tags!.map((e) => e.id!).toList();
+        data['tags'] = tags.map((e) => e.id!).toList();
       }
     }
 
-    if (collection != null && collection!.isNotEmpty) {
-      if (collection!.length == 1) {
-        data['collection_id'] = [collection![0].id, ''];
+    if (collection.isNotEmpty) {
+      if (collection.length == 1) {
+        data['collection_id'] = [collection[0].id, ''];
       } else {
-        data['collection_id'] = collection!.map((e) => e.id!).toList();
+        data['collection_id'] = collection.map((e) => e.id!).toList();
       }
     }
 
@@ -180,13 +180,13 @@ class ProductFilter {
 
   int count() {
     int i = 0;
-    if (status != null && status!.isNotEmpty) {
+    if (status.isNotEmpty) {
       i += 1;
     }
-    if (tags != null && tags!.isNotEmpty) {
+    if (tags.isNotEmpty) {
       i += 1;
     }
-    if (collection != null && collection!.isNotEmpty) {
+    if (collection.isNotEmpty) {
       i += 1;
     }
     return i;

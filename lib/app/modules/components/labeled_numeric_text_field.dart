@@ -71,7 +71,7 @@ final bool noEndSpace;
                       onPressed: onMinusPressed ??
                               () {
                             int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                            if (stock != null && stock != 0) {
+                            if (stock != null && stock != 1) {
                               controller.text = (stock - 1).toString();
                             }
                           },

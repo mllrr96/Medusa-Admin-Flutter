@@ -27,7 +27,7 @@ class ProductsAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _ProductsAppBarState extends State<ProductsAppBar> {
   bool collectionSearch = false;
   bool productSearch = false;
-  final ProductsController controller = Get.find<ProductsController>();
+  final controller = ProductsController.instance;
   final collectionCtrl = CollectionsController.instance;
   final searchNode = FocusNode();
   final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;

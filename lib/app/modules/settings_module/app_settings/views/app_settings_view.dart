@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../data/service/language_service.dart';
 import '../../../components/language_selection/language_selection_view.dart';
@@ -19,9 +22,11 @@ class AppSettingsView extends StatelessWidget {
       final tr = AppLocalizations.of(context)!;
       return Scaffold(
         appBar: AppBar(
+          leading: const AdaptiveBackButton(),
           title: const Text('App Settings'),
         ),
         body: SettingsList(
+          contentPadding: EdgeInsets.zero,
           lightTheme: SettingsThemeData(
               settingsListBackground: Theme.of(context).scaffoldBackgroundColor,
               settingsSectionBackground: Theme.of(context).cardColor),
@@ -55,7 +60,6 @@ class AppSettingsView extends StatelessWidget {
               }).toList(),
             ),
             SettingsSection(
-              // title: Text(tr.language),
               tiles: <SettingsTile>[
                 SettingsTile.navigation(
                   title: Text(tr.language),
@@ -76,6 +80,23 @@ class AppSettingsView extends StatelessWidget {
                     builder: (context) => const LanguageSelectionView(),
                   ),
                 ),
+                if (GetPlatform.isIOS)
+                  SettingsTile.switchTile(
+                    title: const Text('Use Android date picker'),
+                    activeSwitchColor: ColorManager.primary,
+                    description: GestureDetector(
+                        onTap: () async => await adaptiveDateTimePicker(context: context),
+                        child: const Text('Use Android date picker instead of iOS picker, Click here for demo')),
+                    leading: const Icon(CupertinoIcons.calendar),
+                    onPressed: (_) async {},
+                    initialValue: StorageService.appSettings.useAndroidPicker,
+                    onToggle: (bool value) async {
+                      final storageService = StorageService.instance;
+                      final appSettings = StorageService.appSettings;
+                      await storageService.updateAppSettings(appSettings.copyWith(useAndroidPicker: value));
+                      controller.update();
+                    },
+                  ),
               ],
             ),
           ],

@@ -1,20 +1,20 @@
 class AppSettings {
-  final bool isDrawer;
+  final bool useAndroidPicker;
 
-  AppSettings({this.isDrawer = false});
+  AppSettings({this.useAndroidPicker = false});
 
   AppSettings copyWith({
-    bool? isDrawer,
+    bool? useAndroidPicker,
   }) =>
-      AppSettings(isDrawer: isDrawer ?? this.isDrawer);
+      AppSettings(useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker);
 
   Map<String, dynamic> toJson() => {
-        'isDrawer': isDrawer,
+        'useAndroidPicker': useAndroidPicker,
       };
 
   factory AppSettings.fromJson(Map<String, dynamic>? json) {
     return AppSettings(
-      isDrawer: json?['isDrawer'] ?? false,
+      useAndroidPicker: json?['useAndroidPicker'] ?? false,
     );
   }
 }

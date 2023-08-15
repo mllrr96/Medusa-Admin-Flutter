@@ -3,14 +3,18 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
+import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OrdersController extends GetxController with GetSingleTickerProviderStateMixin {
   static OrdersController get instance => Get.find<OrdersController>();
 
-  OrdersController({required this.ordersRepository});
+  OrdersController({required this.ordersRepository, required this.regionsRepo, required this.salesChannelRepo});
   OrdersRepo ordersRepository;
+  RegionsRepo regionsRepo;
+  SalesChannelRepo salesChannelRepo;
   final refreshController = RefreshController();
   RxInt ordersCount = 0.obs;
   late TabController tabController;
@@ -20,6 +24,8 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   final pagingController = PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   OrderFilter? orderFilter;
+  List<Region>? regions;
+  List<SalesChannel>? salesChannels;
 
   @override
   void onInit() {
@@ -28,6 +34,14 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    await loadRegions();
+    await loadSalesChannels();
+
+    super.onReady();
   }
 
   @override
@@ -62,7 +76,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   }
 
   void resetFilter() {
-    if(orderFilter== null || orderFilter?.count() == 0){
+    if (orderFilter == null || orderFilter?.count() == 0) {
       return;
     }
     orderFilter = null;
@@ -74,5 +88,27 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     this.orderFilter = orderFilter;
     pagingController.refresh();
     update();
+  }
+
+  loadRegions() async {
+    final result = await regionsRepo.retrieveAll();
+    result.when((success) {
+      if (success.regions?.isNotEmpty ?? false) {
+        regions = success.regions;
+      } else {
+        regions = [];
+      }
+    }, (error) {});
+  }
+
+  loadSalesChannels() async {
+    final result = await salesChannelRepo.retrieveAll();
+    result.when((success) {
+      if (success.salesChannels?.isNotEmpty ?? false) {
+        salesChannels = success.salesChannels;
+      } else {
+        salesChannels = [];
+      }
+    }, (error) {});
   }
 }

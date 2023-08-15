@@ -12,6 +12,7 @@ class StorageService extends GetxService {
   static String get baseUrl => Get.find<StorageService>()._baseUrl;
   static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
+
   static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
 
   late SharedPreferences _prefs;

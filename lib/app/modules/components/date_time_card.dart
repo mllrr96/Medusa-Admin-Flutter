@@ -64,3 +64,41 @@ class DateTimeCard extends StatelessWidget {
     );
   }
 }
+class DateCard extends StatelessWidget {
+  const DateCard(
+      {Key? key,
+      required this.dateTime,
+      this.onTap,
+      required this.dateText,
+      this.dateTimeTextStyle,
+      this.dateTextStyle, this.borderColor})
+      : super(key: key);
+  final DateTime? dateTime;
+  final void Function()? onTap;
+  final String? dateText;
+  final TextStyle? dateTimeTextStyle;
+  final TextStyle? dateTextStyle;
+  final Color? borderColor;
+  @override
+  Widget build(BuildContext context) {
+    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+          width: double.maxFinite,
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+              color: Theme.of(context).scaffoldBackgroundColor,
+              border: Border.all(color: borderColor ?? (dateTime != null ? Colors.grey : Colors.transparent))),
+          child: dateTime == null
+              ? Center(
+                  child: Text(
+                  dateText == null ? 'Tap to select date' : 'Tap to select ${dateText!.toLowerCase()} date',
+                  style: largeTextStyle?.copyWith(color: lightWhite),
+                ))
+              : Text(DateFormat.yMMMEd().format(dateTime!), style: dateTimeTextStyle)),
+    );
+  }
+}
