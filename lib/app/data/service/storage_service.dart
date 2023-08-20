@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -23,8 +24,14 @@ class StorageService extends GetxService {
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
-    final String defaultLocale =
-        Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
+    final String defaultLocale;
+  if(!kIsWeb){
+    defaultLocale =
+    Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
+  } else {
+    defaultLocale = 'en';
+  }
+
     try {
       // _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookieKey);

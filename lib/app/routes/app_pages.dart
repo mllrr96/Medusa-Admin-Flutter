@@ -82,6 +82,8 @@ import '../modules/products_module/product_details/bindings/product_details_bind
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
 import '../modules/products_module/products/views/products_view.dart';
+import '../modules/search/bindings/search_binding.dart';
+import '../modules/search/views/search_view.dart';
 import '../modules/settings_module/app_settings/bindings/app_settings_binding.dart';
 import '../modules/settings_module/app_settings/views/app_settings_view.dart';
 import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/bindings/add_update_api_key_binding.dart';
@@ -487,6 +489,11 @@ class AppPages {
       name: _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD,
       page: () => const CreateUpdateCustomGiftCardView(),
       binding: CreateUpdateCustomGiftCardBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH,
+      page: () => const SearchView(),
+      binding: SearchBinding(),
     ),
   ];
 }

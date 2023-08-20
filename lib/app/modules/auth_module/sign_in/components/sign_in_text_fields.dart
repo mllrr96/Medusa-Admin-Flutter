@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -45,7 +44,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                       child: FadeTransition(opacity: anim, child: child),
                     ),
                 child: obscureText
-                    ? Icon(Icons.lock, key: const ValueKey('icon1'), color: lightWhite)
+                    ? Icon(Icons.lock,
+                        key: const ValueKey('icon1'), color: lightWhite)
                     : Icon(
                         Icons.lock_open,
                         color: lightWhite,
@@ -54,12 +54,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             const SizedBox(
               width: 16,
             ),
-            SvgPicture.string(
-              '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
-              width: 1.0,
-              height: 15.5,
-              colorFilter: ColorFilter.mode(lightWhite, BlendMode.color),
-            ),
+            // SvgPicture.string(
+            //   '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
+            //   width: 1.0,
+            //   height: 15.5,
+            //   colorFilter: ColorFilter.mode(lightWhite, BlendMode.color),
+            // ),
             const SizedBox(
               width: 16,
             ),
@@ -145,12 +145,12 @@ class EmailTextField extends StatelessWidget {
               width: 16,
             ),
             //divider svg
-            SvgPicture.string(
-              '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
-              width: 1.0,
-              height: 15.5,
-              colorFilter: ColorFilter.mode(lightWhite, BlendMode.color),
-            ),
+            // SvgPicture.string(
+            //   '<svg viewBox="99.0 332.0 1.0 15.5" ><path transform="translate(99.0, 332.0)" d="M 0 0 L 0 15.5" fill="none" fill-opacity="0.6" stroke="#ffffff" stroke-width="1" stroke-opacity="0.6" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
+            //   width: 1.0,
+            //   height: 15.5,
+            //   colorFilter: ColorFilter.mode(lightWhite, BlendMode.color),
+            // ),
             const SizedBox(
               width: 16,
             ),

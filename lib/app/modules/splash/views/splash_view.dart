@@ -20,7 +20,9 @@ class SplashView extends GetView<SplashController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Hero(tag: 'medusa', child: Image.asset('assets/images/medusa.png', scale: 5)),
+              Hero(
+                  tag: 'medusa',
+                  child: Image.asset('assets/images/medusa.png', scale: 5)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text.rich(
