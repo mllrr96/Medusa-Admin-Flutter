@@ -26,7 +26,7 @@ class PickProductsController extends GetxController {
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await productsRepo.retrieveAll(
-      queryParams: {
+      queryParameters: {
         'fields': 'id,title,thumbnail,status,handle,collection_id',
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

@@ -59,20 +59,7 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   }
 
   void changeSortOption(SortOptions sortOption) {
-    switch (sortOption) {
-      case SortOptions.aZ:
-        sortOptions = SortOptions.aZ;
-        break;
-      case SortOptions.zA:
-        sortOptions = SortOptions.zA;
-        break;
-      case SortOptions.dateRecent:
-        sortOptions = SortOptions.dateRecent;
-        break;
-      case SortOptions.dateOld:
-        sortOptions = SortOptions.dateOld;
-        break;
-    }
+    sortOptions = sortOption;
     update();
     pagingController.refresh();
   }
@@ -82,12 +69,12 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
-      'order': _getSortOption(),
+      'order': sortOptions.map(),
       'is_giftcard': 'false',
     };
 
     final result = await productsRepo.retrieveAll(
-        queryParams: query..addAll(searchTerm.value.isEmpty ? productFilter?.toJson() ?? {} : {}));
+        queryParameters: query..addAll(searchTerm.value.isEmpty ? productFilter?.toJson() ?? {} : {}));
     result.when((success) {
       final isLastPage = success.products!.length < _pageSize;
       if (searchTerm.value.isEmpty) {
@@ -140,25 +127,6 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
         EasyLoading.showError('Update failed');
       }
     }, (error) => EasyLoading.showError('Update failed'));
-  }
-
-  String _getSortOption() {
-    String sortOption = 'created_at';
-    switch (sortOptions) {
-      case SortOptions.aZ:
-        sortOption = 'title';
-        break;
-      case SortOptions.zA:
-        sortOption = '-title';
-        break;
-      case SortOptions.dateRecent:
-        sortOption = 'created_at';
-        break;
-      case SortOptions.dateOld:
-        sortOption = '-created_at';
-        break;
-    }
-    return sortOption;
   }
 
   void resetFilter() {

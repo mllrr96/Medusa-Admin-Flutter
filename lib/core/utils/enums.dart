@@ -2,7 +2,20 @@ enum SortOptions {
   aZ,
   zA,
   dateRecent,
-  dateOld,
+  dateOld;
+
+  String map() {
+    switch (this) {
+      case SortOptions.aZ:
+        return 'title';
+      case SortOptions.zA:
+        return '-title';
+      case SortOptions.dateRecent:
+        return 'created_at';
+      case SortOptions.dateOld:
+        return '-created_at';
+    }
+  }
 }
 
 enum ViewOptions {

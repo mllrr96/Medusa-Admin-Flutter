@@ -30,7 +30,7 @@ class GiftCardsController extends GetxController {
   }
 
   Future<void> _fetchProductGiftCards(int pageKey) async {
-    final result = await productsRepo.retrieveAll(queryParams: {
+    final result = await productsRepo.retrieveAll(queryParameters: {
       'is_giftcard': true,
     });
     result.when((success) {

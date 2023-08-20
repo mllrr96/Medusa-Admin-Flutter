@@ -8,7 +8,7 @@ import '../../models/store/product.dart';
 
 abstract class BaseProducts {
   Future<Result<UserProductsListRes, Failure>> retrieveAll(
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders});
+      {Map<String, dynamic>? queryParameters, Map<String, dynamic>? customHeaders});
 
   Future<UserProductsRes?> retrieve(String id,
       {Map<String, dynamic>? customHeaders, Map<String, dynamic>? queryParameters});

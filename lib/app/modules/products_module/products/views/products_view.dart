@@ -23,7 +23,7 @@ class ProductsView extends GetView<ProductsController> {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return Scaffold(
-      appBar: const ProductsAppBar(),
+      // appBar: const ProductsAppBar(),
       endDrawer: const ProductsFilterView(),
       endDrawerEnableOpenDragGesture: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

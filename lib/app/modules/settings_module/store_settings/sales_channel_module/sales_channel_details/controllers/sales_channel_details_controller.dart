@@ -26,7 +26,7 @@ class SalesChannelDetailsController extends GetxController {
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await productsRepo.retrieveAll(
-      queryParams: {
+      queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
         'sales_channel_id': [salesChannel.id!, ''],

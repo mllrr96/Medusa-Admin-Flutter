@@ -158,7 +158,7 @@ class ConditionProductController extends GetxController {
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await productsRepo.retrieveAll(
-      queryParams: {
+      queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
         'is_giftcard': 'false',

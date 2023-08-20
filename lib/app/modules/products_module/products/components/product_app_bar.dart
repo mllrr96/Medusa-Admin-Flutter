@@ -111,17 +111,25 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                             title: 'Sort products',
                             actions: <SheetAction<SortOptions>>[
                               SheetAction(
-                                  label: 'A-Z', key: SortOptions.aZ, isDestructiveAction: sortOption == SortOptions.aZ),
+                                  label: 'A-Z',
+                                  key: SortOptions.aZ,
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.aZ),
                               SheetAction(
-                                  label: 'Z-A', key: SortOptions.zA, isDestructiveAction: sortOption == SortOptions.zA),
+                                  label: 'Z-A',
+                                  key: SortOptions.zA,
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.zA),
                               SheetAction(
                                   label: 'Creation Date',
                                   key: SortOptions.dateRecent,
-                                  isDestructiveAction: sortOption == SortOptions.dateRecent),
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.dateRecent),
                               SheetAction(
                                   label: 'Creation Date - Ascending',
                                   key: SortOptions.dateOld,
-                                  isDestructiveAction: sortOption == SortOptions.dateOld),
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.dateOld),
                             ]);
                         if (result != null) {
                           controller.changeSortOption(result);
@@ -129,7 +137,9 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                       },
                       icon: Icon(
                         getSortIcon(controller.sortOptions),
-                        color: controller.sortOptions != SortOptions.dateRecent ? ColorManager.primary : null,
+                        color: controller.sortOptions != SortOptions.dateRecent
+                            ? ColorManager.primary
+                            : null,
                       )),
                   const SizedBox(width: 6.0),
                   InkWell(
@@ -137,22 +147,43 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
                       controller.resetFilter();
                     },
                     onTap: () async {
-                      await showBarModalBottomSheet(context: context, builder: (context) => const ProductsFilterView());
+                      await showBarModalBottomSheet(
+                          context: context,
+                          builder: (context) => ProductsFilterView(
+                                collections: controller.collections,
+                                tags: controller.tags,
+                                onResetPressed: () {
+                                  controller.resetFilter();
+                                  Get.back();
+                                },
+                                productFilter: controller.productFilter,
+                              )).then((result) {
+                        controller.updateFilter(result);
+                      });
                     },
                     child: Chip(
                       side: BorderSide(
                           color: (controller.productFilter?.count() ?? 0) != 0
                               ? ColorManager.primary
                               : Colors.transparent),
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(6.0))),
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Filters', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: lightWhite)),
+                          Text('Filters',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(color: lightWhite)),
                           if (controller.productFilter?.count() != null)
                             Text(' ${controller.productFilter?.count() ?? ''}',
-                                style: Theme.of(context).textTheme.titleSmall?.copyWith(color: ColorManager.primary)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(color: ColorManager.primary)),
                         ],
                       ),
                       padding: EdgeInsets.zero,
@@ -163,7 +194,9 @@ class _ProductsAppBarState extends State<ProductsAppBar> {
             },
           ),
         ),
-        crossFadeState: productSearch ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        crossFadeState: productSearch
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
         duration: kDuration,
       ),
     );

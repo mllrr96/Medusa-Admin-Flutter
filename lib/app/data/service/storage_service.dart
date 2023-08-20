@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/strings.dart';
+import '../../modules/search/controllers/medusa_search_controller.dart';
 import '../models/app/settings.dart';
 
 class StorageService extends GetxService {
@@ -13,6 +14,8 @@ class StorageService extends GetxService {
   static String get baseUrl => Get.find<StorageService>()._baseUrl;
   static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
+  static List<SearchHistory> get searchHistory =>
+      Get.find<StorageService>()._searchHistory;
 
   static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
 
@@ -20,27 +23,38 @@ class StorageService extends GetxService {
   late String _baseUrl;
   late String _language;
   late String? _cookie;
+  late List<SearchHistory> _searchHistory;
   late AppSettings _appSettings;
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
     final String defaultLocale;
-  if(!kIsWeb){
-    defaultLocale =
-    Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
-  } else {
-    defaultLocale = 'en';
-  }
+    if (!kIsWeb) {
+      defaultLocale = Platform.localeName.length == 2
+          ? Platform.localeName
+          : Platform.localeName.split('_')[0];
+    } else {
+      defaultLocale = 'en';
+    }
 
     try {
-      // _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
-      _appSettings = AppSettings.fromJson(jsonDecode(_prefs.getString(AppConstants.appSettingsKey) ?? ''));
+      _appSettings = AppSettings.fromJson(
+          jsonDecode(_prefs.getString(AppConstants.appSettingsKey) ?? ''));
+
+      final String? searchHistoryString =
+          _prefs.getString(AppConstants.searchHistoryKey);
+      if (searchHistoryString != null && searchHistoryString.isNotEmpty) {
+        _searchHistory = SearchHistory.decode(searchHistoryString);
+      } else {
+        _searchHistory = [];
+      }
     } catch (e) {
       _cookie = null;
       _language = defaultLocale;
       _appSettings = AppSettings();
+      _searchHistory = [];
     }
     _baseUrl = AppConstants.baseUrl;
     return this;
@@ -48,7 +62,8 @@ class StorageService extends GetxService {
 
   Future<bool> updateAppSettings(AppSettings appSettings) async {
     try {
-      _prefs.setString(AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
+      _prefs.setString(
+          AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
       _appSettings = appSettings;
       return true;
     } catch (e) {
@@ -136,6 +151,33 @@ class StorageService extends GetxService {
     try {
       _cookie = cookie;
       await _prefs.setString(AppConstants.cookieKey, cookie);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> updateSearchHistory(SearchHistory searchHistory,
+      {bool delete = false}) async {
+    try {
+      if (!delete &&
+          _searchHistory
+              .where((element) =>
+                  element.text == searchHistory.text &&
+                  element.searchableFields == searchHistory.searchableFields)
+              .isNotEmpty) {
+        return;
+      }
+
+      if (delete) {
+        _searchHistory.removeWhere((element) =>
+            element.text == searchHistory.text &&
+            element.searchableFields.index ==
+                searchHistory.searchableFields.index);
+      } else {
+        _searchHistory.add(searchHistory);
+      }
+      await _prefs.setString(
+          AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
     } catch (e) {
       debugPrint(e.toString());
     }

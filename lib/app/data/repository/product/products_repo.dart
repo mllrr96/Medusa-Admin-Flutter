@@ -16,14 +16,14 @@ class ProductsRepo extends BaseProducts {
   /// Retrieves a list of products
   @override
   Future<Result<UserProductsListRes, Failure>> retrieveAll(
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
+      {Map<String, dynamic>? queryParameters, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.get(
         uri: '/products',
-        queryParameters: queryParams,
+        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserProductsListRes.fromJson(response.data));

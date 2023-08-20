@@ -493,6 +493,8 @@ class AppPages {
     GetPage(
       name: _Paths.SEARCH,
       page: () => const SearchView(),
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
       binding: SearchBinding(),
     ),
   ];

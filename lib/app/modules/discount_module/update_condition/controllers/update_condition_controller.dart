@@ -42,7 +42,7 @@ class UpdateConditionController extends GetxController {
           operatorText = 'Discount is applicable to selected products only';
         }
         productsRepo = ProductsRepo();
-        final result = await productsRepo.retrieveAll(queryParams: {'discount_condition_id': condition.id!});
+        final result = await productsRepo.retrieveAll(queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <Product>[];
           items = <Product>[];

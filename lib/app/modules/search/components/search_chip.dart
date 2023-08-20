@@ -6,10 +6,14 @@ import '../../../../core/utils/medusa_icons_icons.dart';
 import '../controllers/medusa_search_controller.dart';
 
 class SearchChip extends StatelessWidget {
-  const SearchChip({super.key, required this.searchableField, this.onTap});
-  final SearchableFields searchableField;
+  const SearchChip(
+      {super.key,
+      required this.searchableField,
+      this.onTap,
+      this.selected = false});
+  final SearchCategory searchableField;
   final void Function()? onTap;
-
+  final bool selected;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
@@ -17,45 +21,45 @@ class SearchChip extends StatelessWidget {
     var iconDate = MedusaIcons.tag;
     Color chipColor = Colors.red;
     switch (searchableField) {
-      case SearchableFields.orders:
+      case SearchCategory.orders:
         title = 'Orders';
         iconDate = CupertinoIcons.cart;
         chipColor = Colors.purple;
-      case SearchableFields.draftOrders:
+      case SearchCategory.draftOrders:
         title = 'Draft Orders';
         iconDate = MedusaIcons.tag;
         chipColor = Colors.teal;
-      case SearchableFields.products:
+      case SearchCategory.products:
         title = 'Products';
         iconDate = GetPlatform.isIOS ? MedusaIcons.tag : CupertinoIcons.tag;
         chipColor = Colors.amber;
 
-      case SearchableFields.collections:
+      case SearchCategory.collections:
         title = 'Collections';
         iconDate = MedusaIcons.tag;
         chipColor = Colors.blue;
 
-      case SearchableFields.customers:
+      case SearchCategory.customers:
         title = 'Customers';
         iconDate = GetPlatform.isIOS ? MedusaIcons.users : Icons.person;
         chipColor = Colors.brown;
 
-      case SearchableFields.groups:
+      case SearchCategory.groups:
         title = 'Groups';
         iconDate = MedusaIcons.tag;
         chipColor = Colors.deepOrange;
 
-      case SearchableFields.giftCards:
+      case SearchCategory.giftCards:
         title = 'Gift Cards';
         iconDate = CupertinoIcons.gift;
         chipColor = Colors.pink;
 
-      case SearchableFields.discounts:
+      case SearchCategory.discounts:
         title = 'Discounts';
         iconDate = Icons.discount_outlined;
         chipColor = Colors.lime;
 
-      case SearchableFields.priceLists:
+      case SearchCategory.priceLists:
         title = 'Price Lists';
         iconDate = MedusaIcons.currency_dollar;
         chipColor = Colors.redAccent;
@@ -79,8 +83,10 @@ class SearchChip extends StatelessWidget {
               title,
               style: smallTextStyle?.copyWith(color: Colors.white),
             ),
-            if (onTap != null)
-              const Icon(Icons.keyboard_arrow_down, color: Colors.white)
+            if (onTap != null && !selected)
+              const Icon(Icons.keyboard_arrow_down, color: Colors.white),
+            if (selected)
+              const Icon(Icons.check, color: Colors.white)
           ],
         ),
       ),
