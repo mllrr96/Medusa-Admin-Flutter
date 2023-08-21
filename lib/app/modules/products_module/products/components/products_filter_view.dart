@@ -2,25 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
-import 'package:medusa_admin/app/modules/products_module/products/controllers/products_controller.dart';
 
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_filled_button.dart';
 
 class ProductsFilterView extends StatefulWidget {
-  const ProductsFilterView({super.key});
-
+  const ProductsFilterView({super.key, this.productFilter,  this.tags,  this.collections, this.onResetPressed});
+final ProductFilter? productFilter;
+final List<ProductTag>? tags;
+final List<ProductCollection>? collections;
+final void Function()? onResetPressed;
   @override
   State<ProductsFilterView> createState() => _ProductsFilterViewState();
 }
 
 class _ProductsFilterViewState extends State<ProductsFilterView> {
-  final controller = ProductsController.instance;
+  // final controller = ProductsController.instance;
   late ProductFilter productFilter;
   @override
   void initState() {
-    productFilter = controller.productFilter ?? ProductFilter(status: [], tags: [], collection: []);
+    productFilter = widget.productFilter ?? ProductFilter(status: [], tags: [], collection: []);
     super.initState();
   }
 
@@ -35,10 +37,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         title: const Text('Filter Products'),
         actions: [
           AdaptiveButton(
-            onPressed: () {
-              controller.resetFilter();
-              Get.back();
-            },
+            onPressed:widget.onResetPressed,
             child: const Text('Reset'),
           ),
         ],
@@ -48,8 +47,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         color: context.theme.appBarTheme.backgroundColor,
         child: AdaptiveFilledButton(
             onPressed: () {
-              controller.updateFilter(productFilter);
-              Get.back();
+              Get.back(result: productFilter);
             },
             child: Text('Apply', style: smallTextStyle?.copyWith(color: Colors.white))),
       ),
@@ -86,8 +84,8 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
             title: Text('Collection', style: smallTextStyle),
             initiallyExpanded: productFilter.collection.isNotEmpty,
             children: [
-              if (controller.collections?.isNotEmpty ?? false)
-                ...controller.collections!
+              if (widget.collections?.isNotEmpty ?? false)
+                ...widget.collections!
                     .map((e) => CheckboxListTile(
                           controlAffinity: ListTileControlAffinity.leading,
                           contentPadding: EdgeInsets.zero,
@@ -113,11 +111,11 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
             title: Text('Tags', style: smallTextStyle),
             initiallyExpanded: productFilter.tags.isNotEmpty,
             children: [
-              if (controller.tags?.isNotEmpty ?? false)
+              if (widget.tags?.isNotEmpty ?? false)
                 Wrap(
                   alignment: WrapAlignment.start,
                   spacing: 6.0,
-                  children: controller.tags!
+                  children: widget.tags!
                       .map(
                         (e) => ChoiceChip(
                           label: Text(e.value ?? '', style: smallTextStyle),

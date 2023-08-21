@@ -12,6 +12,7 @@ import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_icon.dart';
+import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/index.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 
@@ -26,10 +27,12 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
     String getCurrencyText(GiftCard giftCard) {
       var value = giftCard.value?.roundToDouble() ?? 0.0;
       var balance = giftCard.balance?.roundToDouble() ?? 0.0;
-      final valueFormatter = NumberFormat.currency(name: giftCard.region?.currencyCode);
+      final valueFormatter =
+          NumberFormat.currency(name: giftCard.region?.currencyCode);
       if (valueFormatter.decimalDigits != null) {
         value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-        balance = balance / pow(10, valueFormatter.decimalDigits!).roundToDouble();
+        balance =
+            balance / pow(10, valueFormatter.decimalDigits!).roundToDouble();
       }
       return '${valueFormatter.format(balance).split(valueFormatter.currencySymbol)[1]} / ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
     }
@@ -39,7 +42,11 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
         leading: const AdaptiveBackButton(),
         title: const Text('Gift Cards History'),
         actions: [
-          AdaptiveIcon(onPressed: () {}, icon: const Icon(MedusaIcons.magnifying_glass)),
+          AdaptiveIcon(
+              onPressed: () => Get.toNamed(Routes.MEDUSA_SEARCH,
+                  arguments:
+                      SearchReq(searchCategory: SearchCategory.giftCards)),
+              icon: const Icon(MedusaIcons.magnifying_glass_mini))
         ],
       ),
       floatingActionButton: ScrollingExpandableFab(
@@ -53,7 +60,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
           controller: controller.scrollController,
           slivers: [
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               sliver: SliverToBoxAdapter(
                 child: Text(
                   'See the history of purchased Gift Cards',
@@ -81,24 +89,32 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                               title: 'Manage Custom Gift Card',
                               context: context,
                               actions: <SheetAction<int>>[
-                                const SheetAction(label: 'Edit details', key: 0),
-                                SheetAction(label: isDisabled ? 'Enable' : 'Disable', isDestructiveAction: true, key: 1),
+                                const SheetAction(
+                                    label: 'Edit details', key: 0),
+                                SheetAction(
+                                    label: isDisabled ? 'Enable' : 'Disable',
+                                    isDestructiveAction: true,
+                                    key: 1),
                               ]).then((value) async {
                             switch (value) {
                               case 0:
-                                Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
+                                Get.toNamed(
+                                    Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD,
+                                    arguments: giftCard);
                                 break;
                               case 1:
                                 await controller.updateCustomGiftCard(
                                   id: giftCard.id!,
-                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled),
+                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(
+                                      isDisabled: !isDisabled),
                                   getBack: false,
                                 );
                                 break;
                             }
                           });
                         },
-                        tileColor: Theme.of(context).appBarTheme.backgroundColor,
+                        tileColor:
+                            Theme.of(context).appBarTheme.backgroundColor,
                         title: Text(giftCard.code ?? ''),
                         subtitle: Text(
                           giftCard.orderId ?? '_',
@@ -109,7 +125,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(getCurrencyText(giftCard)),
-                            Text(DateFormat.yMMMd().format(giftCard.createdAt!)),
+                            Text(
+                                DateFormat.yMMMd().format(giftCard.createdAt!)),
                           ],
                         ),
                       );
@@ -129,9 +146,11 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                         return listTile;
                       }
                     },
-                    noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Gift cards')),
+                    noItemsFoundIndicatorBuilder: (_) =>
+                        const Center(child: Text('No Gift cards')),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
                   ),
                   separatorBuilder: (_, __) => const Divider(height: 0)),
             ),

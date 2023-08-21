@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../components/adaptive_button.dart';
+import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/index.dart';
 import '../controllers/customers_controller.dart';
 
@@ -20,15 +22,36 @@ class CustomersView extends GetView<CustomersController> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        // ignore: prefer_const_constructors
-      appBar: CustomerCustomAppBar(),
-        floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Customer', icon:const Icon(Icons.person_add),
-          onPressed: () async {
-            final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS);
-            if (result is bool) {
-              CustomersController.instance.pagingController.refresh();
-            }
-          },
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton.small(
+                  onPressed: () => Get.toNamed(Routes.MEDUSA_SEARCH,
+                      arguments:
+                      SearchReq(searchCategory: SearchCategory.customers)),
+                  heroTag: UniqueKey(),
+                  child:  const Icon(CupertinoIcons.search),
+                ),
+                const SizedBox(width: 4.0),
+              ],
+            ),
+            const SizedBox(height: 6.0),
+            ScrollingExpandableFab(
+              heroTag: UniqueKey(),
+              controller: controller.scrollController, label: 'New Customer', icon:const Icon(Icons.person_add),
+              onPressed: () async {
+                final result = await Get.toNamed(Routes.UPDATE_CUSTOMER_DETAILS);
+                if (result is bool) {
+                  CustomersController.instance.pagingController.refresh();
+                }
+              },
+            ),
+          ],
         ),
         body: SlidableAutoCloseBehavior(
           child: SmartRefresher(

@@ -10,7 +10,7 @@ class ScrollingExpandableFab extends StatefulWidget {
     this.onPressed,
     this.animDuration = const Duration(milliseconds: 350),
     this.labelStyle,
-    this.expandOnTopOnly = true,
+    this.expandOnTopOnly = true, this.heroTag,
   }) : super(key: key);
 
   final ScrollController controller;
@@ -26,6 +26,8 @@ class ScrollingExpandableFab extends StatefulWidget {
   final Duration animDuration;
 
   final TextStyle? labelStyle;
+
+  final Object? heroTag;
 
   @override
   State<ScrollingExpandableFab> createState() => _ScrollingExpandableFabState();
@@ -102,29 +104,57 @@ class _ScrollingExpandableFabState extends State<ScrollingExpandableFab> with Ti
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      icon: widget.icon,
-      onPressed: widget.onPressed,
-      extendedIconLabelSpacing: 0,
-      extendedPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-      label: AnimatedBuilder(
-        animation: _anim,
-        builder: (context, child) {
-          return ClipRect(
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              widthFactor: 1 - _anim.value,
-              child: Opacity(
-                opacity: 1 - _anim.value,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(widget.label, style: widget.labelStyle),
+    if(widget.heroTag == null){
+      return FloatingActionButton.extended(
+        icon: widget.icon,
+        onPressed: widget.onPressed,
+        extendedIconLabelSpacing: 0,
+        extendedPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        label: AnimatedBuilder(
+          animation: _anim,
+          builder: (context, child) {
+            return ClipRect(
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                widthFactor: 1 - _anim.value,
+                child: Opacity(
+                  opacity: 1 - _anim.value,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(widget.label, style: widget.labelStyle),
+                  ),
                 ),
               ),
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ),
+      );
+    } else {
+      return FloatingActionButton.extended(
+        heroTag: widget.heroTag,
+        icon: widget.icon,
+        onPressed: widget.onPressed,
+        extendedIconLabelSpacing: 0,
+        extendedPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        label: AnimatedBuilder(
+          animation: _anim,
+          builder: (context, child) {
+            return ClipRect(
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                widthFactor: 1 - _anim.value,
+                child: Opacity(
+                  opacity: 1 - _anim.value,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(widget.label, style: widget.labelStyle),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
   }
 }

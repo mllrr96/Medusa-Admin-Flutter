@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -8,8 +9,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../routes/app_pages.dart';
+import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/collection_list_tile.dart';
-import '../components/collections_app_bar.dart';
 import '../controllers/collections_controller.dart';
 
 class CollectionsView extends GetView<CollectionsController> {
@@ -21,9 +22,30 @@ class CollectionsView extends GetView<CollectionsController> {
     final tr = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: const CollectionsAppBar(),
-      floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Collection', icon: const Icon(Icons.add)
-      ,onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),),
+      // appBar: const CollectionsAppBar(),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FloatingActionButton.small(
+                onPressed: () => Get.toNamed(Routes.MEDUSA_SEARCH,
+                    arguments:
+                    SearchReq(searchCategory: SearchCategory.collections)),
+                heroTag: 'search collection',
+                child:  const Icon(CupertinoIcons.search),
+              ),
+              const SizedBox(width: 4.0),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          ScrollingExpandableFab(controller: controller.scrollController, label: 'New Collection', icon: const Icon(Icons.add)
+          ,onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),),
+        ],
+      ),
       body: SafeArea(
         child: SmartRefresher(
           controller: controller.refreshController,

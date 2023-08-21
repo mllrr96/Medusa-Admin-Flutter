@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
@@ -64,6 +63,7 @@ import '../modules/groups_module/group_details/bindings/group_details_binding.da
 import '../modules/groups_module/group_details/views/group_details_view.dart';
 import '../modules/groups_module/groups/bindings/groups_binding.dart';
 import '../modules/groups_module/groups/views/groups_view.dart';
+import '../modules/medusa_search/views/medusa_search_view.dart';
 import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
@@ -487,6 +487,13 @@ class AppPages {
       name: _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD,
       page: () => const CreateUpdateCustomGiftCardView(),
       binding: CreateUpdateCustomGiftCardBinding(),
+    ),
+    GetPage(
+      name: _Paths.MEDUSA_SEARCH,
+      page: () => const MedusaSearchView(),
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
+      // binding: MedusaSearchBinding(),
     ),
   ];
 }

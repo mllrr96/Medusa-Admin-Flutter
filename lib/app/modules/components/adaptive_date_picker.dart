@@ -87,6 +87,8 @@ Future<DateTime?> adaptiveDateTimePicker(
           selectedDate = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
         });
         return selectedDate;
+      case CupertinoDatePickerMode.monthYear:
+        return null;
     }
   }
 }

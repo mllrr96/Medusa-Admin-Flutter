@@ -9,23 +9,28 @@ import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
-
 import '../../../../../core/utils/enums.dart';
 import '../../../components/adaptive_filled_button.dart';
-import '../controllers/orders_controller.dart';
 
 class OrdersFilterView extends StatefulWidget {
-  const OrdersFilterView(
-    this.context, {
+  const OrdersFilterView({
+    this.context,
+    this.orderFilter,
+    this.onResetTap,
+    this.regions,
+    this.salesChannels,
     super.key,
   });
   final BuildContext? context;
+  final OrderFilter? orderFilter;
+  final void Function()? onResetTap;
+  final List<Region>? regions;
+  final List<SalesChannel>? salesChannels;
   @override
   State<OrdersFilterView> createState() => _OrdersFilterViewState();
 }
 
 class _OrdersFilterViewState extends State<OrdersFilterView> {
-  final controller = OrdersController.instance;
   late OrderFilter orderFilter;
   final scrollController = ScrollController();
   final statusKey = GlobalKey();
@@ -38,15 +43,17 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   final formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    orderFilter = controller.orderFilter ??
+    orderFilter = widget.orderFilter ??
         OrderFilter(
             status: [],
             paymentStatus: [],
             fulfillmentStatus: [],
             regions: [],
             salesChannel: [],
-            orderDateFilter:
-                OrderDateFilter(number: 0, dateType: DateType.day, dateFilterType: DateFilterType.isInTheLast));
+            orderDateFilter: OrderDateFilter(
+                number: 0,
+                dateType: DateType.day,
+                dateFilterType: DateFilterType.isInTheLast));
 
     numberCtrl.text = orderFilter.orderDateFilter.number.toString();
     super.initState();
@@ -62,7 +69,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 20.0 : context.mediaQueryViewPadding.bottom;
+    final bottomPadding = context.mediaQueryViewPadding.bottom == 0
+        ? 20.0
+        : context.mediaQueryViewPadding.bottom;
     const space = SizedBox(height: 12.0);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -72,10 +81,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
           title: const Text('Orders Filter'),
           actions: [
             AdaptiveButton(
-              onPressed: () {
-                controller.resetFilter();
-                Get.back();
-              },
+              onPressed: widget.onResetTap,
               child: const Text('Reset'),
             )
           ],
@@ -85,12 +91,14 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
           color: context.theme.appBarTheme.backgroundColor,
           child: AdaptiveFilledButton(
               onPressed: () {
-                if (orderFilter.orderDateFilter.active && !formKey.currentState!.validate()) {
+                if (orderFilter.orderDateFilter.active &&
+                    !formKey.currentState!.validate()) {
                   return;
                 }
                 final filterType = orderFilter.orderDateFilter.dateFilterType;
                 final dateType = orderFilter.orderDateFilter.dateType;
-                if (filterType == DateFilterType.isInTheLast || filterType == DateFilterType.isOlderThan) {
+                if (filterType == DateFilterType.isInTheLast ||
+                    filterType == DateFilterType.isOlderThan) {
                   final count = int.tryParse(numberCtrl.text);
                   if (count != null) {
                     final now = DateTime.now();
@@ -107,11 +115,16 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                   }
                 }
 
-                orderFilter.orderDateFilter.number = int.tryParse(numberCtrl.text) ?? 0;
-                controller.updateFilter(orderFilter);
-                Get.back();
+                orderFilter.orderDateFilter.number =
+                    int.tryParse(numberCtrl.text) ?? 0;
+
+                Get.back(result: orderFilter);
               },
-              child: Text('Apply', style: smallTextStyle?.copyWith(color: Colors.white))),
+              // onPressed: () {
+
+              // },
+              child: Text('Apply',
+                  style: smallTextStyle?.copyWith(color: Colors.white))),
         ),
         body: Form(
           key: formKey,
@@ -182,7 +195,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.fulfillmentStatus.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: fulfillmentStatusKey);
+                    await scrollToSelectedContent(
+                        globalKey: fulfillmentStatusKey);
                   }
                 },
                 title: Text('Fulfillment Status', style: smallTextStyle),
@@ -216,13 +230,15 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 },
                 title: Text('Regions', style: smallTextStyle),
                 children: [
-                  if (controller.regions?.isNotEmpty ?? false)
-                    ...controller.regions!
+                  if (widget.regions?.isNotEmpty ?? false)
+                    ...widget.regions!
                         .map((e) => CheckboxListTile(
                             controlAffinity: ListTileControlAffinity.leading,
                             contentPadding: EdgeInsets.zero,
                             title: Text(e.name ?? '', style: smallTextStyle),
-                            value: orderFilter.regions.map((e) => e.id).contains(e.id),
+                            value: orderFilter.regions
+                                .map((e) => e.id)
+                                .contains(e.id),
                             onChanged: (val) {
                               if (val == null) {
                                 return;
@@ -231,7 +247,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               if (val) {
                                 orderFilter.regions.add(e);
                               } else {
-                                orderFilter.regions.removeWhere((element) => element.id == e.id);
+                                orderFilter.regions.removeWhere(
+                                    (element) => element.id == e.id);
                               }
                               setState(() {});
                             }))
@@ -249,13 +266,15 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 },
                 title: Text('Sales Channel', style: smallTextStyle),
                 children: [
-                  if (controller.salesChannels?.isNotEmpty ?? false)
-                    ...controller.salesChannels!
+                  if (widget.salesChannels?.isNotEmpty ?? false)
+                    ...widget.salesChannels!
                         .map((e) => CheckboxListTile(
                             controlAffinity: ListTileControlAffinity.leading,
                             contentPadding: EdgeInsets.zero,
                             title: Text(e.name ?? '', style: smallTextStyle),
-                            value: orderFilter.salesChannel.map((e) => e.id).contains(e.id),
+                            value: orderFilter.salesChannel
+                                .map((e) => e.id)
+                                .contains(e.id),
                             onChanged: (val) {
                               if (val == null) {
                                 return;
@@ -264,7 +283,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               if (val) {
                                 orderFilter.salesChannel.add(e);
                               } else {
-                                orderFilter.salesChannel.removeWhere((element) => element.id == e.id);
+                                orderFilter.salesChannel.removeWhere(
+                                    (element) => element.id == e.id);
                               }
                               setState(() {});
                             }))
@@ -309,23 +329,28 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                       }
                     },
                     items: DateFilterType.values
-                        .map((e) => DropdownMenuItem<DateFilterType>(value: e, child: Text(e.name())))
+                        .map((e) => DropdownMenuItem<DateFilterType>(
+                            value: e, child: Text(e.name())))
                         .toList(),
                   ),
                   space,
-                  if (orderFilter.orderDateFilter.dateFilterType == DateFilterType.isInTheLast ||
-                      orderFilter.orderDateFilter.dateFilterType == DateFilterType.isOlderThan)
+                  if (orderFilter.orderDateFilter.dateFilterType ==
+                          DateFilterType.isInTheLast ||
+                      orderFilter.orderDateFilter.dateFilterType ==
+                          DateFilterType.isOlderThan)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
                           child: LabeledNumericTextField(
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d*\.?\d{0,2}')),
                             ],
                             noEndSpace: false,
                             onPlusPressed: () {
-                              int? stock = int.tryParse(numberCtrl.text.removeAllWhitespace);
+                              int? stock = int.tryParse(
+                                  numberCtrl.text.removeAllWhitespace);
                               if (stock != null) {
                                 numberCtrl.text = (stock + 1).toString();
                               } else {
@@ -338,7 +363,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               }
                             },
                             onMinusPressed: () {
-                              int? stock = int.tryParse(numberCtrl.text.removeAllWhitespace);
+                              int? stock = int.tryParse(
+                                  numberCtrl.text.removeAllWhitespace);
                               if (stock != null && stock != 1) {
                                 numberCtrl.text = (stock - 1).toString();
                               }
@@ -358,7 +384,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                             label: null,
                             controller: numberCtrl,
                             validator: (val) {
-                              if (val == null || val.isEmpty || int.tryParse(val) == 0) {
+                              if (val == null ||
+                                  val.isEmpty ||
+                                  int.tryParse(val) == 0) {
                                 return 'Field is required';
                               }
                               return null;
@@ -380,15 +408,18 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               }
                             },
                             items: DateType.values
-                                .map((e) =>
-                                    DropdownMenuItem<DateType>(value: e, child: Text(e.name.capitalize ?? e.name)))
+                                .map((e) => DropdownMenuItem<DateType>(
+                                    value: e,
+                                    child: Text(e.name.capitalize ?? e.name)))
                                 .toList(),
                           ),
                         ),
                       ],
                     ),
-                  if (orderFilter.orderDateFilter.dateFilterType != DateFilterType.isInTheLast &&
-                      orderFilter.orderDateFilter.dateFilterType != DateFilterType.isOlderThan)
+                  if (orderFilter.orderDateFilter.dateFilterType !=
+                          DateFilterType.isInTheLast &&
+                      orderFilter.orderDateFilter.dateFilterType !=
+                          DateFilterType.isOlderThan)
                     Column(
                       children: [
                         DateCard(
@@ -419,20 +450,30 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
     );
   }
 
-  Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
-    await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
+  Future<void> scrollToSelectedContent(
+      {required GlobalKey globalKey, Duration? delay}) async {
+    await Future.delayed(delay ?? const Duration(milliseconds: 240))
+        .then((value) async {
       final yPosition =
-          (globalKey.currentContext?.findRenderObject() as RenderBox?)?.localToGlobal(Offset.zero).dy ?? 0.0;
+          (globalKey.currentContext?.findRenderObject() as RenderBox?)
+                  ?.localToGlobal(Offset.zero)
+                  .dy ??
+              0.0;
 
-      var topPadding =
-          context.mediaQueryPadding.top + kToolbarHeight + 26 + (widget.context?.mediaQueryPadding.top ?? 0);
+      var topPadding = context.mediaQueryPadding.top +
+          kToolbarHeight +
+          26 +
+          (widget.context?.mediaQueryPadding.top ?? 0);
       final scrollPoint = scrollController.offset + yPosition - topPadding;
       if (scrollPoint <= scrollController.position.maxScrollExtent) {
         await scrollController.animateTo(scrollPoint - 10,
-            duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn);
       } else {
-        await scrollController.animateTo(scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
+        await scrollController.animateTo(
+            scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn);
       }
     });
   }
@@ -540,5 +581,9 @@ class OrderDateFilter {
   bool active;
 
   OrderDateFilter(
-      {this.date, required this.number, required this.dateType, required this.dateFilterType, this.active = false});
+      {this.date,
+      required this.number,
+      required this.dateType,
+      required this.dateFilterType,
+      this.active = false});
 }

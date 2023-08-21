@@ -82,6 +82,7 @@ abstract class Routes {
   static const PICK_GROUPS = _Paths.PICK_GROUPS;
   static const CREATE_UPDATE_CUSTOM_GIFT_CARD =
       _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD;
+  static const MEDUSA_SEARCH = _Paths.MEDUSA_SEARCH;
 }
 
 abstract class _Paths {
@@ -150,4 +151,5 @@ abstract class _Paths {
   static const PICK_GROUPS = '/pick-groups';
   static const CREATE_UPDATE_CUSTOM_GIFT_CARD =
       '/create-update-custom-gift-card';
+  static const MEDUSA_SEARCH = '/medusa-search';
 }

@@ -54,7 +54,9 @@ class AppSettingsView extends StatelessWidget {
                 return SettingsTile(
                   title: Text(title),
                   leading: Icon(iconData),
-                  trailing: controller.themeMode == e ? const Icon(Icons.check) : null,
+                  trailing: controller.themeMode == e
+                      ? const Icon(Icons.check)
+                      : null,
                   onPressed: (_) async => await controller.changeThemeMode(e),
                 );
               }).toList(),
@@ -67,9 +69,11 @@ class AppSettingsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(LanguageService.languageModel.nativeName),
-                      if (LanguageService.languageModel.name != LanguageService.languageModel.nativeName)
+                      if (LanguageService.languageModel.name !=
+                          LanguageService.languageModel.nativeName)
                         const SizedBox(width: 6.0),
-                      if (LanguageService.languageModel.name != LanguageService.languageModel.nativeName)
+                      if (LanguageService.languageModel.name !=
+                          LanguageService.languageModel.nativeName)
                         Text(LanguageService.languageModel.name),
                     ],
                   ),
@@ -85,18 +89,40 @@ class AppSettingsView extends StatelessWidget {
                     title: const Text('Use Android date picker'),
                     activeSwitchColor: ColorManager.primary,
                     description: GestureDetector(
-                        onTap: () async => await adaptiveDateTimePicker(context: context),
-                        child: const Text('Use Android date picker instead of iOS picker, Click here for demo')),
+                        onTap: () async =>
+                            await adaptiveDateTimePicker(context: context),
+                        child: const Text(
+                            'Use Android date picker instead of iOS picker, Click here for demo')),
                     leading: const Icon(CupertinoIcons.calendar),
                     onPressed: (_) async {},
                     initialValue: StorageService.appSettings.useAndroidPicker,
                     onToggle: (bool value) async {
                       final storageService = StorageService.instance;
                       final appSettings = StorageService.appSettings;
-                      await storageService.updateAppSettings(appSettings.copyWith(useAndroidPicker: value));
+                      await storageService.updateAppSettings(
+                          appSettings.copyWith(useAndroidPicker: value));
                       controller.update();
                     },
                   ),
+                SettingsTile.switchTile(
+                  title: const Text('Shake phone to search'),
+                  activeSwitchColor: ColorManager.primary,
+                  leading: const Icon(Icons.vibration),
+                  onPressed: (_) async {},
+                  initialValue: StorageService.appSettings.shakeTOSearch,
+                  onToggle: (bool value) async {
+                    final storageService = StorageService.instance;
+                    final appSettings = StorageService.appSettings;
+                    await storageService.updateAppSettings(
+                        appSettings.copyWith(shakeTOSearch: value));
+                    controller.update();
+                    if (value) {
+                      Get.snackbar('Restart the app',
+                          'For changes to take effect please restart the app',
+                          snackPosition: SnackPosition.BOTTOM);
+                    }
+                  },
+                ),
               ],
             ),
           ],

@@ -14,8 +14,8 @@ dependencies:
 
   # Image picker packages
   #--------------------
-  image_picker: ^0.8.7+5
-  image_cropper: ^4.0.1
+  image_picker: ^1.0.2
+  image_cropper: ^5.0.0
   uuid: ^3.0.7
   #--------------------
 
@@ -25,7 +25,7 @@ dependencies:
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
   flutter_svg: ^2.0.6
-  infinite_scroll_pagination: ^3.2.0
+  infinite_scroll_pagination: ^4.0.0
   intl: ^0.18.0
   pull_to_refresh: ^2.0.0
   modal_bottom_sheet: ^3.0.0-pre
@@ -56,8 +56,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   super_banners: ^0.0.1
-  google_fonts: ^4.0.4
+  google_fonts: ^5.1.0
   copy_with_extension: ^5.0.3
+  shake: ^2.2.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.1
