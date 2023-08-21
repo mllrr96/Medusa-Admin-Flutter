@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dar
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../components/search_text_field.dart';
+import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/group_card.dart';
 import '../controllers/groups_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,34 +24,62 @@ class GroupsView extends GetView<GroupsController> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        floatingActionButton: ScrollingExpandableFab(controller: controller.scrollController, label: 'New Group', icon: const Icon(Icons.group_add),
-          onPressed: () async {
-            final result = await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
-            if (result is bool && result) {
-              GroupsController.instance.pagingController.refresh();
-            }
-          },
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton.small(
+                  onPressed: () => Get.toNamed(Routes.MEDUSA_SEARCH,
+                      arguments:
+                          SearchReq(searchCategory: SearchCategory.groups)),
+                  heroTag: UniqueKey(),
+                  child: const Icon(CupertinoIcons.search),
+                ),
+                const SizedBox(width: 4.0),
+              ],
+            ),
+            const SizedBox(height: 6.0),
+            ScrollingExpandableFab(
+              // heroTag: UniqueKey(),
+              controller: controller.scrollController, label: 'New Group',
+              icon: const Icon(Icons.group_add),
+              onPressed: () async {
+                final result = await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
+                if (result is bool && result) {
+                  GroupsController.instance.pagingController.refresh();
+                }
+              },
+            ),
+          ],
         ),
-        appBar: const GroupAppBar(),
         body: SlidableAutoCloseBehavior(
           child: SmartRefresher(
             controller: controller.refreshController,
             onRefresh: () => controller.pagingController.refresh(),
-            header: GetPlatform.isIOS ? const ClassicHeader(completeText: '') : const MaterialClassicHeader(),
+            header: GetPlatform.isIOS
+                ? const ClassicHeader(completeText: '')
+                : const MaterialClassicHeader(),
             child: PagedListView.separated(
               scrollController: controller.scrollController,
-              separatorBuilder: (_, __) => Divider(height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
+              separatorBuilder: (_, __) =>
+                  Divider(height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
-                itemBuilder: (context, customerGroup, index) => GroupCard(customerGroup: customerGroup, index: index),
+                itemBuilder: (context, customerGroup, index) =>
+                    GroupCard(customerGroup: customerGroup, index: index),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator.adaptive()),
                 noItemsFoundIndicatorBuilder: (_) => Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (controller.searchTerm.value.isEmpty) Text(tr.noGroups, style: mediumTextStyle),
-                    if (controller.searchTerm.value.isNotEmpty) Text(tr.noGroupsFound, style: mediumTextStyle),
+                    if (controller.searchTerm.value.isEmpty)
+                      Text(tr.noGroups, style: mediumTextStyle),
+                    if (controller.searchTerm.value.isNotEmpty)
+                      Text(tr.noGroupsFound, style: mediumTextStyle),
                   ],
                 ),
               ),
@@ -61,7 +91,8 @@ class GroupsView extends GetView<GroupsController> {
   }
 }
 
-class GroupAppBar extends GetView<GroupsController> implements PreferredSizeWidget {
+class GroupAppBar extends GetView<GroupsController>
+    implements PreferredSizeWidget {
   const GroupAppBar({super.key});
 
   @override
@@ -107,7 +138,9 @@ class GroupAppBar extends GetView<GroupsController> implements PreferredSizeWidg
                   padding: const EdgeInsets.only(left: 12.0),
                   child: Text(tr.cancel, maxLines: 1)),
               secondChild: const SizedBox.shrink(),
-              crossFadeState: controller.focused.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: controller.focused.value
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 250),
             );
           }),

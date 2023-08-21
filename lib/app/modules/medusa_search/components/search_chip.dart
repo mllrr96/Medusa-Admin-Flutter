@@ -36,7 +36,7 @@ class SearchChip extends StatelessWidget {
 
       case SearchCategory.collections:
         title = 'Collections';
-        iconDate = MedusaIcons.tag;
+        iconDate = Icons.collections_bookmark;
         chipColor = Colors.blue;
 
       case SearchCategory.customers:
@@ -46,7 +46,7 @@ class SearchChip extends StatelessWidget {
 
       case SearchCategory.groups:
         title = 'Groups';
-        iconDate = MedusaIcons.tag;
+        iconDate = Icons.groups;
         chipColor = Colors.deepOrange;
 
       case SearchCategory.giftCards:

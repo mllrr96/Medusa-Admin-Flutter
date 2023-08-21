@@ -31,7 +31,6 @@ import '../controllers/medusa_search_controller.dart';
 
 class MedusaSearchView extends StatelessWidget {
   const MedusaSearchView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
