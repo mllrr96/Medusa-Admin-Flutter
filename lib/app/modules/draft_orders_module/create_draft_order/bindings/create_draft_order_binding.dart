@@ -9,12 +9,10 @@ import '../controllers/create_draft_order_controller.dart';
 class CreateDraftOrderBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<CreateDraftOrderController>(() => CreateDraftOrderController(regionsRepo: RegionsRepo()));
-    Get.lazyPut<ChooseCustomerController>(() => ChooseCustomerController());
-    // Get.lazyPut<ChooseRegionController>(() => ChooseRegionController(regionsRepo: RegionsRepo()));
-    // Get.lazyPut<ChooseShippingMethodController>(
-    //     () => ChooseShippingMethodController(shippingOptionsRepo: ShippingOptionsRepo()));
-    Get.put(ChooseShippingMethodController(shippingOptionsRepo: ShippingOptionsRepo()));
-
+    Get.lazyPut(() => CreateDraftOrderController(regionsRepo: RegionsRepo()));
+    Get.lazyPut(() => ChooseCustomerController());
+    Get.lazyPut(() => ChooseRegionController(regionsRepo: RegionsRepo()));
+    Get.lazyPut(() => ChooseShippingMethodController(
+        shippingOptionsRepo: ShippingOptionsRepo()));
   }
 }

@@ -3,88 +3,119 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
-import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/choose_region_view.dart';
-import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/controllers/create_draft_order_controller.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class ChooseShippingMethodView extends StatelessWidget {
-  const ChooseShippingMethodView({Key? key}) : super(key: key);
+import '../../../components/custom_text_field.dart';
+
+class ChooseShippingMethodView extends StatefulWidget {
+  const ChooseShippingMethodView(
+      {Key? key, this.onShippingMethodChanged, required this.regionId})
+      : super(key: key);
+  final void Function(ShippingOption?)? onShippingMethodChanged;
+  final String regionId;
 
   @override
+  State<ChooseShippingMethodView> createState() =>
+      _ChooseShippingMethodViewState();
+}
+
+class _ChooseShippingMethodViewState extends State<ChooseShippingMethodView> {
+  @override
+  void initState() {
+    ChooseShippingMethodController.instance
+        .loadShippingMethods(widget.regionId);
+    super.initState();
+  }
+
+
+@override
+  void didUpdateWidget(covariant ChooseShippingMethodView oldWidget) {
+    if(oldWidget.regionId != widget.regionId){
+      ChooseShippingMethodController.instance
+          .loadShippingMethods(widget.regionId);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
   Widget build(BuildContext context) {
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     const space = SizedBox(height: 12.0);
     return GetBuilder<ChooseShippingMethodController>(
       builder: (controller) {
-        return Scaffold(
-          body: SafeArea(
-              child: controller.obx(
-            (state) => ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        return controller.obx(
+          (state) => Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Choose Shipping Option', style: largeTextStyle),
+                Text('Choose Shipping Option', style: smallTextStyle),
                 space,
-                Form(
-                  key: controller.keyForm,
-                  child: DropdownButtonFormField(
-                    validator: (val) {
-                      if (val == null) {
-                        return 'Field is required';
-                      }
-                      return null;
-                    },
-                    items: state!
-                        .map((e) => DropdownMenuItem(
-                            value: e,
-                            child: Text('${e.name!} ${e.amount ?? ''} ${e.region?.currencyCode?.toUpperCase() ?? ''}')))
-                        .toList(),
-                    hint: const Text('Shipping Option'),
-                    onChanged: (value) {
-                      if (value != null) {
-                        controller.selectedShippingOption.value = value;
-                        CreateDraftOrderController.instance.update([0]);
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                      ),
+                DropdownButtonFormField(
+                  validator: (val) {
+                    if (val == null) {
+                      return 'Field is required';
+                    }
+                    return null;
+                  },
+                  items: state!
+                      .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(
+                              '${e.name!} ${e.amount ?? ''} ${e.region?.currencyCode?.toUpperCase() ?? ''}')))
+                      .toList(),
+                  hint: const Text('Shipping Option'),
+                  onChanged: widget.onShippingMethodChanged,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
                     ),
                   ),
                 ),
               ],
             ),
-            onError: (e) => Center(
-                child: Column(
-              children: [
-                Text(e ?? 'Error loading shipping options'),
-                AdaptiveFilledButton(
-                    onPressed: () async => await controller.loadShippingMethods(), child: const Text('Retry')),
-              ],
-            )),
-            onEmpty: const Center(child: Text('No shipping methods!')),
-            onLoading: const Center(child: CircularProgressIndicator.adaptive()),
+          ),
+          onError: (e) => Center(
+              child: Column(
+            children: [
+              Text(e ?? 'Error loading shipping options'),
+              AdaptiveFilledButton(
+                  onPressed: () async =>
+                      await controller.loadShippingMethods(widget.regionId),
+                  child: const Text('Retry')),
+            ],
           )),
+          onEmpty: const Center(child: Text('No shipping methods!')),
+          onLoading: const Skeletonizer(
+            enabled: true,
+            child: LabeledTextField(
+              label: 'Choose Shipping Option',
+              controller: null,
+              decoration: InputDecoration(
+                hintText: 'Fake Shipping Option - 15 USD',
+                suffixIcon: Icon(Icons.add),
+              ),
+            ),
+          ),
         );
       },
     );
   }
 }
 
-class ChooseShippingMethodController extends GetxController with StateMixin<List<ShippingOption>> {
-  static ShippingOption? get shippingOption => Get.find<ChooseShippingMethodController>().selectedShippingOption.value;
-  static ChooseShippingMethodController get instance => Get.find<ChooseShippingMethodController>();
+class ChooseShippingMethodController extends GetxController
+    with StateMixin<List<ShippingOption>> {
+  static ChooseShippingMethodController get instance =>
+      Get.find<ChooseShippingMethodController>();
 
   ChooseShippingMethodController({required this.shippingOptionsRepo});
   final ShippingOptionsRepo shippingOptionsRepo;
-  // ignore: unnecessary_cast
-  Rx<ShippingOption?> selectedShippingOption = (null as ShippingOption?).obs;
-  final keyForm = GlobalKey<FormState>();
 
-  Future<void> loadShippingMethods({String? regionId}) async {
+  Future<void> loadShippingMethods(String regionId) async {
     change(null, status: RxStatus.loading());
     final result = await shippingOptionsRepo.retrieveAll(queryParams: {
       'is_return': false,
-      'region_id': regionId ?? ChooseRegionController.region?.id,
+      'region_id': regionId,
     });
 
     result.when((success) {
