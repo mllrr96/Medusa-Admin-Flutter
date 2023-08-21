@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
@@ -64,6 +63,7 @@ import '../modules/groups_module/group_details/bindings/group_details_binding.da
 import '../modules/groups_module/group_details/views/group_details_view.dart';
 import '../modules/groups_module/groups/bindings/groups_binding.dart';
 import '../modules/groups_module/groups/views/groups_view.dart';
+import '../modules/medusa_search/views/medusa_search_view.dart';
 import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
@@ -82,8 +82,6 @@ import '../modules/products_module/product_details/bindings/product_details_bind
 import '../modules/products_module/product_details/views/product_details_view.dart';
 import '../modules/products_module/products/bindings/products_binding.dart';
 import '../modules/products_module/products/views/products_view.dart';
-import '../modules/search/bindings/search_binding.dart';
-import '../modules/search/views/search_view.dart';
 import '../modules/settings_module/app_settings/bindings/app_settings_binding.dart';
 import '../modules/settings_module/app_settings/views/app_settings_view.dart';
 import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/bindings/add_update_api_key_binding.dart';
@@ -491,11 +489,11 @@ class AppPages {
       binding: CreateUpdateCustomGiftCardBinding(),
     ),
     GetPage(
-      name: _Paths.SEARCH,
-      page: () => const SearchView(),
+      name: _Paths.MEDUSA_SEARCH,
+      page: () => const MedusaSearchView(),
       transition: Transition.downToUp,
       fullscreenDialog: true,
-      binding: SearchBinding(),
+      // binding: MedusaSearchBinding(),
     ),
   ];
 }

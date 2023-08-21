@@ -8,10 +8,13 @@ import 'package:medusa_admin/app/data/repository/gift_card/gift_card_repo.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
 
+import '../../../data/repository/regions/regions_repo.dart';
+import '../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../controllers/medusa_search_controller.dart';
 
-class SearchBinding extends Bindings {
+class MedusaSearchBinding extends Bindings {
   @override
   void dependencies() {
     // Get.lazyPut<SearchController>(
@@ -27,7 +30,9 @@ class SearchBinding extends Bindings {
         customerRepo: CustomerRepo(),
         customerGroupRepo: CustomerGroupRepo(),
         discountRepo: DiscountRepo(),
-        priceListRepo: PriceListRepo(),
+        priceListRepo: PriceListRepo(), productTagRepo: ProductTagRepo(),
+        regionsRepo: RegionsRepo(),
+        salesChannelRepo: SalesChannelRepo(),
       ),
     );
   }

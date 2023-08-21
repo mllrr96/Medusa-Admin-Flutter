@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
+import 'package:medusa_admin/app/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
 import '../../../data/repository/collection/collection_repo.dart';
@@ -14,6 +18,8 @@ import '../../../data/repository/discount/discount_repo.dart';
 import '../../../data/repository/draft_order/draft_order_repo.dart';
 import '../../../data/repository/gift_card/gift_card_repo.dart';
 import '../../../data/repository/order/orders_repo.dart';
+import '../../../data/repository/product_tag/product_tag_repo.dart';
+import '../../../data/repository/sales_channel/sales_channel_repo.dart';
 
 class MedusaSearchController extends GetxController {
   static MedusaSearchController get instance =>
@@ -28,6 +34,9 @@ class MedusaSearchController extends GetxController {
     required this.giftCardRepo,
     required this.discountRepo,
     required this.priceListRepo,
+    required this.productTagRepo,
+    required this.regionsRepo,
+    required this.salesChannelRepo,
   });
 
   final ProductsRepo productsRepo;
@@ -39,16 +48,28 @@ class MedusaSearchController extends GetxController {
   final GiftCardRepo giftCardRepo;
   final DiscountRepo discountRepo;
   final PriceListRepo priceListRepo;
-
+  final ProductTagRepo productTagRepo;
+  final RegionsRepo regionsRepo;
+  final SalesChannelRepo salesChannelRepo;
+  final SearchReq searchReq = Get.arguments ??
+      SearchReq(searchCategory: SearchCategory.products, isShakeSearch: true);
   final PagingController<int, Object> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
+
   SortOptions sortOptions = SortOptions.dateRecent;
+  ProductFilter? productFilter;
+  OrderFilter? orderFilter;
+  List<ProductCollection>? collections;
+  List<ProductTag>? tags;
+  List<Region>? regions;
+  List<SalesChannel>? salesChannels;
   TextEditingController searchCtrl = TextEditingController();
   String searchTerm = '';
   SearchCategory searchCategory = SearchCategory.products;
   @override
   void onInit() {
+    searchCategory = searchReq.searchCategory;
     pagingController.addPageRequestListener((pageKey) {
       fetchPage(pageKey);
     });
@@ -70,13 +91,14 @@ class MedusaSearchController extends GetxController {
       pagingController.itemList = [];
       return;
     }
-    var queryParameters = {
+    Map<String, dynamic> queryParameters = {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'q': searchTerm,
     };
 
     switch (searchCategory) {
+      // -----------------------------------------------------------
       case SearchCategory.orders:
         queryParameters.addAll({
           'expand':
@@ -84,6 +106,9 @@ class MedusaSearchController extends GetxController {
           'fields':
               'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
         });
+        if (orderFilter != null) {
+          queryParameters.addAll(orderFilter!.toJson());
+        }
         final result =
             await ordersRepo.retrieveOrders(queryParameters: queryParameters);
         result.when((success) {
@@ -95,8 +120,9 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.orders!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.draftOrders:
         final result = await draftOrderRepo.retrieveDraftOrders(
             queryParameters: queryParameters);
@@ -109,12 +135,16 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.draftOrders!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.products:
         queryParameters.addAll({
           'order': sortOptions.map(),
         });
+        if (productFilter != null) {
+          queryParameters.addAll(productFilter!.toJson());
+        }
         final result =
             await productsRepo.retrieveAll(queryParameters: queryParameters);
         result.when((success) {
@@ -126,8 +156,9 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.products!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.collections:
         final result =
             await collectionRepo.retrieveAll(queryParameters: queryParameters);
@@ -140,12 +171,10 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.collections!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.customers:
-        queryParameters.addAll({
-          'order': sortOptions.map(),
-        });
         final result = await customerRepo.retrieveCustomers(
             queryParameters: queryParameters);
         result.when((success) {
@@ -157,8 +186,9 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.customers!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.groups:
         if (sortOptions == SortOptions.dateRecent ||
             sortOptions == SortOptions.dateOld) {
@@ -177,8 +207,9 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.customerGroups!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.giftCards:
         final result = await giftCardRepo.retrieveGiftCards(
             queryParameters: queryParameters);
@@ -191,8 +222,9 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.giftCards!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.discounts:
         final result = await discountRepo.retrieveDiscounts(
             queryParameters: queryParameters);
@@ -205,9 +237,9 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.discounts!, nextPageKey);
           }
         }, (error) {
-          print(error.toString());
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
+      // -----------------------------------------------------------
       case SearchCategory.priceLists:
         queryParameters.addAll({
           'order': sortOptions.map(),
@@ -223,17 +255,18 @@ class MedusaSearchController extends GetxController {
             pagingController.appendPage(success.priceLists!, nextPageKey);
           }
         }, (error) {
-          pagingController.error = 'Error searching, ${error.toString()}';
+          pagingController.error = error;
         });
     }
   }
 }
 
 class SearchReq {
-  SearchCategory searchableFields;
-
+  final SearchCategory searchCategory;
+  final bool isShakeSearch;
   SearchReq({
-    required this.searchableFields,
+    required this.searchCategory,
+    this.isShakeSearch = false,
   });
 }
 

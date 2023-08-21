@@ -23,12 +23,11 @@ class ProductsView extends GetView<ProductsController> {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return Scaffold(
-      // appBar: const ProductsAppBar(),
-      endDrawer: const ProductsFilterView(),
+      appBar: const ProductsAppBar(),
       endDrawerEnableOpenDragGesture: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -49,7 +48,7 @@ class ProductsView extends GetView<ProductsController> {
                     label: 'Search for a product',
                     labelStyle: smallTextStyle,
                     onTap: () async {
-                      await Get.toNamed(Routes.SEARCH);
+                      await Get.toNamed(Routes.MEDUSA_SEARCH);
                     },
                     onLongPress: () {},
                   ),
@@ -57,9 +56,23 @@ class ProductsView extends GetView<ProductsController> {
                     child: const Icon(CupertinoIcons.doc_text_search),
                     label: 'Filters',
                     labelStyle: smallTextStyle,
-                    onTap: () async => await showBarModalBottomSheet(
-                        context: context,
-                        builder: (context) => const ProductsFilterView()),
+                    onTap: () async {
+                      await showBarModalBottomSheet(
+                          context: context,
+                          builder: (context) => ProductsFilterView(
+                                collections: controller.collections,
+                                tags: controller.tags,
+                                onResetPressed: () {
+                                  controller.resetFilter();
+                                  Get.back();
+                                },
+                                productFilter: controller.productFilter,
+                              )).then((result) {
+                        if (result is ProductFilter) {
+                          controller.updateFilter(result);
+                        }
+                      });
+                    },
                     onLongPress: () => controller.resetFilter(),
                   ),
                   SpeedDialChild(

@@ -2,28 +2,57 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
+import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/components/collection_list_tile.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/components/customer_list_tile.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/components/discount_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_card.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/components/group_card.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import '../../../data/repository/collection/collection_repo.dart';
+import '../../../data/repository/customer/customer_repo.dart';
+import '../../../data/repository/customer_group/customer_group_repo.dart';
+import '../../../data/repository/discount/discount_repo.dart';
+import '../../../data/repository/draft_order/draft_order_repo.dart';
+import '../../../data/repository/gift_card/gift_card_repo.dart';
+import '../../../data/repository/order/orders_repo.dart';
+import '../../../data/repository/price_list/price_list_repo.dart';
+import '../../../data/repository/product/products_repo.dart';
 import '../../../data/service/storage_service.dart';
 import '../../orders_module/orders/components/order_card.dart';
 import '../components/index.dart';
 import '../controllers/medusa_search_controller.dart';
 
-class SearchView extends StatelessWidget {
-  const SearchView({Key? key}) : super(key: key);
+class MedusaSearchView extends StatelessWidget {
+  const MedusaSearchView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: GetBuilder<MedusaSearchController>(
-        // init: MedusaSearchController(),
+        init: MedusaSearchController(
+          productsRepo: ProductsRepo(),
+          ordersRepo: OrdersRepo(),
+          giftCardRepo: GiftCardRepo(),
+          draftOrderRepo: DraftOrderRepo(),
+          collectionRepo: CollectionRepo(),
+          customerRepo: CustomerRepo(),
+          customerGroupRepo: CustomerGroupRepo(),
+          discountRepo: DiscountRepo(),
+          priceListRepo: PriceListRepo(),
+          productTagRepo : ProductTagRepo(),
+          regionsRepo: RegionsRepo(),
+          salesChannelRepo: SalesChannelRepo(),
+        ),
         builder: (controller) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -32,11 +61,6 @@ class SearchView extends StatelessWidget {
               pagingController: controller.pagingController,
               builderDelegate: PagedChildBuilderDelegate<Object>(
                   itemBuilder: (context, object, index) {
-                    final smallTextStyle =
-                        Theme.of(context).textTheme.titleSmall;
-                    final lightWhite =
-                        Get.isDarkMode ? Colors.white54 : Colors.black54;
-
                     switch (controller.searchCategory) {
                       case SearchCategory.orders:
                         if (object is Order) {
@@ -106,8 +130,33 @@ class SearchView extends StatelessWidget {
                   },
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator.adaptive()),
+                  firstPageErrorIndicatorBuilder: (context) {
+                    final error = controller.pagingController.error;
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (error is! Failure)
+                          const Text('An error occurred while searching'),
+                        if (error is Failure)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('An error occurred while searching'),
+                              Text('Code ${error.code}', style: smallTextStyle),
+                              Text(error.message.toString(),
+                                  style: smallTextStyle),
+                            ],
+                          ),
+                        AdaptiveButton(
+                            onPressed: () =>
+                                controller.pagingController.refresh(),
+                            child: const Text('Retry'))
+                      ],
+                    );
+                  },
                   noItemsFoundIndicatorBuilder: (context) {
-                    return SearchFirstPage(controller: controller);
+                    return SearchHistoryView(controller: controller);
                   }),
             ),
           );
@@ -145,20 +194,60 @@ class SearchHistoryListTile extends StatelessWidget {
   }
 }
 
-class SearchFirstPage extends StatelessWidget {
-  const SearchFirstPage({super.key, required this.controller});
+class SearchHistoryView extends StatelessWidget {
+  const SearchHistoryView({super.key, required this.controller});
   final MedusaSearchController controller;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final searchHistory = StorageService.searchHistory;
+    final storageService = StorageService.instance;
+    final appSettings = StorageService.appSettings;
+    final warningListTile = Column(
+      children: [
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          leading: const Icon(
+            Icons.warning,
+            color: Colors.amber,
+          ),
+          title: const Text('Shake to search'),
+          subtitle: Text(
+              'When you shake your phone Medusa Mobile will pop search view, if you don\'t like this behaviour you can disable this feature in app settings',
+              style: smallTextStyle?.copyWith(color: lightWhite)),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            AdaptiveButton(
+                onPressed: () async {
+                  await storageService.updateAppSettings(
+                      appSettings.copyWith(showShakeSearchWarning: false));
+                  controller.update();
+                },
+                child: const Text('Don\'t show again')),
+            AdaptiveButton(
+                onPressed: () async {
+                  await storageService.updateAppSettings(appSettings.copyWith(
+                      showShakeSearchWarning: false, shakeTOSearch: false));
+                  controller.update();
+                },
+                child: const Text('Disable shake to search')),
+          ],
+        ),
+        const Divider(),
+      ],
+    );
     if (controller.searchTerm.removeAllWhitespace.isEmpty &&
         searchHistory.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (controller.searchReq.isShakeSearch &&
+                appSettings.showShakeSearchWarning)
+              warningListTile,
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
@@ -177,24 +266,35 @@ class SearchFirstPage extends StatelessWidget {
                         controller.update();
                         controller.pagingController.refresh();
                       },
-                      onDeleteTap: () {
-                        StorageService.instance
+                      onDeleteTap: () async {
+                        await StorageService.instance
                             .updateSearchHistory(e, delete: true);
                         controller.update();
                       },
                     ))
-                .toList(),
+                .toList()
+                .reversed,
           ],
         ),
       );
     } else if (controller.searchTerm.removeAllWhitespace.isEmpty &&
         searchHistory.isEmpty) {
-      return const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(MedusaIcons.magnifying_glass),
-          Text('Search in your store')
+          if (controller.searchReq.isShakeSearch &&
+              appSettings.showShakeSearchWarning)
+            warningListTile,
+          const Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(MedusaIcons.magnifying_glass),
+                Text('Search in your store'),
+              ],
+            ),
+          )
         ],
       );
     }

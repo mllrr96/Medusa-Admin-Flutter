@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/strings.dart';
-import '../../modules/search/controllers/medusa_search_controller.dart';
+import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import '../models/app/settings.dart';
 
 class StorageService extends GetxService {
@@ -174,6 +174,10 @@ class StorageService extends GetxService {
             element.searchableFields.index ==
                 searchHistory.searchableFields.index);
       } else {
+        // Limiting search history to 7 items only
+        if (_searchHistory.length > 7) {
+          _searchHistory.removeAt(0);
+        }
         _searchHistory.add(searchHistory);
       }
       await _prefs.setString(

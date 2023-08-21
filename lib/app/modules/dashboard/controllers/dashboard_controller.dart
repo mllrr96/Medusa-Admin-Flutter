@@ -5,10 +5,13 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:shake/shake.dart';
 
+import '../../../data/service/storage_service.dart';
+
 class DashboardController extends GetxController {
   static DashboardController get instance => Get.find<DashboardController>();
   int currentScreen = 0;
   late ShakeDetector detector;
+  final appSettings = StorageService.appSettings;
   final bottomNavBarItems = GetPlatform.isIOS
       ? const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -36,17 +39,21 @@ class DashboardController extends GetxController {
 
   @override
   void onReady() {
-    detector = ShakeDetector.autoStart(onPhoneShake: () async {
-      if (Get.currentRoute != Routes.SEARCH) {
-        await Get.toNamed(Routes.SEARCH);
-      }
-    });
+    if (appSettings.shakeTOSearch) {
+      detector = ShakeDetector.autoStart(onPhoneShake: () async {
+        if (Get.currentRoute != Routes.MEDUSA_SEARCH) {
+          await Get.toNamed(Routes.MEDUSA_SEARCH);
+        }
+      });
+    }
     super.onReady();
   }
 
   @override
   void onClose() {
-    detector.stopListening();
+    if (appSettings.shakeTOSearch) {
+      detector.stopListening();
+    }
     super.onClose();
   }
 }
