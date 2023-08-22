@@ -92,14 +92,17 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
         ],
       )),
       onEmpty: const Center(child: Text('No shipping methods!')),
-      onLoading: const Skeletonizer(
-        enabled: true,
-        child: LabeledTextField(
-          label: 'Choose Shipping Option',
-          controller: null,
-          decoration: InputDecoration(
-            hintText: 'Fake Shipping Option - 15 USD',
-            suffixIcon: Icon(Icons.add),
+      onLoading: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        child: Skeletonizer(
+          enabled: true,
+          child: LabeledTextField(
+            label: 'Choose Shipping Option',
+            controller: null,
+            decoration: InputDecoration(
+              hintText: 'Fake Shipping Option - 15 USD',
+              suffixIcon: Icon(Icons.add),
+            ),
           ),
         ),
       ),

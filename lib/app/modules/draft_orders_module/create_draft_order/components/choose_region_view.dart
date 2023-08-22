@@ -45,14 +45,17 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
         ),
       ),
       onError: (e) => Center(child: Text(e ?? 'Error loading regions')),
-      onLoading: const Skeletonizer(
-        enabled: true,
-        child: LabeledTextField(
-          label: 'Choose region',
-          controller: null,
-          decoration: InputDecoration(
-            hintText: 'North America',
-            suffixIcon: Icon(Icons.add),
+      onLoading: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        child: Skeletonizer(
+          enabled: true,
+          child: LabeledTextField(
+            label: 'Choose region',
+            controller: null,
+            decoration: InputDecoration(
+              hintText: 'North America',
+              suffixIcon: Icon(Icons.add),
+            ),
           ),
         ),
       ),

@@ -57,7 +57,8 @@ class Address {
     address1 = json['address_1'];
     address2 = json['address_2'];
     city = json['city'];
-    country = json['country'] != null ? Country.fromJson(json['country']) : null;
+    country =
+        json['country'] != null ? Country.fromJson(json['country']) : null;
     countryCode = json['country_code'];
     province = json['province'];
     postalCode = json['postal_code'];
