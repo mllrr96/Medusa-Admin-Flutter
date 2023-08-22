@@ -344,8 +344,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         Flexible(
                           child: LabeledNumericTextField(
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d*\.?\d{0,2}')),
+                              FilteringTextInputFormatter.digitsOnly,
                             ],
                             noEndSpace: false,
                             onPlusPressed: () {

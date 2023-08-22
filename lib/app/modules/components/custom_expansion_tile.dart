@@ -26,7 +26,7 @@ class CustomExpansionTile extends StatelessWidget {
     this.clipBehavior,
     this.controlAffinity,
     this.required = false,
-    this.label,
+    this.label, this.controller,
   }) : assert(
           expandedCrossAxisAlignment != CrossAxisAlignment.baseline,
           'CrossAxisAlignment.baseline is not supported since the expanded children '
@@ -70,6 +70,13 @@ class CustomExpansionTile extends StatelessWidget {
 
   final ListTileControlAffinity? controlAffinity;
 
+  /// If provided, the controller can be used to expand and collapse tiles.
+  ///
+  /// In cases were control over the tile's state is needed from a callback triggered
+  /// by a widget within the tile, [ExpansionTileController.of] may be more convenient
+  /// than supplying a controller.
+  final ExpansionTileController? controller;
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -78,6 +85,7 @@ class CustomExpansionTile extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         child: ExpansionTile(
+          controller: controller,
           title: required
               ? Row(
                   children: [
