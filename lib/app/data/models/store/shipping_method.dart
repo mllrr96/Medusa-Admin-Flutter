@@ -1,6 +1,5 @@
 import 'index.dart';
 
-
 class ShippingMethod {
   String? id;
   String? shippingOptionId;
@@ -72,23 +71,58 @@ class ShippingMethod {
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
-    json['id'] = id;
-    json['shipping_option_id'] = shippingOptionId;
-    json['shipping_option'] = shippingOption?.toJson();
-    json['order_id'] = orderId;
-    json['order'] = order?.toJson();
-    json['return_id'] = returnId;
-    json['return_order'] = returnOrder?.toJson();
-    json['swap_id'] = swap;
-    json['swap'] = swap?.toJson();
-    json['cart_id'] = cart;
-    json['cart'] = cart?.toJson();
-    json['claim_order_id'] = claimOrderId;
-    json['claim_order'] = claimOrder?.toJson();
-    json['tax_lines'] = taxLines?.map((e) => e.toJson()).toList();
-    json['price'] = price;
-    json['data'] = data;
-    json['includes_tax'] = includesTax;
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (shippingOptionId != null) {
+      json['option_id'] = shippingOptionId;
+    }
+    if (shippingOption != null) {
+      json['shipping_option'] = shippingOption?.toJson();
+    }
+    if (orderId != null) {
+      json['order_id'] = orderId;
+    }
+    if (order != null) {
+      json['order'] = order?.toJson();
+    }
+    if (returnId != null) {
+      json['return_id'] = returnId;
+    }
+    if (returnOrder != null) {
+      json['return_order'] = returnOrder?.toJson();
+    }
+    if (swapId != null) {
+      json['swap_id'] = swapId;
+    }
+    if (swap != null) {
+      json['swap'] = swap?.toJson();
+    }
+    if (cartId != null) {
+      json['cart_id'] = cartId;
+    }
+    if (cart != null) {
+      json['cart'] = cart?.toJson();
+    }
+    if (claimOrderId != null) {
+      json['claim_order_id'] = claimOrderId;
+    }
+    if (claimOrder != null) {
+      json['claim_order'] = claimOrder?.toJson();
+    }
+    if (taxLines != null) {
+      json['tax_lines'] = taxLines?.map((e) => e.toJson()).toList();
+    }
+    if (price != null) {
+      json['price'] = price;
+    }
+    if (data != null) {
+      json['data'] = data;
+    }
+    if (includesTax != null) {
+      json['includes_tax'] = includesTax;
+    }
+    print(json);
     return json;
   }
 }
