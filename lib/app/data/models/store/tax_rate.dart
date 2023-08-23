@@ -106,7 +106,7 @@ class TaxRate {
     data['code'] = code;
     data['name'] = name;
     data['region_id'] = regionId;
-    data['region'] = region?.toJson() ?? {};
+    data['region'] = region?.toJson();
     data['metadata'] = metadata;
     if (products != null) {
       data['products'] = products!.map((v) => v.toJson()).toList();

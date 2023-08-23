@@ -33,15 +33,15 @@ class DiscountConditionProductCollection {
         : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['product_collection_id'] = productCollectionId;
     json['condition_id'] = conditionId;
-    json['product_collection'] = productCollection?.toJson() ?? {};
-    json['discount_condition'] = discountCondition?.toJson() ?? {};
+    json['product_collection'] = productCollection?.toJson() ;
+    json['discount_condition'] = discountCondition?.toJson() ;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['metadata'] = metadata;

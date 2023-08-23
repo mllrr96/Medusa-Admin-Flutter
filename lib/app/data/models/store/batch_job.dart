@@ -70,7 +70,7 @@ class BatchJob {
     json['type'] = type?.value;
     json['status'] = status.value;
     json['created_by'] = createdBy;
-    json['created_by_user'] = createdByUser?.toJson() ?? {};
+    json['created_by_user'] = createdByUser?.toJson();
     json['dry_run'] = dryRun;
     json['pre_processed_at'] = preProcessedAt.toString();
     json['processing_at'] = processingAt.toString();

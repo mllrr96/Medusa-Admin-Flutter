@@ -44,9 +44,9 @@ class OrderItemChange {
     json['order_edit_id'] = orderEditId;
     json['order_edit'] = orderEdit;
     json['original_line_item_id'] = originalLineItemId;
-    json['original_line_item'] = originalLineItem?.toJson() ?? {};
+    json['original_line_item'] = originalLineItem?.toJson();
     json['line_item_id'] = lineItemId;
-    json['line_item'] = lineItem?.toJson() ?? {};
+    json['line_item'] = lineItem?.toJson();
     return json;
   }
 }

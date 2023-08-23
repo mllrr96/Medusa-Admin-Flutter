@@ -32,7 +32,7 @@ class DiscountConditionProduct {
         : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {

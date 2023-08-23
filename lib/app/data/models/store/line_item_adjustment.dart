@@ -31,7 +31,7 @@ class LineItemAdjustment {
     discount =
         json['discount'] != null ? Discount.fromJson(json['discount']) : null;
     amount = json['amount'];
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

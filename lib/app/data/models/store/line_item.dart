@@ -90,7 +90,7 @@ class LineItem {
   LineItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     cartId = json['cart_id'];
-    cart = json['cart'] != null ? Cart.fromJson(json['cart'] ?? {}) : null;
+    cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
     orderId = json['order_id'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     swapId = json['swap_id'];

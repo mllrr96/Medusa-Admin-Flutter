@@ -29,9 +29,9 @@ class ClaimImage {
         ? ClaimItem.fromJson(json['claim_item'])
         : null;
     url = json['url'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
+    createdAt = DateTime.tryParse(json['created_at'] ??'');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
     metadata = json['metadata'];
   }
 
@@ -39,7 +39,7 @@ class ClaimImage {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['claim_item_id'] = claimItemId;
-    json['claim_item'] = claimItem?.toJson() ?? {};
+    json['claim_item'] = claimItem?.toJson();
     json['url'] = url;
     json['created_at'] = createdAt;
     json['updated_at'] = updatedAt;

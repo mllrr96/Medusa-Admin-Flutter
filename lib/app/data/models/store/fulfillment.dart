@@ -96,25 +96,25 @@ class Fulfillment {
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['claim_order_id'] = claimOrderId;
-    json['claim_order'] = claimOrder?.toJson() ?? {};
+    json['claim_order'] = claimOrder?.toJson();
     json['swap_id'] = swapId;
-    json['swap'] = swap?.toJson() ?? {};
+    json['swap'] = swap?.toJson();
     json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
+    json['order'] = order?.toJson();
     json['provider_id'] = providerId;
-    json['provider'] = provider?.toJson() ?? {};
+    json['provider'] = provider?.toJson();
     json['items'] = items?.map((e) => e.toJson()).toList() ?? [];
     json['tracking_links'] =
         trackingLinks?.map((e) => e.toJson()).toList() ?? [];
     json['tracking_numbers'] = trackingNumbers?.map((e) => e).toList() ?? [];
-    json['data'] = data ?? {};
+    json['data'] = data;
     json['shipped_at'] = shippedAt.toString();
     json['no_notification'] = noNotification;
     json['canceled_at'] = canceledAt.toString();

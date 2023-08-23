@@ -45,7 +45,7 @@ class PaymentSession {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['cart_id'] = cartId;
-    json['cart'] = cart?.toJson() ?? {};
+    json['cart'] = cart?.toJson();
     json['provider_id'] = providerId;
     json['is_selected'] = isSelected;
     json['status'] = status?.value ?? '';

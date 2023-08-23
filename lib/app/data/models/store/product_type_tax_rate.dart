@@ -29,15 +29,15 @@ class ProductTypeTaxRate {
         json['tax_rate'] != null ? TaxRate.fromJson(json['tax_rate']) : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['product_type_id'] = productTypeId;
-    json['product_type'] = productType?.toJson() ?? {};
+    json['product_type'] = productType?.toJson();
     json['rate_id'] = rateId;
-    json['tax_rate'] = taxRate?.toJson() ?? {};
+    json['tax_rate'] = taxRate?.toJson();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['metadata'] = metadata;

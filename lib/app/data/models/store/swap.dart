@@ -97,19 +97,19 @@ class Swap {
     data['fulfillment_status'] = fulfillmentStatus?.value;
     data['payment_status'] = paymentStatus?.value;
     data['order_id'] = orderId;
-    data['order'] = order?.toJson() ?? {};
+    data['order'] = order?.toJson();
     if (additionalItems != null) {
       data['additional_items'] =
           additionalItems!.map((v) => v.toJson()).toList();
     }
-    data['return_order'] = returnOrder?.toJson() ?? {};
+    data['return_order'] = returnOrder?.toJson();
     if (fulfillments != null) {
       data['fulfillments'] = fulfillments!.map((v) => v.toJson()).toList();
     }
-    data['payment'] = payment?.toJson() ?? {};
+    data['payment'] = payment?.toJson();
     data['difference_due'] = differenceDue;
     data['shipping_address_id'] = shippingAddressId;
-    data['shipping_address'] = shippingAddress?.toJson() ?? {};
+    data['shipping_address'] = shippingAddress?.toJson();
     if (shippingMethods != null) {
       data['shipping_methods'] =
           shippingMethods!.map((v) => v.toJson()).toList();

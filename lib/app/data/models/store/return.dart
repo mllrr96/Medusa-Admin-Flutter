@@ -66,14 +66,14 @@ class Return {
       json['shipping_method'].forEach((e) => shippingMethod!
           .add(ShippingMethod.fromJson(json['shipping_method'])));
     }
-    shippingData = json['shipping_data'] ?? {};
+    shippingData = json['shipping_data'];
     refundAmount = json['refund_amount'];
     noNotification = json['no_notification'];
     idempotencyKey = json['idempotency_key'];
     receivedAt = DateTime.tryParse(json['received_at'] ?? '');
     createdAt = DateTime.tryParse(json['received_at'] ?? '');
     updatedAt = DateTime.tryParse(json['received_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

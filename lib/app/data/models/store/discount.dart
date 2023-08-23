@@ -64,8 +64,8 @@ class Discount extends Equatable {
       isDisabled: json['is_disabled'],
       parentDiscountId: json['parent_discount_id'],
       parentDiscount: json['parent_discount'] != null ? Discount.fromJson(json['parent_discount']) : null,
-      startsAt: DateTime.tryParse(json['starts_at'] ?? ''),
-      endsAt: DateTime.tryParse(json['ends_at'] ?? ''),
+      startsAt: DateTime.tryParse(json['starts_at'] ?? '')?.toLocal(),
+      endsAt: DateTime.tryParse(json['ends_at'] ?? '')?.toLocal(),
       validDuration: json['valid_duration'],
       regions: regions,
       usageLimit: json['usage_limit'],
@@ -86,7 +86,7 @@ class Discount extends Equatable {
     json['rule'] = rule;
     json['is_disabled'] = isDisabled;
     json['parent_discount_id'] = parentDiscountId;
-    json['parent_discount'] = parentDiscount?.toJson() ?? {};
+    json['parent_discount'] = parentDiscount?.toJson() ;
     json['starts_at'] = startsAt;
     json['ends_at'] = endsAt;
     json['valid_duration'] = validDuration;

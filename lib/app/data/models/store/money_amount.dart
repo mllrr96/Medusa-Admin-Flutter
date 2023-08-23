@@ -95,13 +95,13 @@ class MoneyAmount {
       json['variant_id'] = variantId;
     }
     if (variant != null) {
-      json['variant'] = variant?.toJson() ?? {};
+      json['variant'] = variant?.toJson();
     }
     if (regionId != null) {
       json['region_id'] = regionId;
     }
     if (region != null) {
-      json['region'] = region?.toJson() ?? {};
+      json['region'] = region?.toJson();
     }
     if (createdAt != null) {
       json['created_at'] = createdAt.toString();
