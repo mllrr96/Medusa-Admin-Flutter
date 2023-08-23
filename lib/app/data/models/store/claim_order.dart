@@ -31,7 +31,7 @@ class ClaimOrder {
   DateTime? createdAt;
   DateTime? deletedAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ClaimOrder({
     this.id,
@@ -54,7 +54,7 @@ class ClaimOrder {
     this.createdAt,
     this.deletedAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ClaimOrder.fromJson(Map<String, dynamic> json) {

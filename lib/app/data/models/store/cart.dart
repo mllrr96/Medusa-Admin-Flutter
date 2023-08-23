@@ -48,7 +48,7 @@ class Cart {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Cart.fromJson(Map<String, dynamic> json) {
     id = json['id'];

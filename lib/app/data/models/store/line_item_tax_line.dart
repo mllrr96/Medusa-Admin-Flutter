@@ -10,7 +10,7 @@ class LineItemTaxLine {
   num? rate;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   LineItemTaxLine({
     this.id,

@@ -8,7 +8,7 @@ class Refund {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Refund({
     this.id,
@@ -20,7 +20,7 @@ class Refund {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   Refund.fromJson(Map<String, dynamic> json) {

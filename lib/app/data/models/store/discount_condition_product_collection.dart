@@ -10,7 +10,7 @@ class DiscountConditionProductCollection {
   DiscountCondition? discountCondition;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   DiscountConditionProductCollection({
     required this.productCollectionId,
@@ -19,7 +19,7 @@ class DiscountConditionProductCollection {
     this.discountCondition,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   DiscountConditionProductCollection.fromJson(Map<String, dynamic> json) {

@@ -24,6 +24,7 @@ class OrderSummeryCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
       child: Row(
         children: [
+          if(item.thumbnail!=null)
           SizedBox(
               height: 50,
               width: 50,

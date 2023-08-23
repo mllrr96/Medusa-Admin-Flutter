@@ -24,7 +24,7 @@ class CreateCollectionController extends GetxController {
       updateCollection = Get.arguments[1];
       titleCtrl.text = collection!.title!;
       handleCtrl.text = collection!.handle ?? '';
-      metadata = collection!.metadata;
+      metadata = collection!.metadata ?? {};
     }
 
     super.onInit();

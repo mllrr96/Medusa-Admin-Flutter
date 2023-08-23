@@ -4,7 +4,7 @@ class ProductType {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ProductType({
     this.id,
@@ -12,7 +12,7 @@ class ProductType {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ProductType.fromJson(Map<String, dynamic> json) {

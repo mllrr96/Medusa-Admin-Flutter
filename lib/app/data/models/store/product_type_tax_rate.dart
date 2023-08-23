@@ -7,7 +7,7 @@ class ProductTypeTaxRate {
   TaxRate? taxRate;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ProductTypeTaxRate({
     this.productTypeId,
@@ -16,7 +16,7 @@ class ProductTypeTaxRate {
     this.taxRate,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ProductTypeTaxRate.fromJson(Map<String, dynamic> json) {

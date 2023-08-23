@@ -13,14 +13,14 @@ class Return {
   String? claimOrderId;
   ClaimOrder? claimOrder;
   List<ShippingMethod>? shippingMethod;
-  Map<String, dynamic> shippingData = {};
+  Map<String, dynamic>? shippingData;
   int? refundAmount;
   bool? noNotification;
   String? idempotencyKey;
   DateTime? receivedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = {};
+  Map<String, dynamic>? metadata;
 
   Return({
     this.id,
@@ -33,14 +33,14 @@ class Return {
     this.claimOrderId,
     this.claimOrder,
     this.shippingMethod,
-    this.shippingData = const {},
+    this.shippingData,
     required this.refundAmount,
     this.noNotification,
     this.idempotencyKey,
     this.receivedAt,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   Return.fromJson(Map<String, dynamic> json) {
