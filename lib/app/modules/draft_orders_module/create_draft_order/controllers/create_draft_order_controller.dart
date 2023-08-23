@@ -21,6 +21,7 @@ class CreateDraftOrderController extends GetxController
   List<LineItem> lineItems = [];
   List<LineItem> customLineItems = [];
   Customer? selectedCustomer;
+  bool customCustomer = true;
   Address shippingAddress = Address();
   Address billingAddress = Address();
   bool sameAddress = false;
@@ -45,6 +46,7 @@ class CreateDraftOrderController extends GetxController
     loading();
     final result = await draftOrderRepo.createDraftOrder(
         userCreateDraftOrderReq: UserCreateDraftOrderReq(
+            discounts: [],
             email: selectedCustomer!.email,
             customerId: selectedCustomer?.id,
             regionId: selectedRegion!.id!,

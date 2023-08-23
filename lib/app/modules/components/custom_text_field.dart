@@ -67,7 +67,7 @@ class LabeledTextField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite : null)),
+              Flexible(child: Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite : null), maxLines: 1, overflow: TextOverflow.ellipsis)),
               if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
             ],
           ),

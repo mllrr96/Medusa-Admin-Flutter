@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 
 class DraftOrderDetailsController extends GetxController with StateMixin<DraftOrder> {
   DraftOrderDetailsController({required this.draftOrderRepo});
@@ -47,10 +48,12 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
   Future<void> markAsPaid() async {
     loading();
     final result = await draftOrderRepo.registerPayment(id: id);
-    result.when((success) {
+    result.when((success) async {
       if (success.order != null) {
         Get.snackbar('Success', 'Successfully marked as paid', snackPosition: SnackPosition.BOTTOM);
       }
+      await loadDraftOrder();
+      DraftOrdersController.instance.pagingController.refresh();
     }, (error) {
       Get.snackbar('Error marking as paid ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
     });

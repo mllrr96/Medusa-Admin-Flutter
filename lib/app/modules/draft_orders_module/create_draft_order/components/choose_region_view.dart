@@ -79,7 +79,7 @@ class ChooseRegionController extends GetxController
 
   Future<void> _loadRegions() async {
     change(null, status: RxStatus.loading());
-    final result = await regionsRepo.retrieveAll();
+    final result = await regionsRepo.retrieveAll(queryParameters: {});
 
     result.when(
         (success) => change(success.regions ?? [], status: RxStatus.success()),

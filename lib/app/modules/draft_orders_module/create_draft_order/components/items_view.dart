@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/variant_list_tile.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/store/line_item.dart';
+import '../../../../data/models/store/region.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -23,6 +24,7 @@ class ItemsView extends StatelessWidget {
     const space = SizedBox(height: 12.0);
     final lineItems = controller.lineItems;
     final customLineItems = controller.customLineItems;
+
     Future<void> addItems() async {
       final result = await Get.toNamed(Routes.PICK_PRODUCT_VARIANTS,
           arguments: SelectProductsReq(
@@ -60,23 +62,31 @@ class ItemsView extends StatelessWidget {
       }
     }
 
+    void onRegionChanged (Region? region){
+      if (controller.selectedRegion == null &&
+          lineItems.isEmpty &&
+          customLineItems.isEmpty) {
+        controller.expansionController.expand();
+      }
+      // if the selected region is the same then just return
+      if( controller.selectedRegion?.id == region?.id){
+        return;
+      }
+      controller.selectedRegion = region;
+      controller.shippingAddress.country = region?.countries?.first;
+      controller.billingAddress.country = region?.countries?.first;
+
+
+
+      controller.update();
+    }
     return SafeArea(
       child: Form(
         key: controller.formKey,
         child: ListView(
           children: [
             ChooseRegionView(
-              onRegionChanged: (region) {
-                if (controller.selectedRegion == null &&
-                    lineItems.isEmpty &&
-                    customLineItems.isEmpty) {
-                  controller.expansionController.expand();
-                }
-                controller.selectedRegion = region;
-                controller.shippingAddress.country = region?.countries?.first;
-                controller.billingAddress.country = region?.countries?.first;
-                controller.update();
-              },
+              onRegionChanged: onRegionChanged,
             ),
             space,
             SlidableAutoCloseBehavior(
@@ -131,7 +141,7 @@ class ItemsView extends StatelessWidget {
                                   controller.update();
                                 }
                               }
-                                  : null,
+                                  : null, selectedRegion: controller.selectedRegion,
                             );
                           }),
                     if (lineItems.isNotEmpty && customLineItems.isNotEmpty)
@@ -230,7 +240,7 @@ class ItemsView extends StatelessWidget {
             space,
             if (controller.selectedRegion != null)
               ChooseShippingOptionView(
-                regionId: controller.selectedRegion!.id!,
+                region: controller.selectedRegion!,
                 onShippingOptionChanged: (shippingOption) {
                   if (shippingOption != null) {
                     controller.selectedShippingOption = shippingOption;

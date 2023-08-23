@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,33 +7,45 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../data/models/store/line_item.dart';
+import '../../../../data/models/store/money_amount.dart';
+import '../../../../data/models/store/region.dart';
+import '../../../components/currency_formatter.dart';
 
 class VariantListTile extends StatelessWidget {
   const VariantListTile(
-      this.lineItem, {
-        super.key,
-        this.onDelete,
-        this.onAddTap,
-        this.onRemoveTap,
-      });
+    this.lineItem, {
+    super.key,
+    this.onDelete,
+    this.onAddTap,
+    this.onRemoveTap,
+    required this.selectedRegion,
+  });
   final LineItem lineItem;
   final void Function()? onDelete;
   final void Function()? onAddTap;
   final void Function()? onRemoveTap;
+  final Region? selectedRegion;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final productVariant = lineItem.variant!;
-    String getCurrencyText() {
-      double value = productVariant.prices?[0].amount?.roundToDouble() ?? 0.0;
-      final valueFormatter =
-      NumberFormat.currency(name: productVariant.prices?[0].currencyCode);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
+    MoneyAmount? moneyAmount;
+    final priceList = productVariant.prices
+        ?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
+    if (priceList?.isNotEmpty ?? false) {
+      moneyAmount = priceList!.first;
+    } else {
+      moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
+          ? productVariant.prices!.first
+          : MoneyAmount(amount: 0, currencyCode: 'USD');
+    }
+
+    String getPrice(num? price) {
+      final currencyFormatter =
+          CurrencyTextInputFormatter(name: moneyAmount?.currencyCode);
+      return '${moneyAmount?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(price.toString())}';
     }
 
     const space = SizedBox(width: 12.0);
@@ -90,7 +101,7 @@ class VariantListTile extends StatelessWidget {
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
-                      Text(getCurrencyText(),
+                      Text(getPrice(moneyAmount.amount),
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
@@ -124,13 +135,13 @@ class VariantListTile extends StatelessWidget {
 
 class CustomVariantListTile extends StatelessWidget {
   const CustomVariantListTile(
-      this.lineItem, {
-        super.key,
-        this.onDelete,
-        this.onAddTap,
-        this.onRemoveTap,
-        required this.currencyCode,
-      });
+    this.lineItem, {
+    super.key,
+    this.onDelete,
+    this.onAddTap,
+    this.onRemoveTap,
+    required this.currencyCode,
+  });
   final LineItem lineItem;
   final String currencyCode;
   final void Function()? onDelete;
