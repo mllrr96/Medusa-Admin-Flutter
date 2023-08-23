@@ -119,9 +119,9 @@ class Region {
       json['fulfillment_providers'].forEach((e) => fulfillmentProviders!.add(FulfillmentProvider.fromJson(e)));
     }
     includesTax = json['includes_tax'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 

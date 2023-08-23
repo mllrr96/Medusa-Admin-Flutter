@@ -53,8 +53,8 @@ class NotificationResend {
     provider = json['provider'] != null
         ? NotificationProvider.fromJson(json['provider'])
         : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
   }
 
   Map<String, dynamic> toJson() {

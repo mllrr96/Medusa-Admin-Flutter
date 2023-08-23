@@ -106,9 +106,9 @@ class Cart {
     salesChannel = json['sales_channel'] != null
         ? SalesChannel.fromJson(json['sales_channel'] ?? '')
         : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
     shippingTotal = json['shipping_total'];
     discountTotal = json['discount_total'];

@@ -33,9 +33,9 @@ class Note {
     value = json['value'];
     authorId = json['author_id'];
     author = json['author'] != null ? User.fromJson(json['author']) : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
   }
 

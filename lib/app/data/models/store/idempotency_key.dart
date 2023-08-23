@@ -26,8 +26,8 @@ class IdempotencyKey {
   IdempotencyKey.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     idempotencyKey = json['idempotency_key'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    lockedAt = DateTime.tryParse(json['locked_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    lockedAt = DateTime.tryParse(json['locked_at'] ?? '')?.toLocal();
     requestMethod = json['request_method'];
     requestParams = json['request_params'];
     requestPath = json['request_path'];

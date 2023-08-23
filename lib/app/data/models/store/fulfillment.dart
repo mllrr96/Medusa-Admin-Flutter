@@ -93,9 +93,9 @@ class Fulfillment {
     noNotification = json['no_notification'];
     canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
     idempotencyKey = json['idempotency_key'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
   }
 

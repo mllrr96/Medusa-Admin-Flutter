@@ -32,9 +32,9 @@ class ProductOptionValue {
     option = json['option'] != null ? ProductOption.fromJson(json) : null;
     variantId = json['variant_id'];
     variant = json['variant'] != null ? ProductVariant.fromJson(json) : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
   }
 

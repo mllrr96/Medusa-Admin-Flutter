@@ -60,9 +60,9 @@ class MoneyAmount {
     variant = json['variant'] != null ? ProductVariant.fromJson(json['variant']) : null;
     regionId = json['region_id'];
     region = json['region'] != null ? Region.fromJson(json['region_id']) : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     if (metadata != null) {
       metadata = json['metadata'];
     }

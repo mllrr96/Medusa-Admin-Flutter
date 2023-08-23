@@ -47,9 +47,9 @@ class GiftCard {
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     isDisabled = json['is_disabled'];
     endsAt = DateTime.tryParse(json['ends_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
   }
 

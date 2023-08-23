@@ -131,8 +131,8 @@ class LineItem {
     originalItemId = json['original_item_id'];
     orderEditId = json['order_edit_id'];
     orderEdit = json['order_edit'] != null ? OrderEdit.fromJson(json['order_edit']) : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 

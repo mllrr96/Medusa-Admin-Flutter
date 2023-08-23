@@ -32,9 +32,9 @@ class StockLocation {
       name: json['name'],
       address: Address.fromJson(json['address']),
       addressId: json['address_id'],
-      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
-      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
-      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal(),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
       metadata: json['metadata'],
     );
   }

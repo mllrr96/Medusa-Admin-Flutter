@@ -33,7 +33,7 @@ class GiftCardTransaction {
     orderId = json['order_id'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     amount = json['amount'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     isTaxable = json['is_taxable'];
     taxRate = json['tax_rate'];
   }

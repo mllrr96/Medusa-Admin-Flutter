@@ -23,9 +23,9 @@ class PublishableApiKey {
       title: json['title'],
       revokedBy: json['revoked_by'],
       createdBy: json['created_by'],
-      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
-      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
-      revokedAt: DateTime.tryParse(json['revoked_at'] ?? ''),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
+      revokedAt: DateTime.tryParse(json['revoked_at'] ?? '')?.toLocal(),
     );
   }
 
