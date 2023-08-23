@@ -40,9 +40,9 @@ class LocationLevel {
       stockedQuantity: json['stocked_quantity'],
       reservedQuantity: json['reserved_quantity'],
       incomingQuantity: json['incoming_quantity'],
-      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
-      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
-      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal(),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
       metadata: json['metadata'],
     );
   }

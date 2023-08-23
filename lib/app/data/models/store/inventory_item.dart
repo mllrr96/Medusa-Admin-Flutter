@@ -73,9 +73,9 @@ class InventoryItem {
       originCountry: json['origin_country'],
       requiresShipping: json['requires_shipping'],
       metadata: json['metadata'],
-      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
-      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
-      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal(),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
       hsCode: json['hs_code'],
       midCode: json['mid_code'],
     );

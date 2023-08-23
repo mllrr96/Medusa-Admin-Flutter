@@ -102,24 +102,30 @@ class ShippingOption {
     regionId = json['region_id'];
     region = json['region'] != null ? Region.fromJson(json['region']) : null;
     profileId = json['profile_id'];
-    profile = json['profile'] != null ? ShippingProfile.fromJson(json['profile']) : null;
+    profile = json['profile'] != null
+        ? ShippingProfile.fromJson(json['profile'])
+        : null;
     providerId = json['provider_id'];
-    provider = json['provider'] != null ? FulfillmentProvider.fromJson(json['provider']) : null;
+    provider = json['provider'] != null
+        ? FulfillmentProvider.fromJson(json['provider'])
+        : null;
     priceType = json['price_type'] != null
-        ? ShippingOptionPriceType.values.firstWhere((e) => e.value == json['price_type'])
+        ? ShippingOptionPriceType.values
+            .firstWhere((e) => e.value == json['price_type'])
         : null;
     amount = json['amount'];
     isReturn = json['is_return'];
     adminOnly = json['admin_only'];
     if (json['requirements'] != null) {
       requirements = <ShippingOptionRequirement>[];
-      json['requirements'].forEach((e) => requirements!.add(ShippingOptionRequirement.fromJson(e)));
+      json['requirements'].forEach(
+          (e) => requirements!.add(ShippingOptionRequirement.fromJson(e)));
     }
     data = json['data'];
     includesTax = json['includes_tax'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 
@@ -166,7 +172,8 @@ class ShippingOption {
     json['admin_only'] = adminOnly;
 
     if (requirements != null) {
-      json['requirements'] = requirements?.map((e) => e.toJson()).toList() ?? [];
+      json['requirements'] =
+          requirements?.map((e) => e.toJson()).toList() ?? [];
     }
 
     if (data != null) {
@@ -194,6 +201,50 @@ class ShippingOption {
     }
 
     return json;
+  }
+
+  ShippingOption copyWith({
+    String? id,
+    String? name,
+    String? regionId,
+    Region? region,
+    String? profileId,
+    ShippingProfile? profile,
+    String? providerId,
+    FulfillmentProvider? provider,
+    ShippingOptionPriceType? priceType,
+    int? amount,
+    bool? isReturn ,
+    bool? adminOnly ,
+    List<ShippingOptionRequirement>? requirements,
+    Map<String, dynamic>? data,
+    bool? includesTax,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
+    Map<String, dynamic>? metadata,
+  }) {
+    return ShippingOption(
+      name: name ?? this.name,
+      region: region ?? this.region,
+      regionId: regionId ?? this.regionId,
+      profileId: profileId ?? this.profileId,
+      providerId: providerId ?? this.providerId,
+      priceType: priceType ?? this.priceType,
+      includesTax: includesTax ?? this.includesTax,
+      id: id ?? this.id,
+      provider: provider ?? this.provider,
+      profile: profile ?? this.profile,
+      amount: amount ?? this.amount,
+      isReturn: isReturn ?? this.isReturn,
+      adminOnly: adminOnly ?? this.adminOnly,
+      requirements: requirements ?? this.requirements,
+      data: data ?? this.data,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      metadata: metadata ?? this.metadata,
+    );
   }
 }
 

@@ -9,7 +9,7 @@ class ProductOption {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ProductOption({
     this.id,
@@ -20,7 +20,7 @@ class ProductOption {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ProductOption.fromJson(Map<String, dynamic> json) {
@@ -34,10 +34,10 @@ class ProductOption {
     productId = json['product_id'];
     product =
         json['product'] != null ? Product.fromJson(json['product']) : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,7 +46,7 @@ class ProductOption {
     json['title'] = title;
     json['values'] = values?.map((e) => e.toJson()).toList() ?? [];
     json['product_id'] = productId;
-    json['product'] = product?.toJson() ?? {};
+    json['product'] = product?.toJson();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

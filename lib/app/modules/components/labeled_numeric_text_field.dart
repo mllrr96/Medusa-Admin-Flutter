@@ -16,7 +16,7 @@ class LabeledNumericTextField extends StatelessWidget {
     this.prefixText,
     this.onTapOutside,
     this.inputFormatters,
-    this.onChanged, this.keyboardType,  this.noEndSpace = false,
+    this.onChanged, this.keyboardType,  this.noEndSpace = false, this.addOrSubtractValue = 1,
   }) : super(key: key);
   final TextEditingController controller;
   final void Function()? onPlusPressed;
@@ -31,6 +31,7 @@ class LabeledNumericTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
+  final int addOrSubtractValue;
 final bool noEndSpace;
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ final bool noEndSpace;
         if(label !=null)
         Row(
           children: [
-            Text(label!, style: mediumTextStyle!),
+            Flexible(child: Text(label!, style: mediumTextStyle!)),
             if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
           ],
         ),
@@ -71,8 +72,8 @@ final bool noEndSpace;
                       onPressed: onMinusPressed ??
                               () {
                             int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                            if (stock != null && stock != 1) {
-                              controller.text = (stock - 1).toString();
+                            if (stock != null && stock != addOrSubtractValue) {
+                              controller.text = (stock - addOrSubtractValue).toString();
                             }
                           },
                       icon: const Icon(Icons.remove)),
@@ -82,9 +83,9 @@ final bool noEndSpace;
                               () {
                             int? stock = int.tryParse(controller.text.removeAllWhitespace);
                             if (stock != null) {
-                              controller.text = (stock + 1).toString();
+                              controller.text = (stock + addOrSubtractValue).toString();
                             } else {
-                              controller.text = 1.toString();
+                              controller.text = addOrSubtractValue.toString();
                             }
                           },
                       icon: const Icon(Icons.add)),

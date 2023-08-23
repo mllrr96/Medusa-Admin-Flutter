@@ -53,15 +53,15 @@ class BatchJob {
         ? User.fromJson(json['created_by_user'])
         : null;
     dryRun = json['dry_run'] ?? false;
-    preProcessedAt = DateTime.tryParse(json['pre_processed_at'] ?? '');
-    processingAt = DateTime.tryParse(json['processing_at'] ?? '');
-    confirmedAt = DateTime.tryParse(json['confirmed_at'] ?? '');
-    completedAt = DateTime.tryParse(json['completed_at'] ?? '');
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
-    failedAt = DateTime.tryParse(json['failed_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    preProcessedAt = DateTime.tryParse(json['pre_processed_at'] ?? '')?.toLocal();
+    processingAt = DateTime.tryParse(json['processing_at'] ?? '')?.toLocal();
+    confirmedAt = DateTime.tryParse(json['confirmed_at'] ?? '')?.toLocal();
+    completedAt = DateTime.tryParse(json['completed_at'] ?? '')?.toLocal();
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
+    failedAt = DateTime.tryParse(json['failed_at'] ?? '')?.toLocal();
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
   }
 
   Map<String, dynamic> toJson() {
@@ -70,7 +70,7 @@ class BatchJob {
     json['type'] = type?.value;
     json['status'] = status.value;
     json['created_by'] = createdBy;
-    json['created_by_user'] = createdByUser?.toJson() ?? {};
+    json['created_by_user'] = createdByUser?.toJson();
     json['dry_run'] = dryRun;
     json['pre_processed_at'] = preProcessedAt.toString();
     json['processing_at'] = processingAt.toString();

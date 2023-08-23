@@ -9,7 +9,7 @@ class LineItemAdjustment {
   String? discountId;
   Discount? discount;
   num? amount;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   LineItemAdjustment({
     this.id,
@@ -19,7 +19,7 @@ class LineItemAdjustment {
     this.discountId,
     this.discount,
     required this.amount,
-    this.metadata = const {},
+    this.metadata,
   });
 
   LineItemAdjustment.fromJson(Map<String, dynamic> json) {
@@ -31,7 +31,7 @@ class LineItemAdjustment {
     discount =
         json['discount'] != null ? Discount.fromJson(json['discount']) : null;
     amount = json['amount'];
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

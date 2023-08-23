@@ -14,7 +14,7 @@ class CustomShippingOption {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   CustomShippingOption({
     this.id,
@@ -27,7 +27,7 @@ class CustomShippingOption {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   CustomShippingOption.fromJson(Map<String, dynamic> json) {
@@ -40,10 +40,10 @@ class CustomShippingOption {
     cartId = json['cart_id'];
     cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
     includeTax = json['includes_tax'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -51,9 +51,9 @@ class CustomShippingOption {
     json['id'] = id;
     json['price'] = price;
     json['shipping_option_id'] = shippingOptionId;
-    json['shipping_option'] = shippingOption?.toJson() ?? {};
+    json['shipping_option'] = shippingOption?.toJson();
     json['cart_id'] = cartId;
-    json['cart'] = cart?.toJson() ?? {};
+    json['cart'] = cart?.toJson();
     json['include_tax'] = includeTax;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();

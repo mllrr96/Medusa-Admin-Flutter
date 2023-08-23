@@ -38,9 +38,9 @@ class Reservation {
       locationId: json['location_id'],
       inventoryItemId: json['inventory_item_id'],
       quantity: json['quantity'],
-      createdAt: DateTime.tryParse(json['created_at'] ?? ''),
-      updatedAt: DateTime.tryParse(json['updated_at'] ?? ''),
-      deletedAt: DateTime.tryParse(json['deleted_at'] ?? ''),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal(),
       metadata: json['metadata'],
     );
   }

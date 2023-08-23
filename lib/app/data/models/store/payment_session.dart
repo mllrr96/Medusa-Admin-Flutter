@@ -37,15 +37,15 @@ class PaymentSession {
         : null;
     data = json['data'];
     idempotencyKey = json['idempotency_key'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['cart_id'] = cartId;
-    json['cart'] = cart?.toJson() ?? {};
+    json['cart'] = cart?.toJson();
     json['provider_id'] = providerId;
     json['is_selected'] = isSelected;
     json['status'] = status?.value ?? '';

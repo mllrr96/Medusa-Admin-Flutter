@@ -58,12 +58,12 @@ class Payment {
         json['currency'] != null ? Currency.fromJson(json['currency']) : null;
     amountRefunded = json['amount_refunded'];
     providerId = json['provider_id'];
-    data = json['data'] ?? {};
+    data = json['data'];
     idempotencyKey = json['idempotency_key'];
-    capturedAt = DateTime.tryParse(json['captured_at'] ?? '');
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    capturedAt = DateTime.tryParse(json['captured_at'] ?? '')?.toLocal();
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 
@@ -71,14 +71,14 @@ class Payment {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['swap_id'] = swapId;
-    json['swap'] = swap?.toJson() ?? {};
+    json['swap'] = swap?.toJson() ;
     json['cart_id'] = cartId;
-    json['cart'] = cart?.toJson() ?? {};
+    json['cart'] = cart?.toJson() ;
     json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
+    json['order'] = order?.toJson() ;
     json['amount'] = amount;
     json['currency_code'] = currencyCode;
-    json['currency'] = currency?.toJson() ?? {};
+    json['currency'] = currency?.toJson() ;
     json['amount_refunded'] = amountRefunded;
     json['provider_id'] = providerId;
     json['data'] = data;

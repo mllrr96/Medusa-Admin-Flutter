@@ -6,11 +6,10 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
-import '../controllers/create_draft_order_controller.dart';
-
 class ChooseCustomerView extends StatelessWidget {
-  const ChooseCustomerView({Key? key}) : super(key: key);
-
+  const ChooseCustomerView({Key? key, this.onCustomerChanged})
+      : super(key: key);
+  final void Function(Customer?)? onCustomerChanged;
   @override
   Widget build(BuildContext context) {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
@@ -18,49 +17,49 @@ class ChooseCustomerView extends StatelessWidget {
     const space = SizedBox(height: 12.0);
     return GetBuilder<ChooseCustomerController>(
       builder: (controller) {
-        return Scaffold(
-          body: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            children: [
-              Text('Choose Shipping Option', style: largeTextStyle),
-              space,
-              TextField(
-                controller: controller.customerCtrl,
-                onTap: () async {
-                  final result = await Get.toNamed(Routes.PICK_CUSTOMER,
-                      arguments: PickCustomerReq(
-                          selectedCustomers:
-                              controller.selectedCustomer.value != null ? [controller.selectedCustomer.value!] : null));
-                  if (result is PickCustomerRes) {
-                    final customer = result.selectedCustomers.first;
-                    controller.selectedCustomer.value = customer;
-                    controller.customerCtrl.text = customer.firstName != null
-                        ? '${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})'
-                        : customer.email;
-                    controller.update();
-                    CreateDraftOrderController.instance.update();
+        return Column(
+          children: [
+            Text('Choose Shipping Option', style: largeTextStyle),
+            space,
+            TextField(
+              controller: controller.customerCtrl,
+              onTap: () async {
+                final result = await Get.toNamed(Routes.PICK_CUSTOMER,
+                    arguments: PickCustomerReq(
+                        selectedCustomers: controller.selectedCustomer != null
+                            ? [controller.selectedCustomer!]
+                            : null));
+                if (result is PickCustomerRes) {
+                  final customer = result.selectedCustomers.first;
+                  controller.selectedCustomer = customer;
+                  controller.customerCtrl.text = customer.firstName != null
+                      ? '${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})'
+                      : customer.email;
+                  controller.update();
+                  if (onCustomerChanged != null) {
+                    onCustomerChanged!(controller.selectedCustomer);
                   }
-                },
-                readOnly: true,
-                style: smallTextStyle,
-                decoration: InputDecoration(
-                  hintText: 'Choose customer',
-                  suffixIcon: controller.selectedCustomer.value != null
-                      ? AdaptiveIcon(
-                          onPressed: () {
-                            controller.selectedCustomer.value = null;
-                            controller.customerCtrl.clear();
-                            controller.update();
-                          },
-                          icon: const Icon(CupertinoIcons.clear_circled))
-                      : null,
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                  ),
-                ),
+                }
+              },
+              readOnly: true,
+              style: smallTextStyle,
+              decoration: InputDecoration(
+                hintText: 'Choose customer',
+                suffixIcon: controller.selectedCustomer != null
+                    ? AdaptiveIcon(
+                        onPressed: () {
+                          controller.selectedCustomer = null;
+                          controller.customerCtrl.clear();
+                          controller.update();
+                          if (onCustomerChanged != null) {
+                            onCustomerChanged!(null);
+                          }
+                        },
+                        icon: const Icon(CupertinoIcons.clear_circled))
+                    : const Icon(Icons.arrow_drop_down),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -68,13 +67,12 @@ class ChooseCustomerView extends StatelessWidget {
 }
 
 class ChooseCustomerController extends GetxController {
-  static ChooseCustomerController get instance => Get.find<ChooseCustomerController>();
+  static ChooseCustomerController get instance =>
+      Get.find<ChooseCustomerController>();
 
   ChooseCustomerController();
-
-  // ignore: unnecessary_cast
-  Rx<Customer?> selectedCustomer = (null as Customer?).obs;
   final customerCtrl = TextEditingController();
+  Customer? selectedCustomer;
 
   @override
   void onClose() {

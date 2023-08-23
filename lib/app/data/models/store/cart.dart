@@ -48,7 +48,7 @@ class Cart {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Cart.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -106,10 +106,10 @@ class Cart {
     salesChannel = json['sales_channel'] != null
         ? SalesChannel.fromJson(json['sales_channel'] ?? '')
         : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    metadata = json['metadata'];
     shippingTotal = json['shipping_total'];
     discountTotal = json['discount_total'];
     taxTotal = json['tax_total'];
@@ -131,25 +131,25 @@ class Cart {
     json['shipping_address'] = shippingAddress;
     json['items'] = items?.map((e) => e.toJson()).toList() ?? [];
     json['region_id'] = regionId;
-    json['region'] = region?.toJson() ?? {};
+    json['region'] = region?.toJson();
     json['discounts'] = discounts?.map((e) => e.toJson()).toList() ?? [];
     json['gift_cards'] = giftCards?.map((e) => e.toJson()).toList() ?? [];
     json['customer_id'] = customerId;
-    json['customer'] = customer?.toJson() ?? {};
-    json['payment_session'] = paymentSession?.toJson() ?? {};
+    json['customer'] = customer?.toJson();
+    json['payment_session'] = paymentSession?.toJson() ;
     json['payment_sessions'] =
         paymentSessions?.map((e) => e.toJson()).toList() ?? [];
     json['payment_id'] = paymentId;
-    json['payment'] = payment?.toJson() ?? {};
+    json['payment'] = payment?.toJson() ;
     json['shipping_methods'] =
-        shippingMethods?.map((e) => e.toJson()).toList() ?? [];
+        shippingMethods?.map((e) => e.toJson()).toList();
     json['type'] = type.value;
     json['completed_at'] = completedAt.toString();
     json['payment_authorized_at'] = paymentAuthorizedAt.toString();
     json['idempotency_key'] = idempotencyKey;
     json['context'] = context;
     json['sales_channel_id'] = salesChannelId;
-    json['sales_channel'] = salesChannel?.toJson() ?? {};
+    json['sales_channel'] = salesChannel?.toJson();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

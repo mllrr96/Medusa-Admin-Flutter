@@ -44,7 +44,7 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
               controller: controller.scrollController,
               label: 'Draft Order',
               icon: const Icon(Icons.add),
-              onPressed: () {},
+              onPressed: ()  =>  Get.toNamed(Routes.CREATE_DRAFT_ORDER),
               heroTag: 'Draft Order'),
         ],
       ),

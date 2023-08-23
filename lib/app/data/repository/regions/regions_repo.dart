@@ -11,12 +11,12 @@ class RegionsRepo extends BaseRegions {
 
   @override
   Future<Result<UserRegionsRes, Failure>> retrieveAll(
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? customHeaders}) async {
+      {Map<String, dynamic>? queryParameters, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.get(uri: '/regions', queryParameters: queryParams);
+      final response = await _dataProvider.get(uri: '/regions', queryParameters: queryParameters);
       if (response.statusCode == 200) {
         return Success(UserRegionsRes.fromJson(response.data));
       } else {

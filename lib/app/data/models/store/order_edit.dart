@@ -59,9 +59,9 @@ class OrderEdit {
     requestedBy = json['requested_by'];
     confirmedBy = json['confirmed_by'];
     declinedBy = json['declined_by'];
-    requestedAt = DateTime.tryParse(json['requested_at'] ?? '');
-    confirmedAt = DateTime.tryParse(json['confirmed_at'] ?? '');
-    declinedAt = DateTime.tryParse(json['declined_at'] ?? '');
+    requestedAt = DateTime.tryParse(json['requested_at'] ?? '')?.toLocal();
+    confirmedAt = DateTime.tryParse(json['confirmed_at'] ?? '')?.toLocal();
+    declinedAt = DateTime.tryParse(json['declined_at'] ?? '')?.toLocal();
     declinedReason = json['declined_reason'];
     subtotal = json['subtotal'];
     discountTotal = json['discount_total'];
@@ -83,8 +83,8 @@ class OrderEdit {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
-    json['changes'] = changes?.map((e) => e.toJson()).toList() ?? [];
+    json['order'] = order?.toJson();
+    json['changes'] = changes?.map((e) => e.toJson()).toList();
     json['internal_note'] = internalNote;
     json['created_by'] = createdBy;
     json['confirmed_by'] = confirmedBy;

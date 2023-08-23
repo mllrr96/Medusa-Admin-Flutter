@@ -64,7 +64,7 @@ class AddUpdateTaxRateView extends GetView<AddUpdateTaxRateController> {
                         required: true,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                         validator: (val) {
                           if (val == null || val.isEmpty) {

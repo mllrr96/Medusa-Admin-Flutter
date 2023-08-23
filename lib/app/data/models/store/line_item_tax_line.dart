@@ -10,7 +10,7 @@ class LineItemTaxLine {
   num? rate;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   LineItemTaxLine({
     this.id,
@@ -31,9 +31,9 @@ class LineItemTaxLine {
     code = json['code'];
     name = json['name'];
     rate = json['rate'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

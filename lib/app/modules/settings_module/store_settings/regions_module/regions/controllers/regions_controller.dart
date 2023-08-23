@@ -44,7 +44,7 @@ class RegionsController extends GetxController {
 
   Future<void> _fetchPage(int pageKey) async {
     final result = await regionsRepo.retrieveAll(
-      queryParams: {
+      queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
       },

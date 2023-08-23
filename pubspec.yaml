@@ -59,6 +59,7 @@ dependencies:
   google_fonts: ^5.1.0
   copy_with_extension: ^5.0.3
   shake: ^2.2.0
+  skeletonizer: ^0.7.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.1

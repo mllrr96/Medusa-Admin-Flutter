@@ -9,7 +9,7 @@ class ProductCollection {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ProductCollection({
     this.id,
@@ -19,7 +19,7 @@ class ProductCollection {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ProductCollection.fromJson(Map<String, dynamic> json) {
@@ -31,10 +31,10 @@ class ProductCollection {
       json['products']
           .forEach((e) => products!.add(Product.fromJson(e)));
     }
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {

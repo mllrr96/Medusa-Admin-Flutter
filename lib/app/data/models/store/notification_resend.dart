@@ -53,8 +53,8 @@ class NotificationResend {
     provider = json['provider'] != null
         ? NotificationProvider.fromJson(json['provider'])
         : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
   }
 
   Map<String, dynamic> toJson() {
@@ -64,13 +64,13 @@ class NotificationResend {
     json['resource_type'] = resourceType;
     json['resource_id'] = resourceId;
     json['customer_id'] = customerId;
-    json['customer'] = customer?.toJson() ?? {};
+    json['customer'] = customer?.toJson();
     json['to'] = to;
     json['data'] = data;
     json['parent_id'] = parentId;
-    json['parent_notification'] = parentNotification?.toJson() ?? {};
+    json['parent_notification'] = parentNotification?.toJson();
     json['provider_id'] = providerId;
-    json['provider'] = provider?.toJson() ?? {};
+    json['provider'] = provider?.toJson();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     return json;

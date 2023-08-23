@@ -98,7 +98,7 @@ class ProductVariant {
       data['product_id'] = productId;
     }
     if (product != null) {
-      data['product'] = product?.toJson() ?? {};
+      data['product'] = product?.toJson();
     }
     if (prices != null) {
       data['prices'] = prices!.map((v) => v.toJson()).toList();

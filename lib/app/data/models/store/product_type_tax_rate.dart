@@ -7,7 +7,7 @@ class ProductTypeTaxRate {
   TaxRate? taxRate;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ProductTypeTaxRate({
     this.productTypeId,
@@ -16,7 +16,7 @@ class ProductTypeTaxRate {
     this.taxRate,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ProductTypeTaxRate.fromJson(Map<String, dynamic> json) {
@@ -27,17 +27,17 @@ class ProductTypeTaxRate {
     rateId = json['rate_id'];
     taxRate =
         json['tax_rate'] != null ? TaxRate.fromJson(json['tax_rate']) : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['product_type_id'] = productTypeId;
-    json['product_type'] = productType?.toJson() ?? {};
+    json['product_type'] = productType?.toJson();
     json['rate_id'] = rateId;
-    json['tax_rate'] = taxRate?.toJson() ?? {};
+    json['tax_rate'] = taxRate?.toJson();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['metadata'] = metadata;

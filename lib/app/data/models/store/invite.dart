@@ -31,10 +31,10 @@ class Invite {
     role = UserRole.values.firstWhere((e) => e.value == (json['role'] ?? ''));
     accepted = json['accepted'];
     token = json['token'];
-    expiresAt =DateTime.tryParse(json['expires_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    expiresAt =DateTime.tryParse(json['expires_at'] ?? '')?.toLocal();
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 

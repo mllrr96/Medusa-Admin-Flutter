@@ -23,7 +23,7 @@ class ShippingOptionRequirement {
     shippingOption = json['shipping_option'] != null ? ShippingOption.fromJson(json['shipping_option']) : null;
     type = json['type'] != null ? RequirementType.values.firstWhere((e) => e.value == json['type']) : null;
     amount = json['amount'];
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
   }
 
   Map<String, dynamic> toJson() {

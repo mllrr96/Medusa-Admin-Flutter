@@ -58,7 +58,7 @@ class Store extends Equatable {
     data['id'] = id;
     data['name'] = name;
     data['default_currency_code'] = defaultCurrencyCode;
-    data['default_currency'] = defaultCurrency?.toJson() ?? {};
+    data['default_currency'] = defaultCurrency?.toJson();
     if (currencies != null) {
       data['currencies'] = currencies!.map((v) => v.toJson()).toList();
     }
@@ -67,7 +67,7 @@ class Store extends Equatable {
     data['invite_link_template'] = inviteLinkTemplate;
     data['metadata'] = metadata;
     data['default_sales_channel_id'] = defaultSalesChannelId;
-    data['default_sales_channel'] = defaultSalesChannel?.toJson() ?? {};
+    data['default_sales_channel'] = defaultSalesChannel?.toJson();
     return data;
   }
 

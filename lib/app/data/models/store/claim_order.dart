@@ -31,7 +31,7 @@ class ClaimOrder {
   DateTime? createdAt;
   DateTime? deletedAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ClaimOrder({
     this.id,
@@ -54,7 +54,7 @@ class ClaimOrder {
     this.createdAt,
     this.deletedAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ClaimOrder.fromJson(Map<String, dynamic> json) {
@@ -100,11 +100,11 @@ class ClaimOrder {
           .forEach((e) => fulfillments!.add(Fulfillment.fromJson(e)));
     }
     refundAmount = json['refund_amount'];
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    metadata = json['metadata'] ;
     noNotification = json['no_notification'];
     idempotencyKey = json['idempotency_key'];
   }
@@ -119,10 +119,10 @@ class ClaimOrder {
     json['additional_items'] =
         additionalItems?.map((e) => e.toJson()).toList() ?? [];
     json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
-    json['return_order'] = returnOrder?.toJson() ?? {};
+    json['order'] = order?.toJson();
+    json['return_order'] = returnOrder?.toJson();
     json['shipping_address_id'] = shippingAddressId;
-    json['shipping_address'] = shippingAddress?.toJson() ?? {};
+    json['shipping_address'] = shippingAddress?.toJson();
     json['shipping_methods'] =
         shippingMethods?.map((e) => e.toJson()).toList() ?? [];
     json['fulfillments'] = fulfillments?.map((e) => e.toJson()).toList() ?? [];

@@ -61,12 +61,12 @@ class DraftOrder {
     cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
     orderId = json['order_id'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
-    completedAt = DateTime.tryParse(json['completed_at'] ?? '');
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
+    completedAt = DateTime.tryParse(json['completed_at'] ?? '')?.toLocal();
     noNotificationOrder = json['no_notification_order'];
     idempotencyKey = json['idempotency_key'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 
@@ -77,7 +77,7 @@ class DraftOrder {
     json['display_id'] = displayId;
     json['cart_id'] = cartId;
     if (cart != null) {
-      json['cart'] = cart?.toJson() ?? {};
+      json['cart'] = cart?.toJson() ;
     }
     json['order_id'] = orderId;
     if (order != null) {

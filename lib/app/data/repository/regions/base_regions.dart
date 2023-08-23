@@ -6,7 +6,7 @@ import '../../models/res/regions.dart';
 abstract class BaseRegions {
   /// Retrieves a list of Regions.
   Future<Result<UserRegionsRes, Failure>> retrieveAll({
-    Map<String, dynamic>? queryParams,
+    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? customHeaders,
   });
 

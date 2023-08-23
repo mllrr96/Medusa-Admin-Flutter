@@ -31,8 +31,8 @@ class FulfillmentItem {
     var json = <String, dynamic>{};
     json['fulfillment_id'] = fulfillmentId;
     json['item_id'] = itemId;
-    json['fulfillment'] = fulfillment?.toJson() ?? {};
-    json['item'] = item?.toJson() ?? {};
+    json['fulfillment'] = fulfillment?.toJson();
+    json['item'] = item?.toJson();
     json['quantity'] = quantity;
     return json;
   }

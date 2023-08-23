@@ -66,11 +66,35 @@ class UserCreateDraftOrderReq {
     }
 
     if (shippingAddress != null) {
-      json['shipping_address'] = shippingAddress!.toJson();
+      Address shipping = Address(
+        firstName: shippingAddress!.firstName,
+        lastName: shippingAddress!.lastName,
+        company: shippingAddress!.company,
+        phone: shippingAddress!.phone,
+        address1: shippingAddress!.address1,
+        address2: shippingAddress!.address2,
+        postalCode: shippingAddress!.postalCode,
+        city: shippingAddress!.city,
+        province: shippingAddress!.province,
+        countryCode: shippingAddress!.country?.iso2,
+      );
+      json['shipping_address'] = shipping.toJson();
     }
 
     if (billingAddress != null) {
-      json['billing_address'] = billingAddress!.toJson();
+      Address billing = Address(
+        firstName: billingAddress!.firstName,
+        lastName: billingAddress!.lastName,
+        company: billingAddress!.company,
+        phone: billingAddress!.phone,
+        address1: billingAddress!.address1,
+        address2: billingAddress!.address2,
+        postalCode: billingAddress!.postalCode,
+        city: billingAddress!.city,
+        province: billingAddress!.province,
+        countryCode: billingAddress!.country?.iso2,
+      );
+      json['billing_address'] = billing.toJson();
     }
 
     if (customerId != null) {
@@ -78,7 +102,24 @@ class UserCreateDraftOrderReq {
     }
 
     if (items != null) {
-      json['items'] = items!.map((e) => e.toJson()).toList();
+      List<LineItem> newItems = [];
+      for (var item in items!) {
+        // Custom item
+        if (item.variantId == null) {
+          newItems.add(LineItem(
+            unitPrice: item.unitPrice,
+            quantity: item.quantity,
+            title: item.title,
+          ));
+        } else {
+          newItems.add(LineItem(
+            variantId: item.variantId,
+            quantity: item.quantity,
+          ));
+        }
+      }
+
+      json['items'] = newItems.map((e) => e.toJson()).toList();
     }
 
     if (discounts != null) {
