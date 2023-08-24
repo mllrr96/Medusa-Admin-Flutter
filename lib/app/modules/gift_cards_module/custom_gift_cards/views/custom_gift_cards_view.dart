@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -126,7 +127,7 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                           children: [
                             Text(getCurrencyText(giftCard)),
                             Text(
-                                DateFormat.yMMMd().format(giftCard.createdAt!)),
+                                formatDate(giftCard.createdAt)),
                           ],
                         ),
                       );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 
 import '../../../../data/models/store/product_collection.dart';
 import '../../../../routes/app_pages.dart';
@@ -25,7 +25,7 @@ class CollectionListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (collection.updatedAt != null)
-            Text(DateFormat.yMMMd().format(collection.updatedAt!), style: smallTextStyle),
+            Text(formatDate(collection.updatedAt), style: smallTextStyle),
           if (collection.products != null)
             Text('Products: ${collection.products?.length ?? ''}', style: smallTextStyle),
         ],

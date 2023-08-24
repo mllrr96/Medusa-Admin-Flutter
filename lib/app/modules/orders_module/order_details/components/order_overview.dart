@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 
 import 'order_status_label.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -35,9 +35,9 @@ class OrderOverview extends StatelessWidget {
                       IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
-                  if (order.cart != null && order.cart!.completedAt != null)
+                  if ( order.cart?.completedAt != null)
                     Text(
-                      'on ${DateFormat.MEd().format(order.cart!.completedAt!)} at ${DateFormat.jm().format(order.cart!.completedAt!)}',
+                      'on ${formatDate(order.cart!.completedAt)} at ${formatTime(order.cart!.completedAt)}',
                       style: Theme.of(context).textTheme.titleMedium,
                     )
                 ],

@@ -1,13 +1,17 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../data/service/language_service.dart';
 import '../../../components/language_selection/language_selection_view.dart';
@@ -20,6 +24,7 @@ class AppSettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AppSettingsController>(builder: (controller) {
       final tr = AppLocalizations.of(context)!;
+      final appSettings = StorageService.appSettings;
       return Scaffold(
         appBar: AppBar(
           leading: const AdaptiveBackButton(),
@@ -84,6 +89,30 @@ class AppSettingsView extends StatelessWidget {
                     builder: (context) => const LanguageSelectionView(),
                   ),
                 ),
+                SettingsTile.switchTile(
+                  title: const Text('Shake phone to search'),
+                  activeSwitchColor: ColorManager.primary,
+                  leading: const Icon(Icons.vibration),
+                  onPressed: (_) async {},
+                  initialValue: StorageService.appSettings.shakeTOSearch,
+                  onToggle: (bool value) async {
+                    final storageService = StorageService.instance;
+                    final appSettings = StorageService.appSettings;
+                    await storageService.updateAppSettings(
+                        appSettings.copyWith(shakeTOSearch: value));
+                    controller.update();
+                    if (value) {
+                      Get.snackbar('Restart the app',
+                          'For changes to take effect please restart the app',
+                          snackPosition: SnackPosition.BOTTOM);
+                    }
+                  },
+                ),
+              ],
+            ),
+            SettingsSection(
+              title: const Text('DateTime settings'),
+              tiles: <SettingsTile>[
                 if (GetPlatform.isIOS)
                   SettingsTile.switchTile(
                     title: const Text('Use Android date picker'),
@@ -104,24 +133,53 @@ class AppSettingsView extends StatelessWidget {
                       controller.update();
                     },
                   ),
-                SettingsTile.switchTile(
-                  title: const Text('Shake phone to search'),
-                  activeSwitchColor: ColorManager.primary,
-                  leading: const Icon(Icons.vibration),
-                  onPressed: (_) async {},
-                  initialValue: StorageService.appSettings.shakeTOSearch,
-                  onToggle: (bool value) async {
-                    final storageService = StorageService.instance;
-                    final appSettings = StorageService.appSettings;
-                    await storageService.updateAppSettings(
-                        appSettings.copyWith(shakeTOSearch: value));
+                SettingsTile.navigation(
+                  title: const Text('Date format'),
+                  value: Text(formatDate(DateTime.now())),
+                  leading: const Icon(Icons.date_range),
+                  onPressed: (_) async => await showConfirmationDialog<
+                              DateFormatOptions>(
+                          context: context,
+                          title: 'Date format',
+                          initialSelectedActionKey:
+                              appSettings.dateFormatOptions,
+                          actions: DateFormatOptions.values
+                              .map((e) => AlertDialogAction<DateFormatOptions>(
+                                    label: DateFormat(e.format())
+                                        .format(DateTime.now()),
+                                    key: e,
+                                  ))
+                              .toList())
+                      .then((result) {
+                    if (result == null) return;
+                    if (result == appSettings.dateFormatOptions) return;
+                    StorageService.instance.updateAppSettings(
+                        appSettings.copyWith(dateFormatOptions: result));
                     controller.update();
-                    if (value) {
-                      Get.snackbar('Restart the app',
-                          'For changes to take effect please restart the app',
-                          snackPosition: SnackPosition.BOTTOM);
-                    }
-                  },
+                  }),
+                ),
+                SettingsTile.navigation(
+                  title: const Text('Time format'),
+                  value: Text(formatTime(DateTime.now())),
+                  leading: const Icon(Icons.timer_outlined),
+                  onPressed: (_) async =>
+                      await showModalActionSheet<TimeFormatOptions>(
+                              context: context,
+                              title: 'Time Format',
+                              actions: TimeFormatOptions.values
+                                  .map((e) => SheetAction<TimeFormatOptions>(
+                                        key: e,
+                                        label: DateFormat(e.format())
+                                            .format(DateTime.now()),
+                                      ))
+                                  .toList())
+                          .then((result) {
+                    if (result == null) return;
+                    if (result == appSettings.timeFormatOptions) return;
+                    StorageService.instance.updateAppSettings(
+                        appSettings.copyWith(timeFormatOptions: result));
+                    controller.update();
+                  }),
                 ),
               ],
             ),

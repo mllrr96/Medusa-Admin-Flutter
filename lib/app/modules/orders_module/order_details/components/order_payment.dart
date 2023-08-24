@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -82,11 +83,11 @@ class OrderPayment extends GetView<OrderDetailsController> {
                         style: mediumTextStyle,
                       ),
                       halfSpace,
-                      if (order.payments != null &&
-                          order.payments!.isNotEmpty &&
-                          order.payments!.first.capturedAt != null)
+                      if (
+                      (order.payments?.isNotEmpty ?? false) &&
+                          order.payments?.first.capturedAt != null)
                         Text(
-                            'on ${DateFormat.MEd().format(order.payments!.first.capturedAt!)} at ${DateFormat.jm().format(order.payments!.first.capturedAt!)}',
+                            'on ${formatDate(order.payments?.first.capturedAt)} at ${formatTime(order.payments?.first.capturedAt)}',
                             style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54)),
                     ],
                   ),

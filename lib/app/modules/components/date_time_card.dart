@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 
 class DateTimeCard extends StatelessWidget {
   const DateTimeCard(
@@ -9,7 +10,8 @@ class DateTimeCard extends StatelessWidget {
       this.onTap,
       required this.dateText,
       this.dateTimeTextStyle,
-      this.dateTextStyle, this.borderColor})
+      this.dateTextStyle,
+      this.borderColor})
       : super(key: key);
   final DateTime? dateTime;
   final void Function()? onTap;
@@ -31,11 +33,15 @@ class DateTimeCard extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(4.0)),
               color: Theme.of(context).scaffoldBackgroundColor,
-              border: Border.all(color: borderColor ?? (dateTime != null ? Colors.grey : Colors.transparent))),
+              border: Border.all(
+                  color: borderColor ??
+                      (dateTime != null ? Colors.grey : Colors.transparent))),
           child: dateTime == null
               ? Center(
                   child: Text(
-                  dateText == null ? 'Tap to select date' : 'Tap to select ${dateText!.toLowerCase()} date',
+                  dateText == null
+                      ? 'Tap to select date'
+                      : 'Tap to select ${dateText!.toLowerCase()} date',
                   style: largeTextStyle?.copyWith(color: lightWhite),
                 ))
               : Row(
@@ -44,19 +50,29 @@ class DateTimeCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(dateText == null ? 'Date' : '${dateText!.capitalize!} Date',
-                            style: dateTextStyle ?? mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text(
+                            dateText == null
+                                ? 'Date'
+                                : '${dateText!.capitalize!} Date',
+                            style: dateTextStyle ??
+                                mediumTextStyle?.copyWith(color: lightWhite)),
                         halfSpace,
-                        Text(DateFormat.yMMMEd().format(dateTime!), style: dateTimeTextStyle),
+                        Text(formatDate(dateTime),
+                            style: dateTimeTextStyle),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(dateText == null ? 'Time' : '${dateText!.capitalize!} Time',
-                            style: dateTextStyle ?? mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text(
+                            dateText == null
+                                ? 'Time'
+                                : '${dateText!.capitalize!} Time',
+                            style: dateTextStyle ??
+                                mediumTextStyle?.copyWith(color: lightWhite)),
                         halfSpace,
-                        Text(DateFormat.jm().format(dateTime!), style: dateTimeTextStyle),
+                        Text(formatTime(dateTime),
+                            style: dateTimeTextStyle),
                       ],
                     ),
                   ],
@@ -64,6 +80,7 @@ class DateTimeCard extends StatelessWidget {
     );
   }
 }
+
 class DateCard extends StatelessWidget {
   const DateCard(
       {Key? key,
@@ -71,7 +88,8 @@ class DateCard extends StatelessWidget {
       this.onTap,
       required this.dateText,
       this.dateTimeTextStyle,
-      this.dateTextStyle, this.borderColor})
+      this.dateTextStyle,
+      this.borderColor})
       : super(key: key);
   final DateTime? dateTime;
   final void Function()? onTap;
@@ -91,14 +109,35 @@ class DateCard extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(4.0)),
               color: Theme.of(context).scaffoldBackgroundColor,
-              border: Border.all(color: borderColor ?? (dateTime != null ? Colors.grey : Colors.transparent))),
+              border: Border.all(
+                  color: borderColor ??
+                      (dateTime != null ? Colors.grey : Colors.transparent))),
           child: dateTime == null
               ? Center(
                   child: Text(
-                  dateText == null ? 'Tap to select date' : 'Tap to select ${dateText!.toLowerCase()} date',
+                  dateText == null
+                      ? 'Tap to select date'
+                      : 'Tap to select ${dateText!.toLowerCase()} date',
                   style: largeTextStyle?.copyWith(color: lightWhite),
                 ))
-              : Text(DateFormat.yMMMEd().format(dateTime!), style: dateTimeTextStyle)),
+              : Text(formatDate(dateTime),
+                  style: dateTimeTextStyle)),
     );
   }
+}
+
+String formatDate(DateTime? datetime) {
+  final format = StorageService.appSettings.dateFormatOptions;
+  if (datetime == null) {
+    return '';
+  }
+  return DateFormat(format.format()).format(datetime);
+}
+
+String formatTime(DateTime? datetime) {
+  final format = StorageService.appSettings.timeFormatOptions;
+  if (datetime == null) {
+    return '';
+  }
+  return DateFormat(format.format()).format(datetime);
 }

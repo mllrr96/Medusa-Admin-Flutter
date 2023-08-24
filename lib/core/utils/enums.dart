@@ -1,3 +1,4 @@
+
 enum SortOptions {
   aZ,
   zA,
@@ -83,6 +84,55 @@ enum DateFilterType {
         return 'Is equal to';
       default:
         return 'Is in the last';
+    }
+  }
+}
+
+enum DateFormatOptions {
+  first,
+  second,
+  third,
+  fourth,
+  fifth,
+  sixth,
+  seventh,
+  eighth;
+
+  String format() {
+    switch (index) {
+      case 0:
+        return 'EEEE, MMM d, yyyy';
+      case 1:
+        return 'MM/dd/yyyy';
+      case 2:
+        return 'MM-dd-yyyy';
+      case 3:
+        return 'MMM d';
+      case 4:
+        return 'MMM d, yyyy';
+      case 5:
+        return 'E, d MMM yyyy';
+      case 6:
+        return 'yyyy-MM-dd';
+      case 7:
+        return 'dd.MM.yy';
+      default:
+        return 'MMM d, yyyy';
+    }
+  }
+}
+
+enum TimeFormatOptions {
+  amPm,
+  twentyFourHours;
+  String format(){
+    switch(index){
+      case 0:
+        return 'hh:mm a';
+      case 1:
+        return 'HH:mm';
+      default:
+        return 'hh:mm a';
     }
   }
 }
