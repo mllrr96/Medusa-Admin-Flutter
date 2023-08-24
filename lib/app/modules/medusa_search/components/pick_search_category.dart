@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/search_chip.dart';
 
+import '../../../../core/utils/enums.dart';
 import '../../components/adaptive_close_button.dart';
-import '../controllers/medusa_search_controller.dart';
 
 class PickSearchCategory extends StatelessWidget {
   const PickSearchCategory({

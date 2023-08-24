@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
-
 import '../../../../../../../core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionOperatorCard extends StatelessWidget {
   const ConditionOperatorCard({Key? key, required this.conditionOperator, this.onTap, required this.groupValue})
@@ -31,47 +30,51 @@ class ConditionOperatorCard extends StatelessWidget {
 
     final borderColor = groupValue == conditionOperator ? ColorManager.primary : Colors.transparent;
     final selected = conditionOperator == groupValue;
-    return InkWell(
-      onTap: () {
-        if (onTap != null) {
-          onTap!(conditionOperator);
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        decoration: BoxDecoration(
-            borderRadius:
-                selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
-            color: Theme.of(context).appBarTheme.backgroundColor,
-            border: Border.all(
-              color: borderColor,
-            )),
-        child: Row(
-          children: [
-            Radio<DiscountConditionOperator>(
-                value: conditionOperator,
-                groupValue: groupValue,
-                onChanged: (val) {
-                  if (val != null) {
-                    if (onTap != null) {
-                      onTap!(conditionOperator);
+    return Material(
+      color: context.theme.appBarTheme.backgroundColor,
+      child: InkWell(
+        borderRadius:
+        selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
+        onTap: () {
+          if (onTap != null) {
+            onTap!(conditionOperator);
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: BoxDecoration(
+              borderRadius:
+                  selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
+              border: Border.all(
+                color: borderColor,
+              )),
+          child: Row(
+            children: [
+              Radio<DiscountConditionOperator>(
+                  value: conditionOperator,
+                  groupValue: groupValue,
+                  onChanged: (val) {
+                    if (val != null) {
+                      if (onTap != null) {
+                        onTap!(conditionOperator);
+                      }
                     }
-                  }
-                }),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: mediumTextStyle),
-                  Text(
-                    description,
-                    style: smallTextStyle?.copyWith(color: lightWhite),
-                  ),
-                ],
+                  }),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: mediumTextStyle),
+                    Text(
+                      description,
+                      style: smallTextStyle?.copyWith(color: lightWhite),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

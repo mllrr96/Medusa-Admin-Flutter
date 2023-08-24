@@ -15,6 +15,7 @@ import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/compon
 import 'package:medusa_admin/app/modules/groups_module/groups/components/group_card.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import '../../../../core/utils/enums.dart';
 import '../../../data/repository/collection/collection_repo.dart';
 import '../../../data/repository/customer/customer_repo.dart';
 import '../../../data/repository/customer_group/customer_group_repo.dart';

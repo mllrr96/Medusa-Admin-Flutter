@@ -1,4 +1,4 @@
-import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 class UserCreateConditionReq {
   /// Operator of the condition

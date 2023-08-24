@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dar
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../../core/utils/enums.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/collection_list_tile.dart';

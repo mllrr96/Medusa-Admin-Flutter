@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/medusa_icons_icons.dart';
-import '../controllers/medusa_search_controller.dart';
 
 class SearchChip extends StatelessWidget {
   const SearchChip(

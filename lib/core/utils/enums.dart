@@ -175,3 +175,64 @@ enum TimeFormatOptions {
     }
   }
 }
+
+enum SearchCategory {
+  orders,
+  draftOrders,
+  products,
+  collections,
+  customers,
+  groups,
+  giftCards,
+  discounts,
+  priceLists;
+
+  factory SearchCategory.fromJson(int? val) {
+    switch (val) {
+      case null:
+        return SearchCategory.orders;
+      case 0:
+        return SearchCategory.orders;
+      case 1:
+        return SearchCategory.draftOrders;
+      case 2:
+        return SearchCategory.products;
+      case 3:
+        return SearchCategory.collections;
+      case 4:
+        return SearchCategory.customers;
+      case 5:
+        return SearchCategory.groups;
+      case 6:
+        return SearchCategory.giftCards;
+      case 7:
+        return SearchCategory.discounts;
+      case 8:
+        return SearchCategory.priceLists;
+
+      default:
+        return SearchCategory.orders;
+    }
+  }
+}
+
+enum DiscountConditionType {
+  products('products'),
+  productType('product_type'),
+  productCollections('product_collections'),
+  productTags('product_tags'),
+  customerGroups('customer_groups');
+
+  final String value;
+
+  const DiscountConditionType(this.value);
+}
+
+enum DiscountConditionOperator {
+  inn('in'),
+  notIn('not_in');
+
+  final String value;
+
+  const DiscountConditionOperator(this.value);
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import '../../../../data/models/store/discount_condition.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import '../components/index.dart';
 import '../controllers/discount_conditions_controller.dart';
 

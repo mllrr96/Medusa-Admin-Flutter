@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/utils/enums.dart';
 import 'customer_group.dart';
 import 'discount_rule.dart';
 // ignore: depend_on_referenced_packages
@@ -132,25 +133,4 @@ class DiscountCondition extends Equatable {
         deletedAt,
         metadata,
       ];
-}
-
-enum DiscountConditionType {
-  products('products'),
-  productType('product_type'),
-  productCollections('product_collections'),
-  productTags('product_tags'),
-  customerGroups('customer_groups');
-
-  final String value;
-
-  const DiscountConditionType(this.value);
-}
-
-enum DiscountConditionOperator {
-  inn('in'),
-  notIn('not_in');
-
-  final String value;
-
-  const DiscountConditionOperator(this.value);
 }

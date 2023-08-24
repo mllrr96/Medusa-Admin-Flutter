@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -7,8 +6,10 @@ import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.da
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_tag_list_tile.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
+import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionTagView extends StatelessWidget {
   const ConditionTagView({Key? key}) : super(key: key);
@@ -31,9 +32,11 @@ class ConditionTagView extends StatelessWidget {
                       onPressed: controller.selectedTags.isNotEmpty
                           ? () {
                               final res = DiscountConditionRes(
-                                  operator: controller.discountConditionOperator,
+                                  operator:
+                                      controller.discountConditionOperator,
                                   productTags: controller.selectedTags,
-                                  conditionType: DiscountConditionType.productTags);
+                                  conditionType:
+                                      DiscountConditionType.productTags);
                               Get.back(result: res);
                             }
                           : null,
@@ -41,17 +44,36 @@ class ConditionTagView extends StatelessWidget {
                 ],
                 bottom: PreferredSize(
                     preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child: Container(
-                      alignment: Alignment.center,
+                    child:  Container(
                       height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: const CupertinoSearchTextField(),
-                    )),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                      child: SearchTextField(
+                        fillColor: context.theme.scaffoldBackgroundColor,
+                        controller: controller.searchCtrl,
+                        hintText:
+                        'Search for tag name',
+                        onSuffixTap: () {
+                          if (controller.searchTerm.isEmpty) return;
+                          controller.searchCtrl.clear();
+                          controller.searchTerm = '';
+                          controller.pagingController.refresh();
+                        },
+                        onSubmitted: (val) {
+                          if (controller.searchTerm != val &&
+                              val.isNotEmpty) {
+                            controller.searchTerm = val;
+                            controller.pagingController.refresh();
+                          }
+                        },
+                      ),
+                    ),
+                ),
               ),
               if (!controller.updateMode)
                 SliverToBoxAdapter(
                     child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   child: Column(
                     children: [
                       ConditionOperatorCard(
@@ -77,24 +99,50 @@ class ConditionTagView extends StatelessWidget {
               SliverSafeArea(
                 top: false,
                 sliver: PagedSliverList.separated(
-                  separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<ProductTag>(
                     itemBuilder: (context, tag, index) => ConditionTagListTile(
                         tag: tag,
-                        value: controller.selectedTags.map((e) => e.id!).toList().contains(tag.id),
-                        enabled: !controller.disabledTags.map((e) => e.id!).toList().contains(tag.id),
+                        value: controller.selectedTags
+                            .map((e) => e.id!)
+                            .toList()
+                            .contains(tag.id),
+                        enabled: !controller.disabledTags
+                            .map((e) => e.id!)
+                            .toList()
+                            .contains(tag.id),
                         onChanged: (val) {
                           if (val == null) return;
                           if (val) {
                             controller.selectedTags.add(tag);
                           } else {
-                            controller.selectedTags.removeWhere((e) => e.id == tag.id);
+                            controller.selectedTags
+                                .removeWhere((e) => e.id == tag.id);
                           }
                           controller.update();
                         }),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('No tags found'),
+                          if (controller.searchTerm.isNotEmpty)
+                            AdaptiveButton(
+                                onPressed: () {
+                                  controller.searchTerm = '';
+                                  controller.searchCtrl.clear();
+                                  controller.pagingController.refresh();
+                                },
+                                child: const Text('Clear search')),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -110,11 +158,14 @@ class ConditionTagController extends GetxController {
   ConditionTagController({required this.tagRepo});
   final ProductTagRepo tagRepo;
   List<ProductTag> selectedTags = <ProductTag>[];
-  DiscountConditionOperator discountConditionOperator = DiscountConditionOperator.inn;
+  DiscountConditionOperator discountConditionOperator =
+      DiscountConditionOperator.inn;
   final PagingController<int, ProductTag> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final List<ProductTag> disabledTags = Get.arguments ?? [];
+  final searchCtrl = TextEditingController();
+  String searchTerm = '';
   bool get updateMode => disabledTags.isNotEmpty;
   @override
   void onInit() {
@@ -124,11 +175,18 @@ class ConditionTagController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void dispose() {
+    searchCtrl.dispose();
+    super.dispose();
+  }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await tagRepo.retrieveProductTags(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
+        if (searchTerm.isNotEmpty) 'q': searchTerm
       },
     );
 

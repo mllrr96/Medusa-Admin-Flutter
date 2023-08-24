@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -11,6 +10,7 @@ import 'package:medusa_admin/app/modules/discount_module/discount_conditions/com
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionProductView extends StatelessWidget {
   const ConditionProductView({Key? key}) : super(key: key);
@@ -35,9 +35,11 @@ class ConditionProductView extends StatelessWidget {
                         onPressed: controller.selectedProducts.isNotEmpty
                             ? () {
                                 final res = DiscountConditionRes(
-                                    operator: controller.discountConditionOperator,
+                                    operator:
+                                        controller.discountConditionOperator,
                                     products: controller.selectedProducts,
-                                    conditionType: DiscountConditionType.products);
+                                    conditionType:
+                                        DiscountConditionType.products);
                                 Get.back(result: res);
                               }
                             : null,
@@ -46,20 +48,26 @@ class ConditionProductView extends StatelessWidget {
                   bottom: PreferredSize(
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: Container(
-                      alignment: Alignment.center,
                       height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Padding(
-                        padding: Platform.isAndroid ? const EdgeInsets.symmetric(vertical: 4.0) : EdgeInsets.zero,
-                        child: SearchTextField(
-                          controller: controller.searchCtrl,
-                          hintText: 'Search for product name, variant title ...',
-                          onChanged: (val) {
-                            if (controller.searchTerm.value != val && val.isNotEmpty) {
-                              controller.searchTerm.value = val;
-                            }
-                          },
-                        ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                      child: SearchTextField(
+                        fillColor: context.theme.scaffoldBackgroundColor,
+                        controller: controller.searchCtrl,
+                        hintText:
+                        'Search for product name, variant title ...',
+                        onSuffixTap: () {
+                          if (controller.searchTerm.isEmpty) return;
+                          controller.searchCtrl.clear();
+                          controller.searchTerm = '';
+                          controller.pagingController.refresh();
+                        },
+                        onSubmitted: (val) {
+                          if (controller.searchTerm != val &&
+                              val.isNotEmpty) {
+                            controller.searchTerm = val;
+                            controller.pagingController.refresh();
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -67,7 +75,8 @@ class ConditionProductView extends StatelessWidget {
                 if (!controller.updateMode)
                   SliverToBoxAdapter(
                       child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
                     child: Column(
                       children: [
                         ConditionOperatorCard(
@@ -93,24 +102,51 @@ class ConditionProductView extends StatelessWidget {
                 SliverSafeArea(
                   top: false,
                   sliver: PagedSliverList.separated(
-                    separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                    separatorBuilder: (_, __) =>
+                        const Divider(height: 0, indent: 16),
                     pagingController: controller.pagingController,
                     builderDelegate: PagedChildBuilderDelegate<Product>(
-                      itemBuilder: (context, product, index) => ProductListTileWithVariantCount(
-                          enabled: !controller.disabledProducts.map((e) => e.id!).toList().contains(product.id),
-                          product: product,
-                          value: controller.selectedProducts.map((e) => e.id!).toList().contains(product.id),
-                          onChanged: (val) {
-                            if (val == null) return;
-                            if (val) {
-                              controller.selectedProducts.add(product);
-                            } else {
-                              controller.selectedProducts.removeWhere((e) => e.id == product.id);
-                            }
-                            controller.update();
-                          }),
+                      itemBuilder: (context, product, index) =>
+                          ProductListTileWithVariantCount(
+                              enabled: !controller.disabledProducts
+                                  .map((e) => e.id!)
+                                  .toList()
+                                  .contains(product.id),
+                              product: product,
+                              value: controller.selectedProducts
+                                  .map((e) => e.id!)
+                                  .toList()
+                                  .contains(product.id),
+                              onChanged: (val) {
+                                if (val == null) return;
+                                if (val) {
+                                  controller.selectedProducts.add(product);
+                                } else {
+                                  controller.selectedProducts
+                                      .removeWhere((e) => e.id == product.id);
+                                }
+                                controller.update();
+                              }),
                       firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(child: CircularProgressIndicator.adaptive()),
+                          const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                      noItemsFoundIndicatorBuilder: (context) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('No products found'),
+                            if (controller.searchTerm.isNotEmpty)
+                              AdaptiveButton(
+                                  onPressed: () {
+                                    controller.searchTerm = '';
+                                    controller.searchCtrl.clear();
+                                    controller.pagingController.refresh();
+                                  },
+                                  child: const Text('Clear search')),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -127,21 +163,21 @@ class ConditionProductController extends GetxController {
   ConditionProductController({required this.productsRepo});
 
   final ProductsRepo productsRepo;
-  DiscountConditionOperator discountConditionOperator = DiscountConditionOperator.inn;
-  final PagingController<int, Product> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  DiscountConditionOperator discountConditionOperator =
+      DiscountConditionOperator.inn;
+  final PagingController<int, Product> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   List<Product> selectedProducts = <Product>[];
-  final List<Product> disabledProducts = Get.arguments is List<Product> ? Get.arguments : [];
+  final List<Product> disabledProducts =
+      Get.arguments is List<Product> ? Get.arguments : [];
 
   bool get updateMode => disabledProducts.isNotEmpty;
   final searchCtrl = TextEditingController();
-  RxString searchTerm = ''.obs;
-  late Worker searchDebouner;
+  String searchTerm = '';
 
   @override
   void onInit() {
-    searchDebouner =
-        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -151,7 +187,6 @@ class ConditionProductController extends GetxController {
   @override
   void onClose() {
     searchCtrl.dispose();
-    searchDebouner.dispose();
     pagingController.dispose();
     super.onClose();
   }
@@ -162,7 +197,7 @@ class ConditionProductController extends GetxController {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
         'is_giftcard': 'false',
-        if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
+        if (searchTerm.isNotEmpty) 'q': searchTerm,
       },
     );
 

@@ -7,8 +7,10 @@ import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_type_list_tile.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
+import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionTypeView extends StatelessWidget {
   const ConditionTypeView({Key? key}) : super(key: key);
@@ -40,13 +42,31 @@ class ConditionTypeView extends StatelessWidget {
                       child: const Text('Save')),
                 ],
                 bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: const CupertinoSearchTextField(),
-                    )),
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    height: kToolbarHeight,
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                    child: SearchTextField(
+                      fillColor: context.theme.scaffoldBackgroundColor,
+                      controller: controller.searchCtrl,
+                      hintText:
+                      'Search for type',
+                      onSuffixTap: () {
+                        if (controller.searchTerm.isEmpty) return;
+                        controller.searchCtrl.clear();
+                        controller.searchTerm = '';
+                        controller.pagingController.refresh();
+                      },
+                      onSubmitted: (val) {
+                        if (controller.searchTerm != val &&
+                            val.isNotEmpty) {
+                          controller.searchTerm = val;
+                          controller.pagingController.refresh();
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ),
               if(!controller.updateMode)
               SliverToBoxAdapter(
@@ -95,6 +115,23 @@ class ConditionTypeView extends StatelessWidget {
                         }),
                     firstPageProgressIndicatorBuilder: (context) =>
                         const Center(child: CircularProgressIndicator.adaptive()),
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('No types found'),
+                          if (controller.searchTerm.isNotEmpty)
+                            AdaptiveButton(
+                                onPressed: () {
+                                  controller.searchTerm = '';
+                                  controller.searchCtrl.clear();
+                                  controller.pagingController.refresh();
+                                },
+                                child: const Text('Clear search')),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -116,6 +153,8 @@ class ConditionTypeController extends GetxController {
   final int _pageSize = 20;
   final List<ProductType> disabledTypes = Get.arguments ?? [];
   bool get updateMode => disabledTypes.isNotEmpty;
+  final searchCtrl = TextEditingController();
+  String searchTerm = '';
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
@@ -123,12 +162,17 @@ class ConditionTypeController extends GetxController {
     });
     super.onInit();
   }
-
+  @override
+  void onClose() {
+    searchCtrl.dispose();
+    super.onClose();
+  }
   Future<void> _fetchPage(int pageKey) async {
     final result = await typeRepo.retrieveProductTypes(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
+        if (searchTerm.isNotEmpty) 'q': searchTerm,
       },
     );
 

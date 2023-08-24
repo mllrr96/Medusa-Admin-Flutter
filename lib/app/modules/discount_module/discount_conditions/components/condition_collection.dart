@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -7,8 +6,10 @@ import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_collection_list_tile.dart';
 import '../../../components/adaptive_back_button.dart';
+import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionCollectionView extends StatelessWidget {
   const ConditionCollectionView({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class ConditionCollectionView extends StatelessWidget {
                               final res = DiscountConditionRes(
                                   operator: controller.discountConditionOperator,
                                   productCollections: controller.selectedCollections,
-                                  conditionType: DiscountConditionType.products);
+                                  conditionType: DiscountConditionType.productCollections);
                               Get.back(result: res);
                             }
                           : null,
@@ -42,11 +43,28 @@ class ConditionCollectionView extends StatelessWidget {
                 bottom: PreferredSize(
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: Container(
-                      alignment: Alignment.center,
                       height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: const CupertinoSearchTextField(),
-                    )),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                      child: SearchTextField(
+                        fillColor: context.theme.scaffoldBackgroundColor,
+                        controller: controller.searchCtrl,
+                        hintText:
+                        'Search for collection name, handle',
+                        onSuffixTap: () {
+                          if (controller.searchTerm.isEmpty) return;
+                          controller.searchCtrl.clear();
+                          controller.searchTerm = '';
+                          controller.pagingController.refresh();
+                        },
+                        onSubmitted: (val) {
+                          if (controller.searchTerm != val &&
+                              val.isNotEmpty) {
+                            controller.searchTerm = val;
+                            controller.pagingController.refresh();
+                          }
+                        },
+                      ),
+                    ),),
               ),
               if (!controller.updateMode)
                 SliverToBoxAdapter(
@@ -96,6 +114,23 @@ class ConditionCollectionView extends StatelessWidget {
                     ),
                     firstPageProgressIndicatorBuilder: (context) =>
                         const Center(child: CircularProgressIndicator.adaptive()),
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('No collections found'),
+                          if (controller.searchTerm.isNotEmpty)
+                            AdaptiveButton(
+                                onPressed: () {
+                                  controller.searchTerm = '';
+                                  controller.searchCtrl.clear();
+                                  controller.pagingController.refresh();
+                                },
+                                child: const Text('Clear search')),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -117,6 +152,8 @@ class ConditionCollectionController extends GetxController {
   final int _pageSize = 20;
   final List<ProductCollection> disabledCollections = Get.arguments ?? [];
   bool get updateMode => disabledCollections.isNotEmpty;
+  final searchCtrl = TextEditingController();
+  String searchTerm = '';
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
@@ -124,12 +161,17 @@ class ConditionCollectionController extends GetxController {
     });
     super.onInit();
   }
-
+  @override
+  void dispose() {
+    searchCtrl.dispose();
+    super.dispose();
+  }
   Future<void> _fetchPage(int pageKey) async {
     final result = await collectionRepo.retrieveAll(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
+        if (searchTerm.isNotEmpty) 'q': searchTerm,
       },
     );
 

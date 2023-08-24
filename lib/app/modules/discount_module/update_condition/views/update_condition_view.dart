@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../discount_conditions/components/condition_collection_list_tile.dart';
 import '../../discount_conditions/components/condition_customer_group_list_tile.dart';
 import '../../discount_conditions/components/condition_tag_list_tile.dart';

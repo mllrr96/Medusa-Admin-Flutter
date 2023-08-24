@@ -1,7 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 import '../../../../data/models/store/discount_condition.dart';
 import 'index.dart';
@@ -68,7 +70,7 @@ class DetailedConditionCard extends StatelessWidget {
         subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
             ? 'Discount is applicable to all products except specific products'
             : 'Discount is applicable to specific products';
-        defaultEdit = () => Get.to(() => const ConditionProductView());
+        defaultEdit = () => Get.to(() => const ConditionProductView(), arguments: discountCondition.products?.map((e) => Product(id: e)).toList(),);
         break;
       case DiscountConditionType.productType:
         title = 'Product Type';
