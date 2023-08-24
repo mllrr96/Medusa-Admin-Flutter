@@ -82,7 +82,7 @@ class DraftOrderOverView extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundColor: ColorManager.primary,
+                      backgroundColor: ColorManager.getAvatarColor(customer.email),
                       maxRadius: 18,
                       child: Text(
                           customer.firstName == null

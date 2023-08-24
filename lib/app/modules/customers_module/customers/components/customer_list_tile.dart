@@ -45,7 +45,7 @@ class CustomerListTile extends StatelessWidget {
         horizontalTitleGap: 8,
         tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
         leading: CircleAvatar(
-          backgroundColor: ColorManager.primary,
+          backgroundColor: ColorManager.getAvatarColor(customer.email),
           maxRadius: 18,
           child: Text(
               customer.firstName == null ? customer.email[0].capitalize ?? customer.email[0] : customer.firstName![0],

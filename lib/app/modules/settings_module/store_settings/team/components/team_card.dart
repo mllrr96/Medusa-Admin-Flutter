@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 
+import '../../../../../../core/utils/colors.dart';
 import '../../../../components/adaptive_icon.dart';
 import 'user_role_label.dart';
 
@@ -36,7 +37,8 @@ class TeamCard extends StatelessWidget {
                   children: [
                     if (firstLetter != null || email.isNotEmpty)
                       CircleAvatar(
-                        child: Text(firstLetter ?? email[0].toUpperCase(), style: largeTextStyle),
+                        backgroundColor: ColorManager.getAvatarColor(email),
+                        child: Text(firstLetter ?? email[0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white)),
                       ),
                     if (firstLetter != null || email.isNotEmpty) const SizedBox(width: 6.0),
                     Flexible(

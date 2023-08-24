@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/components/index.dart';
 
+import '../../../../../../core/utils/colors.dart';
 import '../../../../components/adaptive_icon.dart';
 
 class InviteCard extends StatelessWidget {
@@ -34,7 +35,8 @@ class InviteCard extends StatelessWidget {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      child: Text(email[0].toUpperCase(), style: largeTextStyle),
+                      backgroundColor: ColorManager.getAvatarColor(email),
+                      child: Text(email[0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white)),
                     ),
                     const SizedBox(width: 6.0),
                     Flexible(child: Text(email, style: mediumTextStyle)),

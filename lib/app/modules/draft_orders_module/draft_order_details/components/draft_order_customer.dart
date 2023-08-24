@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import '../../../../../core/utils/colors.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/countries/components/countries.dart';
@@ -14,6 +15,7 @@ class DraftOrderCustomer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final email = draftOrder.cart?.email;
     final name = '${draftOrder.cart?.customer?.firstName ?? ''} ${draftOrder.cart?.customer?.lastName ?? ''}';
@@ -58,7 +60,9 @@ class DraftOrderCustomer extends StatelessWidget {
             Flexible(
               child: Row(
                 children: [
-                  CircleAvatar(child: Text(name.isNotEmpty ? name[0].toUpperCase() : email![0].toUpperCase())),
+                  CircleAvatar(
+                      backgroundColor: ColorManager.getAvatarColor(email),
+                      child: Text(name.isNotEmpty ? name[0].toUpperCase() : email![0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white),)),
                   const SizedBox(width: 14.0),
                   Flexible(
                     child: Column(

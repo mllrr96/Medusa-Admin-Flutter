@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/modules/orders_module/order_details/components/
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../../../../core/utils/colors.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/countries/components/countries.dart';
@@ -18,6 +19,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     String getCountry() {
       String countryName = '';
@@ -79,7 +81,8 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               child: Row(
                 children: [
                   CircleAvatar(
-                      child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email![0].toUpperCase())),
+                    backgroundColor: ColorManager.getAvatarColor(order.email),
+                      child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email![0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white))),
                   const SizedBox(width: 14.0),
                   Flexible(
                     child: Column(

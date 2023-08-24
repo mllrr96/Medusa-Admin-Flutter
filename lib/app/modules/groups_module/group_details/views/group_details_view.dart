@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/customer_group.dart';
 import '../controllers/group_details_controller.dart';
 
@@ -25,6 +26,7 @@ class GroupDetailsView extends GetView<GroupDetailsController> {
     }
 
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
 
     return Scaffold(
         floatingActionButton: ScrollingExpandableFab(
@@ -88,8 +90,9 @@ class GroupDetailsView extends GetView<GroupDetailsController> {
                     return ListTile(
                       onTap: () => Get.toNamed(Routes.CUSTOMER_DETAILS, arguments: customer.id),
                       leading: CircleAvatar(
+                        backgroundColor: ColorManager.getAvatarColor(customer.email),
                         radius: 16,
-                        child: Text(name?[0].capitalize ?? customer.email[0].capitalize ?? ''),
+                        child: Text(name?[0].capitalize ?? customer.email[0].capitalize ?? '', style: largeTextStyle?.copyWith(color: Colors.white)),
                       ),
                       title: Text(name ?? customer.email),
                       subtitle: name != null ? Text(customer.email, style: smallTextStyle) : null,

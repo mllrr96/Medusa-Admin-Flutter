@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/models/store/user.dart';
 import '../../../../components/adaptive_back_button.dart';
 import '../../../../components/custom_text_field.dart';
@@ -135,12 +136,13 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
                           Row(
                             children: [
                               CircleAvatar(
+                                backgroundColor: ColorManager.getAvatarColor(user?.email),
                                 radius: 30,
                                 child: Text(
                                     user!.firstName != null
                                         ? user.firstName![0].capitalize!
                                         : user.email![0].capitalize!,
-                                    style: largeTextStyle),
+                                    style: largeTextStyle?.copyWith(color: Colors.white)),
                               ),
                               const SizedBox(width: 8.0),
                               Expanded(

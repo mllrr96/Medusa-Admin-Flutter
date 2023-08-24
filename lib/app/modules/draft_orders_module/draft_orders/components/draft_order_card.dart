@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
+import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/draft_order.dart';
 import 'draft_order_status_label.dart';
 
@@ -16,7 +17,7 @@ class DraftOrderCard extends StatelessWidget {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     String? getName() {
       if (draftOrder.order == null) return null;
 
@@ -73,8 +74,9 @@ class DraftOrderCard extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
+                        backgroundColor: ColorManager.getAvatarColor(draftOrder.cart?.email),
                         radius: 16,
-                        child: Text(getName()?[0].capitalize ?? draftOrder.cart?.email?[0].capitalize ?? ''),
+                        child: Text(getName()?[0].capitalize ?? draftOrder.cart?.email?[0].capitalize ?? '', style: largeTextStyle?.copyWith(color: Colors.white)),
                       ),
                       const SizedBox(width: 6.0),
                       if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),

@@ -105,7 +105,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor: ColorManager.primary,
+                        backgroundColor: ColorManager.getAvatarColor(customer.email),
                         child: Text(
                             customer.firstName == null ? customer.email[0].toUpperCase() : customer.firstName![0],
                             style: largeTextStyle!.copyWith(color: Colors.white)),
