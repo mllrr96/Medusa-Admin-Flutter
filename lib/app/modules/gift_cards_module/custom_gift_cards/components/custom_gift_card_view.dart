@@ -3,6 +3,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
@@ -102,7 +103,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('Created', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(DateFormat.yMMMd().format(giftCard.createdAt!), style: mediumTextStyle),
+                        Text(formatDate(giftCard.createdAt), style: mediumTextStyle),
                       ],
                     ),
                   ],

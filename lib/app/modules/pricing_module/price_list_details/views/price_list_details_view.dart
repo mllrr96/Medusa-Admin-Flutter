@@ -1,14 +1,13 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/price_list.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../../../../data/models/store/product.dart';
@@ -126,7 +125,7 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Last edited', style: smallTextStyle?.copyWith(color: lightWhite)),
-                                Text(DateFormat.yMMMEd().format(priceList.updatedAt!), style: mediumTextStyle),
+                                Text(formatDate(priceList.updatedAt), style: mediumTextStyle),
                               ],
                             ),
                           ),
@@ -294,7 +293,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                       if (priceList.updatedAt == null) Text('N/A', style: mediumTextStyle),
                       if (priceList.updatedAt != null)
                         Text(
-                          DateFormat.yMMMEd().format(priceList.updatedAt!),
+                          formatDate(priceList.updatedAt),
                           style: mediumTextStyle,
                         ),
                       Text('Last edited', style: smallTextStyle?.copyWith(color: lightWhite))

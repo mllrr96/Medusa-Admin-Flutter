@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
@@ -58,7 +59,7 @@ class OrderCard extends StatelessWidget {
                     const SizedBox(height: 2.0),
                     Text(
                       order.cart!.createdAt != null
-                          ? 'on ${DateFormat.MEd().format(order.cart!.createdAt!)} at ${DateFormat.jm().format(order.cart!.createdAt!)}'
+                          ? 'on ${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                           : '',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
@@ -274,7 +275,7 @@ class AlternativeOrderCard extends StatelessWidget {
                 children: [
                   Text(
                     order.cart?.createdAt != null
-                        ? '${DateFormat.yMMMd().format(order.cart!.createdAt!)} at ${DateFormat.jm().format(order.cart!.createdAt!)}'
+                        ? '${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                         : '',
                     style: lightMediumTextStyle,
                   ),
@@ -484,7 +485,7 @@ class CustomerOrderCard extends StatelessWidget {
                   children: [
                     Text(
                       order.cart!.createdAt != null
-                          ? '${DateFormat.yMMMd().format(order.cart!.createdAt!)} at ${DateFormat.jm().format(order.cart!.createdAt!)}'
+                          ? '${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                           : '',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(color: const Color(0xff6B7280)),
                     ),

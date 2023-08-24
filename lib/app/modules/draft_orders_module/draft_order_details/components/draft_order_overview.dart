@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_status_label.dart';
 
 class DraftOrderOverview extends StatelessWidget {
@@ -44,7 +44,7 @@ class DraftOrderOverview extends StatelessWidget {
                   halfSpace,
                   if (draftOrder.cart != null && draftOrder.cart!.createdAt != null)
                     Text(
-                      'on ${DateFormat.MEd().format(draftOrder.cart!.createdAt!)} at ${DateFormat.jm().format(draftOrder.cart!.createdAt!)}',
+                      'on ${formatDate(draftOrder.cart!.createdAt)} at ${formatTime(draftOrder.cart!.createdAt)}',
                       style: Theme.of(context).textTheme.titleMedium,
                     )
                 ],

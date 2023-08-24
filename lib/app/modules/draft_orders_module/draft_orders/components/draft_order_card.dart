@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../../../../data/models/store/draft_order.dart';
@@ -59,7 +59,7 @@ class DraftOrderCard extends StatelessWidget {
                 children: [
                   Text(
                     draftOrder.cart!.createdAt != null
-                        ? '${DateFormat.yMMMd().format(draftOrder.cart!.createdAt!)} at ${DateFormat.jm().format(draftOrder.cart!.createdAt!)}'
+                        ? '${formatDate(draftOrder.cart!.createdAt)} at ${formatTime(draftOrder.cart!.createdAt)}'
                         : '',
                     style: mediumTextStyle!.copyWith(color: lightWhite),
                   ),
