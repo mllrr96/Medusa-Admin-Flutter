@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/config_switch_tile.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../../components/labeled_chip_input_text_field.dart';
 import '../controllers/add_update_product_controller.dart';
@@ -15,6 +14,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     const space = SizedBox(height: 12.0);
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return GetBuilder<AddUpdateProductController>(
       id: 1,
       builder: (logic) {
@@ -118,12 +118,13 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
             ),
             space,
             Obx(() {
-              return ConfigSwitchTile(
-                title: 'Sales channels',
-                subtitle: 'This product will only be available in the default sales channel if left untouched.',
-                tileValue: controller.salesChannels.value,
-                onChanged: (val) => controller.salesChannels.value = val,
-                titleStyle: largeTextStyle,
+
+              return SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Sales channels', style: largeTextStyle),
+                  subtitle: Text('This product will only be available in the default sales channel if left untouched.', style: TextStyle(color:lightWhite),),
+                  value: controller.salesChannels.value,
+                  onChanged: (val) => controller.salesChannels.value = val,
               );
             }),
           ],

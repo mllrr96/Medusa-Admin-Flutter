@@ -7,9 +7,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
-import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/config_switch_tile.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
@@ -171,10 +169,11 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                 style: smallTextStyle!.copyWith(color: lightWhite),
               ),
               space,
-              ConfigSwitchTile(
-                title: 'Price overrides has a start date?',
-                subtitle: 'Schedule the price overrides to activate in the future.',
-                tileValue: controller.priceList.startsAt != null,
+              SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Price overrides has a start date?'),
+                subtitle: Text('Schedule the price overrides to activate in the future.', style: TextStyle(color: lightWhite)),
+                value: controller.priceList.startsAt != null,
                 onChanged: (val) async {
                   if (val) {
                     controller.priceList = controller.priceList.copyWith.startsAt(DateTime.now());
@@ -206,10 +205,11 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                           key: Key('noStart'),
                         )),
               space,
-              ConfigSwitchTile(
-                title: 'Price overrides has a expiry date?',
-                subtitle: 'Schedule the price overrides to deactivate in the future.',
-                tileValue: controller.priceList.endsAt != null,
+              SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Price overrides has a expiry date?'),
+                subtitle: Text('Schedule the price overrides to deactivate in the future.', style: TextStyle(color: lightWhite)),
+                value: controller.priceList.endsAt != null,
                 onChanged: (val) async {
                   if (val) {
                     controller.priceList = controller.priceList.copyWith.endsAt(DateTime.now());
@@ -241,10 +241,11 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                           key: Key('noExpiry'),
                         )),
               space,
-              ConfigSwitchTile(
-                title: 'Customer availability',
-                subtitle: 'Specify which customer groups the price overrides should apply for.',
-                tileValue: controller.specifyCustomers,
+              SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Customer availability'),
+                subtitle: Text('Specify which customer groups the price overrides should apply for.', style: TextStyle(color: lightWhite)),
+                value: controller.specifyCustomers,
                 onChanged: (val) async {
                   if (val) {
                     controller.specifyCustomers = val;
@@ -464,14 +465,13 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                   children: [
                     SwitchListTile.adaptive(
-                      activeColor: ColorManager.primary,
+                      contentPadding: EdgeInsets.zero,
                       value: controller.saveAsDraft,
                       onChanged: (val) {
                         controller.saveAsDraft = val;
                         controller.update();
                       },
                       title: controller.updateMode ? const Text('Unpublish') : const Text('Save as draft'),
-                      contentPadding: EdgeInsets.zero,
                     ),
                     const Divider(),
                     buildPriceListType(),

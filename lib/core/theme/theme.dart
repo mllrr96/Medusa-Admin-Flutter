@@ -16,6 +16,7 @@ class AppTheme {
       listTileTheme: ListTileThemeData(
         textColor: Colors.black,
         titleTextStyle: GoogleFonts.cabin(color: Colors.black, fontSize: 16.0),
+        subtitleTextStyle: GoogleFonts.cabin(color: Colors.black, fontSize: 14.0),
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xFFF2F2F7),
@@ -37,6 +38,7 @@ class AppTheme {
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
+
       appBarTheme: AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
@@ -54,6 +56,7 @@ class AppTheme {
         ),
         primaryColor: ColorManager.primary,
       ),
+
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         labelStyle: TextStyle(color: Colors.grey),
@@ -93,6 +96,7 @@ class AppTheme {
       listTileTheme: ListTileThemeData(
         textColor: Colors.white,
         titleTextStyle: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
+        subtitleTextStyle: GoogleFonts.cabin(color: Colors.white, fontSize: 14.0),
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xff242527),
