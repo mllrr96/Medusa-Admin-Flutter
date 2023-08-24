@@ -1,4 +1,3 @@
-
 enum SortOptions {
   aZ,
   zA,
@@ -120,19 +119,59 @@ enum DateFormatOptions {
         return 'MMM d, yyyy';
     }
   }
+
+ static DateFormatOptions fromInt(int? val) {
+    switch (val) {
+      case null:
+        return DateFormatOptions.fifth;
+      case 0:
+        return DateFormatOptions.first;
+      case 1:
+        return DateFormatOptions.second;
+      case 2:
+        return DateFormatOptions.third;
+
+      case 3:
+        return DateFormatOptions.fourth;
+      case 4:
+        return DateFormatOptions.fifth;
+      case 5:
+        return DateFormatOptions.sixth;
+      case 6:
+        return DateFormatOptions.seventh;
+      case 7:
+        return DateFormatOptions.eighth;
+      default:
+        return DateFormatOptions.fifth;
+    }
+  }
 }
 
 enum TimeFormatOptions {
   amPm,
   twentyFourHours;
-  String format(){
-    switch(index){
+
+  String format() {
+    switch (index) {
       case 0:
         return 'hh:mm a';
       case 1:
         return 'HH:mm';
       default:
         return 'hh:mm a';
+    }
+  }
+
+  static TimeFormatOptions fromInt(int? val) {
+    switch (val) {
+      case null:
+        return TimeFormatOptions.amPm;
+      case 0:
+        return TimeFormatOptions.amPm;
+      case 1:
+        return TimeFormatOptions.twentyFourHours;
+      default:
+        return TimeFormatOptions.amPm;
     }
   }
 }

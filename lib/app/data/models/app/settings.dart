@@ -3,14 +3,14 @@ import '../../../../core/utils/enums.dart';
 class AppSettings {
   final bool useAndroidPicker;
   final bool showShakeSearchWarning;
-  final bool shakeTOSearch;
+  final bool shakeToSearch;
   final DateFormatOptions dateFormatOptions;
   final TimeFormatOptions timeFormatOptions;
 
   AppSettings({
     this.useAndroidPicker = false,
     this.showShakeSearchWarning = true,
-    this.shakeTOSearch = true,
+    this.shakeToSearch = true,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
   });
@@ -18,7 +18,7 @@ class AppSettings {
   AppSettings copyWith({
     bool? useAndroidPicker,
     bool? showShakeSearchWarning,
-    bool? shakeTOSearch,
+    bool? shakeToSearch,
     DateFormatOptions? dateFormatOptions,
     TimeFormatOptions? timeFormatOptions,
   }) =>
@@ -26,7 +26,7 @@ class AppSettings {
         useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker,
         showShakeSearchWarning:
             showShakeSearchWarning ?? this.showShakeSearchWarning,
-        shakeTOSearch: shakeTOSearch ?? this.shakeTOSearch,
+        shakeToSearch: shakeToSearch ?? this.shakeToSearch,
         timeFormatOptions: timeFormatOptions ?? this.timeFormatOptions,
         dateFormatOptions: dateFormatOptions ?? this.dateFormatOptions,
       );
@@ -34,7 +34,7 @@ class AppSettings {
   Map<String, dynamic> toJson() => {
         'useAndroidPicker': useAndroidPicker,
         'showShakeSearchWarning': showShakeSearchWarning,
-        'shakeTOSearch': shakeTOSearch,
+        'shakeToSearch': shakeToSearch,
         'timeFormatOptions': timeFormatOptions.index,
         'dateFormatOptions': dateFormatOptions.index,
       };
@@ -43,9 +43,10 @@ class AppSettings {
     return AppSettings(
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
         showShakeSearchWarning: json?['showShakeSearchWarning'] ?? true,
-        shakeTOSearch: json?['shakeTOSearch'] ?? true,
-        timeFormatOptions: json?['timeFormatOptions'] ?? TimeFormatOptions.amPm,
+        shakeToSearch: json?['shakeToSearch'] ?? true,
+        timeFormatOptions:
+            TimeFormatOptions.fromInt(json?['timeFormatOptions']),
         dateFormatOptions:
-            json?['dateFormatOptions'] ?? DateFormatOptions.fifth);
+            DateFormatOptions.fromInt(json?['dateFormatOptions']));
   }
 }

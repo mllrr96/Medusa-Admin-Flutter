@@ -229,7 +229,7 @@ class SearchHistoryView extends StatelessWidget {
             AdaptiveButton(
                 onPressed: () async {
                   await storageService.updateAppSettings(appSettings.copyWith(
-                      showShakeSearchWarning: false, shakeTOSearch: false));
+                      showShakeSearchWarning: false, shakeToSearch: false));
                   controller.update();
                 },
                 child: const Text('Disable shake to search')),

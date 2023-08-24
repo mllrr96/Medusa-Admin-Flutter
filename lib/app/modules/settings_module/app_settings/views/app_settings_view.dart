@@ -94,12 +94,12 @@ class AppSettingsView extends StatelessWidget {
                   activeSwitchColor: ColorManager.primary,
                   leading: const Icon(Icons.vibration),
                   onPressed: (_) async {},
-                  initialValue: StorageService.appSettings.shakeTOSearch,
+                  initialValue: StorageService.appSettings.shakeToSearch,
                   onToggle: (bool value) async {
                     final storageService = StorageService.instance;
                     final appSettings = StorageService.appSettings;
                     await storageService.updateAppSettings(
-                        appSettings.copyWith(shakeTOSearch: value));
+                        appSettings.copyWith(shakeToSearch: value));
                     controller.update();
                     if (value) {
                       Get.snackbar('Restart the app',

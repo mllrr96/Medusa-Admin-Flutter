@@ -51,6 +51,7 @@ class StorageService extends GetxService {
         _searchHistory = [];
       }
     } catch (e) {
+      debugPrint(e.toString());
       _cookie = null;
       _language = defaultLocale;
       _appSettings = AppSettings();

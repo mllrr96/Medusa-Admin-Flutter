@@ -39,7 +39,7 @@ class DashboardController extends GetxController {
 
   @override
   void onReady() {
-    if (appSettings.shakeTOSearch) {
+    if (appSettings.shakeToSearch) {
       detector = ShakeDetector.autoStart(onPhoneShake: () async {
         if (Get.currentRoute != Routes.MEDUSA_SEARCH) {
           await Get.toNamed(Routes.MEDUSA_SEARCH);
@@ -51,7 +51,7 @@ class DashboardController extends GetxController {
 
   @override
   void onClose() {
-    if (appSettings.shakeTOSearch) {
+    if (appSettings.shakeToSearch) {
       detector.stopListening();
     }
     super.onClose();
