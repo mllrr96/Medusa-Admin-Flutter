@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
@@ -40,28 +42,35 @@ class SignInView extends GetView<SignInController> {
                       Obx(
                         () {
                           return Align(
-                            alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
+                            alignment:
+                                isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: Hero(
                               tag: 'closeReset',
                               child: AdaptiveIcon(
                                 iosPadding: const EdgeInsets.all(16.0),
                                 androidPadding: const EdgeInsets.all(16.0),
-                                onPressed: () async => await controller.changeThemeMode(),
-                                icon: Icon(themeIcon(controller.themeMode.value)),
+                                onPressed: () async =>
+                                    await controller.changeThemeMode(),
+                                icon:
+                                    Icon(themeIcon(controller.themeMode.value)),
                               ),
                             ),
                           );
                         },
                       ),
                       Align(
-                        alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
+                        alignment:
+                            isRTL ? Alignment.topLeft : Alignment.topRight,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4.0),
                           child: AdaptiveButton(
-                            onPressed: () async => await showBarModalBottomSheet(
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            onPressed: () async =>
+                                await showBarModalBottomSheet(
+                              backgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
                               context: context,
-                              builder: (context) => const LanguageSelectionView(),
+                              builder: (context) =>
+                                  const LanguageSelectionView(),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -125,19 +134,26 @@ class SignInView extends GetView<SignInController> {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Column(
                       children: [
-                        Hero(tag: 'email', child: EmailTextField(controller: controller.emailCtrl)),
+                        Hero(
+                            tag: 'email',
+                            child: EmailTextField(
+                                controller: controller.emailCtrl)),
                         const SizedBox(height: 12.0),
                         Hero(
                           tag: 'password',
-                          child: PasswordTextField(controller: controller.passwordCtrl),
+                          child: PasswordTextField(
+                              controller: controller.passwordCtrl),
                         ),
                       ],
                     ),
                   ),
                   Align(
-                    alignment: isRTL ? Alignment.centerLeft : Alignment.centerRight,
+                    alignment:
+                        isRTL ? Alignment.centerLeft : Alignment.centerRight,
                     child: Padding(
-                      padding: Platform.isAndroid ? const EdgeInsets.symmetric(horizontal: 12.0) : EdgeInsets.zero,
+                      padding: Platform.isAndroid
+                          ? const EdgeInsets.symmetric(horizontal: 12.0)
+                          : EdgeInsets.zero,
                       child: AdaptiveButton(
                         child: Text(
                           tr.resetPassword,
@@ -162,6 +178,20 @@ class SignInView extends GetView<SignInController> {
                       ),
                     ),
                   ),
+                  space,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: AdaptiveButton(
+                      onPressed: () async {
+                        await showBarModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return const UrlUpdateView();
+                            });
+                      },
+                      child: const Text('Change url'),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -180,5 +210,113 @@ class SignInView extends GetView<SignInController> {
       case ThemeMode.dark:
         return MedusaIcons.moon;
     }
+  }
+}
+
+class UrlUpdateView extends StatefulWidget {
+  const UrlUpdateView({super.key});
+
+  @override
+  State<UrlUpdateView> createState() => _UrlUpdateViewState();
+}
+
+class _UrlUpdateViewState extends State<UrlUpdateView> {
+  final formKey = GlobalKey<FormState>();
+  final textCtrl = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final bottomPadding = MediaQuery.of(context).viewPadding.bottom == 0
+        ? 20.0
+        : MediaQuery.of(context).viewPadding.bottom;
+
+    return Container(
+      color: context.theme.scaffoldBackgroundColor,
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppBar(
+              leading: const AdaptiveBackButton(),
+              title: const Text('Update url'),
+              actions: [
+                TextButton(
+                    onLongPress: () async => await StorageService.instance
+                            .updateUrl(textCtrl.text)
+                            .then((result) {
+                          Get.back();
+                          if (result) {
+                            Get.snackbar(
+                                'Success', 'Url updated, restart the app');
+                          } else {
+                            Get.snackbar('Failure', 'Could not update url');
+                          }
+                        },
+                    ),
+                    onPressed: () async {
+                      if (!formKey.currentState!.validate()) {
+                        return;
+                      }
+                      final result = await StorageService.instance
+                          .updateUrl(textCtrl.text);
+                      if (result) {
+                        Get.snackbar('Success', 'Url updated, restart the app');
+                      } else {
+                        Get.snackbar('Failure', 'Could not update url');
+                      }
+                      Get.back();
+                    },
+                    child: const Text('Save'))
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(12.0, 8.0, 12.0,
+                  MediaQuery.of(context).viewInsets.bottom + 8.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  InkWell(
+                    onTap: () async {
+                      await Clipboard.setData(
+                              ClipboardData(text: StorageService.baseUrl))
+                          .then((value) => ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                                  const SnackBar(content: Text('url copied'))));
+                    },
+                    child: Text('Current url : ${StorageService.baseUrl}',
+                        style: smallTextStyle),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: textCtrl,
+                    style: smallTextStyle,
+                    decoration: const InputDecoration(
+                        hintText: 'https://medusajs.com/admin'),
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
+                        return 'Field is required';
+                      }
+
+                      if (!val.isURL) {
+                        return 'Invalid url';
+                      }
+
+                      if (!val.contains('admin')) {
+                        return 'Url must end with /admin';
+                      }
+
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: bottomPadding),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

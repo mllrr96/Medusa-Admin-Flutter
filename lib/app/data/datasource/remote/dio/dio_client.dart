@@ -10,7 +10,7 @@ class DioClient {
     this.headers,
   }) {
     dio
-      ..options.baseUrl = AppConstants.baseUrl
+      ..options.baseUrl = StorageService.baseUrl
       ..options.connectTimeout = const Duration(milliseconds: 8000)
       // ..options.receiveTimeout = const Duration(milliseconds: 6000)
       ..options.sendTimeout = const Duration(milliseconds: 6000)

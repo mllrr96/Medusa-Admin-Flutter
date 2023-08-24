@@ -10,7 +10,7 @@ class AppSettings {
   AppSettings({
     this.useAndroidPicker = false,
     this.showShakeSearchWarning = true,
-    this.shakeToSearch = true,
+    this.shakeToSearch = false,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
   });

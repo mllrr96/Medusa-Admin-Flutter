@@ -40,6 +40,7 @@ class StorageService extends GetxService {
     try {
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
+      _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _appSettings = AppSettings.fromJson(
           jsonDecode(_prefs.getString(AppConstants.appSettingsKey) ?? ''));
 
@@ -56,8 +57,9 @@ class StorageService extends GetxService {
       _language = defaultLocale;
       _appSettings = AppSettings();
       _searchHistory = [];
+      _baseUrl = AppConstants.baseUrl;
     }
-    _baseUrl = AppConstants.baseUrl;
+
     return this;
   }
 
