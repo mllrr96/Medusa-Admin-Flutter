@@ -4,7 +4,6 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/discount_module/add_update_discount/components/index.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
@@ -50,10 +49,11 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                   children: [
-                    ConfigSwitchTile(
-                      title: 'Visible in store',
-                      subtitle: 'Enable or disable the shipping option visibility in store.',
-                      tileValue: controller.visibleInStore,
+                    SwitchListTile.adaptive(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Visible in store'),
+                      subtitle: Text('Enable or disable the shipping option visibility in store.', style: TextStyle(color: lightWhite),),
+                      value: controller.visibleInStore,
                       onChanged: (val) {
                         controller.visibleInStore = val;
                         controller.update();
