@@ -49,7 +49,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
             controller: controller.scrollController,
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Form(
                 key: controller.formKey,
                 child: Column(

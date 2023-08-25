@@ -21,6 +21,7 @@ class ConditionTagView extends StatelessWidget {
       init: ConditionTagController(tagRepo: ProductTagRepo()),
       builder: (controller) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: CustomScrollView(
             slivers: [
               SliverAppBar(

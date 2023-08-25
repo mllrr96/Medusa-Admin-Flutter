@@ -22,6 +22,7 @@ class ConditionTypeView extends StatelessWidget {
       init: ConditionTypeController(typeRepo: ProductTypeRepo()),
       builder: (controller) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: CustomScrollView(
             slivers: [
               SliverAppBar(

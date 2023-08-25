@@ -14,10 +14,9 @@ class OrderSummeryCard extends StatelessWidget {
     final item = order.items![index];
 
     String getPrice(num? price) {
-      var value = price ?? 0;
       final currencyFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
       final symbolNative = order.currency?.symbolNative;
-      return '${symbolNative ?? ''} ${currencyFormatter.format(value.toString())}';
+      return '${symbolNative ?? ''} ${currencyFormatter.format(price.toString())}';
     }
 
     return Container(

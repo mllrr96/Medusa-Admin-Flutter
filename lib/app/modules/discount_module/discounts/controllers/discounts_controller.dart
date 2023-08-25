@@ -36,6 +36,7 @@ class DiscountsController extends GetxController {
     final result = await discountRepo.retrieveDiscounts(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
+      'is_dynamic': false,
     });
     result.when((success) {
       refreshController.refreshCompleted();

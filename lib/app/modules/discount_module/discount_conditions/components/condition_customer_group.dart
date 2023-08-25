@@ -21,6 +21,7 @@ class ConditionCustomerGroupView extends StatelessWidget {
       init: ConditionCustomerGroupController(groupRepo: CustomerGroupRepo()),
       builder: (controller) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: CustomScrollView(
             slivers: [
               SliverAppBar(

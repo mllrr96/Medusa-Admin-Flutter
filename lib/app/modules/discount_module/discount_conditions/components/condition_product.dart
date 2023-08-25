@@ -24,6 +24,7 @@ class ConditionProductView extends StatelessWidget {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: CustomScrollView(
               slivers: [
                 SliverAppBar(

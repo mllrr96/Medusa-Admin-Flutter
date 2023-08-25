@@ -60,6 +60,7 @@ dependencies:
   copy_with_extension: ^5.0.3
   shake: ^2.2.0
   skeletonizer: ^0.7.0
+  cherry_toast: ^1.3.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.1

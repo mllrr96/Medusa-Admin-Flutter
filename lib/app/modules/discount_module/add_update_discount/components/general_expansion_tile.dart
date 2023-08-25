@@ -245,6 +245,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                 return null;
               },
             ),
+            if(!controller.updateMode)
             SwitchListTile.adaptive(
               contentPadding: EdgeInsets.zero,
               title: Row(

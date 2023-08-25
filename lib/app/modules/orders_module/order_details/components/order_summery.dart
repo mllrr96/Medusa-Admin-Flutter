@@ -1,9 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import '../../../components/adaptive_button.dart';
+import '../../../components/currency_formatter.dart';
 import '../../../components/custom_expansion_tile.dart';
 import 'order_summery_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -139,11 +138,8 @@ class OrderSummery extends StatelessWidget {
   }
 
   String getPrice(num? price) {
-    var value = price ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+    final currencyFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
+    final symbolNative = order.currency?.symbolNative;
+    return '${symbolNative ?? ''} ${currencyFormatter.format(price.toString())}';
   }
 }

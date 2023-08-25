@@ -4,7 +4,11 @@ import '../../../../../../../core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionOperatorCard extends StatelessWidget {
-  const ConditionOperatorCard({Key? key, required this.conditionOperator, this.onTap, required this.groupValue})
+  const ConditionOperatorCard(
+      {Key? key,
+      required this.conditionOperator,
+      this.onTap,
+      required this.groupValue})
       : super(key: key);
   final DiscountConditionOperator conditionOperator;
   final DiscountConditionOperator groupValue;
@@ -28,13 +32,18 @@ class ConditionOperatorCard extends StatelessWidget {
         break;
     }
 
-    final borderColor = groupValue == conditionOperator ? ColorManager.primary : Colors.transparent;
+    final borderColor = groupValue == conditionOperator
+        ? ColorManager.primary
+        : Colors.transparent;
     final selected = conditionOperator == groupValue;
+    final borderRadius =  selected
+        ? const BorderRadius.all(Radius.circular(10))
+        : const BorderRadius.all(Radius.circular(4));
     return Material(
       color: context.theme.appBarTheme.backgroundColor,
+      borderRadius: borderRadius,
       child: InkWell(
-        borderRadius:
-        selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
+        borderRadius: borderRadius,
         onTap: () {
           if (onTap != null) {
             onTap!(conditionOperator);
@@ -44,8 +53,7 @@ class ConditionOperatorCard extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           decoration: BoxDecoration(
-              borderRadius:
-                  selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
+              borderRadius: borderRadius,
               border: Border.all(
                 color: borderColor,
               )),

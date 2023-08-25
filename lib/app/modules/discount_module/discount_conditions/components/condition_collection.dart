@@ -21,6 +21,7 @@ class ConditionCollectionView extends StatelessWidget {
       init: ConditionCollectionController(collectionRepo: CollectionRepo()),
       builder: (controller) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: CustomScrollView(
             slivers: [
               SliverAppBar(

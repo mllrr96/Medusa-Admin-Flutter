@@ -91,33 +91,44 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      discount.code ?? '',
-                      style: Theme.of(context).textTheme.displayLarge,
+                    Flexible(
+                      child: Text(
+                        discount.code ?? '',
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
                     ),
-                    InkWell(
-                        onTap: () async {
-                          await showOkCancelAlertDialog(
-                                  context: context,
-                                  title: disabled ? 'Enable' : 'Disable',
-                                  message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
-                                  okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
-                                  isDestructiveAction: true)
-                              .then((value) async {
-                            if (value == OkCancelResult.ok) {
-                              await controller.toggleDiscount(discount: discount);
-                            }
-                          });
-                        },
-                        child: DiscountStatusDot(disabled: disabled)),
+                    Padding(
+                      padding: EdgeInsets.only(right: expired ? 12.0: 0.0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              ),
+                          onPressed: () async {
+                            await showOkCancelAlertDialog(
+                                    context: context,
+                                    title: disabled ? 'Enable' : 'Disable',
+                                    message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
+                                    okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
+                                    isDestructiveAction: true)
+                                .then((value) async {
+                              if (value == OkCancelResult.ok) {
+                                await controller.toggleDiscount(discount: discount);
+                              }
+                            });
+                          },
+                          child: DiscountStatusDot(disabled: disabled)),
+                    ),
                   ],
                 ),
-                if (discount.rule?.description?.isNotEmpty ?? false) space,
                 if (discount.rule?.description?.isNotEmpty ?? false)
-                  Text(discount.rule?.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      space,
+                      Text(discount.rule?.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                    ],
+                  ),
                 space,
-                // Divider(),
-                // space,
                 IntrinsicHeight(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

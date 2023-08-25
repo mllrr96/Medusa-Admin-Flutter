@@ -22,7 +22,7 @@ class AddUpdateDiscountController extends GetxController {
   bool hasLimit = false;
   bool templateDiscount = false;
   bool showTemplateDiscountInfo = false;
-  RxList<DiscountCondition> discountConditions = <DiscountCondition>[].obs;
+  List<DiscountCondition> discountConditions = <DiscountCondition>[];
   DateTime? startDate;
   DateTime? endDate;
   Discount? discount = Get.arguments;
