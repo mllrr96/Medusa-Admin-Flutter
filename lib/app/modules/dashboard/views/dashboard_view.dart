@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/more/view/more_view.dart';
+import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
+import 'package:medusa_admin/app/modules/products_module/products/controllers/products_controller.dart';
 import '../../customers_module/shared_view.dart';
 import '../../orders_module/shared_view.dart';
 import '../../products_module/shared_view.dart';
@@ -14,35 +17,70 @@ class DashboardView extends GetView<DashboardController> {
     return GetBuilder<DashboardController>(
       builder: (controller) {
         // Since there no app bar, annotated region is used to apply theme ui overlay
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: Theme.of(context).appBarTheme.systemOverlayStyle!,
-          child: Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: controller.currentScreen,
-              selectedItemColor: Theme.of(context).primaryColor,
-              selectedFontSize: 12.0,
-              unselectedFontSize: 12.0,
-              onTap: controller.onTap,
-              items: controller.bottomNavBarItems,
-            ),
-            body: PageSwitchingView(
-              currentPageIndex: controller.currentScreen,
-              pageCount: 4,
-              pageBuilder: (context, index) {
-                switch (index) {
-                  case 0:
-                    return const OrdersDraftsTabBarView();
-                  case 1:
-                    return const ProductsCollectionsTabBarView();
-                  case 2:
-                    return const CustomersGroupsTabBarView();
-                  case 3:
-                    return const MoreView();
-                  default:
-                    return const OrdersDraftsTabBarView();
+        return WillPopScope(
+          onWillPop: () async {
+            final ordersTabCtrl = OrdersController.instance.tabController;
+            final productsTabCtrl = ProductsController.instance.tabController;
+            final customersTabCtrl = CustomersController.instance.tabController;
+            final index = controller.currentScreen;
+            switch (index) {
+              case 0:
+                if (ordersTabCtrl.index != 0) {
+                  ordersTabCtrl.animateTo(0);
+                  return false;
                 }
-              },
+                return true;
+              case 1:
+                if (productsTabCtrl.index != 0) {
+                  productsTabCtrl.animateTo(0);
+                } else {
+                  controller.onTap(0);
+                }
+                return false;
+              case 2:
+                if (customersTabCtrl.index != 0) {
+                  customersTabCtrl.animateTo(0);
+                } else {
+                  controller.onTap(0);
+                }
+                return false;
+              case 3:
+                controller.onTap(0);
+                return false;
+              default:
+                return true;
+            }
+          },
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: Theme.of(context).appBarTheme.systemOverlayStyle!,
+            child: Scaffold(
+              bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: controller.currentScreen,
+                selectedItemColor: Theme.of(context).primaryColor,
+                selectedFontSize: 12.0,
+                unselectedFontSize: 12.0,
+                onTap: controller.onTap,
+                items: controller.bottomNavBarItems,
+              ),
+              body: PageSwitchingView(
+                currentPageIndex: controller.currentScreen,
+                pageCount: 4,
+                pageBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return const OrdersDraftsTabBarView();
+                    case 1:
+                      return const ProductsCollectionsTabBarView();
+                    case 2:
+                      return const CustomersGroupsTabBarView();
+                    case 3:
+                      return const MoreView();
+                    default:
+                      return const OrdersDraftsTabBarView();
+                  }
+                },
+              ),
             ),
           ),
         );
@@ -109,7 +147,9 @@ class _PageSwitchingViewState extends State<PageSwitchingView> {
               enabled: active,
               child: Builder(
                 builder: (BuildContext context) {
-                  return shouldBuildPage[index] ? widget.pageBuilder(context, index) : Container();
+                  return shouldBuildPage[index]
+                      ? widget.pageBuilder(context, index)
+                      : Container();
                 },
               ),
             ),

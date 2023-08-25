@@ -29,20 +29,21 @@ class StorageService extends GetxService {
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
     final String defaultLocale;
-    if (!kIsWeb) {
       defaultLocale = Platform.localeName.length == 2
           ? Platform.localeName
           : Platform.localeName.split('_')[0];
-    } else {
-      defaultLocale = 'en';
-    }
 
     try {
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
       _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
-      _appSettings = AppSettings.fromJson(
-          jsonDecode(_prefs.getString(AppConstants.appSettingsKey) ?? ''));
+      final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
+      if(appSettingsCoded!=null){
+        _appSettings = AppSettings.fromJson(
+            jsonDecode(appSettingsCoded));
+      } else {
+        _appSettings = AppSettings();
+      }
 
       final String? searchHistoryString =
           _prefs.getString(AppConstants.searchHistoryKey);
