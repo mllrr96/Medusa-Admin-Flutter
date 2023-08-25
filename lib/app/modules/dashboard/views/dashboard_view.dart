@@ -16,7 +16,6 @@ class DashboardView extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
       builder: (controller) {
-        // Since there no app bar, annotated region is used to apply theme ui overlay
         return WillPopScope(
           onWillPop: () async {
             final ordersTabCtrl = OrdersController.instance.tabController;
@@ -51,6 +50,7 @@ class DashboardView extends GetView<DashboardController> {
                 return true;
             }
           },
+          // Since there no app bar, annotated region is used to apply theme ui overlay
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: Theme.of(context).appBarTheme.systemOverlayStyle!,
             child: Scaffold(

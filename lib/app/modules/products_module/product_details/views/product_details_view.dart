@@ -18,7 +18,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
         title: const Text('Product Details'),
-        centerTitle: true,
         actions: [
           controller.obx(
               (product) => AdaptiveButton(

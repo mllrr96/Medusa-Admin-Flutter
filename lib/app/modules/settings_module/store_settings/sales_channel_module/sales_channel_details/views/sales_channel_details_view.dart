@@ -12,7 +12,9 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/product.dart';
 import '../../../../../../data/models/store/sales_channel.dart';
+import '../../../../../components/easy_loading.dart';
 import '../../../../../components/pick_products/views/pick_products_view.dart';
+import '../../../../../products_module/products/components/products_filter_view.dart';
 import '../../sales_channels/controllers/sales_channels_controller.dart';
 import '../components/index.dart';
 import '../controllers/sales_channel_details_controller.dart';
@@ -24,6 +26,7 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
   Widget build(BuildContext context) {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final disabled = controller.salesChannel.isDisabled != null && controller.salesChannel.isDisabled! ? true : false;
+    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     return GetBuilder<SalesChannelDetailsController>(
       builder: (controller) {
         return Scaffold(
@@ -60,23 +63,98 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 controller.update();
                               }),
                           InkWell(
-                            onTap: () {},
-                            child: Chip(
-                              side: const BorderSide(color: Colors.transparent),
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                              label: Row(
+                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            onLongPress: () {
+                              controller.resetFilter();
+                            },
+                            onTap: () async {
+                              loadData() async {
+                                if (controller.collections == null ||
+                                    controller.tags == null) {
+                                  loading(status: 'Loading data');
+                                }
+                                if (controller.collections == null) {
+                                  await controller.collectionRepo
+                                      .retrieveAll()
+                                      .then((result) {
+                                    result.when((success) {
+                                      controller.collections =
+                                          success.collections;
+                                    }, (error) {});
+                                  });
+                                }
+                                if (controller.tags == null) {
+                                  await controller.productTagRepo
+                                      .retrieveProductTags()
+                                      .then((result) {
+                                    result.when((success) {
+                                      controller.tags = success.tags;
+                                    }, (error) {});
+                                  });
+                                }
+                                dismissLoading();
+                              }
+
+                              Future<ProductFilter?>
+                              productFilterView() async =>
+                                  await showBarModalBottomSheet<
+                                      ProductFilter>(
+                                      context: context,
+                                      builder: (context) =>
+                                          ProductsFilterView(
+                                            collections:
+                                            controller.collections,
+                                            tags: controller.tags,
+                                            onResetPressed: () {
+                                              controller.productFilter =
+                                              null;
+                                              controller.update();
+                                              controller.pagingController
+                                                  .refresh();
+                                              Get.back();
+                                            },
+                                            productFilter:
+                                            controller.productFilter,
+                                          ));
+
+                              await loadData().then((value) async {
+                                productFilterView().then((result) {
+                                  if (result is ProductFilter) {
+                                    controller.productFilter = result;
+                                    controller.update();
+                                    controller.pagingController.refresh();
+                                  }
+                                });
+                              });
+                            },
+                            child: Ink(
+
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: (controller.productFilter?.count() ?? 0) != 0
+                                        ? ColorManager.primary
+                                        : Colors.transparent
+                                ),
+                                color: Theme.of(context).scaffoldBackgroundColor,
+                               borderRadius:    BorderRadius.all(Radius.circular(6.0)),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                              child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Filters', style: Theme.of(context).textTheme.titleSmall),
-                                  Text(' 0',
+                                  Text('Filters',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleSmall!
-                                          .copyWith(color: ColorManager.primary)),
+                                          .titleSmall
+                                          ?.copyWith(color: lightWhite)),
+                                  if (controller.productFilter?.count() != null)
+                                    Text(' ${controller.productFilter?.count() ?? ''}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.copyWith(color: ColorManager.primary)),
                                 ],
                               ),
-                              padding: EdgeInsets.zero,
                             ),
                           ),
                         ],
