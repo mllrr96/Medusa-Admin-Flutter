@@ -169,8 +169,8 @@ class AppSettingsView extends StatelessWidget {
                               actions: TimeFormatOptions.values
                                   .map((e) => SheetAction<TimeFormatOptions>(
                                         key: e,
-                                        label: DateFormat(e.format())
-                                            .format(DateTime.now()),
+                                        label: '${DateFormat(e.format())
+                                            .format(DateTime.now())}${e == TimeFormatOptions.amPm ? '': ' (24-hour)'}',
                                       ))
                                   .toList())
                           .then((result) {

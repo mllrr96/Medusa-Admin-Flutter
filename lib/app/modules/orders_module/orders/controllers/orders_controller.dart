@@ -19,7 +19,6 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   RxInt ordersCount = 0.obs;
   late TabController tabController;
   RxString searchTerm = ''.obs;
-  late Worker searchDebouncer;
   final scrollController = ScrollController();
   final pagingController = PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
@@ -29,8 +28,6 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
 
   @override
   void onInit() {
-    searchDebouncer =
-        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
     tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();

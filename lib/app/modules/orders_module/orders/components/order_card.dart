@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -239,7 +240,6 @@ class AlternativeOrderCard extends StatelessWidget {
       }
       return name;
     }
-
     String getCurrencyText() {
       var value = order.total?.roundToDouble() ?? 0.0;
       final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
@@ -276,10 +276,19 @@ class AlternativeOrderCard extends StatelessWidget {
                         : '',
                     style: lightMediumTextStyle,
                   ),
-                  Text(
-                    order.currencyCode?.toUpperCase() ?? '',
-                    style: lightMediumTextStyle,
+                  Row(
+                    children: [
+                      if(order.currencyCode != null)
+                      Text(
+                        order.currencyCode!.toUpperCase(),
+                        style: lightMediumTextStyle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if(order.shippingAddress?.countryCode != null)
+                      Flag.fromString(order.shippingAddress!.countryCode!,height: 15,width: 30),
+                    ],
                   ),
+
                 ],
               ),
             ),

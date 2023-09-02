@@ -22,11 +22,7 @@ class OrdersDraftTabBarAppBar extends StatefulWidget implements PreferredSizeWid
 }
 
 class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
-  bool collectionSearch = false;
-  bool productSearch = false;
   final OrdersController controller = Get.find<OrdersController>();
-  final searchCtrl = TextEditingController();
-  final searchNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +99,8 @@ class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
     );
 
     widget.tabController.addListener(() {
-      setState(() {
-        collectionSearch = false;
-        productSearch = false;
-      });
-    });
+      setState(() {});});
+
     return Container(
       color: Theme.of(context).appBarTheme.backgroundColor,
       child: Column(

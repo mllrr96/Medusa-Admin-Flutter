@@ -273,6 +273,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.6"
+  enum_to_string:
+    dependency: transitive
+    description:
+      name: enum_to_string
+      sha256: bd9e83a33b754cb43a75b36a9af2a0b92a757bfd9847d2621ca0b1bed45f8e7a
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   equatable:
     dependency: "direct main"
     description:
@@ -345,6 +353,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  flag:
+    dependency: "direct main"
+    description:
+      name: flag
+      sha256: cfca88049e769caf7ec439e6fbd23fd7ff4f332757796a0b7c09d94579c1ea70
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   flutter:
     dependency: "direct main"
     description: flutter

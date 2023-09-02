@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 
 import '../../../../data/models/store/product.dart';
-import '../components/product_details_components.dart';
+import '../components/index.dart';
 import '../controllers/product_details_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
