@@ -89,25 +89,6 @@ class AppSettingsView extends StatelessWidget {
                     builder: (context) => const LanguageSelectionView(),
                   ),
                 ),
-                SettingsTile.switchTile(
-                  title: const Text('Shake phone to search'),
-                  activeSwitchColor: ColorManager.primary,
-                  leading: const Icon(Icons.vibration),
-                  onPressed: (_) async {},
-                  initialValue: StorageService.appSettings.shakeToSearch,
-                  onToggle: (bool value) async {
-                    final storageService = StorageService.instance;
-                    final appSettings = StorageService.appSettings;
-                    await storageService.updateAppSettings(
-                        appSettings.copyWith(shakeToSearch: value));
-                    controller.update();
-                    if (value) {
-                      Get.snackbar('Restart the app',
-                          'For changes to take effect please restart the app',
-                          snackPosition: SnackPosition.BOTTOM);
-                    }
-                  },
-                ),
               ],
             ),
             SettingsSection(

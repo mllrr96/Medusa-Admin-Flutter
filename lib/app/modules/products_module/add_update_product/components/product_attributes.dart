@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/country.dart';
+import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
+import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
 import 'package:medusa_admin/app/modules/components/countries/view/country_view.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -25,6 +28,7 @@ class ProductAttributes extends StatelessWidget {
       id: 3,
       builder: (controller) {
         return CustomExpansionTile(
+          controller: controller.attributeTileCtrl,
           onExpansionChanged: onExpansionChanged,
           label: 'Attributes',
           children: [
@@ -82,10 +86,18 @@ class ProductAttributes extends StatelessWidget {
             LabeledTextField(
               readOnly: true,
               onTap: () async {
-                final result =
-                    await showBarModalBottomSheet(context: context, builder: (context) => const SelectCountryView());
+                final result = await showBarModalBottomSheet(
+                    context: context,
+                    builder: (context) => SelectCountryView(
+                          selectCountryReq: SelectCountryReq(selectedCountries: [
+                            countries.firstWhere(
+                                (element) => element.iso2 == controller.product.originCountry?.toLowerCase(),
+                                orElse: () => const Country(iso2: '', iso3: '', numCode: 0, name: '', displayName: ''))
+                          ]),
+                        ));
                 if (result is List<Country>) {
                   controller.countryCtrl.text = result.first.displayName!;
+                  controller.product = controller.product.copyWith(originCountry: result.first.iso2);
                   controller.update([3]);
                 }
               },
@@ -101,6 +113,8 @@ class ProductAttributes extends StatelessWidget {
                     : AdaptiveIcon(
                         onPressed: () {
                           controller.countryCtrl.clear();
+                          controller.product = controller.product.copyWith.originCountry(null);
+                          print(controller.product.originCountry);
                           controller.update([3]);
                         },
                         icon: const Icon(CupertinoIcons.clear_circled_solid)),

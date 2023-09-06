@@ -49,7 +49,7 @@ class MedusaSearchView extends StatelessWidget {
           customerGroupRepo: CustomerGroupRepo(),
           discountRepo: DiscountRepo(),
           priceListRepo: PriceListRepo(),
-          productTagRepo : ProductTagRepo(),
+          productTagRepo: ProductTagRepo(),
           regionsRepo: RegionsRepo(),
           salesChannelRepo: SalesChannelRepo(),
         ),
@@ -119,9 +119,8 @@ class MedusaSearchView extends StatelessWidget {
                         if (object is PriceList) {
                           return ListTile(
                             title: Text(object.name ?? ''),
-                            subtitle: Text(object.description ?? '',
-                                style: smallTextStyle?.copyWith(
-                                    color: lightWhite)),
+                            subtitle:
+                                Text(object.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
                           );
                         } else {
                           return const SizedBox();
@@ -136,22 +135,18 @@ class MedusaSearchView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        if (error is! Failure)
-                          const Text('An error occurred while searching'),
+                        if (error is! Failure) const Text('An error occurred while searching'),
                         if (error is Failure)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text('An error occurred while searching'),
                               Text('Code ${error.code}', style: smallTextStyle),
-                              Text(error.message.toString(),
-                                  style: smallTextStyle),
+                              Text(error.message.toString(), style: smallTextStyle),
                             ],
                           ),
                         AdaptiveButton(
-                            onPressed: () =>
-                                controller.pagingController.refresh(),
-                            child: const Text('Retry'))
+                            onPressed: () => controller.pagingController.refresh(), child: const Text('Retry'))
                       ],
                     );
                   },
@@ -202,55 +197,13 @@ class SearchHistoryView extends StatelessWidget {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final searchHistory = StorageService.searchHistory;
-    final storageService = StorageService.instance;
-    final appSettings = StorageService.appSettings;
-    final warningListTile = Column(
-      children: [
-        ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-          leading: const Icon(
-            Icons.warning,
-            color: Colors.amber,
-          ),
-          title: const Text('Shake to search'),
-          subtitle: Text(
-              'When you shake your phone Medusa Mobile will pop search view, if you don\'t like this behaviour you can disable this feature in app settings',
-              style: smallTextStyle?.copyWith(color: lightWhite)),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AdaptiveButton(
-                onPressed: () async {
-                  await storageService.updateAppSettings(
-                      appSettings.copyWith(showShakeSearchWarning: false));
-                  controller.update();
-                },
-                child: const Text('Don\'t show again')),
-            AdaptiveButton(
-                onPressed: () async {
-                  await storageService.updateAppSettings(appSettings.copyWith(
-                      showShakeSearchWarning: false, shakeToSearch: false));
-                  controller.update();
-                },
-                child: const Text('Disable shake to search')),
-          ],
-        ),
-        const Divider(),
-      ],
-    );
-    if (controller.searchTerm.removeAllWhitespace.isEmpty &&
-        searchHistory.isNotEmpty) {
+    if (controller.searchTerm.removeAllWhitespace.isEmpty && searchHistory.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (controller.searchReq.isShakeSearch &&
-                appSettings.showShakeSearchWarning)
-              warningListTile,
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Text(
                 'Search history',
                 style: smallTextStyle?.copyWith(color: lightWhite),
@@ -267,8 +220,7 @@ class SearchHistoryView extends StatelessWidget {
                         controller.pagingController.refresh();
                       },
                       onDeleteTap: () async {
-                        await StorageService.instance
-                            .updateSearchHistory(e, delete: true);
+                        await StorageService.instance.updateSearchHistory(e, delete: true);
                         controller.update();
                       },
                     ))
@@ -277,16 +229,12 @@ class SearchHistoryView extends StatelessWidget {
           ],
         ),
       );
-    } else if (controller.searchTerm.removeAllWhitespace.isEmpty &&
-        searchHistory.isEmpty) {
-      return Column(
+    } else if (controller.searchTerm.removeAllWhitespace.isEmpty && searchHistory.isEmpty) {
+      return const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (controller.searchReq.isShakeSearch &&
-              appSettings.showShakeSearchWarning)
-            warningListTile,
-          const Expanded(
+          Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

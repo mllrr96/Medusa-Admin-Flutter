@@ -1,19 +1,28 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/helper/image_picker_helper.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
+import 'package:medusa_admin/app/data/repository/upload/upload_repo.dart';
+import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 
 class AddUpdateProductController extends GetxController {
-  AddUpdateProductController({required this.productsRepo, required this.productTypeRepo, required this.collectionRepo});
+  AddUpdateProductController({
+    required this.productsRepo,
+    required this.productTypeRepo,
+    required this.collectionRepo,
+    required this.uploadRepo,
+  });
   final ProductsRepo productsRepo;
   final ProductTypeRepo productTypeRepo;
   final CollectionRepo collectionRepo;
+  final UploadRepo uploadRepo;
   final titleCtrl = TextEditingController();
   final subtitleCtrl = TextEditingController();
   final handleCtrl = TextEditingController();
@@ -24,14 +33,20 @@ class AddUpdateProductController extends GetxController {
   final organizeKey = GlobalKey();
   final variantKey = GlobalKey();
   final attributesKey = GlobalKey();
-
-
+  final thumbnailKey = GlobalKey();
+  final mediaKey = GlobalKey();
+  final generalTileCtrl = ExpansionTileController();
+  final organizeTileCtrl = ExpansionTileController();
+  final variantTileCtrl = ExpansionTileController();
+  final attributeTileCtrl = ExpansionTileController();
+  final thumbnailTileCtrl = ExpansionTileController();
+  final mediaTileCtrl = ExpansionTileController();
   List<ProductCollection>? collections;
   List<ProductType>? productTypes;
   ProductCollection? selectedCollection;
   ProductType? selectedProductType;
-  RxBool discountable = true.obs;
-  RxBool salesChannels = true.obs;
+  bool discountable = true;
+  bool salesChannels = true;
   final optionCtrl = TextEditingController();
   final variationsCtrl = TextEditingController();
   final widthCtrl = TextEditingController();
@@ -43,15 +58,37 @@ class AddUpdateProductController extends GetxController {
   final countryCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
   bool updateMode = false;
-  ProductComponents productComponents = ProductComponents.addVariant;
+  UpdateProductReq? updateProductReq;
+  File? thumbnailImage;
+  List<File> images = [];
   late ScrollController scrollController;
   late Product product;
+  late ImagePickerHelper imagePickerHelper;
   @override
   Future<void> onInit() async {
     scrollController = ScrollController();
+    updateProductReq = Get.arguments;
+    imagePickerHelper = ImagePickerHelper();
     loadProduct();
     await loadOrganize();
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    if (updateProductReq != null) {
+      switch (updateProductReq!.number) {
+        case 0:
+          generalTileCtrl.expand();
+        case 1:
+          organizeTileCtrl.expand();
+        case 2:
+          variantTileCtrl.expand();
+        case 3:
+          attributeTileCtrl.expand();
+      }
+    }
+    super.onReady();
   }
 
   Future<void> loadOrganize() async {
@@ -81,7 +118,10 @@ class AddUpdateProductController extends GetxController {
 
   Future<void> addProduct() async {
     // TODO: check for required fields
-    if (keyForm.currentState == null || !keyForm.currentState!.validate()) {
+    if (!keyForm.currentState!.validate()) {
+      if (!generalTileCtrl.isExpanded) {
+        generalTileCtrl.expand();
+      }
       return;
     }
 
@@ -89,8 +129,31 @@ class AddUpdateProductController extends GetxController {
 
     loading();
     final result = await productsRepo.add(userPostProductReq: UserPostProductReq(product: product));
-    result.when((success) {
-      EasyLoading.showSuccess('New product Added');
+    result.when((success) async {
+      EasyLoading.showSuccess('New product Added').then((value) {
+        loading(status: 'Uploading Images');
+      });
+      if (images.isNotEmpty || thumbnailImage != null) {
+        List<File> filesToUpload = [];
+        filesToUpload.addAll(images);
+        if (thumbnailImage != null) {
+          filesToUpload.add(thumbnailImage!);
+        }
+        final imageResult = await uploadRepo.uploadFile(files: filesToUpload);
+        imageResult.when((imageSuccess) async {
+          final productResult = await productsRepo.update(
+              userPostUpdateProductReq: UserPostUpdateProductReq(images: imageSuccess.urls), id: success.id!);
+          productResult.when((success) {
+            EasyLoading.showSuccess('Product Added');
+          }, (error) {
+            Get.snackbar('Error uploading product', error.message, snackPosition: SnackPosition.BOTTOM);
+            dismissLoading();
+          });
+        }, (error) {
+          Get.snackbar('Error uploading images', error.message, snackPosition: SnackPosition.BOTTOM);
+          dismissLoading();
+        });
+      }
       Get.back(result: true);
     }, (error) {
       debugPrint(error.toString());
@@ -152,39 +215,34 @@ class AddUpdateProductController extends GetxController {
     } else {
       // Update existing product
       updateMode = true;
-      product = Get.arguments[0];
-      productComponents = Get.arguments[1];
-      switch (productComponents) {
-        case ProductComponents.generalInfo:
-          titleCtrl.text = product.title ?? '';
-          subtitleCtrl.text = product.subtitle ?? '';
-          handleCtrl.text = product.handle ?? '';
-          materialCtrl.text = product.material ?? '';
-          descriptionCtrl.text = product.description ?? '';
-          discountable.value = product.discountable;
-          break;
-        case ProductComponents.salesChannel:
-          // TODO: Handle this case.
-          break;
-        case ProductComponents.addVariant:
-          // TODO: Handle this case.
-          break;
-        case ProductComponents.editVariants:
-          // TODO: Handle this case.
-          break;
-        case ProductComponents.editOptions:
-          // TODO: Handle this case.
-          break;
-        case ProductComponents.editAttributes:
-          // TODO: Handle this case.
-          break;
-        case ProductComponents.editThumbnail:
-          // TODO: Handle this case.
-          break;
-        case ProductComponents.editMedia:
-          // TODO: Handle this case.
-          break;
+      product = updateProductReq!.product;
+      titleCtrl.text = product.title ?? '';
+      subtitleCtrl.text = product.subtitle ?? '';
+      handleCtrl.text = product.handle ?? '';
+      materialCtrl.text = product.material ?? '';
+      descriptionCtrl.text = product.description ?? '';
+      discountable = product.discountable;
+      selectedProductType = product.type;
+      selectedCollection = product.collection;
+      widthCtrl.text = product.width?.toString() ?? '';
+      lengthCtrl.text = product.length?.toString() ?? '';
+      heightCtrl.text = product.height?.toString() ?? '';
+      weightCtrl.text = product.weight?.toString() ?? '';
+      midCodeCtrl.text = product.midCode?.toString() ?? '';
+      hsCodeCtrl.text = product.hsCode?.toString() ?? '';
+      if (product.originCountry != null) {
+        countryCtrl.text = countries
+                .firstWhere((element) => element.iso2 == product.originCountry?.toLowerCase(),
+                    orElse: () => const Country(iso2: '', iso3: '', numCode: 0, name: '', displayName: ''))
+                .displayName ??
+            '';
       }
     }
   }
+}
+
+class UpdateProductReq {
+  final Product product;
+  final int number;
+  UpdateProductReq({required this.product, required this.number});
 }

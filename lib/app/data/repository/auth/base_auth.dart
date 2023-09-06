@@ -9,5 +9,5 @@ abstract class BaseAuth {
 
   Future<Result<UserAuthRes, Failure>> signIn({required UserPostAuthReq req, Map<String, dynamic>? customHeaders});
   Future<bool> signOut({Map<String, dynamic>? customHeaders});
-  Future<UserAuthRes?> getSession({Map<String, dynamic>? customHeaders});
+  Future<Result<UserAuthRes, Failure>> getSession({Map<String, dynamic>? customHeaders});
 }

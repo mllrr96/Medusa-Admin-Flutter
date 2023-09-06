@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
+import '../../../../routes/app_pages.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../controllers/product_details_controller.dart';
 
@@ -25,13 +27,13 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
       trailing: AdaptiveButton(
         padding: EdgeInsets.zero,
           onPressed: () async {
-            // await Get.toNamed(Routes.ADD_UPDATE_PRODUCT, arguments: [product, ProductComponents.editAttributes])
-            //     ?.then((result) async {
-            //   if (result != null) {
-            //     await controller.loadProduct();
-            //     ProductsController.instance.pagingController.refresh();
-            //   }
-            // });
+            await Get.toNamed(Routes.ADD_UPDATE_PRODUCT,
+                arguments: UpdateProductReq(product: product, number: 3))
+                ?.then((result) async {
+              if (result != null) {
+                await controller.loadProduct();
+              }
+            });
           },
           child: const Text('Edit')),
       expandedAlignment: Alignment.centerLeft,

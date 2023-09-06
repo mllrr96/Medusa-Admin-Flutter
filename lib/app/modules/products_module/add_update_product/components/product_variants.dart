@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_option.dart';
+import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -22,6 +23,7 @@ class ProductVariants extends StatelessWidget {
       id: 2,
       builder: (controller) {
         return CustomExpansionTile(
+          controller: controller.variantTileCtrl,
           maintainState: true,
           onExpansionChanged: onExpansionChanged,
           title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
@@ -93,9 +95,9 @@ class ProductVariants extends StatelessWidget {
               onPressed: controller.product.options == null || controller.product.options!.isEmpty
                   ? null
                   : () async {
-                      final result =
-                          await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: [controller.product, false]);
-                      if (result != null) {
+                      final result = await Get.toNamed(Routes.PRODUCT_ADD_VARIANT,
+                          arguments: ProductVariantReq(product: controller.product));
+                      if (result is ProductVariant) {
                         if (controller.product.variants != null) {
                           List<ProductVariant> variants = controller.product.variants!;
                           variants.add(result);

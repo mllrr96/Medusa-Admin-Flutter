@@ -22,7 +22,6 @@ class PersonalInformationController extends GetxController with StateMixin<User>
     super.onInit();
   }
 
-
   @override
   void onClose() {
     firstNameCtrl.dispose();
@@ -34,9 +33,9 @@ class PersonalInformationController extends GetxController with StateMixin<User>
     change(null, status: RxStatus.loading());
     final authResponse = await authRepo.getSession();
 
-    if (authResponse != null && authResponse.user != null) {
-      _id = authResponse.user!.id!;
-      final result = await userRepo.retrieve(id: authResponse.user!.id!);
+    authResponse.when((success) async {
+      _id = success.user!.id!;
+      final result = await userRepo.retrieve(id: success.user!.id!);
       result.when((success) {
         if (success.user != null) {
           change(success.user!, status: RxStatus.success());
@@ -44,9 +43,9 @@ class PersonalInformationController extends GetxController with StateMixin<User>
           change(null, status: RxStatus.error('Error loading user'));
         }
       }, (error) => change(null, status: RxStatus.error(error.message)));
-    } else {
+    }, (error) {
       change(null, status: RxStatus.error('Error loading user'));
-    }
+    });
   }
 
   Future<void> updateUser() async {

@@ -129,4 +129,17 @@ class ProductVariant {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    String getOptions() {
+      if (options?.isNotEmpty ?? false) {
+        return options!.map((e) => e.toString()).toList().toString();
+      } else {
+        return '';
+      }
+    }
+
+    return "id: $id \n title: $title \n product id: $productId \n options: ${getOptions()}";
+  }
 }

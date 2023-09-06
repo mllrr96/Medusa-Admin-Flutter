@@ -6,34 +6,91 @@ part 'product.g.dart';
 
 @CopyWith()
 class Product extends Equatable {
+  // The product's id
   final String? id;
+
+  // A title that can be displayed for easy identification of the product.
   final String? title;
+
+  // An optional subtitle that can be used to further specify the product.
   final String? subtitle;
+
+  // A short description of the product.
   final String? description;
+
+  // A unique identifier for the product (e.g. for slug structure).
   final String? handle;
+
+  // Whether the product represents a gift card. products that represent gift cards will automatically generate a redeemable gift card code once they are purchased.
   final bool? isGiftCard;
+
+  // The status of the product
   final ProductStatus status;
+
+  // The details of the product's images.
   final List<ImageData>? images;
+
+  // A url to an image file that can be used to identify the product.
   final String? thumbnail;
+
+  // The details of the product options that are defined for the product. the product's variants will have a unique combination of values of the product's options.
   final List<ProductOption>? options;
+
+  // The details of the product variants that belong to the product. each will have a unique combination of values of the product's options.
   final List<ProductVariant>? variants;
+
+  // The id of the shipping profile that the product belongs to. the shipping profile has a set of defined shipping options that can be used to fulfill the product.
   final String? profileId;
+
+  // The details of the shipping profile that the product belongs to. the shipping profile has a set of defined shipping options that can be used to fulfill the product.
   final ShippingProfile? profile;
+
+  // The weight of the product variant. may be used in shipping rate calculations.
   final num? weight;
+
+  // The height of the product variant. may be used in shipping rate calculations.
   final num? height;
+
+  // The width of the product variant. may be used in shipping rate calculations.
   final num? width;
+
+  // The length of the product variant. may be used in shipping rate calculations.
   final num? length;
+
+  // The harmonized system code of the product variant. may be used by fulfillment providers to pass customs information to shipping carriers.
   final String? hsCode;
+
+  // The country in which the product variant was produced. may be used by fulfillment providers to pass customs information to shipping carriers.
   final String? originCountry;
+
+  // The manufacturers identification code that identifies the manufacturer of the product variant. may be used by fulfillment providers to pass customs information to shipping carriers.
   final String? midCode;
+
+  // The material and composition that the product variant is made of, may be used by fulfillment providers to pass customs information to shipping carriers.
   final String? material;
+
+  // The id of the product collection that the product belongs to.
   final String? collectionId;
+
+  // The details of the product collection that the product belongs to.
   final ProductCollection? collection;
+
+  // The id of the product type that the product belongs to.
   final String? typeId;
+
+  // The details of the product type that the product belongs to.
   final ProductType? type;
+
+  // The details of the product tags used in this product.
   final List<ProductTag>? tags;
+
+  // Whether the product can be discounted. discounts will not apply to line items of this product when this flag is set to false.
   final bool discountable;
+
+  // The external id of the product
   final String? externalId;
+
+  // The details of the sales channels this product is available in.
   final List<SalesChannel>? salesChannels;
   final DateTime? createdAt;
   final DateTime? updatedAt;

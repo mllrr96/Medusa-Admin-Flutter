@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import '../../../../../core/utils/colors.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../../components/labeled_chip_input_text_field.dart';
 import '../controllers/add_update_product_controller.dart';
@@ -19,6 +20,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
       id: 1,
       builder: (logic) {
         return CustomExpansionTile(
+          controller: controller.organizeTileCtrl,
           onExpansionChanged: onExpansionChanged,
           label: 'Organize',
           expandedAlignment: Alignment.centerLeft,
@@ -91,9 +93,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                               ),
                               filled: true,
                               fillColor: Theme.of(context).scaffoldBackgroundColor,
-                              border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                              )),
+                              ),
                         )
                       : const Center(child: CircularProgressIndicator.adaptive()),
                 )
@@ -102,7 +102,11 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
             space,
             LabeledChipTextField(
               label: 'Tags',
-              onChanged: (List<String> value) {},
+              initialValue: controller.product.tags?.map((e) => e.value ?? '').toList() ?? [],
+              onChanged: (List<String> value) {
+                final tags = value.map((e) => ProductTag(value: e)).toList();
+                controller.product = controller.product.copyWith(tags: tags);
+              },
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               inputDecoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
@@ -117,16 +121,20 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
               ),
             ),
             space,
-            Obx(() {
-
-              return SwitchListTile.adaptive(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('Sales channels', style: largeTextStyle),
-                  subtitle: Text('This product will only be available in the default sales channel if left untouched.', style: TextStyle(color:lightWhite),),
-                  value: controller.salesChannels.value,
-                  onChanged: (val) => controller.salesChannels.value = val,
-              );
-            }),
+            SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              title: Text('Sales channels', style: largeTextStyle),
+              subtitle: Text(
+                'This product will only be available in the default sales channel if left untouched.',
+                style: TextStyle(color: lightWhite),
+              ),
+              value: controller.salesChannels,
+              onChanged: (val) {
+                controller.salesChannels = val;
+                controller.update([1]);
+              },
+              activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
+            ),
           ],
         );
       },

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
@@ -48,7 +49,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (controller.editMode) {
+        if (controller.updateMode) {
           Get.back();
           return false;
         }
@@ -74,49 +75,54 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
         child: Scaffold(
           appBar: AppBar(
             leading: const AdaptiveCloseButton(),
-            title: Text(controller.editMode ? 'Update Attributes' : 'Create Variant'),
+            title: Text(controller.updateMode ? 'Update Attributes' : 'Create Variant'),
             actions: [
-              AdaptiveButton(onPressed: () async => await controller.save(), child: const Text('Save')),
+              AdaptiveButton(
+                  onPressed: () async =>
+                      controller.updateMode ? await controller.updateVariant() : await controller.save(),
+                  child: const Text('Save')),
             ],
           ),
           body: SafeArea(
             child: SingleChildScrollView(
               controller: controller.scrollController,
-              physics: const ClampingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               child: Form(
                 key: controller.formKey,
                 child: Column(
                   children: [
-                    if (!controller.editMode)
-                      CustomExpansionTile(
-                        initiallyExpanded: true,
-                        required: true,
-                        label: 'General',
-                        children: [
-                          Text('Configure the general information for this variant.',
-                              style: smallTextStyle!.copyWith(color: lightWhite)),
-                          space,
-                          LabeledTextField(
-                            label: 'Custom title',
-                            controller: controller.customTitleCtrl,
-                            hintText: 'Green / XL',
-                          ),
-                          LabeledTextField(
-                            label: 'Material',
-                            controller: controller.materialCtrl,
-                            hintText: '80% wool, 20% cotton',
-                          ),
-                          const Divider(),
-                          Row(
-                            children: [
-                              Text('Options', style: largeTextStyle),
-                            ],
-                          ),
-                          space,
-                          if (options != null)
-                            ListView.separated(
+                    Column(
+                      children: [
+                        CustomExpansionTile(
+                          initiallyExpanded: true,
+                          controller: controller.generalTileCtrl,
+                          required: true,
+                          label: 'General',
+                          children: [
+                            Text('Configure the general information for this variant.',
+                                style: smallTextStyle?.copyWith(color: lightWhite)),
+                            space,
+                            LabeledTextField(
+                              label: 'Custom title',
+                              controller: controller.customTitleCtrl,
+                              hintText: 'Green / XL',
+                            ),
+                            LabeledTextField(
+                              label: 'Material',
+                              controller: controller.materialCtrl,
+                              hintText: '80% wool, 20% cotton',
+                            ),
+                            const Divider(),
+                            Row(
+                              children: [
+                                Text('Options', style: largeTextStyle),
+                              ],
+                            ),
+                            space,
+                            if (options != null && !controller.updateMode)
+                              ListView.separated(
                                 shrinkWrap: true,
+                                itemCount: options.length,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   final currentOption = options[index];
@@ -124,8 +130,8 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(currentOption.title!, style: mediumTextStyle!),
-                                          Text(' *', style: mediumTextStyle.copyWith(color: Colors.red)),
+                                          Text(currentOption.title!, style: mediumTextStyle),
+                                          Text(' *', style: mediumTextStyle?.copyWith(color: Colors.red)),
                                         ],
                                       ),
                                       const SizedBox(height: 6.0),
@@ -145,176 +151,177 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                             controller.selectedOptionsValue[index] = value;
                                           }
                                         },
-                                        decoration: InputDecoration(
-                                          border: const OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                                          ),
-                                          filled: true,
-                                          isDense: true,
-                                          fillColor: Theme.of(context).scaffoldBackgroundColor,
-                                        ),
                                       ),
                                     ],
                                   );
                                 },
                                 separatorBuilder: (_, __) => space,
-                                itemCount: options.length),
-                          space,
-                        ],
-                      ),
-                    if (!controller.editMode) space,
-                    if (!controller.editMode)
-                      CustomExpansionTile(
-                        key: controller.pricingKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await scrollToSelectedContent(globalKey: controller.pricingKey);
-                          }
-                        },
-                        label: 'Pricing',
-                        childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                        children: [
-                          Text('Configure the pricing for this variant.',
-                              style: smallTextStyle!.copyWith(color: lightWhite)),
-                          space,
-                          ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: controller.currencies.length,
-                              itemBuilder: (context, index) {
-                                final currency = controller.currencies[index];
-                                final currencyCtrl = controller.currencyCtrlMap[currency];
-                                return Column(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                                        color: Theme.of(context).scaffoldBackgroundColor,
-                                      ),
-                                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            child: Row(
-                                              children: [
-                                                Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
-                                                const SizedBox(width: 12.0),
-                                                Expanded(
-                                                    child: Text(currency.name ?? '',
-                                                        style: mediumTextStyle!.copyWith(color: lightWhite)))
-                                              ],
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: TextField(
-                                              controller: currencyCtrl,
-                                              textDirection: TextDirection.rtl,
-                                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                              inputFormatters: [CurrencyTextInputFormatter(name: currency.code)],
-                                              decoration: InputDecoration(
-                                                hintTextDirection: TextDirection.rtl,
-                                                prefixIcon: Padding(
-                                                    padding: const EdgeInsets.only(left: 10),
-                                                    child: Text(currency.symbolNative ?? '',
-                                                        style: mediumTextStyle.copyWith(color: lightWhite))),
-                                                prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                                                hintText: '-',
-                                                isDense: true,
-                                                border: const OutlineInputBorder(
-                                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                                                ),
+                              ),
+                            if (options != null && controller.updateMode)
+                              ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: options.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final currentOption = options[index];
+                                  final textCtrl = controller.productOptionCtrlMap[currentOption];
+                                  return LabeledTextField(
+                                    label: currentOption.title ?? '',
+                                    required: true,
+                                    controller: textCtrl,
+                                  );
+                                },
+                                separatorBuilder: (_, __) => space,
+                              ),
+                            space,
+                          ],
+                        ),
+                        space,
+                        CustomExpansionTile(
+                          key: controller.pricingKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await scrollToSelectedContent(globalKey: controller.pricingKey);
+                            }
+                          },
+                          label: 'Pricing',
+                          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                          children: [
+                            Text('Configure the pricing for this variant.',
+                                style: smallTextStyle?.copyWith(color: lightWhite)),
+                            space,
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: controller.updateMode
+                                    ? controller.variant!.prices!.length
+                                    : controller.currencies.length,
+                                itemBuilder: (context, index) {
+                                  final currency = controller.currencyCtrlMap.keys.toList()[index];
+                                  final currencyCtrl = controller.currencyCtrlMap[currency];
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                                          color: Theme.of(context).scaffoldBackgroundColor,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Row(
+                                                children: [
+                                                  Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
+                                                  const SizedBox(width: 12.0),
+                                                  Expanded(
+                                                      child: Text(currency.name ?? '',
+                                                          style: mediumTextStyle?.copyWith(color: lightWhite)))
+                                                ],
                                               ),
-                                              style: smallTextStyle,
                                             ),
-                                          )
-                                        ],
+                                            Flexible(
+                                              child: TextField(
+                                                controller: currencyCtrl,
+                                                textDirection: TextDirection.rtl,
+                                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                                inputFormatters: [CurrencyTextInputFormatter(name: currency.code)],
+                                                decoration: InputDecoration(
+                                                  hintTextDirection: TextDirection.rtl,
+                                                  prefixIcon: Padding(
+                                                      padding: const EdgeInsets.only(left: 10),
+                                                      child: Text(currency.symbolNative ?? '',
+                                                          style: mediumTextStyle?.copyWith(color: lightWhite))),
+                                                  prefixIconConstraints:
+                                                      const BoxConstraints(minWidth: 0, minHeight: 0),
+                                                  hintText: '-',
+                                                  isDense: true,
+                                                  border: const OutlineInputBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                                  ),
+                                                ),
+                                                style: smallTextStyle,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    space,
-                                  ],
-                                );
-                              }),
-                        ],
-                      ),
-                    if (!controller.editMode) space,
-                    if (!controller.editMode)
-                      CustomExpansionTile(
-                        label: 'Stock & Inventory',
-                        key: controller.stockKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await scrollToSelectedContent(globalKey: controller.stockKey);
-                          }
-                        },
-                        children: [
-                          Text('Configure the inventory and stock for this variant.',
-                              style: smallTextStyle!.copyWith(color: lightWhite)),
-                          space,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Manage inventory', style: largeTextStyle),
-                              Obx(() {
-                                return Switch.adaptive(
-                                  value: controller.manageInventory.value,
-                                  onChanged: (val) {
-                                    controller.manageInventory.value = val;
-                                  },
-                                  activeColor: ColorManager.primary,
-                                );
-                              })
-                            ],
-                          ),
-                          Text('When checked Medusa will regulate the inventory when orders and returns are made.',
-                              style: smallTextStyle.copyWith(color: lightWhite)),
-                          space,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Allow backorders', style: largeTextStyle),
-                              Obx(() {
-                                return Switch.adaptive(
-                                    value: controller.allowBackorder.value,
-                                    onChanged: (val) {
-                                      controller.allowBackorder.value = val;
-                                    },
-                                    activeColor: ColorManager.primary);
-                              })
-                            ],
-                          ),
-                          Text(
-                              'When checked the product will be available for purchase despite the product being sold out',
-                              style: smallTextStyle.copyWith(color: lightWhite)),
-                          space,
-                          LabeledTextField(
-                            label: 'Stock keeping unit (SKU)',
-                            controller: TextEditingController(),
-                            hintText: 'SUN-G, JK1234...',
-                          ),
-                          LabeledNumericTextField(
-                            controller: controller.quantityCtrl,
-                            label: 'Quantity in stock',
-                          ),
-                          space,
-                          LabeledTextField(
-                            label: 'EAN (Barcode)',
-                            controller: controller.eanCtrl,
-                            hintText: '123456789123...',
-                          ),
-                          LabeledTextField(
-                            label: 'UPC (Barcode)',
-                            controller: controller.upcCtrl,
-                            hintText: '023456789104',
-                          ),
-                          LabeledTextField(
-                            label: 'Barcode',
-                            controller: controller.barcodeCtrl,
-                            hintText: '123456789104...',
-                          ),
-                        ],
-                      ),
-                    if (!controller.editMode) space,
+                                      space,
+                                    ],
+                                  );
+                                }),
+                          ],
+                        ),
+                        space,
+                        CustomExpansionTile(
+                          label: 'Stock & Inventory',
+                          key: controller.stockKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await scrollToSelectedContent(globalKey: controller.stockKey);
+                            }
+                          },
+                          children: [
+                            Text('Configure the inventory and stock for this variant.',
+                                style: smallTextStyle?.copyWith(color: lightWhite)),
+                            space,
+                            Obx(() {
+                              return SwitchListTile.adaptive(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text('Manage inventory', style: largeTextStyle),
+                                subtitle: Text(
+                                    'When checked Medusa will regulate the inventory when orders and returns are made.',
+                                    style: smallTextStyle?.copyWith(color: lightWhite)),
+                                value: controller.manageInventory.value,
+                                onChanged: (val) => controller.manageInventory.value = val,
+                                activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
+                              );
+                            }),
+                            space,
+                            Obx(() {
+                              return SwitchListTile.adaptive(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text('Allow backorders', style: largeTextStyle),
+                                subtitle: Text(
+                                    'When checked the product will be available for purchase despite the product being sold out',
+                                    style: smallTextStyle?.copyWith(color: lightWhite)),
+                                value: controller.allowBackorder.value,
+                                onChanged: (val) => controller.allowBackorder.value = val,
+                                activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
+                              );
+                            }),
+                            space,
+                            LabeledTextField(
+                              label: 'Stock keeping unit (SKU)',
+                              controller: TextEditingController(),
+                              hintText: 'SUN-G, JK1234...',
+                            ),
+                            LabeledNumericTextField(
+                              controller: controller.quantityCtrl,
+                              label: 'Quantity in stock',
+                            ),
+                            space,
+                            LabeledTextField(
+                              label: 'EAN (Barcode)',
+                              controller: controller.eanCtrl,
+                              hintText: '123456789123...',
+                            ),
+                            LabeledTextField(
+                              label: 'UPC (Barcode)',
+                              controller: controller.upcCtrl,
+                              hintText: '023456789104',
+                            ),
+                            LabeledTextField(
+                              label: 'Barcode',
+                              controller: controller.barcodeCtrl,
+                              hintText: '123456789104...',
+                            ),
+                          ],
+                        ),
+                        space,
+                      ],
+                    ),
                     CustomExpansionTile(
                       label: 'Shipping',
                       key: controller.shippingKey,
@@ -324,11 +331,10 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                         }
                       },
                       children: [
-                        if (!controller.editMode)
-                          Text(
-                              'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
-                              style: smallTextStyle!.copyWith(color: lightWhite)),
-                        if (!controller.editMode) space,
+                        Text(
+                            'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
+                            style: smallTextStyle?.copyWith(color: lightWhite)),
+                        space,
                         Row(
                           children: [
                             Text('Dimensions', style: largeTextStyle),
@@ -336,15 +342,18 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                         ),
                         space,
                         Text('Configure to calculate the most accurate shipping rates.',
-                            style: smallTextStyle!.copyWith(color: lightWhite)),
+                            style: smallTextStyle?.copyWith(color: lightWhite)),
                         space,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            LabeledNumericTextField(
-                                controller: controller.widthCtrl, label: 'Width', width: (Get.width - 55) / 2),
-                            LabeledNumericTextField(
-                                controller: controller.lengthCtrl, label: 'Length', width: (Get.width - 55) / 2),
+                            Flexible(
+                              child: LabeledNumericTextField(controller: controller.widthCtrl, label: 'Width'),
+                            ),
+                            const SizedBox(width: 12),
+                            Flexible(
+                              child: LabeledNumericTextField(controller: controller.lengthCtrl, label: 'Length'),
+                            ),
                           ],
                         ),
                         space,
@@ -352,10 +361,13 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            LabeledNumericTextField(
-                                controller: controller.heightCtrl, label: 'Height', width: (Get.width - 55) / 2),
-                            LabeledNumericTextField(
-                                controller: controller.weightCtrl, label: 'Weight', width: (Get.width - 55) / 2),
+                            Flexible(
+                              child: LabeledNumericTextField(controller: controller.heightCtrl, label: 'Height'),
+                            ),
+                            const SizedBox(width: 12),
+                            Flexible(
+                              child: LabeledNumericTextField(controller: controller.weightCtrl, label: 'Weight'),
+                            ),
                           ],
                         ),
                         space,
@@ -367,7 +379,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                         ),
                         space,
                         Text('Configure if you are shipping internationally.',
-                            style: smallTextStyle.copyWith(color: lightWhite)),
+                            style: smallTextStyle?.copyWith(color: lightWhite)),
                         space,
                         LabeledTextField(
                           label: 'MID Code',
@@ -430,7 +442,9 @@ class ProductAddVariantController extends GetxController {
   ProductAddVariantController({required this.productsRepo});
   final ProductsRepo productsRepo;
   late Product product;
-  late bool editMode;
+  late ProductVariant? variant;
+  late ProductVariantReq productVariantReq;
+  late bool updateMode;
   final quantityCtrl = TextEditingController();
   final customTitleCtrl = TextEditingController();
   final materialCtrl = TextEditingController();
@@ -452,28 +466,56 @@ class ProductAddVariantController extends GetxController {
   final stockKey = GlobalKey();
   final shippingKey = GlobalKey();
 
+  final generalTileCtrl = ExpansionTileController();
+
   Map<int, ProductOptionValue> selectedOptionsValue = {};
   RxBool manageInventory = true.obs;
   RxBool allowBackorder = false.obs;
   final formKey = GlobalKey<FormState>();
   final List<Currency> currencies = StoreService.store.currencies ?? [];
   Map<Currency, TextEditingController> currencyCtrlMap = <Currency, TextEditingController>{};
+  Map<ProductOption, TextEditingController> productOptionCtrlMap = <ProductOption, TextEditingController>{};
 
   @override
   void onInit() {
     for (Currency currency in currencies) {
       currencyCtrlMap.addAll({currency: TextEditingController()});
     }
-    product = Get.arguments[0];
-    editMode = Get.arguments[1] ?? false;
-    if (editMode) {
-      widthCtrl.text = product.width?.toString() ?? '';
-      lengthCtrl.text = product.length?.toString() ?? '';
-      heightCtrl.text = product.height?.toString() ?? '';
-      weightCtrl.text = product.weight?.toString() ?? '';
-      midCtrl.text = product.midCode ?? '';
-      hsCtrl.text = product.hsCode ?? '';
-      countryCtrl.text = product.originCountry ?? '';
+
+    productVariantReq = Get.arguments;
+
+    product = productVariantReq.product;
+    variant = productVariantReq.productVariant;
+    updateMode = variant != null;
+    if (updateMode) {
+      widthCtrl.text = variant!.width?.toString() ?? '';
+      lengthCtrl.text = variant!.length?.toString() ?? '';
+      heightCtrl.text = variant!.height?.toString() ?? '';
+      weightCtrl.text = variant!.weight?.toString() ?? '';
+      customTitleCtrl.text = variant!.title ?? '';
+      midCtrl.text = variant!.midCode ?? '';
+      hsCtrl.text = variant!.hsCode ?? '';
+      countryCtrl.text = variant!.originCountry ?? '';
+
+      product.options?.forEach((element) {
+        final test = variant!.options?.where((e) => e.optionId == element.id);
+        productOptionCtrlMap.addAll({element: TextEditingController(text: test?.first.value ?? '')});
+      });
+
+
+      for (MoneyAmount money in variant!.prices!) {
+        final currencyFormatter = CurrencyTextInputFormatter(name: money.currencyCode);
+        currencyCtrlMap.addAll({
+          currencies.firstWhere((element) => element.code == money.currencyCode, orElse: () {
+            final result = intl.NumberFormat.currency(name: money.currencyCode!.toUpperCase());
+            return Currency(name: result.currencyName, symbolNative: result.currencySymbol, code: money.currencyCode);
+          }): TextEditingController(text: currencyFormatter.format(money.amount.toString()))
+        });
+      }
+    } else {
+      for (Currency currency in currencies) {
+        currencyCtrlMap.addAll({currency: TextEditingController()});
+      }
     }
     super.onInit();
   }
@@ -507,6 +549,9 @@ class ProductAddVariantController extends GetxController {
 
   Future<void> save() async {
     if (!formKey.currentState!.validate()) {
+      if (!generalTileCtrl.isExpanded) {
+        generalTileCtrl.expand();
+      }
       return;
     }
     String variantTitle = '';
@@ -531,12 +576,7 @@ class ProductAddVariantController extends GetxController {
         currencyCode: key.code,
       ));
     });
-    currencyCtrlMap.forEach((key, value) {
-      prices.add(MoneyAmount(
-        amount: int.tryParse(value.text.replaceAll(',', '').replaceAll('.', '')),
-        currencyCode: key.code,
-      ));
-    });
+
     Get.back(
       result: ProductVariant(
         prices: prices,
@@ -588,4 +628,10 @@ class ProductAddVariantBinding extends Bindings {
   void dependencies() {
     Get.put(ProductAddVariantController(productsRepo: ProductsRepo()));
   }
+}
+
+class ProductVariantReq {
+  final Product product;
+  final ProductVariant? productVariant;
+  ProductVariantReq({required this.product, this.productVariant});
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/datasource/remote/dio/dio_client.dart';
 import 'package:medusa_admin/app/data/repository/auth/base_auth.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
@@ -23,6 +24,11 @@ class AuthRepo extends BaseAuth {
       final response = await _dataProvider.post(uri: '/auth', data: req);
       if (response.statusCode == 200) {
         var cookie = response.headers['set-cookie']!.first.split(';').first;
+        // final string = response.headers['set-cookie']!.first.split(';')[2].replaceAll(' Expires=', '');
+        // final formatter = DateFormat('EEE, d MMM yyyy HH:mm:ss');
+        // final dateTime = formatter.parse(string);
+        // print(dateTime.difference(DateTime.now()).inHours);
+
         await StorageService.instance.saveCookie(cookie);
         return Success(UserAuthRes.fromJson(response.data));
       } else {
@@ -47,7 +53,6 @@ class AuthRepo extends BaseAuth {
         return true;
       } else {
         log(response.toString());
-        // throw response.statusCode!;
         return false;
       }
     } catch (error) {
@@ -58,7 +63,7 @@ class AuthRepo extends BaseAuth {
 
   /// Retrieves an authenticated session
   @override
-  Future<UserAuthRes?> getSession({
+  Future<Result<UserAuthRes, Failure>> getSession({
     Map<String, dynamic>? customHeaders,
   }) async {
     try {
@@ -69,13 +74,17 @@ class AuthRepo extends BaseAuth {
         uri: '/auth',
       );
       if (response.statusCode == 200) {
-        return UserAuthRes.fromJson(response.data);
+        // print(response.headers);
+        // print(response.data);
+        // print(response.extra);
+        // var cookie = response.headers['set-cookie']!.first.split(';').first;
+        return Success(UserAuthRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error) {
       log(error.toString());
-      rethrow;
+      return Error(Failure.from(error));
     }
   }
 }

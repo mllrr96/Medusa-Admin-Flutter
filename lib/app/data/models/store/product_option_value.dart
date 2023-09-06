@@ -12,6 +12,7 @@ class ProductOptionValue {
   DateTime? deletedAt;
   Map<String, dynamic>? metadata;
 
+
   ProductOptionValue({
     this.id,
     this.value,
@@ -24,7 +25,6 @@ class ProductOptionValue {
     this.deletedAt,
     this.metadata,
   });
-
   ProductOptionValue.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     value = json['value'];
@@ -72,4 +72,10 @@ class ProductOptionValue {
     }
     return json;
   }
+
+  @override
+  String toString(){
+    return 'id: $id \n value: $value \n option ID: $optionId \n variant ID: $variantId';
+  }
+
 }

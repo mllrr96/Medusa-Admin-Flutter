@@ -15,7 +15,7 @@ class ImagePickerHelper {
       {required ImageSource source, CropStyle? cropStyle, CropAspectRatio? cropAspectRatio}) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final random = Random();
-    String imagePath = '${appDocDir.path}/${random.nextIntOfDigits(2)}.jpg';
+    String imagePath = '${appDocDir.path}/${random.nextIntOfDigits(2)}';
 
     XFile? pickedImage = await _picker.pickImage(imageQuality: 20, source: source);
     if (pickedImage == null) {
@@ -24,14 +24,36 @@ class ImagePickerHelper {
     await pickedImage.saveTo(imagePath);
 
     CroppedFile? croppedFile = await _imageCropper.cropImage(
-        sourcePath: imagePath,
-        cropStyle: cropStyle ?? CropStyle.rectangle,
-        aspectRatio: cropAspectRatio ?? const CropAspectRatio(ratioX: 3, ratioY: 4));
+        sourcePath: imagePath, cropStyle: cropStyle ?? CropStyle.rectangle, aspectRatio: cropAspectRatio);
 
     if (croppedFile == null) {
       return null;
     }
     await File(imagePath).delete();
+    return File(croppedFile.path);
+  }
+
+  Future<List<File>> multipleImagePicker({CropStyle? cropStyle, CropAspectRatio? cropAspectRatio}) async {
+    List<XFile>? pickedImage = await _picker.pickMultiImage(imageQuality: 20);
+
+    if (pickedImage.isEmpty) {
+      return [];
+    }
+    List<File> images = [];
+
+    for (var element in pickedImage) {
+      images.add(File(element.path));
+    }
+    return images;
+  }
+
+  Future<File?> cropImage(File image, {CropStyle? cropStyle, CropAspectRatio? cropAspectRatio}) async {
+    CroppedFile? croppedFile = await _imageCropper.cropImage(
+        sourcePath: image.path, cropStyle: cropStyle ?? CropStyle.rectangle, aspectRatio: cropAspectRatio);
+
+    if (croppedFile == null) {
+      return null;
+    }
     return File(croppedFile.path);
   }
 }

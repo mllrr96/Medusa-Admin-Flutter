@@ -21,7 +21,7 @@ class SignInController extends GetxController {
   RxString errorMessage = ''.obs;
   Rx<ThemeMode> themeMode = ThemeMode.system.obs;
   RxBool animate = false.obs;
-
+  final formKey = GlobalKey<FormState>();
   @override
   void onInit() {
     emailCtrl.text = 'admin@medusa-test.com';
@@ -56,13 +56,11 @@ class SignInController extends GetxController {
   }
 
   Future<void> signIn(BuildContext context) async {
-    if (emailCtrl.text.isEmpty || passwordCtrl.text.isEmpty) {
-      errorMessage.value = 'Email & Password are required to sign in';
+    if (!formKey.currentState!.validate()) {
       return;
     }
-    errorMessage.value = '';
-    // To hide the keyboard
 
+    // To hide the keyboard
     FocusScope.of(context).unfocus();
     loading();
     final result =
@@ -79,37 +77,6 @@ class SignInController extends GetxController {
         errorMessage.value = error.message;
       }
       dismissLoading();
-    });
-  }
-
-  Future<void> updateBaseUrl(BuildContext context) async {
-    await showTextInputDialog(
-        context: context,
-        title: 'Change BaseUrl',
-        message: 'Current baseUrl:\n ${StorageService.baseUrl}',
-        textFields: [
-          DialogTextField(validator: (val) {
-            if (val == null || val.removeAllWhitespace.isEmpty) {
-              return "Url can't be empty";
-            }
-            if (!val.contains('admin')) {
-              return "Make sure the url contains 'admin' at the end";
-            }
-            if (val.contains(' ')) {
-              return 'White spaces are not allowed';
-            }
-            return null;
-          })
-        ]).then((result) async {
-      if (result != null) {
-        String? url = result[0];
-        final updateResult = await StorageService.instance.updateUrl(url.removeAllWhitespace);
-        if (updateResult) {
-          EasyLoading.showSuccess('Url updated, restart the app');
-        } else {
-          EasyLoading.showError('Error saving url');
-        }
-      }
     });
   }
 }

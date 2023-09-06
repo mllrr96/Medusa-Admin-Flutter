@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import '../../../../data/service/store_service.dart';
 import '../../../components/currency_formatter.dart';
@@ -23,7 +24,10 @@ class DraftOrderSummery extends StatelessWidget {
       var value = price ?? 0;
       final currencyFormatter = CurrencyTextInputFormatter(name: currencyCode);
       final symbolNative =
-          StoreService.store.currencies?.where((element) => element.code == currencyCode).first.symbolNative;
+          StoreService.store.currencies?.firstWhere((element) => element.code == currencyCode, orElse: (){
+            final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode?.toUpperCase());
+            return Currency(name:simpleCurrency.currencyName, symbolNative:simpleCurrency.currencySymbol , code:simpleCurrency.currencyName);
+          }).symbolNative;
       return '${symbolNative ?? ''} ${currencyFormatter.format(value.toString())}';
     }
 

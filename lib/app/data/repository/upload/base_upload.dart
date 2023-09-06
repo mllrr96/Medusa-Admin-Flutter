@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'package:multiple_result/multiple_result.dart';
-
 import '../../datasource/remote/exception/api_error_handler.dart';
 import '../../models/res/upload.dart';
 
@@ -10,7 +10,7 @@ abstract class BaseUpload {
   });
 
   Future<Result<UserUploadFileRes, Failure>> uploadFile({
-    required List<String> files,
+    required List<File> files,
     Map<String, dynamic>? customHeaders,
   });
 

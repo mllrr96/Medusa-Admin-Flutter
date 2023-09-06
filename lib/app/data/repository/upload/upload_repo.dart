@@ -1,10 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/res/upload.dart';
 import 'package:medusa_admin/app/data/repository/upload/base_upload.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:dio/dio.dart';
 import '../../datasource/remote/dio/dio_client.dart';
+
 class UploadRepo extends BaseUpload {
   final _dataProvider = DioClient(dio: Dio());
 
@@ -57,14 +60,25 @@ class UploadRepo extends BaseUpload {
   /// Uploads at least one file to the specific file service that is installed in Medusa.
   @override
   Future<Result<UserUploadFileRes, Failure>> uploadFile({
-    required List<String> files,
+    required List<File> files,
     Map<String, dynamic>? customHeaders,
   }) async {
     try {
       if (customHeaders != null) {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
-      final response = await _dataProvider.post(uri: '/uploads/download-url', data: {'files': files});
+      _dataProvider.dio.options.headers.addAll({'Content-Type': 'image/jpeg'});
+
+      List<MultipartFile> multipartFiles = [];
+
+      for (var file in files) {
+        String fileName = file.path.split('/').last;
+        multipartFiles.add(await MultipartFile.fromFile(file.path, filename: fileName));
+      }
+
+      FormData formData = FormData.fromMap({"files": multipartFiles});
+
+      final response = await _dataProvider.post(uri: '/uploads', data: formData);
       if (response.statusCode == 200) {
         return Success(UserUploadFileRes.fromJson(response.data));
       } else {

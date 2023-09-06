@@ -3,7 +3,12 @@ class UserUploadFileRes {
   UserUploadFileRes(this.urls);
 
   factory UserUploadFileRes.fromJson(Map<String, dynamic> json) {
-    return UserUploadFileRes(json['uploads']);
+    List<String> urls = [];
+
+    for (var e in List<Map<String, dynamic>>.from(json['uploads'])) {
+      urls.add(e['url']);
+    }
+    return UserUploadFileRes(urls);
   }
 }
 

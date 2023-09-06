@@ -1,6 +1,8 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/data/models/store/currency.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_order_details/controllers/draft_order_details_controller.dart';
@@ -26,7 +28,10 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
       var value = price ?? 0;
       final currencyFormatter = CurrencyTextInputFormatter(name: currencyCode);
       final symbolNative =
-          StoreService.store.currencies?.where((element) => element.code == currencyCode).first.symbolNative;
+          StoreService.store.currencies?.firstWhere((element) => element.code == currencyCode, orElse: (){
+           final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode?.toUpperCase());
+            return Currency(name:simpleCurrency.currencyName, symbolNative:simpleCurrency.currencySymbol , code:simpleCurrency.currencyName);
+          }).symbolNative;
       return '${symbolNative ?? ''} ${currencyFormatter.format(value.toString())}';
     }
 

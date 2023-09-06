@@ -138,7 +138,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                               SwitchListTile.adaptive(
                                 contentPadding: EdgeInsets.zero,
                                 value: controller.hasExpiryDate,
-                                activeColor: ColorManager.primary,
+                                activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
                                 onChanged: (val) {
                                   controller.hasExpiryDate = val;
                                   controller.update();

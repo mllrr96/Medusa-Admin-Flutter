@@ -29,7 +29,6 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
     }
 
     const space = SizedBox(height: 12.0);
-
     return GetBuilder<AddUpdateProductController>(
       builder: (controller) {
         return GestureDetector(
@@ -80,6 +79,20 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
                           if (expanded) await scrollToSelectedContent(globalKey: controller.attributesKey);
                         },
                       ),
+                      space,
+                      ProductThumbnail(
+                        key: controller.thumbnailKey,
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) await scrollToSelectedContent(globalKey: controller.thumbnailKey);
+                        },
+                      ),
+                      space,
+                      ProductMedia(
+                        key: controller.mediaKey,
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) await scrollToSelectedContent(globalKey: controller.mediaKey);
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -91,3 +104,5 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
     );
   }
 }
+
+

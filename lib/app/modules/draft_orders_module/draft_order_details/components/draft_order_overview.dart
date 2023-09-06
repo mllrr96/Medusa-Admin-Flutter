@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
@@ -19,9 +20,12 @@ class DraftOrderOverview extends StatelessWidget {
     final currencyCode = draftOrder.cart!.region!.currencyCode;
     var amount = draftOrder.cart!.total!;
     final currencyFormatter = CurrencyTextInputFormatter(name: currencyCode);
-    // TODO: watch out for first, a StateError could be thrown, find a better way to get symbol
+
     final symbolNative =
-        StoreService.store.currencies?.where((element) => element.code == currencyCode).first.symbolNative;
+        StoreService.store.currencies?.firstWhere((element) => element.code == currencyCode, orElse: (){
+          final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode?.toUpperCase());
+          return Currency(name:simpleCurrency.currencyName, symbolNative:simpleCurrency.currencySymbol , code:simpleCurrency.currencyName);
+        }).symbolNative;
 
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
