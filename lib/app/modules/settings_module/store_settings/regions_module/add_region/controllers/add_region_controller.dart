@@ -31,7 +31,7 @@ class AddRegionController extends GetxController {
     if (updateMode) {
       loadRegion();
     }
-    await loadProviders();
+    await fetchProviders();
     super.onInit();
   }
 
@@ -126,7 +126,7 @@ class AddRegionController extends GetxController {
     });
   }
 
-  Future<void> loadProviders() async {
+  Future<void> fetchProviders() async {
     final result = await storeRepo.retrievePaymentProviders();
     final result2 = await storeRepo.retrieveTaxProviders();
     const kDuration = Duration(milliseconds: 300);

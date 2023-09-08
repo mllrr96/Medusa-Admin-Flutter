@@ -176,7 +176,7 @@ class UserPostUpdateProductReq {
     }
 
     if (subtitle != null) {
-      data['title'] = subtitle;
+      data['subtitle'] = subtitle;
     }
 
     if (description != null) {
@@ -187,8 +187,13 @@ class UserPostUpdateProductReq {
       data['images'] = images;
     }
 
+
     if (thumbnail != null) {
+      if(thumbnail!.isEmpty){
+        data['thumbnail'] = null;
+      } else {
       data['thumbnail'] = thumbnail;
+      }
     }
 
     if (handle != null) {
@@ -250,9 +255,10 @@ class UserPostUpdateProductReq {
     }
 
     if (tags != null) {
+      print('HER');
       List<Map<String, dynamic>> tagsList = [];
       for (var element in tags!) {
-        tagsList.add(element.toJson());
+        tagsList.add(element.toJson(excludeDates: true));
       }
       data['tags'] = tagsList;
     }

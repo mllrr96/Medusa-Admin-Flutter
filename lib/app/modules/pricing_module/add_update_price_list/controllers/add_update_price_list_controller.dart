@@ -29,7 +29,7 @@ class AddUpdatePriceListController extends GetxController {
   @override
   Future<void> onInit() async {
     if (updateMode) {
-      await loadPriceList();
+      await fetchPriceList();
     }
     super.onInit();
   }
@@ -105,7 +105,7 @@ class AddUpdatePriceListController extends GetxController {
             snackPosition: SnackPosition.BOTTOM));
   }
 
-  Future<void> loadPriceList() async {
+  Future<void> fetchPriceList() async {
     loading();
     final result = await priceListRepo.retrievePriceList(id: id!);
     result.when(

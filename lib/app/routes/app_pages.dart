@@ -491,8 +491,8 @@ class AppPages {
     GetPage(
       name: _Paths.MEDUSA_SEARCH,
       page: () => const MedusaSearchView(),
-      transition: Transition.downToUp,
-      fullscreenDialog: true,
+      transition: Transition.native,
+      // fullscreenDialog: true,
       // binding: MedusaSearchBinding(),
     ),
   ];

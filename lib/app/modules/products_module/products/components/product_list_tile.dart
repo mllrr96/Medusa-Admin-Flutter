@@ -7,11 +7,12 @@ import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 
 class ProductListTile extends StatelessWidget {
-  const ProductListTile({Key? key, required this.product, this.onTap, this.onDelete, this.onPublish}) : super(key: key);
+  const ProductListTile({Key? key, required this.product, this.onTap, this.onDelete, this.onPublish, this.onEdit}) : super(key: key);
   final Product product;
   final void Function()? onTap;
   final void Function()? onDelete;
   final void Function()? onPublish;
+  final void Function()? onEdit;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -49,26 +50,33 @@ class ProductListTile extends StatelessWidget {
             : null,
         trailing: AdaptiveIcon(
           onPressed: () async {
-            await showModalActionSheet(
+            await showModalActionSheet<int>(
                 title: 'Manage Product',
                 message: product.title ?? '',
                 context: context,
-                actions: <SheetAction>[
-                  const SheetAction(label: 'Edit'),
+                actions: <SheetAction<int>>[
+                  const SheetAction(label: 'Edit', key: 0),
                   SheetAction(
-                      label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 'publish'),
-                  const SheetAction(label: 'Duplicate'),
-                  const SheetAction(label: 'Delete', isDestructiveAction: true, key: 'delete'),
+                      label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 1),
+                  const SheetAction(label: 'Duplicate', key: 2),
+                  const SheetAction(label: 'Delete', isDestructiveAction: true, key: 3),
                 ]).then((result) async {
-              if (result == 'delete') {
-                if (onDelete != null) {
-                  onDelete!();
-                }
-              } else if (result == 'publish') {
-                if (onPublish != null) {
-                  onPublish!();
-                }
-              }
+
+                  switch(result){
+                    case 0:
+                      if(onEdit!=null){
+                        onEdit!();
+                      }
+                    case 1:
+                    if (onPublish != null) {
+                      onPublish!();
+                    }
+                    case 2:
+                    case 3:
+                    if (onDelete != null) {
+                      onDelete!();
+                    }
+                  }
             });
           },
           icon: const Icon(Icons.more_horiz),

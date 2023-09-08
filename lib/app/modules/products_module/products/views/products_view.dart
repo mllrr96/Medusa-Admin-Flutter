@@ -13,6 +13,7 @@ import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
+import '../../add_update_product/controllers/add_update_product_controller.dart';
 import '../components/index.dart';
 import '../controllers/products_controller.dart';
 
@@ -24,8 +25,7 @@ class ProductsView extends GetView<ProductsController> {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     return Scaffold(
-      appBar: const ProductsAppBar(),
-      endDrawerEnableOpenDragGesture: false,
+      // appBar: const ProductsAppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -168,6 +168,12 @@ class ProductsView extends GetView<ProductsController> {
           builderDelegate: PagedChildBuilderDelegate<Product>(
             itemBuilder: (context, product, index) => ProductListTile(
               product: product,
+              onEdit: ()async{
+                final result =   await Get.toNamed(Routes.ADD_UPDATE_PRODUCT, arguments: UpdateProductReq(product: product, number: 7));
+                if(result!=null){
+                  controller.pagingController.refresh();
+                }
+              },
               onDelete: () async {
                 final confirmDelete = await showOkCancelAlertDialog(
                     context: context,

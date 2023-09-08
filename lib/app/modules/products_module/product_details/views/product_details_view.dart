@@ -96,7 +96,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Error loading product'),
-              AdaptiveFilledButton(child: const Text('Retry'), onPressed: () async => await controller.loadProduct()),
+              AdaptiveFilledButton(child: const Text('Retry'), onPressed: () async => await controller.fetchProduct()),
             ],
           )),
           onLoading: const Center(

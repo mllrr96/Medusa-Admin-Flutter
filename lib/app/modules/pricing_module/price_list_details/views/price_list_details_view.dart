@@ -221,7 +221,7 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
               children: [
                 Text(e ?? 'Error loading products'),
                 AdaptiveFilledButton(
-                    onPressed: () async => await controller.loadPriceList(), child: const Text('Retry')),
+                    onPressed: () async => await controller.fetchPriceList(), child: const Text('Retry')),
               ],
             ),
           ),

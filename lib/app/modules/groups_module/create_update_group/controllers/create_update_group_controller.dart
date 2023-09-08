@@ -20,7 +20,7 @@ class CreateUpdateGroupController extends GetxController {
   @override
   Future<void> onInit() async {
     if (customerGroup != null) {
-      await _loadCustomerGroup();
+      await _fetchCustomerGroup();
     }
     super.onInit();
   }
@@ -32,7 +32,7 @@ class CreateUpdateGroupController extends GetxController {
     super.onClose();
   }
 
-  Future<void> _loadCustomerGroup() async {
+  Future<void> _fetchCustomerGroup() async {
     groupTitleCtrl.text = customerGroup?.name ?? '';
     customerGroup?.metadata?.forEach((key, value) {
       metadataTextCtrl

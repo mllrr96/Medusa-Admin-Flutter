@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/res/upload.dart';
 import 'package:medusa_admin/app/data/repository/upload/base_upload.dart';
@@ -72,7 +71,7 @@ class UploadRepo extends BaseUpload {
       List<MultipartFile> multipartFiles = [];
 
       for (var file in files) {
-        String fileName = file.path.split('/').last;
+        String fileName = file.path.split(Platform.pathSeparator).last;
         multipartFiles.add(await MultipartFile.fromFile(file.path, filename: fileName));
       }
 

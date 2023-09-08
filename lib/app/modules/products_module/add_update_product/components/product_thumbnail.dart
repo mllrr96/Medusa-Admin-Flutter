@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:medusa_admin/app/data/models/store/product.dart';
+import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_media.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../controllers/add_update_product_controller.dart';
@@ -18,6 +20,75 @@ class ProductThumbnail extends StatelessWidget {
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     const space = SizedBox(height: 12.0);
+
+    Widget getThumbnail(AddUpdateProductController controller) {
+      final updateMode = controller.updateMode;
+
+      if (updateMode) {
+        if (controller.product.thumbnail != null && controller.thumbnailImage == null) {
+          return NetworkImageCard(
+            controller.product.thumbnail!,
+            heroTag: 'thumbnail',
+            onDelete: () {
+              controller.product = controller.product.copyWith.thumbnail(null);
+              controller.deleteThumbnail = true;
+              controller.update([4]);
+            },
+            deleteIconColor: Colors.red,
+          );
+        } else if (controller.thumbnailImage != null) {
+          return Column(
+            children: [
+              space,
+              ImageCard(
+                controller.thumbnailImage!,
+                onCrop: () {
+                  controller.imagePickerHelper.cropImage(controller.thumbnailImage!).then((result) {
+                    if (result == null) return;
+                    controller.thumbnailImage = result;
+                    controller.update([4]);
+                  });
+                },
+                onRename: () async {
+                  final result = await showBarModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return RenameFileView(controller.thumbnailImage!);
+                      });
+
+                  if (result is File) {
+                    controller.thumbnailImage = result;
+                    controller.update([4]);
+                  }
+                },
+                onDelete: () async {
+                  final path = controller.thumbnailImage!.path;
+                  controller.thumbnailImage = null;
+                  controller.update([4]);
+                  try {
+                    await File(path).delete();
+                  } catch (e) {
+                    debugPrint(e.toString());
+                  }
+                },
+              ),
+            ],
+          );
+        }
+      } else {
+        if (controller.thumbnailImage != null) {
+          return Column(
+            children: [
+              space,
+              ImageCard(controller.thumbnailImage!),
+            ],
+          );
+        }
+      }
+
+      return const SizedBox.shrink();
+    }
+
     return GetBuilder<AddUpdateProductController>(
       id: 4,
       builder: (controller) {
@@ -28,15 +99,7 @@ class ProductThumbnail extends StatelessWidget {
           children: [
             Text('Used to represent your product during checkout, social sharing and more.',
                 style: smallTextStyle?.copyWith(color: lightWhite)),
-            if (!controller.updateMode && controller.product.thumbnail != null)
-              CachedNetworkImage(imageUrl: controller.product.thumbnail!),
-            if (!controller.updateMode && controller.thumbnailImage != null)
-              Column(
-                children: [
-                  space,
-                  ImageCard(controller.thumbnailImage!),
-                ],
-              ),
+            getThumbnail(controller),
             AdaptiveButton(
                 onPressed: () async {
                   ImageSource? imageSource = ImageSource.gallery;
@@ -52,10 +115,14 @@ class ProductThumbnail extends StatelessWidget {
                   if (imageSource == null) {
                     return;
                   }
-                  final pickedImage = await controller.imagePickerHelper.imagePicker(source: imageSource);
-                  if (pickedImage != null) {
-                    controller.thumbnailImage = pickedImage;
-                    controller.update([4]);
+                  try {
+                    final pickedImage = await controller.imagePickerHelper.imagePicker(source: imageSource);
+                    if (pickedImage != null) {
+                      controller.thumbnailImage = pickedImage;
+                      controller.update([4]);
+                    }
+                  } catch (e) {
+                    debugPrint(e.toString());
                   }
                 },
                 child: const Text('Pick image')),

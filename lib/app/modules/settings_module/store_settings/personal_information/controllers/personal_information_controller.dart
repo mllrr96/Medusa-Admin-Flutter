@@ -18,7 +18,7 @@ class PersonalInformationController extends GetxController with StateMixin<User>
   late String _id;
   @override
   Future<void> onInit() async {
-    await loadUser();
+    await fetchUser();
     super.onInit();
   }
 
@@ -29,7 +29,7 @@ class PersonalInformationController extends GetxController with StateMixin<User>
     super.onClose();
   }
 
-  Future<void> loadUser() async {
+  Future<void> fetchUser() async {
     change(null, status: RxStatus.loading());
     final authResponse = await authRepo.getSession();
 
@@ -54,7 +54,7 @@ class PersonalInformationController extends GetxController with StateMixin<User>
         id: _id, userUpdateUserReq: UserUpdateUserReq(firstName: firstNameCtrl.text, lastName: lastNameCtrl.text));
     result.when((success) async {
       EasyLoading.showSuccess('Updated');
-      await loadUser();
+      await fetchUser();
     }, (error) => EasyLoading.showError(error.message));
   }
 }

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 import '../../../../routes/app_pages.dart';
 import '../controllers/product_details_controller.dart';
 
@@ -44,7 +43,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                                   arguments: UpdateProductReq(product: product, number: 0))
                               ?.then((result) async {
                             if (result != null) {
-                              await controller.loadProduct();
+                              await controller.fetchProduct();
                             }
                           });
                           break;
@@ -70,7 +69,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
               ),
             ],
           ),
-          if (product.description != null)
+          if (product.description != null && product.description!.isNotEmpty)
             Column(
               children: [
                 space,

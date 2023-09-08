@@ -25,14 +25,16 @@ class ProductTag {
         metadata: json['metadata']);
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool excludeDates = false}) {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['value'] = value;
-    json['created_at'] = createdAt.toString();
-    json['updated_at'] = updatedAt.toString();
-    json['deleted_at'] = deletedAt.toString();
-    json['metadata'] = metadata;
+    if(!excludeDates){
+      json['created_at'] = createdAt.toString();
+      json['updated_at'] = updatedAt.toString();
+      json['deleted_at'] = deletedAt.toString();
+      json['metadata'] = metadata;
+    }
     return json;
   }
 }

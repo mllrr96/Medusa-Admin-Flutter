@@ -16,7 +16,7 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
   final int _pageSize = 20;
   @override
   Future<void> onInit() async {
-    await loadPriceList();
+    await fetchPriceList();
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -63,14 +63,14 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
     );
   }
 
-  Future<void> loadPriceList() async {
+  Future<void> fetchPriceList() async {
     change(null, status: RxStatus.loading());
     final result = await priceListRepo.retrievePriceList(id: id);
     result.when((success) => change(success.priceList!, status: RxStatus.success()),
         (error) => change(null, status: RxStatus.error(error.message)));
   }
 
-  Future<void> loadPriceListProducts() async {
+  Future<void> fetchPriceListProducts() async {
     change(null, status: RxStatus.loading());
     final result = await priceListRepo.retrievePriceListProducts(id: id);
 

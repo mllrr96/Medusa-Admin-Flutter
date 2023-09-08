@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../components/adaptive_button.dart';
@@ -31,69 +33,91 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
     const space = SizedBox(height: 12.0);
     return GetBuilder<AddUpdateProductController>(
       builder: (controller) {
-        return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Scaffold(
-            appBar: AppBar(
-              leading: const AdaptiveCloseButton(),
-              title: controller.updateMode ? const Text('Update Product') : const Text('New Product'),
-              centerTitle: true,
-              actions: [
-                AdaptiveButton(
-                    onPressed: () async =>
-                        controller.updateMode ? await controller.updateProduct(context) : await controller.addProduct(),
-                    child: controller.updateMode ? const Text('Save') : const Text('Publish')),
-              ],
-            ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                controller: controller.scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-                  child: Column(
-                    children: [
-                      ProductGeneralInformation(
-                        key: controller.generalKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) await scrollToSelectedContent(globalKey: controller.generalKey);
-                        },
-                      ),
-                      space,
-                      ProductOrganize(
-                        key: controller.organizeKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) await scrollToSelectedContent(globalKey: controller.organizeKey);
-                        },
-                      ),
-                      space,
-                      ProductVariants(
-                        key: controller.variantKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) await scrollToSelectedContent(globalKey: controller.variantKey);
-                        },
-                      ),
-                      space,
-                      ProductAttributes(
-                        key: controller.attributesKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) await scrollToSelectedContent(globalKey: controller.attributesKey);
-                        },
-                      ),
-                      space,
-                      ProductThumbnail(
-                        key: controller.thumbnailKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) await scrollToSelectedContent(globalKey: controller.thumbnailKey);
-                        },
-                      ),
-                      space,
-                      ProductMedia(
-                        key: controller.mediaKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) await scrollToSelectedContent(globalKey: controller.mediaKey);
-                        },
-                      )
-                    ],
+        return WillPopScope(
+          onWillPop: () async {
+            try {
+              final images = List<File>.from(controller.images);
+              controller.images.clear();
+              if (images.isNotEmpty) {
+                for (var file in controller.images) {
+                  await file.delete();
+                }
+              }
+              final thumbnail = controller.thumbnailImage;
+              controller.thumbnailImage = null;
+              if (thumbnail != null) {
+                await thumbnail.delete();
+              }
+            } catch (e) {
+              debugPrint(e.toString());
+            }
+            return true;
+          },
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Scaffold(
+              appBar: AppBar(
+                leading: const AdaptiveCloseButton(),
+                title: controller.updateMode ? const Text('Update Product') : const Text('New Product'),
+                centerTitle: true,
+                actions: [
+                  AdaptiveButton(
+                      onPressed: () async => controller.updateMode
+                          ? await controller.updateProduct(context)
+                          : await controller.addProduct(),
+                      child: controller.updateMode ? const Text('Save') : const Text('Publish')),
+                ],
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  controller: controller.scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                    child: Column(
+                      children: [
+                        ProductGeneralInformation(
+                          key: controller.generalKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) await scrollToSelectedContent(globalKey: controller.generalKey);
+                          },
+                        ),
+                        space,
+                        ProductOrganize(
+                          key: controller.organizeKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) await scrollToSelectedContent(globalKey: controller.organizeKey);
+                          },
+                        ),
+                        space,
+                        ProductVariants(
+                          key: controller.variantKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) await scrollToSelectedContent(globalKey: controller.variantKey);
+                          },
+                        ),
+                        space,
+                        ProductAttributes(
+                          key: controller.attributesKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) await scrollToSelectedContent(globalKey: controller.attributesKey);
+                          },
+                        ),
+                        space,
+                        ProductThumbnail(
+                          key: controller.thumbnailKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) await scrollToSelectedContent(globalKey: controller.thumbnailKey);
+                          },
+                        ),
+                        space,
+                        ProductMedia(
+                          key: controller.mediaKey,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) await scrollToSelectedContent(globalKey: controller.mediaKey);
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -104,5 +128,3 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
     );
   }
 }
-
-

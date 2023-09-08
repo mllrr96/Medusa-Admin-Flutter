@@ -30,7 +30,8 @@ class ImagePickerHelper {
       return null;
     }
     await File(imagePath).delete();
-    return File(croppedFile.path);
+
+    return File(croppedFile.path).rename(croppedFile.path.replaceAll('image_cropper_', ''));
   }
 
   Future<List<File>> multipleImagePicker({CropStyle? cropStyle, CropAspectRatio? cropAspectRatio}) async {
@@ -42,7 +43,7 @@ class ImagePickerHelper {
     List<File> images = [];
 
     for (var element in pickedImage) {
-      images.add(File(element.path));
+      images.add(File(element.path).renameSync(element.path.replaceAll('image_picker_', '')));
     }
     return images;
   }
@@ -54,6 +55,6 @@ class ImagePickerHelper {
     if (croppedFile == null) {
       return null;
     }
-    return File(croppedFile.path);
+    return File(croppedFile.path).renameSync(croppedFile.path.replaceAll('image_cropper_', ''));
   }
 }

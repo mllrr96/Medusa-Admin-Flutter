@@ -37,10 +37,10 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   final timelineKey = GlobalKey();
   @override
   Future<void> onInit() async {
-    await loadOrderDetails();
-    await loadOrderEdits();
-    await loadOrderNotes();
-    await loadOrderNotification();
+    await fetchOrderDetails();
+    await fetchOrderEdits();
+    await fetchOrderNotes();
+    await fetchOrderNotification();
     super.onInit();
   }
 
@@ -50,7 +50,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     super.onClose();
   }
 
-  Future<void> loadOrderDetails() async {
+  Future<void> fetchOrderDetails() async {
     change(null, status: RxStatus.loading());
     final result = await ordersRepo.retrieveOrder(
       id: orderId,
@@ -77,7 +77,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> loadOrderEdits() async {
+  Future<void> fetchOrderEdits() async {
     final result = await orderEditsRepo.retrieveAllOrderEdit(
       queryParameters: {
         'order_id': orderId,
@@ -98,7 +98,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> loadOrderNotes() async {
+  Future<void> fetchOrderNotes() async {
     final result = await noteRepo.retrieveNotes(
       queryParameters: {
         'resource_id': orderId,
@@ -119,7 +119,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> loadOrderNotification() async {
+  Future<void> fetchOrderNotification() async {
     final result = await notificationRepo.retrieveNotifications(
       queryParameters: {
         'resource_id': orderId,
@@ -145,7 +145,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     final result = await ordersRepo.cancelOrder(id: orderId);
     result.when((success) async {
       EasyLoading.showSuccess('Order Canceled!');
-      await loadOrderDetails();
+      await fetchOrderDetails();
     }, (error) {
       debugPrint(error.toString());
       dismissLoading();
@@ -166,7 +166,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) async {
         EasyLoading.showSuccess('Fulfillment created');
-        await loadOrderDetails();
+        await fetchOrderDetails();
       },
       (error) {
         debugPrint(error.toString());
@@ -190,7 +190,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) async {
         EasyLoading.showSuccess('Shipment created');
-        await loadOrderDetails();
+        await fetchOrderDetails();
       },
       (error) {
         debugPrint(error.toString());
@@ -213,7 +213,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) async {
         EasyLoading.showSuccess('Fulfillment canceled');
-        await loadOrderDetails();
+        await fetchOrderDetails();
       },
       (error) {
         debugPrint(error.toString());
@@ -236,7 +236,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) async {
         EasyLoading.showSuccess('Refund created');
-        await loadOrderDetails();
+        await fetchOrderDetails();
       },
       (error) {
         debugPrint(error.toString());
@@ -256,7 +256,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) async {
         EasyLoading.showSuccess('Payment captured');
-        await loadOrderDetails();
+        await fetchOrderDetails();
       },
       (error) {
         debugPrint(error.toString());
@@ -279,7 +279,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
     result.when(
       (success) async {
-        await loadOrderDetails();
+        await fetchOrderDetails();
         dismissLoading();
       },
       (error) {

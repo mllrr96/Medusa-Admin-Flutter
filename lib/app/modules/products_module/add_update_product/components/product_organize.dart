@@ -87,13 +87,13 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                                   value: e, child: Text(e.title?.capitalize ?? e.title!)))
                               .toList(),
                           decoration: InputDecoration(
-                              hintText: 'Choose a collection',
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).scaffoldBackgroundColor,
-                              ),
+                            hintText: 'Choose a collection',
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            filled: true,
+                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                          ),
                         )
                       : const Center(child: CircularProgressIndicator.adaptive()),
                 )
@@ -128,9 +128,9 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                 'This product will only be available in the default sales channel if left untouched.',
                 style: TextStyle(color: lightWhite),
               ),
-              value: controller.salesChannels,
-              onChanged: (val) {
-                controller.salesChannels = val;
+              value: controller.enableSalesChannels,
+              onChanged: (val) async {
+                controller.enableSalesChannels = val;
                 controller.update([1]);
               },
               activeColor: GetPlatform.isIOS ? ColorManager.primary : null,

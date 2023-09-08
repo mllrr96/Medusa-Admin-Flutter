@@ -35,8 +35,8 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
 
   @override
   Future<void> onReady() async {
-    await loadRegions();
-    await loadSalesChannels();
+    await fetchRegions();
+    await fetchSalesChannels();
 
     super.onReady();
   }
@@ -87,7 +87,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     update();
   }
 
-  loadRegions() async {
+  fetchRegions() async {
     final result = await regionsRepo.retrieveAll();
     result.when((success) {
       if (success.regions?.isNotEmpty ?? false) {
@@ -98,7 +98,7 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     }, (error) {});
   }
 
-  loadSalesChannels() async {
+  fetchSalesChannels() async {
     final result = await salesChannelRepo.retrieveAll();
     result.when((success) {
       if (success.salesChannels?.isNotEmpty ?? false) {
