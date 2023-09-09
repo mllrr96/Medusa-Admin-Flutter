@@ -5,7 +5,9 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../components/currency_formatter.dart';
@@ -40,6 +42,8 @@ class OrderTimeline extends GetView<OrderDetailsController> {
                     return OrderEditRequestWidget(order, orderEdit: orderEdit);
                   },
                 );
+              } else if (!asyncSnapshot.hasData) {
+                return const SizedBox.shrink();
               }
 
               if (asyncSnapshot.hasError) {
@@ -130,7 +134,7 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
   }
 }
 
-class OrderEditRequestWidget extends StatelessWidget {
+class OrderEditRequestWidget extends GetView<OrderDetailsController> {
   const OrderEditRequestWidget(this.order, {super.key, required this.orderEdit});
   final Order order;
   final OrderEdit orderEdit;
@@ -179,7 +183,7 @@ class OrderEditRequestWidget extends StatelessWidget {
                     // TODO: Figure out how to get the link
                     // await Clipboard.setData(ClipboardData( text: ));
                   },
-                  child: const Text('Copy Confirmation-Request Link')),
+                  child: const Text('Copy Confirmation-Request Link', overflow: TextOverflow.ellipsis)),
             ),
           ],
         ),
@@ -192,7 +196,7 @@ class OrderEditRequestWidget extends StatelessWidget {
                     shape: buttonShape,
                   ),
                   onPressed: () async {},
-                  child: const Text('Force Confirm')),
+                  child: const Text('Force Confirm', overflow: TextOverflow.ellipsis)),
             ),
             const SizedBox(width: 6.0),
             Expanded(
@@ -201,10 +205,8 @@ class OrderEditRequestWidget extends StatelessWidget {
                     shape: buttonShape,
                   ),
                   onPressed: () {},
-                  child: const Text(
-                    'Cancel Order Edit',
-                    style: TextStyle(color: Colors.red),
-                  )),
+                  child: const Text('Cancel Order Edit',
+                      style: TextStyle(color: Colors.red), overflow: TextOverflow.ellipsis)),
             ),
           ],
         ),
@@ -216,14 +218,17 @@ class OrderEditRequestWidget extends StatelessWidget {
       if (orderEdit.status != OrderEditStatus.requested) {
         return const SizedBox.shrink();
       }
-      num refundAmount = 0;
+      num removedPrice = 0;
       num addedPrice = 0;
       removedItems?.forEach((element) {
-        refundAmount += (element.originalLineItem?.unitPrice ?? 0);
+        final quantity = ((element.lineItem?.quantity ?? 0) - (element.originalLineItem?.quantity ?? 0)).abs();
+        removedPrice += (element.originalLineItem?.unitPrice ?? 0) * quantity;
       });
       addedItems?.forEach((element) {
-        addedPrice += (element.lineItem?.unitPrice ?? 0);
+        final quantity = ((element.lineItem?.quantity ?? 0) - (element.originalLineItem?.quantity ?? 0)).abs();
+        addedPrice += (element.lineItem?.unitPrice ?? 0) * quantity;
       });
+      final requiredPrice = (removedPrice - addedPrice).abs() - (order.refundedTotal ?? 0);
 
       if (orderEdit.differenceDue?.isNegative ?? false) {
         return Column(
@@ -247,7 +252,7 @@ class OrderEditRequestWidget extends StatelessWidget {
                       ),
                       onPressed: () {},
                       child: Text(
-                        'Refund ${order.currency?.symbolNative ?? ''} ${formatter.format((refundAmount - addedPrice).toString())}',
+                        'Refund ${order.currency?.symbolNative ?? ''} ${formatter.format(requiredPrice.toString())}',
                         style: const TextStyle(color: Colors.red),
                       )),
                 ),
@@ -257,10 +262,96 @@ class OrderEditRequestWidget extends StatelessWidget {
           ],
         );
       } else if (orderEdit.differenceDue?.isGreaterThan(0) ?? false) {
-        return const SizedBox.shrink();
+        return Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.error_outline, color: ColorManager.primary),
+                const SizedBox(width: 12.0),
+                Text('Customer payment required', style: smallTextStyle)
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.transparent,
+                ),
+                const SizedBox(width: 12.0),
+                Text(
+                    'a few seconds ago · ${order.currency?.symbolNative ?? ''} ${formatter.format(requiredPrice.toString())}',
+                    style: smallTextStyle?.copyWith(color: lightWhite))
+              ],
+            ),
+            space,
+            Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.transparent),
+                const SizedBox(width: 12.0),
+                Expanded(
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: buttonShape,
+                      ),
+                      onPressed: () {},
+                      child: const Text('Copy Payment Link', overflow: TextOverflow.ellipsis)),
+                ),
+                const SizedBox(width: 6.0),
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: buttonShape,
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      'Mark As Paid',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            space,
+          ],
+        );
       } else {
         return const SizedBox.shrink();
       }
+    }
+
+    Widget userName() {
+      return FutureBuilder<User?>(
+          future: controller.getUserById(orderEdit.createdBy ?? ''),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final user = snapshot.data!;
+              final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
+              final email = user.email;
+              final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
+              return Text(
+                text ?? '',
+                style: smallTextStyle?.copyWith(color: lightWhite),
+              );
+            } else if (!snapshot.hasData) {
+              return GestureDetector(
+                  onTap: () async => controller.getUserById(orderEdit.createdBy ?? ''),
+                  child: Text(
+                    'Error loading user, tap to retry',
+                    style: smallTextStyle?.copyWith(color: lightWhite),
+                  ));
+            }
+
+            if (snapshot.hasError) {
+              return GestureDetector(
+                  onTap: () async => controller.getUserById(orderEdit.createdBy ?? ''),
+                  child: Text(
+                    'Error loading user, tap to retry',
+                    style: smallTextStyle?.copyWith(color: lightWhite),
+                  ));
+            }
+
+            return const Skeletonizer(child: Text('Loading user'));
+          });
     }
 
     return Column(
@@ -270,15 +361,24 @@ class OrderEditRequestWidget extends StatelessWidget {
           children: [
             const Icon(MedusaIcons.pencil_square_solid),
             const SizedBox(width: 12.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Order Edit requested', style: smallTextStyle),
-                Text(
-                  '${timeago.format(DateTime.now().subtract(durationDiff))} by',
-                  style: smallTextStyle?.copyWith(color: lightWhite),
-                ),
-              ],
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Order Edit requested', style: smallTextStyle),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '${timeago.format(DateTime.now().subtract(durationDiff))} by ',
+                          style: smallTextStyle?.copyWith(color: lightWhite),
+                        ),
+                      ),
+                      Flexible(child: userName()),
+                    ],
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -304,6 +404,10 @@ class OrderEditRequestWidget extends StatelessWidget {
                               itemCount: addedItems!.length,
                               itemBuilder: (context, index) {
                                 final item = addedItems[index];
+                                int quantityAdded =
+                                    (item.lineItem?.quantity ?? 0) - (item.originalLineItem?.quantity ?? 0);
+                                String quantityAddedString =
+                                    quantityAdded != 1 && quantityAdded != 0 ? '${quantityAdded}x ' : '';
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   leading: item.lineItem?.thumbnail != null
@@ -314,11 +418,25 @@ class OrderEditRequestWidget extends StatelessWidget {
                                             fit: BoxFit.fitHeight,
                                           ))
                                       : null,
-                                  title: Text(item.lineItem?.title ?? ''),
-                                  subtitle: Text(
-                                    item.lineItem?.variant?.title ?? '',
-                                    style: smallTextStyle?.copyWith(color: lightWhite),
-                                  ),
+                                  title: Text(quantityAddedString + (item.lineItem?.title ?? '')),
+                                  subtitle: quantityAddedString.isNotEmpty
+                                      ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              quantityAddedString,
+                                              style: const TextStyle(color: Colors.transparent),
+                                            ),
+                                            Text(
+                                              item.lineItem?.variant?.title ?? '',
+                                              style: smallTextStyle?.copyWith(color: lightWhite),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          item.lineItem?.variant?.title ?? '',
+                                          style: smallTextStyle?.copyWith(color: lightWhite),
+                                        ),
                                 );
                               }),
                           space,
@@ -339,6 +457,11 @@ class OrderEditRequestWidget extends StatelessWidget {
                               itemCount: removedItems!.length,
                               itemBuilder: (context, index) {
                                 final item = removedItems[index].originalLineItem;
+                                int quantityRemoved =
+                                    (item?.quantity ?? 0) - (removedItems[index].lineItem?.quantity ?? 0);
+                                String quantityRemovedString =
+                                    quantityRemoved != 1 && quantityRemoved != 0 ? '${quantityRemoved}x ' : '';
+
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   leading: item?.thumbnail != null
@@ -346,11 +469,25 @@ class OrderEditRequestWidget extends StatelessWidget {
                                           constraints: const BoxConstraints(maxWidth: 50),
                                           child: CachedNetworkImage(imageUrl: item?.thumbnail ?? ''))
                                       : null,
-                                  title: Text(item?.title ?? ''),
-                                  subtitle: Text(
-                                    item?.variant?.title ?? '',
-                                    style: smallTextStyle?.copyWith(color: lightWhite),
-                                  ),
+                                  title: Text(quantityRemovedString + (item?.title ?? '')),
+                                  subtitle: quantityRemovedString.isNotEmpty
+                                      ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              quantityRemovedString,
+                                              style: const TextStyle(color: Colors.transparent),
+                                            ),
+                                            Text(
+                                              item?.variant?.title ?? '',
+                                              style: smallTextStyle?.copyWith(color: lightWhite),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          item?.variant?.title ?? '',
+                                          style: smallTextStyle?.copyWith(color: lightWhite),
+                                        ),
                                 );
                               }),
                           space,

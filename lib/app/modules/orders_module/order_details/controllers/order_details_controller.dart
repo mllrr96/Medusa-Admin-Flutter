@@ -11,6 +11,7 @@ import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
 import '../../../../data/repository/note/note_repo.dart';
 import '../../../../data/repository/notification/notification_repo.dart';
 import '../../../../data/repository/order_edit/order_edit_repo.dart';
+import '../../../../data/repository/user/user_repo.dart';
 
 class OrderDetailsController extends GetxController with StateMixin<Order> {
   OrderDetailsController({
@@ -19,12 +20,14 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     required this.noteRepo,
     required this.notificationRepo,
     required this.fulfillmentRepo,
+    required this.userRepo,
   });
   final OrdersRepo ordersRepo;
   final OrderEditRepo orderEditsRepo;
   final NoteRepo noteRepo;
   final NotificationRepo notificationRepo;
   final FulfillmentRepo fulfillmentRepo;
+  final UserRepo userRepo;
   String orderId = Get.arguments;
   List<OrderEdit>? orderEdits;
   List<Note>? notes;
@@ -96,6 +99,19 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         // TODO: handle error
       },
     );
+  }
+
+  Future<User?> getUserById(String userId)async{
+    final result = await userRepo.retrieve(id: userId);
+    return await result.when((success) {
+      if(success.user != null){
+        return success.user;
+      } else {
+        return null;
+      }
+    }, (error) {
+      return null;
+    });
   }
 
   Future<void> fetchOrderNotes() async {

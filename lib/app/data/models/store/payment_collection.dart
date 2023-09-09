@@ -2,7 +2,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 
 class PaymentCollection {
   /// The payment collection's ID
-  final int? id;
+  final String? id;
 
   /// Amount of the payment collection.
   final int? amount;
@@ -96,7 +96,7 @@ class PaymentCollection {
       regionId: json['region_id'],
       createdBy: json['created_by'],
       status: json['status'] != null
-          ? PaymentCollectionStatus.values.firstWhere((e) => e.value == (json['type'] ?? ''))
+          ? PaymentCollectionStatus.values.firstWhere((e) => e.value == (json['status'] ?? ''))
           : null,
     );
   }
