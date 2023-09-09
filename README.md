@@ -7,8 +7,6 @@ Manage your [MedusaJs](https://medusajs.com/) ecommerce store from your mobile p
 ## Getting Started
 Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim to ease managing ecommerce store that are built using [MedusaJs](https://medusajs.com/), it's available for iOS and Android, it's still in beta so expect to see some bugs/unimplemented features.
 
-## NOTE
-I am new to programming so expect to see some old spaghetti code or weird implementation, I'm glad to take notes from experienced devs and fix my code
 
 ##  Installation
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
@@ -26,11 +24,10 @@ Run flutter run to build and run the debug app on your emulator/phone
 - [x] View, add and update customers and customer groups
 - [x] View, add and update discounts
 - [ ] View and add/update pricing list
-- [ ] View and add/update gift cards
-- [ ] Update products
-- [ ] Add and update order
-- [ ] Add and update draft order
-- [ ] App settings
+- [x] View and add/update gift cards
+- [ ] Update order items
+- [x] Add and update draft order
+- [x] App settings
 - [x] Support for light/dark mode
       
 
