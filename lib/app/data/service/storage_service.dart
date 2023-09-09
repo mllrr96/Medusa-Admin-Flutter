@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -42,7 +41,7 @@ class StorageService extends GetxService {
         _appSettings = AppSettings.fromJson(
             jsonDecode(appSettingsCoded));
       } else {
-        _appSettings = AppSettings();
+        _appSettings = AppSettings.defaultSettings();
       }
 
       final String? searchHistoryString =
@@ -56,7 +55,7 @@ class StorageService extends GetxService {
       debugPrint(e.toString());
       _cookie = null;
       _language = defaultLocale;
-      _appSettings = AppSettings();
+      _appSettings = AppSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;
     }
@@ -190,4 +189,7 @@ class StorageService extends GetxService {
       debugPrint(e.toString());
     }
   }
+
+
+
 }

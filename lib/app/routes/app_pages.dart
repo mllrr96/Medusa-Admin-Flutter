@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
@@ -63,6 +64,8 @@ import '../modules/groups_module/group_details/bindings/group_details_binding.da
 import '../modules/groups_module/group_details/views/group_details_view.dart';
 import '../modules/groups_module/groups/bindings/groups_binding.dart';
 import '../modules/groups_module/groups/views/groups_view.dart';
+import '../modules/intro/bindings/intro_binding.dart';
+import '../modules/intro/views/intro_view.dart';
 import '../modules/medusa_search/views/medusa_search_view.dart';
 import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
@@ -494,6 +497,11 @@ class AppPages {
       transition: Transition.native,
       // fullscreenDialog: true,
       // binding: MedusaSearchBinding(),
+    ),
+    GetPage(
+      name: _Paths.INTRO,
+      page: () => const IntroView(),
+      binding: IntroBinding(),
     ),
   ];
 }

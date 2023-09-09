@@ -14,6 +14,13 @@ class SplashController extends GetxController {
   void onReady() async {
     super.onReady();
     String? cookie = StorageService.cookie;
+    final settings = StorageService.appSettings;
+
+    if(settings.showIntroView){
+      Get.offAllNamed(Routes.INTRO);
+      return;
+    }
+
     if (cookie == null) {
       Get.offAllNamed(Routes.SIGN_IN);
       return;
