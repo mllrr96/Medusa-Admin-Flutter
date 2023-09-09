@@ -61,6 +61,7 @@ dependencies:
   skeletonizer: ^0.7.0
   flag: ^7.0.0
   elegant_notification: ^1.11.0
+  timeago: ^3.5.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.1

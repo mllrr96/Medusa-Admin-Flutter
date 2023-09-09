@@ -1,27 +1,70 @@
 import 'index.dart';
-
+import 'payment_collection.dart';
 
 class OrderEdit {
+  /// The order edit's id
   String? id;
+
+  /// The id of the order that is edited
   String? orderId;
+
+  /// The details of the order that this order edit was created for.
   Order? order;
+
+  /// The details of all the changes on the original order's line items.
   List<OrderItemChange>? changes;
+
+  /// The status of the order edit.
+  OrderEditStatus status = OrderEditStatus.created;
+  /// An optional note with additional details about the order edit.
   String? internalNote;
+
+  /// The unique identifier of the user or customer who created the order edit.
   String? createdBy;
+
+  /// The unique identifier of the user or customer who requested the order edit.
   String? requestedBy;
+
+  /// The unique identifier of the user or customer who declined the order edit.
   String? declinedBy;
-  DateTime? confirmedBy;
+
+  /// The unique identifier of the user or customer who confirmed the order edit.
+  String? confirmedBy;
+
+  /// The date with timezone at which the edit was requested.
   DateTime? requestedAt;
+
+  /// The date with timezone at which the edit was confirmed.
   DateTime? confirmedAt;
+
+  /// The date with timezone at which the edit was declined.
   DateTime? declinedAt;
+
+  /// An optional note why the order edit is declined.
   String? declinedReason;
+
+  /// The unique identifier of the user or customer who cancelled the order edit.
+  String? canceledBy;
+
+  /// The date with timezone at which the edit was cancelled.
+  DateTime? canceledAt;
+
+  /// The id of the payment collection
+  String? paymentCollectionId;
+
+  /// The details of the payment collection used to authorize additional payment if necessary.
+  PaymentCollection? paymentCollection;
+
   int? subtotal;
   int? discountTotal;
   int? taxTotal;
   int? total;
+
+  /// The difference between the total amount of the order and total amount of edited order.
   int? differenceDue;
+
+  /// The details of the cloned items from the original order with the new changes. once the order edit is confirmed, these line items are associated with the original order.
   List<LineItem>? items;
-  List<LineItem>? removedItems;
 
   OrderEdit({
     this.id,
@@ -43,7 +86,11 @@ class OrderEdit {
     this.total,
     this.differenceDue,
     this.items,
-    this.removedItems,
+    this.status = OrderEditStatus.created,
+    this.paymentCollection,
+    this.paymentCollectionId,
+    this.canceledAt,
+    this.canceledBy,
   });
 
   OrderEdit.fromJson(Map<String, dynamic> json) {
@@ -68,15 +115,17 @@ class OrderEdit {
     taxTotal = json['tax_total'];
     total = json['total'];
     differenceDue = json['difference_due'];
+    status = OrderEditStatus.values
+        .firstWhere((e) => e.name == (json['status'] ?? ''), orElse: () => OrderEditStatus.created);
     if (json['items'] != null) {
       items = <LineItem>[];
       json['items'].forEach((e) => items!.add(LineItem.fromJson(e)));
     }
-    if (json['removed_items'] != null) {
-      removedItems = <LineItem>[];
-      json['removed_items']
-          .forEach((e) => removedItems!.add(LineItem.fromJson(e)));
-    }
+    paymentCollection =
+        json['payment_collection'] != null ? PaymentCollection.fromJson(json['payment_collection']) : null;
+    paymentCollectionId = json['payment_collection_id'];
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
+    canceledBy = json['canceled_by'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,7 +148,18 @@ class OrderEdit {
     json['total'] = total;
     json['difference_due'] = differenceDue;
     json['items'] = items?.map((e) => e.toJson()).toList() ?? [];
-    json['removed_items'] = removedItems?.map((e) => e.toJson()).toList() ?? [];
+    json['status'] = status.name;
+    json['canceled_by'] = canceledBy;
+    json['canceled_at'] = canceledAt.toString();
+    json['payment_collection_id'] = paymentCollectionId;
     return json;
   }
+}
+
+enum OrderEditStatus {
+  confirmed,
+  declined,
+  requested,
+  created,
+  canceled,
 }

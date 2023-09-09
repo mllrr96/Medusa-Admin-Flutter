@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import 'index.dart';
 
 
@@ -25,7 +27,7 @@ class OrderItemChange {
   OrderItemChange.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = OrderEditItemChangeType.values
-        .firstWhere((e) => e.value == (json['type'] ?? ''));
+        .firstWhereOrNull((e) => e.value == (json['type'] ?? 'item_add'));
     orderEditId = json['order_edit_id'];
     orderEdit = json['order_edit'];
     originalLineItemId = json['original_line_item_id'];

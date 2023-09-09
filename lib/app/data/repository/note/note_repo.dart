@@ -103,6 +103,7 @@ class NoteRepo extends BaseNote {
       }
       final response = await _dataProvider.get(
         uri: '/notes',
+        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserNotesRes.fromJson(response.data));

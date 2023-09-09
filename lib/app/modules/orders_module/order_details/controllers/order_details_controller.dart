@@ -38,7 +38,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    await fetchOrderEdits();
+    // await fetchOrderEdits();
     await fetchOrderNotes();
     await fetchOrderNotification();
     super.onInit();
@@ -77,22 +77,22 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> fetchOrderEdits() async {
+  Future<List<OrderEdit>?> fetchOrderEdits() async {
     final result = await orderEditsRepo.retrieveAllOrderEdit(
-      queryParameters: {
-        'order_id': orderId,
-      },
+      queryParameters: {'order_id': orderId},
     );
-
-    result.when(
+   return await result.when(
       (success) {
         if (success.orderEdits != null) {
           orderEdits = success.orderEdits;
+          return success.orderEdits;
         } else {
           // TODO: handle when edits are null
+          return [];
         }
       },
       (error) {
+        return null;
         // TODO: handle error
       },
     );

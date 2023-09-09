@@ -131,6 +131,7 @@ class ProductMedia extends StatelessWidget {
                               return;
                             }
                             controller.images.add(result);
+                            controller.update([5]);
                           });
                         case ImageSource.gallery:
                           await controller.imagePickerHelper.multipleImagePicker().then((result) {
@@ -139,7 +140,6 @@ class ProductMedia extends StatelessWidget {
                             }
                             controller.images.addAll(result);
                             controller.update([5]);
-                            controller.mediaTileCtrl.expand();
                           });
                       }
                     }catch(e){
