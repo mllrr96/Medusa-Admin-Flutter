@@ -32,14 +32,4 @@ class DashboardController extends GetxController {
     currentScreen = index;
     update();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

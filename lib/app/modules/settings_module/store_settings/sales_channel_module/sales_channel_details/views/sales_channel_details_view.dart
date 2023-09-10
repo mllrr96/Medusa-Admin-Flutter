@@ -63,7 +63,7 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 controller.update();
                               }),
                           InkWell(
-                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
                             onLongPress: () {
                               controller.resetFilter();
                             },
@@ -136,9 +136,9 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                         : Colors.transparent
                                 ),
                                 color: Theme.of(context).scaffoldBackgroundColor,
-                               borderRadius:    BorderRadius.all(Radius.circular(6.0)),
+                               borderRadius:    const BorderRadius.all(Radius.circular(6.0)),
                               ),
-                              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

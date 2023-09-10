@@ -114,7 +114,6 @@ class ProductAttributes extends StatelessWidget {
                         onPressed: () {
                           controller.countryCtrl.clear();
                           controller.product = controller.product.copyWith.originCountry(null);
-                          print(controller.product.originCountry);
                           controller.update([3]);
                         },
                         icon: const Icon(CupertinoIcons.clear_circled_solid)),

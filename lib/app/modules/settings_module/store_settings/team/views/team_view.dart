@@ -104,7 +104,6 @@ class TeamView extends StatelessWidget {
               (users) => SliverList(
                   delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  print(users.length);
                   return TeamCard(
                     user: users[index],
                     onEditTap: () async {

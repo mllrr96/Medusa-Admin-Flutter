@@ -5,7 +5,6 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
-import '../../../../data/models/store/discount_condition.dart';
 import 'index.dart';
 
 class ConditionCard extends StatelessWidget {

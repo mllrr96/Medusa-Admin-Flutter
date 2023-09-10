@@ -255,7 +255,6 @@ class UserPostUpdateProductReq {
     }
 
     if (tags != null) {
-      print('HER');
       List<Map<String, dynamic>> tagsList = [];
       for (var element in tags!) {
         tagsList.add(element.toJson(excludeDates: true));

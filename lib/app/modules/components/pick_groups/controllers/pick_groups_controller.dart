@@ -48,16 +48,6 @@ class PickGroupsController extends GetxController {
       pagingController.error = error.message;
     });
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }
 
 class PickGroupsReq {

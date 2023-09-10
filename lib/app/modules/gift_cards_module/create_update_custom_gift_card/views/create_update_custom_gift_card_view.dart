@@ -143,7 +143,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                   controller.hasExpiryDate = val;
                                   controller.update();
                                 },
-                                title: Text('Gift Card has an expiry date?'),
+                                title: const Text('Gift Card has an expiry date?'),
                                 subtitle: Text('Schedule the Gift Card to deactivate in the future.',
                                     style: smallTextStyle?.copyWith(color: lightWhite)),
                               ),

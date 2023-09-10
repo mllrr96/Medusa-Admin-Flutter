@@ -76,16 +76,6 @@ class MedusaSearchController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   Future<void> fetchPage(int pageKey) async {
     if (searchTerm.removeAllWhitespace.isEmpty) {
       pagingController.itemList = [];

@@ -37,10 +37,6 @@ class CreateDraftOrderController extends GetxController
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> createDraftOrder() async {
     loading();

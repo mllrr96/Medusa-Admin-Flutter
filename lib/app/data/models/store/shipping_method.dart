@@ -122,7 +122,6 @@ class ShippingMethod {
     if (includesTax != null) {
       json['includes_tax'] = includesTax;
     }
-    print(json);
     return json;
   }
 }

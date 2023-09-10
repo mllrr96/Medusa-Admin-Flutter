@@ -23,7 +23,7 @@ class DraftOrderSummeryCard extends StatelessWidget {
       final currencyFormatter = CurrencyTextInputFormatter(name: currencyCode);
       final symbolNative =
           StoreService.store.currencies?.firstWhere((element) => element.code == currencyCode, orElse: () {
-        final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode?.toUpperCase());
+        final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
         return Currency(
             name: simpleCurrency.currencyName,
             symbolNative: simpleCurrency.currencySymbol,

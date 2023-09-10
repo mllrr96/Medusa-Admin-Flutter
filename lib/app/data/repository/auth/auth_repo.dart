@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/datasource/remote/dio/dio_client.dart';
 import 'package:medusa_admin/app/data/repository/auth/base_auth.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
