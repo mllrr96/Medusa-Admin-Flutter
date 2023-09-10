@@ -11,9 +11,9 @@ import 'adaptive_button.dart';
 Future<DateTime?> adaptiveDateTimePicker(
     {DateTime? date,
     required BuildContext context,
-    CupertinoDatePickerMode pickerMode = CupertinoDatePickerMode.dateAndTime}) async {
+    CupertinoDatePickerMode pickerMode = CupertinoDatePickerMode.dateAndTime, bool? forceAndroidPicker}) async {
   DateTime? selectedDate;
-  final useAndroidPicker = StorageService.appSettings.useAndroidPicker;
+  final useAndroidPicker = forceAndroidPicker ?? StorageService.appSettings.useAndroidPicker;
   if (Platform.isIOS && !useAndroidPicker) {
     return await showCupertinoModalBottomSheet(
         context: context,

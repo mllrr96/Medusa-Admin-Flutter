@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -39,6 +40,16 @@ class AppSettingsView extends StatelessWidget {
               settingsListBackground: Theme.of(context).scaffoldBackgroundColor,
               settingsSectionBackground: Theme.of(context).cardColor),
           sections: [
+            SettingsSection(
+              title: const Text('App settings'),
+              tiles: [
+                SettingsTile.navigation(
+                  title: Text(tr.orders),
+                  leading: const Icon(CupertinoIcons.cart),
+                  onPressed: (_) => Get.toNamed(Routes.ORDER_SETTINGS),
+                )
+              ]
+            ),
             SettingsSection(
               title: Text(tr.appearance),
               tiles: ThemeMode.values.map((e) {
@@ -100,11 +111,17 @@ class AppSettingsView extends StatelessWidget {
                     activeSwitchColor: ColorManager.primary,
                     description: GestureDetector(
                         onTap: () async =>
-                            await adaptiveDateTimePicker(context: context),
+                            await adaptiveDateTimePicker(context: context, forceAndroidPicker: true),
                         child: const Text(
                             'Use Android date picker instead of iOS picker, Click here for demo')),
                     leading: const Icon(CupertinoIcons.calendar),
-                    onPressed: (_) async {},
+                    onPressed: (_) async {
+                      final storageService = StorageService.instance;
+                      final appSettings = StorageService.appSettings;
+                      await storageService.updateAppSettings(
+                          appSettings.copyWith(useAndroidPicker: !appSettings.useAndroidPicker));
+                      controller.update();
+                    },
                     initialValue: StorageService.appSettings.useAndroidPicker,
                     onToggle: (bool value) async {
                       final storageService = StorageService.instance;

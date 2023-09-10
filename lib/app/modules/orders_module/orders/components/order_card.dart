@@ -1,12 +1,11 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
@@ -26,6 +25,8 @@ class OrderCard extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final tr = AppLocalizations.of(context)!;
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final orderSettings = StorageService.orderSettings;
+
     // const space = SizedBox(height: 12.0);
     Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     String? getName() {
@@ -42,7 +43,10 @@ class OrderCard extends StatelessWidget {
       }
       return name;
     }
-
+    String getCurrencyText() {
+      final valueFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
+      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(order.total?.toString() ?? '')}';
+    }
     return InkWell(
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Container(
@@ -63,21 +67,23 @@ class OrderCard extends StatelessWidget {
                       order.cart!.createdAt != null
                           ? 'on ${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                           : '',
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: smallTextStyle,
                     ),
                   ],
                 ),
-                Text(
-                  '${order.total} ${order.currencyCode?.toUpperCase()} ',
-                  style: Theme.of(context).textTheme.titleMedium,
+                Row(
+                  children: [
+                    Text(
+                      getCurrencyText(),
+                      style: mediumTextStyle,
+                    ),
+                    if (order.shippingAddress?.countryCode != null && !orderSettings.hideFlag)
+                      Flag.fromString(order.shippingAddress!.countryCode!, height: 15, width: 30),
+                  ],
                 ),
+
               ],
             ),
-            // if (order.items != null)
-            //   Padding(
-            //     padding: const EdgeInsets.symmetric(vertical: 8.0),
-            //     child: buildImages(context),
-            //   ),
             const Divider(),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,11 +93,11 @@ class OrderCard extends StatelessWidget {
                   children: [
                     Text(
                       tr.paymentStatus,
-                      style: smallTextStyle!.copyWith(color: lightWhite),
+                      style: smallTextStyle?.copyWith(color: lightWhite),
                     ),
                     Text(
                       tr.customer,
-                      style: smallTextStyle.copyWith(color: lightWhite),
+                      style: smallTextStyle?.copyWith(color: lightWhite),
                     ),
                   ],
                 ),
@@ -101,7 +107,7 @@ class OrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: PaymentStatusLabel(paymentStatus: order.paymentStatus),
+                      child: PaymentStatusLabel(paymentStatus: order.paymentStatus, dotOnly: !orderSettings.paymentStatusDot,),
                     ),
                     Flexible(
                       child: Row(
@@ -110,10 +116,20 @@ class OrderCard extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: ColorManager.getAvatarColor(order.customer?.email),
                             radius: 16,
-                            child: Text(getName()?[0] ?? order.customer!.email[0], style: largeTextStyle?.copyWith(color: Colors.white)),
+                            child: Text(getName()?[0] ?? order.customer!.email[0],
+                                style: largeTextStyle?.copyWith(color: Colors.white)),
                           ),
                           const SizedBox(width: 6.0),
-                          if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
+                          if (getName() != null)
+                            Flexible(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(getName()!, style: smallTextStyle),
+                                if (orderSettings.includeEmail)
+                                  Text(order.email ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                              ],
+                            )),
                           if (getName() == null)
                             Flexible(
                                 child: Text(order.customer!.email,
@@ -155,63 +171,6 @@ class OrderCard extends StatelessWidget {
     );
   }
 
-  Widget buildImages(BuildContext context) {
-    if (order.items!.length > 3) {
-      return Row(
-        children: [
-          ...List.generate(
-              3,
-              (index) => Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
-                            border: Border.all(color: Colors.grey.shade300),
-                            image: DecorationImage(
-                                fit: BoxFit.cover, image: CachedNetworkImageProvider(order.items![index].thumbnail!))),
-                      ),
-                      const SizedBox(width: 10)
-                    ],
-                  )),
-          Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Center(
-                child: Text('+ ${order.items!.length - 3}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
-          ),
-        ],
-      );
-    }
-
-    return Row(
-      children: List.generate(
-          order.items!.length,
-          (index) => Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(color: Colors.grey.shade300),
-                        image: DecorationImage(
-                            fit: BoxFit.cover, image: CachedNetworkImageProvider(order.items![index].thumbnail!))),
-                  ),
-                  const SizedBox(width: 10)
-                ],
-              )),
-    );
-  }
 }
 
 class AlternativeOrderCard extends StatelessWidget {
@@ -224,7 +183,7 @@ class AlternativeOrderCard extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final lightMediumTextStyle = Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite);
-
+    final orderSettings = StorageService.orderSettings;
     // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     String? getName() {
       String? name;
@@ -240,13 +199,10 @@ class AlternativeOrderCard extends StatelessWidget {
       }
       return name;
     }
+
     String getCurrencyText() {
-      var value = order.total?.roundToDouble() ?? 0.0;
-      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+      final valueFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
+      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(order.total?.toString() ?? '')}';
     }
 
     return InkWell(
@@ -261,7 +217,7 @@ class AlternativeOrderCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('#${order.displayId}', style: mediumTextStyle),
+                Text('#${order.displayId ?? ''}', style: mediumTextStyle),
                 Text(getCurrencyText(), style: mediumTextStyle),
               ],
             ),
@@ -274,21 +230,20 @@ class AlternativeOrderCard extends StatelessWidget {
                     order.cart?.createdAt != null
                         ? '${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                         : '',
-                    style: lightMediumTextStyle,
+                    style: smallTextStyle?.copyWith(color: lightWhite),
                   ),
                   Row(
                     children: [
-                      if(order.currencyCode != null)
-                      Text(
-                        order.currencyCode!.toUpperCase(),
-                        style: lightMediumTextStyle,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if(order.shippingAddress?.countryCode != null)
-                      Flag.fromString(order.shippingAddress!.countryCode!,height: 15,width: 30),
+                      if (order.currencyCode != null)
+                        Text(
+                          order.currencyCode!.toUpperCase(),
+                          style: lightMediumTextStyle,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      if (order.shippingAddress?.countryCode != null && !orderSettings.hideFlag)
+                        Flag.fromString(order.shippingAddress!.countryCode!, height: 15, width: 30),
                     ],
                   ),
-
                 ],
               ),
             ),
@@ -301,20 +256,30 @@ class AlternativeOrderCard extends StatelessWidget {
                       CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(order.customer?.email),
                         radius: 16,
-                        child: Text(getName()?[0].toUpperCase() ?? order.customer!.email[0].toUpperCase(),
+                        child: Text(getName()?[0].toUpperCase() ?? order.customer?.email[0].toUpperCase() ?? '',
                             style: const TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(width: 6.0),
-                      if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
+                      if (getName() != null)
+                        Flexible(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(getName()!, style: smallTextStyle),
+                            if (orderSettings.includeEmail)
+                              Text(order.email ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                          ],
+                        )),
                       if (getName() == null)
                         Flexible(
-                            child:
-                                Text(order.customer!.email, style: mediumTextStyle, overflow: TextOverflow.ellipsis)),
+                            child: Text(order.customer?.email ?? '',
+                                style: mediumTextStyle, overflow: TextOverflow.ellipsis)),
                     ],
                   ),
                 ),
                 Flexible(
-                  child: PaymentStatusDot(paymentStatus: order.paymentStatus),
+                  child:
+                      PaymentStatusLabel(paymentStatus: order.paymentStatus, dotOnly: !orderSettings.paymentStatusDot),
                 ),
               ],
             ),

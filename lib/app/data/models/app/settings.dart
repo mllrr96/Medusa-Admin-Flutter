@@ -31,9 +31,64 @@ class AppSettings {
   factory AppSettings.fromJson(Map<String, dynamic>? json) {
     return AppSettings(
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
-        timeFormatOptions:
-            TimeFormatOptions.fromInt(json?['timeFormatOptions']),
-        dateFormatOptions:
-            DateFormatOptions.fromInt(json?['dateFormatOptions']));
+        timeFormatOptions: TimeFormatOptions.fromInt(json?['timeFormatOptions']),
+        dateFormatOptions: DateFormatOptions.fromInt(json?['dateFormatOptions']));
+  }
+}
+
+class OrderSettings {
+  final bool hideFlag;
+  final bool paymentStatusDot;
+  final bool alternativeCard;
+  final bool includeEmail;
+  final double padding;
+  OrderSettings({
+    required this.hideFlag,
+    required this.paymentStatusDot,
+    required this.includeEmail,
+    required this.alternativeCard,
+    required this.padding,
+  });
+  OrderSettings.defaultSettings(
+      {this.hideFlag = false,
+      this.paymentStatusDot = true,
+      this.includeEmail = false,
+      this.alternativeCard = true,
+      this.padding = 8.0});
+
+  factory OrderSettings.fromJson(Map<String, dynamic>? json) {
+    return OrderSettings(
+      hideFlag: json?['hideFlag'] ?? false,
+      paymentStatusDot: json?['paymentStatusDot'] ?? true,
+      includeEmail: json?['includeEmail'] ?? false,
+      alternativeCard: json?['alternativeCard'] ?? true,
+      padding: json?['padding'] ?? 8.0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'hideFlag': hideFlag,
+      'paymentStatusDot': paymentStatusDot,
+      'includeEmail': includeEmail,
+      'alternativeCard': alternativeCard,
+      'padding': padding,
+    };
+  }
+
+  OrderSettings copyWith({
+    bool? hideFlag,
+    bool? paymentStatusDot,
+    bool? includeEmail,
+    bool? alternativeCard,
+    double? padding,
+  }) {
+    return OrderSettings(
+      hideFlag: hideFlag ?? this.hideFlag,
+      paymentStatusDot: paymentStatusDot ?? this.paymentStatusDot,
+      includeEmail: includeEmail ?? this.includeEmail,
+      alternativeCard: alternativeCard ?? this.alternativeCard,
+      padding: padding ?? this.padding,
+    );
   }
 }

@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_rep
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+
 class OrdersController extends GetxController with GetSingleTickerProviderStateMixin {
   static OrdersController get instance => Get.find<OrdersController>();
 
@@ -25,7 +26,6 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   OrderFilter? orderFilter;
   List<Region>? regions;
   List<SalesChannel>? salesChannels;
-
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
