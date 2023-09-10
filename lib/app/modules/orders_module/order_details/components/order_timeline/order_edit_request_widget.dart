@@ -1,143 +1,23 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
-import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../../../../../core/utils/colors.dart';
+import '../../../../../../core/utils/medusa_icons_icons.dart';
+import '../../../../../data/models/store/order.dart';
+import '../../../../../data/models/store/order_edit.dart';
+import '../../../../../data/models/store/order_item_change.dart';
+import '../../../../components/currency_formatter.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
-import '../../../components/currency_formatter.dart';
-
-class OrderTimeline extends GetView<OrderDetailsController> {
-  const OrderTimeline(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
-  final Order order;
-  final void Function(bool)? onExpansionChanged;
-  @override
-  Widget build(BuildContext context) {
-    return CustomExpansionTile(
-      key: controller.timelineKey,
-      onExpansionChanged: onExpansionChanged,
-      controlAffinity: ListTileControlAffinity.leading,
-      title: const Text('Timeline'),
-      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-      expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FutureBuilder<List<OrderEdit>?>(
-            future: controller.fetchOrderEdits(),
-            builder: (context, asyncSnapshot) {
-              if (asyncSnapshot.hasData) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: asyncSnapshot.data?.length,
-                  itemBuilder: (context, index) {
-                    final orderEdit = asyncSnapshot.data?[index];
-                    if (orderEdit == null) {
-                      return const SizedBox.shrink();
-                    }
-                    return OrderEditRequestWidget(order, orderEdit: orderEdit);
-                  },
-                );
-              } else if (!asyncSnapshot.hasData) {
-                return const SizedBox.shrink();
-              }
-
-              if (asyncSnapshot.hasError) {
-                return Column(
-                  children: [
-                    const Text('Error fetching order edits'),
-                    OutlinedButton(onPressed: () {}, child: const Text('Retry'))
-                  ],
-                );
-              }
-
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
-            }),
-        // if (controller.orderEdits != null)
-        //   ListView.builder(
-        //       shrinkWrap: true,
-        //       physics: const NeverScrollableScrollPhysics(),
-        //       itemCount: controller.orderEdits?.length,
-        //       itemBuilder: (context, index) {
-        //         final orderEdit = controller.orderEdits?[index];
-        //         if (orderEdit == null) {
-        //           return const SizedBox.shrink();
-        //         }
-        //         return OrderEditRequestWidget(order, orderEdit: orderEdit);
-        //       }),
-        // Divider(),
-        OrderPlacedWidget(order),
-      ],
-    );
-  }
-}
-
-class OrderPlacedWidget extends StatefulWidget {
-  const OrderPlacedWidget(this.order, {super.key});
-  final Order order;
-
-  @override
-  State<OrderPlacedWidget> createState() => _OrderPlacedWidgetState();
-}
-
-class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
-  bool showTimeAgo = true;
-  @override
-  Widget build(BuildContext context) {
-    final durationDiff = DateTime.now().difference(widget.order.createdAt ?? DateTime.now());
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final total = CurrencyTextInputFormatter(name: widget.order.currencyCode).format(widget.order.total.toString());
-    return InkWell(
-      onTap: () {
-        setState(() {
-          showTimeAgo = !showTimeAgo;
-        });
-      },
-      child: Column(
-        children: [
-          Row(
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.check_circle_outline),
-              const SizedBox(width: 12.0),
-              Text('Order Placed', style: smallTextStyle),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(Icons.check_circle_outline, color: Colors.transparent),
-              const SizedBox(width: 12.0),
-              AnimatedCrossFade(
-                firstChild: Text(
-                    '${timeago.format(DateTime.now().subtract(durationDiff))} · ${widget.order.currency?.symbolNative ?? ''} $total',
-                    style: smallTextStyle?.copyWith(color: lightWhite)),
-                secondChild: Text(
-                    '${formatDate(widget.order.createdAt)} ${formatTime(widget.order.createdAt)} · ${widget.order.currency?.symbolNative ?? ''} $total',
-                    style: smallTextStyle?.copyWith(color: lightWhite)),
-                crossFadeState: showTimeAgo ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 300),
-              ),
-              const SizedBox(height: 12.0),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class OrderEditRequestWidget extends GetView<OrderDetailsController> {
   const OrderEditRequestWidget(this.order, {super.key, required this.orderEdit});
+
   final Order order;
   final OrderEdit orderEdit;
+
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
@@ -169,50 +49,6 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
     const buttonShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
     );
-    final buttons = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    shape: buttonShape,
-                  ),
-                  onPressed: () async {
-                    // TODO: Figure out how to get the link
-                    // await Clipboard.setData(ClipboardData( text: ));
-                  },
-                  child: const Text('Copy Confirmation-Request Link', overflow: TextOverflow.ellipsis)),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    shape: buttonShape,
-                  ),
-                  onPressed: () async {},
-                  child: const Text('Force Confirm', overflow: TextOverflow.ellipsis)),
-            ),
-            const SizedBox(width: 6.0),
-            Expanded(
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    shape: buttonShape,
-                  ),
-                  onPressed: () {},
-                  child: const Text('Cancel Order Edit',
-                      style: TextStyle(color: Colors.red), overflow: TextOverflow.ellipsis)),
-            ),
-          ],
-        ),
-      ],
-    );
-
     Widget payment() {
       final formatter = CurrencyTextInputFormatter(name: order.currency?.code);
       if (orderEdit.status != OrderEditStatus.requested) {
@@ -320,38 +156,55 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
     }
 
     Widget userName() {
-      return FutureBuilder<User?>(
-          future: controller.getUserById(orderEdit.createdBy ?? ''),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final user = snapshot.data!;
-              final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
-              final email = user.email;
-              final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
-              return Text(
-                text ?? '',
-                style: smallTextStyle?.copyWith(color: lightWhite),
-              );
-            } else if (!snapshot.hasData) {
-              return GestureDetector(
-                  onTap: () async => controller.getUserById(orderEdit.createdBy ?? ''),
-                  child: Text(
-                    'Error loading user, tap to retry',
-                    style: smallTextStyle?.copyWith(color: lightWhite),
-                  ));
-            }
+      if (controller.loadedUsers.isNotEmpty &&
+          controller.loadedUsers.map((e) => e.id).toList().contains(orderEdit.createdBy)) {
+        final user = controller.loadedUsers.where((element) => element.id == orderEdit.createdBy).first;
+        final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
+        final email = user.email;
+        final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
+        return Text(
+          text ?? '',
+          style: smallTextStyle?.copyWith(color: lightWhite),
+        );
+      }
+      return GestureDetector(
+          onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
+          child: Text(
+            'Error loading user, tap to retry',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: smallTextStyle?.copyWith(color: Colors.redAccent),
+          ));
+    }
 
-            if (snapshot.hasError) {
-              return GestureDetector(
-                  onTap: () async => controller.getUserById(orderEdit.createdBy ?? ''),
-                  child: Text(
-                    'Error loading user, tap to retry',
-                    style: smallTextStyle?.copyWith(color: lightWhite),
-                  ));
-            }
+    Future<void> onCancelTap() async {
+      await showOkCancelAlertDialog(
+        context: context,
+        title: 'Cancel Order Edit?',
+        message: 'Are you sure you want to cancel this order edit?',
+        okLabel: 'Yes, Cancel',
+        cancelLabel: 'No',
+        isDestructiveAction: true,
+      ).then((result) async {
+        if (result == OkCancelResult.ok) {
+          await controller.cancelOrderEdit(orderEdit.id ?? '');
+        }
+      });
+    }
 
-            return const Skeletonizer(child: Text('Loading user'));
-          });
+    Future<void> onConfirmTap() async {
+      await showOkCancelAlertDialog(
+        context: context,
+        title: 'Force confirm order edit?',
+        message:
+            'By force confirming you allow the order edit to be fulfilled. You will still have to reconcile payments manually after confirming.',
+        okLabel: 'Yes, Force confirm',
+        isDestructiveAction: true,
+      ).then((result) async {
+        if (result == OkCancelResult.ok) {
+          await controller.confirmOrderEdit(orderEdit.id ?? '');
+        }
+      });
     }
 
     return Column(
@@ -440,7 +293,15 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
                                 );
                               }),
                           space,
-                          if (orderEdit.status == OrderEditStatus.requested && (removedItems?.isEmpty ?? false)) buttons
+                          if (orderEdit.status == OrderEditStatus.requested && (removedItems?.isEmpty ?? false))
+                            EditRequestButton(
+                              onCopyTap: () {
+                                // TODO: Figure out how to get the link
+                                // await Clipboard.setData(ClipboardData( text: ));
+                              },
+                              onCancelTap: onCancelTap,
+                              onForceConfirmTap: onConfirmTap,
+                            )
                         ],
                       ),
                     if (removedItems?.isNotEmpty ?? false)
@@ -491,7 +352,15 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
                                 );
                               }),
                           space,
-                          if (orderEdit.status == OrderEditStatus.requested) buttons
+                          if (orderEdit.status == OrderEditStatus.requested)
+                            EditRequestButton(
+                              onCopyTap: () {
+                                // TODO: Figure out how to get the link
+                                // await Clipboard.setData(ClipboardData( text: ));
+                              },
+                              onCancelTap: onCancelTap,
+                              onForceConfirmTap: onConfirmTap,
+                            )
                         ],
                       ),
                     space,
@@ -500,6 +369,62 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
               ),
             ],
           )
+      ],
+    );
+  }
+}
+
+class EditRequestButton extends StatelessWidget {
+  const EditRequestButton({super.key, this.onCopyTap, this.onForceConfirmTap, this.onCancelTap});
+
+  final void Function()? onCopyTap;
+  final void Function()? onForceConfirmTap;
+  final void Function()? onCancelTap;
+
+  @override
+  Widget build(BuildContext context) {
+    const buttonShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: buttonShape,
+                  ),
+                  onPressed: onCopyTap,
+                  child: const Text('Copy Confirmation-Request Link', overflow: TextOverflow.ellipsis)),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: buttonShape,
+                  ),
+                  onPressed: onForceConfirmTap,
+                  child: const Text('Force Confirm', overflow: TextOverflow.ellipsis)),
+            ),
+            const SizedBox(width: 6.0),
+            Expanded(
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: buttonShape,
+                  ),
+                  onPressed: onCancelTap,
+                  child: const Text('Cancel Order Edit',
+                      style: TextStyle(color: Colors.red), overflow: TextOverflow.ellipsis)),
+            ),
+          ],
+        ),
       ],
     );
   }

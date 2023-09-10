@@ -32,6 +32,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   List<OrderEdit>? orderEdits;
   List<Note>? notes;
   List<medusa.Notification>? notifications;
+  List<User> loadedUsers = [];
   final scrollController = ScrollController();
   final summeryKey = GlobalKey();
   final paymentKey = GlobalKey();
@@ -41,7 +42,6 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    // await fetchOrderEdits();
     await fetchOrderNotes();
     await fetchOrderNotification();
     super.onInit();
@@ -84,10 +84,14 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     final result = await orderEditsRepo.retrieveAllOrderEdit(
       queryParameters: {'order_id': orderId},
     );
-   return await result.when(
-      (success) {
+    return await result.when(
+      (success) async {
         if (success.orderEdits != null) {
           orderEdits = success.orderEdits;
+          final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
+          createdByList?.forEach((element) async {
+            await fetchUser(element ?? '');
+          });
           return success.orderEdits;
         } else {
           // TODO: handle when edits are null
@@ -101,10 +105,15 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<User?> getUserById(String userId)async{
+  Future<User?> fetchUser(String userId) async {
     final result = await userRepo.retrieve(id: userId);
     return await result.when((success) {
-      if(success.user != null){
+      if (success.user != null) {
+        final userExist = loadedUsers.map((e) => e.id).toList().contains(success.user?.id);
+        if (!userExist) {
+          loadedUsers.add(success.user!);
+          update([5]);
+        }
         return success.user;
       } else {
         return null;
@@ -167,6 +176,40 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
       dismissLoading();
       Get.snackbar(
         'Error ${error.code}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  Future<void> cancelOrderEdit(String id) async {
+    loading();
+    final result = await orderEditsRepo.cancelOrderEdit(id: id);
+    result.when((success) async {
+      EasyLoading.showSuccess('Order Edit Canceled!');
+      await fetchOrderEdits();
+    }, (error) {
+      debugPrint(error.toString());
+      dismissLoading();
+      Get.snackbar(
+        'Error ${error.code ?? ''}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  Future<void> confirmOrderEdit(String id) async {
+    loading();
+    final result = await orderEditsRepo.confirmOrderEdit(id: id);
+    result.when((success) async {
+      EasyLoading.showSuccess('Order Edit Confirmed!');
+      await fetchOrderEdits();
+    }, (error) {
+      debugPrint(error.toString());
+      dismissLoading();
+      Get.snackbar(
+        'Error ${error.code ?? ''}',
         error.message,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -304,5 +347,22 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         dismissLoading();
       },
     );
+  }
+
+  Future<void> deleteNote(String? id) async {
+    if (id == null) return;
+    loading();
+    final result = await noteRepo.deleteNote(id: id);
+    await result.when((success) async {
+      EasyLoading.showSuccess('Note deleted');
+      await fetchOrderNotes();
+      update([5]);
+    }, (error) {
+      Get.snackbar(
+        'Error deleting note ${error.code ?? ''}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
   }
 }
