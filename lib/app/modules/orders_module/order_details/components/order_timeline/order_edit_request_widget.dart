@@ -12,8 +12,8 @@ import '../../../../../data/models/store/order_item_change.dart';
 import '../../../../components/currency_formatter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class OrderEditRequestWidget extends GetView<OrderDetailsController> {
-  const OrderEditRequestWidget(this.order, {super.key, required this.orderEdit});
+class OrderEditWidget extends GetView<OrderDetailsController> {
+  const OrderEditWidget(this.order, {super.key, required this.orderEdit});
 
   final Order order;
   final OrderEdit orderEdit;
@@ -21,7 +21,10 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final durationDiff = DateTime.now().difference(orderEdit.requestedAt ?? DateTime.now());
+    final reqDurationDiff = DateTime.now().difference(orderEdit.requestedAt ?? DateTime.now());
+    final canceledDurationDiff = DateTime.now().difference(orderEdit.canceledAt ?? DateTime.now());
+    final declinedDurationDiff = DateTime.now().difference(orderEdit.declinedAt ?? DateTime.now());
+    final confirmedDurationDiff = DateTime.now().difference(orderEdit.confirmedAt ?? DateTime.now());
     final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     var addedItems = orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemAdd).toList();
 
@@ -155,26 +158,29 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
       }
     }
 
-    Widget userName() {
+    Widget userName({String? user}) {
       if (controller.loadedUsers.isNotEmpty &&
-          controller.loadedUsers.map((e) => e.id).toList().contains(orderEdit.createdBy)) {
+          controller.loadedUsers.map((e) => e.id).toList().contains(user ?? orderEdit.createdBy)) {
         final user = controller.loadedUsers.where((element) => element.id == orderEdit.createdBy).first;
         final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
         final email = user.email;
-        final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
+        final text = name.removeAllWhitespace.isNotEmpty ? name : email;
         return Text(
           text ?? '',
           style: smallTextStyle?.copyWith(color: lightWhite),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         );
       }
       return GestureDetector(
-          onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
-          child: Text(
-            'Error loading user, tap to retry',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: smallTextStyle?.copyWith(color: Colors.redAccent),
-          ));
+        onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
+        child: Text(
+          'Error loading user, tap to retry',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: smallTextStyle?.copyWith(color: Colors.redAccent),
+        ),
+      );
     }
 
     Future<void> onCancelTap() async {
@@ -207,168 +213,259 @@ class OrderEditRequestWidget extends GetView<OrderDetailsController> {
       });
     }
 
-    return Column(
-      children: [
-        payment(),
-        Row(
+    Widget orderStatus = const SizedBox();
+
+    switch (orderEdit.status) {
+      case OrderEditStatus.confirmed:
+        orderStatus = Row(
           children: [
-            const Icon(MedusaIcons.pencil_square_solid),
+            const Icon(Icons.check_circle),
             const SizedBox(width: 12.0),
             Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Order Edit requested', style: smallTextStyle),
+                  Text('Order Edit force confirmed', style: smallTextStyle),
                   Row(
                     children: [
                       Flexible(
                         child: Text(
-                          '${timeago.format(DateTime.now().subtract(durationDiff))} by ',
+                          '${timeago.format(DateTime.now().subtract(confirmedDurationDiff))} by ',
                           style: smallTextStyle?.copyWith(color: lightWhite),
                         ),
                       ),
-                      Flexible(child: userName()),
+                      Flexible(child: userName(user: orderEdit.confirmedBy)),
                     ],
                   ),
                 ],
               ),
             )
           ],
-        ),
-        if (orderEdit.changes?.isNotEmpty ?? false)
-          Row(
-            children: [
-              const Icon(MedusaIcons.pencil_square_solid, color: Colors.transparent),
-              const SizedBox(width: 12.0),
-              Expanded(
-                child: Column(
+        );
+      case OrderEditStatus.declined:
+        orderStatus = Row(
+          children: [
+            const Icon(Icons.close_sharp),
+            const SizedBox(width: 12.0),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Order Edit declined', style: smallTextStyle),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '${timeago.format(DateTime.now().subtract(declinedDurationDiff))} by ',
+                          style: smallTextStyle?.copyWith(color: lightWhite),
+                        ),
+                      ),
+                      Flexible(child: userName(user: orderEdit.declinedBy)),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        );
+      case OrderEditStatus.requested:
+      case OrderEditStatus.created:
+      // TODO: Handle this case.
+      case OrderEditStatus.canceled:
+      orderStatus = Row(
+        children: [
+          const Icon(Icons.close_sharp),
+          const SizedBox(width: 12.0),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Order Edit canceled', style: smallTextStyle),
+                Row(
                   children: [
-                    if (addedItems?.isNotEmpty ?? false)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    Flexible(
+                      child: Text(
+                        '${timeago.format(DateTime.now().subtract(canceledDurationDiff))} by ',
+                        style: smallTextStyle?.copyWith(color: lightWhite),
+                      ),
+                    ),
+                    Flexible(child: userName(user: orderEdit.canceledBy)),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+    return Column(
+      children: [
+        orderStatus,
+        space,
+        Column(
+          children: [
+            payment(),
+            Row(
+              children: [
+                const Icon(MedusaIcons.pencil_square_solid),
+                const SizedBox(width: 12.0),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Order Edit requested', style: smallTextStyle),
+                      Row(
                         children: [
-                          space,
-                          Text('Added', style: smallTextStyle?.copyWith(color: lightWhite)),
-                          space,
-                          ListView.separated(
-                              separatorBuilder: (_, __) => halfSpace,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: addedItems!.length,
-                              itemBuilder: (context, index) {
-                                final item = addedItems[index];
-                                int quantityAdded =
-                                    (item.lineItem?.quantity ?? 0) - (item.originalLineItem?.quantity ?? 0);
-                                String quantityAddedString =
-                                    quantityAdded != 1 && quantityAdded != 0 ? '${quantityAdded}x ' : '';
-                                return ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  leading: item.lineItem?.thumbnail != null
-                                      ? ConstrainedBox(
-                                          constraints: const BoxConstraints(maxWidth: 50),
-                                          child: CachedNetworkImage(
-                                            imageUrl: item.lineItem?.thumbnail ?? '',
-                                            fit: BoxFit.fitHeight,
-                                          ))
-                                      : null,
-                                  title: Text(quantityAddedString + (item.lineItem?.title ?? '')),
-                                  subtitle: quantityAddedString.isNotEmpty
-                                      ? Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              quantityAddedString,
-                                              style: const TextStyle(color: Colors.transparent),
-                                            ),
-                                            Text(
+                          Flexible(
+                            child: Text(
+                              '${timeago.format(DateTime.now().subtract(reqDurationDiff))} by ',
+                              style: smallTextStyle?.copyWith(color: lightWhite),
+                            ),
+                          ),
+                          Flexible(child: userName()),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            if (orderEdit.changes?.isNotEmpty ?? false)
+              Row(
+                children: [
+                  const Icon(MedusaIcons.pencil_square_solid, color: Colors.transparent),
+                  const SizedBox(width: 12.0),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        if (addedItems?.isNotEmpty ?? false)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              space,
+                              Text('Added', style: smallTextStyle?.copyWith(color: lightWhite)),
+                              space,
+                              ListView.separated(
+                                  separatorBuilder: (_, __) => halfSpace,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: addedItems!.length,
+                                  itemBuilder: (context, index) {
+                                    final item = addedItems[index];
+                                    int quantityAdded =
+                                        (item.lineItem?.quantity ?? 0) - (item.originalLineItem?.quantity ?? 0);
+                                    String quantityAddedString =
+                                        quantityAdded != 1 && quantityAdded != 0 ? '${quantityAdded}x ' : '';
+                                    return ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      leading: item.lineItem?.thumbnail != null
+                                          ? ConstrainedBox(
+                                              constraints: const BoxConstraints(maxWidth: 50),
+                                              child: CachedNetworkImage(
+                                                imageUrl: item.lineItem?.thumbnail ?? '',
+                                                fit: BoxFit.fitHeight,
+                                              ))
+                                          : null,
+                                      title: Text(quantityAddedString + (item.lineItem?.title ?? '')),
+                                      subtitle: quantityAddedString.isNotEmpty
+                                          ? Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  quantityAddedString,
+                                                  style: const TextStyle(color: Colors.transparent),
+                                                ),
+                                                Text(
+                                                  item.lineItem?.variant?.title ?? '',
+                                                  style: smallTextStyle?.copyWith(color: lightWhite),
+                                                ),
+                                              ],
+                                            )
+                                          : Text(
                                               item.lineItem?.variant?.title ?? '',
                                               style: smallTextStyle?.copyWith(color: lightWhite),
                                             ),
-                                          ],
-                                        )
-                                      : Text(
-                                          item.lineItem?.variant?.title ?? '',
-                                          style: smallTextStyle?.copyWith(color: lightWhite),
-                                        ),
-                                );
-                              }),
-                          space,
-                          if (orderEdit.status == OrderEditStatus.requested && (removedItems?.isEmpty ?? false))
-                            EditRequestButton(
-                              onCopyTap: () {
-                                // TODO: Figure out how to get the link
-                                // await Clipboard.setData(ClipboardData( text: ));
-                              },
-                              onCancelTap: onCancelTap,
-                              onForceConfirmTap: onConfirmTap,
-                            )
-                        ],
-                      ),
-                    if (removedItems?.isNotEmpty ?? false)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          space,
-                          Text('Removed', style: smallTextStyle?.copyWith(color: lightWhite)),
-                          space,
-                          ListView.separated(
-                              separatorBuilder: (_, __) => halfSpace,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: removedItems!.length,
-                              itemBuilder: (context, index) {
-                                final item = removedItems[index].originalLineItem;
-                                int quantityRemoved =
-                                    (item?.quantity ?? 0) - (removedItems[index].lineItem?.quantity ?? 0);
-                                String quantityRemovedString =
-                                    quantityRemoved != 1 && quantityRemoved != 0 ? '${quantityRemoved}x ' : '';
+                                    );
+                                  }),
+                              space,
+                              if (orderEdit.status == OrderEditStatus.requested && (removedItems?.isEmpty ?? false))
+                                EditRequestButton(
+                                  onCopyTap: () {
+                                    // TODO: Figure out how to get the link
+                                    // await Clipboard.setData(ClipboardData( text: ));
+                                  },
+                                  onCancelTap: onCancelTap,
+                                  onForceConfirmTap: onConfirmTap,
+                                )
+                            ],
+                          ),
+                        if (removedItems?.isNotEmpty ?? false)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              space,
+                              Text('Removed', style: smallTextStyle?.copyWith(color: lightWhite)),
+                              space,
+                              ListView.separated(
+                                  separatorBuilder: (_, __) => halfSpace,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: removedItems!.length,
+                                  itemBuilder: (context, index) {
+                                    final item = removedItems[index].originalLineItem;
+                                    int quantityRemoved =
+                                        (item?.quantity ?? 0) - (removedItems[index].lineItem?.quantity ?? 0);
+                                    String quantityRemovedString =
+                                        quantityRemoved != 1 && quantityRemoved != 0 ? '${quantityRemoved}x ' : '';
 
-                                return ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  leading: item?.thumbnail != null
-                                      ? ConstrainedBox(
-                                          constraints: const BoxConstraints(maxWidth: 50),
-                                          child: CachedNetworkImage(imageUrl: item?.thumbnail ?? ''))
-                                      : null,
-                                  title: Text(quantityRemovedString + (item?.title ?? '')),
-                                  subtitle: quantityRemovedString.isNotEmpty
-                                      ? Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              quantityRemovedString,
-                                              style: const TextStyle(color: Colors.transparent),
-                                            ),
-                                            Text(
+                                    return ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      leading: item?.thumbnail != null
+                                          ? ConstrainedBox(
+                                              constraints: const BoxConstraints(maxWidth: 50),
+                                              child: CachedNetworkImage(imageUrl: item?.thumbnail ?? ''))
+                                          : null,
+                                      title: Text(quantityRemovedString + (item?.title ?? '')),
+                                      subtitle: quantityRemovedString.isNotEmpty
+                                          ? Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  quantityRemovedString,
+                                                  style: const TextStyle(color: Colors.transparent),
+                                                ),
+                                                Text(
+                                                  item?.variant?.title ?? '',
+                                                  style: smallTextStyle?.copyWith(color: lightWhite),
+                                                ),
+                                              ],
+                                            )
+                                          : Text(
                                               item?.variant?.title ?? '',
                                               style: smallTextStyle?.copyWith(color: lightWhite),
                                             ),
-                                          ],
-                                        )
-                                      : Text(
-                                          item?.variant?.title ?? '',
-                                          style: smallTextStyle?.copyWith(color: lightWhite),
-                                        ),
-                                );
-                              }),
-                          space,
-                          if (orderEdit.status == OrderEditStatus.requested)
-                            EditRequestButton(
-                              onCopyTap: () {
-                                // TODO: Figure out how to get the link
-                                // await Clipboard.setData(ClipboardData( text: ));
-                              },
-                              onCancelTap: onCancelTap,
-                              onForceConfirmTap: onConfirmTap,
-                            )
-                        ],
-                      ),
-                    space,
-                  ],
-                ),
-              ),
-            ],
-          )
+                                    );
+                                  }),
+                              space,
+                              if (orderEdit.status == OrderEditStatus.requested)
+                                EditRequestButton(
+                                  onCopyTap: () {
+                                    // TODO: Figure out how to get the link
+                                    // await Clipboard.setData(ClipboardData( text: ));
+                                  },
+                                  onCancelTap: onCancelTap,
+                                  onForceConfirmTap: onConfirmTap,
+                                )
+                            ],
+                          ),
+                        space,
+                      ],
+                    ),
+                  ),
+                ],
+              )
+          ],
+        ),
       ],
     );
   }

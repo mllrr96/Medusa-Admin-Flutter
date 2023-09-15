@@ -89,9 +89,16 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         if (success.orderEdits != null) {
           orderEdits = success.orderEdits;
           final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
-          createdByList?.forEach((element) async {
-            await fetchUser(element ?? '');
-          });
+
+          createdByList?.forEach(
+            (element) async {
+              if (loadedUsers.isNotEmpty && loadedUsers.map((e) => e.id).toList().contains(element)) {
+              } else {
+                await fetchUser(element ?? '');
+              }
+            },
+          );
+
           return success.orderEdits;
         } else {
           // TODO: handle when edits are null

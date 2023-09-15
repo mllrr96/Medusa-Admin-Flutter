@@ -40,18 +40,23 @@ class OrderTimeline extends StatelessWidget {
               icon: const Icon(Icons.more_horiz)),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if(controller.notes?.isNotEmpty ?? false)
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: controller.notes?.length,
               itemBuilder: (context, index) {
                 final note = controller.notes?[index];
+                if(note == null){
+                  return const SizedBox.shrink();
+                }
                 return OrderNoteWidget(
-                  note!,
+                  note,
                   onNoteDelete: () async => controller.deleteNote(note.id),
                 );
               },
             ),
+            if(order.refunds?.isNotEmpty ?? false)
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -74,7 +79,7 @@ class OrderTimeline extends StatelessWidget {
                         if (orderEdit == null) {
                           return const SizedBox.shrink();
                         }
-                        return OrderEditRequestWidget(order, orderEdit: orderEdit);
+                        return OrderEditWidget(order, orderEdit: orderEdit);
                       },
                     );
                   } else if (!asyncSnapshot.hasData) {
