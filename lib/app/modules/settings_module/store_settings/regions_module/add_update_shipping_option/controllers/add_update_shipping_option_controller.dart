@@ -90,9 +90,9 @@ class AddUpdateShippingOptionController extends GetxController {
     result.when((success) async {
       Get.back();
       if (addUpdateShippingOptionReq.returnShippingOption) {
-        await RegionDetailsController.instance.loadReturnShippingOptions();
+        RegionDetailsController.instance.updateReturnOptions();
       } else {
-        await RegionDetailsController.instance.loadShippingOptions();
+        RegionDetailsController.instance.updateOptions();
       }
       dismissLoading();
     }, (error) {
@@ -132,9 +132,9 @@ class AddUpdateShippingOptionController extends GetxController {
     result.when((success) async {
       Get.back();
       if (addUpdateShippingOptionReq.returnShippingOption) {
-        await RegionDetailsController.instance.loadReturnShippingOptions();
+        RegionDetailsController.instance.updateReturnOptions();
       } else {
-        await RegionDetailsController.instance.loadShippingOptions();
+        RegionDetailsController.instance.updateOptions();
       }
     }, (error) {
       Get.snackbar('Error updating shipping option ${error.code ?? ''}', error.message,
