@@ -1,70 +1,78 @@
 import 'index.dart';
 import 'payment_collection.dart';
 
-class OrderEdit {
+class OrderEdit implements Comparable {
   /// The order edit's id
-  String? id;
+  final String? id;
 
   /// The id of the order that is edited
-  String? orderId;
+  final String? orderId;
 
   /// The details of the order that this order edit was created for.
-  Order? order;
+  final Order? order;
 
   /// The details of all the changes on the original order's line items.
-  List<OrderItemChange>? changes;
+  final List<OrderItemChange>? changes;
 
   /// The status of the order edit.
-  OrderEditStatus status = OrderEditStatus.created;
+  final OrderEditStatus status;
+
   /// An optional note with additional details about the order edit.
-  String? internalNote;
+  final String? internalNote;
 
   /// The unique identifier of the user or customer who created the order edit.
-  String? createdBy;
+  final String? createdBy;
 
   /// The unique identifier of the user or customer who requested the order edit.
-  String? requestedBy;
+  final String? requestedBy;
 
   /// The unique identifier of the user or customer who declined the order edit.
-  String? declinedBy;
+  final String? declinedBy;
 
   /// The unique identifier of the user or customer who confirmed the order edit.
-  String? confirmedBy;
+  final String? confirmedBy;
 
   /// The date with timezone at which the edit was requested.
-  DateTime? requestedAt;
+  final DateTime? requestedAt;
 
   /// The date with timezone at which the edit was confirmed.
-  DateTime? confirmedAt;
+  final DateTime? confirmedAt;
 
   /// The date with timezone at which the edit was declined.
-  DateTime? declinedAt;
+  final DateTime? declinedAt;
 
   /// An optional note why the order edit is declined.
-  String? declinedReason;
+  final String? declinedReason;
 
   /// The unique identifier of the user or customer who cancelled the order edit.
-  String? canceledBy;
+  final String? canceledBy;
 
   /// The date with timezone at which the edit was cancelled.
-  DateTime? canceledAt;
+  final DateTime? canceledAt;
 
   /// The id of the payment collection
-  String? paymentCollectionId;
+  final String? paymentCollectionId;
 
   /// The details of the payment collection used to authorize additional payment if necessary.
-  PaymentCollection? paymentCollection;
+  final PaymentCollection? paymentCollection;
 
-  int? subtotal;
-  int? discountTotal;
-  int? taxTotal;
-  int? total;
+  /// The total of subtotal
+  final int? subtotal;
+
+  /// The total of discount
+  final int? discountTotal;
+
+  /// The total of tax
+  final int? taxTotal;
+
+  /// The total amount of the edited order.
+  final int? total;
 
   /// The difference between the total amount of the order and total amount of edited order.
-  int? differenceDue;
+  final int? differenceDue;
 
   /// The details of the cloned items from the original order with the new changes. once the order edit is confirmed, these line items are associated with the original order.
-  List<LineItem>? items;
+  final List<LineItem>? items;
 
   OrderEdit({
     this.id,
@@ -93,39 +101,45 @@ class OrderEdit {
     this.canceledBy,
   });
 
-  OrderEdit.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderId = json['order_id'];
-    order = json['order'] != null ? Order.fromJson(json['order']) : null;
+  factory OrderEdit.fromJson(Map<String, dynamic> json) {
+    List<LineItem>? items;
+    List<OrderItemChange>? changes;
     if (json['changes'] != null) {
       changes = <OrderItemChange>[];
       json['changes'].forEach((e) => changes!.add(OrderItemChange.fromJson(e)));
     }
-    internalNote = json['internal_note'];
-    createdBy = json['created_by'];
-    requestedBy = json['requested_by'];
-    confirmedBy = json['confirmed_by'];
-    declinedBy = json['declined_by'];
-    requestedAt = DateTime.tryParse(json['requested_at'] ?? '')?.toLocal();
-    confirmedAt = DateTime.tryParse(json['confirmed_at'] ?? '')?.toLocal();
-    declinedAt = DateTime.tryParse(json['declined_at'] ?? '')?.toLocal();
-    declinedReason = json['declined_reason'];
-    subtotal = json['subtotal'];
-    discountTotal = json['discount_total'];
-    taxTotal = json['tax_total'];
-    total = json['total'];
-    differenceDue = json['difference_due'];
-    status = OrderEditStatus.values
-        .firstWhere((e) => e.name == (json['status'] ?? ''), orElse: () => OrderEditStatus.created);
     if (json['items'] != null) {
       items = <LineItem>[];
       json['items'].forEach((e) => items!.add(LineItem.fromJson(e)));
     }
-    paymentCollection =
-        json['payment_collection'] != null ? PaymentCollection.fromJson(json['payment_collection']) : null;
-    paymentCollectionId = json['payment_collection_id'];
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
-    canceledBy = json['canceled_by'];
+    return OrderEdit(
+      id: json['id'],
+      orderId: json['order_id'],
+      order: json['order'] != null ? Order.fromJson(json['order']) : null,
+      changes: changes,
+      items: items,
+      createdBy: json['created_by'],
+      requestedAt: DateTime.tryParse(json['requested_at'] ?? '')?.toLocal(),
+      canceledAt: DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal(),
+      declinedAt: DateTime.tryParse(json['declined_at'] ?? '')?.toLocal(),
+      confirmedAt: DateTime.tryParse(json['confirmed_at'] ?? '')?.toLocal(),
+      canceledBy: json['canceled_by'],
+      requestedBy: json['requested_by'],
+      declinedBy: json['declined_by'],
+      confirmedBy: json['confirmed_by'],
+      internalNote: json['internal_note'],
+      declinedReason: json['declined_reason'],
+      subtotal: json['subtotal'],
+      discountTotal: json['discount_total'],
+      taxTotal: json['tax_total'],
+      differenceDue: json['difference_due'],
+      total: json['total'],
+      status: OrderEditStatus.values
+          .firstWhere((e) => e.name == (json['status'] ?? ''), orElse: () => OrderEditStatus.created),
+      paymentCollection:
+          json['payment_collection'] != null ? PaymentCollection.fromJson(json['payment_collection']) : null,
+      paymentCollectionId: json['payment_collection_id'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -153,6 +167,37 @@ class OrderEdit {
     json['canceled_at'] = canceledAt.toString();
     json['payment_collection_id'] = paymentCollectionId;
     return json;
+  }
+
+  @override
+  int compareTo(other) {
+    int compare(DateTime? a, DateTime? b) {
+      if (a == null || b == null) {
+        return 0;
+      }
+
+      if (a.isAfter(b)) {
+        return -1;
+      }
+
+      if (a.isBefore(b)) {
+        return 1;
+      }
+      return 0;
+    }
+
+    DateTime? b;
+    if (other is OrderEdit) {
+      b = other.confirmedAt ?? other.declinedAt ?? other.requestedAt ?? other.canceledAt;
+    } else if (other is Note) {
+      b = other.createdAt;
+    } else if (other is Notification) {
+      b = other.createdAt;
+    } else  if( other is Refund){
+      b= other.createdAt;
+    }
+
+    return compare(confirmedAt ?? declinedAt ?? requestedAt ?? canceledAt, b);
   }
 }
 

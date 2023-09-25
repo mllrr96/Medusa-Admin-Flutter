@@ -46,7 +46,6 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
         }
       },
     );
-
     const space = SizedBox(height: 12.0);
     const halfSpace = SizedBox(height: 6.0);
     const buttonShape = RoundedRectangleBorder(

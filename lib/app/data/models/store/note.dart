@@ -1,7 +1,6 @@
 import 'index.dart';
 
-
-class Note {
+class Note implements Comparable {
   String? id;
   String? resourceType;
   String? resourceId;
@@ -52,5 +51,33 @@ class Note {
     json['deleted_at'] = deletedAt.toString();
     json['metadata'] = metadata;
     return json;
+  }
+
+  @override
+  int compareTo(other) {
+    final a = createdAt;
+    DateTime? b;
+    if (other is OrderEdit) {
+      b = other.confirmedAt ?? other.declinedAt ?? other.requestedAt ?? other.canceledAt;
+    } else if (other is Note) {
+      b = other.createdAt;
+    } else if (other is Notification) {
+      b = other.createdAt;
+    }else  if( other is Refund){
+      b= other.createdAt;
+    }
+
+    if (a == null || b == null) {
+      return 0;
+    }
+
+    if (a.isAfter(b)) {
+      return -1;
+    }
+
+    if (a.isBefore(b)) {
+      return 1;
+    }
+    return 0;
   }
 }

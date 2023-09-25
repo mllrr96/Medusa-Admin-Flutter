@@ -1,13 +1,34 @@
-class Refund {
-  String? id;
-  String? orderId;
-  int? amount;
-  String? note;
-  RefundReason? reason;
-  String? idempotencyKey;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deletedAt;
+import 'index.dart';
+
+class Refund implements Comparable {
+  /// The refund's id
+  final String? id;
+
+  /// The id of the order this refund was created for.
+  final String? orderId;
+
+  /// The payment's id, if available.
+  final String? paymentId;
+
+  /// The amount that has be refunded to the customer.
+  final int? amount;
+
+  /// An optional note explaining why the amount was refunded.
+  final String? note;
+
+  /// The reason given for the refund, will automatically be set when processed as part of a swap, claim or return.
+  final RefundReason? reason;
+
+  /// Randomly generated key used to continue the completion of the refund in case of failure.
+  final String? idempotencyKey;
+
+  /// The date with timezone at which the resource was created.
+  final DateTime? createdAt;
+
+  /// The date with timezone at which the resource was updated.
+  final DateTime? updatedAt;
+
+  /// An optional key-value map with additional details
   Map<String, dynamic>? metadata;
 
   Refund({
@@ -19,24 +40,22 @@ class Refund {
     this.idempotencyKey,
     this.createdAt,
     this.updatedAt,
-    this.deletedAt,
     this.metadata,
+    this.paymentId,
   });
 
-  Refund.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderId = json['order_id'];
-    amount = json['amount'];
-    note = json['note'];
-    reason = json['reason'] != null
-        ? RefundReason.values
-            .firstWhere((e) => e.value == (json['reason'] ?? ''))
-        : null;
-    idempotencyKey = json['idempotency_key'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'];
+  factory Refund.fromJson(Map<String, dynamic> json) {
+    return Refund(
+      id: json['id'],
+      orderId: json['order_id'],
+      amount: json['amount'],
+      note: json['note'],
+      reason: json['reason'] != null ? RefundReason.values.firstWhere((e) => e.value == (json['reason'] ?? '')) : null,
+      idempotencyKey: json['idempotency_key'],
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
+      metadata: json['metadata'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -49,9 +68,39 @@ class Refund {
     json['idempotency_key'] = idempotencyKey;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
-    json['deleted_at'] = deletedAt.toString();
     json['metadata'] = metadata;
     return json;
+  }
+
+  @override
+  int compareTo(other) {
+    int compare(DateTime? a, DateTime? b) {
+      if (a == null || b == null) {
+        return 0;
+      }
+
+      if (a.isAfter(b)) {
+        return -1;
+      }
+
+      if (a.isBefore(b)) {
+        return 1;
+      }
+      return 0;
+    }
+
+    DateTime? b;
+    if (other is OrderEdit) {
+      b = other.confirmedAt ?? other.declinedAt ?? other.requestedAt ?? other.canceledAt;
+    } else if (other is Note) {
+      b = other.createdAt;
+    } else if (other is Notification) {
+      b = other.createdAt;
+    } else if (other is Refund) {
+      b = other.createdAt;
+    }
+
+    return compare(createdAt, b);
   }
 }
 

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart' as medusa;
 import '../../../../data/models/req/user_fulfillment_req.dart';
 import '../../../../data/models/req/user_order.dart';
 import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
@@ -29,10 +28,11 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   final FulfillmentRepo fulfillmentRepo;
   final UserRepo userRepo;
   String orderId = Get.arguments;
-  List<OrderEdit>? orderEdits;
-  List<Note>? notes;
-  List<medusa.Notification>? notifications;
+  // List<OrderEdit>? orderEdits;
+  // List<Note>? notes;
+  // List<medusa.Notification>? notifications;
   List<User> loadedUsers = [];
+  List timeLine = [];
   final scrollController = ScrollController();
   final summeryKey = GlobalKey();
   final paymentKey = GlobalKey();
@@ -42,9 +42,12 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    await fetchOrderNotes();
-    await fetchOrderNotification();
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    super.onReady();
   }
 
   @override
@@ -80,16 +83,30 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<List<OrderEdit>?> fetchOrderEdits() async {
+  Future<List?> fetchTimeLine() async {
+    timeLine.clear();
+    await fetchOrderNotes();
+    await fetchOrderNotification();
+    await fetchOrderEdits();
+    state?.refunds?.forEach((element) {
+      timeLine.add(element);
+    });
+    timeLine.sort();
+    return timeLine;
+  }
+
+  Future<List<OrderEdit>?> fetchOrderEdits({bool shuffle = false}) async {
     final result = await orderEditsRepo.retrieveAllOrderEdit(
       queryParameters: {'order_id': orderId},
     );
     return await result.when(
       (success) async {
         if (success.orderEdits != null) {
-          orderEdits = success.orderEdits;
+          // orderEdits = success.orderEdits;
           final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
-
+          success.orderEdits?.forEach((element) {
+            timeLine.add(element);
+          });
           createdByList?.forEach(
             (element) async {
               if (loadedUsers.isNotEmpty && loadedUsers.map((e) => e.id).toList().contains(element)) {
@@ -98,7 +115,6 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
               }
             },
           );
-
           return success.orderEdits;
         } else {
           // TODO: handle when edits are null
@@ -140,7 +156,9 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) {
         if (success.notes != null) {
-          notes = success.notes;
+          success.notes?.forEach((element) {
+            timeLine.add(element);
+          });
         } else {
           // TODO: handle when edits are null
         }
@@ -161,7 +179,9 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) {
         if (success.notifications != null) {
-          notifications = success.notifications;
+          success.notifications?.forEach((element) {
+            timeLine.add(element);
+          });
         } else {
           // TODO: handle when edits are null
         }
