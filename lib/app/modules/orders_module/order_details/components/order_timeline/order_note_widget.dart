@@ -25,35 +25,37 @@ class OrderNoteWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 14,
-                      backgroundColor: ColorManager.getAvatarColor(text),
-                      child: Text(text?[0].toUpperCase() ?? '', style: smallTextStyle?.copyWith(color: Colors.white)),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(text ?? '', style: smallTextStyle?.copyWith(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 14,
-                      backgroundColor: Colors.transparent,
-                      child: Text(text?[0].toUpperCase() ?? '',
-                          style: smallTextStyle?.copyWith(color: Colors.transparent)),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(timeago.format(DateTime.now().subtract(durationDiff)),
-                        style: smallTextStyle?.copyWith(color: lightWhite)),
-                  ],
-                ),
-              ],
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundColor: ColorManager.getAvatarColor(text),
+                        child: Text(text?[0].toUpperCase() ?? '', style: smallTextStyle?.copyWith(color: Colors.white)),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Flexible(child: Text(text ?? '', style: smallTextStyle?.copyWith(fontWeight: FontWeight.bold))),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundColor: Colors.transparent,
+                        child: Text(text?[0].toUpperCase() ?? '',
+                            style: smallTextStyle?.copyWith(color: Colors.transparent)),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Text(timeago.format(DateTime.now().subtract(durationDiff)),
+                          style: smallTextStyle?.copyWith(color: lightWhite)),
+                    ],
+                  ),
+                ],
+              ),
             ),
             AdaptiveIcon(
                 onPressed: () async {

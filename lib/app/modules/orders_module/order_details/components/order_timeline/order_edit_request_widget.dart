@@ -75,7 +75,12 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
               children: [
                 const Icon(Icons.error_outline, color: Colors.red),
                 const SizedBox(width: 12.0),
-                Text('Refund Required', style: smallTextStyle)
+                Column(
+                  children: [
+                    Text('Refund Required', style: smallTextStyle),
+                    Text('a few seconds age', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  ],
+                )
               ],
             ),
             space,
@@ -267,35 +272,34 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
             )
           ],
         );
+      case OrderEditStatus.canceled:
+        orderStatus = Row(
+          children: [
+            const Icon(Icons.close_sharp),
+            const SizedBox(width: 12.0),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Order Edit canceled', style: smallTextStyle),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '${timeago.format(DateTime.now().subtract(canceledDurationDiff))} by ',
+                          style: smallTextStyle?.copyWith(color: lightWhite),
+                        ),
+                      ),
+                      Flexible(child: userName(user: orderEdit.canceledBy)),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        );
       case OrderEditStatus.requested:
       case OrderEditStatus.created:
-      // TODO: Handle this case.
-      case OrderEditStatus.canceled:
-      orderStatus = Row(
-        children: [
-          const Icon(Icons.close_sharp),
-          const SizedBox(width: 12.0),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Order Edit canceled', style: smallTextStyle),
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        '${timeago.format(DateTime.now().subtract(canceledDurationDiff))} by ',
-                        style: smallTextStyle?.copyWith(color: lightWhite),
-                      ),
-                    ),
-                    Flexible(child: userName(user: orderEdit.canceledBy)),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      );
     }
     return Column(
       children: [
@@ -363,6 +367,10 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                                               child: CachedNetworkImage(
                                                 imageUrl: item.lineItem?.thumbnail ?? '',
                                                 fit: BoxFit.fitHeight,
+                                                placeholder: (context, text) =>
+                                                    const Center(child: CircularProgressIndicator.adaptive()),
+                                                errorWidget: (context, string, error) =>
+                                                    const Icon(Icons.warning_rounded, color: Colors.redAccent),
                                               ))
                                           : null,
                                       title: Text(quantityAddedString + (item.lineItem?.title ?? '')),
@@ -422,7 +430,13 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                                       leading: item?.thumbnail != null
                                           ? ConstrainedBox(
                                               constraints: const BoxConstraints(maxWidth: 50),
-                                              child: CachedNetworkImage(imageUrl: item?.thumbnail ?? ''))
+                                              child: CachedNetworkImage(
+                                                imageUrl: item?.thumbnail ?? '',
+                                                placeholder: (context, text) =>
+                                                    const Center(child: CircularProgressIndicator.adaptive()),
+                                                errorWidget: (context, string, error) =>
+                                                    const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                                              ))
                                           : null,
                                       title: Text(quantityRemovedString + (item?.title ?? '')),
                                       subtitle: quantityRemovedString.isNotEmpty

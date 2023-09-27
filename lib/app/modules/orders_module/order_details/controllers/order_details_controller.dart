@@ -28,9 +28,6 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   final FulfillmentRepo fulfillmentRepo;
   final UserRepo userRepo;
   String orderId = Get.arguments;
-  // List<OrderEdit>? orderEdits;
-  // List<Note>? notes;
-  // List<medusa.Notification>? notifications;
   List<User> loadedUsers = [];
   List timeLine = [];
   final scrollController = ScrollController();
@@ -39,9 +36,12 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   final fulfillmentKey = GlobalKey();
   final customerKey = GlobalKey();
   final timelineKey = GlobalKey();
+  final noteCtrl = TextEditingController();
+  late Future<List?>? timeLineFuture;
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
+    timeLineFuture = fetchTimeLine();
     super.onInit();
   }
 
@@ -102,7 +102,6 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     return await result.when(
       (success) async {
         if (success.orderEdits != null) {
-          // orderEdits = success.orderEdits;
           final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
           success.orderEdits?.forEach((element) {
             timeLine.add(element);
@@ -382,14 +381,39 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     final result = await noteRepo.deleteNote(id: id);
     await result.when((success) async {
       EasyLoading.showSuccess('Note deleted');
-      await fetchOrderNotes();
-      update([5]);
+      reloadTimeLine();
     }, (error) {
       Get.snackbar(
         'Error deleting note ${error.code ?? ''}',
         error.message,
         snackPosition: SnackPosition.BOTTOM,
       );
+    });
+  }
+
+  Future<void> addNote() async {
+    if (noteCtrl.text.removeAllWhitespace.isEmpty) {
+      return;
+    }
+    loading();
+    final result = await noteRepo.createNote(resourceId: orderId, resourceType: 'order', value: noteCtrl.text);
+    await result.when((success) async {
+      EasyLoading.showSuccess('Note created');
+      noteCtrl.clear();
+      reloadTimeLine();
+    }, (error) {
+      Get.snackbar(
+        'Error creating note ${error.code ?? ''}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  void reloadTimeLine() {
+    timeLineFuture = fetchTimeLine().then((_) {
+      update([5]);
+      return _;
     });
   }
 }

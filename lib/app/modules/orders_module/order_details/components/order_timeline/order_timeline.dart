@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'index.dart';
@@ -41,112 +42,72 @@ class OrderTimeline extends StatelessWidget {
               icon: const Icon(Icons.more_horiz)),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // if(controller.notes?.isNotEmpty ?? false)
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   itemCount: controller.notes?.length,
-            //   itemBuilder: (context, index) {
-            //     final note = controller.notes?[index];
-            //     if(note == null){
-            //       return const SizedBox.shrink();
-            //     }
-            //     return OrderNoteWidget(
-            //       note,
-            //       onNoteDelete: () async => controller.deleteNote(note.id),
-            //     );
-            //   },
-            // ),
-            // if(order.refunds?.isNotEmpty ?? false)
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   itemCount: order.refunds?.length,
-            //   itemBuilder: (context, index) {
-            //     final refund = order.refunds?[index];
-            //     return RefundWidget(refund!, currency: order.currency!);
-            //   },
-            // ),
+            SearchTextField(
+              controller: controller.noteCtrl,
+              fillColor: context.theme.scaffoldBackgroundColor,
+              hintText: 'Write a note',
+              prefixIconData: Icons.tag_faces,
+              suffixIconData: Icons.send,
+              onSuffixTap: () async => await controller.addNote(),
+              maxLines: null,
+              contentPadding: const EdgeInsets.symmetric(vertical: 5),
+              textInputAction: TextInputAction.send,
+              textCapitalization: TextCapitalization.sentences,
+              onSubmitted: (_) async => await controller.addNote(),
+            ),
+            const Divider(),
             FutureBuilder<List?>(
-                future: controller.fetchTimeLine(),
-                builder: (context, asyncSnapshot) {
-                  if (asyncSnapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: asyncSnapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        final item = asyncSnapshot.data?[index];
-                        switch (item.runtimeType){
-                          case OrderEdit:
-                            return OrderEditWidget(order, orderEdit: item);
-                          case Note:
-                            return OrderNoteWidget(
-                              item,
-                              onNoteDelete: () async => controller.deleteNote(item.id),
-                            );
-                          case Refund:
-                            return RefundWidget(item, currency: order.currency!);
-                          case medusa.Notification:
-                            return const SizedBox();
-                          default:
-                            return const SizedBox();
-                        }
-
-
-
-                      },
+              future: controller.timeLineFuture,
+              builder: (context, asyncSnapshot) {
+                switch (asyncSnapshot.connectionState) {
+                  case ConnectionState.none || ConnectionState.waiting || ConnectionState.active:
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
                     );
-                  } else if (!asyncSnapshot.hasData) {
-                    return const CircularProgressIndicator.adaptive();
-                  }
+                  case ConnectionState.done:
+                    if (asyncSnapshot.hasData) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: asyncSnapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          final item = asyncSnapshot.data?[index];
+                          switch (item.runtimeType) {
+                            case OrderEdit:
+                              return OrderEditWidget(order, orderEdit: item);
+                            case Note:
+                              return OrderNoteWidget(
+                                item,
+                                onNoteDelete: () async => controller.deleteNote(item.id),
+                              );
+                            case Refund:
+                              return RefundWidget(item, currency: order.currency!);
+                            case medusa.Notification:
+                              return const SizedBox();
+                            default:
+                              return const SizedBox();
+                          }
+                        },
+                      );
+                    } else if (!asyncSnapshot.hasData) {
+                      return const SizedBox.shrink();
+                    }
+                }
 
-                  if (asyncSnapshot.hasError) {
-                    return Column(
-                      children: [
-                        const Text('Error fetching order edits'),
-                        OutlinedButton(onPressed: () {}, child: const Text('Retry'))
-                      ],
-                    );
-                  }
-
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
+                if (asyncSnapshot.hasError) {
+                  return Column(
+                    children: [
+                      const Text('Error fetching order edits'),
+                      OutlinedButton(onPressed: () {}, child: const Text('Retry'))
+                    ],
                   );
-                }),
-            // FutureBuilder<List<OrderEdit>?>(
-            //     future: controller.fetchOrderEdits(),
-            //     builder: (context, asyncSnapshot) {
-            //       if (asyncSnapshot.hasData) {
-            //         return ListView.builder(
-            //           shrinkWrap: true,
-            //           physics: const NeverScrollableScrollPhysics(),
-            //           itemCount: asyncSnapshot.data?.length,
-            //           itemBuilder: (context, index) {
-            //             final orderEdit = asyncSnapshot.data?[index];
-            //             if (orderEdit == null) {
-            //               return const SizedBox.shrink();
-            //             }
-            //             return OrderEditWidget(order, orderEdit: orderEdit);
-            //           },
-            //         );
-            //       } else if (!asyncSnapshot.hasData) {
-            //         return const SizedBox.shrink();
-            //       }
-            //
-            //       if (asyncSnapshot.hasError) {
-            //         return Column(
-            //           children: [
-            //             const Text('Error fetching order edits'),
-            //             OutlinedButton(onPressed: () {}, child: const Text('Retry'))
-            //           ],
-            //         );
-            //       }
-            //
-            //       return const Center(
-            //         child: CircularProgressIndicator.adaptive(),
-            //       );
-            //     }),
+                }
+
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              },
+            ),
             OrderPlacedWidget(order),
           ],
         );
