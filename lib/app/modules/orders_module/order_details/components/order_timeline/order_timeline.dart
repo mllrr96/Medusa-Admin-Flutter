@@ -73,8 +73,14 @@ class OrderTimeline extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final item = asyncSnapshot.data?[index];
                           switch (item.runtimeType) {
+                            // case  List:
+                            //   return OrderEditStatusWidget(order, orderEdit: item);
                             case OrderEdit:
-                              return OrderEditWidget(order, orderEdit: item);
+                              if ((item as OrderEdit).requestedAt != null) {
+                                return OrderEditWidget(item);
+                              } else {
+                                return OrderEditStatusWidget(order, orderEdit: item);
+                              }
                             case Note:
                               return OrderNoteWidget(
                                 item,

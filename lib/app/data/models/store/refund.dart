@@ -91,7 +91,7 @@ class Refund implements Comparable {
 
     DateTime? b;
     if (other is OrderEdit) {
-      b = other.confirmedAt ?? other.declinedAt ?? other.requestedAt ?? other.canceledAt;
+      b = other.requestedAt ?? other.declinedAt ?? other.confirmedAt ?? other.canceledAt;
     } else if (other is Note) {
       b = other.createdAt;
     } else if (other is Notification) {

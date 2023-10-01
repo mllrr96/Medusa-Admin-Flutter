@@ -105,6 +105,11 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
           final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
           success.orderEdits?.forEach((element) {
             timeLine.add(element);
+            if (element.status == OrderEditStatus.requested) {
+              timeLine.add(element.copyWith.requestedAt(null).copyWith.confirmedAt(DateTime.now()));
+            } else {
+              timeLine.add(element.copyWith.requestedAt(null));
+            }
           });
           createdByList?.forEach(
             (element) async {

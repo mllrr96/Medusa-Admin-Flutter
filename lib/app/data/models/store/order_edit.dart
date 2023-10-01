@@ -1,6 +1,11 @@
 import 'index.dart';
 import 'payment_collection.dart';
+// ignore: depend_on_referenced_packages
+import 'package:copy_with_extension/copy_with_extension.dart';
 
+part 'order_edit.g.dart';
+
+@CopyWith()
 class OrderEdit implements Comparable {
   /// The order edit's id
   final String? id;
@@ -10,6 +15,8 @@ class OrderEdit implements Comparable {
 
   /// The details of the order that this order edit was created for.
   final Order? order;
+
+  @CopyWithField(immutable: true)
 
   /// The details of all the changes on the original order's line items.
   final List<OrderItemChange>? changes;
@@ -188,17 +195,71 @@ class OrderEdit implements Comparable {
 
     DateTime? b;
     if (other is OrderEdit) {
-      b = other.confirmedAt ?? other.declinedAt ?? other.requestedAt ?? other.canceledAt;
+      b = other.requestedAt ?? other.confirmedAt ?? other.declinedAt ?? other.canceledAt;
     } else if (other is Note) {
       b = other.createdAt;
     } else if (other is Notification) {
       b = other.createdAt;
-    } else  if( other is Refund){
-      b= other.createdAt;
+    } else if (other is Refund) {
+      b = other.createdAt;
     }
 
-    return compare(confirmedAt ?? declinedAt ?? requestedAt ?? canceledAt, b);
+    return compare(requestedAt ?? confirmedAt ?? declinedAt ?? canceledAt, b);
   }
+
+  // OrderEdit copyWith({
+  //   String? id,
+  //   String? orderId,
+  //   Order? order,
+  //   List<OrderItemChange>? changes,
+  //   OrderEditStatus? status,
+  //   String? internalNote,
+  //   String? createdBy,
+  //   String? requestedBy,
+  //   String? declinedBy,
+  //   String? confirmedBy,
+  //   DateTime? requestedAt,
+  //   DateTime? confirmedAt,
+  //   DateTime? declinedAt,
+  //   String? declinedReason,
+  //   String? canceledBy,
+  //   DateTime? canceledAt,
+  //   String? paymentCollectionId,
+  //   PaymentCollection? paymentCollection,
+  //   int? subtotal,
+  //   int? discountTotal,
+  //   int? taxTotal,
+  //   int? total,
+  //   int? differenceDue,
+  //   List<LineItem>? items,
+  // }) {
+  //   return OrderEdit(
+  //     orderId: orderId ?? this.orderId,
+  //     order: order ?? this.order,
+  //     changes: changes ?? this.changes,
+  //     createdBy: createdBy ?? this.createdBy,
+  //     items: items ?? this.items,
+  //     differenceDue: differenceDue ?? this.differenceDue,
+  //     total: total ?? this.total,
+  //     taxTotal: taxTotal ?? this.taxTotal,
+  //     discountTotal: discountTotal ?? this.discountTotal,
+  //     subtotal: subtotal ?? this.subtotal,
+  //     paymentCollection: paymentCollection ?? this.paymentCollection,
+  //     paymentCollectionId: paymentCollectionId ?? this.paymentCollectionId,
+  //     declinedReason: declinedReason ?? this.declinedReason,
+  //     canceledAt: canceledAt ?? this.canceledAt,
+  //     canceledBy: canceledBy ?? this.canceledBy,
+  //     declinedAt: declinedAt ?? this.declinedAt,
+  //     confirmedAt: confirmedAt ?? this.confirmedAt,
+  //     requestedAt: requestedAt,
+  //     confirmedBy: confirmedBy ?? this.confirmedBy,
+  //     declinedBy: declinedBy ?? this.declinedBy,
+  //     requestedBy: requestedBy ?? this.requestedBy,
+  //     internalNote: internalNote ?? this.internalNote,
+  //     id: id ?? this.id,
+  //     status: status ?? this.status,
+  //   );
+  // }
 }
 
 enum OrderEditStatus {
