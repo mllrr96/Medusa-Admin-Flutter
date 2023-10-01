@@ -5,19 +5,25 @@ import 'package:get/get.dart';
 import '../../../core/utils/medusa_icons_icons.dart';
 
 class SearchTextField extends StatelessWidget {
-  const SearchTextField(
-      {Key? key,
-      this.focusNode,
-      required this.controller,
-      this.hintText,
-      this.onChanged,
-      this.onSuffixTap,
-      this.suffixIcon,
-      this.androidPadding,
-      this.fillColor,
-      this.onSubmitted,  this.autoFocus = false,
-      })
-      : super(key: key);
+  const SearchTextField({
+    Key? key,
+    this.focusNode,
+    required this.controller,
+    this.hintText,
+    this.onChanged,
+    this.onSuffixTap,
+    this.suffixIconData,
+    this.androidPadding,
+    this.fillColor,
+    this.onSubmitted,
+    this.autoFocus = false,
+    this.prefixIconData,
+    this.textInputAction,
+    this.maxLines = 1,
+    this.contentPadding,
+    this.textInputType,
+    this.textCapitalization = TextCapitalization.none,
+  }) : super(key: key);
   final FocusNode? focusNode;
   final TextEditingController controller;
   final String? hintText;
@@ -25,10 +31,15 @@ class SearchTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final void Function(String)? onSubmitted;
   final void Function()? onSuffixTap;
-  final Icon? suffixIcon;
+  final IconData? suffixIconData;
+  final IconData? prefixIconData;
   final EdgeInsets? androidPadding;
   final bool autoFocus;
-
+  final TextInputAction? textInputAction;
+  final TextInputType? textInputType;
+  final int? maxLines;
+  final EdgeInsetsGeometry? contentPadding;
+  final TextCapitalization textCapitalization;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
@@ -45,21 +56,23 @@ class SearchTextField extends StatelessWidget {
       style: smallTextStyle,
       autocorrect: false,
       autofocus: autoFocus,
-      textInputAction: TextInputAction.search,
+      keyboardType: textInputType,
+      textCapitalization: textCapitalization,
+      maxLines: maxLines,
+      textInputAction: textInputAction ?? TextInputAction.search,
       onSubmitted: onSubmitted,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         suffixIconConstraints: constraints,
         suffixIcon: Material(
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-          color:
-          fillColor ?? context.theme.appBarTheme.backgroundColor,
+          color: fillColor ?? context.theme.appBarTheme.backgroundColor,
           child: InkWell(
             borderRadius: const BorderRadius.horizontal(right: Radius.circular(4.0)),
             onTap: onSuffixTap,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(CupertinoIcons.xmark_circle_fill),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(suffixIconData ?? CupertinoIcons.xmark_circle_fill),
             ),
           ),
         ),
@@ -68,8 +81,7 @@ class SearchTextField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(width: 12.0),
-            Icon(MedusaIcons.magnifying_glass_mini,
-                color: lightWhite),
+            Icon(prefixIconData ?? MedusaIcons.magnifying_glass_mini, color: lightWhite),
             const SizedBox(width: 12.0),
           ],
         ),
@@ -77,12 +89,11 @@ class SearchTextField extends StatelessWidget {
         filled: true,
         hintText: hintText,
         hintStyle: smallTextStyle?.copyWith(color: lightWhite),
-        fillColor:
-        fillColor ?? context.theme.appBarTheme.backgroundColor,
+        fillColor: fillColor ?? context.theme.appBarTheme.backgroundColor,
         border: border,
         focusedBorder: border,
         enabledBorder: border,
-        contentPadding: EdgeInsets.zero,
+        contentPadding: contentPadding ?? EdgeInsets.zero,
       ),
     );
   }

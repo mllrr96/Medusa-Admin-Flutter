@@ -31,7 +31,7 @@ class AddRegionController extends GetxController {
     if (updateMode) {
       loadRegion();
     }
-    await fetchProviders();
+    // await fetchProviders();
     super.onInit();
   }
 
@@ -61,7 +61,7 @@ class AddRegionController extends GetxController {
         name: titleCtrl.text,
         currencyCode: selectedCurrency!.code!,
         taxRate: double.parse(defaultTaxRateCtrl.text),
-        taxCode: defaultTextCode.text,
+        // taxCode: defaultTextCode.text,
         paymentProviders: selectedPaymentProviders,
         fulfillmentProviders: [],
         countries: countriesIso,
@@ -128,7 +128,6 @@ class AddRegionController extends GetxController {
 
   Future<void> fetchProviders() async {
     final result = await storeRepo.retrievePaymentProviders();
-    final result2 = await storeRepo.retrieveTaxProviders();
     const kDuration = Duration(milliseconds: 300);
 
     result.when((success) async {

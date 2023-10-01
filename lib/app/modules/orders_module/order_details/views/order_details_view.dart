@@ -38,30 +38,25 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
-            title:  Text(tr.orderAppBarTitle),
+            title: Text(tr.orderAppBarTitle),
             centerTitle: true,
             actions: [
-              if (controller.state != null)
+              if (controller.state?.status != OrderStatus.canceled)
                 AdaptiveIcon(
                     onPressed: () async {
                       await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                         SheetAction(label: tr.requestReturn, key: 0),
-                         SheetAction(label: tr.registerExchange, key: 1),
-                         SheetAction(label: tr.registerClaim, key: 2),
-                        if (controller.state!.status != OrderStatus.canceled)
-                           SheetAction(
-                            label: tr.cancelOrder,
-                            key: 3,
-                            isDestructiveAction: true,
-                          ),
+                        SheetAction(
+                          label: tr.cancelOrder,
+                          key: 0,
+                          isDestructiveAction: true,
+                        ),
                       ]).then((result) async {
                         switch (result) {
-                          case 3:
+                          case 0:
                             final order = controller.state!;
                             await showTextAnswerDialog(
                               title: tr.cancelOrder,
-                              message:
-                                  tr.cancelOrderAlertMessage(order.displayId!),
+                              message: tr.cancelOrderAlertMessage(order.displayId!),
                               retryMessage:
                                   'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
                               retryOkLabel: 'Retry',
@@ -144,7 +139,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   ),
                 ),
               ),
-              onEmpty:  Center(child: Text(tr.noOrder)),
+              onEmpty: Center(child: Text(tr.noOrder)),
               onError: (e) => Center(child: Text(e ?? tr.errorLoadingOrder)),
               onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),

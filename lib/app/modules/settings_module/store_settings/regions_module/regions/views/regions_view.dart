@@ -52,7 +52,7 @@ class RegionCard extends StatelessWidget {
     final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return InkWell(
       onTap: onTap ?? () => Get.toNamed(Routes.REGION_DETAILS, arguments: region.id),
-      borderRadius:const BorderRadius.all(Radius.circular(12.0)),
+      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
@@ -72,30 +72,29 @@ class RegionCard extends StatelessWidget {
                         maxLines: 2)),
               ],
             ),
-            if (showProviders) const SizedBox(height: 6.0),
             if (showProviders)
-              Row(
+              Column(
                 children: [
-                  Text('Payment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
-                  Expanded(child: Text(getPaymentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
-                ],
-              ),
-            if (showProviders)
-              Row(
-                children: [
-                  Text('Fulfillment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
-                  Expanded(child: Text(getFulfilmentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                  const SizedBox(height: 6.0),
+                  Row(
+                    children: [
+                      Text('Payment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
+                      Expanded(child: Text(getPaymentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text('Fulfillment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
+                      Expanded(
+                          child: Text(getFulfilmentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                    ],
+                  ),
                 ],
               ),
           ],
         ),
       ),
     );
-
-    // return ListTile(
-    //   title: Text('${region.name!} (${getCountries()})'),
-    //   subtitle: Text('Payment Providers: ', style: smallTextStyle),
-    // );
   }
 
   String getCountries() {

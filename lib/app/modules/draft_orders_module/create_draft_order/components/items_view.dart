@@ -127,7 +127,7 @@ class ItemsView extends StatelessWidget {
                                 var quantity =
                                     controller.lineItems[index].quantity;
                                 quantity = quantity! + 1;
-                                controller.lineItems[index].quantity = quantity;
+                                controller.lineItems[index].copyWith.quantity(quantity);
                                 controller.update();
                               },
                               onRemoveTap: lineItem.quantity! > 1
@@ -136,8 +136,7 @@ class ItemsView extends StatelessWidget {
                                     controller.lineItems[index].quantity;
                                 if (quantity! > 1) {
                                   quantity = quantity - 1;
-                                  controller.lineItems[index].quantity =
-                                      quantity;
+                                  controller.lineItems[index].copyWith.quantity(quantity);
                                   controller.update();
                                 }
                               }
@@ -174,17 +173,14 @@ class ItemsView extends StatelessWidget {
                                 controller.update();
                               },
                               onAddTap: () {
-                                customLineItems[index].quantity =
-                                    customLineItems[index].quantity! + 1;
+                                customLineItems[index].copyWith.quantity(customLineItems[index].quantity! + 1);
                                 controller.update();
                               },
                               onRemoveTap: customLineItems[index].quantity! > 1
                                   ? () {
                                 if (customLineItems[index].quantity! >
                                     1) {
-                                  customLineItems[index].quantity =
-                                      customLineItems[index].quantity! -
-                                          1;
+                                  customLineItems[index].copyWith.quantity(customLineItems[index].quantity! - 1);
                                   controller.update();
                                 }
                               }

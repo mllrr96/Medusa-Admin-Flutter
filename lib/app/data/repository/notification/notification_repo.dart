@@ -48,6 +48,7 @@ class NotificationRepo extends BaseNotification {
       }
       final response = await _dataProvider.get(
         uri: '/notifications',
+        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserRetrieveNotificationsRes.fromJson(response.data));

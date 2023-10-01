@@ -23,11 +23,17 @@ class OrderSummeryCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
       child: Row(
         children: [
-          if(item.thumbnail!=null)
-          SizedBox(
+          if (item.thumbnail != null)
+            SizedBox(
               height: 50,
               width: 50,
-              child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!)),
+              child: CachedNetworkImage(
+                key: ValueKey(item.thumbnail),
+                imageUrl: item.thumbnail!,
+                placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
+              ),
+            ),
           const SizedBox(width: 6.0),
           Expanded(
             child: Column(
