@@ -1,3 +1,4 @@
+import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -114,7 +115,12 @@ class SelectCountryView extends StatelessWidget {
                     }
                     controller.update();
                   },
-                  title: Text(country.displayName!),
+                  title: Row(
+                    children: [
+                      Flag.fromString(country.iso2!,height: 15,width: 30),
+                      Text(country.displayName!),
+                    ],
+                  ),
                 );
               },
             ),

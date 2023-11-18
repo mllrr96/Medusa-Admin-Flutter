@@ -34,6 +34,8 @@ class Order {
   List<LineItem>? items;
   List<GiftCardTransaction>? giftCardTransactions;
   DateTime? canceledAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   bool noNotification = false;
   String? idempotencyKey;
   String? externalId;
@@ -99,6 +101,8 @@ class Order {
     this.refundableAmount,
     this.giftCardTotal,
     this.giftCardTaxTotal,
+    this.createdAt,
+    this.updatedAt,
   });
 
   Order.fromJson(Map<String, dynamic> json) {
@@ -166,6 +170,8 @@ class Order {
       json['gift_card_transactions'].forEach((e) => giftCardTransactions!.add(GiftCardTransaction.fromJson(e)));
     }
     canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '');
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     noNotification = json['no_notification'] ?? false;
     idempotencyKey = json['idempotency_key'];
     externalId = json['external_id'];
@@ -221,6 +227,8 @@ class Order {
     json['items'] = items?.map((e) => e.toJson()).toList();
     json['gift_card_transactions'] = giftCardTransactions?.map((e) => e.toJson()).toList();
     json['canceled_at'] = canceledAt.toString();
+    json['created_at'] = createdAt.toString();
+    json['updated_at'] = updatedAt.toString();
     json['no_notification'] = noNotification;
     json['idempotency_key'] = idempotencyKey;
     json['external_id'] = externalId;

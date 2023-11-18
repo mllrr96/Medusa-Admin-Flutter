@@ -2,72 +2,72 @@ import 'index.dart';
 
 class Region {
   /// The region's ID
-  String? id;
+  final String? id;
 
   /// The name of the region as displayed to the customer.
   /// If the Region only has one country it is recommended to write the country name.
   ///
   /// Example: "EU"
-  String? name;
+  final String? name;
 
   /// The 3 character currency code that the Region uses.
   ///
   /// Example: "usd"
-  String? currencyCode;
-  Currency? currency;
+  final String? currencyCode;
+  final Currency? currency;
 
   /// The tax rate that should be charged on purchases in the Region.
-  num? taxRate;
+  final num? taxRate;
 
   /// The tax rates that are included in the Region.
   ///
   /// Available if the relation tax_rates is expanded.
-  List<TaxRate>? taxRates;
+  final List<TaxRate>? taxRates;
 
   /// The tax code used on purchases in the Region. This may be used by other systems for accounting purposes.
-  String? taxCode;
+  final String? taxCode;
 
   /// Whether the gift cards are taxable or not in this region.
-  bool? giftCardsTaxable;
+  final bool? giftCardsTaxable;
 
   /// Whether taxes should be automated in this region.
-  bool? automaticTaxes;
+  final bool? automaticTaxes;
 
   /// The countries that are included in the Region.
   ///
   /// Available if the relation countries is expanded.
-  List<Country>? countries;
+  final List<Country>? countries;
 
   /// The ID of the tax provider used in this region
-  String? taxProviderId;
+  final String? taxProviderId;
 
   /// The tax service used to calculate taxes
-  TaxProvider? taxProvider;
+  final TaxProvider? taxProvider;
 
   /// The Payment Providers that can be used to process Payments in the Region.
   ///
   /// Available if the relation payment_providers is expanded.
-  List<PaymentProvider>? paymentProviders;
+  final List<PaymentProvider>? paymentProviders;
 
   /// The Fulfillment Providers that can be used to fulfill orders in the Region.
   ///
   /// Available if the relation fulfillment_providers is expanded.
-  List<FulfillmentProvider>? fulfillmentProviders;
+  final List<FulfillmentProvider>? fulfillmentProviders;
 
   /// [EXPERIMENTAL] Does the prices for the region include tax
-  bool? includesTax;
+  final bool? includesTax;
 
   /// The date with timezone at which the resource was created.
-  DateTime? createdAt;
+  final DateTime? createdAt;
 
   /// The date with timezone at which the resource was updated.
-  DateTime? updatedAt;
+  final DateTime? updatedAt;
 
   /// The date with timezone at which the resource was deleted.
-  DateTime? deletedAt;
+  final DateTime? deletedAt;
 
   /// An optional key-value map with additional details
-  Map<String, dynamic>? metadata;
+  final Map<String, dynamic>? metadata;
 
   Region({
     this.id,
@@ -91,25 +91,20 @@ class Region {
     this.metadata,
   });
 
-  Region.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    currencyCode = json['currency_code'];
-    currency = json['currency'] != null ? Currency.fromJson(json['currency']) : null;
-    taxRate = json['tax_rate'];
+  factory Region.fromJson(Map<String, dynamic> json) {
+    List<TaxRate>? taxRates;
+    List<Country>? countries;
+    List<PaymentProvider>? paymentProviders;
+    List<FulfillmentProvider>? fulfillmentProviders;
+
     if (json['tax_rates'] != null) {
       taxRates = <TaxRate>[];
       json['tax_rates'].forEach((e) => taxRates!.add(TaxRate.fromJson(e)));
     }
-    taxCode = json['tax_code'];
-    giftCardsTaxable = json['gift_cards_taxable'];
-    automaticTaxes = json['automatic_taxes'];
     if (json['countries'] != null) {
       countries = <Country>[];
       json['countries'].forEach((e) => countries!.add(Country.fromJson(e)));
     }
-    taxProviderId = json['tax_provider_id'];
-    taxProvider = json['tax_provider'] != null ? TaxProvider.fromJson(json['tax_provider']) : null;
     if (json['payment_providers'] != null) {
       paymentProviders = <PaymentProvider>[];
       json['payment_providers'].forEach((e) => paymentProviders!.add(PaymentProvider.fromJson(e)));
@@ -118,11 +113,28 @@ class Region {
       fulfillmentProviders = <FulfillmentProvider>[];
       json['fulfillment_providers'].forEach((e) => fulfillmentProviders!.add(FulfillmentProvider.fromJson(e)));
     }
-    includesTax = json['includes_tax'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'];
+
+    return Region(
+      id: json['id'],
+      name: json['name'],
+      currencyCode: json['currency_code'],
+      taxRate: json['tax_rate'],
+      currency: json['currency'] != null ? Currency.fromJson(json['currency']) : null,
+      taxCode: json['tax_code'],
+      giftCardsTaxable: json['gift_cards_taxable'],
+      automaticTaxes: json['automatic_taxes'],
+      taxProviderId: json['tax_provider_id'],
+      taxProvider: json['tax_provider'] != null ? TaxProvider.fromJson(json['tax_provider']) : null,
+      includesTax: json['includes_tax'],
+      taxRates: taxRates,
+      fulfillmentProviders: fulfillmentProviders,
+      paymentProviders: paymentProviders,
+      countries: countries,
+      createdAt: DateTime.tryParse(json['created_at'] ?? '')?.toLocal(),
+      updatedAt: DateTime.tryParse(json['updated_at'] ?? '')?.toLocal(),
+      deletedAt: DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal(),
+      metadata: json['metadata'],
+    );
   }
 
   Map<String, dynamic> toJson() {

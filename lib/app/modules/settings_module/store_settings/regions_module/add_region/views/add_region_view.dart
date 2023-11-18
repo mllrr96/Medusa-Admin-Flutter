@@ -145,19 +145,13 @@ class AddRegionView extends GetView<AddRegionController> {
                                 return null;
                               },
                             ),
-                          if (controller.updateMode == false)
-                            LabeledTextField(
-                              label: 'Default Tax Code',
-                              controller: controller.defaultTextCode,
-                              keyboardType: TextInputType.number,
-                              hintText: '1000',
-                              validator: (val) {
-                                if (val == null || val.removeAllWhitespace.isEmpty) {
-                                  return 'Field required';
-                                }
-                                return null;
-                              },
-                            ),
+                          // if (!controller.updateMode)
+                          //   LabeledTextField(
+                          //     label: 'Default Tax Code',
+                          //     controller: controller.defaultTextCode,
+                          //     keyboardType: TextInputType.number,
+                          //     hintText: '1000',
+                          //   ),
                           LabeledTextField(
                             label: 'Countries',
                             controller: null,

@@ -27,7 +27,7 @@ class NoteRepo extends BaseNote {
       }
       final response = await _dataProvider.post(uri: '/notes', data: {
         'resource_id': resourceId,
-        'resource_type': runtimeType,
+        'resource_type': resourceType,
         'value': value,
       });
       if (response.statusCode == 200) {
@@ -103,6 +103,7 @@ class NoteRepo extends BaseNote {
       }
       final response = await _dataProvider.get(
         uri: '/notes',
+        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserNotesRes.fromJson(response.data));

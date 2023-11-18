@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -30,6 +31,7 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
         }
       });
     }
+    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
 
     return GetBuilder<DraftOrderDetailsController>(
       builder: (controller) {
@@ -42,7 +44,25 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
                 AdaptiveButton(
                   onPressed: () => Get.toNamed(Routes.ORDER_DETAILS, arguments: controller.state!.orderId!),
                   child: const Text('Go to order'),
-                )
+                ),
+              if (controller.state?.status == DraftOrderStatus.open)
+                AdaptiveButton(
+                  onPressed: () async{
+                    await showOkCancelAlertDialog(
+                      context: context,
+                      title: 'Cancel Draft Order',
+                      message: 'Are you sure you want to cancel this draft order?',
+                      okLabel: 'Yes, Cancel',
+                      isDestructiveAction: true,
+                    ).then((result) async {
+                      if(result == OkCancelResult.ok){
+                        await controller.cancelDraftOrder();
+                      }
+                    });
+                  },
+                  child: const Text('Cancel', style: TextStyle(color: Colors.red),),
+                ),
+
             ],
           ),
           body: SafeArea(
@@ -100,7 +120,17 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
                 ),
               ),
               onEmpty: const Center(child: Text('No order details found')),
-              onError: (e) => Center(child: Text(e ?? 'Error loading draft order')),
+              onError: (e) => Center(child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    const SizedBox(width: 12.0),
+                    Flexible(child: Text(e ?? 'Error loading draft order', style: smallTextStyle,)),
+                  ],
+                ),
+              )),
               onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),

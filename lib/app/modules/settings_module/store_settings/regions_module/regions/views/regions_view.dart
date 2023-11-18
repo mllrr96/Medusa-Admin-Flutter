@@ -49,4 +49,3 @@ class RegionsView extends GetView<RegionsController> {
     );
   }
 }
-
