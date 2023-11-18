@@ -55,10 +55,20 @@ class PriceList extends Equatable {
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-
-//TODO: implement priceList to json
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        prices,
+        type,
+        status,
+        startsAt,
+        endsAt,
+        customerGroups,
+        createdAt,
+        updatedAt,
+        deletedAt,
+      ];
 }
 
 enum PriceListType {

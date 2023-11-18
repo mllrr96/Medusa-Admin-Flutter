@@ -46,7 +46,7 @@ class User {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   User.fromJson(Map<String, dynamic> json) {

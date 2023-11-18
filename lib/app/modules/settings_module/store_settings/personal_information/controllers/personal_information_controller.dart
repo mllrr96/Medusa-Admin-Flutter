@@ -35,7 +35,7 @@ class PersonalInformationController extends GetxController with StateMixin<User>
 
     authResponse.when((success) async {
       _id = success.user!.id!;
-      final result = await userRepo.retrieve(id: success.user!.id!);
+      final result = await userRepo.retrieve(id: success.user!.id!.toString());
       result.when((success) {
         if (success.user != null) {
           change(success.user!, status: RxStatus.success());
