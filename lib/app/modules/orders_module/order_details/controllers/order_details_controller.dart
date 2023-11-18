@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart' as medusa;
 import '../../../../data/models/req/user_fulfillment_req.dart';
 import '../../../../data/models/req/user_order.dart';
 import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
 import '../../../../data/repository/note/note_repo.dart';
 import '../../../../data/repository/notification/notification_repo.dart';
 import '../../../../data/repository/order_edit/order_edit_repo.dart';
+import '../../../../data/repository/user/user_repo.dart';
 
 class OrderDetailsController extends GetxController with StateMixin<Order> {
   OrderDetailsController({
@@ -19,29 +19,35 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     required this.noteRepo,
     required this.notificationRepo,
     required this.fulfillmentRepo,
+    required this.userRepo,
   });
   final OrdersRepo ordersRepo;
   final OrderEditRepo orderEditsRepo;
   final NoteRepo noteRepo;
   final NotificationRepo notificationRepo;
   final FulfillmentRepo fulfillmentRepo;
+  final UserRepo userRepo;
   String orderId = Get.arguments;
-  List<OrderEdit>? orderEdits;
-  List<Note>? notes;
-  List<medusa.Notification>? notifications;
+  List<User> loadedUsers = [];
+  List timeLine = [];
   final scrollController = ScrollController();
   final summeryKey = GlobalKey();
   final paymentKey = GlobalKey();
   final fulfillmentKey = GlobalKey();
   final customerKey = GlobalKey();
   final timelineKey = GlobalKey();
+  final noteCtrl = TextEditingController();
+  late Future<List?>? timeLineFuture;
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    await fetchOrderEdits();
-    await fetchOrderNotes();
-    await fetchOrderNotification();
+    timeLineFuture = fetchTimeLine();
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    super.onReady();
   }
 
   @override
@@ -77,25 +83,71 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> fetchOrderEdits() async {
-    final result = await orderEditsRepo.retrieveAllOrderEdit(
-      queryParameters: {
-        'order_id': orderId,
-      },
-    );
+  Future<List?> fetchTimeLine() async {
+    timeLine.clear();
+    await fetchOrderNotes();
+    await fetchOrderNotification();
+    await fetchOrderEdits();
+    state?.refunds?.forEach((element) {
+      timeLine.add(element);
+    });
+    timeLine.sort();
+    return timeLine;
+  }
 
-    result.when(
-      (success) {
+  Future<List<OrderEdit>?> fetchOrderEdits({bool shuffle = false}) async {
+    final result = await orderEditsRepo.retrieveAllOrderEdit(
+      queryParameters: {'order_id': orderId},
+    );
+    return await result.when(
+      (success) async {
         if (success.orderEdits != null) {
-          orderEdits = success.orderEdits;
+          final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
+          success.orderEdits?.forEach((element) {
+            timeLine.add(element);
+            if (element.status == OrderEditStatus.requested) {
+              timeLine.add(element.copyWith.requestedAt(null).copyWith.confirmedAt(DateTime.now()));
+            } else {
+              timeLine.add(element.copyWith.requestedAt(null));
+            }
+          });
+          createdByList?.forEach(
+            (element) async {
+              if (loadedUsers.isNotEmpty && loadedUsers.map((e) => e.id).toList().contains(element)) {
+              } else {
+                await fetchUser(element ?? '');
+              }
+            },
+          );
+          return success.orderEdits;
         } else {
           // TODO: handle when edits are null
+          return [];
         }
       },
       (error) {
+        return null;
         // TODO: handle error
       },
     );
+  }
+
+  Future<User?> fetchUser(String userId) async {
+    final result = await userRepo.retrieve(id: userId);
+    return await result.when((success) {
+      if (success.user != null) {
+        final userExist = loadedUsers.map((e) => e.id).toList().contains(success.user?.id);
+        if (!userExist) {
+          loadedUsers.add(success.user!);
+          update([5]);
+        }
+        return success.user;
+      } else {
+        return null;
+      }
+    }, (error) {
+      return null;
+    });
   }
 
   Future<void> fetchOrderNotes() async {
@@ -108,7 +160,9 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) {
         if (success.notes != null) {
-          notes = success.notes;
+          success.notes?.forEach((element) {
+            timeLine.add(element);
+          });
         } else {
           // TODO: handle when edits are null
         }
@@ -129,7 +183,9 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     result.when(
       (success) {
         if (success.notifications != null) {
-          notifications = success.notifications;
+          success.notifications?.forEach((element) {
+            timeLine.add(element);
+          });
         } else {
           // TODO: handle when edits are null
         }
@@ -151,6 +207,40 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
       dismissLoading();
       Get.snackbar(
         'Error ${error.code}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  Future<void> cancelOrderEdit(String id) async {
+    loading();
+    final result = await orderEditsRepo.cancelOrderEdit(id: id);
+    result.when((success) async {
+      EasyLoading.showSuccess('Order Edit Canceled!');
+      await fetchOrderEdits();
+    }, (error) {
+      debugPrint(error.toString());
+      dismissLoading();
+      Get.snackbar(
+        'Error ${error.code ?? ''}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  Future<void> confirmOrderEdit(String id) async {
+    loading();
+    final result = await orderEditsRepo.confirmOrderEdit(id: id);
+    result.when((success) async {
+      EasyLoading.showSuccess('Order Edit Confirmed!');
+      await fetchOrderEdits();
+    }, (error) {
+      debugPrint(error.toString());
+      dismissLoading();
+      Get.snackbar(
+        'Error ${error.code ?? ''}',
         error.message,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -288,5 +378,47 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         dismissLoading();
       },
     );
+  }
+
+  Future<void> deleteNote(String? id) async {
+    if (id == null) return;
+    loading();
+    final result = await noteRepo.deleteNote(id: id);
+    await result.when((success) async {
+      EasyLoading.showSuccess('Note deleted');
+      reloadTimeLine();
+    }, (error) {
+      Get.snackbar(
+        'Error deleting note ${error.code ?? ''}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  Future<void> addNote() async {
+    if (noteCtrl.text.removeAllWhitespace.isEmpty) {
+      return;
+    }
+    loading();
+    final result = await noteRepo.createNote(resourceId: orderId, resourceType: 'order', value: noteCtrl.text);
+    await result.when((success) async {
+      EasyLoading.showSuccess('Note created');
+      noteCtrl.clear();
+      reloadTimeLine();
+    }, (error) {
+      Get.snackbar(
+        'Error creating note ${error.code ?? ''}',
+        error.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    });
+  }
+
+  void reloadTimeLine() {
+    timeLineFuture = fetchTimeLine().then((_) {
+      update([5]);
+      return _;
+    });
   }
 }

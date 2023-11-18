@@ -1,11 +1,11 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/req/user_order.dart';
 import '../../../../data/models/store/order.dart';
@@ -20,12 +20,12 @@ class OrderPayment extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     final refunded = order.refunds != null && order.refunds!.isNotEmpty;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     final tr = AppLocalizations.of(context)!;
-
+    final mediumTextStyle = context.bodyMedium;
+    final lightWhite = ColorManager.manatee;
+    final largeTextStyle = context.bodyLarge;
     Widget? getButton() {
       switch (order.paymentStatus) {
         case PaymentStatus.refunded:
@@ -47,7 +47,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
               }
             },
             padding: EdgeInsets.zero,
-            child:  Text(tr.refund),
+            child: Text(tr.refund),
           );
         case PaymentStatus.canceled:
           break;
@@ -83,16 +83,14 @@ class OrderPayment extends GetView<OrderDetailsController> {
                         style: mediumTextStyle,
                       ),
                       halfSpace,
-                      if (
-                      (order.payments?.isNotEmpty ?? false) &&
-                          order.payments?.first.capturedAt != null)
+                      if ((order.payments?.isNotEmpty ?? false) && order.payments?.first.capturedAt != null)
                         Text(
-                            'on ${formatDate(order.payments?.first.capturedAt)} at ${formatTime(order.payments?.first.capturedAt)}',
-                            style: mediumTextStyle!.copyWith(color: Get.isDarkMode ? Colors.white54 : Colors.black54)),
+                            'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
+                            style: mediumTextStyle!.copyWith(color: lightWhite)),
                     ],
                   ),
                 ),
-                Text(getPrice(order.payments?.first.amount), style: largeTextStyle),
+                Text(order.payments?.first.amount.formatAsPrice(order.currencyCode) ?? '', style: largeTextStyle),
               ],
             ),
             space,
@@ -110,7 +108,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                       ),
                     ],
                   ),
-                  Text('- ${getPrice(order.refundedTotal)}', style: mediumTextStyle),
+                  Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
                 ],
               ),
           ],
@@ -120,19 +118,11 @@ class OrderPayment extends GetView<OrderDetailsController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(tr.totalPaid, style: largeTextStyle),
-            Text(getPrice(refunded ? order.refundableAmount : order.payments?.first.amount), style: largeTextStyle),
+            Text((refunded ? order.refundableAmount : order.payments?.first.amount).formatAsPrice(order.currencyCode),
+                style: largeTextStyle),
           ],
         ),
       ],
     );
-  }
-
-  String getPrice(num? price) {
-    var value = price ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
   }
 }

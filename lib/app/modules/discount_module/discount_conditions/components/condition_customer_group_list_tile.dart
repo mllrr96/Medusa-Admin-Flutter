@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/customer_group.dart';
 
 class ConditionCustomerGroupListTile extends StatelessWidget {
@@ -11,8 +12,8 @@ class ConditionCustomerGroupListTile extends StatelessWidget {
   final bool? enabled;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     return CheckboxListTile(
       enabled: enabled,
       controlAffinity: ListTileControlAffinity.trailing,

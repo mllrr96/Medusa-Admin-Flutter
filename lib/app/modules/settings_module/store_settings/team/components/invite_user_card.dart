@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../components/adaptive_button.dart';
 import '../../../../components/custom_text_field.dart';
@@ -25,7 +26,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
   @override
   Widget build(BuildContext context) {
     var selectedRole = UserRole.member;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final mediumTextStyle = context.bodyMedium;
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewPadding.bottom + MediaQuery.of(context).viewInsets.bottom,
@@ -72,6 +73,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
             Text('Role', style: mediumTextStyle),
             const SizedBox(height: 6.0),
             DropdownButtonFormField<UserRole>(
+              style: context.bodyMedium,
               value: selectedRole,
               onChanged: (role) {
                 if (role != null) {

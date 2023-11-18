@@ -61,11 +61,14 @@ dependencies:
   skeletonizer: ^0.7.0
   flag: ^7.0.0
   elegant_notification: ^1.11.0
+  timeago: ^3.5.0
+  gap: ^3.0.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.1
   build_runner: any
   flutter_launcher_icons: ^0.13.1
+  copy_with_extension_gen: ^5.0.4
   flutter_test:
     sdk: flutter
 

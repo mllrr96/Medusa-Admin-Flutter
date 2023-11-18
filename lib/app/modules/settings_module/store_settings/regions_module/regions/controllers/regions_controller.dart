@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -11,6 +12,7 @@ class RegionsController extends GetxController {
   final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final refreshController = RefreshController();
+  final scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -23,6 +25,7 @@ class RegionsController extends GetxController {
   @override
   void onClose() {
     pagingController.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 

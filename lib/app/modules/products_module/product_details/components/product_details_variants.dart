@@ -1,8 +1,10 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../controllers/product_details_controller.dart';
@@ -15,9 +17,9 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
   final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
     return CustomExpansionTile(
       key: expansionKey,
       onExpansionChanged: onExpansionChanged,

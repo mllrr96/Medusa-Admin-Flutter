@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/controllers/collections_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../categories/controllers/categories_controller.dart';
 import '../controllers/products_controller.dart';
@@ -47,10 +49,12 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
 
   @override
   Widget build(BuildContext context) {
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final displayLargeTextStyle = Theme.of(context).textTheme.displayLarge;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final topViewPadding = MediaQuery.of(context).viewPadding.top;
+    final lightWhite = ColorManager.manatee;
+    final largeTextStyle = context.bodyLarge;
+    final headlineMediumTextStyle = context.headlineMedium;
+
+
+
     final productsText = Obx(() {
       final count = ProductsController.instance.productsCount.value;
       return Text(count != 0 ? 'Products ($count)' : 'Products', overflow: TextOverflow.ellipsis);
@@ -79,7 +83,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CupertinoButton(
-              // padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+              padding: const EdgeInsets.only(right: 16.0, bottom: 8.0, left: 16.0),
               onPressed: () {
                 widget.tabController.index = 0;
                 setState(() {});
@@ -87,7 +91,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
               alignment: Alignment.bottomCenter,
               child: AnimatedDefaultTextStyle(
                   style: widget.tabController.index == 0
-                      ? displayLargeTextStyle!
+                      ? headlineMediumTextStyle!
                       : largeTextStyle!.copyWith(color: lightWhite),
                   duration: const Duration(milliseconds: 200),
                   child: productsText)),
@@ -100,27 +104,11 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
             alignment: Alignment.bottomCenter,
             child: AnimatedDefaultTextStyle(
                 style: widget.tabController.index == 1
-                    ? displayLargeTextStyle!
+                    ? headlineMediumTextStyle!
                     : largeTextStyle!.copyWith(color: lightWhite),
                 duration: const Duration(milliseconds: 200),
                 child: collectionText),
           ),
-          // Flexible(
-          //   child: CupertinoButton(
-          //     padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-          //     onPressed: () {
-          //       widget.tabController.index = 2;
-          //       setState(() {});
-          //     },
-          //     alignment: Alignment.bottomCenter,
-          //     child: AnimatedDefaultTextStyle(
-          //         style: widget.tabController.index == 2
-          //             ? displayLargeTextStyle!
-          //             : largeTextStyle!.copyWith(color: lightWhite),
-          //         duration: const Duration(milliseconds: 200),
-          //         child: categoriesText),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -132,12 +120,12 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
       });
     });
     return Container(
-      color: Theme.of(context).appBarTheme.backgroundColor,
+      color: context.theme.appBarTheme.backgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(height: topViewPadding),
+          SizedBox(height: context.topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
           // if (Platform.isIOS) const Divider(height: 0),

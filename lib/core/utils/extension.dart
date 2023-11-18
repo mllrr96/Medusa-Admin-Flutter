@@ -1,15 +1,37 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-// extension PercentSized on double {
-//   double get hp => (Get.height * (this/100));
-//   double get wp => (Get.width * (this/100));
-// }
-//
-// extension ResponsiveText on double {
-//   double get rt => Get.width /100 * (this/3);
-// }
+import '../../app/data/service/storage_service.dart';
+
+extension BuildContextEntension<T> on BuildContext {
+  // text styles
+
+  TextStyle? get headlineLarge => Theme.of(this).textTheme.headlineLarge;
+  TextStyle? get headlineMedium => Theme.of(this).textTheme.headlineMedium;
+  TextStyle? get headlineSmall => Theme.of(this).textTheme.headlineSmall;
+
+  TextStyle? get bodyLarge => Theme.of(this).textTheme.bodyLarge;
+  TextStyle? get bodyMedium => Theme.of(this).textTheme.bodyMedium;
+  TextStyle? get bodySmall => Theme.of(this).textTheme.bodySmall;
+  TextStyle? get bodyExtraSmall => bodySmallW500?.copyWith(fontSize: 11);
+
+  TextStyle? get bodyLargeW500 => Theme.of(this).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get bodyMediumW500 => Theme.of(this).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get bodySmallW500 => Theme.of(this).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get bodyExtraSmallW500 => bodySmallW500?.copyWith(fontSize: 11, fontWeight: FontWeight.w500);
+
+  TextStyle? get bodyLargeW600 => Theme.of(this).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyMediumW600 => Theme.of(this).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600);
+
+  // media query
+  EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
+  double get bottomViewPadding => MediaQuery.of(this).viewPadding.bottom;
+  double get topViewPadding => MediaQuery.of(this).viewPadding.top;
+  EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
+  EdgeInsets get padding => MediaQuery.of(this).padding;
+}
 
 extension HexColor on Color {
   static Color fromHex(String hexString) {
@@ -71,4 +93,53 @@ extension ThemeModeValue on ThemeMode {
         return 2;
     }
   }
+}
+
+extension TextStyleColor on TextStyle {
+  TextStyle dark() {
+    return copyWith(color: Colors.white);
+  }
+}
+
+extension FormatPrice on num? {
+  String formatAsPrice(String? currencyCode, {bool includeSymbol = true, bool space = true, bool symbolAtEnd = false}) {
+    if (this == null || currencyCode == null) {
+      return this?.toString() ?? '';
+    }
+    var value = this!;
+    final formatter = NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
+    if (formatter.decimalDigits! > 0) {
+      value /= pow(10, formatter.decimalDigits!);
+    }
+    final currencySymbol = formatter.currencySymbol;
+
+    if (includeSymbol) {
+      return (!symbolAtEnd ? currencySymbol : '') +
+          (space && !symbolAtEnd ? ' ' : '') +
+          formatter.format(value).replaceAll(currencySymbol, '') +
+          (space && symbolAtEnd ? ' ' : '') +
+          (symbolAtEnd ? currencySymbol : '');
+    }
+    return formatter.format(value).replaceAll(currencySymbol, '');
+  }
+}
+
+extension FormatDate on DateTime? {
+  String formatDate() {
+    final format = StorageService.appSettings.dateFormatOptions;
+    if (this == null) {
+      return '';
+    }
+    return DateFormat(format.format()).format(this!);
+  }
+
+  String formatTime() {
+    final format = StorageService.appSettings.timeFormatOptions;
+    if (this == null) {
+      return '';
+    }
+    return DateFormat(format.format()).format(this!);
+  }
+
+
 }

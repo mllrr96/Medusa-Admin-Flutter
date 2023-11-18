@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
+import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
@@ -13,18 +17,19 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final headlineMediumTextStyle = context.headlineMedium;
     const border = OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4.0)));
     final inputFormatter = [
       CurrencyTextInputFormatter(name: controller.addUpdateShippingOptionReq.region.currencyCode)
     ];
     final decoration = InputDecoration(
       prefixIconConstraints: const BoxConstraints(minHeight: 0, minWidth: 0),
-      prefixIcon: Text('   ${controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase() ?? ''}   ',
+      prefixIcon: Text('   ${NumberFormat.simpleCurrency(name: controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase()).currencySymbol}   ',
           style: smallTextStyle?.copyWith(color: lightWhite)),
     );
     return GetBuilder<AddUpdateShippingOptionController>(
@@ -69,7 +74,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Details', style: Theme.of(context).textTheme.displayLarge),
+                          Text('Details', style: headlineMediumTextStyle),
                           space,
                           LabeledTextField(
                             label: 'Title',
@@ -97,8 +102,8 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                     ),
                                     halfSpace,
                                     DropdownButtonFormField<ShippingOptionPriceType>(
+                                      style: context.bodyMedium,
                                       value: controller.selectedPriceType,
-                                      style: smallTextStyle,
                                       hint: const Text('Choose a price type'),
                                       iconSize: 20,
                                       dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -174,9 +179,9 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.shippingProfiles != null
                                       ? DropdownButtonFormField<ShippingProfile>(
+                                          style: context.bodyMedium,
                                           value: controller.selectedShippingProfile,
                                           hint: const Text('Choose a shipping profile'),
-                                          style: smallTextStyle,
                                           dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
                                           validator: (val) {
                                             if (val == null) {
@@ -222,9 +227,9 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.fulfillmentOptions != null
                                       ? DropdownButtonFormField<FulfillmentOption>(
+                                          style: context.bodyMedium,
                                           value: controller.selectedFulfillmentOption,
                                           hint: const Text('Choose a fulfillment method'),
-                                          style: smallTextStyle,
                                           dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
                                           validator: (val) {
                                             if (val == null) {
@@ -269,7 +274,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Requirements', style: Theme.of(context).textTheme.displayLarge),
+                          Text('Requirements', style: headlineMediumTextStyle),
                           space,
                           LabeledTextField(
                             label: 'Min. subtotal (Tax excl. price)',

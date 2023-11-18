@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'dart:io' show Platform;
 import '../../../draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 
@@ -26,10 +28,11 @@ class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final displayLargeTextStyle = Theme.of(context).textTheme.displayLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final topViewPadding = MediaQuery.of(context).viewPadding.top;
+    final headlineMediumTextStyle = context.headlineMedium;
+
+    final lightWhite = ColorManager.manatee;
+    final largeTextStyle = context.bodyLarge;
+
     final productsText = Obx(() {
       final count = OrdersController.instance.ordersCount.value;
       return Text(count != 0 ? 'Orders ($count)' : 'Orders', overflow: TextOverflow.ellipsis);
@@ -66,7 +69,7 @@ class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
                       alignment: Alignment.bottomCenter,
                       child: AnimatedDefaultTextStyle(
                           style: widget.tabController.index == 0
-                              ? displayLargeTextStyle!
+                              ? headlineMediumTextStyle!
                               : largeTextStyle!.copyWith(color: lightWhite),
                           duration: const Duration(milliseconds: 200),
                           child: productsText)),
@@ -81,7 +84,7 @@ class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
                     alignment: Alignment.bottomCenter,
                     child: AnimatedDefaultTextStyle(
                         style: widget.tabController.index == 1
-                            ? displayLargeTextStyle!
+                            ? headlineMediumTextStyle!
                             : largeTextStyle!.copyWith(color: lightWhite),
                         duration: const Duration(milliseconds: 200),
                         child: collectionText),
@@ -107,7 +110,7 @@ class _OrdersDraftTabBarAppBarState extends State<OrdersDraftTabBarAppBar> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(height: topViewPadding),
+          SizedBox(height: context.topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
         ],

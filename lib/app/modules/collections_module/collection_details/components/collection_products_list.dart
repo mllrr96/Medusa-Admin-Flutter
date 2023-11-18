@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/req/user_collection_req.dart';
 import '../../../../data/models/store/product.dart';
 // ignore: depend_on_referenced_packages
@@ -48,7 +49,7 @@ class CollectionProductsList extends StatelessWidget {
                         _getStatusIcon(product.status),
                         const SizedBox(width: 4.0),
                         Text(product.status.name.capitalize ?? product.status.name,
-                            style: Theme.of(context).textTheme.titleSmall),
+                            style: context.bodySmall),
                       ],
                     ),
                     controlAffinity: ListTileControlAffinity.trailing,

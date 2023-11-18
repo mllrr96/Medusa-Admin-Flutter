@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/metadata_card.dart';
 import '../controllers/create_update_group_controller.dart';
@@ -11,8 +13,8 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    const space = Gap(12);
+    final largeTextStyle = context.bodyLarge;
     return GetBuilder<CreateUpdateGroupController>(
       builder: (controller) {
         return GestureDetector(

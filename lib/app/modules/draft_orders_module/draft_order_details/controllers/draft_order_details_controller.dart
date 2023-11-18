@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.dart';
@@ -58,5 +59,22 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
       Get.snackbar('Error marking as paid ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
     });
     dismissLoading();
+  }
+
+  Future<void> cancelDraftOrder()async{
+    loading();
+    final result = await draftOrderRepo.deleteDraftOrder(id: id);
+    result.when((success) {
+      if(success.deleted){
+        EasyLoading.showSuccess('Draft Order Deleted');
+        Get.back();
+      } else {
+        EasyLoading.showError('Error deleting draft order');
+      }
+    }, (error){
+      dismissLoading();
+      Get.snackbar('Error deleting draft order', error.message, snackPosition: SnackPosition.BOTTOM);
+    });
+
   }
 }

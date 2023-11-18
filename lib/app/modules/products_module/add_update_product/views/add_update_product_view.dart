@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_close_button.dart';
@@ -30,7 +31,7 @@ class AddUpdateProductView extends GetView<AddUpdateProductController> {
       );
     }
 
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return GetBuilder<AddUpdateProductController>(
       builder: (controller) {
         return WillPopScope(

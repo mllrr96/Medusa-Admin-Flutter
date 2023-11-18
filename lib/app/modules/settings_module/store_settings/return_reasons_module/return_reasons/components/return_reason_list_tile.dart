@@ -4,6 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/return_reason.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/return_reasons_module/return_reasons/controllers/return_reasons_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../routes/app_pages.dart';
 import '../../../../../components/adaptive_icon.dart';
@@ -17,9 +19,9 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
 
     if (listTiltStyle) {
       return Slidable(

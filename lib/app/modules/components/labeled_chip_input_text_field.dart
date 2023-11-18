@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class LabeledChipTextField extends StatefulWidget {
   /// list of Strings to prepopulate the chips with
@@ -144,11 +147,10 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    final lightWhite = isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const halfSpace = SizedBox(height: 6.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    const halfSpace = Gap(6);
     return Container(
       padding: widget.padding,
       decoration: widget.decoration,

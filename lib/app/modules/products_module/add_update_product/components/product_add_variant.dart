@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -10,6 +11,7 @@ import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/req/user_post_product_req.dart';
@@ -24,12 +26,12 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final options = controller.product.options;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
 
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
@@ -136,6 +138,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                       ),
                                       const SizedBox(height: 6.0),
                                       DropdownButtonFormField(
+                                        style: context.bodyMedium,
                                         validator: (val) {
                                           if (val == null) {
                                             return 'Field is required';
@@ -504,12 +507,11 @@ class ProductAddVariantController extends GetxController {
 
 
       for (MoneyAmount money in variant!.prices!) {
-        final currencyFormatter = CurrencyTextInputFormatter(name: money.currencyCode);
         currencyCtrlMap.addAll({
           currencies.firstWhere((element) => element.code == money.currencyCode, orElse: () {
-            final result = intl.NumberFormat.currency(name: money.currencyCode!.toUpperCase());
+            final result = intl.NumberFormat.currency(name: money.currencyCode?.toUpperCase());
             return Currency(name: result.currencyName, symbolNative: result.currencySymbol, code: money.currencyCode);
-          }): TextEditingController(text: currencyFormatter.format(money.amount.toString()))
+          }): TextEditingController(text: money.amount.formatAsPrice(money.currencyCode))
         });
       }
     } else {

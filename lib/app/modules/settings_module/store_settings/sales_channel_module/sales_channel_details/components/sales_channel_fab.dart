@@ -1,13 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/controllers/sales_channel_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class SalesChannelFAB extends StatelessWidget {
   const SalesChannelFAB(this.controller,{Key? key}) : super(key: key);
   final SalesChannelDetailsController controller ;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final mediumTextStyle = context.bodyMedium;
     return Card(
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 10, 0, 10),

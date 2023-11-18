@@ -1,9 +1,12 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/adaptive_button.dart';
 import '../components/draft_order_summery.dart';
@@ -14,7 +17,7 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
   const DraftOrderDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final yPosition =
@@ -30,6 +33,7 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
         }
       });
     }
+    final smallTextStyle = context.bodySmall;
 
     return GetBuilder<DraftOrderDetailsController>(
       builder: (controller) {
@@ -42,7 +46,25 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
                 AdaptiveButton(
                   onPressed: () => Get.toNamed(Routes.ORDER_DETAILS, arguments: controller.state!.orderId!),
                   child: const Text('Go to order'),
-                )
+                ),
+              if (controller.state?.status == DraftOrderStatus.open)
+                AdaptiveButton(
+                  onPressed: () async{
+                    await showOkCancelAlertDialog(
+                      context: context,
+                      title: 'Cancel Draft Order',
+                      message: 'Are you sure you want to cancel this draft order?',
+                      okLabel: 'Yes, Cancel',
+                      isDestructiveAction: true,
+                    ).then((result) async {
+                      if(result == OkCancelResult.ok){
+                        await controller.cancelDraftOrder();
+                      }
+                    });
+                  },
+                  child: const Text('Cancel', style: TextStyle(color: Colors.red),),
+                ),
+
             ],
           ),
           body: SafeArea(
@@ -100,7 +122,17 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
                 ),
               ),
               onEmpty: const Center(child: Text('No order details found')),
-              onError: (e) => Center(child: Text(e ?? 'Error loading draft order')),
+              onError: (e) => Center(child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error, color: Colors.red),
+                    const SizedBox(width: 12.0),
+                    Flexible(child: Text(e ?? 'Error loading draft order', style: smallTextStyle,)),
+                  ],
+                ),
+              )),
               onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),

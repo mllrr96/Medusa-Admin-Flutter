@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../data/models/store/product.dart';
 import '../../../../../../data/models/store/product_variant.dart';
@@ -14,7 +15,7 @@ class ProductVariantListTile extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     Widget getStatusIcon() {
       switch (productVariant.product!.status) {
         case ProductStatus.draft:

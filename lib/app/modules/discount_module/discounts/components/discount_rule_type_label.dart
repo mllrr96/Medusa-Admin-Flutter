@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/discount_rule.dart';
@@ -16,17 +14,11 @@ class DiscountRuleTypeLabel extends StatelessWidget {
     Color textColor = ColorManager.primary;
     String text = 'Upcoming';
     final valueText = discount.rule!.value;
-    var value = discount.rule!.value!.roundToDouble();
-    final valueFormatter = NumberFormat.currency(name: discount.regions!.first.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
     switch (discount.rule!.type!) {
       case DiscountRuleType.fixed:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text =
-            '${discount.regions?.first.currencyCode?.toUpperCase() ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
+        text = discount.rule?.value.formatAsPrice(discount.regions?.first.currencyCode) ?? '';
         break;
       case DiscountRuleType.percentage:
         containerColor = Colors.blueAccent.withOpacity(0.17);
@@ -48,7 +40,7 @@ class DiscountRuleTypeLabel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor),
+        style: context.bodySmall?.copyWith(color: textColor),
       ),
     );
   }
@@ -59,7 +51,7 @@ class DiscountStatusDot extends StatelessWidget {
   final bool disabled;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     Color circleColor = ColorManager.primary;
     Color outerCircleColor = ColorManager.primary.withOpacity(0.17);
     String text = 'Disabled';

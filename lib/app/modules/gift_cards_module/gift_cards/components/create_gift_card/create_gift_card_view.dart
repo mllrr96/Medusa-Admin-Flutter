@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
@@ -8,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../components/currency_formatter.dart';
 import 'create_gift_card_controller.dart';
 
@@ -151,6 +153,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
           children: [
             Flexible(
               child: DropdownButtonFormField<Currency>(
+                style: context.bodyMedium,
                 value: selectedCurrency,
                 disabledHint: const Text('No options'),
                 onChanged: (currency) {
@@ -192,7 +195,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
           onChanged: (val) {
             controller.denominations[widget.index] = (selectedCurrency, val, widget.index);
           },
-          prefixText: '    ${selectedCurrency?.code?.toUpperCase() ?? ''} | ',
+          prefixText: '    ${NumberFormat.simpleCurrency(name:selectedCurrency?.code?.toUpperCase()).currencySymbol} | ',
           noEndSpace: true,
           inputFormatters: [if (selectedCurrency != null) CurrencyTextInputFormatter(name: selectedCurrency!.code)],
           validator: (val) {

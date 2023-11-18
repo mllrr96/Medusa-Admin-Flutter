@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../components/adaptive_button.dart';
@@ -11,30 +13,25 @@ import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 
 class ChooseShippingOptionView extends StatefulWidget {
-  const ChooseShippingOptionView(
-      {Key? key, this.onShippingOptionChanged, required this.region})
-      : super(key: key);
+  const ChooseShippingOptionView({Key? key, this.onShippingOptionChanged, required this.region}) : super(key: key);
   final void Function(ShippingOption?)? onShippingOptionChanged;
   final Region region;
 
   @override
-  State<ChooseShippingOptionView> createState() =>
-      _ChooseShippingOptionViewState();
+  State<ChooseShippingOptionView> createState() => _ChooseShippingOptionViewState();
 }
 
 class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   @override
   void initState() {
-    ChooseShippingOptionController.instance
-        .loadShippingMethods(widget.region.id!);
+    ChooseShippingOptionController.instance.loadShippingMethods(widget.region.id!);
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant ChooseShippingOptionView oldWidget) {
     if (oldWidget.region.id != widget.region.id) {
-      ChooseShippingOptionController.instance
-          .loadShippingMethods(widget.region.id!);
+      ChooseShippingOptionController.instance.loadShippingMethods(widget.region.id!);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -45,15 +42,9 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   final customPriceCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     final controller = ChooseShippingOptionController.instance;
-    const space = SizedBox(height: 12.0);
-    String getPrice(ShippingOption shippingOption) {
-      final currencyFormatter =
-          CurrencyTextInputFormatter(name: shippingOption.region?.currencyCode);
-      return '${shippingOption.region?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(shippingOption.amount.toString())}';
-    }
-
+    const space = Gap(12);
     return controller.obx(
       (state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -63,6 +54,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
             Text('Choose Shipping Option', style: smallTextStyle),
             space,
             DropdownButtonFormField<ShippingOption>(
+              style: context.bodyMedium,
               validator: (val) {
                 if (val == null) {
                   return 'Field is required';
@@ -71,7 +63,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
               },
               items: state!
                   .map((e) => DropdownMenuItem(
-                      value: e, child: Text('${e.name!} - ${getPrice(e)}')))
+                      value: e, child: Text('${e.name!} - ${e.amount.formatAsPrice(e.region?.currencyCode)}')))
                   .toList(),
               hint: const Text('Shipping Option'),
               onChanged: (val) {
@@ -104,8 +96,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                       ? () {
                           setState(() => isCustomPrice = false);
                           if (widget.onShippingOptionChanged != null) {
-                            widget
-                                .onShippingOptionChanged!(shippingOption);
+                            widget.onShippingOptionChanged!(shippingOption);
                           }
                         }
                       : null,
@@ -128,8 +119,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                       child: LabeledTextField(
                     readOnly: true,
                     label: 'Currency',
-                    controller: TextEditingController(
-                        text: widget.region.currencyCode?.toUpperCase()),
+                    controller: TextEditingController(text: widget.region.currencyCode?.toUpperCase()),
                   )),
                   const SizedBox(width: 12.0),
                   Flexible(
@@ -139,13 +129,10 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                         controller: customPriceCtrl,
                         addOrSubtractValue: 100,
                         onChanged: (val) {
-                          final customPrice =
-                              val.replaceAll('.', '').replaceAll(',', '');
-                          customShippingOption?.amount =
-                              int.tryParse(customPrice);
+                          final customPrice = val.replaceAll('.', '').replaceAll(',', '');
+                          customShippingOption?.amount = int.tryParse(customPrice);
                           if (widget.onShippingOptionChanged != null) {
-                            widget
-                                .onShippingOptionChanged!(customShippingOption);
+                            widget.onShippingOptionChanged!(customShippingOption);
                           }
                         },
                         onPlusPressed: () {
@@ -153,15 +140,12 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                           text = text.replaceAll(RegExp(r'[^0-9]'), '');
                           var val = int.tryParse(text);
                           val ??= 0;
-                          final newVal = CurrencyTextInputFormatter(
-                              name: widget.region.currencyCode).format((val + 100).toString());
-
+                          final newVal = (val + 100).formatAsPrice(widget.region.currencyCode);
                           customPriceCtrl.text = newVal;
                           customShippingOption?.amount = (val + 100);
 
                           if (widget.onShippingOptionChanged != null) {
-                            widget
-                                .onShippingOptionChanged!(customShippingOption);
+                            widget.onShippingOptionChanged!(customShippingOption);
                           }
                         },
                         onMinusPressed: () {
@@ -172,27 +156,18 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                           if (val < 100) {
                             return;
                           }
-                          final newVal = CurrencyTextInputFormatter(
-                              name: widget.region.currencyCode).format((val - 100).toString());
-
+                          final newVal = (val - 100).formatAsPrice(widget.region.currencyCode);
                           customPriceCtrl.text = newVal;
                           customShippingOption?.amount = (val - 100);
 
                           if (widget.onShippingOptionChanged != null) {
-                            widget
-                                .onShippingOptionChanged!(customShippingOption);
+                            widget.onShippingOptionChanged!(customShippingOption);
                           }
                         },
-                        inputFormatters: [
-                          CurrencyTextInputFormatter(
-                              name: widget.region.currencyCode)
-                        ],
+                        inputFormatters: [CurrencyTextInputFormatter(name: widget.region.currencyCode)],
                         validator: (val) {
-                          final num = int.tryParse(val
-                              ?.replaceAll('.', '')
-                              .replaceAll(',', '') ?? '');
-                          if (num == null ||
-                              num == 0) {
+                          final num = int.tryParse(val?.replaceAll('.', '').replaceAll(',', '') ?? '');
+                          if (num == null || num == 0) {
                             return 'Custom price is required';
                           }
                           return null;
@@ -208,8 +183,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
         children: [
           Text(e ?? 'Error loading shipping options'),
           AdaptiveFilledButton(
-              onPressed: () async =>
-                  await controller.loadShippingMethods(widget.region.id!),
+              onPressed: () async => await controller.loadShippingMethods(widget.region.id!),
               child: const Text('Retry')),
         ],
       )),
@@ -232,10 +206,8 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   }
 }
 
-class ChooseShippingOptionController extends GetxController
-    with StateMixin<List<ShippingOption>> {
-  static ChooseShippingOptionController get instance =>
-      Get.find<ChooseShippingOptionController>();
+class ChooseShippingOptionController extends GetxController with StateMixin<List<ShippingOption>> {
+  static ChooseShippingOptionController get instance => Get.find<ChooseShippingOptionController>();
 
   ChooseShippingOptionController({required this.shippingOptionsRepo});
   final ShippingOptionsRepo shippingOptionsRepo;

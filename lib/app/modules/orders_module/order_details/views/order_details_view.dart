@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -14,7 +15,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     final tr = AppLocalizations.of(context)!;
 
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
@@ -38,30 +39,25 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
-            title:  Text(tr.orderAppBarTitle),
+            title: Text(tr.orderAppBarTitle),
             centerTitle: true,
             actions: [
-              if (controller.state != null)
+              if (controller.state?.status != OrderStatus.canceled)
                 AdaptiveIcon(
                     onPressed: () async {
                       await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                         SheetAction(label: tr.requestReturn, key: 0),
-                         SheetAction(label: tr.registerExchange, key: 1),
-                         SheetAction(label: tr.registerClaim, key: 2),
-                        if (controller.state!.status != OrderStatus.canceled)
-                           SheetAction(
-                            label: tr.cancelOrder,
-                            key: 3,
-                            isDestructiveAction: true,
-                          ),
+                        SheetAction(
+                          label: tr.cancelOrder,
+                          key: 0,
+                          isDestructiveAction: true,
+                        ),
                       ]).then((result) async {
                         switch (result) {
-                          case 3:
+                          case 0:
                             final order = controller.state!;
                             await showTextAnswerDialog(
                               title: tr.cancelOrder,
-                              message:
-                                  tr.cancelOrderAlertMessage(order.displayId!),
+                              message: tr.cancelOrderAlertMessage(order.displayId!),
                               retryMessage:
                                   'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
                               retryOkLabel: 'Retry',
@@ -144,7 +140,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   ),
                 ),
               ),
-              onEmpty:  Center(child: Text(tr.noOrder)),
+              onEmpty: Center(child: Text(tr.noOrder)),
               onError: (e) => Center(child: Text(e ?? tr.errorLoadingOrder)),
               onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),

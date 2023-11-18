@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../data/models/store/discount_rule.dart';
@@ -19,29 +23,22 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
+    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
+      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
         final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset +
-            yPosition -
-            (viewContext.mediaQueryPadding.top + kToolbarHeight);
-        if (scrollPoint <=
-            controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
+        final scrollPoint =
+            controller.scrollController.offset + yPosition - (viewContext.mediaQueryPadding.top + kToolbarHeight);
+        if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
+          await controller.scrollController
+              .animateTo(scrollPoint - 10, duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
         } else {
-          await controller.scrollController.animateTo(
-              controller.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
+          await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
         }
       });
     }
@@ -62,16 +59,11 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
           title: Row(
             children: [
               Text('General', style: Theme.of(context).textTheme.bodyLarge),
-              Text('*',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: Colors.redAccent)),
+              Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
             ],
           ),
           expandedAlignment: Alignment.centerLeft,
-          childrenPadding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           children: [
             LabeledTextField(
               label: controller.discountRuleType == DiscountRuleType.fixed
@@ -88,15 +80,11 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                 prefixIconConstraints: const BoxConstraints(minWidth: 48 * 1.5),
                 prefixIcon: controller.selectedRegions.isNotEmpty
                     ? Chip(
-                        backgroundColor:
-                            Theme.of(context).appBarTheme.backgroundColor,
-                        label:
-                            Text(controller.selectedRegions.length.toString()),
+                        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                        label: Text(controller.selectedRegions.length.toString()),
                         labelStyle: smallTextStyle,
                         side: const BorderSide(color: Colors.grey),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(4.0))),
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4.0))),
                       )
                     : null,
               ),
@@ -104,34 +92,23 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
               readOnly: true,
               onTap: () async {
                 final regionReq = PickRegionsReq(
-                  multipleSelect:
-                      controller.discountRuleType == DiscountRuleType.fixed
-                          ? false
-                          : true,
-                  selectedRegions:
-                      controller.discountRuleType == DiscountRuleType.fixed
-                          ? controller.selectedRegions.isNotEmpty
-                              ? [controller.selectedRegions.first]
-                              : []
-                          : [...controller.selectedRegions],
+                  multipleSelect: controller.discountRuleType == DiscountRuleType.fixed ? false : true,
+                  selectedRegions: controller.discountRuleType == DiscountRuleType.fixed
+                      ? controller.selectedRegions.isNotEmpty
+                          ? [controller.selectedRegions.first]
+                          : []
+                      : [...controller.selectedRegions],
                 );
                 await showBarModalBottomSheet(
-                        context: context,
-                        builder: (context) =>
-                            PickRegionsView(pickRegionsReq: regionReq))
-                    .then((result) {
+                    context: context, builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
                   if (result is PickRegionsRes) {
                     controller.selectedRegions = result.regions;
-                    final regionsName =
-                        result.regions.map((e) => e.name).toList();
-                    controller.regionCtrl.text = regionsName
-                        .toString()
-                        .replaceAll('[', '')
-                        .replaceAll(']', '');
+                    final regionsName = result.regions.map((e) => e.name).toList();
+                    controller.regionCtrl.text = regionsName.toString().replaceAll('[', '').replaceAll(']', '');
                     if (controller.discountRuleType == DiscountRuleType.fixed) {
-                      controller.amountCtrl.text = CurrencyTextInputFormatter(
-                        name: controller.selectedRegions.first.currencyCode,
-                      ).format(controller.amountCtrl.text);
+                      controller.amountCtrl.text =
+                          int.tryParse(controller.amountCtrl.text.replaceAll(RegExp('[^0-9]'), ''))
+                              .formatAsPrice(controller.selectedRegions.first.currencyCode);
                     }
                     controller.update([1]);
                   }
@@ -173,11 +150,8 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                             text = text.replaceAll(RegExp(r'[^0-9]'), '');
                             var val = int.tryParse(text);
                             val ??= 0;
-                            controller.amountCtrl.text =
-                                CurrencyTextInputFormatter(
-                              name:
-                                  controller.selectedRegions.first.currencyCode,
-                            ).format((val + 1).toString());
+                            controller.amountCtrl.text = (val + 1)
+                                .formatAsPrice(controller.selectedRegions.first.currencyCode, includeSymbol: false);
                           },
                           onMinusPressed: () {
                             var text = controller.amountCtrl.text;
@@ -187,21 +161,17 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                             if (val == 0) {
                               return;
                             }
-                            controller.amountCtrl.text =
-                                CurrencyTextInputFormatter(
-                              name:
-                                  controller.selectedRegions.first.currencyCode,
-                            ).format((val - 1).toString());
+                            controller.amountCtrl.text = (val - 1)
+                                .formatAsPrice(controller.selectedRegions.first.currencyCode, includeSymbol: false);
                           },
                           inputFormatters: [
                             if (controller.selectedRegions.isNotEmpty)
                               CurrencyTextInputFormatter(
-                                name: controller
-                                    .selectedRegions.first.currencyCode,
+                                name: controller.selectedRegions.first.currencyCode,
                               )
                           ],
                           prefixText:
-                              '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
+                              '   ${controller.selectedRegions.isNotEmpty ? NumberFormat.simpleCurrency(name: controller.selectedRegions.first.currencyCode?.toUpperCase()).currencySymbol : ''} ',
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Required';
@@ -245,37 +215,36 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                 return null;
               },
             ),
-            if(!controller.updateMode)
-            SwitchListTile.adaptive(
-              contentPadding: EdgeInsets.zero,
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('This is a template discount', style: mediumTextStyle),
-                  AdaptiveIcon(
-                      onPressed: () {
-                        controller.showTemplateDiscountInfo =
-                            !controller.showTemplateDiscountInfo;
-                        controller.update([1]);
-                      },
-                      icon: Icon(Icons.info_outline, color: lightWhite))
-                ],
+            if (!controller.updateMode)
+              SwitchListTile.adaptive(
+                contentPadding: EdgeInsets.zero,
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('This is a template discount', style: mediumTextStyle),
+                    AdaptiveIcon(
+                        onPressed: () {
+                          controller.showTemplateDiscountInfo = !controller.showTemplateDiscountInfo;
+                          controller.update([1]);
+                        },
+                        icon: Icon(Icons.info_outline, color: lightWhite))
+                  ],
+                ),
+                subtitle: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: controller.showTemplateDiscountInfo
+                      ? Text(
+                          'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
+                          style: smallTextStyle.copyWith(color: lightWhite),
+                        )
+                      : null,
+                ),
+                value: controller.templateDiscount,
+                onChanged: (val) {
+                  controller.templateDiscount = val;
+                  controller.update([1]);
+                },
               ),
-              subtitle: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: controller.showTemplateDiscountInfo
-                    ? Text(
-                        'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
-                        style: smallTextStyle.copyWith(color: lightWhite),
-                      )
-                    : null,
-              ),
-              value: controller.templateDiscount,
-              onChanged: (val) {
-                controller.templateDiscount = val;
-                controller.update([1]);
-              },
-            ),
           ],
         );
       },

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -18,9 +19,9 @@ class OrderCustomer extends GetView<OrderDetailsController> {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     String getCountry() {
       String countryName = '';
       final countryCode = order.shippingAddress?.countryCode;
@@ -102,9 +103,9 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                  Text(order.email!, style: context.bodyMedium),
                   if (order.billingAddress != null && order.billingAddress!.phone != null)
-                    Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                    Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                 ],
               ),
             ),
@@ -121,10 +122,10 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   Text('Shipping', style: mediumTextStyle!.copyWith(color: lightWhite)),
                   const SizedBox(height: 5.0),
                   Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                   Text(
                       '${order.shippingAddress?.postalCode ?? ''} ${order.shippingAddress?.province ?? ''} ${order.shippingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                 ],
               ),
               const VerticalDivider(),
@@ -134,10 +135,10 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   Text('Billing', style: mediumTextStyle.copyWith(color: lightWhite)),
                   const SizedBox(height: 5.0),
                   Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                   Text(
                       '${order.billingAddress?.postalCode ?? ''} ${order.billingAddress?.province ?? ''} ${order.billingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                 ],
               ),
             ],

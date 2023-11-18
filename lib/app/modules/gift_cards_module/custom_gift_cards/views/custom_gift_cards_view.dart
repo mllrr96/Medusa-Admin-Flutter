@@ -1,12 +1,11 @@
-import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
@@ -23,21 +22,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-
-    String getCurrencyText(GiftCard giftCard) {
-      var value = giftCard.value?.roundToDouble() ?? 0.0;
-      var balance = giftCard.balance?.roundToDouble() ?? 0.0;
-      final valueFormatter =
-          NumberFormat.currency(name: giftCard.region?.currencyCode);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-        balance =
-            balance / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${valueFormatter.format(balance).split(valueFormatter.currencySymbol)[1]} / ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
-    }
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
 
     return Scaffold(
       appBar: AppBar(
@@ -45,9 +31,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
         title: const Text('Gift Cards History'),
         actions: [
           AdaptiveIcon(
-              onPressed: () => Get.toNamed(Routes.MEDUSA_SEARCH,
-                  arguments:
-                      SearchReq(searchCategory: SearchCategory.giftCards)),
+              onPressed: () =>
+                  Get.toNamed(Routes.MEDUSA_SEARCH, arguments: SearchReq(searchCategory: SearchCategory.giftCards)),
               icon: const Icon(MedusaIcons.magnifying_glass_mini))
         ],
       ),
@@ -62,8 +47,7 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
           controller: controller.scrollController,
           slivers: [
             SliverPadding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               sliver: SliverToBoxAdapter(
                 child: Text(
                   'See the history of purchased Gift Cards',
@@ -91,32 +75,25 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                               title: 'Manage Custom Gift Card',
                               context: context,
                               actions: <SheetAction<int>>[
-                                const SheetAction(
-                                    label: 'Edit details', key: 0),
+                                const SheetAction(label: 'Edit details', key: 0),
                                 SheetAction(
-                                    label: isDisabled ? 'Enable' : 'Disable',
-                                    isDestructiveAction: true,
-                                    key: 1),
+                                    label: isDisabled ? 'Enable' : 'Disable', isDestructiveAction: true, key: 1),
                               ]).then((value) async {
                             switch (value) {
                               case 0:
-                                Get.toNamed(
-                                    Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD,
-                                    arguments: giftCard);
+                                Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
                                 break;
                               case 1:
                                 await controller.updateCustomGiftCard(
                                   id: giftCard.id!,
-                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(
-                                      isDisabled: !isDisabled),
+                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled),
                                   getBack: false,
                                 );
                                 break;
                             }
                           });
                         },
-                        tileColor:
-                            Theme.of(context).appBarTheme.backgroundColor,
+                        tileColor: Theme.of(context).appBarTheme.backgroundColor,
                         title: Text(giftCard.code ?? ''),
                         subtitle: Text(
                           giftCard.orderId ?? '_',
@@ -126,9 +103,9 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(getCurrencyText(giftCard)),
                             Text(
-                                formatDate(giftCard.createdAt)),
+                                '${giftCard.balance.formatAsPrice(giftCard.region?.currencyCode, includeSymbol: false)} / ${giftCard.value.formatAsPrice( giftCard.region?.currencyCode, symbolAtEnd: true)}'),
+                            Text(giftCard.createdAt.formatDate()),
                           ],
                         ),
                       );
@@ -148,11 +125,9 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                         return listTile;
                       }
                     },
-                    noItemsFoundIndicatorBuilder: (_) =>
-                        const Center(child: Text('No Gift cards')),
+                    noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Gift cards')),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(
-                            child: CircularProgressIndicator.adaptive()),
+                        const Center(child: CircularProgressIndicator.adaptive()),
                   ),
                   separatorBuilder: (_, __) => const Divider(height: 0)),
             ),

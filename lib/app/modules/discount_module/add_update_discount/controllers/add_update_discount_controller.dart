@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/req/discount.dart';
@@ -76,9 +75,7 @@ class AddUpdateDiscountController extends GetxController {
       case DiscountRuleType.fixed:
         this.allocationType = allocationType!;
         if (selectedRegions.isNotEmpty) {
-          amountCtrl.text = CurrencyTextInputFormatter(
-                  name: selectedRegions.first.currencyCode)
-              .format(discount!.rule?.value.toString() ?? '');
+          amountCtrl.text = discount?.rule?.value.formatAsPrice(selectedRegions.first.currencyCode, includeSymbol: false) ?? '';
         } else {
           amountCtrl.text = discount!.rule?.value.toString() ?? '';
         }

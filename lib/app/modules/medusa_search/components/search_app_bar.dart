@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/pick_search_category.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/search_chip.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/enums.dart';
 import '../../components/adaptive_back_button.dart';
@@ -28,8 +29,8 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final controller = widget.controller;
     final searchCategory = controller.searchCategory;
     bool showOrderBy = switch (searchCategory) {

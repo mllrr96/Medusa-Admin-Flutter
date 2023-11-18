@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/country.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
@@ -8,6 +9,8 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multiselect/multiselect.dart';
 import '../../../../../components/countries/view/country_view.dart';
@@ -21,11 +24,11 @@ class AddRegionView extends GetView<AddRegionController> {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    Color lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     const border = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(4.0)),
       borderSide: BorderSide(color: Colors.grey),
@@ -104,6 +107,7 @@ class AddRegionView extends GetView<AddRegionController> {
                           ),
                           halfSpace,
                           DropdownButtonFormField<Currency>(
+                            style: context.bodyMedium,
                             validator: (val) {
                               if (val == null) {
                                 return 'Field is required';
@@ -114,7 +118,6 @@ class AddRegionView extends GetView<AddRegionController> {
                                 .map((e) => DropdownMenuItem(value: e, child: Text(e.name!)))
                                 .toList(),
                             hint: const Text('Choose currency'),
-                            style: smallTextStyle,
                             value: controller.selectedCurrency,
                             onChanged: (value) {
                               if (value != null) {
@@ -145,19 +148,13 @@ class AddRegionView extends GetView<AddRegionController> {
                                 return null;
                               },
                             ),
-                          if (controller.updateMode == false)
-                            LabeledTextField(
-                              label: 'Default Tax Code',
-                              controller: controller.defaultTextCode,
-                              keyboardType: TextInputType.number,
-                              hintText: '1000',
-                              validator: (val) {
-                                if (val == null || val.removeAllWhitespace.isEmpty) {
-                                  return 'Field required';
-                                }
-                                return null;
-                              },
-                            ),
+                          // if (!controller.updateMode)
+                          //   LabeledTextField(
+                          //     label: 'Default Tax Code',
+                          //     controller: controller.defaultTextCode,
+                          //     keyboardType: TextInputType.number,
+                          //     hintText: '1000',
+                          //   ),
                           LabeledTextField(
                             label: 'Countries',
                             controller: null,

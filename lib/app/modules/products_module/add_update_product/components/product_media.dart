@@ -2,9 +2,12 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -17,9 +20,9 @@ class ProductMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     return GetBuilder<AddUpdateProductController>(
       id: 5,
       builder: (controller) {
@@ -89,9 +92,7 @@ class ProductMedia extends StatelessWidget {
                           controller.images[index].delete();
                           controller.images.removeAt(index);
                           controller.update([5]);
-                        } catch (e) {
-
-                        }
+                        } catch (e) {}
                       },
                       onCrop: () async {
                         final result = await controller.imagePickerHelper.cropImage(image);
@@ -100,9 +101,7 @@ class ProductMedia extends StatelessWidget {
                             controller.images[index].delete();
                             controller.images[index] = result;
                             controller.update([5]);
-                          } catch (e) {
-
-                          }
+                          } catch (e) {}
                         }
                       },
                     );
@@ -123,7 +122,7 @@ class ProductMedia extends StatelessWidget {
                     if (imageSource == null) {
                       return;
                     }
-                    try{
+                    try {
                       switch (imageSource) {
                         case ImageSource.camera:
                           await controller.imagePickerHelper.imagePicker(source: imageSource).then((result) {
@@ -131,6 +130,7 @@ class ProductMedia extends StatelessWidget {
                               return;
                             }
                             controller.images.add(result);
+                            controller.update([5]);
                           });
                         case ImageSource.gallery:
                           await controller.imagePickerHelper.multipleImagePicker().then((result) {
@@ -139,10 +139,9 @@ class ProductMedia extends StatelessWidget {
                             }
                             controller.images.addAll(result);
                             controller.update([5]);
-                            controller.mediaTileCtrl.expand();
                           });
                       }
-                    }catch(e){
+                    } catch (e) {
                       debugPrint(e.toString());
                     }
                   },
@@ -187,7 +186,7 @@ class _RenameFileViewState extends State<RenameFileView> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     Future<void> renameFile() async {
       var path = widget.file.path;
       var lastSeparator = path.lastIndexOf(Platform.pathSeparator);

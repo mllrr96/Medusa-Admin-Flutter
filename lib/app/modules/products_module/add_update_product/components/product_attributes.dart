@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/country.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
@@ -8,6 +9,8 @@ import 'package:medusa_admin/app/modules/components/countries/components/countri
 import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
 import 'package:medusa_admin/app/modules/components/countries/view/country_view.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
@@ -19,10 +22,10 @@ class ProductAttributes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
+    const space = Gap(12);
 
     return GetBuilder<AddUpdateProductController>(
       id: 3,

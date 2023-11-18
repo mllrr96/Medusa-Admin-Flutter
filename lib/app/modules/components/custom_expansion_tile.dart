@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class CustomExpansionTile extends StatelessWidget {
   const CustomExpansionTile({
@@ -80,7 +82,7 @@ class CustomExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(
+      data: context.theme.copyWith(
           dividerColor: Colors.transparent, splashColor: Colors.transparent, highlightColor: Colors.transparent),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
@@ -89,9 +91,9 @@ class CustomExpansionTile extends StatelessWidget {
           title: required
               ? Row(
                   children: [
-                    if (label != null) Text(label!, style: Theme.of(context).textTheme.bodyLarge),
+                    if (label != null) Text(label!, style: context.bodyLarge),
                     if (title != null) title!,
-                    Text('*', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.redAccent)),
+                    Text('*', style: context.bodyLarge?.copyWith(color: Colors.redAccent)),
                   ],
                 )
               : label != null

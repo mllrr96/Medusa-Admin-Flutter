@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import '../../../../data/service/store_service.dart';
-import '../../../components/currency_formatter.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/custom_expansion_tile.dart';
 import 'draft_order_summery_card.dart';
 
@@ -15,21 +12,9 @@ class DraftOrderSummery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const halfSpace = SizedBox(height: 6.0);
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final totalTextTheme =  Theme.of(context).textTheme.displayLarge;
-    final currencyCode = draftOrder.cart!.region!.currencyCode;
-
-    String getPrice(num? price) {
-      var value = price ?? 0;
-      final currencyFormatter = CurrencyTextInputFormatter(name: currencyCode);
-      final symbolNative =
-          StoreService.store.currencies?.firstWhere((element) => element.code == currencyCode, orElse: (){
-            final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode?.toUpperCase());
-            return Currency(name:simpleCurrency.currencyName, symbolNative:simpleCurrency.currencySymbol , code:simpleCurrency.currencyName);
-          }).symbolNative;
-      return '${symbolNative ?? ''} ${currencyFormatter.format(value.toString())}';
-    }
+    final mediumTextStyle = context.bodyMedium;
+    final totalTextTheme = context.headlineMedium;
+    final currencyCode = draftOrder.cart?.region?.currencyCode;
 
     return CustomExpansionTile(
       onExpansionChanged: onExpansionChanged,
@@ -40,8 +25,9 @@ class DraftOrderSummery extends StatelessWidget {
         ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount:draftOrder.cart!.items!.length ,
-            itemBuilder: (context, index) => DraftOrderSummeryCard(item: draftOrder.cart!.items![index], currencyCode: currencyCode!)),
+            itemCount: draftOrder.cart!.items!.length,
+            itemBuilder: (context, index) =>
+                DraftOrderSummeryCard(item: draftOrder.cart!.items![index], currencyCode: currencyCode!)),
         const Divider(),
         Column(
           children: [
@@ -51,13 +37,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Subtotal', style: mediumTextStyle),
-                  Row(
-                    children: [
-                      Text(getPrice(draftOrder.cart!.subTotal), style: mediumTextStyle),
-                      // Text(' ${draftOrder.currencyCode?.toUpperCase() ?? ''}',
-                      //     style: mediumTextStyle?.copyWith(color: lightWhite)),
-                    ],
-                  ),
+                  Text(draftOrder.cart?.subTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                 ],
               ),
             ),
@@ -68,13 +48,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Shipping', style: mediumTextStyle),
-                  Row(
-                    children: [
-                      Text(getPrice(draftOrder.cart!.shippingTotal), style: mediumTextStyle),
-                      Text(' ${currencyCode?.toUpperCase() ?? ''}',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
-                    ],
-                  ),
+                  Text(draftOrder.cart?.shippingTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                 ],
               ),
             ),
@@ -85,13 +59,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Tax', style: mediumTextStyle),
-                  Row(
-                    children: [
-                      Text(getPrice(draftOrder.cart!.taxTotal), style: mediumTextStyle),
-                      Text(' ${currencyCode?.toUpperCase() ?? ''}',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
-                    ],
-                  ),
+                  Text(draftOrder.cart?.taxTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                 ],
               ),
             ),
@@ -102,7 +70,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Total', style: totalTextTheme),
-                  Text(getPrice(draftOrder.cart!.total), style: Theme.of(context).textTheme.displayLarge),
+                  Text(draftOrder.cart?.total.formatAsPrice(currencyCode) ?? '', style: context.headlineMedium),
                 ],
               ),
             ),
@@ -112,6 +80,4 @@ class DraftOrderSummery extends StatelessWidget {
       ],
     );
   }
-
-
 }

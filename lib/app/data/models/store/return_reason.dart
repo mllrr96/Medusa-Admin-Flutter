@@ -49,7 +49,7 @@ class ReturnReason {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ReturnReason.fromJson(Map<String, dynamic> json) {

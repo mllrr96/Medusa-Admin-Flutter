@@ -5,13 +5,13 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../../data/models/store/order.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -78,9 +78,9 @@ class Delegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final controller = Get.find<CustomerDetailsController>();
     final tr = AppLocalizations.of(context)!;
 
@@ -159,7 +159,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                     children: [
                       if (customer.createdAt != null)
                         Text(
-                          '${tr.firstSeen} ${formatDate(customer.createdAt)}',
+                          '${tr.firstSeen} ${customer.createdAt.formatDate()}',
                           style: smallTextStyle,
                         ),
                       Obx(() => Text('${tr.orders}: ${controller.ordersCount.value}', style: smallTextStyle)),

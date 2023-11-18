@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 import '../../../../data/models/store/product.dart';
 import '../controllers/pick_products_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -17,8 +18,8 @@ class PickProductsView extends GetView<PickProductsController> {
     return GetBuilder<PickProductsController>(
       init: PickProductsController(productsRepo: ProductsRepo(), pickProductsReq: pickProductsReq),
       builder: (controller) {
-        final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-        final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+        final lightWhite = ColorManager.manatee;
+        final smallTextStyle = context.bodySmall;
 
         return Scaffold(
           appBar: AppBar(

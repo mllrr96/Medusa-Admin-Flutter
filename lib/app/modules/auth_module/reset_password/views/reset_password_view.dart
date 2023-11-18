@@ -4,7 +4,9 @@ import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
+import '../../../../../core/utils/colors.dart';
 import '../../../components/error_widget.dart';
 import '../controllers/reset_password_controller.dart';
 
@@ -13,9 +15,9 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
     final bottomPadding =
-        MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
+        context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
     final tr = AppLocalizations.of(context)!;
 
     return GestureDetector(
@@ -47,12 +49,12 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(tr.resetYourPassword, style: Theme.of(context).textTheme.displayLarge),
+                    Text(tr.resetYourPassword, style: context.headlineMedium),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         tr.sendInstructionsDescription,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
+                        style: context.bodyMedium?.copyWith(color: lightWhite),
                         textAlign: TextAlign.center,
                       ),
                     ),

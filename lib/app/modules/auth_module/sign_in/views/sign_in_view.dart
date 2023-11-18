@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
@@ -10,6 +11,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/language_selection/language_selection_view.dart';
@@ -24,12 +26,12 @@ class SignInView extends GetView<SignInController> {
   Widget build(context) {
     final tr = AppLocalizations.of(context)!;
     final bool isRTL = Directionality.of(context) == TextDirection.rtl;
-    const space = SizedBox(height: 12.0);
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    const space = Gap(12);
+    final smallTextStyle = context.bodySmall;
 
     // Since there no app bar, annotated region is used to apply theme ui overlay
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: Theme.of(context).appBarTheme.systemOverlayStyle!,
+      value: context.theme.appBarTheme.systemOverlayStyle!,
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
@@ -65,7 +67,7 @@ class SignInView extends GetView<SignInController> {
                             padding: const EdgeInsets.symmetric(horizontal: 4.0),
                             child: AdaptiveButton(
                               onPressed: () async => await showBarModalBottomSheet(
-                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                backgroundColor: context.theme.scaffoldBackgroundColor,
                                 context: context,
                                 builder: (context) => const LanguageSelectionView(),
                               ),
@@ -104,15 +106,15 @@ class SignInView extends GetView<SignInController> {
                       children: [
                         Text(
                           tr.welcome,
-                          style: Theme.of(context).textTheme.displayLarge,
+                          style: context.headlineMedium,
                         ),
                         Text(
                           tr.greatToSeeYou,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: context.bodyMedium,
                         ),
                         Text(
                           tr.loginBelow,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: context.bodyMedium,
                         ),
                       ],
                     ),
@@ -259,7 +261,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     final bottomPadding =
         MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
 

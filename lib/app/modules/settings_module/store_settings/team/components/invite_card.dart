@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/components/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../core/utils/colors.dart';
 import '../../../../components/adaptive_icon.dart';
@@ -19,8 +20,8 @@ class InviteCard extends StatelessWidget {
   final void Function()? onDeleteTap;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final email = invite.userEmail ?? '';
     return Container(
       decoration: BoxDecoration(

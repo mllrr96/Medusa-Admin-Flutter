@@ -1,12 +1,11 @@
-import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
+import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_icon.dart';
 import '../controllers/custom_gift_cards_controller.dart';
@@ -17,9 +16,9 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
   final GiftCard giftCard;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final isDisabled = giftCard.isDisabled ?? false;
     final bottomPadding =
         MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
@@ -76,14 +75,14 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Original amount', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(getCurrencyText(giftCard.value), style: mediumTextStyle),
+                        Text(giftCard.value.formatAsPrice(giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('Balance', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(getCurrencyText(giftCard.balance), style: mediumTextStyle),
+                        Text(giftCard.balance.formatAsPrice(giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                   ],
@@ -103,7 +102,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('Created', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(formatDate(giftCard.createdAt), style: mediumTextStyle),
+                        Text(giftCard.createdAt.formatDate(), style: mediumTextStyle),
                       ],
                     ),
                   ],
@@ -157,14 +156,5 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
         ],
       ),
     );
-  }
-
-  String getCurrencyText(int? currency) {
-    double value = currency?.roundToDouble() ?? 0.0;
-    final valueFormatter = NumberFormat.currency(name: giftCard.region?.currencyCode);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
   }
 }

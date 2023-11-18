@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
+import 'package:get/get.dart';
+
 class AdaptiveCloseButton extends StatelessWidget {
   /// Creates a Material Design close button.
   const AdaptiveCloseButton({ super.key, this.color, this.onPressed });
@@ -29,7 +31,7 @@ class AdaptiveCloseButton extends StatelessWidget {
       return Tooltip(
         message: MaterialLocalizations.of(context).closeButtonTooltip,
         child: CupertinoTheme(
-          data: CupertinoThemeData(primaryColor: Theme.of(context).iconTheme.color),
+          data: CupertinoThemeData(primaryColor: context.theme.iconTheme.color),
           child: CupertinoButton(
               child: const Icon(CupertinoIcons.clear),
               onPressed: () {

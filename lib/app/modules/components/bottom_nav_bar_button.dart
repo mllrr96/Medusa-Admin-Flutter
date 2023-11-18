@@ -42,10 +42,10 @@ class BottomNavigationBarButton extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom / 2),
+          Container(color: backgroundColor ?? context.theme.bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom / 2),
           Container(
             decoration: BoxDecoration(
-              color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+              color: backgroundColor ?? context.theme.bottomNavigationBarTheme.backgroundColor,
               // boxShadow: noShadow ? null : [boxShadow],
             ),
             height: containerHeight ?? kContainerHeight,
@@ -64,7 +64,7 @@ class BottomNavigationBarButton extends StatelessWidget {
               ),
             ),
           ),
-          Container(color: backgroundColor ?? Theme.of(context).bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom),
+          Container(color: backgroundColor ?? context.theme.bottomNavigationBarTheme.backgroundColor, height: MediaQuery.of(context).padding.bottom),
         ],
       );
     }

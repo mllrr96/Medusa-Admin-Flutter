@@ -19,6 +19,7 @@ class AuthRepo extends BaseAuth {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
     }
+    _dataProvider.dio.options.connectTimeout = const Duration(seconds: 10);
     try {
       final response = await _dataProvider.post(uri: '/auth', data: req);
       if (response.statusCode == 200) {
@@ -73,10 +74,6 @@ class AuthRepo extends BaseAuth {
         uri: '/auth',
       );
       if (response.statusCode == 200) {
-        // print(response.headers);
-        // print(response.data);
-        // print(response.extra);
-        // var cookie = response.headers['set-cookie']!.first.split(';').first;
         return Success(UserAuthRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));

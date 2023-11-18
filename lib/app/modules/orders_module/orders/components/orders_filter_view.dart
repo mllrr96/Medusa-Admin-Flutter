@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -9,6 +10,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/adaptive_filled_button.dart';
 
@@ -68,11 +70,11 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0
         ? 20.0
         : context.mediaQueryViewPadding.bottom;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -317,6 +319,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     }),
                 children: [
                   DropdownButtonFormField<DateFilterType>(
+                    style: context.bodyMedium,
                     value: orderFilter.orderDateFilter.dateFilterType,
                     onChanged: (type) {
                       if (type != null) {
@@ -395,6 +398,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         const SizedBox(width: 12.0),
                         Flexible(
                           child: DropdownButtonFormField<DateType>(
+                            style: context.bodyMedium,
                             value: orderFilter.orderDateFilter.dateType,
                             onChanged: (type) {
                               if (type != null) {

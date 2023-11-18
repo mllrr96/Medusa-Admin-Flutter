@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
@@ -11,7 +12,7 @@ class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return WillPopScope(
       onWillPop: () async {
         if (controller.updateMode && !controller.sameDiscount()) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../../core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
@@ -15,9 +16,9 @@ class ConditionOperatorCard extends StatelessWidget {
   final void Function(DiscountConditionOperator discountRuleType)? onTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
 
     String title = '';
     String description = '';

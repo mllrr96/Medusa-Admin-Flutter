@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/repository/currency/currency_repo.dart';
 import '../../../../components/adaptive_back_button.dart';
 import '../controllers/currencies_controller.dart';
@@ -14,10 +18,10 @@ class CurrenciesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    const space = SizedBox(height: 12.0);
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
+    const space = Gap(12);
     return GetBuilder<CurrenciesController>(
       builder: (controller) {
         return GestureDetector(
@@ -55,6 +59,7 @@ class CurrenciesView extends StatelessWidget {
                         if (controller.currencies.isNotEmpty && controller.currencies.length > 1)
                           DropdownButtonFormField<String>(
                             value: controller.defaultStoreCurrency.code,
+                            style: context.bodyMedium,
                             items: controller.currencies
                                 .map((currency) => DropdownMenuItem(
                                       value: currency.code,
@@ -68,7 +73,7 @@ class CurrenciesView extends StatelessWidget {
                               }
                             },
                             decoration: InputDecoration(
-                              fillColor: Theme.of(context).scaffoldBackgroundColor,
+                              fillColor: context.theme.scaffoldBackgroundColor,
                               filled: true,
                               border: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -84,7 +89,7 @@ class CurrenciesView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                      color: Theme.of(context).expansionTileTheme.backgroundColor,
+                      color: context.theme.expansionTileTheme.backgroundColor,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +138,7 @@ class CurrenciesView extends StatelessWidget {
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(currency.code?.toUpperCase() ?? ''),
+                                      Text(NumberFormat.simpleCurrency(name: currency.code?.toUpperCase()).currencySymbol),
                                       const SizedBox(width: 12.0),
                                       Text(currency.name ?? ''),
                                     ],
@@ -161,7 +166,6 @@ class AllCurrenciesView extends StatelessWidget {
   final List<Currency> storeCurrencies;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     return GetBuilder<AllCurrenciesController>(
       init: AllCurrenciesController(currencyRepo: CurrencyRepo(), storeCurrencies: storeCurrencies),
       builder: (controller) {
@@ -187,8 +191,8 @@ class AllCurrenciesView extends StatelessWidget {
                             contentPadding: EdgeInsets.zero,
                             controlAffinity: ListTileControlAffinity.trailing,
                             title: Text(currency.name ?? ''),
-                            secondary: Text(currency.code?.toUpperCase() ?? '',
-                                style: mediumTextStyle?.copyWith(fontWeight: FontWeight.bold)),
+                            secondary: Text(NumberFormat.simpleCurrency(name: currency.code?.toUpperCase()).currencySymbol,
+                                style: context.bodyMediumW600),
                             onChanged: (bool? value) {
                               var selectedCurrencies = controller.selectedCurrencies;
                               if (selectedCurrencies.any((element) => element.code == currency.code)) {

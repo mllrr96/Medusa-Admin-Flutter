@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
+import 'package:get/get.dart';
+
 class AdaptiveIcon extends StatelessWidget {
   const AdaptiveIcon(
       {Key? key,
@@ -22,7 +24,7 @@ class AdaptiveIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
       return CupertinoTheme(
-          data: CupertinoThemeData(primaryColor: Theme.of(context).iconTheme.color),
+          data: CupertinoThemeData(primaryColor: context.theme.iconTheme.color),
           child: CupertinoButton(onPressed: onPressed, padding: iosPadding, child: icon));
     } else {
       return IconButton(

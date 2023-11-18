@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class ChooseCustomerView extends StatelessWidget {
   const ChooseCustomerView({Key? key, this.onCustomerChanged})
@@ -12,9 +14,9 @@ class ChooseCustomerView extends StatelessWidget {
   final void Function(Customer?)? onCustomerChanged;
   @override
   Widget build(BuildContext context) {
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    final largeTextStyle = context.bodyLarge;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     return GetBuilder<ChooseCustomerController>(
       builder: (controller) {
         return Column(

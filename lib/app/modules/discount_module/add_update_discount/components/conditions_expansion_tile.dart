@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'dart:io';
 import '../../../../data/models/store/discount_condition.dart';
 import '../../../../routes/app_pages.dart';
@@ -16,9 +19,9 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     Future<void> scrollToSelectedContent(
         {required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240))
@@ -56,7 +59,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
             },
             initiallyExpanded: controller.updateMode,
             title: Text('Conditions',
-                style: Theme.of(context).textTheme.bodyLarge),
+                style: context.bodyLarge),
             expandedAlignment: Alignment.center,
             childrenPadding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -115,7 +118,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
                       children: [
                         if (Platform.isAndroid) const Icon(Icons.add),
                         if (Platform.isIOS) const Icon(CupertinoIcons.add),
-                        const SizedBox(width: 6.0),
+                        const Gap(6),
                         const Text('Add Condition'),
                       ],
                     ))

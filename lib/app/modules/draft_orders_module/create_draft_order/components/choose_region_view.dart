@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
 import '../../../components/custom_text_field.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -13,8 +15,8 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
   final void Function(Region?)? onRegionChanged;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     return controller.obx(
       (state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -24,6 +26,7 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
             Text('Choose region', style: smallTextStyle),
             space,
             DropdownButtonFormField<Region>(
+              style: context.bodyMedium,
               validator: (val) {
                 if (val == null) {
                   return 'Field is required';

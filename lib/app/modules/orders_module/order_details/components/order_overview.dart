@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
+import '../../../../../core/utils/colors.dart';
 import 'order_status_label.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,8 +12,8 @@ class OrderOverview extends StatelessWidget {
   final Order order;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final tr = AppLocalizations.of(context)!;
 
     return Container(
@@ -31,14 +32,14 @@ class OrderOverview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('#${order.displayId!}', style: Theme.of(context).textTheme.titleLarge),
+                      Text('#${order.displayId!}', style: context.bodyLarge),
                       IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
                   if ( order.cart?.completedAt != null)
                     Text(
-                      'on ${formatDate(order.cart!.completedAt)} at ${formatTime(order.cart!.completedAt)}',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      'on ${order.cart!.completedAt.formatDate()} at ${order.cart!.completedAt.formatTime()}',
+                      style: context.bodyMedium,
                     )
                 ],
               ),
@@ -60,19 +61,19 @@ class OrderOverview extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                    Text(order.email!, style: context.bodyMedium),
                     if (order.billingAddress != null && order.billingAddress!.phone != null)
-                      Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                      Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(tr.payment, style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
+                  Text(tr.payment, style: context.bodyMedium?.copyWith(color: Colors.grey)),
                   if (order.payments?.isNotEmpty ?? false)
                     Text(order.payments!.first.providerId?.capitalize ?? '',
-                        style: Theme.of(context).textTheme.titleMedium),
+                        style: context.bodyMedium),
                 ],
               ),
             ],

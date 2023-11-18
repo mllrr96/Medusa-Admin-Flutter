@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
@@ -20,7 +21,7 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ProductsController.instance;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
     IconData sortIcon = switch (controller.sortOptions) {
       SortOptions.aZ => Icons.sort_by_alpha,
       SortOptions.zA => Icons.sort_by_alpha,
@@ -88,15 +89,11 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('Filters',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
+                          style: context.bodySmall
                               ?.copyWith(color: lightWhite)),
                       if (controller.productFilter?.count() != null)
                         Text(' ${controller.productFilter?.count() ?? ''}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
+                            style: context.bodySmall
                                 ?.copyWith(color: ColorManager.primary)),
                     ],
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/date_time_card.dart';
 
@@ -9,10 +11,10 @@ class ConfigurationsCard extends StatelessWidget {
   final Discount discount;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
 
     return Container(
