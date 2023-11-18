@@ -319,6 +319,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     }),
                 children: [
                   DropdownButtonFormField<DateFilterType>(
+                    style: context.bodyMedium,
                     value: orderFilter.orderDateFilter.dateFilterType,
                     onChanged: (type) {
                       if (type != null) {
@@ -397,6 +398,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         const SizedBox(width: 12.0),
                         Flexible(
                           child: DropdownButtonFormField<DateType>(
+                            style: context.bodyMedium,
                             value: orderFilter.orderDateFilter.dateType,
                             onChanged: (type) {
                               if (type != null) {

@@ -192,6 +192,7 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
                     ),
                     halfSpace,
                     DropdownButtonFormField<int>(
+                      style: context.bodyMedium,
                       items: widget.countries
                           .map((e) => DropdownMenuItem<int>(
                                 value: e.numCode,
@@ -199,7 +200,6 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
                               ))
                           .toList(),
                       hint: Text('Select', style: smallTextStyle?.copyWith(color: lightWhite)),
-                      style: smallTextStyle,
                       value: selectedCountry?.numCode,
                       onChanged: (val) {
                         if (val == null) return;

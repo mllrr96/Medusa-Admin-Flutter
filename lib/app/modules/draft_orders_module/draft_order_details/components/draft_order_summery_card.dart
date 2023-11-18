@@ -53,7 +53,7 @@ class DraftOrderSummeryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${formatPrice(item.unitPrice, currencyCode)}x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
+                Text('${formatPrice(item.unitPrice, currencyCode)} x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
                 const Divider(height: 5),
                 Text(formatPrice(item.total, currencyCode), style: mediumTextStyle, maxLines: 1),
               ],

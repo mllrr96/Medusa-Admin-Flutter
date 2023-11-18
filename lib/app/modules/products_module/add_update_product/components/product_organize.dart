@@ -46,6 +46,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                   duration: const Duration(milliseconds: 300),
                   child: controller.productTypes != null
                       ? DropdownButtonFormField<ProductType>(
+                          style: context.bodyMedium,
                           value: controller.selectedProductType,
                           disabledHint: const Text('No options'),
                           onChanged: (type) {
@@ -77,6 +78,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                   duration: const Duration(milliseconds: 300),
                   child: controller.collections != null
                       ? DropdownButtonFormField<ProductCollection>(
+                          style: context.bodyMedium,
                           value: controller.selectedCollection,
                           disabledHint: const Text('No options'),
                           onChanged: (collection) {

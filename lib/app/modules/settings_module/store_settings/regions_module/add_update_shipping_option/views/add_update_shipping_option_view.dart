@@ -102,8 +102,8 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                     ),
                                     halfSpace,
                                     DropdownButtonFormField<ShippingOptionPriceType>(
+                                      style: context.bodyMedium,
                                       value: controller.selectedPriceType,
-                                      style: smallTextStyle,
                                       hint: const Text('Choose a price type'),
                                       iconSize: 20,
                                       dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -179,9 +179,9 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.shippingProfiles != null
                                       ? DropdownButtonFormField<ShippingProfile>(
+                                          style: context.bodyMedium,
                                           value: controller.selectedShippingProfile,
                                           hint: const Text('Choose a shipping profile'),
-                                          style: smallTextStyle,
                                           dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
                                           validator: (val) {
                                             if (val == null) {
@@ -227,9 +227,9 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.fulfillmentOptions != null
                                       ? DropdownButtonFormField<FulfillmentOption>(
+                                          style: context.bodyMedium,
                                           value: controller.selectedFulfillmentOption,
                                           hint: const Text('Choose a fulfillment method'),
-                                          style: smallTextStyle,
                                           dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
                                           validator: (val) {
                                             if (val == null) {

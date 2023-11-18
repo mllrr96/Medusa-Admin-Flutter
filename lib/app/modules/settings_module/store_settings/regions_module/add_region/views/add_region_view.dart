@@ -107,6 +107,7 @@ class AddRegionView extends GetView<AddRegionController> {
                           ),
                           halfSpace,
                           DropdownButtonFormField<Currency>(
+                            style: context.bodyMedium,
                             validator: (val) {
                               if (val == null) {
                                 return 'Field is required';
@@ -117,7 +118,6 @@ class AddRegionView extends GetView<AddRegionController> {
                                 .map((e) => DropdownMenuItem(value: e, child: Text(e.name!)))
                                 .toList(),
                             hint: const Text('Choose currency'),
-                            style: smallTextStyle,
                             value: controller.selectedCurrency,
                             onChanged: (value) {
                               if (value != null) {

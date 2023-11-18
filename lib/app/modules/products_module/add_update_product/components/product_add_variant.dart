@@ -139,6 +139,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                       ),
                                       const SizedBox(height: 6.0),
                                       DropdownButtonFormField(
+                                        style: context.bodyMedium,
                                         validator: (val) {
                                           if (val == null) {
                                             return 'Field is required';

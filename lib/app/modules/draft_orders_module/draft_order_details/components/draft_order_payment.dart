@@ -72,12 +72,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Shipping', style: mediumTextStyle),
-              Row(
-                children: [
-                  Text(formatPrice(draftOrder.cart?.shippingTotal, currencyCode), style: mediumTextStyle),
-                  Text(' ${currencyCode?.toUpperCase() ?? ''}', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                ],
-              ),
+              Text(formatPrice(draftOrder.cart?.shippingTotal, currencyCode), style: mediumTextStyle),
             ],
           ),
         ),
@@ -88,12 +83,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Tax', style: mediumTextStyle),
-              Row(
-                children: [
-                  Text(formatPrice(draftOrder.cart?.taxTotal, currencyCode), style: mediumTextStyle),
-                  Text(' ${currencyCode?.toUpperCase() ?? ''}', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                ],
-              ),
+              Text(formatPrice(draftOrder.cart?.taxTotal, currencyCode), style: mediumTextStyle),
             ],
           ),
         ),

@@ -73,6 +73,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
             Text('Role', style: mediumTextStyle),
             const SizedBox(height: 6.0),
             DropdownButtonFormField<UserRole>(
+              style: context.bodyMedium,
               value: selectedRole,
               onChanged: (role) {
                 if (role != null) {

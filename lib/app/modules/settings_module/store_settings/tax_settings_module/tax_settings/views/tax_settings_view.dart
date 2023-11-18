@@ -117,6 +117,7 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                         duration: const Duration(milliseconds: 300),
                         child: controller.taxProviders != null
                             ? DropdownButtonFormField<TaxProvider>(
+                                style: context.bodyMedium,
                                 items: controller.taxProviders!
                                     .map((e) => DropdownMenuItem<TaxProvider>(
                                           value: e,

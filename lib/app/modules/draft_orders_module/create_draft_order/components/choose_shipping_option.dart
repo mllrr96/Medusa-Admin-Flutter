@@ -55,6 +55,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
             Text('Choose Shipping Option', style: smallTextStyle),
             space,
             DropdownButtonFormField<ShippingOption>(
+              style: context.bodyMedium,
               validator: (val) {
                 if (val == null) {
                   return 'Field is required';

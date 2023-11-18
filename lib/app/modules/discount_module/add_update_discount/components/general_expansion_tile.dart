@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -173,7 +174,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                               )
                           ],
                           prefixText:
-                              '   ${controller.selectedRegions.isNotEmpty ? controller.selectedRegions.first.currencyCode?.toUpperCase() : ''} ',
+                              '   ${controller.selectedRegions.isNotEmpty ? NumberFormat.simpleCurrency(name:controller.selectedRegions.first.currencyCode?.toUpperCase()).currencySymbol : ''} ',
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Required';

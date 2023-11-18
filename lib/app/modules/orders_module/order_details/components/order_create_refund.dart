@@ -148,7 +148,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                     Text('Reason', style: mediumTextStyle),
                     halfSpace,
                     DropdownButtonFormField<String>(
-                      style: smallTextStyle,
+                      style: context.bodyMedium,
                       value: reason,
                       items: const <DropdownMenuItem<String>>[
                         DropdownMenuItem(

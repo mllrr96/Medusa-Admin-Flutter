@@ -332,6 +332,7 @@ class _AddressViewState extends State<AddressView> with AutomaticKeepAliveClient
                         ),
                         halfSpace,
                         DropdownButtonFormField<Country>(
+                          style: context.bodyMedium,
                           value: countries?.first,
                           items: countries
                               ?.map((e) => DropdownMenuItem<Country>(
@@ -549,6 +550,7 @@ class _AddressViewState extends State<AddressView> with AutomaticKeepAliveClient
                         ),
                         halfSpace,
                         DropdownButtonFormField<Country>(
+                          style: context.bodyMedium,
                           value: countries?.first,
                           items: countries
                               ?.map((e) => DropdownMenuItem<Country>(

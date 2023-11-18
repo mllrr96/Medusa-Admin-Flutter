@@ -76,7 +76,7 @@ class AddUpdateDiscountController extends GetxController {
       case DiscountRuleType.fixed:
         this.allocationType = allocationType!;
         if (selectedRegions.isNotEmpty) {
-          amountCtrl.text = formatPrice(discount?.rule?.value, selectedRegions.first.currencyCode);
+          amountCtrl.text = formatPrice(discount?.rule?.value, selectedRegions.first.currencyCode, includeSymbol: false);
         } else {
           amountCtrl.text = discount!.rule?.value.toString() ?? '';
         }

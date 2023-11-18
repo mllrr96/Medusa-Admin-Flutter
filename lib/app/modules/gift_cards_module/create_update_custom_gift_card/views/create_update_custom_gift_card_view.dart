@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -129,7 +130,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                     )
                                 ],
                                 prefixText:
-                                    '   ${controller.selectedRegion != null ? controller.selectedRegion!.currencyCode?.toUpperCase() : ''} ',
+                                    '   ${controller.selectedRegion != null ? NumberFormat.simpleCurrency(name: controller.selectedRegion!.currencyCode?.toUpperCase()).currencySymbol : ''} ',
                                 validator: (val) {
                                   if (val == null || val.isEmpty) {
                                     return 'Required';

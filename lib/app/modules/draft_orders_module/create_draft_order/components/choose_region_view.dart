@@ -26,6 +26,7 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
             Text('Choose region', style: smallTextStyle),
             space,
             DropdownButtonFormField<Region>(
+              style: context.bodyMedium,
               validator: (val) {
                 if (val == null) {
                   return 'Field is required';
