@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../../data/models/store/region.dart';
-import '../../../regions_module/regions/views/regions_view.dart';
+import '../../../regions_module/regions/components/region_card.dart';
 import '../controllers/tax_settings_select_region_controller.dart';
 
 class TaxSettingsSelectRegionView extends GetView<TaxSettingsSelectRegionController> {

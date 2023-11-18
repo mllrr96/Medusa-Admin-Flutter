@@ -14,16 +14,12 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
   final RegionsRepo regionsRepo;
   final ShippingOptionsRepo shippingOptionsRepo;
   late String regionId;
-  List<ShippingOption>? shippingOptions;
-  List<ShippingOption>? returnShippingOptions;
   RxString regionName = 'Region'.obs;
 
   @override
   Future<void> onInit() async {
     regionId = Get.arguments ?? '';
     await loadRegion();
-    await loadShippingOptions();
-    await loadReturnShippingOptions();
     super.onInit();
   }
 
@@ -51,13 +47,9 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
       if (success.deleted ?? false) {
         dismissLoading();
         if (!returnShippingOption) {
-          shippingOptions = null;
-          update();
-          await loadShippingOptions();
+          updateOptions();
         } else {
-          returnShippingOptions = null;
-          update();
-          await loadReturnShippingOptions();
+          updateReturnOptions();
         }
       } else {
         EasyLoading.showError('Error deleting shipping option');
@@ -87,29 +79,30 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
     );
   }
 
-  Future<void> loadShippingOptions() async {
+  Future<List<ShippingOption>?> retrieveShippingOptions({bool isReturn = false}) async {
     final result = await shippingOptionsRepo.retrieveAll(
       queryParams: {
         'region_id': regionId,
-        'is_return': false,
+        'is_return': isReturn,
       },
     );
-    result.when((success) => shippingOptions = success.shippingOptions ?? [], (error) {
-      debugPrint(error.toString());
-    });
-    update();
+
+    return result.when(
+      (success) {
+        return success.shippingOptions;
+      },
+      (error) {
+        debugPrint(error.toString());
+        return null;
+      },
+    );
   }
 
-  Future<void> loadReturnShippingOptions() async {
-    final result = await shippingOptionsRepo.retrieveAll(
-      queryParams: {
-        'region_id': regionId,
-        'is_return': true,
-      },
-    );
-    result.when((success) => returnShippingOptions = success.shippingOptions ?? [], (error) {
-      debugPrint(error.toString());
-    });
-    update();
+  void updateReturnOptions() {
+    update([1]);
+  }
+
+  void updateOptions() {
+    update([0]);
   }
 }
