@@ -199,6 +199,19 @@ class Product extends Equatable {
     );
   }
 
+   Product duplicate() {
+    return copyWith(
+      id: null,
+      createdAt: null,
+      updatedAt: null,
+      deletedAt: null,
+      externalId: null,
+      status: ProductStatus.draft,
+      title: '$title (${DateTime.now()})',
+      handle: null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['status'] = status.value;

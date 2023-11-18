@@ -8,13 +8,15 @@ import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 
 class ProductListTile extends StatelessWidget {
-  const ProductListTile({Key? key, required this.product, this.onTap, this.onDelete, this.onPublish, this.onEdit})
+  const ProductListTile(
+      {Key? key, required this.product, this.onTap, this.onDelete, this.onPublish, this.onEdit, this.onDuplicate})
       : super(key: key);
   final Product product;
   final void Function()? onTap;
   final void Function()? onDelete;
   final void Function()? onPublish;
   final void Function()? onEdit;
+  final void Function()? onDuplicate;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -69,6 +71,9 @@ class ProductListTile extends StatelessWidget {
                     onPublish!();
                   }
                 case 2:
+                  if (onDuplicate != null) {
+                    onDuplicate!();
+                  }
                   break;
                 case 3:
                   if (onDelete != null) {

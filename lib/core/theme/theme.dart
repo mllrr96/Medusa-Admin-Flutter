@@ -15,8 +15,8 @@ class AppTheme {
       brightness: Brightness.light,
       listTileTheme: ListTileThemeData(
         textColor: Colors.black,
-        titleTextStyle: GoogleFonts.cabin(color: Colors.black, fontSize: 16.0),
-        subtitleTextStyle: GoogleFonts.cabin(color: Colors.black, fontSize: 14.0),
+        titleTextStyle: bodyLarge,
+        subtitleTextStyle: bodyMedium,
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xFFF2F2F7),
@@ -32,23 +32,23 @@ class AppTheme {
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // splashColor: Colors.transparent,
-      highlightColor:  ColorManager.primary.withOpacity(0.6),
+      highlightColor: ColorManager.primary.withOpacity(0.6),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: CupertinoColors.white,
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
-
       appBarTheme: AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
         backgroundColor: CupertinoColors.white,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: ColorManager.primary,
-            statusBarIconBrightness: Brightness.light,
-            statusBarBrightness: Brightness.light,
-            systemNavigationBarColor: Colors.white),
+          statusBarColor: ColorManager.primary,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: const Color(0xFFF2F2F7),
+        ),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
@@ -56,7 +56,6 @@ class AppTheme {
         ),
         primaryColor: ColorManager.primary,
       ),
-
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         labelStyle: TextStyle(color: Colors.grey),
@@ -99,8 +98,8 @@ class AppTheme {
       brightness: Brightness.dark,
       listTileTheme: ListTileThemeData(
         textColor: Colors.white,
-        titleTextStyle: GoogleFonts.cabin(color: Colors.white, fontSize: 16.0),
-        subtitleTextStyle: GoogleFonts.cabin(color: Colors.white, fontSize: 14.0),
+        titleTextStyle: bodyLarge.dark(),
+        subtitleTextStyle: bodyMedium.dark(),
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xff242527),
@@ -127,10 +126,11 @@ class AppTheme {
         backgroundColor: const Color(0xff242527),
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: ColorManager.primary,
-            statusBarIconBrightness: Brightness.light,
-            statusBarBrightness: Brightness.dark,
-            systemNavigationBarColor: Colors.black),
+          statusBarColor: ColorManager.primary,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+          systemNavigationBarColor: const Color(0xFF18191A),
+        ),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
@@ -170,7 +170,8 @@ class AppTheme {
         headlineSmall: headlineSmall.dark(),
         bodyLarge: bodyLarge.dark(),
         bodyMedium: bodyMedium.dark(),
-        bodySmall: bodySmall.dark(),      ),
+        bodySmall: bodySmall.dark(),
+      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: ColorManager.primary, // This is a custom color variable
@@ -189,11 +190,11 @@ class AppTheme {
   static final headlineMedium = GoogleFonts.cabin(fontSize: 28, color: Colors.black);
   // Headline 3
   // 22px Medium
-  static final headlineSmall = GoogleFonts.cabin(fontSize: 22,  color: Colors.black);
+  static final headlineSmall = GoogleFonts.cabin(fontSize: 22, color: Colors.black);
 
   // Body 1
   // 17px Medium
-  static final bodyLarge = GoogleFonts.cabin(fontSize: 17,  color: Colors.black);
+  static final bodyLarge = GoogleFonts.cabin(fontSize: 17, color: Colors.black);
 
   // Body 2
   // 15px Medium
@@ -202,5 +203,4 @@ class AppTheme {
   // Body 3
   // 13px Medium
   static final bodySmall = GoogleFonts.cabin(fontSize: 13, color: Colors.black);
-
 }

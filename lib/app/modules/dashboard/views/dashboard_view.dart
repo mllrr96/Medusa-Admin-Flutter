@@ -52,10 +52,11 @@ class DashboardView extends GetView<DashboardController> {
           },
           // Since there no app bar, annotated region is used to apply theme ui overlay
           child: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: Theme.of(context).appBarTheme.systemOverlayStyle!,
+            value: context.theme.appBarTheme.systemOverlayStyle!,
             child: Scaffold(
               bottomNavigationBar: Theme(
-                data: context.theme.copyWith(splashColor: Colors.transparent, highlightColor: GetPlatform.isIOS ? Colors.transparent: null),
+                data: context.theme.copyWith(
+                    splashColor: Colors.transparent, highlightColor: GetPlatform.isIOS ? Colors.transparent : null),
                 child: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
                   currentIndex: controller.currentScreen,
@@ -150,9 +151,7 @@ class _PageSwitchingViewState extends State<PageSwitchingView> {
               enabled: active,
               child: Builder(
                 builder: (BuildContext context) {
-                  return shouldBuildPage[index]
-                      ? widget.pageBuilder(context, index)
-                      : Container();
+                  return shouldBuildPage[index] ? widget.pageBuilder(context, index) : const SizedBox.shrink();
                 },
               ),
             ),

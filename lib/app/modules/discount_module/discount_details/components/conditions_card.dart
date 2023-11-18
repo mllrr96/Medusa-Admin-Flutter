@@ -22,7 +22,6 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
-    final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
 
@@ -30,7 +29,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: Theme.of(context).expansionTileTheme.backgroundColor,
+        color: context.theme.expansionTileTheme.backgroundColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +62,12 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
           ),
           space,
           if (discount.rule?.conditions?.isEmpty ?? true)
-            Center(child: Text('This discount has no conditions', style: smallTextStyle?.copyWith(color: lightWhite))),
+            Column(
+              children: [
+                Center(child: Text('This discount has no conditions', style: context.bodyMedium?.copyWith(color: lightWhite))),
+                const Gap(15),
+              ],
+            ),
           if (discount.rule?.conditions?.isNotEmpty ?? false)
             ListView.separated(
                 separatorBuilder: (_, __) => space,

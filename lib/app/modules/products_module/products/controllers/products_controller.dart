@@ -161,4 +161,15 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
       }
     }, (error) {});
   }
+
+  Future<void> duplicateProduct(Product product) async {
+    final result = await productsRepo.add(userPostProductReq: UserPostProductReq(product: product.duplicate()));
+    result.when((success) {
+      EasyLoading.showSuccess('Product duplicated');
+      pagingController.refresh();
+    }, (error) {
+      print(error.toString());
+       EasyLoading.showError('Error duplicating product');
+    });
+  }
 }

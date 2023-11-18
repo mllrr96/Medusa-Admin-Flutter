@@ -15,6 +15,7 @@ class LabeledTextField extends StatelessWidget {
     this.keyboardType,
     this.hintText,
     this.maxLines = 1,
+    this.minLines,
     this.onChanged,
     this.width,
     this.lightLabelColor = false,
@@ -40,6 +41,7 @@ class LabeledTextField extends StatelessWidget {
   final String label;
   final String? hintText;
   final int? maxLines;
+  final int? minLines;
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
@@ -89,6 +91,7 @@ class LabeledTextField extends StatelessWidget {
             validator: validator,
             keyboardType: keyboardType,
             maxLines: maxLines,
+            minLines: minLines,
             style: style  ?? smallTextStyle?.copyWith(color: enabled ? null : lightWhite),
             decoration: decoration ??
                 InputDecoration(

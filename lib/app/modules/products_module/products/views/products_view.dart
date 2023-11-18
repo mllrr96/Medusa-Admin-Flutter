@@ -191,6 +191,9 @@ class ProductsView extends GetView<ProductsController> {
               onPublish: () async {
                 await controller.updateProduct(product);
               },
+              onDuplicate: ()async {
+                await controller.duplicateProduct(product);
+              },
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator.adaptive()),

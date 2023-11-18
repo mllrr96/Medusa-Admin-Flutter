@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
@@ -38,126 +39,129 @@ class MedusaSearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: GetBuilder<MedusaSearchController>(
-        init: MedusaSearchController(
-          productsRepo: ProductsRepo(),
-          ordersRepo: OrdersRepo(),
-          giftCardRepo: GiftCardRepo(),
-          draftOrderRepo: DraftOrderRepo(),
-          collectionRepo: CollectionRepo(),
-          customerRepo: CustomerRepo(),
-          customerGroupRepo: CustomerGroupRepo(),
-          discountRepo: DiscountRepo(),
-          priceListRepo: PriceListRepo(),
-          productTagRepo: ProductTagRepo(),
-          regionsRepo: RegionsRepo(),
-          salesChannelRepo: SalesChannelRepo(),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: context.theme.appBarTheme.systemOverlayStyle!,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: GetBuilder<MedusaSearchController>(
+          init: MedusaSearchController(
+            productsRepo: ProductsRepo(),
+            ordersRepo: OrdersRepo(),
+            giftCardRepo: GiftCardRepo(),
+            draftOrderRepo: DraftOrderRepo(),
+            collectionRepo: CollectionRepo(),
+            customerRepo: CustomerRepo(),
+            customerGroupRepo: CustomerGroupRepo(),
+            discountRepo: DiscountRepo(),
+            priceListRepo: PriceListRepo(),
+            productTagRepo: ProductTagRepo(),
+            regionsRepo: RegionsRepo(),
+            salesChannelRepo: SalesChannelRepo(),
+          ),
+          builder: (controller) {
+            return Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: SearchAppBar(controller: controller),
+              body: PagedListView(
+                pagingController: controller.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Object>(
+                    itemBuilder: (context, object, index) {
+                      switch (controller.searchCategory) {
+                        case SearchCategory.orders:
+                          if (object is Order) {
+                            return AlternativeOrderCard(object);
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.draftOrders:
+                          if (object is DraftOrder) {
+                            return DraftOrderCard(object);
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.products:
+                          if (object is Product) {
+                            return ProductListTile(product: object);
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.collections:
+                          if (object is ProductCollection) {
+                            return CollectionListTile(object);
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.customers:
+                          if (object is Customer) {
+                            return CustomerListTile(object, index: index);
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.groups:
+                          if (object is CustomerGroup) {
+                            return GroupCard(
+                              customerGroup: object,
+                              index: index,
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.giftCards:
+                          if (object is GiftCard) {
+                            return ListTile(
+                              title: Text(object.code ?? ''),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.discounts:
+                          if (object is Discount) {
+                            return DiscountCard(object);
+                          } else {
+                            return const SizedBox();
+                          }
+                        case SearchCategory.priceLists:
+                          if (object is PriceList) {
+                            return ListTile(
+                              title: Text(object.name ?? ''),
+                              subtitle:
+                                  Text(object.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                      }
+                    },
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const Center(child: CircularProgressIndicator.adaptive()),
+                    firstPageErrorIndicatorBuilder: (context) {
+                      final error = controller.pagingController.error;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (error is! Failure) const Text('An error occurred while searching'),
+                          if (error is Failure)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('An error occurred while searching'),
+                                Text('Code ${error.code}', style: smallTextStyle),
+                                Text(error.message.toString(), style: smallTextStyle),
+                              ],
+                            ),
+                          AdaptiveButton(
+                              onPressed: () => controller.pagingController.refresh(), child: const Text('Retry'))
+                        ],
+                      );
+                    },
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return SearchHistoryView(controller: controller);
+                    }),
+              ),
+            );
+          },
         ),
-        builder: (controller) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: SearchAppBar(controller: controller),
-            body: PagedListView(
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Object>(
-                  itemBuilder: (context, object, index) {
-                    switch (controller.searchCategory) {
-                      case SearchCategory.orders:
-                        if (object is Order) {
-                          return AlternativeOrderCard(object);
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.draftOrders:
-                        if (object is DraftOrder) {
-                          return DraftOrderCard(object);
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.products:
-                        if (object is Product) {
-                          return ProductListTile(product: object);
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.collections:
-                        if (object is ProductCollection) {
-                          return CollectionListTile(object);
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.customers:
-                        if (object is Customer) {
-                          return CustomerListTile(object, index: index);
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.groups:
-                        if (object is CustomerGroup) {
-                          return GroupCard(
-                            customerGroup: object,
-                            index: index,
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.giftCards:
-                        if (object is GiftCard) {
-                          return ListTile(
-                            title: Text(object.code ?? ''),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.discounts:
-                        if (object is Discount) {
-                          return DiscountCard(object);
-                        } else {
-                          return const SizedBox();
-                        }
-                      case SearchCategory.priceLists:
-                        if (object is PriceList) {
-                          return ListTile(
-                            title: Text(object.name ?? ''),
-                            subtitle:
-                                Text(object.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                    }
-                  },
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const Center(child: CircularProgressIndicator.adaptive()),
-                  firstPageErrorIndicatorBuilder: (context) {
-                    final error = controller.pagingController.error;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (error is! Failure) const Text('An error occurred while searching'),
-                        if (error is Failure)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('An error occurred while searching'),
-                              Text('Code ${error.code}', style: smallTextStyle),
-                              Text(error.message.toString(), style: smallTextStyle),
-                            ],
-                          ),
-                        AdaptiveButton(
-                            onPressed: () => controller.pagingController.refresh(), child: const Text('Retry'))
-                      ],
-                    );
-                  },
-                  noItemsFoundIndicatorBuilder: (context) {
-                    return SearchHistoryView(controller: controller);
-                  }),
-            ),
-          );
-        },
       ),
     );
   }

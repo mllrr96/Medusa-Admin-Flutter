@@ -59,6 +59,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
             LabeledTextField(
               label: 'Description',
               hintText: 'A warm and cozy jacket...',
+              minLines: 4,
               maxLines: null,
               controller: controller.descriptionCtrl,
               textInputAction: TextInputAction.done,

@@ -208,6 +208,8 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
               controller: controller.descriptionCtrl,
               required: true,
               hintText: 'Summer Sale 2022...',
+              minLines: 4,
+              maxLines: null,
               validator: (val) {
                 if (val == null || val.isEmpty) {
                   return 'Required';

@@ -72,6 +72,7 @@ class AddUpdateProductController extends GetxController {
   late ImagePickerHelper imagePickerHelper;
   @override
   Future<void> onInit() async {
+    loading();
     scrollController = ScrollController();
     updateProductReq = Get.arguments;
     imagePickerHelper = ImagePickerHelper();
@@ -82,6 +83,7 @@ class AddUpdateProductController extends GetxController {
 
   @override
   void onReady() {
+    dismissLoading();
     if (updateProductReq != null) {
       switch (updateProductReq!.number) {
         case 0:

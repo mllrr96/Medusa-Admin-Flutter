@@ -290,13 +290,16 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
-                      final result = await StorageService.instance.updateUrl(textCtrl.text);
-                      if (result) {
-                        Get.snackbar('Success', 'Url updated, restart the app');
-                      } else {
-                        Get.snackbar('Failure', 'Could not update url');
-                      }
-                      Get.back();
+                      await StorageService.instance.updateUrl(textCtrl.text).then(
+                            (result) {
+                          Get.back();
+                          if (result) {
+                            Get.snackbar('Success', 'Url updated, restart the app');
+                          } else {
+                            Get.snackbar('Failure', 'Could not update url');
+                          }
+                        },
+                      );
                     },
                     child: const Text('Save'))
               ],
@@ -305,6 +308,14 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
               padding: EdgeInsets.fromLTRB(12.0, 8.0, 12.0, MediaQuery.of(context).viewInsets.bottom + 8.0),
               child: Column(
                 children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('* Tip: to skip url verification, press and hold Save button', style: context.bodyMedium),
+                      Text('* Make sure to restart the app after updating baseurl', style: context.bodyMedium),
+                      Text('* base url MUST end with /admin', style: context.bodyMedium),
+                    ],
+                  ),
                   const SizedBox(height: 20),
                   InkWell(
                     onTap: () async {

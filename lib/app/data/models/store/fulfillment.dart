@@ -89,9 +89,9 @@ class Fulfillment {
       json['tracking_numbers'].forEach((e) => trackingLinks!.add(e));
     }
     data = json['data'] ?? <String, dynamic>{};
-    shippedAt = DateTime.tryParse(json['shipped_at'] ?? '');
+    shippedAt = DateTime.tryParse(json['shipped_at'] ?? '')?.toLocal();
     noNotification = json['no_notification'];
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
     idempotencyKey = json['idempotency_key'];
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
