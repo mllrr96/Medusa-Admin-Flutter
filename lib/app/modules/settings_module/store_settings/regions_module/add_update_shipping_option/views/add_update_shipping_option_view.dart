@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -28,7 +29,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
     ];
     final decoration = InputDecoration(
       prefixIconConstraints: const BoxConstraints(minHeight: 0, minWidth: 0),
-      prefixIcon: Text('   ${controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase() ?? ''}   ',
+      prefixIcon: Text('   ${NumberFormat.simpleCurrency(name: controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase()).currencySymbol}   ',
           style: smallTextStyle?.copyWith(color: lightWhite)),
     );
     return GetBuilder<AddUpdateShippingOptionController>(

@@ -16,7 +16,7 @@ class DraftOrderSummery extends StatelessWidget {
     const halfSpace = SizedBox(height: 6.0);
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final totalTextTheme =  Theme.of(context).textTheme.displayLarge;
+    final totalTextTheme = context.headlineMedium;
     final currencyCode = draftOrder.cart?.region?.currencyCode;
 
     return CustomExpansionTile(
@@ -28,8 +28,9 @@ class DraftOrderSummery extends StatelessWidget {
         ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount:draftOrder.cart!.items!.length ,
-            itemBuilder: (context, index) => DraftOrderSummeryCard(item: draftOrder.cart!.items![index], currencyCode: currencyCode!)),
+            itemCount: draftOrder.cart!.items!.length,
+            itemBuilder: (context, index) =>
+                DraftOrderSummeryCard(item: draftOrder.cart!.items![index], currencyCode: currencyCode!)),
         const Divider(),
         Column(
           children: [
@@ -88,7 +89,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Total', style: totalTextTheme),
-                  Text(formatPrice(draftOrder.cart?.total, currencyCode), style: Theme.of(context).textTheme.displayLarge),
+                  Text(formatPrice(draftOrder.cart?.total, currencyCode), style: context.headlineMedium),
                 ],
               ),
             ),
@@ -98,6 +99,4 @@ class DraftOrderSummery extends StatelessWidget {
       ],
     );
   }
-
-
 }

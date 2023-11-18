@@ -145,15 +145,11 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text('Filters',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall
+                                      style: context.bodySmall
                                           ?.copyWith(color: lightWhite)),
                                   if (controller.productFilter?.count() != null)
                                     Text(' ${controller.productFilter?.count() ?? ''}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall
+                                        style: context.bodySmall
                                             ?.copyWith(color: ColorManager.primary)),
                                 ],
                               ),

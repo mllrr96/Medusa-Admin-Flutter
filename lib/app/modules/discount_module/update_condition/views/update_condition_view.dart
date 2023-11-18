@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../discount_conditions/components/condition_collection_list_tile.dart';
 import '../../discount_conditions/components/condition_customer_group_list_tile.dart';
@@ -21,7 +22,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
   Widget build(BuildContext context) {
     final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom == 0 ? 12.0:MediaQuery.of(context).viewPadding.bottom ;
     final topPadding = MediaQuery.of(context).viewPadding.bottom == 0 ? 12.0:MediaQuery.of(context).viewPadding.bottom /2 ;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
 
     return GetBuilder<UpdateConditionController>(
       builder: (controller) {

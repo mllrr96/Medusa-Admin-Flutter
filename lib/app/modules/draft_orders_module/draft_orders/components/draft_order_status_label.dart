@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/draft_order.dart';
@@ -32,7 +33,7 @@ class DraftOrderStatusLabel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor),
+        style: context.bodySmall?.copyWith(color: textColor),
       ),
     );
   }

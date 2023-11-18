@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
@@ -17,7 +18,7 @@ class DiscountsView extends GetView<DiscountsController> {
   const DiscountsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final largeTextStyle = context.bodyLarge;
     return Scaffold(
       floatingActionButton: ScrollingExpandableFab(
         controller: controller.scrollController,

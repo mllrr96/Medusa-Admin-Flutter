@@ -175,7 +175,7 @@ class SearchHistoryListTile extends StatelessWidget {
   final void Function()? onDeleteTap;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
 
     return ListTile(
       dense: true,

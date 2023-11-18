@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class UserRoleLabel extends StatelessWidget {
   const UserRoleLabel({Key? key, required this.userRole}) : super(key: key);
@@ -36,7 +37,7 @@ class UserRoleLabel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor),
+        style: context.bodySmall?.copyWith(color: textColor),
       ),
     );
   }

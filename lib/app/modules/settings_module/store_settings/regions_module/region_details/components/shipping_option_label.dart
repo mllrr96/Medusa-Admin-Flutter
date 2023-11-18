@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class ShippingOptionLabel extends StatelessWidget {
   const ShippingOptionLabel({Key? key, required this.adminOnly}) : super(key: key);
@@ -23,7 +24,7 @@ class ShippingOptionLabel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: textColor),
+        style: context.bodySmall?.copyWith(color: textColor),
       ),
     );
   }

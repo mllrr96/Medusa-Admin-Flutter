@@ -97,7 +97,7 @@ class ShippingOptionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text('Flat Rate:${formatPrice(shippingOption.amount, currencyCode, symbolAtEnd: true)}',
+                    child: Text('Flat Rate: ${formatPrice(shippingOption.amount, currencyCode, symbolAtEnd: true)}',
                         style: smallTextStyle?.copyWith(color: lightWhite)),
                   ),
                   ShippingOptionLabel(adminOnly: shippingOption.adminOnly)

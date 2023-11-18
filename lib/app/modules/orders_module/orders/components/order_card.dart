@@ -182,10 +182,7 @@ class OrderCard extends StatelessWidget {
             ),
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
+                    style: context.bodySmall?.copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
           ),
         ],
       );
@@ -412,10 +409,7 @@ class AlternativeOrderCard extends StatelessWidget {
             ),
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
+                    style: context.bodySmall?.copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
           ),
         ],
       );
@@ -624,10 +618,7 @@ class CustomerOrderCard extends StatelessWidget {
             ),
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
+                    style: context.bodySmall?.copyWith(color: Get.isDarkMode ? Colors.white : Colors.grey))),
           ),
         ],
       );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
+import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -170,7 +171,9 @@ class RegionDetailsView extends GetView<RegionDetailsController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Currency', style: mediumTextStyle!.copyWith(color: lightWhite)),
-                      Text(region?.currencyCode?.toUpperCase() ?? '-', style: mediumTextStyle),
+                      Text(
+                          '${region?.currencyCode?.toUpperCase() ?? '-'} ${NumberFormat.simpleCurrency(name: region?.currencyCode?.toUpperCase()).currencySymbol}',
+                          style: mediumTextStyle),
                     ],
                   ),
                   halfSpace,

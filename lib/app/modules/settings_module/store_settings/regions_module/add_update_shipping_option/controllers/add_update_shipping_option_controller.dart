@@ -177,14 +177,14 @@ class AddUpdateShippingOptionController extends GetxController {
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;
     if (shippingOption.amount != null) {
-      priceCtrl.text = formatPrice(shippingOption.amount, addUpdateShippingOptionReq.region.currencyCode);
+      priceCtrl.text = formatPrice(shippingOption.amount, addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
     }
     if (shippingOption.requirements?.isNotEmpty ?? false) {
       for (var element in shippingOption.requirements!) {
         if (element.type == RequirementType.minSubtotal) {
-          minSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode);
+          minSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
         } else {
-          maxSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode);
+          maxSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
         }
       }
     }

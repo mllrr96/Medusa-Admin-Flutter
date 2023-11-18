@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/adaptive_icon.dart';
@@ -47,7 +48,7 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
                   child: Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: TextFormField(
-                  style: Theme.of(context).textTheme.titleSmall,
+                  style: context.bodySmall,
                   onChanged: widget.onChanged,
                   decoration: const InputDecoration(
                     hintText: 'Search for customer name, email address ...',

@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../routes/app_pages.dart';
 
@@ -13,8 +14,8 @@ class GroupCard extends GetView<GroupsController> {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
     return Slidable(
       groupTag: const Key('groups'),
       key: ValueKey(customerGroup.id!),

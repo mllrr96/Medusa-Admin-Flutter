@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../components/custom_text_field.dart';
 import '../../../../../products_module/add_update_product/components/product_general_info.dart';
@@ -52,7 +53,7 @@ class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonContr
                     hintText: 'wrong_size',
                     enabled: !controller.updateMode,
                     style: controller.updateMode
-                        ? Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.grey)
+                        ? context.bodySmall?.copyWith(color: Colors.grey)
                         : null,
                     decoration: controller.updateMode
                         ? const InputDecoration(

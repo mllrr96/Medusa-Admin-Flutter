@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../components/adaptive_button.dart';
@@ -42,7 +43,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   final customPriceCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     final controller = ChooseShippingOptionController.instance;
     const space = Gap(12);
     return controller.obx(

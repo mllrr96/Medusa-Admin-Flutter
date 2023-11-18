@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dar
 import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -122,17 +123,11 @@ class OrdersBottomAppBar extends StatelessWidget
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('Filters',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(color: lightWhite)),
+                        style: context.bodySmall?.copyWith(color: lightWhite)),
                     if (controller.orderFilter?.count() != null &&
                         controller.orderFilter?.count() != 0)
                       Text(' ${controller.orderFilter?.count() ?? ''}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(color: ColorManager.primary)),
+                          style: context.bodySmall?.copyWith(color: ColorManager.primary)),
                   ],
                 ),
                 padding: EdgeInsets.zero,

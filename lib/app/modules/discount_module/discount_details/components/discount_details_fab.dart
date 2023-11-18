@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_details/controllers/discount_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../routes/app_pages.dart';
@@ -14,7 +15,7 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
   final bool expandableStyle;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     onDeleteTap() async {
       await showOkCancelAlertDialog(
               context: context,

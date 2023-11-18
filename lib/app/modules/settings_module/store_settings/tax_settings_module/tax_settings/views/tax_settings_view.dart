@@ -69,7 +69,7 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Details', style: Theme.of(context).textTheme.displayLarge),
+                      Text('Details', style: context.headlineMedium),
                       halfSpace,
                       Text('Tax rates', style: mediumTextStyle?.copyWith(color: lightWhite)),
                       PagedListView.separated(

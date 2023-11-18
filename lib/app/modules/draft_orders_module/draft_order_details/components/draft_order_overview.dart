@@ -37,12 +37,12 @@ class DraftOrderOverview extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('#${draftOrder.displayId!}', style: Theme.of(context).textTheme.titleLarge),
+                  Text('#${draftOrder.displayId!}', style: context.bodyLarge),
                   halfSpace,
                   if (draftOrder.cart != null && draftOrder.cart!.createdAt != null)
                     Text(
                       'on ${formatDate(draftOrder.cart!.createdAt)} at ${formatTime(draftOrder.cart!.createdAt)}',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: context.bodyMedium,
                     )
                 ],
               ),
@@ -71,7 +71,7 @@ class DraftOrderOverview extends StatelessWidget {
                   children: [
                     Text(
                       formatPrice(amount, currencyCode),
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: context.bodyMedium,
                     ),
                     const SizedBox(height: 6.0),
                     Text(

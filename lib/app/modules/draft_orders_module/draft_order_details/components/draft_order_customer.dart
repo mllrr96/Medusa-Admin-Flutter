@@ -63,7 +63,10 @@ class DraftOrderCustomer extends StatelessWidget {
                 children: [
                   CircleAvatar(
                       backgroundColor: ColorManager.getAvatarColor(email),
-                      child: Text(name.isNotEmpty ? name[0].toUpperCase() : email![0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white),)),
+                      child: Text(
+                        name.isNotEmpty ? name[0].toUpperCase() : email![0].toUpperCase(),
+                        style: largeTextStyle?.copyWith(color: Colors.white),
+                      )),
                   const SizedBox(width: 14.0),
                   Flexible(
                     child: Column(
@@ -82,10 +85,12 @@ class DraftOrderCustomer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(email ?? '', style: Theme.of(context).textTheme.titleMedium),
+                  Text(email ?? '', style: context.bodyMedium),
                   if (draftOrder.cart?.billingAddress != null && draftOrder.cart?.billingAddress!.phone != null)
-                    Text(draftOrder.cart!.billingAddress!.phone.toString(),
-                        style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      draftOrder.cart!.billingAddress!.phone.toString(),
+                      style: context.bodyMedium,
+                    )
                 ],
               ),
             ),
@@ -103,10 +108,11 @@ class DraftOrderCustomer extends StatelessWidget {
                   const SizedBox(height: 5.0),
                   Text(
                       '${draftOrder.cart?.shippingAddress?.address1 ?? ''} ${draftOrder.cart?.shippingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                   Text(
-                      '${draftOrder.cart?.shippingAddress?.postalCode ?? ''} ${draftOrder.cart?.shippingAddress?.province ?? ''} ${draftOrder.cart?.shippingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                    '${draftOrder.cart?.shippingAddress?.postalCode ?? ''} ${draftOrder.cart?.shippingAddress?.province ?? ''} ${draftOrder.cart?.shippingAddress?.countryCode ?? ''}',
+                    style: context.bodyMedium,
+                  ),
                 ],
               ),
               const VerticalDivider(),
@@ -116,11 +122,13 @@ class DraftOrderCustomer extends StatelessWidget {
                   Text('Billing', style: mediumTextStyle.copyWith(color: lightWhite)),
                   const SizedBox(height: 5.0),
                   Text(
-                      '${draftOrder.cart?.billingAddress?.address1 ?? ''} ${draftOrder.cart?.billingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                    '${draftOrder.cart?.billingAddress?.address1 ?? ''} ${draftOrder.cart?.billingAddress?.address2 ?? ''}',
+                    style: context.bodyMedium,
+                  ),
                   Text(
-                      '${draftOrder.cart?.billingAddress?.postalCode ?? ''} ${draftOrder.cart?.billingAddress?.province ?? ''} ${draftOrder.cart?.billingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                    '${draftOrder.cart?.billingAddress?.postalCode ?? ''} ${draftOrder.cart?.billingAddress?.province ?? ''} ${draftOrder.cart?.billingAddress?.countryCode ?? ''}',
+                    style: context.bodyMedium,
+                  ),
                 ],
               ),
             ],

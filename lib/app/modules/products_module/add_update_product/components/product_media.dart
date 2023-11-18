@@ -186,7 +186,7 @@ class _RenameFileViewState extends State<RenameFileView> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     Future<void> renameFile() async {
       var path = widget.file.path;
       var lastSeparator = path.lastIndexOf(Platform.pathSeparator);

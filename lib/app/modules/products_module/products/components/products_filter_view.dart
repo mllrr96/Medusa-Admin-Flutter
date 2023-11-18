@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_close_button.dart';
@@ -29,7 +30,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 20.0 : context.mediaQueryViewPadding.bottom;
     const space = Gap(12);
     return Scaffold(

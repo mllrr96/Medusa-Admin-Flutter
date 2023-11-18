@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/controllers/sales_channel_details_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../data/models/store/product.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -13,7 +14,7 @@ class ProductCheckboxListTile extends GetView<SalesChannelDetailsController> {
   final Product product;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     return Slidable(
       groupTag: const Key('sales'),
       key: ValueKey(product.id!),

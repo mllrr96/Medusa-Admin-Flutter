@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/adaptive_button.dart';
 import '../components/draft_order_summery.dart';
@@ -32,7 +33,7 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
         }
       });
     }
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
 
     return GetBuilder<DraftOrderDetailsController>(
       builder: (controller) {

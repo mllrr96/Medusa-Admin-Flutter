@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/medusa_icons_icons.dart';
@@ -16,7 +17,7 @@ class SearchChip extends StatelessWidget {
   final bool selected;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     var title = '';
     var iconDate = MedusaIcons.tag;
     Color chipColor = Colors.red;

@@ -85,7 +85,7 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
                         children: [
                           Text(
                             priceList!.name ?? '',
-                            style: Theme.of(context).textTheme.displayLarge,
+                            style: context.headlineMedium,
                           ),
                           DiscountStatusDot(disabled: priceList.status != PriceListStatus.active),
                         ],
@@ -265,7 +265,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
               children: [
                 Text(
                   priceList.name ?? '',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: context.headlineMedium,
                 ),
                 DiscountStatusDot(disabled: priceList.status != PriceListStatus.active),
               ],
