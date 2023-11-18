@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
@@ -14,7 +15,7 @@ class ChooseRegionView extends GetView<ChooseRegionController> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return controller.obx(
       (state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),

@@ -62,6 +62,7 @@ dependencies:
   flag: ^7.0.0
   elegant_notification: ^1.11.0
   timeago: ^3.5.0
+  gap: ^3.0.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.1

@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_details/controllers/discount_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -20,9 +22,9 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
   Widget build(BuildContext context) {
     final disabled = discount.isDisabled ?? true;
     final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     Widget discountValueText(Discount discount) {
       String valueText = '';
       Color valueColor = Colors.green;

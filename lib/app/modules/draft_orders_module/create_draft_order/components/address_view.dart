@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/address.dart';
 import '../../../../data/models/store/country.dart';
@@ -20,8 +23,7 @@ class AddressView extends StatefulWidget {
   State<AddressView> createState() => _AddressViewState();
 }
 
-class _AddressViewState extends State<AddressView>
-    with AutomaticKeepAliveClientMixin<AddressView> {
+class _AddressViewState extends State<AddressView> with AutomaticKeepAliveClientMixin<AddressView> {
   final customerCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
 
@@ -82,34 +84,25 @@ class _AddressViewState extends State<AddressView>
   Widget build(BuildContext context) {
     super.build(context);
     final controller = widget.controller;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     final countries = controller.selectedRegion?.countries;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
 
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
+    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
+      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final yPosition =
-            (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                    ?.localToGlobal(Offset.zero)
-                    .dy ??
-                0.0;
-        var topPadding =
-            (widget.context?.mediaQueryPadding.top ?? 0) + kToolbarHeight;
+            (globalKey.currentContext?.findRenderObject() as RenderBox?)?.localToGlobal(Offset.zero).dy ?? 0.0;
+        var topPadding = (widget.context?.mediaQueryPadding.top ?? 0) + kToolbarHeight;
         final scrollPoint = scrollController.offset + yPosition - topPadding;
         if (scrollPoint <= scrollController.position.maxScrollExtent) {
           await scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
+              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
         } else {
-          await scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
+          await scrollController.animateTo(scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
         }
       });
     }
@@ -130,9 +123,8 @@ class _AddressViewState extends State<AddressView>
                 onTap: () async {
                   final result = await Get.toNamed(Routes.PICK_CUSTOMER,
                       arguments: PickCustomerReq(
-                          selectedCustomers: controller.selectedCustomer != null
-                              ? [controller.selectedCustomer!]
-                              : null));
+                          selectedCustomers:
+                              controller.selectedCustomer != null ? [controller.selectedCustomer!] : null));
                   if (result is PickCustomerRes) {
                     final customer = result.selectedCustomers.first;
                     controller.selectedCustomer = customer;
@@ -149,8 +141,7 @@ class _AddressViewState extends State<AddressView>
                 },
                 decoration: InputDecoration(
                   hintText: 'Choose customer',
-                  suffixIcon: controller.selectedCustomer != null &&
-                          !controller.customCustomer
+                  suffixIcon: controller.selectedCustomer != null && !controller.customCustomer
                       ? AdaptiveIcon(
                           onPressed: () {
                             controller.selectedCustomer = null;
@@ -166,13 +157,11 @@ class _AddressViewState extends State<AddressView>
                       : const Icon(Icons.arrow_drop_down),
                 ),
                 validator: (val) {
-                  if (emailCtrl.text.removeAllWhitespace.isNotEmpty &&
-                      (val?.isEmpty ?? true)) {
+                  if (emailCtrl.text.removeAllWhitespace.isNotEmpty && (val?.isEmpty ?? true)) {
                     return null;
                   }
 
-                  if (emailCtrl.text.removeAllWhitespace.isEmpty &&
-                      (val?.isEmpty ?? true)) {
+                  if (emailCtrl.text.removeAllWhitespace.isEmpty && (val?.isEmpty ?? true)) {
                     return 'Field is required';
                   }
 
@@ -181,15 +170,12 @@ class _AddressViewState extends State<AddressView>
               ),
               LabeledTextField(
                 label: 'Email',
-                style: controller.customCustomer
-                    ? null
-                    : smallTextStyle?.copyWith(color: lightWhite),
+                style: controller.customCustomer ? null : smallTextStyle?.copyWith(color: lightWhite),
                 onChanged: (val) {
-                  if (!controller.customCustomer &&
-                      controller.selectedCustomer == null) {
+                  if (!controller.customCustomer && controller.selectedCustomer == null) {
                     controller.customCustomer = true;
                   }
-                  if(val.removeAllWhitespace.isNotEmpty) {
+                  if (val.removeAllWhitespace.isNotEmpty) {
                     controller.selectedCustomer = Customer(email: val);
                   }
                 },
@@ -209,9 +195,7 @@ class _AddressViewState extends State<AddressView>
                 readOnly: !controller.customCustomer,
                 hintText: 'lebron@james.com',
                 decoration: InputDecoration(
-                    prefixIcon: controller.customCustomer
-                        ? null
-                        : Icon(CupertinoIcons.lock_fill, color: lightWhite)),
+                    prefixIcon: controller.customCustomer ? null : Icon(CupertinoIcons.lock_fill, color: lightWhite)),
               ),
               space,
               const Text('Shipping Details'),
@@ -222,8 +206,7 @@ class _AddressViewState extends State<AddressView>
                 title: Text('General', style: smallTextStyle),
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(
-                        globalKey: shippingGeneralKey);
+                    await scrollToSelectedContent(globalKey: shippingGeneralKey);
                   }
                 },
                 children: [
@@ -278,8 +261,7 @@ class _AddressViewState extends State<AddressView>
                 title: Text('Shipping Address', style: smallTextStyle),
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(
-                        globalKey: shippingAddressKey);
+                    await scrollToSelectedContent(globalKey: shippingAddressKey);
                   }
                 },
                 children: [
@@ -345,9 +327,7 @@ class _AddressViewState extends State<AddressView>
                         Row(
                           children: [
                             Text('Country', style: mediumTextStyle),
-                            Text('*',
-                                style: mediumTextStyle?.copyWith(
-                                    color: Colors.red))
+                            Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
                           ],
                         ),
                         halfSpace,
@@ -564,9 +544,7 @@ class _AddressViewState extends State<AddressView>
                         Row(
                           children: [
                             Text('Country', style: mediumTextStyle),
-                            Text('*',
-                                style: mediumTextStyle?.copyWith(
-                                    color: Colors.red))
+                            Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
                           ],
                         ),
                         halfSpace,

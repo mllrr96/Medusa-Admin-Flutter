@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AdaptiveFilledButton extends StatelessWidget {
   const AdaptiveFilledButton({
@@ -20,7 +21,7 @@ class AdaptiveFilledButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
       return CupertinoTheme(
-        data: CupertinoThemeData(primaryColor: buttonColor ?? Theme.of(context).primaryColor),
+        data: CupertinoThemeData(primaryColor: buttonColor ?? context.theme.primaryColor),
         child: SizedBox(
           width: buttonWidth,
           child: CupertinoButton.filled(
@@ -34,7 +35,7 @@ class AdaptiveFilledButton extends StatelessWidget {
       /// default height is 36
       height: 45,
       minWidth: buttonWidth,
-      color: buttonColor ?? Theme.of(context).primaryColor,
+      color: buttonColor ?? context.theme.primaryColor,
       textColor: Colors.white,
       onPressed: onPressed,
       child: child,

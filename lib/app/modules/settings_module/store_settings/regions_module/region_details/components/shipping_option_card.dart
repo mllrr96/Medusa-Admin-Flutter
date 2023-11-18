@@ -2,9 +2,10 @@ import 'dart:math';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../components/adaptive_icon.dart';
 import 'shipping_option_label.dart';
@@ -17,9 +18,9 @@ class ShippingOptionCard extends StatelessWidget {
   final void Function()? onDeleteTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     const halfSpace = SizedBox(height: 6.0);
     final currencyCode = shippingOption.region?.currencyCode;
     final valueFormatter = NumberFormat.currency(name: currencyCode);

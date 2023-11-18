@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/image_card.dart';
 import 'package:medusa_admin/app/modules/products_module/product_details/controllers/product_details_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -18,9 +21,9 @@ class ProductDetailsThumbnail extends GetView<ProductDetailsController> {
   final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     final buttonText = product.thumbnail == null ? 'Add':'Edit';
     return CustomExpansionTile(
       key: expansionKey,

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../controller/country_controller.dart';
 
 class SelectCountryView extends StatelessWidget {
@@ -11,7 +12,7 @@ class SelectCountryView extends StatelessWidget {
   final SelectCountryReq? selectCountryReq;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final mediumTextStyle = context.bodyMedium;
     return GetBuilder<SelectCountryController>(
       init: SelectCountryController(selectCountryReq: selectCountryReq),
       builder: (controller) {
@@ -69,7 +70,7 @@ class SelectCountryView extends StatelessWidget {
                     if (controller.selectCountryOptions.disabledCountriesIso2.isNotEmpty)
                       Container(
                         height: kToolbarHeight,
-                        color: Theme.of(context).appBarTheme.backgroundColor,
+                        color: context.theme.appBarTheme.backgroundColor,
                         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

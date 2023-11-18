@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart'
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/product.dart';
@@ -24,9 +25,10 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     final disabled = controller.salesChannel.isDisabled != null && controller.salesChannel.isDisabled! ? true : false;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+
     return GetBuilder<SalesChannelDetailsController>(
       builder: (controller) {
         return Scaffold(

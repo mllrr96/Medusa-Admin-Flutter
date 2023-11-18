@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
+import '../../../../../core/utils/colors.dart';
 import 'order_status_label.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,8 +13,8 @@ class OrderOverview extends StatelessWidget {
   final Order order;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final tr = AppLocalizations.of(context)!;
 
     return Container(

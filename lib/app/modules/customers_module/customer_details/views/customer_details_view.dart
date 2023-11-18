@@ -12,6 +12,7 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/order_c
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../../data/models/store/order.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -78,9 +79,9 @@ class Delegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final controller = Get.find<CustomerDetailsController>();
     final tr = AppLocalizations.of(context)!;
 

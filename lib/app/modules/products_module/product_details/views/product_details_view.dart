@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -13,7 +14,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),

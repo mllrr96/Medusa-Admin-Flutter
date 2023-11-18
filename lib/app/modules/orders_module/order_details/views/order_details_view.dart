@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -14,7 +15,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     final tr = AppLocalizations.of(context)!;
 
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {

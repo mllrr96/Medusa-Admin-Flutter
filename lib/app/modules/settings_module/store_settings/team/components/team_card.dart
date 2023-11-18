@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../core/utils/colors.dart';
 import '../../../../components/adaptive_icon.dart';
@@ -18,8 +19,8 @@ class TeamCard extends StatelessWidget {
   final void Function()? onDeleteTap;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final email = user.email ?? '';
     final name = getName(user: user);
     final firstLetter = getName(user: user, firstLetterOnly: true);

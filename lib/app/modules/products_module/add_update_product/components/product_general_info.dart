@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/custom_expansion_tile.dart';
 import '../../../components/custom_text_field.dart';
@@ -17,10 +19,10 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
+    const space = Gap(12);
     return GetBuilder<AddUpdateProductController>(
       id: 0,
       builder: (logic) {

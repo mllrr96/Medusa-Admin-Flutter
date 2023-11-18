@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:info_popup/info_popup.dart';
@@ -6,6 +7,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../components/adaptive_back_button.dart';
 import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
@@ -17,12 +19,12 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     return GetBuilder<TaxSettingsController>(
       builder: (controller) {
         return Scaffold(

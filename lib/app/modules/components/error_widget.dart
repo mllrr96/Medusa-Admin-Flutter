@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../core/utils/colors.dart';
 
@@ -28,12 +30,12 @@ Obx errorMessage(
                   Icons.error,
                   color: Colors.redAccent,
                 ),
-                const SizedBox(width: 5.0),
+                const Gap(5),
                 Expanded(
                   child: Text(
                     errorMessage.value,
                     style:
-                        Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.red, fontSize: 14),
+                        context.bodyMedium?.copyWith(color: ColorManager.red),
                     overflow: TextOverflow.fade,
                   ),
                 )

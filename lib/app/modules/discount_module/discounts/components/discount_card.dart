@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:super_banners/super_banners.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
@@ -16,7 +18,7 @@ class DiscountCard extends StatelessWidget {
   final void Function()? onDelete;
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
     bool expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
     Color? iconColor;
     switch (discount.rule?.type) {
@@ -32,7 +34,7 @@ class DiscountCard extends StatelessWidget {
       case null:
         break;
     }
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     return InkWell(
       radius: 10.0,
       borderRadius: const BorderRadius.all(Radius.circular(10.0)),

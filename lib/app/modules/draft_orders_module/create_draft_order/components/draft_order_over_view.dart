@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../components/currency_formatter.dart';
 import '../controllers/create_draft_order_controller.dart';
@@ -13,12 +15,14 @@ class DraftOrderOverView extends StatelessWidget {
   final CreateDraftOrderController controller;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
+
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     final lineItems = controller.lineItems + controller.customLineItems;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final customer = controller.selectedCustomer ??
         Customer(
             email: 'Placeholder',
@@ -45,7 +49,7 @@ class DraftOrderOverView extends StatelessWidget {
             initiallyExpanded: true,
             children: [
               ListView.separated(
-                separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+                separatorBuilder: (_, __) => const Gap(12),
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(bottom: 12.0),
                 itemCount: lineItems.length,
@@ -198,9 +202,9 @@ class OverViewListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant ??
         ProductVariant(title: lineItem.title, prices: [
           MoneyAmount(
@@ -224,7 +228,7 @@ class OverViewListTile extends StatelessWidget {
       return '${moneyAmount?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(price.toString())}';
     }
 
-    const space = SizedBox(width: 12.0);
+    const space = Gap(12);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

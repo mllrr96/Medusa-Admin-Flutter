@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../data/models/store/country.dart';
 import '../../../../../../data/models/store/fulfillment_provider.dart';
@@ -14,9 +16,9 @@ class RegionCard extends StatelessWidget {
   final bool showProviders;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     return InkWell(
       onTap: onTap ?? () => Get.toNamed(Routes.REGION_DETAILS, arguments: region.id),
       borderRadius: const BorderRadius.all(Radius.circular(12.0)),

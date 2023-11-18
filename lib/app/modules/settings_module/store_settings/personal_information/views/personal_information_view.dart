@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/models/store/user.dart';
@@ -13,9 +14,9 @@ class PersonalInformationView extends GetView<PersonalInformationController> {
   const PersonalInformationView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
     Future<void> updatePersonalInformation(User user) async {
       controller.firstNameCtrl.text = user.firstName ?? '';
       controller.lastNameCtrl.text = user.lastName ?? '';

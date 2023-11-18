@@ -2,11 +2,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/views/pick_products_view.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/store/product.dart';
 import '../../../../routes/app_pages.dart';
@@ -18,9 +21,9 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
   const CollectionDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
     final tr = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -152,9 +155,9 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _getStatusIcon(product.status),
-                      const SizedBox(width: 4.0),
+                      const Gap(4),
                       Text(product.status.name.capitalize ?? product.status.name,
-                          style: Theme.of(context).textTheme.titleSmall),
+                          style: context.bodySmall),
                     ],
                   ),
                   leading: product.thumbnail != null

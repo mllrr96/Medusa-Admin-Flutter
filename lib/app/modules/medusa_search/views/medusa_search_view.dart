@@ -14,6 +14,8 @@ import 'package:medusa_admin/app/modules/discount_module/discounts/components/di
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_card.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/components/group_card.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/index.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../data/repository/collection/collection_repo.dart';
@@ -34,8 +36,8 @@ class MedusaSearchView extends StatelessWidget {
   const MedusaSearchView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: GetBuilder<MedusaSearchController>(
@@ -194,8 +196,8 @@ class SearchHistoryView extends StatelessWidget {
   final MedusaSearchController controller;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final searchHistory = StorageService.searchHistory;
     if (controller.searchTerm.removeAllWhitespace.isEmpty && searchHistory.isNotEmpty) {
       return SingleChildScrollView(

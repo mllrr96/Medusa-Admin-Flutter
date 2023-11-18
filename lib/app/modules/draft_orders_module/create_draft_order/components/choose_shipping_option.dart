@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
@@ -47,7 +48,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final controller = ChooseShippingOptionController.instance;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     String getPrice(ShippingOption shippingOption) {
       final currencyFormatter =
           CurrencyTextInputFormatter(name: shippingOption.region?.currencyCode);

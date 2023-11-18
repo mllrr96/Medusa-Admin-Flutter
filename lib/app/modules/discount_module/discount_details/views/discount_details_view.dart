@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../components/index.dart';
 import '../controllers/discount_details_controller.dart';
 
@@ -8,8 +10,8 @@ class DiscountDetailsView extends GetView<DiscountDetailsController> {
   const DiscountDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    const space = SizedBox(height: 12.0);
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),

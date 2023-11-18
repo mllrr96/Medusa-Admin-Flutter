@@ -9,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,8 +23,8 @@ class ProductsView extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     return Scaffold(
       // appBar: const ProductsAppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
@@ -16,7 +17,7 @@ class ConditionCustomerGroupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return GetBuilder<ConditionCustomerGroupController>(
       init: ConditionCustomerGroupController(groupRepo: CustomerGroupRepo()),
       builder: (controller) {

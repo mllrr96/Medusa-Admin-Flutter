@@ -78,7 +78,7 @@ class OrdersBottomAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    Color lightWhite = ColorManager.manatee;
     return Container(
       color: context.theme.appBarTheme.backgroundColor,
       height: kToolbarHeight,

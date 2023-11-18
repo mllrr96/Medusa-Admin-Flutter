@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../core/utils/medusa_icons_icons.dart';
 
@@ -42,9 +45,9 @@ class SearchTextField extends StatelessWidget {
   final TextCapitalization textCapitalization;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     const constraints = BoxConstraints(minWidth: 30.0, minHeight: 40);
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Colors.transparent),
       borderRadius: BorderRadius.all(
@@ -80,9 +83,9 @@ class SearchTextField extends StatelessWidget {
         prefixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(width: 12.0),
+            const Gap(12),
             Icon(prefixIconData ?? MedusaIcons.magnifying_glass_mini, color: lightWhite),
-            const SizedBox(width: 12.0),
+            const Gap(12),
           ],
         ),
         isDense: true,

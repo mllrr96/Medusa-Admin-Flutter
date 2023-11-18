@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../components/custom_text_field.dart';
 import '../controllers/store_details_controller.dart';
@@ -11,10 +14,10 @@ class StoreDetailsView extends GetView<StoreDetailsController> {
   const StoreDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    const space = SizedBox(height: 12.0);
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
+    const space = Gap(12);
     return GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
       child: Scaffold(

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import 'index.dart';
 
@@ -14,8 +16,8 @@ class ConditionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
     return InkWell(
       onTap: onTap,
       child: Ink(
@@ -57,9 +59,9 @@ class DetailedConditionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     String title = '', subtitle = '';
     void Function()? defaultEdit;
 

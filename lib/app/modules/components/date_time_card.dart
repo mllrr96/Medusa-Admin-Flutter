@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class DateTimeCard extends StatelessWidget {
   const DateTimeCard(
@@ -21,10 +24,10 @@ class DateTimeCard extends StatelessWidget {
   final Color? borderColor;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const halfSpace = SizedBox(height: 6.0);
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
+    const halfSpace = Gap(6);
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -32,7 +35,7 @@ class DateTimeCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: context.theme.scaffoldBackgroundColor,
               border: Border.all(
                   color: borderColor ??
                       (dateTime != null ? Colors.grey : Colors.transparent))),
@@ -99,8 +102,8 @@ class DateCard extends StatelessWidget {
   final Color? borderColor;
   @override
   Widget build(BuildContext context) {
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final largeTextStyle = context.bodyLarge;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -108,7 +111,7 @@ class DateCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: context.theme.scaffoldBackgroundColor,
               border: Border.all(
                   color: borderColor ??
                       (dateTime != null ? Colors.grey : Colors.transparent))),

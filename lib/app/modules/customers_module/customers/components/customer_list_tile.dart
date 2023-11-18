@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
@@ -17,9 +18,9 @@ class CustomerListTile extends StatelessWidget {
   final void Function(BuildContext)? onDeleteTap;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     return Slidable(
       groupTag: const Key('customers'),
       key: ValueKey(customer.id!),

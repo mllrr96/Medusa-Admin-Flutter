@@ -8,6 +8,8 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../components/index.dart';
 import '../controllers/gift_cards_controller.dart';
@@ -17,8 +19,8 @@ class GiftCardsView extends GetView<GiftCardsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 12.0 : context.mediaQueryViewPadding.bottom;
     return Scaffold(
       appBar: AppBar(

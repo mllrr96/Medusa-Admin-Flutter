@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/currency_formatter.dart';
 
 class OrderSummeryCard extends StatelessWidget {
@@ -9,8 +10,8 @@ class OrderSummeryCard extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     final item = order.items![index];
 
     String getPrice(num? price) {

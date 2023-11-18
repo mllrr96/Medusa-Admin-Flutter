@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -16,8 +17,8 @@ class OrderSummery extends StatelessWidget {
   Widget build(BuildContext context) {
     final refunded = order.refunds != null && order.refunds!.isNotEmpty;
     const halfSpace = SizedBox(height: 6.0);
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
     final totalTextTheme = refunded ? mediumTextStyle : Theme.of(context).textTheme.displayLarge;
     final tr = AppLocalizations.of(context)!;
 

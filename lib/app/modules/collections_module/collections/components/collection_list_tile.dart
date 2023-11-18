@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/product_collection.dart';
 import '../../../../routes/app_pages.dart';
@@ -12,9 +14,9 @@ class CollectionListTile extends StatelessWidget {
   final Color? tileColor;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final largeTextStyle = context.bodyLarge;
     return ListTile(
       tileColor:tileColor ?? Theme.of(context).listTileTheme.tileColor,
       onTap: () => Get.toNamed(Routes.COLLECTION_DETAILS, arguments: collection.id!),

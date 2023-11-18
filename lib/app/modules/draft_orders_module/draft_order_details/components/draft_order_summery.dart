@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/service/store_service.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -15,8 +16,8 @@ class DraftOrderSummery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const halfSpace = SizedBox(height: 6.0);
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
     final totalTextTheme =  Theme.of(context).textTheme.displayLarge;
     final currencyCode = draftOrder.cart!.region!.currencyCode;
 

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/req/user_order.dart';
@@ -34,11 +36,11 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     String reason = 'Discount';
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(

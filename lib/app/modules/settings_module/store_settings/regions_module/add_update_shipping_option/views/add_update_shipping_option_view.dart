@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
+import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
@@ -13,12 +16,12 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final bodyLargeTextStyle = Theme.of(context).textTheme.bodyLarge;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final headlineMediumTextStyle = context.headlineMedium;
     const border = OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4.0)));
     final inputFormatter = [
       CurrencyTextInputFormatter(name: controller.addUpdateShippingOptionReq.region.currencyCode)
@@ -70,7 +73,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Details', style: bodyLargeTextStyle),
+                          Text('Details', style: headlineMediumTextStyle),
                           space,
                           LabeledTextField(
                             label: 'Title',
@@ -270,7 +273,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Requirements', style: bodyLargeTextStyle),
+                          Text('Requirements', style: headlineMediumTextStyle),
                           space,
                           LabeledTextField(
                             label: 'Min. subtotal (Tax excl. price)',

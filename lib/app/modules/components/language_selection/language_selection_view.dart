@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../data/service/language_service.dart';
 import 'language_locale.dart';
@@ -10,7 +11,7 @@ class LanguageSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final mediumTextStyle = context.bodyMedium;
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -18,9 +19,9 @@ class OrderCustomer extends GetView<OrderDetailsController> {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     String getCountry() {
       String countryName = '';
       final countryCode = order.shippingAddress?.countryCode;

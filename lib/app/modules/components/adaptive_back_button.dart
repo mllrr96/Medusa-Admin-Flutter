@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
+import 'package:get/get.dart';
+
 class AdaptiveBackButton extends StatelessWidget {
   /// Creates an [IconButton] with the appropriate "back" icon for the current
   /// target platform.
@@ -29,7 +31,7 @@ class AdaptiveBackButton extends StatelessWidget {
       return Tooltip(
         message: MaterialLocalizations.of(context).backButtonTooltip,
         child: CupertinoTheme(
-          data: CupertinoThemeData(primaryColor: Theme.of(context).iconTheme.color),
+          data: CupertinoThemeData(primaryColor: context.theme.iconTheme.color),
           child: CupertinoButton(
               child: const BackButtonIcon(),
               onPressed: () {
@@ -77,5 +79,5 @@ class BackButtonIcon extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Icon(_getIconData(Theme.of(context).platform));
+  Widget build(BuildContext context) => Icon(_getIconData(context.theme.platform));
 }

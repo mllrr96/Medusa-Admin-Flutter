@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_icon.dart';
 
 class NetworkImageCard extends StatelessWidget {
@@ -62,8 +64,8 @@ class ImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fileSize = (image.readAsBytesSync().lengthInBytes) / 1000000;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(4.0)),
       onTap: () => Get.to(() => ImageViewScreen(imageFile: image)),

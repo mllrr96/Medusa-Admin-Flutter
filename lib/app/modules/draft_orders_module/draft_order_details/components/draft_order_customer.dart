@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
@@ -14,9 +15,9 @@ class DraftOrderCustomer extends StatelessWidget {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final email = draftOrder.cart?.email;
     final name = '${draftOrder.cart?.customer?.firstName ?? ''} ${draftOrder.cart?.customer?.lastName ?? ''}';
     String getCountry() {

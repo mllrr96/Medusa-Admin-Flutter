@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../components/currency_formatter.dart';
@@ -12,11 +14,10 @@ class RefundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final durationDiff = DateTime.now().difference(refund.createdAt ?? DateTime.now());
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     final formatter = CurrencyTextInputFormatter(name: currency.code);
-
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     return Column(
       children: [
         Row(

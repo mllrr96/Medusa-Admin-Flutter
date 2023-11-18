@@ -1,11 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_order_details/controllers/draft_order_details_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/draft_order.dart';
 import '../../../../data/service/store_service.dart';
 import '../../../components/currency_formatter.dart';
@@ -16,12 +19,12 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    const halfSpace = SizedBox(height: 6.0);
-    const space = SizedBox(height: 12.0);
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final currencyCode = draftOrder.cart!.region!.currencyCode;
 
     String getPrice(num? price) {

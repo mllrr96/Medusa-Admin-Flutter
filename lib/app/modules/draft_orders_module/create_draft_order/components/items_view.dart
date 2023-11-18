@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/variant_list_tile.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/store/line_item.dart';
 import '../../../../data/models/store/region.dart';
@@ -19,9 +22,9 @@ class ItemsView extends StatelessWidget {
   final CreateDraftOrderController controller;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
     final lineItems = controller.lineItems;
     final customLineItems = controller.customLineItems;
 

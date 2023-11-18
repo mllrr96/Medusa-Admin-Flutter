@@ -20,7 +20,7 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ProductsController.instance;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
     IconData sortIcon = switch (controller.sortOptions) {
       SortOptions.aZ => Icons.sort_by_alpha,
       SortOptions.zA => Icons.sort_by_alpha,

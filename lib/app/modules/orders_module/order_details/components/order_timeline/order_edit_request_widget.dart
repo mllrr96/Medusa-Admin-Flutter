@@ -1,9 +1,12 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
+import '../../../../../../core/utils/colors.dart';
 import '../../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../../data/models/store/order_edit.dart';
 import '../../../../../data/models/store/order_item_change.dart';
@@ -19,11 +22,12 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+
     final reqDurationDiff = DateTime.now().difference(orderEdit.requestedAt ?? DateTime.now());
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     var addedItems = orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemAdd).toList();
 
     var removedItems =

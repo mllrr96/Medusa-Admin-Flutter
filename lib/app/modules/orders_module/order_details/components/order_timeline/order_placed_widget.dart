@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
+import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/models/store/order.dart';
 import '../../../../components/currency_formatter.dart';
 import '../../../../components/date_time_card.dart';
@@ -20,8 +21,8 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
   @override
   Widget build(BuildContext context) {
     final durationDiff = DateTime.now().difference(widget.order.createdAt ?? DateTime.now());
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final total = CurrencyTextInputFormatter(name: widget.order.currencyCode).format(widget.order.total.toString());
     return InkWell(
       onTap: () {

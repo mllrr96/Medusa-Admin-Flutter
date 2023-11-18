@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/price_list.dart';
@@ -9,6 +10,8 @@ import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart'
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../../../discount_module/discounts/components/discount_rule_type_label.dart';
@@ -18,10 +21,10 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
   const PriceListDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
     String getGroupsNames(PriceList priceList) {
       String names = '';
       final nameList = priceList.customerGroups!.map((e) => e.name!).toList();
@@ -237,10 +240,10 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
   final PriceList priceList;
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    const space = Gap(12);
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/index.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -17,9 +19,9 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     final tr = AppLocalizations.of(context)!;
     return CustomExpansionTile(
       key: controller.fulfillmentKey,

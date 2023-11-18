@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -14,7 +15,7 @@ class ChooseCustomerView extends StatelessWidget {
   Widget build(BuildContext context) {
     final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return GetBuilder<ChooseCustomerController>(
       builder: (controller) {
         return Column(

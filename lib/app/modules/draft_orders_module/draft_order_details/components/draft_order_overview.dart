@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_status_label.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
+
+import '../../../../../core/utils/colors.dart';
 
 class DraftOrderOverview extends StatelessWidget {
   const DraftOrderOverview(this.draftOrder, {Key? key}) : super(key: key);
   final DraftOrder draftOrder;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     final email = draftOrder.cart?.email;
     final billingAddress = draftOrder.cart?.billingAddress;
     final currencyCode = draftOrder.cart!.region!.currencyCode;
@@ -27,8 +30,8 @@ class DraftOrderOverview extends StatelessWidget {
           return Currency(name:simpleCurrency.currencyName, symbolNative:simpleCurrency.currencySymbol , code:simpleCurrency.currencyName);
         }).symbolNative;
 
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(

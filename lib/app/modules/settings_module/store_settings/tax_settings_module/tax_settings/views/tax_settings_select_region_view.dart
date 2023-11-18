@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../../data/models/store/region.dart';
 import '../../../regions_module/regions/components/region_card.dart';
@@ -13,8 +15,8 @@ class TaxSettingsSelectRegionView extends GetView<TaxSettingsSelectRegionControl
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
@@ -22,7 +24,7 @@ class TaxSettingsSelectRegionView extends GetView<TaxSettingsSelectRegionControl
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight / 2),
           child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: context.theme.scaffoldBackgroundColor,
             height: kToolbarHeight / 2,
             padding: const EdgeInsets.only(left: 16.0),
             alignment: Alignment.centerLeft,

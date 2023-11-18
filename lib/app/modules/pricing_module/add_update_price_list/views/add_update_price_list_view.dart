@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
@@ -24,10 +27,10 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
   static const kDuration = Duration(milliseconds: 300);
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const halfSpace = SizedBox(height: 6.0);
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final box = globalKey.currentContext?.findRenderObject() as RenderBox?;

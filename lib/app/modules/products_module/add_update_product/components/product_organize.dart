@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../../components/labeled_chip_input_text_field.dart';
@@ -12,10 +14,10 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    const space = SizedBox(height: 12.0);
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
+    const space = Gap(12);
     return GetBuilder<AddUpdateProductController>(
       id: 1,
       builder: (logic) {

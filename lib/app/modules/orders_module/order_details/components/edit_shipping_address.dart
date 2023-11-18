@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/address.dart';
 import '../../../../data/models/store/country.dart';
@@ -70,12 +73,11 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
 
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
-    final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    final lightWhite = isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then(
         (value) async {

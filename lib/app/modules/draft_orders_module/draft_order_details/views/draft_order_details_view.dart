@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
@@ -15,7 +16,7 @@ class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
   const DraftOrderDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final yPosition =

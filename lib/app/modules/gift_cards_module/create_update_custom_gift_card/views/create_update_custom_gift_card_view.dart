@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
@@ -18,10 +20,10 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    const halfSpace = SizedBox(height: 6.0);
-    const space = SizedBox(height: 12.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     return GetBuilder<CreateUpdateCustomGiftCardController>(
       builder: (controller) {
         return GestureDetector(

@@ -11,7 +11,7 @@ class ColorManager {
   static Color white = const Color(0xffFFFFFF);
   static Color red = const Color(0xffFF7272);
   static Color background = const Color(0xffF2F2F2);
-
+  static Color manatee = const Color(0xff8F959E);
   static Color lightGrey = const Color(0xff9E9E9E);
   static Color black = const Color(0xff000000);
   static Color blue = const Color(0xFF2196F3);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../core/utils/colors.dart';
@@ -14,13 +16,13 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final canceledDurationDiff = DateTime.now().difference(orderEdit.canceledAt ?? DateTime.now());
     final declinedDurationDiff = DateTime.now().difference(orderEdit.declinedAt ?? DateTime.now());
     final confirmedDurationDiff = DateTime.now().difference(orderEdit.confirmedAt ?? DateTime.now());
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     var addedItems = orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemAdd).toList();
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     const buttonShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
     );

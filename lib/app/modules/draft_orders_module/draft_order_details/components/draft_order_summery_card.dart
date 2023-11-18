@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/service/store_service.dart';
 
 class DraftOrderSummeryCard extends StatelessWidget {
@@ -15,8 +16,8 @@ class DraftOrderSummeryCard extends StatelessWidget {
   final String currencyCode;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
 
     String getPrice(num? price) {
       var value = price ?? 0;

@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/line_item.dart';
 import '../../../../data/models/store/money_amount.dart';
@@ -27,9 +29,9 @@ class VariantListTile extends StatelessWidget {
   final Region? selectedRegion;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant!;
     MoneyAmount? moneyAmount;
     final priceList = productVariant.prices
@@ -48,7 +50,7 @@ class VariantListTile extends StatelessWidget {
       return '${moneyAmount?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(price.toString())}';
     }
 
-    const space = SizedBox(width: 12.0);
+    const space = Gap(12);
     return Slidable(
       groupTag: const Key('variants'),
       key: ValueKey(productVariant.id!),
@@ -149,9 +151,9 @@ class CustomVariantListTile extends StatelessWidget {
   final void Function()? onRemoveTap;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     String getCurrencyText() {
       double value = lineItem.unitPrice?.roundToDouble() ?? 0.0;
       final valueFormatter = NumberFormat.currency(name: currencyCode);
@@ -161,7 +163,7 @@ class CustomVariantListTile extends StatelessWidget {
       return '${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
     }
 
-    const space = SizedBox(width: 12.0);
+    const space = Gap(12);
     return Slidable(
       groupTag: const Key('variants'),
       key: ValueKey(lineItem.title!),

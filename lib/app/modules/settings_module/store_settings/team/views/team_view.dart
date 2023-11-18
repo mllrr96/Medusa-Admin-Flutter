@@ -7,6 +7,8 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/controllers/team_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../components/adaptive_filled_button.dart';
 import '../../../../components/adaptive_icon.dart';
@@ -21,7 +23,7 @@ class TeamView extends StatelessWidget {
     const kDuration = Duration(milliseconds: 200);
     final teamController = Get.find<TeamController>();
     final inviteController = Get.find<InviteController>();
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
@@ -56,7 +58,7 @@ class TeamView extends StatelessWidget {
                       controller: teamController.searchCtrl,
                       hintText: 'Search for team email, name',
                       onChanged: (val) {
-                        if(val != teamController.searchCtrl.text){}
+                        if (val != teamController.searchCtrl.text) {}
                       },
                     )),
                     AdaptiveButton(
@@ -86,7 +88,7 @@ class TeamView extends StatelessWidget {
                       if (teamController.membersCount.value != 0)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(membersCount, style: Theme.of(context).textTheme.titleSmall),
+                          child: Text(membersCount, style: context.bodySmall),
                         )
                     ],
                   ),
@@ -210,8 +212,7 @@ class PersistentHeader extends SliverPersistentHeaderDelegate {
   final String text;
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-
+    final lightWhite = ColorManager.manatee;
     return Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 12.0),

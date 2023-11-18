@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
@@ -30,7 +31,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   Widget build(BuildContext context) {
     final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 20.0 : context.mediaQueryViewPadding.bottom;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveCloseButton(),

@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
@@ -23,8 +25,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
 
     String getCurrencyText(GiftCard giftCard) {
       var value = giftCard.value?.roundToDouble() ?? 0.0;

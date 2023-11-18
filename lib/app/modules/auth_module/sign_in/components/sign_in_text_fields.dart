@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
@@ -20,9 +22,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   bool obscureText = true;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
     final tr = AppLocalizations.of(context)!;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
     const border = OutlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.all(Radius.circular(4)));
     return TextFormField(
@@ -98,8 +100,8 @@ class EmailTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final mediumTextStyle = context.bodyMedium;
     final tr = AppLocalizations.of(context)!;
     const border = OutlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.all(Radius.circular(4)));

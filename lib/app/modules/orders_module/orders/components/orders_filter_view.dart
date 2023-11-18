@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -72,7 +73,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0
         ? 20.0
         : context.mediaQueryViewPadding.bottom;
-    const space = SizedBox(height: 12.0);
+    const space = Gap(12);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(

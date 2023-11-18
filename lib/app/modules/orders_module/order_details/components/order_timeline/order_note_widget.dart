@@ -1,8 +1,10 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../core/utils/colors.dart';
@@ -17,9 +19,9 @@ class OrderNoteWidget extends StatelessWidget {
     final name = '${user?.firstName ?? ''} ${user?.lastName ?? ''}';
     final email = user?.email;
     final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     final durationDiff = DateTime.now().difference(note.createdAt ?? DateTime.now());
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     return Column(
       children: [
         Row(
@@ -37,7 +39,7 @@ class OrderNoteWidget extends StatelessWidget {
                         backgroundColor: ColorManager.getAvatarColor(text),
                         child: Text(text?[0].toUpperCase() ?? '', style: smallTextStyle?.copyWith(color: Colors.white)),
                       ),
-                      const SizedBox(width: 8.0),
+                      const Gap(8),
                       Flexible(child: Text(text ?? '', style: smallTextStyle?.copyWith(fontWeight: FontWeight.bold))),
                     ],
                   ),
@@ -49,7 +51,7 @@ class OrderNoteWidget extends StatelessWidget {
                         child: Text(text?[0].toUpperCase() ?? '',
                             style: smallTextStyle?.copyWith(color: Colors.transparent)),
                       ),
-                      const SizedBox(width: 8.0),
+                      const Gap(8),
                       Text(timeago.format(DateTime.now().subtract(durationDiff)),
                           style: smallTextStyle?.copyWith(color: lightWhite)),
                     ],
@@ -83,7 +85,7 @@ class OrderNoteWidget extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: Text(text?[0].toUpperCase() ?? '', style: smallTextStyle?.copyWith(color: Colors.transparent)),
             ),
-            const SizedBox(width: 8.0),
+            const Gap(8),
             Flexible(
               child: Container(
                 width: double.infinity,
@@ -101,7 +103,7 @@ class OrderNoteWidget extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12.0),
+        const Gap(8),
       ],
     );
   }

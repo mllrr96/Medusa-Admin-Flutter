@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/controllers/add_update_discount_controller.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/discount_rule.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -14,13 +17,10 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final smallTextStyle = Theme
-        .of(context)
-        .textTheme
-        .titleSmall;
-    const space = SizedBox(height: 12.0);
-    const halfSpace = SizedBox(height: 6.0);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    const space = Gap(12);
+    const halfSpace = Gap(6);
     Future<void> scrollToSelectedContent(
         {required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240))

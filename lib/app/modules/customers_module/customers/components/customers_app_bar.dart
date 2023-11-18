@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
+
+import '../../../../../core/utils/colors.dart';
 
 class CustomersGroupsTabBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomersGroupsTabBar({Key? key, required this.tabController, required this.topViewPadding}) : super(key: key);
@@ -34,10 +38,13 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
 
   @override
   Widget build(BuildContext context) {
-    final topViewPadding = MediaQuery.of(context).viewPadding.top;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    final displayLargeTextStyle = Theme.of(context).textTheme.displayLarge;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final topViewPadding = context.topViewPadding;
+
+    final lightWhite = ColorManager.manatee;
+    final largeTextStyle = context.bodyLarge;
+
+    final headlineMediumTextStyle = context.headlineMedium;
+
     final tr = AppLocalizations.of(context)!;
 
     final customersText = Obx(() {
@@ -68,7 +75,7 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
               },
               alignment: Alignment.bottomCenter,
               child: AnimatedDefaultTextStyle(
-                  style: activeIndex == 0 ? displayLargeTextStyle! : largeTextStyle!.copyWith(color: lightWhite),
+                  style: activeIndex == 0 ? headlineMediumTextStyle! : largeTextStyle!.copyWith(color: lightWhite),
                   duration: const Duration(milliseconds: 200),
                   child: customersText)),
           CupertinoButton(
@@ -79,7 +86,7 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
             },
             alignment: Alignment.bottomCenter,
             child: AnimatedDefaultTextStyle(
-                style: activeIndex == 1 ? displayLargeTextStyle! : largeTextStyle!.copyWith(color: lightWhite),
+                style: activeIndex == 1 ? headlineMediumTextStyle! : largeTextStyle!.copyWith(color: lightWhite),
                 duration: const Duration(milliseconds: 200),
                 child: customerGroupsText),
           ),
@@ -92,7 +99,7 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SizedBox(height: topViewPadding),
+          Gap(topViewPadding),
           if (Platform.isAndroid) androidTabBar,
           if (Platform.isIOS) iosTabBar,
         ],

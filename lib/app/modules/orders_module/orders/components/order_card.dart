@@ -11,6 +11,7 @@ import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,12 +23,11 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final largeTextStyle = context.bodyLarge;
     final tr = AppLocalizations.of(context)!;
-    final largeTextStyle = Theme.of(context).textTheme.titleLarge;
-    // const space = SizedBox(height: 12.0);
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
     String? getName() {
       String? name;
 
@@ -220,10 +220,10 @@ class AlternativeOrderCard extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    final mediumTextStyle = Theme.of(context).textTheme.titleMedium;
-    final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    final lightMediumTextStyle = Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite);
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
+    final lightMediumTextStyle = mediumTextStyle?.copyWith(color: lightWhite);
 
     // final largeTextStyle = Theme.of(context).textTheme.titleLarge;
     String? getName() {
@@ -462,8 +462,8 @@ class CustomerOrderCard extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
-    Color lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
+    final lightWhite = ColorManager.manatee;
+    final smallTextStyle = context.bodySmall;
     final cardDefaultColor =
         index.isEven ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
     final tr = AppLocalizations.of(context)!;
