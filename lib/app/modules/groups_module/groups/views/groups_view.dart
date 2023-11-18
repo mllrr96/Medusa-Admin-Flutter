@@ -14,14 +14,13 @@ import '../../../components/search_text_field.dart';
 import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/group_card.dart';
 import '../controllers/groups_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GroupsView extends GetView<GroupsController> {
   const GroupsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     final mediumTextStyle = context.bodyMedium;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -99,7 +98,7 @@ class GroupAppBar extends GetView<GroupsController>
 
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return Container(
       color: Theme.of(context).appBarTheme.backgroundColor,
       alignment: Alignment.center,

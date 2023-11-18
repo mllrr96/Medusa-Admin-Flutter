@@ -14,13 +14,12 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../../data/models/store/order.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomerDetailsView extends GetView<CustomerDetailsController> {
   const CustomerDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.customerDetails),
@@ -82,7 +81,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final controller = Get.find<CustomerDetailsController>();
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     final nameText = customer.firstName != null
         ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}', style: mediumTextStyle)

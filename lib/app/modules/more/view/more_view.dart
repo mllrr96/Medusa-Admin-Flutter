@@ -7,7 +7,6 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/utils/colors.dart';
 
@@ -16,7 +15,7 @@ class MoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GetBuilder<MoreController>(

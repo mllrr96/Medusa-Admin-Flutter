@@ -5,7 +5,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
 import 'order_status_label.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderOverview extends StatelessWidget {
   const OrderOverview({Key? key, required this.order}) : super(key: key);
@@ -14,7 +13,7 @@ class OrderOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),

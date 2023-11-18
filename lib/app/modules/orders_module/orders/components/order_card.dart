@@ -12,7 +12,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/app/settings.dart';
 import '../../../../data/models/store/order.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(this.order, {Key? key, this.onTap, this.orderSettings}) : super(key: key);
@@ -25,7 +24,7 @@ final OrderSettings? orderSettings;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     String? getName() {
       String? name;
@@ -42,8 +41,9 @@ final OrderSettings? orderSettings;
       return name;
     }
     return InkWell(
+      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
-      child: Container(
+      child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
             color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(5.0))),
@@ -193,7 +193,7 @@ class AlternativeOrderCard extends StatelessWidget {
     }
 
     return InkWell(
-      // borderRadius:  const BorderRadius.all(Radius.circular(5.0)),
+      borderRadius:  const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
@@ -415,7 +415,7 @@ class CustomerOrderCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final cardDefaultColor =
         index.isEven ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     final orderNumberBackgroundColor =
         index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : Theme.of(context).scaffoldBackgroundColor;

@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'index.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart' as medusa;
 
@@ -16,7 +16,7 @@ class OrderTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return GetBuilder<OrderDetailsController>(
       id: 5,
       builder: (controller) {

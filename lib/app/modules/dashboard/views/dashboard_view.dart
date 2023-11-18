@@ -54,14 +54,17 @@ class DashboardView extends GetView<DashboardController> {
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: Theme.of(context).appBarTheme.systemOverlayStyle!,
             child: Scaffold(
-              bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                currentIndex: controller.currentScreen,
-                selectedItemColor: Theme.of(context).primaryColor,
-                selectedFontSize: 12.0,
-                unselectedFontSize: 12.0,
-                onTap: controller.onTap,
-                items: controller.bottomNavBarItems,
+              bottomNavigationBar: Theme(
+                data: context.theme.copyWith(splashColor: Colors.transparent, highlightColor: GetPlatform.isIOS ? Colors.transparent: null),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: controller.currentScreen,
+                  selectedItemColor: Theme.of(context).primaryColor,
+                  selectedFontSize: 12.0,
+                  unselectedFontSize: 12.0,
+                  onTap: controller.onTap,
+                  items: controller.bottomNavBarItems,
+                ),
               ),
               body: PageSwitchingView(
                 currentPageIndex: controller.currentScreen,

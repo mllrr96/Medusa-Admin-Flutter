@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../utils/colors.dart';
@@ -32,8 +31,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
-      splashColor: Colors.transparent,
-      highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary.withOpacity(0.6),
+      // splashColor: Colors.transparent,
+      highlightColor:  ColorManager.primary.withOpacity(0.6),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: CupertinoColors.white,
         selectedItemColor: ColorManager.primary,
@@ -143,8 +142,8 @@ class AppTheme {
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
-      splashColor: Colors.transparent,
-      highlightColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary.withOpacity(0.6),
+      // splashColor: Colors.transparent,
+      highlightColor: ColorManager.primary.withOpacity(0.6),
       inputDecorationTheme: const InputDecorationTheme(
         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         labelStyle: TextStyle(color: Colors.grey),

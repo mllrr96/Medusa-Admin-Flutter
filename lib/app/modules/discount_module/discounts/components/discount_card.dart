@@ -36,7 +36,6 @@ class DiscountCard extends StatelessWidget {
     }
     final smallTextStyle = context.bodySmall;
     return InkWell(
-      radius: 10.0,
       borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       onTap: () => Get.toNamed(Routes.DISCOUNT_DETAILS, arguments: discount.id!),
       child: Ink(

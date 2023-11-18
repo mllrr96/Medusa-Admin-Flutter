@@ -11,7 +11,6 @@ import '../../../../data/models/req/user_order.dart';
 import '../../../../data/models/store/order.dart';
 import '../../../components/adaptive_button.dart';
 import '../../orders/components/payment_status_label.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderPayment extends GetView<OrderDetailsController> {
   const OrderPayment(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
@@ -22,7 +21,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
     final refunded = order.refunds != null && order.refunds!.isNotEmpty;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     final mediumTextStyle = context.bodyMedium;
     final lightWhite = ColorManager.manatee;
     final largeTextStyle = context.bodyLarge;

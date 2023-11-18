@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/order.dart';
 import '../components/index.dart';
@@ -16,7 +16,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {

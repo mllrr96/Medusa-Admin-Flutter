@@ -17,14 +17,13 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/language_selection/language_selection_view.dart';
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInView extends GetView<SignInController> {
   const SignInView({Key? key}) : super(key: key);
 
   @override
   Widget build(context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     final bool isRTL = Directionality.of(context) == TextDirection.rtl;
     const space = Gap(12);
     final smallTextStyle = context.bodySmall;

@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
@@ -24,7 +23,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     return Scaffold(
       appBar: AppBar(

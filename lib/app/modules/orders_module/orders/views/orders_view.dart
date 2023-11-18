@@ -8,7 +8,6 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/colors.dart';
@@ -24,7 +23,7 @@ class OrdersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return GetBuilder<OrdersController>(builder: (controller) {
       final orderSettings = StorageService.orderSettings;
       return Scaffold(

@@ -5,8 +5,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../components/adaptive_button.dart';
@@ -20,7 +20,7 @@ class DraftOrdersView extends GetView<DraftOrdersController> {
   const DraftOrdersView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return Scaffold(
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,

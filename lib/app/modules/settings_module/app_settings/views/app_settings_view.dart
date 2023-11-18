@@ -10,7 +10,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../data/service/language_service.dart';
@@ -24,7 +23,7 @@ class AppSettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppSettingsController>(builder: (controller) {
-      final tr = AppLocalizations.of(context)!;
+      final tr = context.tr;
       final appSettings = StorageService.appSettings;
       return Scaffold(
         appBar: AppBar(

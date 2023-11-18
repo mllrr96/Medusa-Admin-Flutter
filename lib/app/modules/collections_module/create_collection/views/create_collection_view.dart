@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_close_button.dart';
@@ -17,7 +16,7 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(

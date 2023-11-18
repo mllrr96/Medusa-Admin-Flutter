@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -45,7 +44,7 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
 
     final headlineMediumTextStyle = context.headlineMedium;
 
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     final customersText = Obx(() {
       final count = CustomersController.instance.customersCount.value;

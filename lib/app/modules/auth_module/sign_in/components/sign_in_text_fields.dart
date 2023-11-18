@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -24,7 +23,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     const border = OutlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.all(Radius.circular(4)));
     return TextFormField(
@@ -102,7 +101,7 @@ class EmailTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     const border = OutlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.all(Radius.circular(4)));
     return TextFormField(

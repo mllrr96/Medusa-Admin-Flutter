@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../app/data/service/storage_service.dart';
 
 extension BuildContextEntension<T> on BuildContext {
@@ -31,6 +31,10 @@ extension BuildContextEntension<T> on BuildContext {
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
+
+
+  // app localization
+  AppLocalizations get tr => AppLocalizations.of(this)!;
 }
 
 extension HexColor on Color {

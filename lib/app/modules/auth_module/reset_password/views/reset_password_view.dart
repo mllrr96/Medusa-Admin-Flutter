@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_button.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -18,7 +17,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
     final lightWhite = ColorManager.manatee;
     final bottomPadding =
         context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),

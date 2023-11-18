@@ -7,7 +7,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart'
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../core/utils/enums.dart';
 import '../../../../routes/app_pages.dart';
@@ -21,7 +20,7 @@ class CollectionsView extends GetView<CollectionsController> {
   Widget build(BuildContext context) {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     return Scaffold(
       // appBar: const CollectionsAppBar(),

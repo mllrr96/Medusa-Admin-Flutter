@@ -10,7 +10,6 @@ import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../orders/components/fulfillment_label.dart';
 import 'order_create_fulfillment.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderFulfillment extends GetView<OrderDetailsController> {
   const OrderFulfillment(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
@@ -21,7 +20,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
     return CustomExpansionTile(
       key: controller.fulfillmentKey,
       onExpansionChanged: onExpansionChanged,

@@ -5,7 +5,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import 'order_summery_card.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderSummery extends StatelessWidget {
   const OrderSummery(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
@@ -19,7 +18,7 @@ class OrderSummery extends StatelessWidget {
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final totalTextTheme = refunded ? mediumTextStyle : context.bodyLarge;
-    final tr = AppLocalizations.of(context)!;
+    final tr = context.tr;
 
     return CustomExpansionTile(
       onExpansionChanged: onExpansionChanged,
