@@ -54,7 +54,16 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
                     Get.toNamed(Routes.ADD_UPDATE_PRICE_LIST, arguments: controller.id);
                     return;
                   case 1:
-                    await controller.deletePriceList(context);
+                    final confirmDelete = await showOkCancelAlertDialog(
+                      context: context,
+                      title: 'Delete price list',
+                      message: 'Are you sure you want to delete this price list?',
+                      okLabel: 'Yes, delete',
+                      isDestructiveAction: true,
+                    );
+                    if (confirmDelete == OkCancelResult.ok) {
+                      await controller.deletePriceList();
+                    }
                     return;
                 }
               },

@@ -1,7 +1,16 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/app/settings.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 
 class OrderSettingsController extends GetxController {
+  late OrderSettings orderSettings;
+  @override
+  void onInit() {
+    super.onInit();
+   orderSettings =  StorageService.orderSettings.copyWith();
+  }
+
   Order order = Order(
     customerId: '',
     email: 'Medusa@js.com',
@@ -23,4 +32,7 @@ class OrderSettingsController extends GetxController {
     paymentStatus: PaymentStatus.captured,
     displayId: 69,
   );
+
+
+
 }

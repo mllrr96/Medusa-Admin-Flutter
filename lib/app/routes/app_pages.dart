@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/settings_module/app_settings/order_settings/bindings/order_settings_binding.dart';
+import 'package:medusa_admin/app/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -66,8 +68,6 @@ import '../modules/groups_module/groups/bindings/groups_binding.dart';
 import '../modules/groups_module/groups/views/groups_view.dart';
 import '../modules/medusa_search/views/medusa_search_view.dart';
 import '../modules/more/bindings/more_binding.dart';
-import '../modules/order_settings/bindings/order_settings_binding.dart';
-import '../modules/order_settings/views/order_settings_view.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
 import '../modules/orders_module/orders/bindings/orders_binding.dart';

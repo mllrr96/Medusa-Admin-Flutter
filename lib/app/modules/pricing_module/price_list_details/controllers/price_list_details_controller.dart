@@ -1,5 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -33,17 +31,8 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
   //   super.onClose();
   // }
 
-  Future<void> deletePriceList(BuildContext context) async {
-    final confirmDelete = await showOkCancelAlertDialog(
-      context: context,
-      title: 'Delete price list',
-      message: 'Are you sure you want to delete this price list?',
-      okLabel: 'Yes, delete',
-      isDestructiveAction: true,
-    );
-    if (confirmDelete != OkCancelResult.ok) {
-      return;
-    }
+  Future<void> deletePriceList( ) async {
+
 
     loading();
     final result = await priceListRepo.deletePriceList(id: id);

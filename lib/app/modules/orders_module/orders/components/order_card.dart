@@ -5,23 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
+import '../../../../data/models/app/settings.dart';
 import '../../../../data/models/store/order.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'fulfillment_label.dart';
-
 class OrderCard extends StatelessWidget {
-  const OrderCard(this.order, {Key? key, this.onTap}) : super(key: key);
+  const OrderCard(this.order, {Key? key, this.onTap, this.orderSettings}) : super(key: key);
   final Order order;
   final void Function()? onTap;
-
+final OrderSettings? orderSettings;
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
@@ -29,6 +26,7 @@ class OrderCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final tr = AppLocalizations.of(context)!;
+    final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     String? getName() {
       String? name;
 
@@ -42,10 +40,6 @@ class OrderCard extends StatelessWidget {
         name = '${order.customer!.firstName ?? ''} ${order.customer!.lastName ?? ''}';
       }
       return name;
-    }
-    String getCurrencyText() {
-      final valueFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
-      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(order.total?.toString() ?? '')}';
     }
     return InkWell(
       onTap: onTap ?? () => Get.toNamed(Routes.ORDER_DETAILS, arguments: order.id),
@@ -74,10 +68,10 @@ class OrderCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      getCurrencyText(),
+                      order.total.formatAsPrice(order.currencyCode),
                       style: mediumTextStyle,
                     ),
-                    if (order.shippingAddress?.countryCode != null && !orderSettings.hideFlag)
+                    if (order.shippingAddress?.countryCode != null && !orderSettingsModel.hideFlag)
                       Flag.fromString(order.shippingAddress!.countryCode!, height: 15, width: 30),
                   ],
                 ),
@@ -106,7 +100,7 @@ class OrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: PaymentStatusLabel(paymentStatus: order.paymentStatus, dotOnly: !orderSettings.paymentStatusDot,),
+                      child: PaymentStatusLabel(paymentStatus: order.paymentStatus, dotOnly: !orderSettingsModel.paymentStatusDot,),
                     ),
                     Flexible(
                       child: Row(
@@ -125,7 +119,7 @@ class OrderCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(getName()!, style: smallTextStyle),
-                                if (orderSettings.includeEmail)
+                                if (orderSettingsModel.includeEmail)
                                   Text(order.email ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
                               ],
                             )),
@@ -172,16 +166,17 @@ class OrderCard extends StatelessWidget {
 }
 
 class AlternativeOrderCard extends StatelessWidget {
-  const AlternativeOrderCard(this.order, {Key? key, this.onTap}) : super(key: key);
+  const AlternativeOrderCard(this.order, {Key? key, this.onTap, this.orderSettings}) : super(key: key);
   final Order order;
   final void Function()? onTap;
+  final OrderSettings? orderSettings;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final lightWhite = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: lightWhite);
-    final orderSettings = StorageService.orderSettings;
+    final orderSettingsModel = orderSettings ?? StorageService.orderSettings ;
     String? getName() {
       String? name;
 
@@ -232,7 +227,7 @@ class AlternativeOrderCard extends StatelessWidget {
                           style: lightMediumTextStyle,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      if (order.shippingAddress?.countryCode != null && !orderSettings.hideFlag)
+                      if (order.shippingAddress?.countryCode != null && !orderSettingsModel.hideFlag)
                         Flag.fromString(order.shippingAddress!.countryCode!, height: 15, width: 30),
                     ],
                   ),
@@ -258,7 +253,7 @@ class AlternativeOrderCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(getName()!, style: smallTextStyle),
-                            if (orderSettings.includeEmail)
+                            if (orderSettingsModel.includeEmail)
                               Text(order.email ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
                           ],
                         )),
@@ -271,7 +266,7 @@ class AlternativeOrderCard extends StatelessWidget {
                 ),
                 Flexible(
                   child:
-                      PaymentStatusLabel(paymentStatus: order.paymentStatus, dotOnly: !orderSettings.paymentStatusDot),
+                      PaymentStatusLabel(paymentStatus: order.paymentStatus, dotOnly: !orderSettingsModel.paymentStatusDot),
                 ),
               ],
             ),
