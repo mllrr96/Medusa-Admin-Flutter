@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -23,22 +21,11 @@ class ShippingOptionCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const halfSpace = SizedBox(height: 6.0);
     final currencyCode = shippingOption.region?.currencyCode;
-    final valueFormatter = NumberFormat.currency(name: currencyCode);
-    var amount = shippingOption.amount!.roundToDouble();
-    if (valueFormatter.decimalDigits != null) {
-      amount = amount / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
     String getMaxText() {
-      final valueFormatter = NumberFormat.currency(name: currencyCode);
       String text = '';
       for (var requirement in shippingOption.requirements!) {
         if (requirement.type! == RequirementType.maxSubtotal) {
-          var amount = requirement.amount!.roundToDouble();
-          if (valueFormatter.decimalDigits != null) {
-            amount = amount / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-          }
-          text =
-              'Max. subtotal: ${valueFormatter.format(amount).split(currencyCode!)[1]} ${currencyCode.toUpperCase()}';
+          text = 'Max. subtotal: ${formatPrice(requirement.amount, currencyCode, symbolAtEnd: true)}';
         }
       }
       if (text.isEmpty) {
@@ -48,16 +35,10 @@ class ShippingOptionCard extends StatelessWidget {
     }
 
     String getMinText() {
-      final valueFormatter = NumberFormat.currency(name: currencyCode);
       String text = '';
       for (var requirement in shippingOption.requirements!) {
         if (requirement.type! == RequirementType.minSubtotal) {
-          var amount = requirement.amount!.roundToDouble();
-          if (valueFormatter.decimalDigits != null) {
-            amount = amount / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-          }
-          text =
-              'Min. subtotal: ${valueFormatter.format(amount).split(currencyCode!)[1]} ${currencyCode.toUpperCase()}';
+          text = 'Min. subtotal: ${formatPrice(requirement.amount, currencyCode, symbolAtEnd: true)}';
         }
       }
       if (text.isEmpty) {
@@ -116,8 +97,7 @@ class ShippingOptionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text(
-                        'Flat Rate: ${valueFormatter.format(amount).split(currencyCode!)[1]} ${currencyCode.toUpperCase()}',
+                    child: Text('Flat Rate:${formatPrice(shippingOption.amount, currencyCode, symbolAtEnd: true)}',
                         style: smallTextStyle?.copyWith(color: lightWhite)),
                   ),
                   ShippingOptionLabel(adminOnly: shippingOption.adminOnly)

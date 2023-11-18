@@ -103,9 +103,9 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                  Text(order.email!, style: context.bodyMedium),
                   if (order.billingAddress != null && order.billingAddress!.phone != null)
-                    Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                    Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                 ],
               ),
             ),
@@ -122,10 +122,10 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   Text('Shipping', style: mediumTextStyle!.copyWith(color: lightWhite)),
                   const SizedBox(height: 5.0),
                   Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                   Text(
                       '${order.shippingAddress?.postalCode ?? ''} ${order.shippingAddress?.province ?? ''} ${order.shippingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                 ],
               ),
               const VerticalDivider(),
@@ -135,10 +135,10 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   Text('Billing', style: mediumTextStyle.copyWith(color: lightWhite)),
                   const SizedBox(height: 5.0),
                   Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                   Text(
                       '${order.billingAddress?.postalCode ?? ''} ${order.billingAddress?.province ?? ''} ${order.billingAddress?.countryCode ?? ''}',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: context.bodyMedium),
                 ],
               ),
             ],

@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
-import '../../../components/currency_formatter.dart';
 import '../controllers/create_draft_order_controller.dart';
 
 class DraftOrderOverView extends StatelessWidget {
@@ -33,12 +33,6 @@ class DraftOrderOverView extends StatelessWidget {
         ? controller.shippingAddress
         : controller.billingAddress;
     final shippingOption = controller.selectedShippingOption;
-
-    String getPrice(num? price) {
-      final currencyFormatter = CurrencyTextInputFormatter(
-          name: shippingOption?.region?.currencyCode);
-      return '${shippingOption?.region?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(price.toString())}';
-    }
 
     return SafeArea(
       child: ListView(
@@ -146,7 +140,7 @@ class DraftOrderOverView extends StatelessWidget {
                     Text('Shipping method',
                         style: smallTextStyle?.copyWith(color: lightWhite)),
                     Text(
-                        '${shippingOption?.name ?? ''} - (${getPrice(shippingOption?.amount)})',
+                        '${shippingOption?.name ?? ''} - (${formatPrice(shippingOption?.amount, shippingOption?.region?.currencyCode)})',
                         style: smallTextStyle),
                   ],
                 ),
@@ -222,11 +216,6 @@ class OverViewListTile extends StatelessWidget {
           ? productVariant.prices!.first
           : MoneyAmount(amount: 0, currencyCode: 'usd');
     }
-    String getPrice(num? price) {
-      final currencyFormatter =
-          CurrencyTextInputFormatter(name: moneyAmount?.currencyCode);
-      return '${moneyAmount?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(price.toString())}';
-    }
 
     const space = Gap(12);
     return Row(
@@ -276,10 +265,10 @@ class OverViewListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('${getPrice(moneyAmount.amount)} x ${lineItem.quantity!}',
+              Text('${formatPrice(moneyAmount.amount, currencyCode)} x ${lineItem.quantity!}',
                   style: smallTextStyle, maxLines: 1),
               const Divider(height: 5),
-              Text(getPrice(lineItem.quantity! * moneyAmount.amount!),
+              Text(formatPrice(lineItem.quantity! * (moneyAmount.amount ?? 1), currencyCode),
                   style: mediumTextStyle, maxLines: 1),
             ],
           ),

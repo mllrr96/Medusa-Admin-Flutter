@@ -83,7 +83,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CupertinoButton(
-              // padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
+              padding: const EdgeInsets.only(right: 16.0, bottom: 8.0, left: 16.0),
               onPressed: () {
                 widget.tabController.index = 0;
                 setState(() {});
@@ -109,22 +109,6 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
                 duration: const Duration(milliseconds: 200),
                 child: collectionText),
           ),
-          // Flexible(
-          //   child: CupertinoButton(
-          //     padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-          //     onPressed: () {
-          //       widget.tabController.index = 2;
-          //       setState(() {});
-          //     },
-          //     alignment: Alignment.bottomCenter,
-          //     child: AnimatedDefaultTextStyle(
-          //         style: widget.tabController.index == 2
-          //             ? displayLargeTextStyle!
-          //             : largeTextStyle!.copyWith(color: lightWhite),
-          //         duration: const Duration(milliseconds: 200),
-          //         child: categoriesText),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -136,7 +120,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
       });
     });
     return Container(
-      color: Theme.of(context).appBarTheme.backgroundColor,
+      color: context.theme.appBarTheme.backgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,

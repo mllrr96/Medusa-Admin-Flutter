@@ -49,12 +49,12 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(tr.resetYourPassword, style: Theme.of(context).textTheme.displayLarge),
+                    Text(tr.resetYourPassword, style: context.headlineMedium),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         tr.sendInstructionsDescription,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: lightWhite),
+                        style: context.bodyMedium?.copyWith(color: lightWhite),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -6,8 +6,8 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_profile/shipping_profile_repo.dart';
-import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 
@@ -172,19 +172,19 @@ class AddUpdateShippingOptionController extends GetxController {
 
   void loadShippingOption() {
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
-    final currencyFormatter = CurrencyTextInputFormatter(name: addUpdateShippingOptionReq.region.currencyCode);
+    // final currencyFormatter = CurrencyTextInputFormatter(name: addUpdateShippingOptionReq.region.currencyCode);
     visibleInStore = !shippingOption.adminOnly;
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;
     if (shippingOption.amount != null) {
-      priceCtrl.text = currencyFormatter.format(shippingOption.amount.toString());
+      priceCtrl.text = formatPrice(shippingOption.amount, addUpdateShippingOptionReq.region.currencyCode);
     }
     if (shippingOption.requirements?.isNotEmpty ?? false) {
       for (var element in shippingOption.requirements!) {
         if (element.type == RequirementType.minSubtotal) {
-          minSubtotalCtrl.text = currencyFormatter.format(element.amount.toString());
+          minSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode);
         } else {
-          maxSubtotalCtrl.text = currencyFormatter.format(element.amount.toString());
+          maxSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode);
         }
       }
     }

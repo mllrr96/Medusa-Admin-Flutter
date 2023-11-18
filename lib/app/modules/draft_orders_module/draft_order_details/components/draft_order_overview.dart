@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/currency_formatter.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_status_label.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -22,14 +20,6 @@ class DraftOrderOverview extends StatelessWidget {
     final billingAddress = draftOrder.cart?.billingAddress;
     final currencyCode = draftOrder.cart!.region!.currencyCode;
     var amount = draftOrder.cart!.total!;
-    final currencyFormatter = CurrencyTextInputFormatter(name: currencyCode);
-
-    final symbolNative =
-        StoreService.store.currencies?.firstWhere((element) => element.code == currencyCode, orElse: (){
-          final simpleCurrency = NumberFormat.simpleCurrency(name: currencyCode?.toUpperCase());
-          return Currency(name:simpleCurrency.currencyName, symbolNative:simpleCurrency.currencySymbol , code:simpleCurrency.currencyName);
-        }).symbolNative;
-
     const space = Gap(12);
     const halfSpace = Gap(6);
     return Container(
@@ -80,7 +70,7 @@ class DraftOrderOverview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${symbolNative ?? ''} ${currencyFormatter.format(amount.toString())}',
+                      formatPrice(amount, currencyCode),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 6.0),

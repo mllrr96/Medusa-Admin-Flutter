@@ -1,9 +1,8 @@
-import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -78,14 +77,14 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Original amount', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(getCurrencyText(giftCard.value), style: mediumTextStyle),
+                        Text(formatPrice(giftCard.value, giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('Balance', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(getCurrencyText(giftCard.balance), style: mediumTextStyle),
+                        Text(formatPrice(giftCard.balance, giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                   ],
@@ -159,14 +158,5 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
         ],
       ),
     );
-  }
-
-  String getCurrencyText(int? currency) {
-    double value = currency?.roundToDouble() ?? 0.0;
-    final valueFormatter = NumberFormat.currency(name: giftCard.region?.currencyCode);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
   }
 }

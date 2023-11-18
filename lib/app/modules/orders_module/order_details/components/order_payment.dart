@@ -1,10 +1,9 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -95,7 +94,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                     ],
                   ),
                 ),
-                Text(getPrice(order.payments?.first.amount), style: largeTextStyle),
+                Text(formatPrice(order.payments?.first.amount, order.currencyCode), style: largeTextStyle),
               ],
             ),
             space,
@@ -113,7 +112,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                       ),
                     ],
                   ),
-                  Text('- ${getPrice(order.refundedTotal)}', style: mediumTextStyle),
+                  Text('- ${formatPrice(order.refundedTotal, order.currencyCode)}', style: mediumTextStyle),
                 ],
               ),
           ],
@@ -123,19 +122,10 @@ class OrderPayment extends GetView<OrderDetailsController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(tr.totalPaid, style: largeTextStyle),
-            Text(getPrice(refunded ? order.refundableAmount : order.payments?.first.amount), style: largeTextStyle),
+            Text(formatPrice(refunded ? order.refundableAmount : order.payments?.first.amount, order.currencyCode), style: largeTextStyle),
           ],
         ),
       ],
     );
-  }
-
-  String getPrice(num? price) {
-    var value = price ?? 0;
-    final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-    if (valueFormatter.decimalDigits != null) {
-      value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-    }
-    return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
   }
 }

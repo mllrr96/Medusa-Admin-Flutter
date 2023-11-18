@@ -1,17 +1,14 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/line_item.dart';
 import '../../../../data/models/store/money_amount.dart';
 import '../../../../data/models/store/region.dart';
-import '../../../components/currency_formatter.dart';
 
 class VariantListTile extends StatelessWidget {
   const VariantListTile(
@@ -42,12 +39,6 @@ class VariantListTile extends StatelessWidget {
       moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
           ? productVariant.prices!.first
           : MoneyAmount(amount: 0, currencyCode: 'USD');
-    }
-
-    String getPrice(num? price) {
-      final currencyFormatter =
-          CurrencyTextInputFormatter(name: moneyAmount?.currencyCode);
-      return '${moneyAmount?.currencyCode?.toUpperCase() ?? ''} ${currencyFormatter.format(price.toString())}';
     }
 
     const space = Gap(12);
@@ -103,7 +94,7 @@ class VariantListTile extends StatelessWidget {
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
-                      Text(getPrice(moneyAmount.amount),
+                      Text(formatPrice(moneyAmount.amount, moneyAmount.currencyCode),
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
@@ -154,15 +145,6 @@ class CustomVariantListTile extends StatelessWidget {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    String getCurrencyText() {
-      double value = lineItem.unitPrice?.roundToDouble() ?? 0.0;
-      final valueFormatter = NumberFormat.currency(name: currencyCode);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]} ${valueFormatter.currencySymbol.toUpperCase()}';
-    }
-
     const space = Gap(12);
     return Slidable(
       groupTag: const Key('variants'),
@@ -199,7 +181,7 @@ class CustomVariantListTile extends StatelessWidget {
                         lineItem.title ?? '',
                         style: mediumTextStyle,
                       ),
-                      Text(getCurrencyText(),
+                      Text(formatPrice(lineItem.unitPrice, currencyCode),
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),

@@ -1,9 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/product.dart';
 import '../components/index.dart';
@@ -13,7 +15,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   const ProductDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
     const space = Gap(12);
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +23,18 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         actions: [
           controller.obx(
               (product) => AdaptiveButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await showOkCancelAlertDialog(
+                      context: context,
+                      title: product.status == ProductStatus.published  ? 'Unpublish product?': 'Publish product?',
+                      message: 'Are you sure you want to ${product.status == ProductStatus.published  ? 'unpublish': 'publish'} this product?',
+                      isDestructiveAction: true,
+                      ).then((result) async {
+                        if(result == OkCancelResult.ok){
+                          await controller.publishProduct(product);
+                        }
+                      });
+                    },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -30,7 +42,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                         const SizedBox(width: 4.0),
                         Text(
                           product.status.name.capitalize ?? product.status.name,
-                          style: smallTextStyle,
+                          style: context.bodySmall,
                         ),
                       ],
                     ),

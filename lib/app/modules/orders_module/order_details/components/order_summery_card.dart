@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import '../../../components/currency_formatter.dart';
 
 class OrderSummeryCard extends StatelessWidget {
   const OrderSummeryCard({Key? key, required this.order, required this.index}) : super(key: key);
@@ -13,12 +13,6 @@ class OrderSummeryCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final item = order.items![index];
-
-    String getPrice(num? price) {
-      final currencyFormatter = CurrencyTextInputFormatter(name: order.currencyCode);
-      final symbolNative = order.currency?.symbolNative;
-      return '${symbolNative ?? ''} ${currencyFormatter.format(price.toString())}';
-    }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
@@ -62,9 +56,9 @@ class OrderSummeryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${getPrice(item.unitPrice)} x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
+                Text('${formatPrice(item.unitPrice, order.currencyCode)} x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
                 const Divider(height: 5),
-                Text(getPrice(item.total), style: mediumTextStyle, maxLines: 1),
+                Text(formatPrice(item.unitPrice, order.currencyCode), style: mediumTextStyle, maxLines: 1),
               ],
             ),
           ),

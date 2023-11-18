@@ -87,7 +87,7 @@ class OrderTimeline extends StatelessWidget {
                                 onNoteDelete: () async => controller.deleteNote(item.id),
                               );
                             case Refund:
-                              return RefundWidget(item, currency: order.currency!);
+                              return RefundWidget(item, currencyCode: order.currencyCode);
                             case medusa.Notification:
                               return const SizedBox();
                             default:

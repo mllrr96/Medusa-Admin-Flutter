@@ -93,7 +93,7 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     _newString = _newNum.toString();
     if (includeSymbol) {
       _newString =
-          '${_isNegative ? '-' : ''}${format.currencySymbol} ${format.format(_newNum).trim().split(format.currencyName!)[1]}';
+          '${_isNegative ? '-' : ''}${NumberFormat.simpleCurrency(name: name?.toUpperCase()).currencySymbol} ${format.format(_newNum).trim().split(format.currencyName!)[1]}';
     } else {
       _newString = (_isNegative ? '-' : '') + format.format(_newNum).trim().split(format.currencyName!)[1];
     }

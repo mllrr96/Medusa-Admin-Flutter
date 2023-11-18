@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../components/currency_formatter.dart';
 
 class RefundWidget extends StatelessWidget {
-  const RefundWidget(this.refund, {super.key, required this.currency});
+  const RefundWidget(this.refund, {super.key, required this.currencyCode});
   final Refund refund;
-  final Currency currency;
+  final String? currencyCode;
 
   @override
   Widget build(BuildContext context) {
     final durationDiff = DateTime.now().difference(refund.createdAt ?? DateTime.now());
-    final formatter = CurrencyTextInputFormatter(name: currency.code);
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(
@@ -42,18 +41,19 @@ class RefundWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${timeago.format(DateTime.now().subtract(durationDiff))} ${currency.symbolNative}${formatter.format(refund.amount.toString())}',
+                    '${timeago.format(DateTime.now().subtract(durationDiff))} ${formatPrice(refund.amount, currencyCode)}',
                     style: smallTextStyle?.copyWith(color: lightWhite),
                   ),
-                  if(refund.reason!=null)
-                  Column(
-                    children: [
-                      const SizedBox(height: 6.0),
-                      Text(refund.reason?.name.capitalize ?? '',
-                        style: smallTextStyle?.copyWith(color: lightWhite),
-                      ),
-                    ],
-                  )
+                  if (refund.reason != null)
+                    Column(
+                      children: [
+                        const SizedBox(height: 6.0),
+                        Text(
+                          refund.reason?.name.capitalize ?? '',
+                          style: smallTextStyle?.copyWith(color: lightWhite),
+                        ),
+                      ],
+                    )
                 ],
               ),
             ),

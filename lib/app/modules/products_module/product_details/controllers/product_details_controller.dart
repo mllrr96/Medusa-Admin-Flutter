@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/app/modules/products_module/products/controllers/products_controller.dart';
 
 import '../../../components/easy_loading.dart';
 
@@ -98,5 +100,25 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     //   EasyLoading.showError('Failed to update');
     //   debugPrint(error.toString());
     // });
+  }
+
+  Future<void> publishProduct(Product product) async {
+    loading();
+    final result = await productsRepo.update(
+      id: product.id!,
+      userPostUpdateProductReq: UserPostUpdateProductReq(
+        discountable: product.discountable,
+        status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+      ),
+    );
+    result.when((success) async {
+      if (success.product != null) {
+        EasyLoading.showSuccess('Product updated');
+        await fetchProduct();
+        ProductsController.instance.pagingController.refresh();
+      } else {
+        EasyLoading.showError('Update failed');
+      }
+    }, (error) => EasyLoading.showError('Update failed'));
   }
 }

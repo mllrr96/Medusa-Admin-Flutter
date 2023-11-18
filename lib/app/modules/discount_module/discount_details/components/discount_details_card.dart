@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_details/controllers/discount_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:super_banners/super_banners.dart';
@@ -23,27 +21,21 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
     final disabled = discount.isDisabled ?? true;
     final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
     final lightWhite = ColorManager.manatee;
-    final smallTextStyle = context.bodySmall;
+    final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
-    Widget discountValueText(Discount discount) {
+    Widget discountValueText() {
       String valueText = '';
       Color valueColor = Colors.green;
       String detail = '';
-      var value = discount.rule!.value!.roundToDouble();
-      final valueFormatter = NumberFormat.currency(name: discount.regions!.first.currencyCode!);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
       switch (discount.rule!.type!) {
         case DiscountRuleType.fixed:
-          valueText = valueFormatter.format(value).split(valueFormatter.currencySymbol)[1];
+          valueText = formatPrice(discount.rule?.value, discount.regions?.first.currencyCode, includeSymbol: false);
           valueColor = Colors.orangeAccent;
           detail = ' ${discount.regions?.first.currency?.code ?? ''}';
           break;
         case DiscountRuleType.percentage:
           valueText = discount.rule!.value!.toString();
           valueColor = Colors.blueAccent;
-
           detail = ' %';
           break;
         case DiscountRuleType.freeShipping:
@@ -57,9 +49,9 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
           if (discount.rule?.type == DiscountRuleType.fixed)
             Flexible(
                 child: Text('${discount.regions?.first.currency?.symbolNative ?? ''} ',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: valueColor))),
-          Text(valueText, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: valueColor)),
-          if (detail.isNotEmpty) Text(detail.toUpperCase(), style: smallTextStyle?.copyWith(color: lightWhite)),
+                    style: context.bodyLarge?.copyWith(color: valueColor))),
+          Text(valueText, style: context.headlineSmall?.copyWith(color: valueColor)),
+          if (detail.isNotEmpty) Text(detail.toUpperCase(), style: mediumTextStyle?.copyWith(color: lightWhite)),
         ],
       );
     }
@@ -80,7 +72,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: Theme.of(context).expansionTileTheme.backgroundColor,
+        color: context.theme.expansionTileTheme.backgroundColor,
       ),
       child: Stack(
         alignment: Alignment.topRight,
@@ -94,17 +86,14 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text(
-                        discount.code ?? '',
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
+                      child: Text(discount.code ?? '', style: context.headlineMedium),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: expired ? 12.0: 0.0),
+                      padding: EdgeInsets.only(right: expired ? 12.0 : 0.0),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              ),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                          ),
                           onPressed: () async {
                             await showOkCancelAlertDialog(
                                     context: context,
@@ -127,7 +116,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       space,
-                      Text(discount.rule?.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                      Text(discount.rule?.description ?? '', style: mediumTextStyle?.copyWith(color: lightWhite)),
                     ],
                   ),
                 space,
@@ -141,8 +130,8 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            discountValueText(discount),
-                            Text('Discount Amount', style: smallTextStyle?.copyWith(color: lightWhite))
+                            discountValueText(),
+                            Text('Discount Amount', style: mediumTextStyle?.copyWith(color: lightWhite))
                           ],
                         ),
                       ),
@@ -155,7 +144,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                           ),
                           contentTheme: InfoPopupContentTheme(
                             infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
-                            infoTextStyle: smallTextStyle!,
+                            infoTextStyle: mediumTextStyle!,
                             contentPadding: const EdgeInsets.all(8),
                             contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
                             infoTextAlign: TextAlign.start,
@@ -167,7 +156,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                             children: [
                               Text(discount.regions?.length.toString() ?? '',
                                   style: Theme.of(context).textTheme.bodyLarge),
-                              Text('Valid Regions', style: smallTextStyle.copyWith(color: lightWhite))
+                              Text('Valid Regions', style: mediumTextStyle.copyWith(color: lightWhite))
                             ],
                           ),
                         ),
@@ -179,7 +168,10 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
-                            Text('Total Redemptions', style: smallTextStyle.copyWith(color: lightWhite))
+                            Text('Total Redemptions',
+                                style: mediumTextStyle.copyWith(color: lightWhite),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis)
                           ],
                         ),
                       ),
@@ -195,7 +187,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
               bannerPosition: CornerBannerPosition.topRight,
               child: Text(
                 'Expired',
-                style: smallTextStyle.copyWith(color: Colors.white, fontSize: 12),
+                style: mediumTextStyle.copyWith(color: Colors.white, fontSize: 12),
               ),
             ),
         ],

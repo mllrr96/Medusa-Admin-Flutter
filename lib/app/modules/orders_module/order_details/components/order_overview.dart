@@ -33,14 +33,14 @@ class OrderOverview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('#${order.displayId!}', style: Theme.of(context).textTheme.titleLarge),
+                      Text('#${order.displayId!}', style: context.bodyLarge),
                       IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
                   if ( order.cart?.completedAt != null)
                     Text(
                       'on ${formatDate(order.cart!.completedAt)} at ${formatTime(order.cart!.completedAt)}',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: context.bodyMedium,
                     )
                 ],
               ),
@@ -62,19 +62,19 @@ class OrderOverview extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!, style: Theme.of(context).textTheme.titleMedium),
+                    Text(order.email!, style: context.bodyMedium),
                     if (order.billingAddress != null && order.billingAddress!.phone != null)
-                      Text(order.billingAddress!.phone.toString(), style: Theme.of(context).textTheme.titleMedium),
+                      Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(tr.payment, style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey)),
+                  Text(tr.payment, style: context.bodyMedium?.copyWith(color: Colors.grey)),
                   if (order.payments?.isNotEmpty ?? false)
                     Text(order.payments!.first.providerId?.capitalize ?? '',
-                        style: Theme.of(context).textTheme.titleMedium),
+                        style: context.bodyMedium),
                 ],
               ),
             ],

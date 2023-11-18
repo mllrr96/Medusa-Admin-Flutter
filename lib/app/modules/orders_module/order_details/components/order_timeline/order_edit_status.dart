@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../core/utils/colors.dart';
-import '../../../../components/currency_formatter.dart';
 import '../../controllers/order_details_controller.dart';
 
 class OrderEditStatusWidget extends GetView<OrderDetailsController> {
@@ -29,7 +29,6 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
     var removedItems =
         orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemRemove).toList();
     Widget payment() {
-      final formatter = CurrencyTextInputFormatter(name: order.currency?.code);
       if (orderEdit.status != OrderEditStatus.requested) {
         return const SizedBox.shrink();
       }
@@ -73,7 +72,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                       ),
                       onPressed: () {},
                       child: Text(
-                        'Refund ${order.currency?.symbolNative ?? ''} ${formatter.format(requiredPrice.toString())}',
+                        'Refund ${formatPrice(requiredPrice, order.currencyCode)}',
                         style: const TextStyle(color: Colors.red),
                       )),
                 ),
@@ -100,7 +99,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                 ),
                 const SizedBox(width: 12.0),
                 Text(
-                    'a few seconds ago · ${order.currency?.symbolNative ?? ''} ${formatter.format(requiredPrice.toString())}',
+                    'a few seconds ago · ${formatPrice(requiredPrice, order.currencyCode)}',
                     style: smallTextStyle?.copyWith(color: lightWhite))
               ],
             ),

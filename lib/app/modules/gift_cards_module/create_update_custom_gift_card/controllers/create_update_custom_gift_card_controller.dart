@@ -5,8 +5,8 @@ import 'package:medusa_admin/app/data/models/req/user_gift_card_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/gift_card/gift_card_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 
-import '../../../components/currency_formatter.dart';
 import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';
 
 class CreateUpdateCustomGiftCardController extends GetxController {
@@ -43,9 +43,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
   void loadGiftCard() {
     selectedRegion = giftCard!.region;
     regionTextCtrl.text = selectedRegion?.name ?? '';
-    amountCtrl.text = CurrencyTextInputFormatter(
-      name: selectedRegion?.currencyCode,
-    ).format((giftCard!.balance).toString());
+    amountCtrl.text = formatPrice(giftCard?.balance  , selectedRegion?.currencyCode, includeSymbol: false);
     expiryDate = giftCard?.endsAt;
     hasExpiryDate = expiryDate != null;
     update();

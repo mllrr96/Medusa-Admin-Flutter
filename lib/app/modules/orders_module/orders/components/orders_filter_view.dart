@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../components/adaptive_filled_button.dart';
 
@@ -69,7 +70,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    final smallTextStyle = Theme.of(context).textTheme.titleSmall;
+    final smallTextStyle = context.bodySmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0
         ? 20.0
         : context.mediaQueryViewPadding.bottom;

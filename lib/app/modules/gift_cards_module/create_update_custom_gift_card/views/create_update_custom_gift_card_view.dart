@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -105,9 +106,9 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                   text = text.replaceAll(RegExp(r'[^0-9]'), '');
                                   var val = int.tryParse(text);
                                   val ??= 0;
-                                  controller.amountCtrl.text = CurrencyTextInputFormatter(
-                                    name: controller.selectedRegion?.currencyCode,
-                                  ).format((val + 1).toString());
+                                  controller.amountCtrl.text = formatPrice(
+                                      val + 1, controller.selectedRegion?.currencyCode,
+                                      includeSymbol: false);
                                 },
                                 onMinusPressed: () {
                                   var text = controller.amountCtrl.text;
@@ -117,9 +118,9 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                   if (val == 0) {
                                     return;
                                   }
-                                  controller.amountCtrl.text = CurrencyTextInputFormatter(
-                                    name: controller.selectedRegion?.currencyCode,
-                                  ).format((val - 1).toString());
+                                  controller.amountCtrl.text = formatPrice(
+                                      val - 1, controller.selectedRegion?.currencyCode,
+                                      includeSymbol: false);
                                 },
                                 inputFormatters: [
                                   if (controller.selectedRegion != null)

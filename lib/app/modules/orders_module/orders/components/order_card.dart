@@ -1,13 +1,11 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
+import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
@@ -57,19 +55,19 @@ class OrderCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium),
+                    Text('#${order.displayId}', style: context.bodyMedium),
                     const SizedBox(height: 2.0),
                     Text(
                       order.cart!.createdAt != null
                           ? 'on ${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                           : '',
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: context.bodySmall,
                     ),
                   ],
                 ),
                 Text(
                   '${order.total} ${order.currencyCode?.toUpperCase()} ',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: context.bodyMedium,
                 ),
               ],
             ),
@@ -240,14 +238,6 @@ class AlternativeOrderCard extends StatelessWidget {
       }
       return name;
     }
-    String getCurrencyText() {
-      var value = order.total?.roundToDouble() ?? 0.0;
-      final valueFormatter = NumberFormat.currency(name: order.currencyCode!);
-      if (valueFormatter.decimalDigits != null) {
-        value = value / pow(10, valueFormatter.decimalDigits!).roundToDouble();
-      }
-      return '${order.currency?.symbolNative ?? ''} ${valueFormatter.format(value).split(valueFormatter.currencySymbol)[1]}';
-    }
 
     return InkWell(
       // borderRadius:  const BorderRadius.all(Radius.circular(5.0)),
@@ -262,7 +252,7 @@ class AlternativeOrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('#${order.displayId}', style: mediumTextStyle),
-                Text(getCurrencyText(), style: mediumTextStyle),
+                Text(formatPrice(order.total, order.currencyCode), style: mediumTextStyle),
               ],
             ),
             Padding(
@@ -486,14 +476,14 @@ class CustomerOrderCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                     decoration: BoxDecoration(
                         color: orderNumberBackgroundColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-                    child: Text('#${order.displayId}', style: Theme.of(context).textTheme.titleMedium)),
+                    child: Text('#${order.displayId}', style: context.bodyMedium)),
                 Row(
                   children: [
                     Text(
                       order.cart!.createdAt != null
                           ? '${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
                           : '',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: const Color(0xff6B7280)),
+                      style: context.bodyMedium?.copyWith(color: const Color(0xff6B7280)),
                     ),
                     AdaptiveIcon(onPressed: onTransferTap, icon: const Icon(CupertinoIcons.arrow_2_circlepath))
                   ],
