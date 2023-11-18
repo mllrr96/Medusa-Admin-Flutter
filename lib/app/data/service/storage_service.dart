@@ -13,10 +13,10 @@ class StorageService extends GetxService {
   static String get baseUrl => Get.find<StorageService>()._baseUrl;
   static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
-  static List<SearchHistory> get searchHistory =>
-      Get.find<StorageService>()._searchHistory;
+  static List<SearchHistory> get searchHistory => Get.find<StorageService>()._searchHistory;
 
   static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
+  static OrderSettings get orderSettings => Get.find<StorageService>()._orderSettings;
 
   late SharedPreferences _prefs;
   late String _baseUrl;
@@ -24,28 +24,32 @@ class StorageService extends GetxService {
   late String? _cookie;
   late List<SearchHistory> _searchHistory;
   late AppSettings _appSettings;
+  late OrderSettings _orderSettings;
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
     final String defaultLocale;
-      defaultLocale = Platform.localeName.length == 2
-          ? Platform.localeName
-          : Platform.localeName.split('_')[0];
+    defaultLocale = Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
 
     try {
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
       _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
-      if(appSettingsCoded!=null){
-        _appSettings = AppSettings.fromJson(
-            jsonDecode(appSettingsCoded));
+      if (appSettingsCoded != null) {
+        _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
       } else {
         _appSettings = AppSettings();
       }
 
-      final String? searchHistoryString =
-          _prefs.getString(AppConstants.searchHistoryKey);
+      final orderSettingsCoded = _prefs.getString(AppConstants.orderSettingsKey);
+      if (orderSettingsCoded != null) {
+        _orderSettings = OrderSettings.fromJson(jsonDecode(orderSettingsCoded));
+      } else {
+        _orderSettings = OrderSettings.defaultSettings();
+      }
+
+      final String? searchHistoryString = _prefs.getString(AppConstants.searchHistoryKey);
       if (searchHistoryString != null && searchHistoryString.isNotEmpty) {
         _searchHistory = SearchHistory.decode(searchHistoryString);
       } else {
@@ -56,6 +60,7 @@ class StorageService extends GetxService {
       _cookie = null;
       _language = defaultLocale;
       _appSettings = AppSettings();
+      _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;
     }
@@ -65,9 +70,19 @@ class StorageService extends GetxService {
 
   Future<bool> updateAppSettings(AppSettings appSettings) async {
     try {
-      _prefs.setString(
-          AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
+      _prefs.setString(AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
       _appSettings = appSettings;
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> updateOrderSettings(OrderSettings orderSettings) async {
+    try {
+      _prefs.setString(AppConstants.orderSettingsKey, jsonEncode(orderSettings.toJson()));
+      _orderSettings = orderSettings;
       return true;
     } catch (e) {
       debugPrint(e.toString());
@@ -159,14 +174,12 @@ class StorageService extends GetxService {
     }
   }
 
-  Future<void> updateSearchHistory(SearchHistory searchHistory,
-      {bool delete = false}) async {
+  Future<void> updateSearchHistory(SearchHistory searchHistory, {bool delete = false}) async {
     try {
       if (!delete &&
           _searchHistory
               .where((element) =>
-                  element.text == searchHistory.text &&
-                  element.searchableFields == searchHistory.searchableFields)
+                  element.text == searchHistory.text && element.searchableFields == searchHistory.searchableFields)
               .isNotEmpty) {
         return;
       }
@@ -174,8 +187,7 @@ class StorageService extends GetxService {
       if (delete) {
         _searchHistory.removeWhere((element) =>
             element.text == searchHistory.text &&
-            element.searchableFields.index ==
-                searchHistory.searchableFields.index);
+            element.searchableFields.index == searchHistory.searchableFields.index);
       } else {
         // Limiting search history to 7 items only
         if (_searchHistory.length > 7) {
@@ -183,8 +195,7 @@ class StorageService extends GetxService {
         }
         _searchHistory.add(searchHistory);
       }
-      await _prefs.setString(
-          AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
+      await _prefs.setString(AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
     } catch (e) {
       debugPrint(e.toString());
     }

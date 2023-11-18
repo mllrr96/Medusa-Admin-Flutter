@@ -40,6 +40,16 @@ class AppSettingsView extends StatelessWidget {
               settingsSectionBackground: Theme.of(context).cardColor),
           sections: [
             SettingsSection(
+              title: const Text('App settings'),
+              tiles: [
+                SettingsTile.navigation(
+                  title: Text(tr.orders),
+                  leading: const Icon(CupertinoIcons.cart),
+                  onPressed: (_) => Get.toNamed(Routes.ORDER_SETTINGS),
+                )
+              ]
+            ),
+            SettingsSection(
               title: Text(tr.appearance),
               tiles: ThemeMode.values.map((e) {
                 String title = tr.automaticAppearance;
@@ -100,11 +110,17 @@ class AppSettingsView extends StatelessWidget {
                     activeSwitchColor: ColorManager.primary,
                     description: GestureDetector(
                         onTap: () async =>
-                            await adaptiveDateTimePicker(context: context),
+                            await adaptiveDateTimePicker(context: context, forceAndroidPicker: true),
                         child: const Text(
                             'Use Android date picker instead of iOS picker, Click here for demo')),
                     leading: const Icon(CupertinoIcons.calendar),
-                    onPressed: (_) async {},
+                    onPressed: (_) async {
+                      final storageService = StorageService.instance;
+                      final appSettings = StorageService.appSettings;
+                      await storageService.updateAppSettings(
+                          appSettings.copyWith(useAndroidPicker: !appSettings.useAndroidPicker));
+                      controller.update();
+                    },
                     initialValue: StorageService.appSettings.useAndroidPicker,
                     onToggle: (bool value) async {
                       final storageService = StorageService.instance;

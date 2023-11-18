@@ -50,17 +50,54 @@ class Cart {
   DateTime? deletedAt;
   Map<String, dynamic>? metadata;
 
+  Cart({
+    this.id,
+    this.email,
+    this.billingAddressId,
+    this.billingAddress,
+    this.shippingAddressId,
+    this.shippingAddress,
+    this.items,
+    this.regionId,
+    this.region,
+    this.discounts,
+    this.giftCards,
+    this.customerId,
+    this.customer,
+    this.paymentSession,
+    this.paymentSessions,
+    this.paymentId,
+    this.payment,
+    this.shippingMethods,
+    this.type = CartType.defaultType,
+    this.completedAt,
+    this.paymentAuthorizedAt,
+    this.idempotencyKey,
+    this.context,
+    this.salesChannelId,
+    this.salesChannel,
+    this.shippingTotal,
+    this.discountTotal,
+    this.taxTotal,
+    this.refundedTotal,
+    this.total,
+    this.subTotal,
+    this.refundableAmount,
+    this.giftCardTotal,
+    this.giftCardTaxTotal,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.metadata,
+  });
+
   Cart.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     billingAddressId = json['billing_address_id'];
-    billingAddress = json['billing_address'] != null
-        ? Address.fromJson(json['billing_address'])
-        : null;
+    billingAddress = json['billing_address'] != null ? Address.fromJson(json['billing_address']) : null;
     shippingAddressId = json['shipping_address_id'];
-    shippingAddress = json['shipping_address'] != null
-        ? Address.fromJson(json['shipping_address'])
-        : null;
+    shippingAddress = json['shipping_address'] != null ? Address.fromJson(json['shipping_address']) : null;
     if (json['items'] != null) {
       items = <LineItem>[];
       json['items'].forEach((e) => items!.add(LineItem.fromJson(e)));
@@ -77,35 +114,25 @@ class Cart {
       json['gift_cards'].forEach((e) => giftCards!.add(GiftCard.fromJson(e)));
     }
     customerId = json['customer_id'];
-    customer =
-        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
-    paymentSession = json['payment_session'] != null
-        ? PaymentSession.fromJson(json['payment_session'])
-        : null;
+    customer = json['customer'] != null ? Customer.fromJson(json['customer']) : null;
+    paymentSession = json['payment_session'] != null ? PaymentSession.fromJson(json['payment_session']) : null;
     if (json['payment_sessions'] != null) {
       paymentSessions = <PaymentSession>[];
-      json['payment_sessions']
-          .forEach((e) => paymentSessions!.add(PaymentSession.fromJson(e)));
+      json['payment_sessions'].forEach((e) => paymentSessions!.add(PaymentSession.fromJson(e)));
     }
     paymentId = json['payment_id'];
-    payment =
-        json['payment'] != null ? Payment.fromJson(json['payment']) : null;
+    payment = json['payment'] != null ? Payment.fromJson(json['payment']) : null;
     if (json['shipping_methods'] != null) {
       shippingMethods = <ShippingMethod>[];
-      json['shipping_methods']
-          .forEach((e) => shippingMethods!.add(ShippingMethod.fromJson(e)));
+      json['shipping_methods'].forEach((e) => shippingMethods!.add(ShippingMethod.fromJson(e)));
     }
-    type = CartType.values.firstWhere((e) => e.value == (json['type'] ?? ''),
-        orElse: () => CartType.defaultType);
+    type = CartType.values.firstWhere((e) => e.value == (json['type'] ?? ''), orElse: () => CartType.defaultType);
     completedAt = DateTime.tryParse(json['completed_at'] ?? '');
-    paymentAuthorizedAt =
-        DateTime.tryParse(json['payment_authorized_at'] ?? '');
+    paymentAuthorizedAt = DateTime.tryParse(json['payment_authorized_at'] ?? '');
     idempotencyKey = json['idempotency_key'];
     context = json['context'];
     salesChannelId = json['sales_channel_id'];
-    salesChannel = json['sales_channel'] != null
-        ? SalesChannel.fromJson(json['sales_channel'] ?? '')
-        : null;
+    salesChannel = json['sales_channel'] != null ? SalesChannel.fromJson(json['sales_channel'] ?? '') : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
@@ -136,13 +163,11 @@ class Cart {
     json['gift_cards'] = giftCards?.map((e) => e.toJson()).toList() ?? [];
     json['customer_id'] = customerId;
     json['customer'] = customer?.toJson();
-    json['payment_session'] = paymentSession?.toJson() ;
-    json['payment_sessions'] =
-        paymentSessions?.map((e) => e.toJson()).toList() ?? [];
+    json['payment_session'] = paymentSession?.toJson();
+    json['payment_sessions'] = paymentSessions?.map((e) => e.toJson()).toList() ?? [];
     json['payment_id'] = paymentId;
-    json['payment'] = payment?.toJson() ;
-    json['shipping_methods'] =
-        shippingMethods?.map((e) => e.toJson()).toList();
+    json['payment'] = payment?.toJson();
+    json['shipping_methods'] = shippingMethods?.map((e) => e.toJson()).toList();
     json['type'] = type.value;
     json['completed_at'] = completedAt.toString();
     json['payment_authorized_at'] = paymentAuthorizedAt.toString();

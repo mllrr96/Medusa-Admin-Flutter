@@ -4,8 +4,9 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 
 class PaymentStatusLabel extends StatelessWidget {
-  const PaymentStatusLabel({Key? key, required this.paymentStatus}) : super(key: key);
+  const PaymentStatusLabel({Key? key, required this.paymentStatus, this.dotOnly = false}) : super(key: key);
   final PaymentStatus paymentStatus;
+  final bool dotOnly;
   @override
   Widget build(BuildContext context) {
     Color containerColor = ColorManager.primary.withOpacity(0.17);
@@ -49,6 +50,16 @@ class PaymentStatusLabel extends StatelessWidget {
         break;
     }
 
+    if(dotOnly){
+      return Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Icon(Icons.circle, color: textColor, size: 10),
+          Icon(Icons.circle, color: containerColor, size: 24),
+        ],
+      );
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       decoration: BoxDecoration(
@@ -63,50 +74,3 @@ class PaymentStatusLabel extends StatelessWidget {
   }
 }
 
-class PaymentStatusDot extends StatelessWidget {
-  const PaymentStatusDot({Key? key, required this.paymentStatus}) : super(key: key);
-  final PaymentStatus paymentStatus;
-  @override
-  Widget build(BuildContext context) {
-    Color containerColor = ColorManager.primary.withOpacity(0.17);
-    Color textColor = ColorManager.primary;
-    switch (paymentStatus) {
-      case PaymentStatus.awaiting:
-        containerColor = ColorManager.primary.withOpacity(0.17);
-        textColor = ColorManager.primary;
-        break;
-      case PaymentStatus.canceled:
-        containerColor = Colors.red.withOpacity(0.17);
-        textColor = Colors.redAccent;
-        break;
-      case PaymentStatus.captured:
-        containerColor = Colors.green.withOpacity(0.17);
-        textColor = Colors.green;
-        break;
-      case PaymentStatus.refunded:
-        containerColor = Colors.blueAccent.withOpacity(0.17);
-        textColor = Colors.blueAccent;
-        break;
-      case PaymentStatus.requiresAction:
-        containerColor = Colors.orangeAccent.withOpacity(0.17);
-        textColor = Colors.orangeAccent;
-        break;
-      case PaymentStatus.notPaid:
-        containerColor = Colors.deepOrange.withOpacity(0.17);
-        textColor = Colors.deepOrange;
-        break;
-      case PaymentStatus.partiallyRefunded:
-        containerColor = Colors.cyan.withOpacity(0.17);
-        textColor = Colors.cyan;
-        break;
-    }
-
-    return Stack(
-      alignment: AlignmentDirectional.center,
-      children: [
-        Icon(Icons.circle, color: textColor, size: 10),
-        Icon(Icons.circle, color: containerColor, size: 24),
-      ],
-    );
-  }
-}
