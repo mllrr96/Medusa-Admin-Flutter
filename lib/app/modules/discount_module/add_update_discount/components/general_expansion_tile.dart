@@ -14,7 +14,6 @@ import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 import '../../../components/pick_regions/controllers/pick_regions_controller.dart';
 import '../../../components/pick_regions/views/pick_regions_view.dart';
-import '../../../components/simple_currency_format.dart';
 import '../controllers/add_update_discount_controller.dart';
 
 class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
@@ -107,9 +106,9 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                     final regionsName = result.regions.map((e) => e.name).toList();
                     controller.regionCtrl.text = regionsName.toString().replaceAll('[', '').replaceAll(']', '');
                     if (controller.discountRuleType == DiscountRuleType.fixed) {
-                      controller.amountCtrl.text = formatPrice(
-                          int.tryParse(controller.amountCtrl.text.replaceAll(RegExp('[^0-9]'), '')),
-                          controller.selectedRegions.first.currencyCode);
+                      controller.amountCtrl.text =
+                          int.tryParse(controller.amountCtrl.text.replaceAll(RegExp('[^0-9]'), ''))
+                              .formatAsPrice(controller.selectedRegions.first.currencyCode);
                     }
                     controller.update([1]);
                   }
@@ -151,9 +150,8 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                             text = text.replaceAll(RegExp(r'[^0-9]'), '');
                             var val = int.tryParse(text);
                             val ??= 0;
-                            controller.amountCtrl.text = formatPrice(
-                                val + 1, controller.selectedRegions.first.currencyCode,
-                                includeSymbol: false);
+                            controller.amountCtrl.text = (val + 1)
+                                .formatAsPrice(controller.selectedRegions.first.currencyCode, includeSymbol: false);
                           },
                           onMinusPressed: () {
                             var text = controller.amountCtrl.text;
@@ -163,9 +161,8 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                             if (val == 0) {
                               return;
                             }
-                            controller.amountCtrl.text = formatPrice(
-                                val - 1, controller.selectedRegions.first.currencyCode,
-                                includeSymbol: false);
+                            controller.amountCtrl.text = (val - 1)
+                                .formatAsPrice(controller.selectedRegions.first.currencyCode, includeSymbol: false);
                           },
                           inputFormatters: [
                             if (controller.selectedRegions.isNotEmpty)
@@ -174,7 +171,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                               )
                           ],
                           prefixText:
-                              '   ${controller.selectedRegions.isNotEmpty ? NumberFormat.simpleCurrency(name:controller.selectedRegions.first.currencyCode?.toUpperCase()).currencySymbol : ''} ',
+                              '   ${controller.selectedRegions.isNotEmpty ? NumberFormat.simpleCurrency(name: controller.selectedRegions.first.currencyCode?.toUpperCase()).currencySymbol : ''} ',
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Required';

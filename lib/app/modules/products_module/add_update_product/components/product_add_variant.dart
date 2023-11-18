@@ -11,7 +11,6 @@ import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
@@ -512,7 +511,7 @@ class ProductAddVariantController extends GetxController {
           currencies.firstWhere((element) => element.code == money.currencyCode, orElse: () {
             final result = intl.NumberFormat.currency(name: money.currencyCode?.toUpperCase());
             return Currency(name: result.currencyName, symbolNative: result.currencySymbol, code: money.currencyCode);
-          }): TextEditingController(text: formatPrice(money.amount, money.currencyCode))
+          }): TextEditingController(text: money.amount.formatAsPrice(money.currencyCode))
         });
       }
     } else {

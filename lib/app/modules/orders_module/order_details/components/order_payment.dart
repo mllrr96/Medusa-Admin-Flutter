@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -49,7 +47,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
               }
             },
             padding: EdgeInsets.zero,
-            child:  Text(tr.refund),
+            child: Text(tr.refund),
           );
         case PaymentStatus.canceled:
           break;
@@ -85,16 +83,14 @@ class OrderPayment extends GetView<OrderDetailsController> {
                         style: mediumTextStyle,
                       ),
                       halfSpace,
-                      if (
-                      (order.payments?.isNotEmpty ?? false) &&
-                          order.payments?.first.capturedAt != null)
+                      if ((order.payments?.isNotEmpty ?? false) && order.payments?.first.capturedAt != null)
                         Text(
-                            'on ${formatDate(order.payments?.first.capturedAt)} at ${formatTime(order.payments?.first.capturedAt)}',
+                            'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
                             style: mediumTextStyle!.copyWith(color: lightWhite)),
                     ],
                   ),
                 ),
-                Text(formatPrice(order.payments?.first.amount, order.currencyCode), style: largeTextStyle),
+                Text(order.payments?.first.amount.formatAsPrice(order.currencyCode) ?? '', style: largeTextStyle),
               ],
             ),
             space,
@@ -112,7 +108,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                       ),
                     ],
                   ),
-                  Text('- ${formatPrice(order.refundedTotal, order.currencyCode)}', style: mediumTextStyle),
+                  Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
                 ],
               ),
           ],
@@ -122,7 +118,8 @@ class OrderPayment extends GetView<OrderDetailsController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(tr.totalPaid, style: largeTextStyle),
-            Text(formatPrice(refunded ? order.refundableAmount : order.payments?.first.amount, order.currencyCode), style: largeTextStyle),
+            Text((refunded ? order.refundableAmount : order.payments?.first.amount).formatAsPrice(order.currencyCode),
+                style: largeTextStyle),
           ],
         ),
       ],

@@ -7,8 +7,8 @@ import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/data/repository/shipping_profile/shipping_profile_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 
 class AddUpdateShippingOptionController extends GetxController {
@@ -177,14 +177,14 @@ class AddUpdateShippingOptionController extends GetxController {
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;
     if (shippingOption.amount != null) {
-      priceCtrl.text = formatPrice(shippingOption.amount, addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
+      priceCtrl.text = shippingOption.amount.formatAsPrice(addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
     }
     if (shippingOption.requirements?.isNotEmpty ?? false) {
       for (var element in shippingOption.requirements!) {
         if (element.type == RequirementType.minSubtotal) {
-          minSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
+          minSubtotalCtrl.text = element.amount.formatAsPrice( addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
         } else {
-          maxSubtotalCtrl.text = formatPrice(element.amount, addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
+          maxSubtotalCtrl.text = element.amount.formatAsPrice( addUpdateShippingOptionReq.region.currencyCode, includeSymbol: false);
         }
       }
     }

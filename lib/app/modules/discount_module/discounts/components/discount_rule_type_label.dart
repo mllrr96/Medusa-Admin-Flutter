@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -19,8 +18,7 @@ class DiscountRuleTypeLabel extends StatelessWidget {
       case DiscountRuleType.fixed:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text =
-        formatPrice(discount.rule?.value, discount.regions?.first.currencyCode);
+        text = discount.rule?.value.formatAsPrice(discount.regions?.first.currencyCode) ?? '';
         break;
       case DiscountRuleType.percentage:
         containerColor = Colors.blueAccent.withOpacity(0.17);

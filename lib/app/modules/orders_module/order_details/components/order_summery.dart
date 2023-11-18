@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_button.dart';
@@ -45,7 +44,7 @@ class OrderSummery extends StatelessWidget {
                   Text(tr.subtotal, style: mediumTextStyle),
                   Row(
                     children: [
-                      Text(formatPrice(order.subTotal, order.currencyCode), style: mediumTextStyle),
+                      Text(order.subTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
                       Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
                           style: mediumTextStyle?.copyWith(color: lightWhite)),
                     ],
@@ -62,7 +61,7 @@ class OrderSummery extends StatelessWidget {
                   Text(tr.shipping, style: mediumTextStyle),
                   Row(
                     children: [
-                      Text(formatPrice(order.shippingTotal, order.currencyCode), style: mediumTextStyle),
+                      Text(order.shippingTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
                       Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
                           style: mediumTextStyle?.copyWith(color: lightWhite)),
                     ],
@@ -79,7 +78,7 @@ class OrderSummery extends StatelessWidget {
                   Text(tr.tax, style: mediumTextStyle),
                   Row(
                     children: [
-                      Text(formatPrice(order.taxTotal, order.currencyCode), style: mediumTextStyle),
+                      Text(order.taxTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
                       Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
                           style: mediumTextStyle?.copyWith(color: lightWhite)),
                     ],
@@ -94,7 +93,7 @@ class OrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(refunded ? tr.originalTotal : tr.total, style: totalTextTheme),
-                  Text(formatPrice(order.total, order.currencyCode), style: context.bodyLarge),
+                  Text(order.total.formatAsPrice(order.currencyCode), style: context.bodyLarge),
                 ],
               ),
             ),
@@ -112,7 +111,7 @@ class OrderSummery extends StatelessWidget {
                     Text(tr.manuallyRefunded, style: mediumTextStyle),
                     Row(
                       children: [
-                        Text(formatPrice(order.refundedTotal, order.currencyCode), style: mediumTextStyle),
+                        Text(order.refundedTotal.formatAsPrice( order.currencyCode), style: mediumTextStyle),
                         Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
                             style: mediumTextStyle?.copyWith(color: lightWhite)),
                       ],
@@ -127,8 +126,7 @@ class OrderSummery extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(tr.netTotal, style: mediumTextStyle),
-                    Text(formatPrice(order.refundableAmount, order.currencyCode),
-                        style: context.bodyLarge),
+                    Text(order.refundableAmount.formatAsPrice(order.currencyCode), style: context.bodyLarge),
                   ],
                 ),
               ),

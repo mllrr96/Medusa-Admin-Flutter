@@ -2,7 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -80,7 +79,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                   children: [
                     if (canceled)
                       Text(
-                          'at ${formatDate(fulfillment.canceledAt)}, ${formatTime(fulfillment.canceledAt)}',
+                          'at ${fulfillment.canceledAt.formatDate()}, ${fulfillment.canceledAt.formatTime()}',
                           style: smallTextStyle),
                     if (canceled) const SizedBox(height: 6.0),
                     Text(shipped ? tr.tracking : tr.notShipped, style: smallTextStyle?.copyWith(color: lightWhite)),

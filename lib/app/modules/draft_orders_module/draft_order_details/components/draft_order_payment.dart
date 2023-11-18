@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_order_details/controllers/draft_order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -57,7 +56,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
               Text('Subtotal', style: mediumTextStyle),
               Row(
                 children: [
-                  Text(formatPrice(draftOrder.cart?.subTotal, currencyCode), style: mediumTextStyle),
+                  Text(draftOrder.cart?.subTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                   // Text(' ${draftOrder.currencyCode?.toUpperCase() ?? ''}',
                   //     style: mediumTextStyle?.copyWith(color: lightWhite)),
                 ],
@@ -72,7 +71,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Shipping', style: mediumTextStyle),
-              Text(formatPrice(draftOrder.cart?.shippingTotal, currencyCode), style: mediumTextStyle),
+              Text(draftOrder.cart?.shippingTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
             ],
           ),
         ),
@@ -83,7 +82,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Tax', style: mediumTextStyle),
-              Text(formatPrice(draftOrder.cart?.taxTotal, currencyCode), style: mediumTextStyle),
+              Text(draftOrder.cart?.taxTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
             ],
           ),
         ),
@@ -94,7 +93,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Total', style: largeTextStyle),
-              Text(formatPrice(draftOrder.cart?.total, currencyCode), style: largeTextStyle),
+              Text(draftOrder.cart?.total.formatAsPrice(currencyCode) ?? '', style: largeTextStyle),
             ],
           ),
         ),

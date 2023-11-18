@@ -1,6 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../app/data/service/storage_service.dart';
+
 extension BuildContextEntension<T> on BuildContext {
   // text styles
 
@@ -28,7 +32,6 @@ extension BuildContextEntension<T> on BuildContext {
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
 }
-
 
 extension HexColor on Color {
   static Color fromHex(String hexString) {
@@ -91,8 +94,52 @@ extension ThemeModeValue on ThemeMode {
     }
   }
 }
+
 extension TextStyleColor on TextStyle {
   TextStyle dark() {
     return copyWith(color: Colors.white);
   }
+}
+
+extension FormatPrice on num? {
+  String formatAsPrice(String? currencyCode, {bool includeSymbol = true, bool space = true, bool symbolAtEnd = false}) {
+    if (this == null || currencyCode == null) {
+      return this?.toString() ?? '';
+    }
+    var value = this!;
+    final formatter = NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
+    if (formatter.decimalDigits! > 0) {
+      value /= pow(10, formatter.decimalDigits!);
+    }
+    final currencySymbol = formatter.currencySymbol;
+
+    if (includeSymbol) {
+      return (!symbolAtEnd ? currencySymbol : '') +
+          (space && !symbolAtEnd ? ' ' : '') +
+          formatter.format(value).replaceAll(currencySymbol, '') +
+          (space && symbolAtEnd ? ' ' : '') +
+          (symbolAtEnd ? currencySymbol : '');
+    }
+    return formatter.format(value).replaceAll(currencySymbol, '');
+  }
+}
+
+extension FormatDate on DateTime? {
+  String formatDate() {
+    final format = StorageService.appSettings.dateFormatOptions;
+    if (this == null) {
+      return '';
+    }
+    return DateFormat(format.format()).format(this!);
+  }
+
+  String formatTime() {
+    final format = StorageService.appSettings.timeFormatOptions;
+    if (this == null) {
+      return '';
+    }
+    return DateFormat(format.format()).format(this!);
+  }
+
+
 }

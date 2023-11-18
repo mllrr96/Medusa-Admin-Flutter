@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -60,7 +58,7 @@ class DateTimeCard extends StatelessWidget {
                             style: dateTextStyle ??
                                 mediumTextStyle?.copyWith(color: lightWhite)),
                         halfSpace,
-                        Text(formatDate(dateTime),
+                        Text(dateTime.formatDate(),
                             style: dateTimeTextStyle),
                       ],
                     ),
@@ -74,7 +72,7 @@ class DateTimeCard extends StatelessWidget {
                             style: dateTextStyle ??
                                 mediumTextStyle?.copyWith(color: lightWhite)),
                         halfSpace,
-                        Text(formatTime(dateTime),
+                        Text(dateTime.formatTime(),
                             style: dateTimeTextStyle),
                       ],
                     ),
@@ -123,24 +121,24 @@ class DateCard extends StatelessWidget {
                       : 'Tap to select ${dateText!.toLowerCase()} date',
                   style: largeTextStyle?.copyWith(color: lightWhite),
                 ))
-              : Text(formatDate(dateTime),
+              : Text(dateTime.formatDate(),
                   style: dateTimeTextStyle)),
     );
   }
 }
-
-String formatDate(DateTime? datetime) {
-  final format = StorageService.appSettings.dateFormatOptions;
-  if (datetime == null) {
-    return '';
-  }
-  return DateFormat(format.format()).format(datetime);
-}
-
-String formatTime(DateTime? datetime) {
-  final format = StorageService.appSettings.timeFormatOptions;
-  if (datetime == null) {
-    return '';
-  }
-  return DateFormat(format.format()).format(datetime);
-}
+//
+// String formatDate(DateTime? datetime) {
+//   final format = StorageService.appSettings.dateFormatOptions;
+//   if (datetime == null) {
+//     return '';
+//   }
+//   return DateFormat(format.format()).format(datetime);
+// }
+//
+// String formatTime(DateTime? datetime) {
+//   final format = StorageService.appSettings.timeFormatOptions;
+//   if (datetime == null) {
+//     return '';
+//   }
+//   return DateFormat(format.format()).format(datetime);
+// }

@@ -6,7 +6,6 @@ import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -109,7 +108,8 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                               text = text.replaceAll(RegExp(r'[^0-9]'), '');
                               var val = int.tryParse(text);
                               val ??= 0;
-                              amountCtrl.text = formatPrice(val+1, widget.order.currencyCode, includeSymbol: false);
+                              amountCtrl.text =
+                                  (val + 1).formatAsPrice(widget.order.currencyCode, includeSymbol: false);
                             },
                             onMinusPressed: () {
                               var text = amountCtrl.text;
@@ -119,8 +119,8 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                               if (val == 0) {
                                 return;
                               }
-                              amountCtrl.text = formatPrice(val-1, widget.order.currencyCode, includeSymbol: false);
-                            },
+                              amountCtrl.text =
+                                  (val - 1).formatAsPrice(widget.order.currencyCode, includeSymbol: false);                            },
                             validator: (val) {
                               if (val == null || val.isEmpty) {
                                 return 'Field is required';

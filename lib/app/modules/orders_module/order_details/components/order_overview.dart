@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -39,7 +38,7 @@ class OrderOverview extends StatelessWidget {
                   ),
                   if ( order.cart?.completedAt != null)
                     Text(
-                      'on ${formatDate(order.cart!.completedAt)} at ${formatTime(order.cart!.completedAt)}',
+                      'on ${order.cart!.completedAt.formatDate()} at ${order.cart!.completedAt.formatTime()}',
                       style: context.bodyMedium,
                     )
                 ],

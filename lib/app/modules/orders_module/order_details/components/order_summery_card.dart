@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class OrderSummeryCard extends StatelessWidget {
@@ -56,9 +55,9 @@ class OrderSummeryCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${formatPrice(item.unitPrice, order.currencyCode)} x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
+                Text('${item.unitPrice.formatAsPrice( order.currencyCode)} x ${item.quantity!}', style: smallTextStyle, maxLines: 1),
                 const Divider(height: 5),
-                Text(formatPrice(item.unitPrice, order.currencyCode), style: mediumTextStyle, maxLines: 1),
+                Text(item.unitPrice.formatAsPrice(order.currencyCode), style: mediumTextStyle, maxLines: 1),
               ],
             ),
           ),

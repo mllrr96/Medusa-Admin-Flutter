@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_status_label.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -41,7 +39,7 @@ class DraftOrderOverview extends StatelessWidget {
                   halfSpace,
                   if (draftOrder.cart != null && draftOrder.cart!.createdAt != null)
                     Text(
-                      'on ${formatDate(draftOrder.cart!.createdAt)} at ${formatTime(draftOrder.cart!.createdAt)}',
+                      'on ${draftOrder.cart!.createdAt.formatDate()} at ${draftOrder.cart!.createdAt.formatTime()}',
                       style: context.bodyMedium,
                     )
                 ],
@@ -70,7 +68,7 @@ class DraftOrderOverview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      formatPrice(amount, currencyCode),
+                      amount.formatAsPrice(currencyCode),
                       style: context.bodyMedium,
                     ),
                     const SizedBox(height: 6.0),

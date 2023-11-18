@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/models/store/order.dart';
-import '../../../../components/date_time_card.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class OrderPlacedWidget extends StatefulWidget {
@@ -24,7 +22,7 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
     final durationDiff = DateTime.now().difference(widget.order.createdAt ?? DateTime.now());
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final total = formatPrice(widget.order.total, widget.order.currencyCode);
+    final total = widget.order.total.formatAsPrice(widget.order.currencyCode);
     return InkWell(
       onTap: () {
         setState(() {
@@ -50,7 +48,7 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
                 firstChild: Text('${timeago.format(DateTime.now().subtract(durationDiff))} · $total',
                     style: smallTextStyle?.copyWith(color: lightWhite)),
                 secondChild: Text(
-                    '${formatDate(widget.order.createdAt)} ${formatTime(widget.order.createdAt)} · $total',
+                    '${widget.order.createdAt.formatDate()} ${widget.order.createdAt.formatTime()} · $total',
                     style: smallTextStyle?.copyWith(color: lightWhite)),
                 crossFadeState: showTimeAgo ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: const Duration(milliseconds: 300),

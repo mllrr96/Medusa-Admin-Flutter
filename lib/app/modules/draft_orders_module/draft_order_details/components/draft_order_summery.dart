@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/custom_expansion_tile.dart';
 import 'draft_order_summery_card.dart';
@@ -38,7 +37,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Subtotal', style: mediumTextStyle),
-                  Text(formatPrice(draftOrder.cart?.subTotal, currencyCode), style: mediumTextStyle),
+                  Text(draftOrder.cart?.subTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                 ],
               ),
             ),
@@ -49,7 +48,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Shipping', style: mediumTextStyle),
-                  Text(formatPrice(draftOrder.cart!.shippingTotal, currencyCode), style: mediumTextStyle),
+                  Text(draftOrder.cart?.shippingTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                 ],
               ),
             ),
@@ -60,7 +59,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Tax', style: mediumTextStyle),
-                  Text(formatPrice(draftOrder.cart?.taxTotal, currencyCode), style: mediumTextStyle),
+                  Text(draftOrder.cart?.taxTotal.formatAsPrice(currencyCode) ?? '', style: mediumTextStyle),
                 ],
               ),
             ),
@@ -71,7 +70,7 @@ class DraftOrderSummery extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Total', style: totalTextTheme),
-                  Text(formatPrice(draftOrder.cart?.total, currencyCode), style: context.headlineMedium),
+                  Text(draftOrder.cart?.total.formatAsPrice(currencyCode) ?? '', style: context.headlineMedium),
                 ],
               ),
             ),

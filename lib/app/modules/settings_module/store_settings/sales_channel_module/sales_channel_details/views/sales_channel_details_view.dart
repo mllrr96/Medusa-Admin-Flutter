@@ -65,30 +65,24 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 controller.update();
                               }),
                           InkWell(
-                              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
                             onLongPress: () {
                               controller.resetFilter();
                             },
                             onTap: () async {
                               loadData() async {
-                                if (controller.collections == null ||
-                                    controller.tags == null) {
+                                if (controller.collections == null || controller.tags == null) {
                                   loading(status: 'Loading data');
                                 }
                                 if (controller.collections == null) {
-                                  await controller.collectionRepo
-                                      .retrieveAll()
-                                      .then((result) {
+                                  await controller.collectionRepo.retrieveAll().then((result) {
                                     result.when((success) {
-                                      controller.collections =
-                                          success.collections;
+                                      controller.collections = success.collections;
                                     }, (error) {});
                                   });
                                 }
                                 if (controller.tags == null) {
-                                  await controller.productTagRepo
-                                      .retrieveProductTags()
-                                      .then((result) {
+                                  await controller.productTagRepo.retrieveProductTags().then((result) {
                                     result.when((success) {
                                       controller.tags = success.tags;
                                     }, (error) {});
@@ -97,26 +91,19 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 dismissLoading();
                               }
 
-                              Future<ProductFilter?>
-                              productFilterView() async =>
-                                  await showBarModalBottomSheet<
-                                      ProductFilter>(
+                              Future<ProductFilter?> productFilterView() async =>
+                                  await showBarModalBottomSheet<ProductFilter>(
                                       context: context,
-                                      builder: (context) =>
-                                          ProductsFilterView(
-                                            collections:
-                                            controller.collections,
+                                      builder: (context) => ProductsFilterView(
+                                            collections: controller.collections,
                                             tags: controller.tags,
                                             onResetPressed: () {
-                                              controller.productFilter =
-                                              null;
+                                              controller.productFilter = null;
                                               controller.update();
-                                              controller.pagingController
-                                                  .refresh();
+                                              controller.pagingController.refresh();
                                               Get.back();
                                             },
-                                            productFilter:
-                                            controller.productFilter,
+                                            productFilter: controller.productFilter,
                                           ));
 
                               await loadData().then((value) async {
@@ -130,27 +117,22 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                               });
                             },
                             child: Ink(
-
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     color: (controller.productFilter?.count() ?? 0) != 0
                                         ? ColorManager.primary
-                                        : Colors.transparent
-                                ),
+                                        : Colors.transparent),
                                 color: Theme.of(context).scaffoldBackgroundColor,
-                               borderRadius:    const BorderRadius.all(Radius.circular(6.0)),
+                                borderRadius: const BorderRadius.all(Radius.circular(6.0)),
                               ),
                               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Filters',
-                                      style: context.bodySmall
-                                          ?.copyWith(color: lightWhite)),
+                                  Text('Filters', style: context.bodySmall?.copyWith(color: lightWhite)),
                                   if (controller.productFilter?.count() != null)
                                     Text(' ${controller.productFilter?.count() ?? ''}',
-                                        style: context.bodySmall
-                                            ?.copyWith(color: ColorManager.primary)),
+                                        style: context.bodySmall?.copyWith(color: ColorManager.primary)),
                                 ],
                               ),
                             ),
@@ -174,13 +156,14 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                         ]).then((value) async {
                       switch (value) {
                         case 0:
-                          final result =
-                              await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel);
-                          if (result is SalesChannel) {
-                            controller.salesChannel = result;
-                            controller.update();
-                            SalesChannelsController.instance.pagingController.refresh();
-                          }
+                          await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel)
+                              ?.then((result) {
+                            if (result is SalesChannel) {
+                              controller.salesChannel = result;
+                              controller.update();
+                              SalesChannelsController.instance.pagingController.refresh();
+                            }
+                          });
                           break;
                         case 1:
                           final result = await showBarModalBottomSheet(

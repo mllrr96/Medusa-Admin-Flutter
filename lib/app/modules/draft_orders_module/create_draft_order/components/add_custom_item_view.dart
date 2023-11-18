@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/line_item.dart';
 import '../../../components/adaptive_button.dart';
@@ -101,7 +101,7 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                                 text = text.replaceAll(RegExp(r'[^0-9]'), '');
                                 var val = int.tryParse(text);
                                 val ??= 0;
-                                priceCtrl.text = formatPrice(val + 1, widget.currencyCode, includeSymbol: false);
+                                priceCtrl.text = (val + 1).formatAsPrice( widget.currencyCode, includeSymbol: false);
                               },
                               onMinusPressed: () {
                                 var text = priceCtrl.text;
@@ -111,7 +111,7 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                                 if (val == 1) {
                                   return;
                                 }
-                                priceCtrl.text = formatPrice(val - 1, widget.currencyCode, includeSymbol: false);
+                                priceCtrl.text = (val - 1).formatAsPrice( widget.currencyCode, includeSymbol: false);
                               },
                               inputFormatters: [CurrencyTextInputFormatter(name: widget.currencyCode)],
                               validator: (val) {

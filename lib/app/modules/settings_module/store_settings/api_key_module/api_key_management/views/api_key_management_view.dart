@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -71,8 +70,8 @@ class ApiKeyManagementView extends GetView<ApiKeyManagementController> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(formatDate(apiKey.createdAt), style: smallTextStyle),
-                          Text(formatTime(apiKey.createdAt), style: smallTextStyle),
+                          Text(apiKey.createdAt.formatDate(), style: smallTextStyle),
+                          Text(apiKey.createdAt.formatTime(), style: smallTextStyle),
                         ],
                       ),
                     ],

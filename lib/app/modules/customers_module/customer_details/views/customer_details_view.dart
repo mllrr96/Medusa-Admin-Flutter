@@ -5,7 +5,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
@@ -160,7 +159,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                     children: [
                       if (customer.createdAt != null)
                         Text(
-                          '${tr.firstSeen} ${formatDate(customer.createdAt)}',
+                          '${tr.firstSeen} ${customer.createdAt.formatDate()}',
                           style: smallTextStyle,
                         ),
                       Obx(() => Text('${tr.orders}: ${controller.ordersCount.value}', style: smallTextStyle)),

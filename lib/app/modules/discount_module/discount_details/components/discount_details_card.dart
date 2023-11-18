@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_details/controllers/discount_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:super_banners/super_banners.dart';
@@ -29,7 +28,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
       String detail = '';
       switch (discount.rule!.type!) {
         case DiscountRuleType.fixed:
-          valueText = formatPrice(discount.rule?.value, discount.regions?.first.currencyCode, includeSymbol: false);
+          valueText = discount.rule?.value.formatAsPrice(discount.regions?.first.currencyCode, includeSymbol: false) ?? '';
           valueColor = Colors.orangeAccent;
           detail = ' ${discount.regions?.first.currency?.code ?? ''}';
           break;

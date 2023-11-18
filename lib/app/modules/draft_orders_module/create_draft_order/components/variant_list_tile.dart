@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -31,8 +30,7 @@ class VariantListTile extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant!;
     MoneyAmount? moneyAmount;
-    final priceList = productVariant.prices
-        ?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
+    final priceList = productVariant.prices?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
     if (priceList?.isNotEmpty ?? false) {
       moneyAmount = priceList!.first;
     } else {
@@ -74,11 +72,9 @@ class VariantListTile extends StatelessWidget {
                       child: CachedNetworkImage(
                         key: ValueKey(productVariant.product!.thumbnail!),
                         imageUrl: productVariant.product!.thumbnail!,
-                        placeholder: (context, text) => const Center(
-                            child: CircularProgressIndicator.adaptive()),
-                        errorWidget: (context, string, error) => const Icon(
-                            Icons.warning_rounded,
-                            color: Colors.redAccent),
+                        placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
+                        errorWidget: (context, string, error) =>
+                            const Icon(Icons.warning_rounded, color: Colors.redAccent),
                       )),
                 space,
                 // Product, Variant name and price
@@ -94,7 +90,7 @@ class VariantListTile extends StatelessWidget {
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
-                      Text(formatPrice(moneyAmount.amount, moneyAmount.currencyCode),
+                      Text(moneyAmount.amount.formatAsPrice(moneyAmount.currencyCode),
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
@@ -181,7 +177,7 @@ class CustomVariantListTile extends StatelessWidget {
                         lineItem.title ?? '',
                         style: mediumTextStyle,
                       ),
-                      Text(formatPrice(lineItem.unitPrice, currencyCode),
+                      Text(lineItem.unitPrice.formatAsPrice(currencyCode),
                           style: smallTextStyle?.copyWith(color: lightWhite),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),

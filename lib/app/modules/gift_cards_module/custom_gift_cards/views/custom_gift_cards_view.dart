@@ -2,9 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -106,8 +104,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                                '${formatPrice(giftCard.balance, giftCard.region?.currencyCode, includeSymbol: false)} / ${formatPrice(giftCard.value, giftCard.region?.currencyCode, symbolAtEnd: true)}'),
-                            Text(formatDate(giftCard.createdAt)),
+                                '${giftCard.balance.formatAsPrice(giftCard.region?.currencyCode, includeSymbol: false)} / ${giftCard.value.formatAsPrice( giftCard.region?.currencyCode, symbolAtEnd: true)}'),
+                            Text(giftCard.createdAt.formatDate()),
                           ],
                         ),
                       );

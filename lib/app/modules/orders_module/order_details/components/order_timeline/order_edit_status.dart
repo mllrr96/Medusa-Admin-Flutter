@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -72,7 +71,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                       ),
                       onPressed: () {},
                       child: Text(
-                        'Refund ${formatPrice(requiredPrice, order.currencyCode)}',
+                        'Refund ${requiredPrice.formatAsPrice(order.currencyCode)}',
                         style: const TextStyle(color: Colors.red),
                       )),
                 ),
@@ -98,8 +97,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                   color: Colors.transparent,
                 ),
                 const SizedBox(width: 12.0),
-                Text(
-                    'a few seconds ago · ${formatPrice(requiredPrice, order.currencyCode)}',
+                Text('a few seconds ago · ${requiredPrice.formatAsPrice(order.currencyCode)}',
                     style: smallTextStyle?.copyWith(color: lightWhite))
               ],
             ),

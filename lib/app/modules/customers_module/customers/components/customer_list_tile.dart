@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -62,7 +61,7 @@ class CustomerListTile extends StatelessWidget {
           children: [
             if (customer.createdAt != null)
               Text(
-                formatDate(customer.createdAt),
+                customer.createdAt.formatDate(),
                 style: smallTextStyle,
               ),
             if (customer.orders != null) Text('Orders: ${customer.orders!.length}', style: smallTextStyle),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -41,7 +40,7 @@ class RefundWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${timeago.format(DateTime.now().subtract(durationDiff))} ${formatPrice(refund.amount, currencyCode)}',
+                    '${timeago.format(DateTime.now().subtract(durationDiff))} ${refund.amount.formatAsPrice(currencyCode)}',
                     style: smallTextStyle?.copyWith(color: lightWhite),
                   ),
                   if (refund.reason != null)

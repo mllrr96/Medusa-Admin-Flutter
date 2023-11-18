@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -25,7 +24,7 @@ class ShippingOptionCard extends StatelessWidget {
       String text = '';
       for (var requirement in shippingOption.requirements!) {
         if (requirement.type! == RequirementType.maxSubtotal) {
-          text = 'Max. subtotal: ${formatPrice(requirement.amount, currencyCode, symbolAtEnd: true)}';
+          text = 'Max. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
         }
       }
       if (text.isEmpty) {
@@ -38,7 +37,7 @@ class ShippingOptionCard extends StatelessWidget {
       String text = '';
       for (var requirement in shippingOption.requirements!) {
         if (requirement.type! == RequirementType.minSubtotal) {
-          text = 'Min. subtotal: ${formatPrice(requirement.amount, currencyCode, symbolAtEnd: true)}';
+          text = 'Min. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
         }
       }
       if (text.isEmpty) {
@@ -97,7 +96,7 @@ class ShippingOptionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text('Flat Rate: ${formatPrice(shippingOption.amount, currencyCode, symbolAtEnd: true)}',
+                    child: Text('Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
                         style: smallTextStyle?.copyWith(color: lightWhite)),
                   ),
                   ShippingOptionLabel(adminOnly: shippingOption.adminOnly)

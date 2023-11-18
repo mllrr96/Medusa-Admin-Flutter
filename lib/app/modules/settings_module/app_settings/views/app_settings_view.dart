@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -116,7 +116,7 @@ class AppSettingsView extends StatelessWidget {
                   ),
                 SettingsTile.navigation(
                   title: const Text('Date format'),
-                  value: Text(formatDate(DateTime.now())),
+                  value: Text(DateTime.now().formatDate()),
                   leading: const Icon(Icons.date_range),
                   onPressed: (_) async => await showConfirmationDialog<
                               DateFormatOptions>(
@@ -141,7 +141,7 @@ class AppSettingsView extends StatelessWidget {
                 ),
                 SettingsTile.navigation(
                   title: const Text('Time format'),
-                  value: Text(formatTime(DateTime.now())),
+                  value: Text(DateTime.now().formatTime()),
                   leading: const Icon(Icons.timer_outlined),
                   onPressed: (_) async =>
                       await showModalActionSheet<TimeFormatOptions>(

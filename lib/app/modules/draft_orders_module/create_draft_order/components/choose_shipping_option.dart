@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -64,7 +63,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
               },
               items: state!
                   .map((e) => DropdownMenuItem(
-                      value: e, child: Text('${e.name!} - ${formatPrice(e.amount, e.region?.currencyCode)}')))
+                      value: e, child: Text('${e.name!} - ${e.amount.formatAsPrice(e.region?.currencyCode)}')))
                   .toList(),
               hint: const Text('Shipping Option'),
               onChanged: (val) {
@@ -141,7 +140,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                           text = text.replaceAll(RegExp(r'[^0-9]'), '');
                           var val = int.tryParse(text);
                           val ??= 0;
-                          final newVal = formatPrice(val + 100, widget.region.currencyCode);
+                          final newVal = (val + 100).formatAsPrice(widget.region.currencyCode);
                           customPriceCtrl.text = newVal;
                           customShippingOption?.amount = (val + 100);
 
@@ -157,7 +156,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                           if (val < 100) {
                             return;
                           }
-                          final newVal = formatPrice(val - 100, widget.region.currencyCode);
+                          final newVal = (val - 100).formatAsPrice(widget.region.currencyCode);
                           customPriceCtrl.text = newVal;
                           customShippingOption?.amount = (val - 100);
 

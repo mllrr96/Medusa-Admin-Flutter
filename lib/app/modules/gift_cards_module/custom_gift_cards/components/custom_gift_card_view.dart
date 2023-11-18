@@ -1,13 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
+import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_icon.dart';
 import '../controllers/custom_gift_cards_controller.dart';
@@ -77,14 +75,14 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Original amount', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(formatPrice(giftCard.value, giftCard.region?.currencyCode), style: mediumTextStyle),
+                        Text(giftCard.value.formatAsPrice(giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('Balance', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(formatPrice(giftCard.balance, giftCard.region?.currencyCode), style: mediumTextStyle),
+                        Text(giftCard.balance.formatAsPrice(giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                   ],
@@ -104,7 +102,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text('Created', style: mediumTextStyle?.copyWith(color: lightWhite)),
-                        Text(formatDate(giftCard.createdAt), style: mediumTextStyle),
+                        Text(giftCard.createdAt.formatDate(), style: mediumTextStyle),
                       ],
                     ),
                   ],

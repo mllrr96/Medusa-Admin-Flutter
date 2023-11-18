@@ -8,7 +8,6 @@ import 'package:medusa_admin/app/data/models/store/price_list.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -128,7 +127,7 @@ class PriceListDetailsView extends GetView<PriceListDetailsController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Last edited', style: smallTextStyle?.copyWith(color: lightWhite)),
-                                Text(formatDate(priceList.updatedAt), style: mediumTextStyle),
+                                Text(priceList.updatedAt.formatDate(), style: mediumTextStyle),
                               ],
                             ),
                           ),
@@ -296,7 +295,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                       if (priceList.updatedAt == null) Text('N/A', style: mediumTextStyle),
                       if (priceList.updatedAt != null)
                         Text(
-                          formatDate(priceList.updatedAt),
+                          priceList.updatedAt.formatDate(),
                           style: mediumTextStyle,
                         ),
                       Text('Last edited', style: smallTextStyle?.copyWith(color: lightWhite))

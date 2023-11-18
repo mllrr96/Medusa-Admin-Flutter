@@ -4,15 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/date_time_card.dart';
-import 'package:medusa_admin/app/modules/components/simple_currency_format.dart';
-import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'fulfillment_label.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(this.order, {Key? key, this.onTap}) : super(key: key);
@@ -59,7 +58,7 @@ class OrderCard extends StatelessWidget {
                     const SizedBox(height: 2.0),
                     Text(
                       order.cart!.createdAt != null
-                          ? 'on ${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
+                          ? 'on ${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
                           : '',
                       style: context.bodySmall,
                     ),
@@ -249,7 +248,7 @@ class AlternativeOrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('#${order.displayId}', style: mediumTextStyle),
-                Text(formatPrice(order.total, order.currencyCode), style: mediumTextStyle),
+                Text(order.total.formatAsPrice(order.currencyCode), style: mediumTextStyle),
               ],
             ),
             Padding(
@@ -259,7 +258,7 @@ class AlternativeOrderCard extends StatelessWidget {
                 children: [
                   Text(
                     order.cart?.createdAt != null
-                        ? '${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
+                        ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
                         : '',
                     style: lightMediumTextStyle,
                   ),
@@ -475,7 +474,7 @@ class CustomerOrderCard extends StatelessWidget {
                   children: [
                     Text(
                       order.cart!.createdAt != null
-                          ? '${formatDate(order.cart!.createdAt)} at ${formatTime(order.cart!.createdAt)}'
+                          ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
                           : '',
                       style: context.bodyMedium?.copyWith(color: const Color(0xff6B7280)),
                     ),
