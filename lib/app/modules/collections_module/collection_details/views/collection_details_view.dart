@@ -28,7 +28,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveBackButton(),
-        title:  Text(tr.collectionDetails),
+        title:  Text(tr.productTableCollection),
         centerTitle: true,
         actions: [
           AdaptiveButton(
@@ -37,8 +37,8 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   return;
                 }
                 await showModalActionSheet(context: context, actions: <SheetAction>[
-                   SheetAction(label: tr.editCollection, key: 0),
-                   SheetAction(label: tr.deleteCollection, isDestructiveAction: true, key: 1),
+                   SheetAction(label: tr.collectionModalEditCollection, key: 0),
+                   SheetAction(label: tr.collectionsTableDelete, isDestructiveAction: true, key: 1),
                 ]).then((result) async {
                   if (result == 0) {
                     await Get.toNamed(Routes.CREATE_COLLECTION, arguments: [controller.state!, true])
@@ -50,10 +50,10 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                   } else if (result == 1) {
                     await showOkCancelAlertDialog(
                             context: context,
-                            title: tr.deleteCollectionAlertTitle,
-                            message: tr.deleteCollectionAlertMessage,
-                            okLabel: tr.deleteCollectionAlertOkLabel,
-                            cancelLabel: tr.deleteCollectionAlertCancelLabel,
+                            title: tr.collectionsTableDeleteCollection,
+                            message: tr.collectionsTableConfirmDelete,
+                            okLabel: tr.detailsYesDelete,
+                            cancelLabel: tr.organismsNoCancel,
                             isDestructiveAction: true)
                         .then((result) async {
                       if (result == OkCancelResult.ok) await controller.deleteCollection();
@@ -103,7 +103,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                           }
                         },
                         padding: EdgeInsets.zero,
-                        child: Text(tr.editCollectionProducts))
+                        child: Text(tr.detailsEditProducts))
                 ],
               ),
             ),
@@ -121,7 +121,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(tr.noProductsInCollection),
+                  const Text('No products in this collection'),
                   AdaptiveButton(
                       onPressed: () async {
                         final result = await showBarModalBottomSheet(
@@ -135,7 +135,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                           await controller.addProducts(addedProducts: selectedProducts, removedProducts: []);
                         }
                       },
-                      child: Text(tr.addProductsToCollection))
+                      child: Text(tr.collectionProductTableAddProducts))
                 ],
               ),
             );
@@ -174,10 +174,10 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                       onPressed: () async {
                         await showOkCancelAlertDialog(
                                 context: context,
-                                title: tr.removeProductsFromCollectionAlertTitle,
-                                message: tr.removeProductsFromCollectionAlertMessage,
-                                okLabel: tr.removeProductsFromCollectionAlertOkLabel,
-                                cancelLabel: tr.removeProductsFromCollectionAlertCancelLabel,
+                                title: tr.collectionProductTableRemoveProductFromCollection,
+                                message: 'Are you sure you want to remove products from this collection ?',
+                                okLabel: tr.organismsYesRemove,
+                                cancelLabel: tr.organismsNoCancel,
                                 isDestructiveAction: true)
                             .then((result) async {
                           if (result == OkCancelResult.ok) {
@@ -189,7 +189,7 @@ class CollectionDetailsView extends GetView<CollectionDetailsController> {
                 );
               });
         },
-        onError: (e) =>  Center(child: Text(tr.errorLoadingCollectionDetails)),
+        onError: (e) =>  const Center(child: Text('Error loading collection')),
         onLoading: const Center(child: CircularProgressIndicator.adaptive()),
       )),
     );

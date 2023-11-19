@@ -20,7 +20,6 @@ class GroupsView extends GetView<GroupsController> {
 
   @override
   Widget build(BuildContext context) {
-    final tr = context.tr;
     final mediumTextStyle = context.bodyMedium;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -78,9 +77,9 @@ class GroupsView extends GetView<GroupsController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (controller.searchTerm.value.isEmpty)
-                      Text(tr.noGroups, style: mediumTextStyle),
+                      Text('No group yet!', style: mediumTextStyle),
                     if (controller.searchTerm.value.isNotEmpty)
-                      Text(tr.noGroupsFound, style: mediumTextStyle),
+                      Text('No groups found', style: mediumTextStyle),
                   ],
                 ),
               ),
@@ -110,7 +109,7 @@ class GroupAppBar extends GetView<GroupsController>
             child: SearchTextField(
               controller: controller.searchCtrl,
               focusNode: controller.focusNode,
-              hintText: tr.groupsSearchHint,
+              hintText: 'Search for group name ...',
               onSuffixTap: () {
                 controller.searchCtrl.clear();
                 controller.searchTerm.value = '';
@@ -137,7 +136,7 @@ class GroupAppBar extends GetView<GroupsController>
                     }
                   },
                   padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(tr.cancel, maxLines: 1)),
+                  child: Text(tr.modalsCancel, maxLines: 1)),
               secondChild: const SizedBox.shrink(),
               crossFadeState: controller.focused.value
                   ? CrossFadeState.showFirst

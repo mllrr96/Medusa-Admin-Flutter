@@ -45,6 +45,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                       LabeledTextField(
                         label: 'First Name',
                         required: !updateMode,
+                        textCapitalization: TextCapitalization.words,
                         controller: controller.firstNameCtrl,
                         hintText: 'Lebron',
                         validator: updateMode
@@ -59,6 +60,7 @@ class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
                       LabeledTextField(
                         label: 'Last Name',
                         required: !updateMode,
+                        textCapitalization: TextCapitalization.words,
                         controller: controller.lastNameCtrl,
                         hintText: 'James',
                         validator: updateMode

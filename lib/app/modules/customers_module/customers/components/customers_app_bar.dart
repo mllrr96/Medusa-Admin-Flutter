@@ -48,11 +48,11 @@ class _CustomersGroupsTabBarState extends State<CustomersGroupsTabBar> {
 
     final customersText = Obx(() {
       final count = CustomersController.instance.customersCount.value;
-      return Text(count != 0 ? '${tr.customers} ($count)' : tr.customers);
+      return Text(count != 0 ? '${tr.customerTableCustomers} ($count)' : tr.customerTableCustomers);
     });
     final customerGroupsText = Obx(() {
       final count = GroupsController.instance.customerGroupsCount.value;
-      return Text(count != 0 ? '${tr.groups} ($count)' : tr.groups);
+      return Text(count != 0 ? '${tr.customerGroupTableGroups} ($count)' : tr.customerGroupTableGroups);
     });
     final androidTabBar = TabBar(controller: widget.tabController, tabs: [
       Tab(

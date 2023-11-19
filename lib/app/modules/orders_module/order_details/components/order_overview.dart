@@ -45,7 +45,7 @@ class OrderOverview extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(tr.orderStatus, style: smallTextStyle!.copyWith(color: lightWhite)),
+                  Text(tr.customerOrdersTableStatus, style: smallTextStyle!.copyWith(color: lightWhite)),
                   const SizedBox(height: 6.0),
                   OrderStatusLabel(orderStatus: order.status),
                 ],
@@ -69,7 +69,7 @@ class OrderOverview extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(tr.payment, style: context.bodyMedium?.copyWith(color: Colors.grey)),
+                  Text(tr.detailsPayment, style: context.bodyMedium?.copyWith(color: Colors.grey)),
                   if (order.payments?.isNotEmpty ?? false)
                     Text(order.payments!.first.providerId?.capitalize ?? '',
                         style: context.bodyMedium),

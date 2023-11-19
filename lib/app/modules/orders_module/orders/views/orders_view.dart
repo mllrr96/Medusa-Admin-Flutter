@@ -23,7 +23,6 @@ class OrdersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tr = context.tr;
     return GetBuilder<OrdersController>(builder: (controller) {
       final orderSettings = StorageService.orderSettings;
       return Scaffold(
@@ -65,7 +64,7 @@ class OrdersView extends StatelessWidget {
                     );
                   }
 
-                  return Center(child: Text(tr.noOrders));
+                  return const Center(child: Text('No orders yet!'));
                 },
                 firstPageProgressIndicatorBuilder: (context) =>
                 const Center(child: CircularProgressIndicator.adaptive())),

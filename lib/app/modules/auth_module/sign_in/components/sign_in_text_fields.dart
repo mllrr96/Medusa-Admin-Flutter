@@ -40,7 +40,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         filled: true,
         fillColor: context.theme.appBarTheme.backgroundColor,
         border: border,
-        hintText: tr.enterPassword,
+        hintText: tr.loginCardPassword,
         enabledBorder: border,
         contentPadding: EdgeInsets.zero,
         prefixIcon: IntrinsicHeight(
@@ -116,7 +116,7 @@ class EmailTextField extends StatelessWidget {
           fillColor: context.theme.appBarTheme.backgroundColor,
           border: border,
           enabledBorder: border,
-          hintText: tr.enterEmail,
+          hintText: tr.loginCardEmail,
           contentPadding: EdgeInsets.zero,
           prefixIcon: IntrinsicHeight(
             child: Row(

@@ -26,7 +26,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      title: Text(tr.fulfillment),
+      title: Text(tr.detailsFulfillment),
       trailing:
           order.fulfillmentStatus == FulfillmentStatus.fulfilled || order.fulfillmentStatus == FulfillmentStatus.shipped
               ? null
@@ -38,17 +38,17 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                     }
                   },
                   padding: EdgeInsets.zero,
-                  child: Text(tr.createFulfillment),
+                  child: Text(tr.detailsCreateFulfillment),
                 ),
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(tr.shippingMethod, style: mediumTextStyle!.copyWith(color: lightWhite)),
+            Text(tr.detailsShippingMethod, style: mediumTextStyle!.copyWith(color: lightWhite)),
             FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus),
           ],
         ),
-        if (order.shippingMethods == null) Text(tr.none, style: mediumTextStyle),
+        if (order.shippingMethods == null) Text(tr.giftCardTableNone, style: mediumTextStyle),
         if (order.shippingMethods != null)
           ListView.builder(
               shrinkWrap: true,
@@ -70,7 +70,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
               return ListTile(
                 isThreeLine: canceled,
                 title: Text(canceled
-                    ? tr.fulfillmentCanceled
+                    ? tr.templatesFulfillmentHasBeenCanceled
                     : 'Fulfillment #${index + 1} fulfilled by ${fulfillment.providerId}'),
                 subtitle: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -81,7 +81,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                           'at ${fulfillment.canceledAt.formatDate()}, ${fulfillment.canceledAt.formatTime()}',
                           style: smallTextStyle),
                     if (canceled) const SizedBox(height: 6.0),
-                    Text(shipped ? tr.tracking : tr.notShipped, style: smallTextStyle?.copyWith(color: lightWhite)),
+                    Text(shipped ? tr.templatesTracking : tr.templatesNotShipped, style: smallTextStyle?.copyWith(color: lightWhite)),
                   ],
                 ),
                 trailing: canceled || shipped
@@ -89,8 +89,8 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                     : AdaptiveIcon(
                         onPressed: () async {
                           await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                            SheetAction(label: tr.markShipped, key: 0),
-                            SheetAction(label: tr.cancelFulfillment, isDestructiveAction: true, key: 1),
+                            SheetAction(label: tr.templatesMarkShipped, key: 0),
+                            SheetAction(label: tr.templatesCancelFulfillment, isDestructiveAction: true, key: 1),
                           ]).then((val) async {
                             switch (val) {
                               case 0:
@@ -99,9 +99,9 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                               case 1:
                                 await showOkCancelAlertDialog(
                                   context: context,
-                                  title: tr.cancelFulfillmentQuestion,
-                                  message: tr.cancelFulfillmentMessage,
-                                  okLabel: tr.okLabel,
+                                  title: tr.templatesCancelFulfillment,
+                                  message: tr.templatesAreYouSureYouWantToCancelTheFulfillment,
+                                  okLabel: tr.newYesCancel,
                                   isDestructiveAction: true,
                                 ).then((value) async {
                                   if (value == OkCancelResult.ok) {

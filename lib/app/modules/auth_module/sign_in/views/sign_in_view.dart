@@ -24,7 +24,7 @@ class SignInView extends GetView<SignInController> {
   @override
   Widget build(context) {
     final tr = context.tr;
-    final bool isRTL = Directionality.of(context) == TextDirection.rtl;
+    final bool isRTL = context.isRTL;
     const space = Gap(12);
     final smallTextStyle = context.bodySmall;
 
@@ -101,21 +101,9 @@ class SignInView extends GetView<SignInController> {
                         ),
                       );
                     }),
-                    Column(
-                      children: [
-                        Text(
-                          tr.welcome,
-                          style: context.headlineMedium,
-                        ),
-                        Text(
-                          tr.greatToSeeYou,
-                          style: context.bodyMedium,
-                        ),
-                        Text(
-                          tr.loginBelow,
-                          style: context.bodyMedium,
-                        ),
-                      ],
+                    Text(
+                      tr.loginCardLogInToMedusa,
+                      style: context.headlineMedium,
                     ),
                     space,
                     GestureDetector(
@@ -188,7 +176,7 @@ class SignInView extends GetView<SignInController> {
                           padding: Platform.isAndroid ? const EdgeInsets.symmetric(horizontal: 12.0) : EdgeInsets.zero,
                           child: AdaptiveButton(
                             child: Text(
-                              tr.resetPassword,
+                              tr.loginCardForgotYourPassword,
                             ),
                             onPressed: () {
                               if (controller.errorMessage.value.isNotEmpty) {
@@ -206,7 +194,7 @@ class SignInView extends GetView<SignInController> {
                         tag: 'continue',
                         child: SignInButton(
                           onPressed: () async => await controller.signIn(context),
-                          label: tr.cont,
+                          label: tr.analyticsPreferencesContinue,
                           buttonWidth: double.maxFinite,
                         ),
                       ),

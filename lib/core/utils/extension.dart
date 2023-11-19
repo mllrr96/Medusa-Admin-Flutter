@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../app/data/service/storage_service.dart';
 
@@ -32,9 +32,11 @@ extension BuildContextEntension<T> on BuildContext {
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
 
-
   // app localization
   AppLocalizations get tr => AppLocalizations.of(this)!;
+
+  // Directionality
+  bool get isRTL => Directionality.of(this) == TextDirection.rtl;
 }
 
 extension HexColor on Color {
@@ -144,6 +146,4 @@ extension FormatDate on DateTime? {
     }
     return DateFormat(format.format()).format(this!);
   }
-
-
 }

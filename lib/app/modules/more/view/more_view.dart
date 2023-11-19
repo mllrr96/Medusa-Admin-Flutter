@@ -22,7 +22,7 @@ class MoreView extends StatelessWidget {
       assignId: true,
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(title: Text(tr.moreAppBarTitle)),
+          appBar: AppBar(title: const Text('Medusa')),
           body: SafeArea(
             child: ListView(
               controller: controller.scrollController,
@@ -39,38 +39,37 @@ class MoreView extends StatelessWidget {
                       settingsSectionBackground: Theme.of(context).cardColor),
                   sections: [
                     SettingsSection(
-                      title: Text(tr.more),
                       tiles: <SettingsTile>[
                         SettingsTile.navigation(
                           leading: const Icon(Icons.discount_outlined),
-                          title: Text(tr.discounts),
+                          title: Text(tr.sidebarDiscounts),
                           onPressed: (_) => Get.toNamed(Routes.DISCOUNTS),
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(CupertinoIcons.gift),
-                          title: Text(tr.giftCards),
+                          title: Text(tr.sidebarGiftCards),
                           onPressed: (_) => Get.toNamed(Routes.GIFT_CARDS),
                           // onPressed: (_) {},
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.currency_dollar),
-                          title: Text(tr.pricing),
+                          title: Text(tr.sidebarPricing),
                           onPressed: (_) => Get.toNamed(Routes.PRICING),
                           // onPressed: (_) {},
                         ),
                       ],
                     ),
                     SettingsSection(
-                      title: Text(tr.settings),
+                      title: Text(tr.sidebarSettings),
                       tiles: <SettingsTile>[
                         SettingsTile.navigation(
                           leading: const Icon(Icons.store),
-                          title: Text(tr.storeSettings),
+                          title: const Text('Store Settings'),
                           onPressed: (_) => Get.toNamed(Routes.STORE_SETTINGS),
                         ),
                         SettingsTile.navigation(
                           leading: const Icon(MedusaIcons.cog_six_tooth),
-                          title: Text(tr.appSettings),
+                          title: const Text('App Settings'),
                           onPressed: (_) => Get.toNamed(Routes.APP_SETTINGS),
                         ),
                       ],
@@ -128,7 +127,7 @@ class MoreView extends StatelessWidget {
                       tiles: <SettingsTile>[
                         SettingsTile(
                           leading: const Icon(Icons.exit_to_app, color: Colors.redAccent),
-                          title: Text(tr.signOut),
+                          title: const Text('Sign Out'),
                           onPressed: (_) async => await controller.signOut(context),
                         ),
                       ],

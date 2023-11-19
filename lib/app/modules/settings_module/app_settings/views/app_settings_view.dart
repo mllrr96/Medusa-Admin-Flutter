@@ -43,26 +43,26 @@ class AppSettingsView extends StatelessWidget {
               title: const Text('App settings'),
               tiles: [
                 SettingsTile.navigation(
-                  title: Text(tr.orders),
+                  title: Text(tr.sidebarOrders),
                   leading: const Icon(CupertinoIcons.cart),
                   onPressed: (_) => Get.toNamed(Routes.ORDER_SETTINGS),
                 )
               ]
             ),
             SettingsSection(
-              title: Text(tr.appearance),
+              title: Text('Appearance'),
               tiles: ThemeMode.values.map((e) {
-                String title = tr.automaticAppearance;
+                String title = 'Automatic (Follow system)';
                 IconData iconData = Icons.brightness_auto;
                 switch (e) {
                   case ThemeMode.system:
                     break;
                   case ThemeMode.light:
-                    title = tr.lightAppearance;
+                    title = 'Light';
                     iconData = MedusaIcons.sun;
                     break;
                   case ThemeMode.dark:
-                    title = tr.darkAppearance;
+                    title = 'Dark';
                     iconData = MedusaIcons.moon;
                     break;
                 }
@@ -79,7 +79,7 @@ class AppSettingsView extends StatelessWidget {
             SettingsSection(
               tiles: <SettingsTile>[
                 SettingsTile.navigation(
-                  title: Text(tr.language),
+                  title: Text(tr.personalInformationLanguageSettingsTitle),
                   value: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

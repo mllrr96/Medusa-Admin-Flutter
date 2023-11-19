@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -28,12 +27,9 @@ class StorageService extends GetxService {
 
   Future<StorageService> init() async {
     _prefs = await SharedPreferences.getInstance();
-    final String defaultLocale;
-    defaultLocale = Platform.localeName.length == 2 ? Platform.localeName : Platform.localeName.split('_')[0];
-
     try {
       _cookie = _prefs.getString(AppConstants.cookieKey);
-      _language = _prefs.getString(AppConstants.languageKey) ?? defaultLocale;
+      _language = _prefs.getString(AppConstants.languageKey) ?? Get.deviceLocale?.languageCode ?? 'en';
       _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
       if (appSettingsCoded != null) {
@@ -58,7 +54,7 @@ class StorageService extends GetxService {
     } catch (e) {
       debugPrint(e.toString());
       _cookie = null;
-      _language = defaultLocale;
+      _language = 'en';
       _appSettings = AppSettings();
       _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];

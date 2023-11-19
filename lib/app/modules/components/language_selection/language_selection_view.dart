@@ -12,6 +12,7 @@ class LanguageSelectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediumTextStyle = context.bodyMedium;
+    final tr = context.tr;
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -19,7 +20,7 @@ class LanguageSelectionView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Text(
-              'Select App Language',
+              tr.personalInformationLanguageSettingsDescription,
               style: mediumTextStyle,
             ),
           ),

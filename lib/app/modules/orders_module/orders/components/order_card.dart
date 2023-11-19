@@ -85,11 +85,11 @@ final OrderSettings? orderSettings;
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      tr.paymentStatus,
+                      tr.orderTablePaymentStatus,
                       style: smallTextStyle?.copyWith(color: lightWhite),
                     ),
                     Text(
-                      tr.customer,
+                      tr.orderTableCustomer,
                       style: smallTextStyle?.copyWith(color: lightWhite),
                     ),
                   ],
@@ -458,7 +458,7 @@ class CustomerOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tr.paymentStatus,
+                      tr.orderTablePaymentStatus,
                       style: smallTextStyle!.copyWith(color: lightWhite),
                     ),
                     const SizedBox(height: 6.0),
@@ -470,7 +470,7 @@ class CustomerOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tr.fulfillment,
+                      tr.orderTableFulfillment,
                       style: smallTextStyle.copyWith(color: lightWhite),
                     ),
                     const SizedBox(height: 6.0),

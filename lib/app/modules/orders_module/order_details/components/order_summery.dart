@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -15,7 +14,6 @@ class OrderSummery extends StatelessWidget {
   Widget build(BuildContext context) {
     final refunded = order.refunds?.isNotEmpty ?? false;
     const halfSpace = SizedBox(height: 6.0);
-    final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final totalTextTheme = refunded ? mediumTextStyle : context.bodyLarge;
     final tr = context.tr;
@@ -23,7 +21,7 @@ class OrderSummery extends StatelessWidget {
     return CustomExpansionTile(
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
-      title: Text(tr.summery),
+      title: const Text('Summery'),
       trailing: AdaptiveButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit Order')),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
@@ -32,7 +30,7 @@ class OrderSummery extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: order.items!.length,
             itemBuilder: (context, index) => OrderSummeryCard(order: order, index: index)),
-        const Divider(),
+        const Divider(indent: 20,endIndent: 20),
         Column(
           children: [
             Padding(
@@ -40,14 +38,8 @@ class OrderSummery extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(tr.subtotal, style: mediumTextStyle),
-                  Row(
-                    children: [
-                      Text(order.subTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
-                      Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
-                    ],
-                  ),
+                  Text(tr.detailCardsSubtotal, style: mediumTextStyle),
+                  Text(order.subTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
                 ],
               ),
             ),
@@ -57,14 +49,8 @@ class OrderSummery extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(tr.shipping, style: mediumTextStyle),
-                  Row(
-                    children: [
-                      Text(order.shippingTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
-                      Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
-                    ],
-                  ),
+                  Text(tr.detailCardsShipping, style: mediumTextStyle),
+                  Text(order.shippingTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
                 ],
               ),
             ),
@@ -74,24 +60,21 @@ class OrderSummery extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(tr.tax, style: mediumTextStyle),
-                  Row(
-                    children: [
-                      Text(order.taxTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
-                      Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
-                    ],
-                  ),
+                  Text(tr.detailCardsTax, style: mediumTextStyle),
+                  Text(order.taxTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
                 ],
               ),
             ),
+            if(refunded)
             halfSpace,
+            if(!refunded)
+            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(refunded ? tr.originalTotal : tr.total, style: totalTextTheme),
+                  Text(refunded ? tr.detailCardsOriginalTotal : tr.detailCardsTotal, style: totalTextTheme),
                   Text(order.total.formatAsPrice(order.currencyCode), style: context.bodyLarge),
                 ],
               ),
@@ -107,24 +90,18 @@ class OrderSummery extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(tr.manuallyRefunded, style: mediumTextStyle),
-                    Row(
-                      children: [
-                        Text(order.refundedTotal.formatAsPrice( order.currencyCode), style: mediumTextStyle),
-                        Text(' ${order.currencyCode?.toUpperCase() ?? ''}',
-                            style: mediumTextStyle?.copyWith(color: lightWhite)),
-                      ],
-                    ),
+                    Text(tr.templatesManuallyRefunded, style: mediumTextStyle),
+                    Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
                   ],
                 ),
               ),
-              halfSpace,
+              const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(tr.netTotal, style: mediumTextStyle),
+                    Text(tr.templatesNetTotal, style: mediumTextStyle),
                     Text(order.refundableAmount.formatAsPrice(order.currencyCode), style: context.bodyLarge),
                   ],
                 ),

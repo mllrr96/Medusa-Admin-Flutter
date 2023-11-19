@@ -39,7 +39,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
-            title: Text(tr.orderAppBarTitle),
+            title: Text(tr.orderTableOrder),
             centerTitle: true,
             actions: [
               if (controller.state?.status != OrderStatus.canceled)
@@ -47,7 +47,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                     onPressed: () async {
                       await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
                         SheetAction(
-                          label: tr.cancelOrder,
+                          label: tr.detailsCancelOrderHeading,
                           key: 0,
                           isDestructiveAction: true,
                         ),
@@ -56,8 +56,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                           case 0:
                             final order = controller.state!;
                             await showTextAnswerDialog(
-                              title: tr.cancelOrder,
-                              message: tr.cancelOrderAlertMessage(order.displayId!),
+                              title: tr.detailsCancelOrderHeading,
+                              message: tr.detailsAreYouSureYouWantToCancelTheOrder,
                               retryMessage:
                                   'Make sure to type the name "order #${order.displayId!}" to confirm order deletion.',
                               retryOkLabel: 'Retry',
@@ -140,8 +140,8 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
                   ),
                 ),
               ),
-              onEmpty: Center(child: Text(tr.noOrder)),
-              onError: (e) => Center(child: Text(e ?? tr.errorLoadingOrder)),
+              onEmpty: const Center(child: Text( "No order found")),
+              onError: (e) => Center(child: Text(e ?? '"Error loading order"')),
               onLoading: const Center(child: CircularProgressIndicator.adaptive()),
             ),
           ),

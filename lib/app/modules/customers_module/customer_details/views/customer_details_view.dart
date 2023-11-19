@@ -19,10 +19,9 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
   const CustomerDetailsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final tr = context.tr;
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.customerDetails),
+        title: const Text('Customer Details'),
         leading: const AdaptiveBackButton(),
       ),
       body: SafeArea(
@@ -47,7 +46,7 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
                               OrdersController.instance.pagingController.refresh();
                             }
                           })),
-                  noItemsFoundIndicatorBuilder: (_) => Center(child: Text(tr.noOrders)),
+                  noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No orders yet')),
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator.adaptive()),
                 ),
@@ -59,8 +58,8 @@ class CustomerDetailsView extends GetView<CustomerDetailsController> {
             child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(e ?? tr.errorLoadingCustomDetails),
-            AdaptiveFilledButton(onPressed: () async => await controller.refreshView(), child: Text(tr.retry)),
+            Text(e ?? 'Error loading customer details'),
+            AdaptiveFilledButton(onPressed: () async => await controller.refreshView(), child: const Text('Retry')),
           ],
         )),
         onLoading: const Center(child: CircularProgressIndicator.adaptive()),
@@ -125,12 +124,11 @@ class Delegate extends SliverPersistentHeaderDelegate {
                 AdaptiveIcon(
                     onPressed: () async {
                       await showModalActionSheet<int>(
-                          title: tr.manageCustomer,
-                          message: '${customer.firstName ?? ''} ${customer.lastName ?? ''}',
+                          // title: tr.manageCustomer,
+                          title: '${customer.firstName ?? ''} ${customer.lastName ?? ''}',
                           context: context,
                           actions: <SheetAction<int>>[
-                            SheetAction(label: tr.edit, key: 0),
-                            SheetAction(label: tr.delete, isDestructiveAction: true, key: 1),
+                            SheetAction(label: tr.customerTableEdit, key: 0),
                           ]).then((value) async {
                         switch (value) {
                           case 0:
@@ -158,10 +156,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
                     children: [
                       if (customer.createdAt != null)
                         Text(
-                          '${tr.firstSeen} ${customer.createdAt.formatDate()}',
+                          '${tr.detailsFirstSeen} ${customer.createdAt.formatDate()}',
                           style: smallTextStyle,
                         ),
-                      Obx(() => Text('${tr.orders}: ${controller.ordersCount.value}', style: smallTextStyle)),
+                      Obx(() => Text('${tr.customerOrdersTableOrders}: ${controller.ordersCount.value}', style: smallTextStyle)),
                     ],
                   ),
                 ),
@@ -170,10 +168,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${tr.user}: ${customer.hasAccount.toString().capitalizeFirst}',
+                        '${tr.detailsUser}: ${customer.hasAccount.toString().capitalizeFirst}',
                         style: smallTextStyle,
                       ),
-                      Text('${tr.phone}: ${customer.phone ?? 'N/A'}', style: smallTextStyle),
+                      Text('${tr.detailsPhone}: ${customer.phone ?? 'N/A'}', style: smallTextStyle),
                     ],
                   ),
                 ),

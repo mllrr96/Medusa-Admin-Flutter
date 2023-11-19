@@ -31,7 +31,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
           margin: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Hero(
               tag: 'continue',
-              child: SignInButton(onPressed: () async => await controller.resetPassword(), label: tr.sendInstructions)),
+              child: SignInButton(onPressed: () async => await controller.resetPassword(), label: tr.resetTokenCardSendResetInstructions)),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -48,11 +48,11 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(tr.resetYourPassword, style: context.headlineMedium),
+                    Text(tr.resetTokenCardResetYourPassword, style: context.headlineMedium),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        tr.sendInstructionsDescription,
+                        tr.resetTokenCardPasswordResetDescription,
                         style: context.bodyMedium?.copyWith(color: lightWhite),
                         textAlign: TextAlign.center,
                       ),

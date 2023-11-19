@@ -22,14 +22,14 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
-          title: controller.updateCollection ?  Text(tr.updateCollection) : Text(tr.newCollection),
+          title: controller.updateCollection ?  Text(tr.collectionModalEditCollection) : Text(tr.collectionModalAddCollection),
           centerTitle: true,
           actions: [
             AdaptiveButton(
                 onPressed: controller.updateCollection
                     ? () async => await controller.edit()
                     : () async => await controller.publish(),
-                child: controller.updateCollection ?  Text(tr.update) : Text(tr.publish))
+                child: controller.updateCollection ?  Text(tr.collectionModalSaveCollection) : Text(tr.collectionModalPublishCollection))
           ],
         ),
         body: SafeArea(
@@ -48,30 +48,30 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                   children: [
                     Row(
                       children: [
-                        Text(tr.details, style: largeTextStyle),
+                        Text(tr.collectionModalDetails, style: largeTextStyle),
                       ],
                     ),
                     // Text('Add Collection', style: Theme.of(context).textTheme.bodyLarge),
                     if (!controller.updateCollection)
-                      Text(tr.createCollectionInstruction,
+                      Text(tr.collectionModalDescription,
                           style: smallTextStyle!.copyWith(color: lightWhite)),
                     space,
                     LabeledTextField(
-                      label: tr.title,
+                      label: tr.collectionModalTitleLabel,
                       controller: controller.titleCtrl,
                       required: true,
                       hintText: 'Sunglasses',
                       validator: (val) {
                         if (val == null || val.isEmpty) {
-                          return tr.fieldRequired;
+                          return tr.addressFormThisFieldIsRequired;
                         }
                         return null;
                       },
                     ),
-                    LabeledTextField(label: tr.handle, controller: controller.handleCtrl, hintText: '/sunglasses'),
+                    LabeledTextField(label: tr.collectionModalHandleLabel, controller: controller.handleCtrl, hintText: tr.collectionModalHandlePlaceholder),
                     Row(
                       children: [
-                        Text(tr.metadata, style: largeTextStyle),
+                        Text(tr.collectionModalMetadata, style: largeTextStyle),
                       ],
                     ),
                     space,
@@ -85,15 +85,15 @@ class CreateCollectionView extends GetView<CreateCollectionController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(onPressed: () {}, icon: const Icon(Icons.delete_forever, color: Colors.red)),
-                          LabeledTextField(label: tr.key, controller: TextEditingController(), hintText: tr.keyHint),
-                          LabeledTextField(label: tr.value, controller: TextEditingController(), hintText: tr.valueHint),
+                          LabeledTextField(label: 'Key', controller: TextEditingController(), hintText: 'Key'),
+                          LabeledTextField(label: 'Value', controller: TextEditingController(), hintText: 'Value'),
                         ],
                       ),
                     ),
                     AdaptiveButton(
-                        child:  Row(mainAxisSize: MainAxisSize.min, children: [
-                          const Icon(Icons.add),
-                          Text(tr.addMetadata),
+                        child:  const Row(mainAxisSize: MainAxisSize.min, children: [
+                          Icon(Icons.add),
+                          Text('Add Metadata'),
                         ]),
                         onPressed: () {}),
                   ],

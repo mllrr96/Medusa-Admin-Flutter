@@ -20,7 +20,6 @@ class CollectionsView extends GetView<CollectionsController> {
   Widget build(BuildContext context) {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final tr = context.tr;
 
     return Scaffold(
       // appBar: const CollectionsAppBar(),
@@ -66,14 +65,14 @@ class CollectionsView extends GetView<CollectionsController> {
                   if (controller.searchTerm.value.isEmpty)
                     Column(
                       children: [
-                        Text(tr.noCollection, style: largeTextStyle, textAlign: TextAlign.center),
+                        Text('No collection', style: largeTextStyle, textAlign: TextAlign.center),
                         const SizedBox(height: 12.0),
                         AdaptiveFilledButton(
                             onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),
-                            child: Text(tr.addCollection, style: const TextStyle(color: Colors.white)))
+                            child: const Text('Add collection', style: TextStyle(color: Colors.white)))
                       ],
                     ),
-                  if (controller.searchTerm.value.isNotEmpty) Text(tr.noResultCollection, style: mediumTextStyle),
+                  if (controller.searchTerm.value.isNotEmpty) Text('No collections found', style: mediumTextStyle),
                 ],
               ),
             ),

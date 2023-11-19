@@ -31,7 +31,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
           return AdaptiveButton(
             onPressed: () async => await controller.capturePayment(),
             padding: EdgeInsets.zero,
-            child: Text(tr.capturePayment),
+            child: Text(tr.templatesCapturePayment),
           );
         case PaymentStatus.notPaid:
         case PaymentStatus.awaiting:
@@ -46,7 +46,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
               }
             },
             padding: EdgeInsets.zero,
-            child: Text(tr.refund),
+            child: Text(tr.templatesRefund),
           );
         case PaymentStatus.canceled:
           break;
@@ -60,7 +60,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
       key: controller.paymentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
-      title: Text(tr.payment),
+      title: Text(tr.detailsPayment),
       trailing: getButton(),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +102,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                       const SizedBox(width: 12.0),
                       const Icon(Icons.double_arrow_rounded),
                       Text(
-                        tr.refunded,
+                        tr.detailsRefunded,
                         style: mediumTextStyle,
                       ),
                     ],
@@ -116,7 +116,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(tr.totalPaid, style: largeTextStyle),
+            Text(tr.detailsTotalPaid, style: largeTextStyle),
             Text((refunded ? order.refundableAmount : order.payments?.first.amount).formatAsPrice(order.currencyCode),
                 style: largeTextStyle),
           ],

@@ -28,9 +28,9 @@ class OrderTimeline extends StatelessWidget {
           trailing: IconButton(
               onPressed: () async {
                 await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                  SheetAction(label: tr.requestReturn, key: 0),
-                  SheetAction(label: tr.registerExchange, key: 1),
-                  SheetAction(label: tr.registerClaim, key: 2),
+                  SheetAction(label: tr.timelineRequestReturn, key: 0),
+                  SheetAction(label: tr.timelineRegisterExchange, key: 1),
+                  SheetAction(label: tr.timelineRegisterClaim, key: 2),
                 ]).then((result) {
                   switch (result) {
                     case 0:
