@@ -32,7 +32,11 @@ Run flutter run to build and run the debug app on your emulator/phone
       
 
 ## Contributing
-TODO
+We welcome contributions from the community to make Medusa Admin even better. If you want to contribute, please follow these steps:
+
+1. Fork the repository on GitHub.
+2. Create a new branch and make your changes.
+3. Submit a pull request, explaining the purpose of your changes.
 
 
 ## License
