@@ -130,6 +130,32 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
             )
           ],
         ),
+        if (orderEdit.internalNote?.isNotEmpty ?? false)
+          Column(
+            children: [
+              const Gap(12),
+              Row(
+                children: [
+                  const Icon(MedusaIcons.pencil_square_solid, color: Colors.transparent),
+                  const Gap(12),
+                  Flexible(
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                        color: Get.isDarkMode ? context.theme.scaffoldBackgroundColor : ColorManager.primaryOpacity,
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Text(
+                        orderEdit.internalNote ?? '',
+                        style: smallTextStyle?.copyWith(color: Get.isDarkMode ? Colors.white : ColorManager.primary),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         if (orderEdit.changes?.isNotEmpty ?? false)
           Row(
             children: [

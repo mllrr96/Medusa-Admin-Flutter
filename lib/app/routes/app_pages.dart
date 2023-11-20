@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/orders_module/order_details/components/add_update_order_edit/bindings/add_update_order_edit_binding.dart';
+import 'package:medusa_admin/app/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
 
-import '../modules/add_update_order_edit/bindings/add_update_order_edit_binding.dart';
-import '../modules/add_update_order_edit/views/add_update_order_edit_view.dart';
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';

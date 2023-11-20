@@ -67,7 +67,6 @@ abstract class BaseOrderEdit {
     required String id,
     String? internalNote,
     Map<String, dynamic>? customHeaders,
-    Map<String, dynamic>? queryParameters,
   });
 
   Future<Result<UserUpdateOrderEditRes, Failure>> requestOrderEdit({

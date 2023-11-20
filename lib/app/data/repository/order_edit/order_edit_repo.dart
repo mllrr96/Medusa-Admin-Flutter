@@ -276,7 +276,6 @@ class OrderEditRepo extends BaseOrderEdit {
     /// An optional note to create or update for the order edit.
     String? internalNote,
     Map<String, dynamic>? customHeaders,
-    Map<String, dynamic>? queryParameters,
   }) async {
     if (customHeaders != null) {
       _dataProvider.dio.options.headers.addAll(customHeaders);
@@ -287,7 +286,6 @@ class OrderEditRepo extends BaseOrderEdit {
         data: {
           'internal_note': internalNote,
         },
-        queryParameters: queryParameters,
       );
       if (response.statusCode == 200) {
         return Success(UserUpdateOrderEditRes.fromJson(response.data));
