@@ -102,7 +102,7 @@ class OrderEditRepo extends BaseOrderEdit {
       final response = await _dataProvider.post(
         uri: '/order-edits',
         data: {
-          'id': id,
+          'order_id': id,
           if (internalNote != null) 'internal_note': internalNote,
         },
       );

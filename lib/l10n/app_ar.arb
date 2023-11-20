@@ -1,6 +1,16 @@
 {
   "backButtonGoBack": "رجوع",
-  "salesChannelsDisplayAvailableCount": "متاح في <2>availableChannelsCount</2> من <6>totalChannelsCount</6> قنوات المبيعات",
+  "salesChannelsDisplayAvailableCount": "متاح في {availableChannelsCount} من {totalChannelsCount} قنوات المبيعات",
+  "@salesChannelsDisplayAvailableCount": {
+    "placeholders": {
+      "availableChannelsCount": {
+        "type": "String"
+      } ,
+      "totalChannelsCount": {
+        "type": "String"
+      }
+    }
+  },
   "activityDrawerActivity": "النشاط",
   "activityDrawerNoNotificationsTitle": "هدوء هنا...",
   "activityDrawerNoNotificationsDescription": "ليس لديك أي إشعارات حاليًا ، ولكن بمجرد أن يكون لديك إشعارات ستظهر هنا.",
@@ -77,8 +87,22 @@
   "giftCardDenominationsSectionDenominations": "الفئات",
   "giftCardDenominationsSectionDenomination": "الفئة",
   "giftCardDenominationsSectionInOtherCurrencies": "بعملات أخرى",
-  "giftCardDenominationsSectionAndMoreOne": ",count أكثر",
-"giftCardDenominationsSectionAndMoreOther": ",count أكثر",
+  "giftCardDenominationsSectionAndMoreOne": ",{count} أكثر",
+  "@giftCardDenominationsSectionAndMoreOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"giftCardDenominationsSectionAndMoreOther": ",{count} أكثر",
+  "@giftCardDenominationsSectionAndMoreOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "giftCardDenominationsSectionDeleteDenomination": "حذف الفئة",
 "giftCardDenominationsSectionConfirmDelete": "هل أنت متأكد أنك تريد حذف هذه الفئة؟",
 "giftCardDenominationsSectionDenominationDeleted": "تم حذف الفئة",
@@ -94,7 +118,14 @@
 "helpDialogMerchantsAndECommerceDevelopers": "التجار ومطوري التجارة الإلكترونية",
 "helpDialogSendAMessage": "إرسال رسالة",
 "inviteModalSuccess": "نجاح",
-"inviteModalInvitationSentTo": "تم إرسال الدعوة إلى user",
+"inviteModalInvitationSentTo": "تم إرسال الدعوة إلى {user}",
+  "@inviteModalInvitationSentTo": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
 "inviteModalError": "حدث خطأ",
 "inviteModalMember": "عضو",
 "inviteModalAdmin": "مدير",
@@ -143,8 +174,22 @@
 "productGeneralSectionDiscountable": "قابل للخصم",
 "productGeneralSectionTrue": "صحيح",
 "productGeneralSectionFalse": "حدث خطأ",
-"productGeneralSectionCountOne": "count",
-"productGeneralSectionCountOther": "count",
+"productGeneralSectionCountOne": "{count}",
+  "@productGeneralSectionCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"productGeneralSectionCountOther": "{count}",
+  "@productGeneralSectionCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "productGeneralSectionSalesChannels": "قنوات المبيعات",
 "productMediaSectionEditMedia": "تحرير الوسائط",
 "productMediaSectionUploadImagesError": "حدث خطأ ما أثناء محاولة تحميل الصور.",
@@ -168,8 +213,23 @@
 "productThumbnailSectionUsedToRepresentYourProductDuringCheckoutSocialSharingAndMore": "تُستخدم لتمثيل منتجك أثناء الدفع ومشاركة وسائل التواصل الاجتماعي وغيرها.",
 "productThumbnailSectionCancel": "إلغاء",
 "productThumbnailSectionSaveAndClose": "حفظ وإغلاق",
-"productVariantTreeCountOne": "count",
-"productVariantTreeCountOther": "count",
+"productVariantTreeCountOne": "{count}",
+  "@productVariantTreeCountOne":{
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"productVariantTreeCountOther": "{count}",
+  "@productVariantTreeCountOther":
+  {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "productVariantTreeAddPrices": "إضافة أسعار",
 "productVariantsSectionAddVariant": "إضافة متغير",
 "productVariantsSectionCancel": "إلغاء",
@@ -222,8 +282,22 @@
 "rmaSelectProductTableQuantity": "الكمية",
 "rmaSelectProductTableRefundable": "قابل للاسترداد",
 "rmaSelectProductTableImagesWitchCountOne": "count",
-"rmaSelectProductTableImagesWitchCountOther": "count",
-"rmaSelectProductTableSelectReason": "حدد سبب",
+  "@rmaSelectProductTableImagesWitchCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "rmaSelectProductTableImagesWitchCountOther": "{count}",
+  "@rmaSelectProductTableImagesWitchCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "rmaSelectProductTableSelectReason": "حدد سبب",
 "sidebarStore": "المتجر",
 "sidebarOrders": "الطلبات",
 "sidebarProducts": "المنتجات",
@@ -234,9 +308,61 @@
 "sidebarGiftCards": "بطاقات الهدايا",
 "sidebarPricing": "التسعير",
 "sidebarSettings": "الإعدادات",
-"tableContainerSoothedOffsetOne": "soothedOffset - pageSize من count title",
-"tableContainerSoothedOffsetOther": "soothedOffset - pageSize من count title",
-"tableContainerCurrentPage": "currentPage من soothedPageCount",
+"tableContainerSoothedOffsetOne": "{soothedOffset} - {pageSize} من {count} {title}",
+  "@tableContainerSoothedOffsetOne": {
+    "placeholders": {
+      "soothedOffset": {
+        "userName": {
+          "type": "String"
+        }
+      },
+      "pageSize": {
+        "userName": {
+          "type": "String"
+        }
+      },
+      "count": {
+        "userName": {
+          "type": "String"
+        }
+      }  ,"title": {
+        "userName": {
+          "type": "String"
+        }
+      }
+    }
+  },
+"tableContainerSoothedOffsetOther": "{soothedOffset} - {pageSize} من {count} {title}",
+  "@tableContainerSoothedOffsetOther": {
+    "placeholders": {
+      "soothedOffset": {
+        "type": "String"
+
+      },
+      "pageSize": {
+        "type": "String"
+
+      },
+      "count": {
+        "type": "String"
+
+      } ,
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+"tableContainerCurrentPage": "{currentPage} من {soothedPageCount}",
+  "@tableContainerCurrentPage": {
+    "placeholders": {
+      "currentPage": {
+        "type": "String"
+      },
+      "soothedPageCount": {
+        "type": "String"
+      }
+    }
+  },
 "timelineRequestReturn": "طلب استرجاع",
 "timelineRegisterExchange": "تسجيل مبادلة",
 "timelineRegisterClaim": "تسجيل مطالبة",
@@ -249,7 +375,14 @@
 "uploadModalDropYourFileHereOr": "أسقط ملفك هنا أو",
 "uploadModalClickToBrowse": "انقر للتصفح.",
 "uploadModalOnlyCsvFilesAreSupported": "يتم فقط دعم ملفات CSV.",
-"uploadModalImportFileTitle": "استيراد fileTitle",
+"uploadModalImportFileTitle": "استيراد {fileTitle}",
+  "@uploadModalImportFileTitle": {
+    "placeholders": {
+      "fileTitle": {
+        "type": "String"
+      }
+    }
+  },
 "uploadModalCancel": "إلغاء",
 "uploadModalImportList": "استيراد قائمة",
 "addProductsModalAddProducts": "إضافة منتجات",
@@ -343,7 +476,14 @@
 "customerOrdersTablePartiallyFulfilled": "تم تنفيذه جزئياً",
 "customerOrdersTablePartiallyShipped": "تم شحنه جزئياً",
 "customerOrdersTableOrder": "الطلب",
-"customerOrdersTableRemainderMore": "+ remainder أكثر",
+"customerOrdersTableRemainderMore": "+ {remainder} أكثر",
+  "@customerOrdersTableRemainderMore":{
+    "placeholders": {
+      "remainder": {
+        "type": "String"
+      }
+    }
+  },
 "customerOrdersTableDate": "التاريخ",
 "customerOrdersTableFulfillment": "التنفيذ",
 "customerOrdersTableStatus": "الحالة",
@@ -460,7 +600,14 @@
 "priceListTableName": "الاسم",
 "priceListTableDescription": "الوصف",
 "priceListTableGroups": "المجموعات",
-"priceListTableOtherMore": "+ other أكثر",
+"priceListTableOtherMore": "+ {other} أكثر",
+  "@priceListTableOtherMore": {
+    "placeholders": {
+      "other": {
+        "type": "String"
+      }
+    }
+  },
 "priceOverridesApplyOverridesOnSelectedVariants": "تطبيق التجاوزات على المتغيرات المحددة",
 "priceOverridesApplyOnAllVariants": "التطبيق على جميع المتغيرات",
 "priceOverridesPrices": "الأسعار",
@@ -493,8 +640,22 @@
 "productTableStatus": "الحالة",
 "productTableAvailability": "التوفر",
 "productTableInventory": "المخزون",
-"productTableInventoryInStockCountOne": " متوفر لـ count متغير",
-"productTableInventoryInStockCountOther": " متوفر لـ count متغير",
+"productTableInventoryInStockCountOne": " متوفر لـ {count} متغير",
+  "@productTableInventoryInStockCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"productTableInventoryInStockCountOther": " متوفر لـ {count} متغير",
+  "@productTableInventoryInStockCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "reservationFormLocation": "الموقع",
 "reservationFormChooseWhereYouWishToReserveFrom": "اختر المكان الذي تريد حجز منه.",
 "reservationFormItemToReserve": "العنصر للحجز",
@@ -571,8 +732,22 @@
 "templatesRemoveInvite": "إزالة الدعوة",
 "templatesInvitiationHasBeenRemoved": "تمت إزالة الدعوة",
 "multiselectChooseCategories": "اختر الفئات",
-"domainCategoriesMultiselectSelectedWithCountsOne": "count",
-"domainCategoriesMultiselectSelectedWithCountsOther": "count",
+"domainCategoriesMultiselectSelectedWithCountsOne": "{count}",
+  "@domainCategoriesMultiselectSelectedWithCountsOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "domainCategoriesMultiselectSelectedWithCountsOther": "{count}",
+  "@domainCategoriesMultiselectSelectedWithCountsOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "detailsSuccess": "نجاح",
 "detailsUpdatedProductsInCollection": "تم تحديث المنتجات في المجموعة",
 "detailsError": "حدث خطأ",
@@ -603,8 +778,22 @@
 "detailsPhone": "هاتف",
 "detailsOrders": "الطلبات",
 "detailsUser": "المستخدم",
-"detailsOrdersOne": "الطلبات count",
-"detailsOrdersOther": "الطلبات count",
+"detailsOrdersOne": "الطلبات {count}",
+  "@detailsOrdersOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"detailsOrdersOther": "الطلبات {count}",
+  "@detailsOrdersOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "detailsAnOverviewOfCustomerOrders": "نظرة عامة على طلبات العميل",
 "detailsRawCustomer": "العميل الأصلي",
 "groupsGroupUpdated": "تم تحديث المجموعة",
@@ -652,12 +841,33 @@
 "tagsSaveAndGoBack": "حفظ والعودة",
 "tagsSaveAndClose": "حفظ وإغلاق",
 "editConditionAddConditions": "إضافة شروط",
-"editConditionSelectedWithCountOne": "count",
-"editConditionSelectedWithCountOther": "count",
+"editConditionSelectedWithCountOne": "{count}",
+  "@editConditionSelectedWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "editConditionSelectedWithCountOther": "{count}",
+  "@editConditionSelectedWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "editConditionDeselect": "إلغاء التحديد",
 "editConditionRemove": "إزالة",
 "editConditionAdd": "إضافة",
-"editConditionTitle": "تحرير type في شرط الخصم",
+"editConditionTitle": "تحرير {type} في شرط الخصم",
+  "@editConditionTitle":  {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
 "editConditionClose": "إغلاق",
 "editConditionSuccess": "نجاح",
 "editConditionTheResourcesWereSuccessfullyAdded": "تمت إضافة الموارد بنجاح",
@@ -762,7 +972,14 @@
 "sharedVariants": "المتغيرات",
 "sharedTag": "العلامة",
 "sharedType": "النوع",
-"editConditionsModalTitle": "تعديل title",
+"editConditionsModalTitle": "تعديل {title}",
+  "@editConditionsModalTitle":  {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
 "formUseDiscountFormMustBeAChildOfDiscountFormContext": "يجب أن يكون useDiscountForm تابعًا لـ DiscountFormContext",
 "discountFormError": "حدث خطأ",
 "discountFormSaveAsDraft": "حفظ كمسودة",
@@ -779,7 +996,14 @@
 "discountFormAddConditionsToYourDiscount": "أضف شروطًا للخصم الخاص بك",
 "discountFormMetadata": "البيانات الوصفية",
 "discountFormMetadataUsageDescription": "تسمح لك البيانات الوصفية بإضافة معلومات إضافية للخصم الخاص بك.",
-"conditionItemRemainderMore": "+remainder أكثر",
+"conditionItemRemainderMore": "+{remainder} أكثر",
+  "@conditionItemRemainderMore":  {
+    "placeholders": {
+      "remainder": {
+        "type": "String"
+      }
+    }
+  },
 "conditionsEdit": "تحرير",
 "conditionsProduct": "المنتج",
 "conditionsCollection": "المجموعة",
@@ -983,9 +1207,23 @@
 "refundAmountFormEditRefundAmount": "تحرير مبلغ الاسترداد",
 "refundAmountFormRefundAmountCannotBeNegative": "لا يمكن أن يكون مبلغ الاسترداد سالبًا",
 "refundAmountFormTheRefundAmountMustBeAtLeast0": "يجب أن يكون مبلغ الاسترداد 0 على الأقل",
-"reservationIndicatorAwaitingReservationCount": "awaitingReservation عناصر غير محجوزة",
+"reservationIndicatorAwaitingReservationCount": "{awaitingReservation} عناصر غير محجوزة",
+  "@reservationIndicatorAwaitingReservationCount": {
+    "placeholders": {
+      "awaitingReservation": {
+        "type": "String"
+      }
+    }
+  },
 "reservationIndicatorThisItemHasBeenFulfilled": "تم تنفيذ هذا العنصر.",
-"editReservationButtonQuantityItemLocationName": "quantity عنصر:",
+"editReservationButtonQuantityItemLocationName": "{quantity} عنصر:",
+  "@editReservationButtonQuantityItemLocationName": {
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      }
+    }
+  },
 "reservationIndicatorEditReservation": "تعديل الحجز",
 "rmaSummariesClaimedItems": "العناصر المطالب بها",
 "rmaSummariesReplacementItems": "عناصر الاستبدال",
@@ -1025,7 +1263,14 @@
 "claimPleaseSelectAReason": "الرجاء تحديد سبب",
 "claimAShippingMethodForReplacementItemsIsRequired": "طريقة شحن لعناصر الاستبدال مطلوبة",
 "claimSuccessfullyCreatedClaim": "تم إنشاء المطالبة بنجاح",
-"claimCreated": "تم إنشاء مطالبة للطلب رقم #display_id بنجاح",
+"claimCreated": "تم إنشاء مطالبة للطلب رقم #{display_id} بنجاح",
+  "@claimCreated":  {
+    "placeholders": {
+      "displayId": {
+        "type": "String"
+      }
+    }
+  },
 "claimErrorCreatingClaim": "خطأ في إنشاء المطالبة",
 "claimCreateClaim": "إنشاء مطالبة",
 "claimLocation": "الموقع",
@@ -1068,7 +1313,14 @@
 "detailsEmailCopied": "تم نسخ البريد الإلكتروني",
 "detailsCancelOrderHeading": "إلغاء الطلب",
 "detailsAreYouSureYouWantToCancelTheOrder": "هل أنت متأكد أنك تريد إلغاء الطلب؟",
-"orderDetailsDisplayId": "الطلب رقم #display_id",
+"orderDetailsDisplayId": "الطلب رقم #{display_id}",
+  "@orderDetailsDisplayId":  {
+    "placeholders": {
+      "displayId": {
+        "type": "String"
+      }
+    }
+  },
 "detailsSuccessfullyCanceledOrder": "تم إلغاء الطلب بنجاح",
 "detailsGoToCustomer": "الذهاب إلى العميل",
 "detailsTransferOwnership": "تحويل الملكية",
@@ -1118,7 +1370,14 @@
 "orderLineModified": "معدل",
 "receiveReturnPleaseSelectAtLeastOneItemToReceive": "الرجاء تحديد عنصر واحد على الأقل للاستلام",
 "receiveReturnSuccessfullyReceivedReturn": "تم استلام العودة بنجاح",
-"receiveReturnReceivedReturnForOrder": "تم استلام العودة للطلب رقم #display_id",
+"receiveReturnReceivedReturnForOrder": "تم استلام العودة للطلب رقم #{display_id}",
+  "@receiveReturnReceivedReturnForOrder": {
+    "placeholders": {
+      "display_id": {
+        "type": "String"
+      }
+    }
+  },
 "receiveReturnFailedToReceiveReturn": "فشل استلام العودة",
 "receiveReturnReceiveReturn": "استلام العودة",
 "receiveReturnLocation": "الموقع",
@@ -1155,7 +1414,14 @@
 "reservationChooseWhichLocationYouWantToShipTheItemsFrom": "اختر الموقع الذي تريد شحن العناصر منه.",
 "reservationItemsToAllocateTitle": "عناصر للتخصيص",
 "reservationSelectTheNumberOfItemsThatYouWishToAllocate": "حدد عدد العناصر التي ترغب في تخصيصها.",
-"reservationMaxReservationRequested": " / maxReservation مطلوب",
+"reservationMaxReservationRequested": " / {maxReservation} مطلوب",
+  "@reservationMaxReservationRequested": {
+    "placeholders": {
+      "maxReservation": {
+        "type": "String"
+      }
+    }
+  },
 "reservationReserved": " محجوز",
 "reservationDescription": "الوصف",
 "reservationWhatTypeOfReservationIsThis": "ما نوع هذا الحجز؟",
@@ -1246,7 +1512,17 @@
 "templatesSuccessfullyCanceledClaim": "تم إلغاء المطالبة بنجاح",
 "templatesSuccessfullyCanceledFulfillment": "تم إلغاء التنفيذ بنجاح",
 "templatesFulfillmentHasBeenCanceled": "تم إلغاء التنفيذ",
-"templatesFulfilledByProvider": "title تم تنفيذه بواسطة provider",
+"templatesFulfilledByProvider": "{title} تم تنفيذه بواسطة {provider}",
+  "@templatesFulfilledByProvider": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
 "templatesNotShipped": "لم يتم الشحن",
 "templatesTracking": "التتبع",
 "templatesShippedFrom": "تم الشحن من",
@@ -1275,13 +1551,27 @@
 "draftOrdersError": "حدث خطأ",
 "draftOrdersSuccessfullyCanceledOrder": "تم إلغاء الطلب بنجاح",
 "draftOrdersBackToDraftOrders": "العودة إلى مسودات الطلبات",
-"onMarkAsPaidConfirmOrderId": "الطلب رقم #display_id",
+"onMarkAsPaidConfirmOrderId": "الطلب رقم #{display_id}",
+  "@onMarkAsPaidConfirmOrderId":  {
+    "placeholders": {
+      "displayId": {
+        "type": "String"
+      }
+    }
+  },
 "draftOrdersGoToOrder": "الذهاب إلى الطلب",
 "draftOrdersCancelDraftOrder": "إلغاء مسودة الطلب",
 "draftOrdersDraftOrder": "مسودة الطلب",
 "draftOrdersEmail": "البريد الإلكتروني",
 "draftOrdersPhone": "هاتف",
-"draftOrdersAmount": "المبلغ currency_code",
+"draftOrdersAmount": "المبلغ {currency_code}",
+  "@draftOrdersAmount": {
+    "placeholders": {
+      "currencyCode": {
+        "type": "String"
+      }
+    }
+  },
 "draftOrdersPayment": "الدفع",
 "draftOrdersSubtotal": "المجموع الفرعي",
 "draftOrdersShipping": "الشحن",
@@ -1300,8 +1590,22 @@
 "draftOrdersBilling": "الفوترة",
 "draftOrdersRawDraftOrder": "مسودة الطلب الأصلية",
 "draftOrdersAreYouSure": "هل أنت متأكد؟",
-"draftOrdersRemoveResourceHeading": "إزالة resource",
-"draftOrdersRemoveResourceSuccessText": "تمت إزالة resource",
+"draftOrdersRemoveResourceHeading": "إزالة {resource}",
+  "@draftOrdersRemoveResourceHeading": {
+    "placeholders": {
+      "resource": {
+        "type": "String"
+      }
+    }
+  },
+"draftOrdersRemoveResourceSuccessText": "تمت إزالة {resource}",
+  "@draftOrdersRemoveResourceSuccessText":  {
+    "placeholders": {
+      "resource": {
+        "type": "String"
+      }
+    }
+  },
 "draftOrdersThisWillCreateAnOrderMarkThisAsPaidIfYouReceivedThePayment": "سينشئ هذا طلبًا. ضع علامة كمدفوع إذا تلقيت الدفع.",
 "draftOrdersMarkPaid": "وضع علامة كمدفوع",
 "draftOrdersCancel": "إلغاء",
@@ -1322,7 +1626,14 @@
 "editFilterItems": "تصفية العناصر...",
 "editNote": "ملاحظة",
 "editAddANote": "إضافة ملاحظة...",
-"variantsTableLocation": " في location",
+"variantsTableLocation": " في {location}",
+  "@variantsTableLocation":  {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
 "editProduct": "المنتج",
 "editInStock": "متوفر",
 "editPrice": "السعر",
@@ -1349,7 +1660,14 @@
 "componentsAddCustomItem": "إضافة عنصر مخصص",
 "componentsChooseRegion": "اختر المنطقة",
 "componentsRegion": "المنطقة",
-"selectShippingToName": "(إلى name)",
+"selectShippingToName": "(إلى {name})",
+  "@selectShippingToName":  {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
 "componentsAttention": "انتباه!",
 "componentsNoOptionsForOrdersWithoutShipping": "ليس لديك أي خيارات للطلبات بدون شحن. يرجى إضافة واحد (مثل التنفيذ داخل المتجر) مع إلغاء تحديد إظهار على الموقع في إعدادات المنطقة والمتابعة.",
 "componentsChooseAShippingMethod": "اختر طريقة الشحن",
@@ -1365,7 +1683,14 @@
 "componentsAddDiscount": "إضافة خصم",
 "componentsSummer10": "صيف10",
 "componentsDiscount": "الخصم",
-"selectShippingCode": "(الرمز: code)",
+"selectShippingCode": "(الرمز: {code})",
+  "@selectShippingCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
 "componentsType": "النوع",
 "componentsValue": "القيمة",
 "componentsAddress": "العنوان",
@@ -1477,7 +1802,14 @@
 "modalsFailedToCreateANewCategory": "فشل إنشاء فئة جديدة",
 "modalsError": "حدث خطأ",
 "modalsSaveCategory": "حفظ الفئة",
-"modalsAddCategoryTo": "إضافة فئة إلى name",
+"modalsAddCategoryTo": "إضافة فئة إلى {name}",
+  "@modalsAddCategoryTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
 "modalsAddCategory": "إضافة فئة",
 "modalsDetails": "التفاصيل",
 "modalsName": "الاسم",
@@ -1576,8 +1908,22 @@
 "modalsSalesChannelsRemovedFromTheScope": "تمت إزالة قنوات المبيعات من النطاق",
 "modalsErrorOccurredWhileRemovingSalesChannelsFromTheScopeOfTheKey": "حدث خطأ أثناء إزالة قنوات المبيعات من نطاق المفتاح",
 "modalsEditSalesChannels": "تحرير قنوات المبيعات",
-"publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOne": "count",
-"publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOther": "count",
+  "publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOne": "{count}",
+  "@publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOther": "{count}",
+  "@publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "modalsDeselect": "إلغاء التحديد",
 "modalsRemove": "إزالة",
 "modalsAddChannels": "إضافة قنوات",
@@ -1656,8 +2002,22 @@
 "tablesDetails": "التفاصيل",
 "tablesRemoveFromTheChannel": "إزالة من القناة",
 "tablesProducts": "المنتجات",
-"salesChannelsTablePlaceholderSelectedWithCountsOne": "count",
-"salesChannelsTablePlaceholderSelectedWithCountsOther": "count",
+  "salesChannelsTablePlaceholderSelectedWithCountsOne": "{count}",
+  "@salesChannelsTablePlaceholderSelectedWithCountsOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "salesChannelsTablePlaceholderSelectedWithCountsOther": "{count}",
+  "@salesChannelsTablePlaceholderSelectedWithCountsOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "tablesRemove": "إزالة",
 "componentsSuccessfullyUpdatedCurrency": "تم تحديث العملة بنجاح",
 "componentsDefault": "افتراضي",
@@ -1675,8 +2035,22 @@
 "storeCurrenciesAddStoreCurrencies": "إضافة عملات للمتجر",
 "storeCurrenciesCurrentStoreCurrencies": "عملات المتجر الحالية",
 "storeCurrenciesClose": "إغلاق",
-"currentCurrenciesScreenSelectedWithCountOne": "count",
-"currentCurrenciesScreenSelectedWithCountOther": "count",
+  "currentCurrenciesScreenSelectedWithCountOne": "{count}",
+  "@currentCurrenciesScreenSelectedWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "currentCurrenciesScreenSelectedWithCountOther": "{count}",
+  "@currentCurrenciesScreenSelectedWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "storeCurrenciesDeselect": "إلغاء التحديد",
 "storeCurrenciesRemove": "إزالة",
 "storeCurrenciesAddCurrencies": "إضافة عملات",
@@ -1857,14 +2231,56 @@
 "taxesError": "حدث خطأ",
 "taxesOverrides": "التجاوزات",
 "taxesProductRules": "قواعد المنتج",
-"taxesProductRulesDescriptionOne": "ينطبق على count منتج",
-"taxesProductRulesDescriptionOther": "ينطبق على count منتج",
+"taxesProductRulesDescriptionOne": "ينطبق على {count} منتج",
+  "@taxesProductRulesDescriptionOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"taxesProductRulesDescriptionOther": "ينطبق على {count} منتج",
+  "@taxesProductRulesDescriptionOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "taxesProductTypeRules": "قواعد نوع المنتج",
-"taxesProductTypeRulesDescriptionOne": "ينطبق على count نوع منتج",
-"taxesProductTypeRulesDescriptionOther": "ينطبق على count نوع منتج",
+"taxesProductTypeRulesDescriptionOne": "ينطبق على {count} نوع منتج",
+  "@taxesProductTypeRulesDescriptionOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"taxesProductTypeRulesDescriptionOther": "ينطبق على {count} نوع منتج",
+  "@taxesProductTypeRulesDescriptionOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "taxesShippingOptionRules": "قواعد خيار الشحن",
-"taxesAppliesToShippingOptionWithCountOne": "ينطبق على count خيار شحن",
-"taxesAppliesToShippingOptionWithCountOther": "ينطبق على count خيار شحن",
+"taxesAppliesToShippingOptionWithCountOne": "ينطبق على {count} خيار شحن",
+  "@taxesAppliesToShippingOptionWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"taxesAppliesToShippingOptionWithCountOther": "ينطبق على {count} خيار شحن",
+  "@taxesAppliesToShippingOptionWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "taxesAddOverrides": "إضافة تجاوزات",
 "taxesCancel": "إلغاء",
 "taxesSave": "حفظ",
@@ -1880,8 +2296,22 @@
 "taxesGoToRegionSettings": "الذهاب إلى إعدادات المنطقة",
 "taxesSuccessfullyCreatedTaxRate": "تم إنشاء معدل ضريبة بنجاح.",
 "taxesAddTaxRate": "إضافة معدل ضريبة",
-"taxesAppliesToProductTypeWithCountOne": "ينطبق على count نوع منتج",
-"taxesAppliesToProductTypeWithCountOther": "ينطبق على count نوع منتج",
+"taxesAppliesToProductTypeWithCountOne": "ينطبق على {count} نوع منتج",
+  "@taxesAppliesToProductTypeWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+"taxesAppliesToProductTypeWithCountOther": "ينطبق على {count} نوع منتج",
+  "@taxesAppliesToProductTypeWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
 "taxesCreate": "إنشاء",
 "taxesSelectProducts": "تحديد المنتجات",
 "taxesSelectProductTypesLabel": "تحديد أنواع المنتجات",
@@ -1914,6 +2344,20 @@
 "usersBackToSettings": "العودة إلى الإعدادات",
 "usersTheTeam": "الفريق",
 "usersManageUsersOfYourMedusaStore": "أدِر مستخدمي متجر Medusa الخاص بك",
-"usersCountOne": "count",
-"usersCountOther": "count"
+  "usersCountOne": "{count}",
+  "@usersCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "usersCountOther": "{count}",
+  "@usersCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

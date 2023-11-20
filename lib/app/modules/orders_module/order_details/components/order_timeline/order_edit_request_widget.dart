@@ -10,7 +10,6 @@ import '../../../../../../core/utils/colors.dart';
 import '../../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../../data/models/store/order_edit.dart';
 import '../../../../../data/models/store/order_item_change.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class OrderEditWidget extends GetView<OrderDetailsController> {
   const OrderEditWidget(
@@ -119,7 +118,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                     children: [
                       Flexible(
                         child: Text(
-                          '${timeago.format(DateTime.now().subtract(reqDurationDiff))} by ',
+                          '${DateTime.now().subtract(reqDurationDiff).timeAgo()} by ',
                           style: smallTextStyle?.copyWith(color: lightWhite),
                         ),
                       ),

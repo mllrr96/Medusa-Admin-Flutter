@@ -8,7 +8,17 @@
   "filterMenuDateItemBefore": "Before",
   "filterMenuDateItemAfter": "After",
   "filterMenuDateItemBetween": "Between",
-  "salesChannelsDisplayAvailableCount": "Available in availableChannelsCount out of totalChannelsCount Sales Channels",
+  "salesChannelsDisplayAvailableCount": "Available in {availableChannelsCount} out of {totalChannelsCount} Sales Channels",
+  "@salesChannelsDisplayAvailableCount": {
+    "placeholders": {
+      "availableChannelsCount": {
+        "type": "String"
+      } ,
+      "totalChannelsCount": {
+        "type": "String"
+      }
+    }
+  },
   "activityDrawerActivity": "Activity",
   "activityDrawerNoNotificationsTitle": "It's quiet in here...",
   "activityDrawerNoNotificationsDescription": "You don't have any notifications at the moment, but once you do they will live here.",
@@ -85,8 +95,22 @@
   "giftCardDenominationsSectionDenominations": "Denominations",
   "giftCardDenominationsSectionDenomination": "Denomination",
   "giftCardDenominationsSectionInOtherCurrencies": "In other currencies",
-  "giftCardDenominationsSectionAndMoreOne": ", and count more",
-  "giftCardDenominationsSectionAndMoreOther": ", and count more",
+  "giftCardDenominationsSectionAndMoreOne": ", and {count} more",
+  "@giftCardDenominationsSectionAndMoreOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "giftCardDenominationsSectionAndMoreOther": ", and {count} more",
+  "@giftCardDenominationsSectionAndMoreOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "giftCardDenominationsSectionDeleteDenomination": "Delete denomination",
   "giftCardDenominationsSectionConfirmDelete": "Are you sure you want to delete this denomination?",
   "giftCardDenominationsSectionDenominationDeleted": "Denomination deleted",
@@ -102,7 +126,14 @@
   "helpDialogMerchantsAndECommerceDevelopers": "merchants and e-commerce developers",
   "helpDialogSendAMessage": "Send a message",
   "inviteModalSuccess": "Success",
-  "inviteModalInvitationSentTo": "Invitation sent to user",
+  "inviteModalInvitationSentTo": "Invitation sent to {user}",
+  "@inviteModalInvitationSentTo": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
   "inviteModalError": "Error",
   "inviteModalMember": "Member",
   "inviteModalAdmin": "Admin",
@@ -156,8 +187,22 @@
   "productGeneralSectionDiscountable": "Discountable",
   "productGeneralSectionTrue": "True",
   "productGeneralSectionFalse": "False",
-  "productGeneralSectionCountOne": "count",
+  "productGeneralSectionCountOne": "{count}",
+  "@productGeneralSectionCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "productGeneralSectionCountOther": "count",
+  "@productGeneralSectionCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "productGeneralSectionSalesChannels": "Sales channels",
   "productMediaSectionEditMedia": "Edit Media",
   "productMediaSectionUploadImagesError": "Something went wrong while trying to upload images.",
@@ -181,8 +226,23 @@
   "productThumbnailSectionUsedToRepresentYourProductDuringCheckoutSocialSharingAndMore": "Used to represent your product during checkout, social sharing and more.",
   "productThumbnailSectionCancel": "Cancel",
   "productThumbnailSectionSaveAndClose": "Save and close",
-  "productVariantTreeCountOne": "count",
-  "productVariantTreeCountOther": "count",
+  "productVariantTreeCountOne": "{count}",
+  "@productVariantTreeCountOne":{
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "productVariantTreeCountOther": "{count}",
+  "@productVariantTreeCountOther":
+  {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "productVariantTreeAddPrices": "Add prices",
   "productVariantsSectionAddVariant": "Add Variant",
   "productVariantsSectionCancel": "Cancel",
@@ -234,8 +294,22 @@
   "rmaSelectProductTableProductDetails": "Product Details",
   "rmaSelectProductTableQuantity": "Quantity",
   "rmaSelectProductTableRefundable": "Refundable",
-  "rmaSelectProductTableImagesWitchCountOne": "count",
-  "rmaSelectProductTableImagesWitchCountOther": "count",
+  "rmaSelectProductTableImagesWitchCountOne": "{count}",
+  "@rmaSelectProductTableImagesWitchCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "rmaSelectProductTableImagesWitchCountOther": "{count}",
+  "@rmaSelectProductTableImagesWitchCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "rmaSelectProductTableSelectReason": "Select Reason",
   "sidebarStore": "Store",
   "sidebarOrders": "Orders",
@@ -247,9 +321,57 @@
   "sidebarGiftCards": "Gift Cards",
   "sidebarPricing": "Pricing",
   "sidebarSettings": "Settings",
-  "tableContainerSoothedOffsetOne": "soothedOffset - pageSize of count title",
-  "tableContainerSoothedOffsetOther": "soothedOffset - pageSize of count title",
-  "tableContainerCurrentPage": "currentPage of soothedPageCount",
+  "tableContainerSoothedOffsetOne": "{soothedOffset} - {pageSize} of {count} {title}",
+  "@tableContainerSoothedOffsetOne": {
+    "placeholders": {
+    "soothedOffset": {
+      "type": "String"
+
+    },
+      "pageSize": {
+        "type": "String"
+
+    },
+      "count": {
+        "type": "String"
+
+    } ,
+      "title": {
+        "type": "String"
+    }
+    }
+  },
+  "tableContainerSoothedOffsetOther": "{soothedOffset} - {pageSize} of {count} {title}",
+  "@tableContainerSoothedOffsetOther": {
+    "placeholders": {
+      "soothedOffset": {
+        "type": "String"
+
+      },
+      "pageSize": {
+        "type": "String"
+
+      },
+      "count": {
+        "type": "String"
+
+      } ,
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "tableContainerCurrentPage": "{currentPage} of {soothedPageCount}",
+  "@tableContainerCurrentPage": {
+    "placeholders": {
+      "currentPage": {
+        "type": "String"
+      },
+      "soothedPageCount": {
+        "type": "String"
+      }
+    }
+  },
   "timelineRequestReturn": "Request Return",
   "timelineRegisterExchange": "Register Exchange",
   "timelineRegisterClaim": "Register Claim",
@@ -262,7 +384,14 @@
   "uploadModalDropYourFileHereOr": "Drop your file here, or",
   "uploadModalClickToBrowse": "click to browse.",
   "uploadModalOnlyCsvFilesAreSupported": "Only .csv files are supported.",
-  "uploadModalImportFileTitle": "Import fileTitle",
+  "uploadModalImportFileTitle": "Import {fileTitle}",
+  "@uploadModalImportFileTitle": {
+    "placeholders": {
+      "fileTitle": {
+        "type": "String"
+      }
+    }
+  },
   "uploadModalCancel": "Cancel",
   "uploadModalImportList": "Import List",
   "addProductsModalAddProducts": "Add Products",
@@ -356,7 +485,14 @@
   "customerOrdersTablePartiallyFulfilled": "Partially fulfilled",
   "customerOrdersTablePartiallyShipped": "Partially shipped",
   "customerOrdersTableOrder": "Order",
-  "customerOrdersTableRemainderMore": "+ remainder more",
+  "customerOrdersTableRemainderMore": "+ {remainder} more",
+  "@customerOrdersTableRemainderMore":{
+    "placeholders": {
+      "remainder": {
+        "type": "String"
+      }
+    }
+  },
   "customerOrdersTableDate": "Date",
   "customerOrdersTableFulfillment": "Fulfillment",
   "customerOrdersTableStatus": "Status",
@@ -473,7 +609,14 @@
   "priceListTableName": "Name",
   "priceListTableDescription": "Description",
   "priceListTableGroups": "Groups",
-  "priceListTableOtherMore": "+ other more",
+  "priceListTableOtherMore": "+ {other} more",
+  "@priceListTableOtherMore": {
+    "placeholders": {
+      "other": {
+        "type": "String"
+      }
+    }
+  },
   "priceOverridesApplyOverridesOnSelectedVariants": "Apply overrides on selected variants",
   "priceOverridesApplyOnAllVariants": "Apply on all variants",
   "priceOverridesPrices": "Prices",
@@ -506,8 +649,22 @@
   "productTableStatus": "Status",
   "productTableAvailability": "Availability",
   "productTableInventory": "Inventory",
-  "productTableInventoryInStockCountOne": " in stock for count variant(s)",
-  "productTableInventoryInStockCountOther": " in stock for count variant(s)",
+  "productTableInventoryInStockCountOne": " in stock for {count} variant(s)",
+  "@productTableInventoryInStockCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "productTableInventoryInStockCountOther": " in stock for {count} variant(s)",
+  "@productTableInventoryInStockCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "reservationFormLocation": "Location",
   "reservationFormChooseWhereYouWishToReserveFrom": "Choose where you wish to reserve from.",
   "reservationFormItemToReserve": "Item to reserve",
@@ -562,7 +719,7 @@
   "templatesRemoveUser": "Remove User",
   "templatesResendInvitation": "Resend Invitation",
   "templatesSuccess": "Success",
-  "templatesInvitiationLinkHasBeenResent": "Invitiation link has been resent",
+  "templatesInvitiationLinkHasBeenResent": "Invitation link has been resent",
   "templatesCopyInviteLink": "Copy invite link",
   "templatesInviteLinkCopiedToClipboard": "Invite link copied to clipboard",
   "templatesRemoveInvitation": "Remove Invitation",
@@ -582,10 +739,24 @@
   "templatesUserHasBeenRemoved": "User has been removed",
   "templatesConfirmRemoveInvite": "Are you sure you want to remove this invite?",
   "templatesRemoveInvite": "Remove invite",
-  "templatesInvitiationHasBeenRemoved": "Invitiation has been removed",
+  "templatesInvitiationHasBeenRemoved": "Invitation has been removed",
   "multiselectChooseCategories": "Choose categories",
-  "domainCategoriesMultiselectSelectedWithCountsOne": "count",
-  "domainCategoriesMultiselectSelectedWithCountsOther": "count",
+  "domainCategoriesMultiselectSelectedWithCountsOne": "{count}",
+  "@domainCategoriesMultiselectSelectedWithCountsOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "domainCategoriesMultiselectSelectedWithCountsOther": "{count}",
+  "@domainCategoriesMultiselectSelectedWithCountsOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "detailsSuccess": "Success",
   "detailsUpdatedProductsInCollection": "Updated products in collection",
   "detailsError": "Error",
@@ -616,8 +787,22 @@
   "detailsPhone": "Phone",
   "detailsOrders": "Orders",
   "detailsUser": "User",
-  "detailsOrdersOne": "Orders count",
+  "detailsOrdersOne": "Orders {count}",
+  "@detailsOrdersOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "detailsOrdersOther": "Orders count",
+  "@detailsOrdersOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "detailsAnOverviewOfCustomerOrders": "An overview of Customer Orders",
   "detailsRawCustomer": "Raw customer",
   "groupsGroupUpdated": "Group Updated",
@@ -665,12 +850,33 @@
   "tagsSaveAndGoBack": "Save and go back",
   "tagsSaveAndClose": "Save and close",
   "editConditionAddConditions": "Add conditions",
-  "editConditionSelectedWithCountOne": "count",
-  "editConditionSelectedWithCountOther": "count",
+  "editConditionSelectedWithCountOne": "{count}",
+  "@editConditionSelectedWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "editConditionSelectedWithCountOther": "{count}",
+  "@editConditionSelectedWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "editConditionDeselect": "Deselect",
   "editConditionRemove": "Remove",
   "editConditionAdd": "Add",
-  "editConditionTitle": "Edit type in Discount Condition",
+  "editConditionTitle": "Edit {type} in Discount Condition",
+  "@editConditionTitle":  {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
   "editConditionClose": "Close",
   "editConditionSuccess": "Success",
   "editConditionTheResourcesWereSuccessfullyAdded": "The resources were successfully added",
@@ -775,7 +981,14 @@
   "sharedVariants": "Variants",
   "sharedTag": "Tag",
   "sharedType": "Type",
-  "editConditionsModalTitle": "Edit title",
+  "editConditionsModalTitle": "Edit {title}",
+  "@editConditionsModalTitle":  {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "formUseDiscountFormMustBeAChildOfDiscountFormContext": "useDiscountForm must be a child of DiscountFormContext",
   "discountFormError": "Error",
   "discountFormSaveAsDraft": "Save as draft",
@@ -793,6 +1006,13 @@
   "discountFormMetadata": "Metadata",
   "discountFormMetadataUsageDescription": "Metadata allows you to add additional information to your discount.",
   "conditionItemRemainderMore": "+remainder more",
+  "@conditionItemRemainderMore":  {
+    "placeholders": {
+      "remainder": {
+        "type": "String"
+      }
+    }
+  },
   "conditionsEdit": "Edit",
   "conditionsProduct": "Product",
   "conditionsCollection": "Collection",
@@ -996,9 +1216,23 @@
   "refundAmountFormEditRefundAmount": "Edit refund amount",
   "refundAmountFormRefundAmountCannotBeNegative": "Refund amount cannot be negative",
   "refundAmountFormTheRefundAmountMustBeAtLeast0": "The refund amount must be at least 0",
-  "reservationIndicatorAwaitingReservationCount": "awaitingReservation items not reserved",
+  "reservationIndicatorAwaitingReservationCount": "{awaitingReservation} items not reserved",
+  "@reservationIndicatorAwaitingReservationCount": {
+    "placeholders": {
+      "awaitingReservation": {
+        "type": "String"
+      }
+    }
+  },
   "reservationIndicatorThisItemHasBeenFulfilled": "This item has been fulfilled.",
-  "editReservationButtonQuantityItemLocationName": "quantity item: ",
+  "editReservationButtonQuantityItemLocationName": "{quantity} item: ",
+  "@editReservationButtonQuantityItemLocationName": {
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      }
+    }
+  },
   "reservationIndicatorEditReservation": "Edit reservation",
   "rmaSummariesClaimedItems": "Claimed items",
   "rmaSummariesReplacementItems": "Replacement items",
@@ -1038,7 +1272,14 @@
   "claimPleaseSelectAReason": "Please select a reason",
   "claimAShippingMethodForReplacementItemsIsRequired": "A shipping method for replacement items is required",
   "claimSuccessfullyCreatedClaim": "Successfully created claim",
-  "claimCreated": "A claim for order #display_id was successfully created",
+  "claimCreated": "A claim for order #{displayId} was successfully created",
+  "@claimCreated":  {
+    "placeholders": {
+      "displayId": {
+        "type": "String"
+      }
+    }
+  },
   "claimErrorCreatingClaim": "Error creating claim",
   "claimCreateClaim": "Create Claim",
   "claimLocation": "Location",
@@ -1081,7 +1322,14 @@
   "detailsEmailCopied": "Email copied",
   "detailsCancelOrderHeading": "Cancel order",
   "detailsAreYouSureYouWantToCancelTheOrder": "Are you sure you want to cancel the order?",
-  "orderDetailsDisplayId": "order #display_id",
+  "orderDetailsDisplayId": "order #{displayId}",
+  "@orderDetailsDisplayId":  {
+    "placeholders": {
+      "displayId": {
+        "type": "String"
+      }
+    }
+  },
   "detailsSuccessfullyCanceledOrder": "Successfully canceled order",
   "detailsGoToCustomer": "Go to Customer",
   "detailsTransferOwnership": "Transfer ownership",
@@ -1131,7 +1379,14 @@
   "orderLineModified": "Modified",
   "receiveReturnPleaseSelectAtLeastOneItemToReceive": "Please select at least one item to receive",
   "receiveReturnSuccessfullyReceivedReturn": "Successfully received return",
-  "receiveReturnReceivedReturnForOrder": "Received return for order #display_id",
+  "receiveReturnReceivedReturnForOrder": "Received return for order #{display_id}",
+  "@receiveReturnReceivedReturnForOrder": {
+    "placeholders": {
+      "display_id": {
+        "type": "String"
+      }
+    }
+  },
   "receiveReturnFailedToReceiveReturn": "Failed to receive return",
   "receiveReturnReceiveReturn": "Receive Return",
   "receiveReturnLocation": "Location",
@@ -1168,7 +1423,14 @@
   "reservationChooseWhichLocationYouWantToShipTheItemsFrom": "Choose which location you want to ship the items from.",
   "reservationItemsToAllocateTitle": "Items to Allocate",
   "reservationSelectTheNumberOfItemsThatYouWishToAllocate": "Select the number of items that you wish to allocate.",
-  "reservationMaxReservationRequested": " / maxReservation requested",
+  "reservationMaxReservationRequested": " / {maxReservation} requested",
+  "@reservationMaxReservationRequested": {
+    "placeholders": {
+      "maxReservation": {
+        "type": "String"
+      }
+    }
+  },
   "reservationReserved": " reserved",
   "reservationDescription": "Description",
   "reservationWhatTypeOfReservationIsThis": "What type of reservation is this?",
@@ -1259,7 +1521,17 @@
   "templatesSuccessfullyCanceledClaim": "Successfully canceled claim",
   "templatesSuccessfullyCanceledFulfillment": "Successfully canceled fulfillment",
   "templatesFulfillmentHasBeenCanceled": "Fulfillment has been canceled",
-  "templatesFulfilledByProvider": "title Fulfilled by provider",
+  "templatesFulfilledByProvider": "{title} Fulfilled by {provider}",
+  "@templatesFulfilledByProvider": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
   "templatesNotShipped": "Not shipped",
   "templatesTracking": "Tracking",
   "templatesShippedFrom": "Shipped from",
@@ -1288,13 +1560,27 @@
   "draftOrdersError": "Error",
   "draftOrdersSuccessfullyCanceledOrder": "Successfully canceled order",
   "draftOrdersBackToDraftOrders": "Back to Draft Orders",
-  "onMarkAsPaidConfirmOrderId": "Order #display_id",
+  "onMarkAsPaidConfirmOrderId": "Order #{displayId}",
+  "@onMarkAsPaidConfirmOrderId":  {
+    "placeholders": {
+      "displayId": {
+        "type": "String"
+      }
+    }
+  },
   "draftOrdersGoToOrder": "Go to Order",
   "draftOrdersCancelDraftOrder": "Cancel Draft Order",
   "draftOrdersDraftOrder": "Draft Order",
   "draftOrdersEmail": "Email",
   "draftOrdersPhone": "Phone",
-  "draftOrdersAmount": "Amount currency_code",
+  "draftOrdersAmount": "Amount {currencyCode}",
+  "@draftOrdersAmount": {
+    "placeholders": {
+      "currencyCode": {
+        "type": "String"
+      }
+    }
+  },
   "draftOrdersPayment": "Payment",
   "draftOrdersSubtotal": "Subtotal",
   "draftOrdersShipping": "Shipping",
@@ -1313,8 +1599,22 @@
   "draftOrdersBilling": "Billing",
   "draftOrdersRawDraftOrder": "Raw Draft Order",
   "draftOrdersAreYouSure": "Are you sure?",
-  "draftOrdersRemoveResourceHeading": "Remove resource",
-  "draftOrdersRemoveResourceSuccessText": "resource has been removed",
+  "draftOrdersRemoveResourceHeading": "Remove {resource}",
+  "@draftOrdersRemoveResourceHeading": {
+    "placeholders": {
+      "resource": {
+        "type": "String"
+      }
+    }
+  },
+  "draftOrdersRemoveResourceSuccessText": "{resource} has been removed",
+  "@draftOrdersRemoveResourceSuccessText":  {
+    "placeholders": {
+      "resource": {
+        "type": "String"
+      }
+    }
+  },
   "draftOrdersThisWillCreateAnOrderMarkThisAsPaidIfYouReceivedThePayment": "This will create an order. Mark this as paid if you received the payment.",
   "draftOrdersMarkPaid": "Mark paid",
   "draftOrdersCancel": "Cancel",
@@ -1335,7 +1635,14 @@
   "editFilterItems": "Filter items...",
   "editNote": "Note",
   "editAddANote": "Add a note...",
-  "variantsTableLocation": " in location",
+  "variantsTableLocation": " in {location}",
+  "@variantsTableLocation":  {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
   "editProduct": "Product",
   "editInStock": "In Stock",
   "editPrice": "Price",
@@ -1362,7 +1669,14 @@
   "componentsAddCustomItem": "Add Custom Item",
   "componentsChooseRegion": "Choose region",
   "componentsRegion": "Region",
-  "selectShippingToName": "(To name)",
+  "selectShippingToName": "(To {name})",
+  "@selectShippingToName":  {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "componentsAttention": "Attention!",
   "componentsNoOptionsForOrdersWithoutShipping": "You don't have any options for orders without shipping. Please add one (e.g. In-store fulfillment) with Show on website unchecked in region settings and continue.",
   "componentsChooseAShippingMethod": "Choose a shipping method",
@@ -1378,7 +1692,14 @@
   "componentsAddDiscount": "Add Discount",
   "componentsSummer10": "SUMMER10",
   "componentsDiscount": "Discount",
-  "selectShippingCode": "(Code: code)",
+  "selectShippingCode": "(Code: {code})",
+  "@selectShippingCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "componentsType": "Type",
   "componentsValue": "Value",
   "componentsAddress": "Address",
@@ -1401,9 +1722,23 @@
   "priceListDetailsSectionPromptConfirmText": "Delete",
   "priceListDetailsSectionPromptCancelText": "Cancel",
   "priceListDetailsSectionPromptTitle": "Delete price list",
-  "priceListDetailsSectionPromptDescription": "Are you sure you want to delete the price list name?",
+  "priceListDetailsSectionPromptDescription": "Are you sure you want to delete the price list {name}?",
+  "@priceListDetailsSectionPromptDescription":  {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "priceListDetailsSectionDeleteNotificationSuccessTitle": "Successfully deleted price list",
-  "priceListDetailsSectionDeleteNotificationSuccessMessage": "The price list name was successfully deleted",
+  "priceListDetailsSectionDeleteNotificationSuccessMessage": "The price list {name} was successfully deleted",
+  "@priceListDetailsSectionDeleteNotificationSuccessMessage":  {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "priceListDetailsSectionDeleteNotificationErrorTitle": "Failed to delete price list",
   "priceListDetailsSectionCustomerGroups": "Customer Groups",
   "priceListDetailsSectionLastEdited": "Last edited",
@@ -1413,7 +1748,14 @@
   "priceListDetailsSectionStatusMenuScheduled": "Scheduled",
   "priceListDetailsSectionStatusActive": "Active",
   "priceListDetailsSectionStatusMenuNotificationSuccessTitle": "Successfully updated price list status",
-  "priceListDetailsSectionStatusMenuNotificationSuccessMessage": "The price list status was successfully updated to status",
+  "priceListDetailsSectionStatusMenuNotificationSuccessMessage": "The price list status was successfully updated to {status}",
+  "@priceListDetailsSectionStatusMenuNotificationSuccessMessage": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
   "priceListDetailsSectionStatusMenuNotificationErrorTitle": "Failed to update price list status",
   "priceListDetailsSectionStatusMenuItemDraft": "Draft",
   "priceListDetailsSectionStatusMenuItemActivate": "Activate",
@@ -1454,22 +1796,57 @@
   "priceListPricesSectionPromptTitle": "Are you sure?",
   "priceListPricesSectionPromptDescription": "This will permanently delete the product prices from the list",
   "priceListPricesSectonDeleteSuccessTitle": "Prices deleted",
-  "priceListPricesSectionDeleteSuccessDescriptionOne": "Successfully deleted prices for count products",
-  "priceListPricesSectionDeleteSuccessDescriptionOther": "Successfully deleted prices for count products",
+  "priceListPricesSectionDeleteSuccessDescriptionOne": "Successfully deleted prices for {count} products",
+  "@priceListPricesSectionDeleteSuccessDescriptionOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "priceListPricesSectionDeleteSuccessDescriptionOther": "Successfully deleted prices for {count} products",
+  "@priceListPricesSectionDeleteSuccessDescriptionOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "priceListPricesSectionDeleteErrorTitle": "An error occurred",
   "priceListPricesSectionHeading": "Prices",
   "priceListPricesSectionSearchPlaceholder": "Search products",
   "priceListPricesSectionPricesMenuEdit": "Edit prices",
   "priceListPricesSectionPricesMenuAdd": "Add products",
-  "priceListPricesSectionTableLoadError": "An error occured while fetching the products. Try to reload the page, or if the issue persists, try again later.",
-  "priceListPricesSectionBarCountOne": "count selected",
-  "priceListPricesSectionBarCountOther": "count selected",
+  "priceListPricesSectionTableLoadError": "An error occurred while fetching the products. Try to reload the page, or if the issue persists, try again later.",
+  "priceListPricesSectionBarCountOne": "{count} selected",
+  "@priceListPricesSectionBarCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "priceListPricesSectionBarCountOther": "{count} selected",
+  "@priceListPricesSectionBarCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "priceListPricesSectionEditCommand": "Edit",
   "priceListPricesSectionDeleteCommand": "Delete",
   "priceListPricesSectionSelectAllCheckboxLabel": "Select all products on the current page",
   "priceListPricesSectionSelectCheckboxLabel": "Select row",
   "priceListPricesSectionTableProduct": "Product",
-  "priceListPricesSectionTableThumbnailAlt": "title thumbnail",
+  "priceListPricesSectionTableThumbnailAlt": "{title} thumbnail",
+  "@priceListPricesSectionTableThumbnailAlt": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "priceListPricesSectionTableCollection": "Collection",
   "priceListPricesSectionTableVariants": "Variants",
   "priceListDetailsFormTypeHeading": "Type",
@@ -1505,29 +1882,101 @@
   "priceListPricesFormVariant": "Variant",
   "priceListPricesFormSku": "SKU",
   "priceListPricesFormPrices": "Prices",
-  "priceListPricesFormPricesVariantCountOne": "count variants",
-  "priceListPricesFormPricesVariantCountOther": "count variants",
+  "priceListPricesFormPricesVariantCountOne": "{count} variants",
+  "@priceListPricesFormPricesVariantCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "priceListPricesFormPricesVariantCountOther": "{count} variants",
+  "@priceListPricesFormPricesVariantCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "priceListPricesFormAddPricesButton": "Add prices",
-  "priceListPricesFormPricesCountOne": "count prices",
-  "priceListPricesFormPricesCountOther": "count prices",
+  "priceListPricesFormPricesCountOne": "{count} prices",
+  "@priceListPricesFormPricesCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "priceListPricesFormPricesCountOther": "{count} prices",
+  "@priceListPricesFormPricesCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "priceListProductPricesFormInvalidDataTitle": "Invalid data",
   "priceListProductPricesFormInvalidDataBody": "The data you pasted contains values that are not numbers.",
   "priceListProductPricesFormColumnVisibilityButton": "View",
   "priceListProductPricesFormColumnVisibilityCurrenciesLabel": "Currencies",
   "priceListProductPricesFormColumnVisibilityRegionsLabel": "Regions",
   "priceListProductPricesFormColumnProductLabel": "Product",
-  "priceListProductPricesFormColumnCurrenciesPriceLabel": "Price code",
-  "priceListProductPricesFormColumnRegionsPriceLabel": "Price name (code)",
+  "priceListProductPricesFormColumnCurrenciesPriceLabel": "Price {code}",
+  "@priceListProductPricesFormColumnCurrenciesPriceLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "priceListProductPricesFormColumnRegionsPriceLabel": "Price {name} ({code})",
+  "@priceListProductPricesFormColumnRegionsPriceLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "priceListProductsFormSelectAll": "Select all products on the current page",
   "priceListProductsFormSelectRow": "Select row",
   "priceListProductsFormProductLabel": "Product",
-  "priceListProductsFormProductThumbnail": "title thumbnail",
+  "priceListProductsFormProductThumbnail": "{title} thumbnail",
+  "@priceListProductsFormProductThumbnail":  {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "priceListProductsFormCollectionLabel": "Collection",
   "priceListProductsFormSalesChannelsLabel": "Availability",
-  "priceListProductsFormSalesChannelsValue": "first + remaining more",
+  "priceListProductsFormSalesChannelsValue": "{first} + {remaining} more",
+  "@priceListProductsFormSalesChannelsValue": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      }    ,
+      "remaining": {
+        "type": "String"
+      }
+    }
+  },
   "priceListProductsFormStatusLabel": "Status",
   "priceListProductsFormInventoryLabel": "Inventory",
-  "priceListProductsFormInventoryValue": "totalStock in stock across variants variants",
+  "priceListProductsFormInventoryValue": "totalStock in stock across {variants} variants",
+  "@priceListProductsFormInventoryValue": {
+    "placeholders": {
+      "totalStock": {
+        "type": "String"
+      },
+      "variants": {
+        "type": "String"
+      }
+    }
+  },
   "priceListProductsFormLoading": "Loading products",
   "priceListProductsFormError": "An error occurred while loading products. Reload the page and try again. If the issue persists, try again later.",
   "priceListProductsFormNoProducts": "No products found.",
@@ -1568,7 +2017,14 @@
   "modalsFailedToCreateANewCategory": "Failed to create a new category",
   "modalsError": "Error",
   "modalsSaveCategory": "Save category",
-  "modalsAddCategoryTo": "Add category to name",
+  "modalsAddCategoryTo": "Add category to {name}",
+  "@modalsAddCategoryTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "modalsAddCategory": "Add category",
   "modalsDetails": "Details",
   "modalsName": "Name",
@@ -1668,8 +2124,22 @@
   "modalsSalesChannelsRemovedFromTheScope": "Sales channels removed from the scope",
   "modalsErrorOccurredWhileRemovingSalesChannelsFromTheScopeOfTheKey": "Error occurred while removing sales channels from the scope of the key",
   "modalsEditSalesChannels": "Edit sales channels",
-  "publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOne": "count",
-  "publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOther": "count",
+  "publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOne": "{count}",
+  "@publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOther": "{count}",
+  "@publishableApiKeysModalsManageSalesChannelsSelectedWithCountsOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "modalsDeselect": "Deselect",
   "modalsRemove": "Remove",
   "modalsAddChannels": "Add channels",
@@ -1748,8 +2218,22 @@
   "tablesDetails": "Details",
   "tablesRemoveFromTheChannel": "Remove from the channel",
   "tablesProducts": "Products",
-  "salesChannelsTablePlaceholderSelectedWithCountsOne": "count",
-  "salesChannelsTablePlaceholderSelectedWithCountsOther": "count",
+  "salesChannelsTablePlaceholderSelectedWithCountsOne": "{count}",
+  "@salesChannelsTablePlaceholderSelectedWithCountsOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "salesChannelsTablePlaceholderSelectedWithCountsOther": "{count}",
+  "@salesChannelsTablePlaceholderSelectedWithCountsOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "tablesRemove": "Remove",
   "componentsSuccessfullyUpdatedCurrency": "Successfully updated currency",
   "componentsDefault": "Default",
@@ -1767,8 +2251,22 @@
   "storeCurrenciesAddStoreCurrencies": "Add Store Currencies",
   "storeCurrenciesCurrentStoreCurrencies": "Current Store Currencies",
   "storeCurrenciesClose": "Close",
-  "currentCurrenciesScreenSelectedWithCountOne": "count",
-  "currentCurrenciesScreenSelectedWithCountOther": "count",
+  "currentCurrenciesScreenSelectedWithCountOne": "{count}",
+  "@currentCurrenciesScreenSelectedWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "currentCurrenciesScreenSelectedWithCountOther": "{count}",
+  "@currentCurrenciesScreenSelectedWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "storeCurrenciesDeselect": "Deselect",
   "storeCurrenciesRemove": "Remove",
   "storeCurrenciesAddCurrencies": "Add Currencies",
@@ -1949,14 +2447,56 @@
   "taxesError": "Error",
   "taxesOverrides": "Overrides",
   "taxesProductRules": "Product Rules",
-  "taxesProductRulesDescriptionOne": "Applies to count productWithCount",
-  "taxesProductRulesDescriptionOther": "Applies to count productWithCount",
+  "taxesProductRulesDescriptionOne": "Applies to {count} productWithCount",
+  "@taxesProductRulesDescriptionOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "taxesProductRulesDescriptionOther": "Applies to {count} productWithCount",
+  "@taxesProductRulesDescriptionOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "taxesProductTypeRules": "Product Type Rules",
-  "taxesProductTypeRulesDescriptionOne": "Applies to count product typeWithCount",
-  "taxesProductTypeRulesDescriptionOther": "Applies to count product typeWithCount",
+  "taxesProductTypeRulesDescriptionOne": "Applies to {count} product typeWithCount",
+  "@taxesProductTypeRulesDescriptionOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "taxesProductTypeRulesDescriptionOther": "Applies to {count} product typeWithCount",
+  "@taxesProductTypeRulesDescriptionOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "taxesShippingOptionRules": "Shipping Option Rules",
-  "taxesAppliesToShippingOptionWithCountOne": "Applies to count shipping optionWithCount",
-  "taxesAppliesToShippingOptionWithCountOther": "Applies to count shipping optionWithCount",
+  "taxesAppliesToShippingOptionWithCountOne": "Applies to {count} shipping optionWithCount",
+  "@taxesAppliesToShippingOptionWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "taxesAppliesToShippingOptionWithCountOther": "Applies to {count} shipping optionWithCount",
+  "@taxesAppliesToShippingOptionWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "taxesAddOverrides": "Add Overrides",
   "taxesCancel": "Cancel",
   "taxesSave": "Save",
@@ -1972,8 +2512,22 @@
   "taxesGoToRegionSettings": "Go to Region settings",
   "taxesSuccessfullyCreatedTaxRate": "Successfully created tax rate.",
   "taxesAddTaxRate": "Add Tax Rate",
-  "taxesAppliesToProductTypeWithCountOne": "Applies to count product typeWithCount",
-  "taxesAppliesToProductTypeWithCountOther": "Applies to count product typeWithCount",
+  "taxesAppliesToProductTypeWithCountOne": "Applies to {count} product typeWithCount",
+  "@taxesAppliesToProductTypeWithCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "taxesAppliesToProductTypeWithCountOther": "Applies to {count} product typeWithCount",
+  "@taxesAppliesToProductTypeWithCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
   "taxesCreate": "Create",
   "taxesSelectProducts": "Select Products",
   "taxesSelectProductTypesLabel": "Select Product Types",
@@ -2006,6 +2560,20 @@
   "usersBackToSettings": "Back to settings",
   "usersTheTeam": "The Team",
   "usersManageUsersOfYourMedusaStore": "Manage users of your Medusa Store",
-  "usersCountOne": "count",
-  "usersCountOther": "count"
+  "usersCountOne": "{count}",
+  "@usersCountOne": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "usersCountOther": "{count}",
+  "@usersCountOther": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  }
 }

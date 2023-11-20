@@ -84,6 +84,7 @@ abstract class Routes {
       _Paths.CREATE_UPDATE_CUSTOM_GIFT_CARD;
   static const MEDUSA_SEARCH = _Paths.MEDUSA_SEARCH;
   static const ORDER_SETTINGS = _Paths.ORDER_SETTINGS;
+  static const ADD_UPDATE_ORDER_EDIT = _Paths.ADD_UPDATE_ORDER_EDIT;
 }
 
 abstract class _Paths {
@@ -154,4 +155,5 @@ abstract class _Paths {
       '/create-update-custom-gift-card';
   static const MEDUSA_SEARCH = '/medusa-search';
   static const ORDER_SETTINGS = '/order-settings';
+  static const ADD_UPDATE_ORDER_EDIT = '/add-update-order-edit';
 }

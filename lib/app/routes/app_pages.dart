@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/settings_module/app_settings/order_settings/bindings/order_settings_binding.dart';
-import 'package:medusa_admin/app/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
 
+import '../modules/add_update_order_edit/bindings/add_update_order_edit_binding.dart';
+import '../modules/add_update_order_edit/views/add_update_order_edit_view.dart';
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../modules/auth_module/sign_in/bindings/sign_in_binding.dart';
@@ -86,6 +86,8 @@ import '../modules/products_module/product_details/views/product_details_view.da
 import '../modules/products_module/products/bindings/products_binding.dart';
 import '../modules/products_module/products/views/products_view.dart';
 import '../modules/settings_module/app_settings/bindings/app_settings_binding.dart';
+import '../modules/settings_module/app_settings/order_settings/bindings/order_settings_binding.dart';
+import '../modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
 import '../modules/settings_module/app_settings/views/app_settings_view.dart';
 import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/bindings/add_update_api_key_binding.dart';
 import '../modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
@@ -502,6 +504,11 @@ class AppPages {
       name: _Paths.ORDER_SETTINGS,
       page: () => const OrderSettingsView(),
       binding: OrderSettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_UPDATE_ORDER_EDIT,
+      page: () => const AddUpdateOrderEditView(),
+      binding: AddUpdateOrderEditBinding(),
     ),
   ];
 }

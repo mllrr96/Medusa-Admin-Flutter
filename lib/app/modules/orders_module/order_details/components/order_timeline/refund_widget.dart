@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 
 class RefundWidget extends StatelessWidget {
@@ -40,7 +39,7 @@ class RefundWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${timeago.format(DateTime.now().subtract(durationDiff))} ${refund.amount.formatAsPrice(currencyCode)}',
+                    '${DateTime.now().subtract(durationDiff).timeAgo()} ${refund.amount.formatAsPrice(currencyCode)}',
                     style: smallTextStyle?.copyWith(color: lightWhite),
                   ),
                   if (refund.reason != null)

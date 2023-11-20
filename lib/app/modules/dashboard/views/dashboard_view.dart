@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,8 @@ import 'package:medusa_admin/app/modules/customers_module/customers/controllers/
 import 'package:medusa_admin/app/modules/more/view/more_view.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/app/modules/products_module/products/controllers/products_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import '../../customers_module/shared_view.dart';
 import '../../orders_module/shared_view.dart';
 import '../../products_module/shared_view.dart';
@@ -14,6 +17,19 @@ class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final bottomNavBarItems = GetPlatform.isIOS
+        ? <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: const Icon(CupertinoIcons.cart), label: context.tr.sidebarOrders),
+            BottomNavigationBarItem(icon: const Icon(MedusaIcons.tag), label: context.tr.sidebarProducts),
+            BottomNavigationBarItem(icon: const Icon(MedusaIcons.users), label: context.tr.sidebarCustomers),
+            const BottomNavigationBarItem(icon: Icon(CupertinoIcons.add), label: 'More'),
+          ]
+        : [
+            BottomNavigationBarItem(icon: const Icon(CupertinoIcons.cart), label: context.tr.sidebarOrders),
+            BottomNavigationBarItem(icon: const Icon(CupertinoIcons.tag), label: context.tr.sidebarProducts),
+            BottomNavigationBarItem(icon: const Icon(Icons.person), label: context.tr.sidebarCustomers),
+            const BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
+          ];
     return GetBuilder<DashboardController>(
       builder: (controller) {
         return WillPopScope(
@@ -64,7 +80,7 @@ class DashboardView extends GetView<DashboardController> {
                   selectedFontSize: 12.0,
                   unselectedFontSize: 12.0,
                   onTap: controller.onTap,
-                  items: controller.bottomNavBarItems,
+                  items: bottomNavBarItems,
                 ),
               ),
               body: PageSwitchingView(

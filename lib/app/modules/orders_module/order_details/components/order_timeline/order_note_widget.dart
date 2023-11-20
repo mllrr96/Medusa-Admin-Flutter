@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../core/utils/colors.dart';
 
@@ -52,7 +51,7 @@ class OrderNoteWidget extends StatelessWidget {
                             style: smallTextStyle?.copyWith(color: Colors.transparent)),
                       ),
                       const Gap(8),
-                      Text(timeago.format(DateTime.now().subtract(durationDiff)),
+                      Text(DateTime.now().subtract(durationDiff).timeAgo(),
                           style: smallTextStyle?.copyWith(color: lightWhite)),
                     ],
                   ),

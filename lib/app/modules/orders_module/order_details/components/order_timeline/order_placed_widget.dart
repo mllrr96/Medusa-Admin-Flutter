@@ -3,7 +3,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/models/store/order.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class OrderPlacedWidget extends StatefulWidget {
   const OrderPlacedWidget(this.order, {super.key});
@@ -45,7 +44,7 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
               const Icon(Icons.check_circle_outline, color: Colors.transparent),
               const SizedBox(width: 12.0),
               AnimatedCrossFade(
-                firstChild: Text('${timeago.format(DateTime.now().subtract(durationDiff))} · $total',
+                firstChild: Text('${DateTime.now().subtract(durationDiff).timeAgo()} · $total',
                     style: smallTextStyle?.copyWith(color: lightWhite)),
                 secondChild: Text(
                     '${widget.order.createdAt.formatDate()} ${widget.order.createdAt.formatTime()} · $total',

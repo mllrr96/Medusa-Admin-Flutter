@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../app/data/service/storage_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 extension BuildContextEntension<T> on BuildContext {
   // text styles
@@ -145,5 +146,12 @@ extension FormatDate on DateTime? {
       return '';
     }
     return DateFormat(format.format()).format(this!);
+  }
+
+  String timeAgo() {
+    if (this == null) {
+      return '';
+    }
+    return timeago.format(this!);
   }
 }

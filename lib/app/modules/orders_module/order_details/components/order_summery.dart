@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -22,7 +24,10 @@ class OrderSummery extends StatelessWidget {
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Summery'),
-      trailing: AdaptiveButton(onPressed: () {}, padding: EdgeInsets.zero, child: const Text('Edit Order')),
+      trailing: AdaptiveButton(
+          onPressed: () => Get.toNamed(Routes.ADD_UPDATE_ORDER_EDIT, arguments: order),
+          padding: EdgeInsets.zero,
+          child: const Text('Edit Order')),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       children: [
         ListView.builder(
@@ -30,7 +35,7 @@ class OrderSummery extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: order.items!.length,
             itemBuilder: (context, index) => OrderSummeryCard(order: order, index: index)),
-        const Divider(indent: 20,endIndent: 20),
+        const Divider(indent: 20, endIndent: 20),
         Column(
           children: [
             Padding(
@@ -65,10 +70,8 @@ class OrderSummery extends StatelessWidget {
                 ],
               ),
             ),
-            if(refunded)
-            halfSpace,
-            if(!refunded)
-            const Divider(),
+            if (refunded) halfSpace,
+            if (!refunded) const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Row(

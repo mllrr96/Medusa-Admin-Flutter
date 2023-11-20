@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../../core/utils/colors.dart';
 import '../../controllers/order_details_controller.dart';
@@ -20,29 +19,14 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
     final canceledDurationDiff = DateTime.now().difference(orderEdit.canceledAt ?? DateTime.now());
     final declinedDurationDiff = DateTime.now().difference(orderEdit.declinedAt ?? DateTime.now());
     final confirmedDurationDiff = DateTime.now().difference(orderEdit.confirmedAt ?? DateTime.now());
-    var addedItems = orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemAdd).toList();
     const space = Gap(12);
     const buttonShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
     );
-    var removedItems =
-        orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemRemove).toList();
     Widget payment() {
       if (orderEdit.status != OrderEditStatus.requested) {
         return const SizedBox.shrink();
       }
-      num removedPrice = 0;
-      num addedPrice = 0;
-      removedItems?.forEach((element) {
-        final quantity = ((element.lineItem?.quantity ?? 0) - (element.originalLineItem?.quantity ?? 0)).abs();
-        removedPrice += (element.originalLineItem?.unitPrice ?? 0) * quantity;
-      });
-      addedItems?.forEach((element) {
-        final quantity = ((element.lineItem?.quantity ?? 0) - (element.originalLineItem?.quantity ?? 0)).abs();
-        addedPrice += (element.lineItem?.unitPrice ?? 0) * quantity;
-      });
-      final requiredPrice = (removedPrice - addedPrice).abs() - (order.refundedTotal ?? 0);
-
       if (orderEdit.differenceDue?.isNegative ?? false) {
         return Column(
           children: [
@@ -66,12 +50,10 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                 const SizedBox(width: 12.0),
                 Expanded(
                   child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: buttonShape,
-                      ),
+                      style: OutlinedButton.styleFrom(shape: buttonShape),
                       onPressed: () {},
                       child: Text(
-                        'Refund ${requiredPrice.formatAsPrice(order.currencyCode)}',
+                        'Refund ${orderEdit.differenceDue?.abs().formatAsPrice(order.currencyCode)}',
                         style: const TextStyle(color: Colors.red),
                       )),
                 ),
@@ -97,7 +79,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                   color: Colors.transparent,
                 ),
                 const SizedBox(width: 12.0),
-                Text('a few seconds ago · ${requiredPrice.formatAsPrice(order.currencyCode)}',
+                Text('a few seconds ago · ${orderEdit.differenceDue.formatAsPrice(order.currencyCode)}',
                     style: smallTextStyle?.copyWith(color: lightWhite))
               ],
             ),
@@ -179,7 +161,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                         children: [
                           Flexible(
                             child: Text(
-                              '${timeago.format(DateTime.now().subtract(confirmedDurationDiff))} by ',
+                              '${DateTime.now().subtract(confirmedDurationDiff).timeAgo()} by ',
                               style: smallTextStyle?.copyWith(color: lightWhite),
                             ),
                           ),
@@ -210,7 +192,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                         children: [
                           Flexible(
                             child: Text(
-                              '${timeago.format(DateTime.now().subtract(declinedDurationDiff))} by ',
+                              '${DateTime.now().subtract(declinedDurationDiff).timeAgo()} by ',
                               style: smallTextStyle?.copyWith(color: lightWhite),
                             ),
                           ),
@@ -241,7 +223,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                         children: [
                           Flexible(
                             child: Text(
-                              '${timeago.format(DateTime.now().subtract(canceledDurationDiff))} by ',
+                              '${DateTime.now().subtract(canceledDurationDiff).timeAgo()} by ',
                               style: smallTextStyle?.copyWith(color: lightWhite),
                             ),
                           ),
