@@ -14,7 +14,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 
 class OrderCreateFulfillment extends StatefulWidget {
-  const OrderCreateFulfillment({required this.order, Key? key}) : super(key: key);
+  const OrderCreateFulfillment({required this.order, super.key});
   final Order order;
   @override
   State<OrderCreateFulfillment> createState() => _OrderCreateFulfillmentState();
@@ -89,23 +89,27 @@ class _OrderCreateFulfillmentState extends State<OrderCreateFulfillment> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          item.thumbnail != null
-                              ? SizedBox(
-                                  height: 50,
-                                  width: 50,
-                                  child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!),
-                                )
-                              : const SizedBox(height: 50, width: 50),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item.title ?? '', style: mediumTextStyle),
-                              Text(item.variant?.title ?? '', style: smallTextStyle),
-                            ],
-                          ),
-                        ],
+                      Flexible(
+                        child: Row(
+                          children: [
+                            item.thumbnail != null
+                                ? SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CachedNetworkImage(key: ValueKey(item.thumbnail), imageUrl: item.thumbnail!),
+                                  )
+                                : const SizedBox(height: 50, width: 50),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(item.title ?? '', style: mediumTextStyle),
+                                  Text(item.variant?.title ?? '', style: smallTextStyle),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),

@@ -11,6 +11,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -177,6 +178,7 @@ class SignInView extends GetView<SignInController> {
                           child: AdaptiveButton(
                             child: Text(
                               tr.loginCardForgotYourPassword,
+                              style: context.bodySmall?.copyWith(color: ColorManager.primary),
                             ),
                             onPressed: () {
                               if (controller.errorMessage.value.isNotEmpty) {
@@ -249,8 +251,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final bottomPadding =
-        MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
+    final bottomPadding = context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
 
     return Container(
       color: context.theme.scaffoldBackgroundColor,
@@ -279,7 +280,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                         return;
                       }
                       await StorageService.instance.updateUrl(textCtrl.text).then(
-                            (result) {
+                        (result) {
                           Get.back();
                           if (result) {
                             Get.snackbar('Success', 'Url updated, restart the app');
@@ -293,7 +294,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(12.0, 8.0, 12.0, MediaQuery.of(context).viewInsets.bottom + 8.0),
+              padding: EdgeInsets.fromLTRB(12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
               child: Column(
                 children: [
                   Column(

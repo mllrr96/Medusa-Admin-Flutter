@@ -1,7 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -14,7 +18,7 @@ import '../../../components/countries/components/countries.dart';
 import '../../../components/custom_expansion_tile.dart';
 
 class OrderCustomer extends GetView<OrderDetailsController> {
-  const OrderCustomer(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
+  const OrderCustomer(this.order, {super.key, this.onExpansionChanged});
   final Order order;
   final void Function(bool)? onExpansionChanged;
   @override
@@ -58,17 +62,40 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 2:
                   final result = await showBarModalBottomSheet(
                     context: context,
-                    builder: (context) => EditShippingAddress(
+                    builder: (context) => EditAddress(
                       shippingAddress: order.shippingAddress!,
                       countries: order.region?.countries ?? <Country>[],
+                      appbarTitle: 'Shipping Address',
                       context: context,
                     ),
                   );
-
                   if (result is Address) {
                     await controller.updateShippingAddress(result);
                   }
                   break;
+                case 3:
+                  final result = await showBarModalBottomSheet(
+                    context: context,
+                    builder: (context) => EditAddress(
+                      shippingAddress: order.billingAddress!,
+                      countries: order.region?.countries ?? <Country>[],
+                      appbarTitle: 'Billing Address',
+                      context: context,
+                    ),
+                  );
+                  if (result is Address) {
+                    await controller.updateBillingAddress(result);
+                  }
+                  break;
+                case 4:
+                  final result = await showBarModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return EmailUpdateView(currentEmail: order.email);
+                      });
+                  if (result is String) {
+                    await controller.updateEmail(result);
+                  }
               }
             });
           },
@@ -82,8 +109,9 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: ColorManager.getAvatarColor(order.email),
-                      child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email![0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white))),
+                      backgroundColor: ColorManager.getAvatarColor(order.email),
+                      child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email![0].toUpperCase(),
+                          style: largeTextStyle?.copyWith(color: Colors.white))),
                   const SizedBox(width: 14.0),
                   Flexible(
                     child: Column(
@@ -145,6 +173,81 @@ class OrderCustomer extends GetView<OrderDetailsController> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class EmailUpdateView extends StatefulWidget {
+  const EmailUpdateView({super.key, this.currentEmail});
+  final String? currentEmail;
+  @override
+  State<EmailUpdateView> createState() => _EmailUpdateViewState();
+}
+
+class _EmailUpdateViewState extends State<EmailUpdateView> {
+  final emailCtrl = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    emailCtrl.text = widget.currentEmail ?? '';
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
+    return Container(
+      color: context.theme.scaffoldBackgroundColor,
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppBar(
+              leading: const AdaptiveBackButton(),
+              title: const Text('Update Email Address'),
+              actions: [
+                AdaptiveButton(
+                    onPressed: () {
+                      if (!formKey.currentState!.validate()) {
+                        return;
+                      }
+                      if (emailCtrl.text == widget.currentEmail) {
+                        Get.back();
+                        return;
+                      }
+                      Get.back(result: emailCtrl.text);
+                    },
+                    child: const Text('Save'))
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8, 10, 8, context.bottomViewInsetPadding),
+              child: EmailTextField(
+                controller: emailCtrl,
+                textInputAction: TextInputAction.done,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Email can not be empty';
+                  }
+                  if (!value.isEmail) {
+                    return 'Invalid email address';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Gap(bottomPadding),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -22,7 +22,7 @@ import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 
 class ProductAddVariant extends GetView<ProductAddVariantController> {
-  const ProductAddVariant({Key? key}) : super(key: key);
+  const ProductAddVariant({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -136,25 +136,26 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                           Text(' *', style: mediumTextStyle?.copyWith(color: Colors.red)),
                                         ],
                                       ),
-                                      const SizedBox(height: 6.0),
-                                      DropdownButtonFormField(
-                                        style: context.bodyMedium,
-                                        validator: (val) {
-                                          if (val == null) {
-                                            return 'Field is required';
-                                          }
-                                          return null;
-                                        },
-                                        items: currentOption.values!
-                                            .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
-                                            .toList(),
-                                        hint: const Text('Choose an option'),
-                                        onChanged: (value) {
-                                          if (value != null) {
-                                            controller.selectedOptionsValue[index] = value;
-                                          }
-                                        },
-                                      ),
+                                      const Gap(6.0),
+                                      if (currentOption.values != null)
+                                        DropdownButtonFormField(
+                                          style: context.bodyMedium,
+                                          validator: (val) {
+                                            if (val == null) {
+                                              return 'Field is required';
+                                            }
+                                            return null;
+                                          },
+                                          items: currentOption.values!
+                                              .map((e) => DropdownMenuItem(value: e, child: Text(e.value!)))
+                                              .toList(),
+                                          hint: const Text('Choose an option'),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              controller.selectedOptionsValue[index] = value;
+                                            }
+                                          },
+                                        ),
                                     ],
                                   );
                                 },
@@ -217,7 +218,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                                               child: Row(
                                                 children: [
                                                   Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
-                                                  const SizedBox(width: 12.0),
+                                                  space,
                                                   Expanded(
                                                       child: Text(currency.name ?? '',
                                                           style: mediumTextStyle?.copyWith(color: lightWhite)))
@@ -353,7 +354,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                             Flexible(
                               child: LabeledNumericTextField(controller: controller.widthCtrl, label: 'Width'),
                             ),
-                            const SizedBox(width: 12),
+                            space,
                             Flexible(
                               child: LabeledNumericTextField(controller: controller.lengthCtrl, label: 'Length'),
                             ),
@@ -367,7 +368,7 @@ class ProductAddVariant extends GetView<ProductAddVariantController> {
                             Flexible(
                               child: LabeledNumericTextField(controller: controller.heightCtrl, label: 'Height'),
                             ),
-                            const SizedBox(width: 12),
+                            space,
                             Flexible(
                               child: LabeledNumericTextField(controller: controller.weightCtrl, label: 'Weight'),
                             ),
@@ -504,7 +505,6 @@ class ProductAddVariantController extends GetxController {
         final test = variant!.options?.where((e) => e.optionId == element.id);
         productOptionCtrlMap.addAll({element: TextEditingController(text: test?.first.value ?? '')});
       });
-
 
       for (MoneyAmount money in variant!.prices!) {
         currencyCtrlMap.addAll({

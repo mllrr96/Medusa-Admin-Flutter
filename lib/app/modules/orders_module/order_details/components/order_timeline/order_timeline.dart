@@ -1,5 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
@@ -7,10 +7,9 @@ import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'index.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart' as medusa;
 
 class OrderTimeline extends StatelessWidget {
-  const OrderTimeline(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
+  const OrderTimeline(this.order, {super.key, this.onExpansionChanged});
   final Order order;
   final void Function(bool)? onExpansionChanged;
 
@@ -73,22 +72,20 @@ class OrderTimeline extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final item = asyncSnapshot.data?[index];
                           switch (item.runtimeType) {
-                            // case  List:
-                            //   return OrderEditStatusWidget(order, orderEdit: item);
-                            case OrderEdit:
+                            case const (OrderEdit):
                               if ((item as OrderEdit).requestedAt != null) {
                                 return OrderEditWidget(item);
                               } else {
                                 return OrderEditStatusWidget(order, orderEdit: item);
                               }
-                            case Note:
+                            case const (Note) :
                               return OrderNoteWidget(
                                 item,
                                 onNoteDelete: () async => controller.deleteNote(item.id),
                               );
-                            case Refund:
+                            case const (Refund):
                               return RefundWidget(item, currencyCode: order.currencyCode);
-                            case medusa.Notification:
+                            case const (Notification):
                               return const SizedBox();
                             default:
                               return const SizedBox();

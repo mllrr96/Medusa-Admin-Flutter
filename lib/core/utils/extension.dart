@@ -29,6 +29,7 @@ extension BuildContextEntension<T> on BuildContext {
   // media query
   EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
   double get bottomViewPadding => MediaQuery.of(this).viewPadding.bottom;
+  double get bottomViewInsetPadding => MediaQuery.of(this).viewInsets.bottom;
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;

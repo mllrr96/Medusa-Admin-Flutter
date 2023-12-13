@@ -30,130 +30,133 @@ class ProductsView extends GetView<ProductsController> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GetBuilder<ProductsController>(builder: (controller) {
-              return SpeedDial(
-                switchLabelPosition: true,
-                backgroundColor: (controller.productFilter == null ||
-                        controller.productFilter?.count() == 0)
-                    ? null
-                    : Colors.redAccent,
+        child: Directionality(
+          textDirection: context.isRTL ?TextDirection.rtl:TextDirection.ltr,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GetBuilder<ProductsController>(builder: (controller) {
+                return SpeedDial(
+                  switchLabelPosition: true,
+                  backgroundColor: (controller.productFilter == null ||
+                          controller.productFilter?.count() == 0)
+                      ? null
+                      : Colors.redAccent,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  icon: CupertinoIcons.doc_text_search,
+                  spacing: 10,
+                  children: [
+                    SpeedDialChild(
+                      child: const Icon(MedusaIcons.magnifying_glass_mini),
+                      label: 'Search for a product',
+                      labelStyle: smallTextStyle,
+                      onTap: () async {
+                        await Get.toNamed(Routes.MEDUSA_SEARCH, arguments: SearchReq(searchCategory: SearchCategory.products));
+                      },
+                      onLongPress: () {},
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(CupertinoIcons.doc_text_search),
+                      label: 'Filters',
+                      labelStyle: smallTextStyle,
+                      onTap: () async {
+                        await showBarModalBottomSheet(
+                            context: context,
+                            builder: (context) => ProductsFilterView(
+                                  collections: controller.collections,
+                                  tags: controller.tags,
+                                  onResetPressed: () {
+                                    controller.resetFilter();
+                                    Get.back();
+                                  },
+                                  productFilter: controller.productFilter,
+                                )).then((result) {
+                          if (result is ProductFilter) {
+                            controller.updateFilter(result);
+                          }
+                        });
+                      },
+                      onLongPress: () => controller.resetFilter(),
+                    ),
+                    SpeedDialChild(
+                      child: const Icon(CupertinoIcons.sort_up),
+                      label: 'Sort',
+                      labelStyle: smallTextStyle,
+                      onTap: () async {
+                        final sortOption = controller.sortOptions;
+                        final result = await showModalActionSheet<SortOptions>(
+                            context: context,
+                            title: 'Sort products',
+                            actions: <SheetAction<SortOptions>>[
+                              SheetAction(
+                                  label: 'A-Z',
+                                  key: SortOptions.aZ,
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.aZ),
+                              SheetAction(
+                                  label: 'Z-A',
+                                  key: SortOptions.zA,
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.zA),
+                              SheetAction(
+                                  label: 'Creation Date',
+                                  key: SortOptions.dateRecent,
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.dateRecent),
+                              SheetAction(
+                                  label: 'Creation Date - Ascending',
+                                  key: SortOptions.dateOld,
+                                  isDestructiveAction:
+                                      sortOption == SortOptions.dateOld),
+                            ]);
+                        if (result != null) {
+                          controller.changeSortOption(result);
+                        }
+                      },
+                      onLongPress: () {},
+                    ),
+                  ],
+                );
+              }),
+              SpeedDial(
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                icon: CupertinoIcons.doc_text_search,
+                animatedIcon: AnimatedIcons.menu_close,
                 spacing: 10,
                 children: [
                   SpeedDialChild(
-                    child: const Icon(MedusaIcons.magnifying_glass_mini),
-                    label: 'Search for a product',
+                    child: const Icon(Icons.add),
+                    label: 'New Product',
                     labelStyle: smallTextStyle,
                     onTap: () async {
-                      await Get.toNamed(Routes.MEDUSA_SEARCH, arguments: SearchReq(searchCategory: SearchCategory.products));
-                    },
-                    onLongPress: () {},
-                  ),
-                  SpeedDialChild(
-                    child: const Icon(CupertinoIcons.doc_text_search),
-                    label: 'Filters',
-                    labelStyle: smallTextStyle,
-                    onTap: () async {
-                      await showBarModalBottomSheet(
-                          context: context,
-                          builder: (context) => ProductsFilterView(
-                                collections: controller.collections,
-                                tags: controller.tags,
-                                onResetPressed: () {
-                                  controller.resetFilter();
-                                  Get.back();
-                                },
-                                productFilter: controller.productFilter,
-                              )).then((result) {
-                        if (result is ProductFilter) {
-                          controller.updateFilter(result);
+                      await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)
+                          ?.then((result) {
+                        if (result != null && result is bool && result == true) {
+                          controller.pagingController.refresh();
                         }
                       });
                     },
-                    onLongPress: () => controller.resetFilter(),
+                    onLongPress: () {},
                   ),
                   SpeedDialChild(
-                    child: const Icon(CupertinoIcons.sort_up),
-                    label: 'Sort',
+                    child: const Icon(MedusaIcons.arrow_down_tray),
+                    label: 'Import Products',
                     labelStyle: smallTextStyle,
-                    onTap: () async {
-                      final sortOption = controller.sortOptions;
-                      final result = await showModalActionSheet<SortOptions>(
-                          context: context,
-                          title: 'Sort products',
-                          actions: <SheetAction<SortOptions>>[
-                            SheetAction(
-                                label: 'A-Z',
-                                key: SortOptions.aZ,
-                                isDestructiveAction:
-                                    sortOption == SortOptions.aZ),
-                            SheetAction(
-                                label: 'Z-A',
-                                key: SortOptions.zA,
-                                isDestructiveAction:
-                                    sortOption == SortOptions.zA),
-                            SheetAction(
-                                label: 'Creation Date',
-                                key: SortOptions.dateRecent,
-                                isDestructiveAction:
-                                    sortOption == SortOptions.dateRecent),
-                            SheetAction(
-                                label: 'Creation Date - Ascending',
-                                key: SortOptions.dateOld,
-                                isDestructiveAction:
-                                    sortOption == SortOptions.dateOld),
-                          ]);
-                      if (result != null) {
-                        controller.changeSortOption(result);
-                      }
-                    },
+                    onTap: () {},
+                    onLongPress: () {},
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(Icons.cloud_upload_rounded),
+                    label: 'Export Products',
+                    labelStyle: smallTextStyle,
+                    onTap: () {},
                     onLongPress: () {},
                   ),
                 ],
-              );
-            }),
-            SpeedDial(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              animatedIcon: AnimatedIcons.menu_close,
-              spacing: 10,
-              children: [
-                SpeedDialChild(
-                  child: const Icon(Icons.add),
-                  label: 'New Product',
-                  labelStyle: smallTextStyle,
-                  onTap: () async {
-                    await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)
-                        ?.then((result) {
-                      if (result != null && result is bool && result == true) {
-                        controller.pagingController.refresh();
-                      }
-                    });
-                  },
-                  onLongPress: () {},
-                ),
-                SpeedDialChild(
-                  child: const Icon(MedusaIcons.arrow_down_tray),
-                  label: 'Import Products',
-                  labelStyle: smallTextStyle,
-                  onTap: () {},
-                  onLongPress: () {},
-                ),
-                SpeedDialChild(
-                  child: const Icon(Icons.cloud_upload_rounded),
-                  label: 'Export Products',
-                  labelStyle: smallTextStyle,
-                  onTap: () {},
-                  onLongPress: () {},
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
       body: SmartRefresher(

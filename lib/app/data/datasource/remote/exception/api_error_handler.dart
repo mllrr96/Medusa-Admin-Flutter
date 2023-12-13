@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 
 class Failure {
   final int? code;
@@ -81,8 +81,8 @@ class Failure {
         }
       } else if (error is TypeError) {
         failure = failure.copyWith(message: 'Type error, ${error.toString()}');
-        debugPrint(error.stackTrace.toString());
-        debugPrint(error.toString());
+        log(error.stackTrace.toString());
+        log(error.toString());
       } else {
         failure = failure.copyWith(message: 'Unexpected error occurred');
       }

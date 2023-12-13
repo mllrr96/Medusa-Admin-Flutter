@@ -16,12 +16,12 @@ dependencies:
   #--------------------
   image_picker: ^1.0.2
   image_cropper: ^5.0.0
-  uuid: ^3.0.7
+  uuid: ^4.2.1
   #--------------------
 
   # UI packages
   # -------------------
-  adaptive_dialog: ^1.9.0-no-macos.2
+  adaptive_dialog: ^2.0.0
   settings_ui: ^2.0.2
   flutter_easyloading: ^3.0.5
   flutter_svg: ^2.0.6
@@ -48,7 +48,7 @@ dependencies:
   multiple_result: ^5.0.0
   loading_animation_widget: ^1.2.0+4
   flutter_speed_dial: ^7.0.0
-  info_popup: ^3.0.4
+  info_popup: ^4.1.0
   multiselect: ^0.1.0
   flutter_slidable: ^3.0.0
   package_info_plus: ^4.0.2
@@ -56,9 +56,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   super_banners: ^0.0.1
-  google_fonts: ^5.1.0
+  google_fonts: ^6.1.0
   copy_with_extension: ^5.0.3
-  skeletonizer: ^0.7.0
+  skeletonizer: ^0.8.0
   flag: ^7.0.0
   elegant_notification: ^1.11.0
   timeago: ^3.5.0
@@ -66,7 +66,7 @@ dependencies:
 
 
 dev_dependencies: 
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   build_runner: any
   flutter_launcher_icons: ^0.13.1
   copy_with_extension_gen: ^5.0.4

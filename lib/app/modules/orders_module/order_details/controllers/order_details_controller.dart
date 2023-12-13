@@ -380,6 +380,26 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
+  Future<void> updateBillingAddress(Address address) async {
+    loading();
+    final result = await ordersRepo.updateOrder(
+      id: orderId,
+      userUpdateOrderReq: UserUpdateOrderReq(billingAddress: address),
+    );
+
+    result.when(
+      (success) async {
+        await fetchOrderDetails();
+        dismissLoading();
+      },
+      (error) {
+        Get.snackbar('Error updating billing address ${error.code ?? ''}', error.message,
+            snackPosition: SnackPosition.BOTTOM);
+        dismissLoading();
+      },
+    );
+  }
+
   Future<void> deleteNote(String? id) async {
     if (id == null) return;
     loading();
@@ -420,5 +440,25 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
       update([5]);
       return _;
     });
+  }
+
+  Future<void> updateEmail(String email) async {
+    loading();
+    final result = await ordersRepo.updateOrder(
+      id: orderId,
+      userUpdateOrderReq: UserUpdateOrderReq(email: email),
+    );
+
+    result.when(
+      (success) async {
+        await fetchOrderDetails();
+        dismissLoading();
+      },
+      (error) {
+        Get.snackbar('Error updating email address ${error.code ?? ''}', error.message,
+            snackPosition: SnackPosition.BOTTOM);
+        dismissLoading();
+      },
+    );
   }
 }

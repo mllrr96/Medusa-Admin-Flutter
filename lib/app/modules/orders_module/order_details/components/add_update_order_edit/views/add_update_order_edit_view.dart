@@ -267,6 +267,7 @@ class EditOrderItems extends GetView<AddUpdateOrderEditController> {
               ),
             ],
           ),
+        const Gap(20),
       ],
     );
   }

@@ -108,6 +108,7 @@ class EmailTextField extends StatelessWidget {
       controller: controller,
       onChanged: onChanged,
       onFieldSubmitted: onSubmitted,
+      keyboardType: TextInputType.emailAddress,
       textInputAction: textInputAction,
       style: mediumTextStyle,
       validator: validator,

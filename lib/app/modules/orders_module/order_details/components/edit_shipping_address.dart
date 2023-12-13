@@ -12,17 +12,17 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/address.dart';
 import '../../../../data/models/store/country.dart';
 
-class EditShippingAddress extends StatefulWidget {
-  const EditShippingAddress({Key? key, required this.shippingAddress, required this.countries, required this.context})
-      : super(key: key);
+class EditAddress extends StatefulWidget {
+  const EditAddress({super.key, required this.shippingAddress, required this.countries, required this.context, this.appbarTitle});
   final Address shippingAddress;
   final List<Country> countries;
   final BuildContext context;
+  final String? appbarTitle;
   @override
-  State<EditShippingAddress> createState() => _EditShippingAddressState();
+  State<EditAddress> createState() => _EditAddressState();
 }
 
-class _EditShippingAddressState extends State<EditShippingAddress> {
+class _EditAddressState extends State<EditAddress> {
   final scrollController = ScrollController();
   final contactKey = GlobalKey();
   final locationKey = GlobalKey();
@@ -38,21 +38,21 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
   final provinceCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   Country? selectedCountry;
-  late Address shippingAddress;
+  late Address address;
 
   @override
   void initState() {
-    shippingAddress = widget.shippingAddress;
-    firstNameCtrl.text = shippingAddress.firstName ?? '';
-    lastNameCtrl.text = shippingAddress.lastName ?? '';
-    companyCtrl.text = shippingAddress.company ?? '';
-    phoneCtrl.text = shippingAddress.phone?.toString() ?? '';
-    address1Ctrl.text = shippingAddress.address1 ?? '';
-    address2Ctrl.text = shippingAddress.address2 ?? '';
-    postalCodeCtrl.text = shippingAddress.postalCode ?? '';
-    cityCtrl.text = shippingAddress.city ?? '';
-    provinceCtrl.text = shippingAddress.province ?? '';
-    selectedCountry = shippingAddress.country;
+    address = widget.shippingAddress;
+    firstNameCtrl.text = address.firstName ?? '';
+    lastNameCtrl.text = address.lastName ?? '';
+    companyCtrl.text = address.company ?? '';
+    phoneCtrl.text = address.phone?.toString() ?? '';
+    address1Ctrl.text = address.address1 ?? '';
+    address2Ctrl.text = address.address2 ?? '';
+    postalCodeCtrl.text = address.postalCode ?? '';
+    cityCtrl.text = address.city ?? '';
+    provinceCtrl.text = address.province ?? '';
+    selectedCountry = address.country;
     super.initState();
   }
 
@@ -97,16 +97,16 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
     }
 
     bool sameAddress() {
-      if (firstNameCtrl.text == shippingAddress.firstName &&
-          lastNameCtrl.text == shippingAddress.lastName &&
-          companyCtrl.text == shippingAddress.company &&
-          int.tryParse(phoneCtrl.text) == shippingAddress.phone &&
-          address1Ctrl.text == shippingAddress.address1 &&
-          address2Ctrl.text == shippingAddress.address2 &&
-          postalCodeCtrl.text == shippingAddress.postalCode &&
-          cityCtrl.text == shippingAddress.city &&
-          provinceCtrl.text == shippingAddress.province &&
-          selectedCountry?.iso2 == shippingAddress.countryCode) {
+      if (firstNameCtrl.text == address.firstName &&
+          lastNameCtrl.text == address.lastName &&
+          companyCtrl.text == address.company &&
+          int.tryParse(phoneCtrl.text) == address.phone &&
+          address1Ctrl.text == address.address1 &&
+          address2Ctrl.text == address.address2 &&
+          postalCodeCtrl.text == address.postalCode &&
+          cityCtrl.text == address.city &&
+          provinceCtrl.text == address.province &&
+          selectedCountry?.iso2 == address.countryCode) {
         return true;
       }
       return false;
@@ -117,7 +117,7 @@ class _EditShippingAddressState extends State<EditShippingAddress> {
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
-          title: const Text('Shipping Address'),
+          title: Text( widget.appbarTitle?? 'Update Address'),
           actions: [
             AdaptiveButton(
                 onPressed: () {
