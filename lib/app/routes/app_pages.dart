@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/add_update_order_edit/bindings/add_update_order_edit_binding.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 import '../modules/auth_module/reset_password/bindings/reset_password_binding.dart';
 import '../modules/auth_module/reset_password/views/reset_password_view.dart';
@@ -30,7 +31,6 @@ import '../modules/customers_module/customers/bindings/customers_binding.dart';
 import '../modules/customers_module/customers/views/customers_view.dart';
 import '../modules/customers_module/transfer_order/bindings/transfer_order_binding.dart';
 import '../modules/customers_module/transfer_order/views/transfer_order_view.dart';
-import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/discount_module/add_update_discount/bindings/add_update_discount_binding.dart';
 import '../modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
@@ -164,7 +164,6 @@ class AppPages {
         name: _Paths.DASHBOARD,
         page: () => const DashboardView(),
         bindings: [
-          DashboardBinding(),
           DraftOrdersBinding(),
           CustomersBinding(),
           CollectionsBinding(),
@@ -482,8 +481,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MEDUSA_SEARCH,
-      page: () => const MedusaSearchView(),
       transition: Transition.native,
+      page: () => const MedusaSearchView(searchCategory: SearchCategory.giftCards)
       // fullscreenDialog: true,
       // binding: MedusaSearchBinding(),
     ),

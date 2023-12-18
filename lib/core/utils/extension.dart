@@ -34,7 +34,7 @@ extension BuildContextEntension<T> on BuildContext {
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
-  TabsRouter get tabsRouter => AutoTabsRouter.of(this);
+  // TabsRouter get tabsRouter => AutoTabsRouter.of(this);
   int get activeIndex => AutoTabsRouter.of(this).activeIndex;
 
   // app localization

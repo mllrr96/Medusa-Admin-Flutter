@@ -1,14 +1,16 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
-import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
+import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
+import '../../../../../route/app_router.dart';
 import '../../../../data/repository/draft_order/draft_order_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_icon.dart';
@@ -27,6 +29,10 @@ class DraftOrdersView extends StatelessWidget {
         init: DraftOrdersController(draftOrderRepo: DraftOrderRepo()),
         builder: (controller) {
           return Scaffold(
+            drawer: const AppDrawer(),
+            appBar: AppBar(
+              title: const Text('Draft orders'),
+            ),
             floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,9 +42,7 @@ class DraftOrdersView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FloatingActionButton.small(
-                      onPressed: () => Get.toNamed(Routes.MEDUSA_SEARCH,
-                          arguments: SearchReq(
-                              searchCategory: SearchCategory.draftOrders)),
+                      onPressed: () => context.pushRoute(MedusaSearchRoute(searchCategory: SearchCategory.draftOrders)),
                       heroTag: 'search Draft Order',
                       child: const Icon(CupertinoIcons.search),
                     ),

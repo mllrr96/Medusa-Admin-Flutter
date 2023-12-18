@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../app/modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../app/modules/auth_module/sign_in/views/sign_in_view.dart';
@@ -56,6 +57,7 @@ import '../app/modules/settings_module/store_settings/tax_settings_module/add_up
 import '../app/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
 import '../app/modules/settings_module/store_settings/team/views/team_view.dart';
 import '../app/modules/splash/views/splash_view.dart';
+import '../core/utils/enums.dart';
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
@@ -72,7 +74,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: CustomersRoute.page),
         AutoRoute(page: GroupsRoute.page),
         AutoRoute(page: DiscountsRoute.page),
-        AutoRoute(page: PriceListDetailsRoute.page),
+        AutoRoute(page: GiftCardsRoute.page),
+        AutoRoute(page: PricingRoute.page),
+        AutoRoute(page: StoreSettingsRoute.page),
+        AutoRoute(page: AppSettingsRoute.page),
       ]),
       // collections module
       AutoRoute(page: CollectionDetailsRoute.page),

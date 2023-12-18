@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 
 import '../../../../data/models/req/user_post_auth_req.dart';
 import '../../../../data/repository/store/store_repo.dart';
@@ -53,9 +52,9 @@ class SignInController extends GetxController {
     update();
   }
 
-  Future<void> signIn(BuildContext context) async {
+  Future<bool> signIn(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
-      return;
+      return false;
     }
 
     // To hide the keyboard
@@ -64,10 +63,11 @@ class SignInController extends GetxController {
     final result =
         await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
 
-    result.when((success) async {
+  return  result.when((success) async {
       await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init());
-      Get.offAllNamed(Routes.DASHBOARD);
+      // Get.offAllNamed(Routes.DASHBOARD);
       dismissLoading();
+      return true;
     }, (error) {
       if (error.code == 401) {
         errorMessage.value = 'Email or password is incorrect';
@@ -75,6 +75,7 @@ class SignInController extends GetxController {
         errorMessage.value = error.message;
       }
       dismissLoading();
+      return false;
     });
   }
 }

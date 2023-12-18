@@ -24,7 +24,7 @@ import '../../../data/repository/sales_channel/sales_channel_repo.dart';
 class MedusaSearchController extends GetxController {
   static MedusaSearchController get instance =>
       Get.find<MedusaSearchController>();
-  MedusaSearchController({
+  MedusaSearchController( {
     required this.productsRepo,
     required this.ordersRepo,
     required this.draftOrderRepo,
@@ -37,6 +37,7 @@ class MedusaSearchController extends GetxController {
     required this.productTagRepo,
     required this.regionsRepo,
     required this.salesChannelRepo,
+    required this.searchCategory,
   });
 
   final ProductsRepo productsRepo;
@@ -51,8 +52,7 @@ class MedusaSearchController extends GetxController {
   final ProductTagRepo productTagRepo;
   final RegionsRepo regionsRepo;
   final SalesChannelRepo salesChannelRepo;
-  final SearchReq searchReq = Get.arguments ??
-      SearchReq(searchCategory: SearchCategory.products, isShakeSearch: true);
+  final SearchCategory searchCategory;
   final PagingController<int, Object> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
@@ -66,10 +66,8 @@ class MedusaSearchController extends GetxController {
   List<SalesChannel>? salesChannels;
   TextEditingController searchCtrl = TextEditingController();
   String searchTerm = '';
-  SearchCategory searchCategory = SearchCategory.products;
   @override
   void onInit() {
-    searchCategory = searchReq.searchCategory;
     pagingController.addPageRequestListener((pageKey) {
       fetchPage(pageKey);
     });
@@ -89,7 +87,7 @@ class MedusaSearchController extends GetxController {
 
     switch (searchCategory) {
       // -----------------------------------------------------------
-      case SearchCategory.orders:
+      case SearchCategory.orders :
         queryParameters.addAll({
           'expand':
               'items,cart,customer,shipping_address,sales_channel,currency',
@@ -253,10 +251,8 @@ class MedusaSearchController extends GetxController {
 
 class SearchReq {
   final SearchCategory searchCategory;
-  final bool isShakeSearch;
   SearchReq({
     required this.searchCategory,
-    this.isShakeSearch = false,
   });
 }
 

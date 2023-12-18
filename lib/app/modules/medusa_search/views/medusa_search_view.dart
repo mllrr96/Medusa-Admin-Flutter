@@ -36,7 +36,8 @@ import '../controllers/medusa_search_controller.dart';
 
 @RoutePage()
 class MedusaSearchView extends StatelessWidget {
-  const MedusaSearchView({super.key});
+  const MedusaSearchView({super.key, required this.searchCategory});
+  final SearchCategory searchCategory;
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
@@ -59,6 +60,7 @@ class MedusaSearchView extends StatelessWidget {
             productTagRepo: ProductTagRepo(),
             regionsRepo: RegionsRepo(),
             salesChannelRepo: SalesChannelRepo(),
+            searchCategory: searchCategory,
           ),
           builder: (controller) {
             return Scaffold(
@@ -221,7 +223,7 @@ class SearchHistoryView extends StatelessWidget {
                 .map((e) => SearchHistoryListTile(
                       searchHistory: e,
                       onTap: () {
-                        controller.searchCategory = e.searchableFields;
+                        // controller.searchCategory = e.searchableFields;
                         controller.searchCtrl.text = e.text;
                         controller.searchTerm = e.text;
                         controller.update();

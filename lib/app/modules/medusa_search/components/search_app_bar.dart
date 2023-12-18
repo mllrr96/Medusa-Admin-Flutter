@@ -85,7 +85,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               searchableFields: controller.searchCategory));
                     }
                   },
-                  hintText: getHintText(controller.searchCategory),
+                  hintText: getHintText(controller.searchCategory ),
                   autoFocus: true,
                   onSuffixTap: () {
                     controller.searchCtrl.clear();
@@ -112,7 +112,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                         style: smallTextStyle?.copyWith(color: lightWhite),
                       ),
                       SearchChip(
-                        searchableField: controller.searchCategory,
+                        searchableField: controller.searchCategory ,
                         onTap: () async {
                           await showBarModalBottomSheet(
                               context: context,
@@ -129,7 +129,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               controller.orderFilter = null;
                               controller.productFilter = null;
                               controller.pagingController.itemList = [];
-                              controller.searchCategory = result;
+                              // controller.searchCategory = result;
                               controller.update();
                               if (controller.searchTerm.isNotEmpty) {
                                 controller.pagingController.refresh();

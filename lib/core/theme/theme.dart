@@ -20,6 +20,7 @@ class AppTheme {
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xFFF2F2F7),
+        surfaceTintColor: Colors.transparent,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
@@ -103,6 +104,7 @@ class AppTheme {
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: Color(0xff242527),
+        surfaceTintColor: Colors.transparent,
       ),
       dialogTheme: const DialogTheme(
           titleTextStyle: TextStyle(color: Colors.white), contentTextStyle: TextStyle(color: Colors.white)),

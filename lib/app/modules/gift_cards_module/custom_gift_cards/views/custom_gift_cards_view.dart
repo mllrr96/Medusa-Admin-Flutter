@@ -1,5 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dar
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
@@ -14,7 +15,6 @@ import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_icon.dart';
-import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/index.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 
@@ -33,8 +33,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
         title: const Text('Gift Cards History'),
         actions: [
           AdaptiveIcon(
-              onPressed: () =>
-                  Get.toNamed(Routes.MEDUSA_SEARCH, arguments: SearchReq(searchCategory: SearchCategory.giftCards)),
+              onPressed: () => context.pushRoute(
+                  MedusaSearchRoute(searchCategory: SearchCategory.giftCards)),
               icon: const Icon(MedusaIcons.magnifying_glass_mini))
         ],
       ),
@@ -49,7 +49,8 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
           controller: controller.scrollController,
           slivers: [
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               sliver: SliverToBoxAdapter(
                 child: Text(
                   'See the history of purchased Gift Cards',
@@ -77,25 +78,32 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                               title: 'Manage Custom Gift Card',
                               context: context,
                               actions: <SheetAction<int>>[
-                                const SheetAction(label: 'Edit details', key: 0),
+                                const SheetAction(
+                                    label: 'Edit details', key: 0),
                                 SheetAction(
-                                    label: isDisabled ? 'Enable' : 'Disable', isDestructiveAction: true, key: 1),
+                                    label: isDisabled ? 'Enable' : 'Disable',
+                                    isDestructiveAction: true,
+                                    key: 1),
                               ]).then((value) async {
                             switch (value) {
                               case 0:
-                                Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
+                                Get.toNamed(
+                                    Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD,
+                                    arguments: giftCard);
                                 break;
                               case 1:
                                 await controller.updateCustomGiftCard(
                                   id: giftCard.id!,
-                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled),
+                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(
+                                      isDisabled: !isDisabled),
                                   getBack: false,
                                 );
                                 break;
                             }
                           });
                         },
-                        tileColor: Theme.of(context).appBarTheme.backgroundColor,
+                        tileColor:
+                            Theme.of(context).appBarTheme.backgroundColor,
                         title: Text(giftCard.code ?? ''),
                         subtitle: Text(
                           giftCard.orderId ?? '_',
@@ -106,7 +114,7 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                                '${giftCard.balance.formatAsPrice(giftCard.region?.currencyCode, includeSymbol: false)} / ${giftCard.value.formatAsPrice( giftCard.region?.currencyCode, symbolAtEnd: true)}'),
+                                '${giftCard.balance.formatAsPrice(giftCard.region?.currencyCode, includeSymbol: false)} / ${giftCard.value.formatAsPrice(giftCard.region?.currencyCode, symbolAtEnd: true)}'),
                             Text(giftCard.createdAt.formatDate()),
                           ],
                         ),
@@ -127,9 +135,11 @@ class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
                         return listTile;
                       }
                     },
-                    noItemsFoundIndicatorBuilder: (_) => const Center(child: Text('No Gift cards')),
+                    noItemsFoundIndicatorBuilder: (_) =>
+                        const Center(child: Text('No Gift cards')),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
                   ),
                   separatorBuilder: (_, __) => const Divider(height: 0)),
             ),

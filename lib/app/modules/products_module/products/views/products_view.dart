@@ -1,5 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -8,10 +8,11 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
-import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
+import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
@@ -37,7 +38,10 @@ class ProductsView extends StatelessWidget {
             collectionRepo: CollectionRepo()),
         builder: (controller) {
           return Scaffold(
-            // appBar: const ProductsAppBar(),
+            drawer: const AppDrawer(),
+            appBar: AppBar(
+              title: const Text('Products'),
+            ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: Padding(
@@ -66,11 +70,8 @@ class ProductsView extends StatelessWidget {
                                 const Icon(MedusaIcons.magnifying_glass_mini),
                             label: 'Search for a product',
                             labelStyle: smallTextStyle,
-                            onTap: () async {
-                              await Get.toNamed(Routes.MEDUSA_SEARCH,
-                                  arguments: SearchReq(
-                                      searchCategory: SearchCategory.products));
-                            },
+                            onTap: () => context.pushRoute(MedusaSearchRoute(
+                                searchCategory: SearchCategory.products)),
                             onLongPress: () {},
                           ),
                           SpeedDialChild(
