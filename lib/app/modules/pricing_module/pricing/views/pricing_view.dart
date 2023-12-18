@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -10,8 +11,9 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../controllers/pricing_controller.dart';
 
+@RoutePage()
 class PricingView extends GetView<PricingController> {
-  const PricingView({Key? key}) : super(key: key);
+  const PricingView({super.key});
   @override
   Widget build(BuildContext context) {
     Widget statusIcon(bool enabled) {

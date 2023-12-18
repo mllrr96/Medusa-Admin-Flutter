@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -10,8 +11,9 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../components/custom_text_field.dart';
 import '../controllers/store_details_controller.dart';
 
+@RoutePage()
 class StoreDetailsView extends GetView<StoreDetailsController> {
-  const StoreDetailsView({Key? key}) : super(key: key);
+  const StoreDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;

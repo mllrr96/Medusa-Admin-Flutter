@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,9 +7,9 @@ import 'package:medusa_admin/app/data/models/store/product_category.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/categories_controller.dart';
-
+@RoutePage()
 class CategoriesView extends GetView<CategoriesController> {
-  const CategoriesView({Key? key}) : super(key: key);
+  const CategoriesView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

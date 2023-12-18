@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +15,9 @@ import 'package:settings_ui/settings_ui.dart';
 
 import '../controllers/order_settings_controller.dart';
 
+@RoutePage()
 class OrderSettingsView extends StatelessWidget {
-  const OrderSettingsView({Key? key}) : super(key: key);
+  const OrderSettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

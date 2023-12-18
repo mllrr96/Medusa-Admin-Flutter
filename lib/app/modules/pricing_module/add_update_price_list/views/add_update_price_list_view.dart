@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -22,8 +23,9 @@ import '../../../components/pick_products/controllers/pick_products_controller.d
 import '../components/index.dart';
 import '../controllers/add_update_price_list_controller.dart';
 
+@RoutePage()
 class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
-  const AddUpdatePriceListView({Key? key}) : super(key: key);
+  const AddUpdatePriceListView({super.key});
   static const kDuration = Duration(milliseconds: 300);
   @override
   Widget build(BuildContext context) {

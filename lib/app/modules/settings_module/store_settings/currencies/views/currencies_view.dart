@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -13,8 +14,9 @@ import '../../../../../data/repository/currency/currency_repo.dart';
 import '../../../../components/adaptive_back_button.dart';
 import '../controllers/currencies_controller.dart';
 
+@RoutePage()
 class CurrenciesView extends StatelessWidget {
-  const CurrenciesView({Key? key}) : super(key: key);
+  const CurrenciesView({super.key});
 
   @override
   Widget build(BuildContext context) {

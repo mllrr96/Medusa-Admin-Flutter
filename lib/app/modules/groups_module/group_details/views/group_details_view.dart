@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,8 +14,9 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/customer_group.dart';
 import '../controllers/group_details_controller.dart';
 
+@RoutePage()
 class GroupDetailsView extends GetView<GroupDetailsController> {
-  const GroupDetailsView({Key? key}) : super(key: key);
+  const GroupDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {

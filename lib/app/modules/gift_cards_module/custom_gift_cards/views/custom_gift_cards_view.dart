@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -17,6 +18,7 @@ import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/index.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 
+@RoutePage()
 class CustomGiftCardsView extends GetView<CustomGiftCardsController> {
   const CustomGiftCardsView({super.key});
 

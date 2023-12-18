@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,9 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import '../../../components/adaptive_filled_button.dart';
 import '../controllers/transfer_order_controller.dart';
 
+@RoutePage()
 class TransferOrderView extends GetView<TransferOrderController> {
-  const TransferOrderView({Key? key}) : super(key: key);
+  const TransferOrderView({super.key});
 
   @override
   Widget build(BuildContext context) {

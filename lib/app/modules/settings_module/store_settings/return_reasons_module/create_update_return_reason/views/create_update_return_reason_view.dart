@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,8 +10,9 @@ import '../../../../../components/custom_text_field.dart';
 import '../../../../../products_module/add_update_product/components/product_general_info.dart';
 import '../controllers/create_update_return_reason_controller.dart';
 
+@RoutePage()
 class CreateUpdateReturnReasonView extends GetView<CreateUpdateReturnReasonController> {
-  const CreateUpdateReturnReasonView({Key? key}) : super(key: key);
+  const CreateUpdateReturnReasonView({super.key});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

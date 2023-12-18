@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../../data/models/store/publishable_api_key.dart';
 import '../controllers/api_key_management_controller.dart';
 
+@RoutePage()
 class ApiKeyManagementView extends GetView<ApiKeyManagementController> {
-  const ApiKeyManagementView({Key? key}) : super(key: key);
+  const ApiKeyManagementView({super.key});
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;

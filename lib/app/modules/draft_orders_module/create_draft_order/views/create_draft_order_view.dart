@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -7,8 +8,9 @@ import 'package:medusa_admin/app/modules/components/keep_alive_widget.dart';
 import '../components/index.dart';
 import '../controllers/create_draft_order_controller.dart';
 
+@RoutePage()
 class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
-  const CreateDraftOrderView({Key? key}) : super(key: key);
+  const CreateDraftOrderView({super.key});
 
   @override
   Widget build(BuildContext context) {

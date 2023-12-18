@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -5,9 +6,9 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 
 import '../controllers/update_customer_details_controller.dart';
-
+@RoutePage()
 class AddUpdateCustomerView extends GetView<AddUpdateCustomerController> {
-  const AddUpdateCustomerView({Key? key}) : super(key: key);
+  const AddUpdateCustomerView({super.key});
   @override
   Widget build(BuildContext context) {
     const halfSpace = SizedBox(height: 6.0);

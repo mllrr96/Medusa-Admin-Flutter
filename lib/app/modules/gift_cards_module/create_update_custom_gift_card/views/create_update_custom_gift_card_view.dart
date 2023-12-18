@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -16,8 +17,9 @@ import '../../../components/pick_regions/controllers/pick_regions_controller.dar
 import '../../../components/pick_regions/views/pick_regions_view.dart';
 import '../controllers/create_update_custom_gift_card_controller.dart';
 
+@RoutePage()
 class CreateUpdateCustomGiftCardView extends StatelessWidget {
-  const CreateUpdateCustomGiftCardView({Key? key}) : super(key: key);
+  const CreateUpdateCustomGiftCardView({super.key});
 
   @override
   Widget build(BuildContext context) {

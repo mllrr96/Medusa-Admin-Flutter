@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,9 @@ import '../../sales_channels/controllers/sales_channels_controller.dart';
 import '../components/index.dart';
 import '../controllers/sales_channel_details_controller.dart';
 
+@RoutePage()
 class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
-  const SalesChannelDetailsView({Key? key}) : super(key: key);
+  const SalesChannelDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {

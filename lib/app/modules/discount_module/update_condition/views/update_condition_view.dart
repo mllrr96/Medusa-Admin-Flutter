@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +16,9 @@ import '../../discount_conditions/components/condition_tag_list_tile.dart';
 import '../../discount_conditions/components/condition_type_list_tile.dart';
 import '../controllers/update_condition_controller.dart';
 
+@RoutePage()
 class UpdateConditionView extends GetView<UpdateConditionController> {
-  const UpdateConditionView({Key? key}) : super(key: key);
+  const UpdateConditionView({super.key});
 
   @override
   Widget build(BuildContext context) {

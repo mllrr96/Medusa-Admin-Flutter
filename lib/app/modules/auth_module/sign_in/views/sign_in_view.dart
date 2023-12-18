@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -19,8 +20,9 @@ import '../../../components/language_selection/language_selection_view.dart';
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
 
+@RoutePage()
 class SignInView extends GetView<SignInController> {
-  const SignInView({Key? key}) : super(key: key);
+  const SignInView({super.key});
 
   @override
   Widget build(context) {

@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -7,8 +8,9 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
 
+@RoutePage()
 class AddUpdateDiscountView extends GetView<AddUpdateDiscountController> {
-  const AddUpdateDiscountView({Key? key}) : super(key: key);
+  const AddUpdateDiscountView({super.key});
 
   @override
   Widget build(BuildContext context) {

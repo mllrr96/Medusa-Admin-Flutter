@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -8,8 +9,9 @@ import '../../../components/adaptive_close_button.dart';
 import '../components/index.dart';
 import '../controllers/add_update_product_controller.dart';
 
+@RoutePage()
 class AddUpdateProductView extends GetView<AddUpdateProductController> {
-  const AddUpdateProductView({Key? key}) : super(key: key);
+  const AddUpdateProductView({super.key});
 
   @override
   Widget build(BuildContext context) {

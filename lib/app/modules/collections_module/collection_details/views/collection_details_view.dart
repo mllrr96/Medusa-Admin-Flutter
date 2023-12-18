@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -15,9 +16,9 @@ import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
 import '../controllers/collection_details_controller.dart';
-
+@RoutePage()
 class CollectionDetailsView extends GetView<CollectionDetailsController> {
-  const CollectionDetailsView({Key? key}) : super(key: key);
+  const CollectionDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;

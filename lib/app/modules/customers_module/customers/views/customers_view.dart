@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -14,7 +15,7 @@ import '../../../components/adaptive_button.dart';
 import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/index.dart';
 import '../controllers/customers_controller.dart';
-
+@RoutePage()
 class CustomersView extends GetView<CustomersController> {
   const CustomersView({super.key});
 

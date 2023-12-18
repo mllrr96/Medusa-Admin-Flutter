@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -11,8 +12,9 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../controllers/add_update_api_key_controller.dart';
 
+@RoutePage()
 class AddUpdateApiKeyView extends GetView<AddUpdateApiKeyController> {
-  const AddUpdateApiKeyView({Key? key}) : super(key: key);
+  const AddUpdateApiKeyView({super.key});
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;

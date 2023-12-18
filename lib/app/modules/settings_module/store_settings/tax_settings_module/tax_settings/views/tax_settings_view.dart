@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -14,8 +15,9 @@ import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dar
 import '../components/tax_rate_card.dart';
 import '../controllers/tax_settings_controller.dart';
 
+@RoutePage()
 class TaxSettingsView extends GetView<TaxSettingsController> {
-  const TaxSettingsView({Key? key}) : super(key: key);
+  const TaxSettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

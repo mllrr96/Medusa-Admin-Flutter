@@ -11,7 +11,7 @@ import '../../../regions_module/regions/components/region_card.dart';
 import '../controllers/tax_settings_select_region_controller.dart';
 
 class TaxSettingsSelectRegionView extends GetView<TaxSettingsSelectRegionController> {
-  const TaxSettingsSelectRegionView({Key? key}) : super(key: key);
+  const TaxSettingsSelectRegionView({super.key});
 
   @override
   Widget build(BuildContext context) {

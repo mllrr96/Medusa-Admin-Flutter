@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -10,8 +11,9 @@ import '../../../../../components/scrolling_expandable_fab.dart';
 import '../components/region_card.dart';
 import '../controllers/regions_controller.dart';
 
+@RoutePage()
 class RegionsView extends GetView<RegionsController> {
-  const RegionsView({Key? key}) : super(key: key);
+  const RegionsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -12,6 +12,11 @@ dependencies:
   get: ^4.6.5
   # -------------------
 
+  # App routing
+  # -------------------
+  auto_route: ^7.8.4
+  # -------------------
+
   # Image picker packages
   #--------------------
   image_picker: ^1.0.2
@@ -67,7 +72,8 @@ dependencies:
 
 dev_dependencies: 
   flutter_lints: ^3.0.1
-  build_runner: any
+  auto_route_generator: ^7.3.2
+  build_runner: ^2.4.7
   flutter_launcher_icons: ^0.13.1
   copy_with_extension_gen: ^5.0.4
   flutter_test:

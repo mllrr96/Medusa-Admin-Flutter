@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -16,8 +17,9 @@ import '../../../../data/models/store/product.dart';
 import '../../../discount_module/discounts/components/discount_rule_type_label.dart';
 import '../controllers/price_list_details_controller.dart';
 
+@RoutePage()
 class PriceListDetailsView extends GetView<PriceListDetailsController> {
-  const PriceListDetailsView({Key? key}) : super(key: key);
+  const PriceListDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;

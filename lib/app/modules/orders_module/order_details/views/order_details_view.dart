@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -10,8 +11,9 @@ import '../../../../data/models/store/order.dart';
 import '../components/index.dart';
 import '../controllers/order_details_controller.dart';
 
+@RoutePage()
 class OrderDetailsView extends GetView<OrderDetailsController> {
-  const OrderDetailsView({Key? key}) : super(key: key);
+  const OrderDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {

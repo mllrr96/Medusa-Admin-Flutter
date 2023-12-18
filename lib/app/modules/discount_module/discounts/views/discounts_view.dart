@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -14,8 +15,9 @@ import '../../../../../core/utils/enums.dart';
 import '../components/discount_card.dart';
 import '../controllers/discounts_controller.dart';
 
+@RoutePage()
 class DiscountsView extends GetView<DiscountsController> {
-  const DiscountsView({Key? key}) : super(key: key);
+  const DiscountsView({super.key});
   @override
   Widget build(BuildContext context) {
     final largeTextStyle = context.bodyLarge;

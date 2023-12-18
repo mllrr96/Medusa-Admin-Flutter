@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +10,9 @@ import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_tax_rate_controller.dart';
 
+@RoutePage()
 class AddUpdateTaxRateView extends GetView<AddUpdateTaxRateController> {
-  const AddUpdateTaxRateView({Key? key}) : super(key: key);
+  const AddUpdateTaxRateView({super.key});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

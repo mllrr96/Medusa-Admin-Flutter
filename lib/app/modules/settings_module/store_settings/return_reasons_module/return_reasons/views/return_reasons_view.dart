@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -10,8 +11,9 @@ import '../../../../../components/adaptive_back_button.dart';
 import '../components/return_reason_list_tile.dart';
 import '../controllers/return_reasons_controller.dart';
 
+@RoutePage()
 class ReturnReasonsView extends GetView<ReturnReasonsController> {
-  const ReturnReasonsView({Key? key}) : super(key: key);
+  const ReturnReasonsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

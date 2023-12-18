@@ -70,7 +70,6 @@ import '../modules/medusa_search/views/medusa_search_view.dart';
 import '../modules/more/bindings/more_binding.dart';
 import '../modules/orders_module/order_details/bindings/order_details_binding.dart';
 import '../modules/orders_module/order_details/views/order_details_view.dart';
-import '../modules/orders_module/orders/bindings/orders_binding.dart';
 import '../modules/orders_module/orders/views/orders_view.dart';
 import '../modules/pricing_module/add_update_price_list/bindings/add_update_price_list_binding.dart';
 import '../modules/pricing_module/add_update_price_list/views/add_update_price_list_view.dart';
@@ -83,7 +82,6 @@ import '../modules/products_module/add_update_product/components/product_add_var
 import '../modules/products_module/add_update_product/views/add_update_product_view.dart';
 import '../modules/products_module/product_details/bindings/product_details_binding.dart';
 import '../modules/products_module/product_details/views/product_details_view.dart';
-import '../modules/products_module/products/bindings/products_binding.dart';
 import '../modules/products_module/products/views/products_view.dart';
 import '../modules/settings_module/app_settings/bindings/app_settings_binding.dart';
 import '../modules/settings_module/app_settings/order_settings/bindings/order_settings_binding.dart';
@@ -128,8 +126,6 @@ import '../modules/settings_module/store_settings/tax_settings_module/tax_settin
 import '../modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
 import '../modules/settings_module/store_settings/team/bindings/team_binding.dart';
 import '../modules/settings_module/store_settings/team/views/team_view.dart';
-import '../modules/splash/bindings/splash_binding.dart';
-import '../modules/splash/views/splash_view.dart';
 
 // ignore_for_file: constant_identifier_names
 
@@ -144,7 +140,6 @@ class AppPages {
     GetPage(
       name: _Paths.ORDERS,
       page: () => const OrdersView(),
-      binding: OrdersBinding(),
     ),
     GetPage(
       name: _Paths.DRAFT_ORDERS,
@@ -154,7 +149,6 @@ class AppPages {
     GetPage(
       name: _Paths.PRODUCTS,
       page: () => const ProductsView(),
-      binding: ProductsBinding(),
     ),
     GetPage(
       name: _Paths.COLLECTIONS,
@@ -171,9 +165,7 @@ class AppPages {
         page: () => const DashboardView(),
         bindings: [
           DashboardBinding(),
-          OrdersBinding(),
           DraftOrdersBinding(),
-          ProductsBinding(),
           CustomersBinding(),
           CollectionsBinding(),
           CategoriesBinding(),
@@ -300,11 +292,6 @@ class AppPages {
                 ),
               ]),
         ]),
-    GetPage(
-      name: _Paths.SPLASH,
-      page: () => const SplashView(),
-      binding: SplashBinding(),
-    ),
     GetPage(
       name: _Paths.CUSTOMERS,
       page: () => const CustomersView(),

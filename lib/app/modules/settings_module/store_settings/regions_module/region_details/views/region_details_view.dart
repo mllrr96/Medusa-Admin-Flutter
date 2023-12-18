@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -18,8 +19,9 @@ import '../../add_update_shipping_option/controllers/add_update_shipping_option_
 import '../components/index.dart';
 import '../controllers/region_details_controller.dart';
 
+@RoutePage()
 class RegionDetailsView extends GetView<RegionDetailsController> {
-  const RegionDetailsView({Key? key}) : super(key: key);
+  const RegionDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {

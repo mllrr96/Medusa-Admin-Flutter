@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,6 +34,8 @@ extension BuildContextEntension<T> on BuildContext {
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
+  TabsRouter get tabsRouter => AutoTabsRouter.of(this);
+  int get activeIndex => AutoTabsRouter.of(this).activeIndex;
 
   // app localization
   AppLocalizations get tr => AppLocalizations.of(this)!;

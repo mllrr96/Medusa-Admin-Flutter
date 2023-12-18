@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -8,8 +9,9 @@ import '../../../components/adaptive_button.dart';
 import '../../../components/metadata_card.dart';
 import '../controllers/create_update_group_controller.dart';
 
+@RoutePage()
 class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
-  const CreateUpdateGroupView({Key? key}) : super(key: key);
+  const CreateUpdateGroupView({super.key});
 
   @override
   Widget build(BuildContext context) {

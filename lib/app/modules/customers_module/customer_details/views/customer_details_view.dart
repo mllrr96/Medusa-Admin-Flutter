@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -14,9 +15,9 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../../data/models/store/order.dart';
-
+@RoutePage()
 class CustomerDetailsView extends GetView<CustomerDetailsController> {
-  const CustomerDetailsView({Key? key}) : super(key: key);
+  const CustomerDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

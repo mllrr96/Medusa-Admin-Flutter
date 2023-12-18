@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,8 +18,9 @@ import '../../../../routes/app_pages.dart';
 import '../../../components/language_selection/language_selection_view.dart';
 import '../controllers/app_settings_controller.dart';
 
+@RoutePage()
 class AppSettingsView extends StatelessWidget {
-  const AppSettingsView({Key? key}) : super(key: key);
+  const AppSettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -15,8 +16,9 @@ import '../../../medusa_search/controllers/medusa_search_controller.dart';
 import '../components/group_card.dart';
 import '../controllers/groups_controller.dart';
 
+@RoutePage()
 class GroupsView extends GetView<GroupsController> {
-  const GroupsView({Key? key}) : super(key: key);
+  const GroupsView({super.key});
 
   @override
   Widget build(BuildContext context) {

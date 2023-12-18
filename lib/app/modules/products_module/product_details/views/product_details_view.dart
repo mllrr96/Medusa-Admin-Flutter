@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,9 @@ import '../../../../data/models/store/product.dart';
 import '../components/index.dart';
 import '../controllers/product_details_controller.dart';
 
+@RoutePage()
 class ProductDetailsView extends GetView<ProductDetailsController> {
-  const ProductDetailsView({Key? key}) : super(key: key);
+  const ProductDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);

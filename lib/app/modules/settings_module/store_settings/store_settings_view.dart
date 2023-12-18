@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
@@ -6,8 +7,9 @@ import 'package:settings_ui/settings_ui.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../routes/app_pages.dart';
 
+@RoutePage()
 class StoreSettingsView extends StatelessWidget {
-  const StoreSettingsView({Key? key}) : super(key: key);
+  const StoreSettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

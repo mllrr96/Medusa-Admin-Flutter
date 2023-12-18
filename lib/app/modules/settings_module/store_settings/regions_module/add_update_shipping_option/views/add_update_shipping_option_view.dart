@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,8 +13,9 @@ import '../../../../../../data/models/store/fulfillment_option.dart';
 import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
 
+@RoutePage()
 class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionController> {
-  const AddUpdateShippingOptionView({Key? key}) : super(key: key);
+  const AddUpdateShippingOptionView({super.key});
 
   @override
   Widget build(BuildContext context) {

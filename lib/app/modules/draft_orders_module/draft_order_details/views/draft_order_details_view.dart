@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -13,8 +14,9 @@ import '../components/draft_order_summery.dart';
 import '../components/index.dart';
 import '../controllers/draft_order_details_controller.dart';
 
+@RoutePage()
 class DraftOrderDetailsView extends GetView<DraftOrderDetailsController> {
-  const DraftOrderDetailsView({Key? key}) : super(key: key);
+  const DraftOrderDetailsView({super.key});
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);

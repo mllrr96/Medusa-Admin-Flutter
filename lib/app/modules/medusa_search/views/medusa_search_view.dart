@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +34,9 @@ import '../../orders_module/orders/components/order_card.dart';
 import '../components/index.dart';
 import '../controllers/medusa_search_controller.dart';
 
+@RoutePage()
 class MedusaSearchView extends StatelessWidget {
-  const MedusaSearchView({Key? key}) : super(key: key);
+  const MedusaSearchView({super.key});
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;

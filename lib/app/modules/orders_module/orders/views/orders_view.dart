@@ -1,7 +1,10 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
@@ -13,20 +16,81 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../data/models/store/order.dart';
+import '../../../../data/repository/order/orders_repo.dart';
+import '../../../../data/repository/regions/regions_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_icon.dart';
 import '../components/order_card.dart';
 import '../controllers/orders_controller.dart';
 
+@RoutePage()
 class OrdersView extends StatelessWidget {
-  const OrdersView({Key? key}) : super(key: key);
+  const OrdersView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OrdersController>(builder: (controller) {
+    Color lightWhite = ColorManager.manatee;
+    return GetBuilder<OrdersController>(
+        init:  OrdersController(
+            ordersRepository: OrdersRepo(), regionsRepo: RegionsRepo(), salesChannelRepo: SalesChannelRepo()),
+        builder: (controller) {
       final orderSettings = StorageService.orderSettings;
       return Scaffold(
-        appBar: const OrdersBottomAppBar(),
+        drawer: const DrawerWidget(),
+        appBar: AppBar(
+          title: const Text('Orders'),
+          actions: [
+            AdaptiveIcon(
+                onPressed: () async =>
+                await Get.toNamed(Routes.MEDUSA_SEARCH, arguments: SearchReq(searchCategory: SearchCategory.orders)),
+                icon: const Icon(MedusaIcons.magnifying_glass)),
+            const SizedBox(width: 6.0),
+            GetBuilder<OrdersController>(builder: (controller) {
+              return InkWell(
+                onLongPress: () => controller.resetFilter(),
+                onTap: () async {
+                  await showBarModalBottomSheet(
+                      context: context,
+                      builder: (context) =>
+                          OrdersFilterView(
+                            regions: controller.regions,
+                            orderFilter: controller.orderFilter,
+                            context: context,
+                            salesChannels: controller.salesChannels,
+                            onResetTap: () {
+                              controller.resetFilter();
+                              Get.back();
+                            },
+                          )).then((result) {
+                    if (result is OrderFilter) {
+                      controller.updateFilter(result);
+                    }
+                  });
+                },
+                child: Chip(
+                  side: BorderSide(
+                      color: (controller.orderFilter?.count() ?? 0) != 0 ? ColorManager.primary : Colors.transparent),
+                  backgroundColor: Theme
+                      .of(context)
+                      .scaffoldBackgroundColor,
+                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Filters',
+                          style: context.bodySmall?.copyWith(color: lightWhite)),
+                      if (controller.orderFilter?.count() != null &&
+                          controller.orderFilter?.count() != 0)
+                        Text(' ${controller.orderFilter?.count() ?? ''}',
+                            style: context.bodySmall?.copyWith(color: ColorManager.primary)),
+                    ],
+                  ),
+                  padding: EdgeInsets.zero,
+                ),
+              );
+            }),
+          ],
+        ),
         floatingActionButton: ScrollingExpandableFab(
           controller: controller.scrollController,
           label: 'Export Orders',
