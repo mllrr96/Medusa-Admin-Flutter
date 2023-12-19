@@ -9,10 +9,10 @@ import '../../../../data/models/req/user_discount_condition_req.dart';
 import '../../../components/easy_loading.dart';
 
 class DiscountDetailsController extends GetxController with StateMixin<Discount> {
-  DiscountDetailsController({required this.discountRepo, required this.discountConditionRepo});
+  DiscountDetailsController({required this.discountRepo, required this.discountConditionRepo, required this.discountId});
   final DiscountRepo discountRepo;
   final DiscountConditionRepo discountConditionRepo;
-  String id = Get.arguments;
+  final String discountId;
   @override
   Future<void> onInit() async {
     await loadDiscount();
@@ -22,7 +22,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   Future<void> loadDiscount() async {
     change(null, status: RxStatus.loading());
 
-    final result = await discountRepo.retrieveDiscount(id: id, queryParameters: {
+    final result = await discountRepo.retrieveDiscount(id: discountId, queryParameters: {
       'expand': 'regions,regions.currency,rule,rule.conditions',
     });
 
@@ -38,7 +38,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   Future<void> deleteDiscount() async {
     loading();
 
-    final result = await discountRepo.deleteDiscount(id: id);
+    final result = await discountRepo.deleteDiscount(id: discountId);
 
     result.when((success) {
       Get.back();
@@ -63,7 +63,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   Future<void> deleteCondition(String conditionId) async {
     loading();
 
-    final result = await discountConditionRepo.deleteDiscountCondition(discountId: id, conditionId: conditionId);
+    final result = await discountConditionRepo.deleteDiscountCondition(discountId: discountId, conditionId: conditionId);
 
     result.when((success) async {
       if (success.deleted) {
@@ -82,7 +82,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     loading();
 
     final result = await discountConditionRepo.createDiscountCondition(
-        discountId: id, userCreateConditionReq: userCreateConditionReq);
+        discountId: discountId, userCreateConditionReq: userCreateConditionReq);
 
     result.when((success) async {
       if (success.discount != null) {
@@ -107,7 +107,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     // Adding items
     if (addedItems.isNotEmpty) {
       final result =
-          await discountConditionRepo.addBatchResources(discountId: id, conditionId: conditionId, itemIds: addedItems);
+          await discountConditionRepo.addBatchResources(discountId: discountId, conditionId: conditionId, itemIds: addedItems);
       result.when((success) async {
         if (success.discount != null) {
           Get.snackbar('Success', 'Condition items updated', snackPosition: SnackPosition.BOTTOM);
@@ -122,7 +122,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     // Deleting items
     if (deletedItems.isNotEmpty) {
       final result = await discountConditionRepo.deleteBatchResources(
-          discountId: id, conditionId: conditionId, itemIds: deletedItems);
+          discountId: discountId, conditionId: conditionId, itemIds: deletedItems);
       result.when((success) async {
         if (success.discount != null) {
           Get.snackbar('Success', 'Condition items updated', snackPosition: SnackPosition.BOTTOM);

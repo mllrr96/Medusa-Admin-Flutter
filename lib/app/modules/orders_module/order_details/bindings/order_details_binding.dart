@@ -11,7 +11,13 @@ import '../controllers/order_details_controller.dart';
 class OrderDetailsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<OrderDetailsController>(
-        () => OrderDetailsController(ordersRepo: OrdersRepo(), orderEditsRepo: OrderEditRepo(), noteRepo: NoteRepo(), notificationRepo: NotificationRepo(), fulfillmentRepo: FulfillmentRepo(), userRepo: UserRepo()));
+    Get.lazyPut<OrderDetailsController>(() => OrderDetailsController(
+        ordersRepo: OrdersRepo(),
+        orderEditsRepo: OrderEditRepo(),
+        noteRepo: NoteRepo(),
+        notificationRepo: NotificationRepo(),
+        fulfillmentRepo: FulfillmentRepo(),
+        userRepo: UserRepo(),
+        orderId: ''));
   }
 }

@@ -1,14 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/draft_order.dart';
 import 'draft_order_status_label.dart';
 
 class DraftOrderCard extends StatelessWidget {
-  const DraftOrderCard(this.draftOrder, {Key? key, this.onTap}) : super(key: key);
+  const DraftOrderCard(this.draftOrder, {super.key, this.onTap});
   final DraftOrder draftOrder;
   final void Function()? onTap;
 
@@ -38,7 +39,7 @@ class DraftOrderCard extends StatelessWidget {
 
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-      onTap: onTap ?? () => Get.toNamed(Routes.DRAFT_ORDER_DETAILS, arguments: draftOrder.id),
+      onTap: onTap ?? () => context.pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id!)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(

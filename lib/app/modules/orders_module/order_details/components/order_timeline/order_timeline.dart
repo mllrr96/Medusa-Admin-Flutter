@@ -81,7 +81,7 @@ class OrderTimeline extends StatelessWidget {
                             case const (Note) :
                               return OrderNoteWidget(
                                 item,
-                                onNoteDelete: () async => controller.deleteNote(item.id),
+                                onNoteDelete: () async => controller.deleteNote(item.draftId),
                               );
                             case const (Refund):
                               return RefundWidget(item, currencyCode: order.currencyCode);

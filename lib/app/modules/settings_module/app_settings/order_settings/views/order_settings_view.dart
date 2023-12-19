@@ -21,7 +21,9 @@ class OrderSettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OrderSettingsController>(builder: (controller) {
+    return GetBuilder<OrderSettingsController>(
+        init: OrderSettingsController(),
+        builder: (controller) {
       final switchColor = GetPlatform.isIOS ? ColorManager.primary : null;
       final smallTextStyle = context.bodySmall;
       return WillPopScope(

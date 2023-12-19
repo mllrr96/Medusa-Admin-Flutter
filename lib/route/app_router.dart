@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 
+import '../app/data/models/store/index.dart';
 import '../app/modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../app/modules/auth_module/sign_in/views/sign_in_view.dart';
 import '../app/modules/categories/views/categories_view.dart';
@@ -88,9 +90,8 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: CustomerDetailsRoute.page),
       AutoRoute(page: TransferOrderRoute.page),
       // Auth module
-      AutoRoute(page: SignInRoute.page, children: [
-        AutoRoute(page: ResetPasswordRoute.page),
-      ]),
+      AutoRoute(page: SignInRoute.page),
+      AutoRoute(page: ResetPasswordRoute.page),
       // Discount module
       AutoRoute(page: AddUpdateDiscountRoute.page),
       AutoRoute(page: DiscountDetailsRoute.page),
@@ -121,6 +122,22 @@ class AppRouter extends _$AppRouter {
       // Products module
       AutoRoute(page: AddUpdateProductRoute.page),
       AutoRoute(page: ProductDetailsRoute.page),
+
+      // Store settings
+      AutoRoute(page: RegionsRoute.page),
+      AutoRoute(page: RegionDetailsRoute.page),
+
+      AutoRoute(page: StoreDetailsRoute.page),
+      AutoRoute(page: ReturnReasonsRoute.page),
+      AutoRoute(page: PersonalInformationRoute.page),
+      AutoRoute(page: TaxSettingsRoute.page),
+      AutoRoute(page: CurrenciesRoute.page),
+      AutoRoute(page: SalesChannelsRoute.page),
+      AutoRoute(page: ApiKeyManagementRoute.page),
+      AutoRoute(page: TeamRoute.page),
+
+      // App Settings
+      AutoRoute(page: OrderSettingsRoute.page),
     ];
   }
 }

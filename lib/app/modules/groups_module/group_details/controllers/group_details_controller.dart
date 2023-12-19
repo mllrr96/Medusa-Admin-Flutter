@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import '../../../../data/models/store/customer.dart';
-import '../../../../data/models/store/customer_group.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import '../../groups/controllers/groups_controller.dart';
 
 class GroupDetailsController extends GetxController {
-  GroupDetailsController({required this.customerGroupRepo});
+  GroupDetailsController(
+      {required this.customerGroupRepo, required this.groupCustomer});
   final CustomerGroupRepo customerGroupRepo;
 
   final PagingController<int, Customer> pagingController =
@@ -19,7 +20,7 @@ class GroupDetailsController extends GetxController {
   final int _pageSize = 20;
   final scrollController = ScrollController();
   RxInt customerGroupsCount = 0.obs;
-  CustomerGroup customerGroup = Get.arguments;
+  final CustomerGroup groupCustomer;
   @override
   Future<void> onInit() async {
     pagingController.addPageRequestListener((pageKey) {
@@ -35,7 +36,8 @@ class GroupDetailsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await customerGroupRepo.retrieveCustomers(id: customerGroup.id!, queryParameters: {
+    final result = await customerGroupRepo
+        .retrieveCustomers(id: groupCustomer.id!, queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'groups',
@@ -50,21 +52,24 @@ class GroupDetailsController extends GetxController {
         pagingController.appendPage(success.customers!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = 'Error loading customer groups \n ${error.message}';
+      pagingController.error =
+          'Error loading customer groups \n ${error.message}';
     });
   }
 
   Future<void> deleteCustomer(String customerId) async {
     loading();
-    final result = await customerGroupRepo.removeCustomers(id: customerGroup.id!, customerIds: [customerId]);
+    final result = await customerGroupRepo
+        .removeCustomers(id: groupCustomer.id!, customerIds: [customerId]);
 
     result.when((success) {
       EasyLoading.showSuccess('Customer removed');
       pagingController.refresh();
       GroupsController.instance.pagingController.refresh();
     },
-        (error) =>
-            Get.snackbar('Error removing customer from group', error.message, snackPosition: SnackPosition.BOTTOM));
+        (error) => Get.snackbar(
+            'Error removing customer from group', error.message,
+            snackPosition: SnackPosition.BOTTOM));
     dismissLoading();
   }
 
@@ -73,29 +78,39 @@ class GroupDetailsController extends GetxController {
       return;
     }
     final pickCustomerReq = await Get.toNamed(Routes.PICK_CUSTOMER,
-        arguments: PickCustomerReq(multipleSelection: true, selectedCustomers: pagingController.value.itemList));
+        arguments: PickCustomerReq(
+            multipleSelection: true,
+            selectedCustomers: pagingController.value.itemList));
 
     if (pickCustomerReq == null) {
       return;
     }
-    final newCustomers = (pickCustomerReq as PickCustomerRes).selectedCustomers.map((e) => e.id!).toList();
+    final newCustomers = (pickCustomerReq as PickCustomerRes)
+        .selectedCustomers
+        .map((e) => e.id!)
+        .toList();
     loading();
-    final result = await customerGroupRepo.addCustomers(id: customerGroup.id!, customerIds: newCustomers);
+    final result = await customerGroupRepo.addCustomers(
+        id: groupCustomer.id!, customerIds: newCustomers);
 
     result.when((success) {
       EasyLoading.showSuccess('Customers added');
       pagingController.refresh();
       GroupsController.instance.pagingController.refresh();
-    }, (error) => Get.snackbar('Error adding customer to the group', error.message));
+    },
+        (error) =>
+            Get.snackbar('Error adding customer to the group', error.message));
     dismissLoading();
   }
 
   Future<void> deleteGroup() async {
     loading();
-    final result = await customerGroupRepo.deleteCustomerGroup(id: customerGroup.id!);
+    final result =
+        await customerGroupRepo.deleteCustomerGroup(id: groupCustomer.id!);
     result.when((success) {
       GroupsController.instance.pagingController.refresh();
-      Get.snackbar('Success', 'Customer Group deleted', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Success', 'Customer Group deleted',
+          snackPosition: SnackPosition.BOTTOM);
       Get.back();
     }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message));
     dismissLoading();

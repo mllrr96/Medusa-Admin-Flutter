@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,10 +23,12 @@ class OrdersFilterView extends StatefulWidget {
     this.regions,
     this.salesChannels,
     super.key,
+    this.onSubmitted,
   });
   final BuildContext? context;
   final OrderFilter? orderFilter;
   final void Function()? onResetTap;
+  final void Function(OrderFilter?)? onSubmitted;
   final List<Region>? regions;
   final List<SalesChannel>? salesChannels;
   @override
@@ -71,9 +74,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.mediaQueryViewPadding.bottom == 0
-        ? 20.0
-        : context.mediaQueryViewPadding.bottom;
     const space = Gap(12);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -89,7 +89,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
           ],
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, bottomPadding),
+          padding: const EdgeInsets.all(12.0),
           color: context.theme.appBarTheme.backgroundColor,
           child: AdaptiveFilledButton(
               onPressed: () {
@@ -119,12 +119,11 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
                 orderFilter.orderDateFilter.number =
                     int.tryParse(numberCtrl.text) ?? 0;
-
-                Get.back(result: orderFilter);
+                if (widget.onSubmitted != null) {
+                  widget.onSubmitted!(orderFilter);
+                }
+                context.popRoute();
               },
-              // onPressed: () {
-
-              // },
               child: Text('Apply',
                   style: smallTextStyle?.copyWith(color: Colors.white))),
         ),
@@ -233,28 +232,25 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 title: Text('Regions', style: smallTextStyle),
                 children: [
                   if (widget.regions?.isNotEmpty ?? false)
-                    ...widget.regions!
-                        .map((e) => CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(e.name ?? '', style: smallTextStyle),
-                            value: orderFilter.regions
-                                .map((e) => e.id)
-                                .contains(e.id),
-                            onChanged: (val) {
-                              if (val == null) {
-                                return;
-                              }
+                    ...widget.regions!.map((e) => CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(e.name ?? '', style: smallTextStyle),
+                        value:
+                            orderFilter.regions.map((e) => e.id).contains(e.id),
+                        onChanged: (val) {
+                          if (val == null) {
+                            return;
+                          }
 
-                              if (val) {
-                                orderFilter.regions.add(e);
-                              } else {
-                                orderFilter.regions.removeWhere(
-                                    (element) => element.id == e.id);
-                              }
-                              setState(() {});
-                            }))
-                        .toList(),
+                          if (val) {
+                            orderFilter.regions.add(e);
+                          } else {
+                            orderFilter.regions
+                                .removeWhere((element) => element.id == e.id);
+                          }
+                          setState(() {});
+                        })),
                 ],
               ),
               space,
@@ -269,28 +265,26 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 title: Text('Sales Channel', style: smallTextStyle),
                 children: [
                   if (widget.salesChannels?.isNotEmpty ?? false)
-                    ...widget.salesChannels!
-                        .map((e) => CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(e.name ?? '', style: smallTextStyle),
-                            value: orderFilter.salesChannel
-                                .map((e) => e.id)
-                                .contains(e.id),
-                            onChanged: (val) {
-                              if (val == null) {
-                                return;
-                              }
+                    ...widget.salesChannels!.map((e) => CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(e.name ?? '', style: smallTextStyle),
+                        value: orderFilter.salesChannel
+                            .map((e) => e.id)
+                            .contains(e.id),
+                        onChanged: (val) {
+                          if (val == null) {
+                            return;
+                          }
 
-                              if (val) {
-                                orderFilter.salesChannel.add(e);
-                              } else {
-                                orderFilter.salesChannel.removeWhere(
-                                    (element) => element.id == e.id);
-                              }
-                              setState(() {});
-                            }))
-                        .toList()
+                          if (val) {
+                            orderFilter.salesChannel.add(e);
+                          } else {
+                            orderFilter.salesChannel
+                                .removeWhere((element) => element.id == e.id);
+                          }
+                          setState(() {});
+                        }))
                 ],
               ),
               space,

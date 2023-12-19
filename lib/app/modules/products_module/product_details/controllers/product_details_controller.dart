@@ -9,9 +9,9 @@ import 'package:medusa_admin/app/modules/products_module/products/controllers/pr
 import '../../../components/easy_loading.dart';
 
 class ProductDetailsController extends GetxController with StateMixin<Product> {
-  ProductDetailsController({required this.productsRepo});
+  ProductDetailsController({required this.productsRepo, required this.productId});
   ProductsRepo productsRepo;
-  final String _productId = Get.arguments;
+  final String productId ;
   late ScrollController scrollController;
   final GlobalKey variantsKey = GlobalKey();
   final GlobalKey attributesKey = GlobalKey();
@@ -39,7 +39,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     change(null, status: RxStatus.loading());
     try {
       final result = await productsRepo.retrieve(
-        _productId,
+        productId,
         queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},
       );
       if (result != null && result.product != null) {

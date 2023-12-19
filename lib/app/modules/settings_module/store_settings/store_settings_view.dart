@@ -1,11 +1,9 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:settings_ui/settings_ui.dart';
-
 import '../../../../core/utils/colors.dart';
-import '../../../routes/app_pages.dart';
 
 @RoutePage()
 class StoreSettingsView extends StatelessWidget {
@@ -33,32 +31,32 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: Icon(Icons.location_on, color: ColorManager.primary),
                 title: const Text('Regions'),
-                onPressed: (_) => Get.toNamed(Routes.REGIONS),
+                onPressed: (context) => context.pushRoute(const RegionsRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.store, color: ColorManager.primary),
                 title: const Text('Store Details'),
-                onPressed: (_) => Get.toNamed(Routes.STORE_DETAILS),
+                onPressed: (_) => context.pushRoute(const StoreDetailsRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.attach_money, color: ColorManager.primary),
                 title: const Text('Return Reasons'),
-                onPressed: (_) => Get.toNamed(Routes.RETURN_REASONS),
+                onPressed: (_) => context.pushRoute(const ReturnReasonsRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.face, color: ColorManager.primary),
                 title: const Text('Personal Information'),
-                onPressed: (_) => Get.toNamed(Routes.PERSONAL_INFORMATION),
+                onPressed: (_) => context.pushRoute(const PersonalInformationRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.percent, color: ColorManager.primary),
                 title: const Text('Tax Settings'),
-                onPressed: (_) => Get.toNamed(Routes.TAX_SETTINGS_SELECT_REGION),
+                onPressed: (_) => context.pushRoute(const TaxSettingsRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.currency_exchange, color: ColorManager.primary),
                 title: const Text('Currencies'),
-                onPressed: (_) => Get.toNamed(Routes.CURRENCIES),
+                onPressed: (_) => context.pushRoute(const CurrenciesRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.local_shipping_outlined, color: ColorManager.primary),
@@ -68,17 +66,17 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: Icon(Icons.call_split, color: ColorManager.primary),
                 title: const Text('Sales channels'),
-                onPressed: (_) => Get.toNamed(Routes.SALES_CHANNELS),
+                onPressed: (_) => context.pushRoute(const SalesChannelsRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.key, color: ColorManager.primary),
                 title: const Text('API key management'),
-                onPressed: (_) => Get.toNamed(Routes.API_KEY_MANAGEMENT),
+                onPressed: (_) => context.pushRoute(const ApiKeyManagementRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.group, color: ColorManager.primary),
                 title: const Text('The Team'),
-                onPressed: (_) => Get.toNamed(Routes.TEAM),
+                onPressed: (_) => context.pushRoute(const TeamRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.mail, color: ColorManager.primary),

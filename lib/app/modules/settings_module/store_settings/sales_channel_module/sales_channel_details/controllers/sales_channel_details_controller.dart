@@ -15,10 +15,12 @@ class SalesChannelDetailsController extends GetxController {
       {required this.salesChannelRepo,
       required this.productsRepo,
       required this.collectionRepo,
-      required this.productTagRepo});
+      required this.productTagRepo,
+      required this.salesChannel
+      });
   final SalesChannelRepo salesChannelRepo;
   final ProductsRepo productsRepo;
-  SalesChannel salesChannel = Get.arguments;
+ final SalesChannel salesChannel;
   final pagingController = PagingController<int, Product>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;

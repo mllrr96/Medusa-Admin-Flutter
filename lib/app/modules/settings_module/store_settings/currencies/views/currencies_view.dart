@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
+import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -25,6 +26,7 @@ class CurrenciesView extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     return GetBuilder<CurrenciesController>(
+      init: CurrenciesController(currencyRepo: CurrencyRepo(), storeRepo: StoreRepo()),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

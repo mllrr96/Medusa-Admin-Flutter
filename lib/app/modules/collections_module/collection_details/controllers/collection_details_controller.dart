@@ -9,9 +9,9 @@ import '../../../../data/models/req/user_collection_req.dart';
 import '../../collections/controllers/collections_controller.dart';
 
 class CollectionDetailsController extends GetxController with StateMixin<ProductCollection> {
-  CollectionDetailsController({required this.collectionRepo});
+  CollectionDetailsController({required this.collectionRepo, required this.collectionId});
   CollectionRepo collectionRepo;
-  String id = Get.arguments;
+ final String collectionId;
   @override
   Future<void> onInit() async {
     await loadCollection();
@@ -20,7 +20,7 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
 
   Future<void> loadCollection() async {
     change(null, status: RxStatus.loading());
-    final result = await collectionRepo.retrieve(id: id, queryParameters: {'expand': 'products'});
+    final result = await collectionRepo.retrieve(id: collectionId, queryParameters: {'expand': 'products'});
     result.when((success) {
       if (success.collection != null) {
         change(success.collection!, status: RxStatus.success());
@@ -35,7 +35,7 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
 
   Future<void> deleteCollection() async {
     loading();
-    final result = await collectionRepo.delete(id: id);
+    final result = await collectionRepo.delete(id: collectionId);
     result.when((success) {
       if (success.deleted != null && success.deleted!) {
         EasyLoading.showSuccess('Collection deleted');
@@ -53,7 +53,7 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
   Future<void> removeProducts(List<String> productIds) async {
     loading();
     final result = await collectionRepo.removeProducts(
-        userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(collectionId: id, productsIds: productIds));
+        userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(collectionId: collectionId, productsIds: productIds));
 
     result.when((success) async {
       EasyLoading.showSuccess('Product removed');
@@ -70,7 +70,7 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     if (addedProducts.isNotEmpty) {
       final result = await collectionRepo.updateProducts(
           userCollectionUpdateProductsReq:
-              UserCollectionUpdateProductsReq(collectionId: id, productsIds: addedProducts));
+              UserCollectionUpdateProductsReq(collectionId: collectionId, productsIds: addedProducts));
       result.when((success) async {
         if (removedProducts.isEmpty) {
           await loadCollection();
@@ -86,7 +86,7 @@ class CollectionDetailsController extends GetxController with StateMixin<Product
     if (removedProducts.isNotEmpty) {
       final result = await collectionRepo.removeProducts(
           userCollectionRemoveProductsReq:
-              UserCollectionRemoveProductsReq(collectionId: id, productsIds: removedProducts));
+              UserCollectionRemoveProductsReq(collectionId: collectionId, productsIds: removedProducts));
       result.when((success) async {
         if (addedProducts.isEmpty) {
           await loadCollection();

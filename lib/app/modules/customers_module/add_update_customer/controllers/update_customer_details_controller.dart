@@ -7,8 +7,8 @@ import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 class AddUpdateCustomerController extends GetxController {
-  AddUpdateCustomerController({required this.customerRepo});
-  final Customer? customer = Get.arguments;
+  AddUpdateCustomerController({required this.customerRepo, this.customer});
+  final Customer? customer;
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();

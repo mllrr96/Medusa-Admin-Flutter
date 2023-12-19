@@ -42,7 +42,7 @@ class CategoriesController extends GetxController {
       refreshController.refreshCompleted();
     }, (error) {
       refreshController.refreshFailed();
-      pagingController.error = 'Error loading categories';
+      pagingController.error = error.message;
     });
   }
 }

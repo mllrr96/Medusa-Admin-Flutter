@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,12 +10,12 @@ import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:settings_ui/settings_ui.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../data/service/language_service.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/language_selection/language_selection_view.dart';
 import '../controllers/app_settings_controller.dart';
 
@@ -49,11 +50,11 @@ class AppSettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     title: Text(tr.sidebarOrders),
                     leading: const Icon(CupertinoIcons.cart),
-                    onPressed: (_) => Get.toNamed(Routes.ORDER_SETTINGS),
+                    onPressed: (_) => context.pushRoute(const OrderSettingsRoute()),
                   )
                 ]),
                 SettingsSection(
-                  title: Text('Appearance'),
+                  title: const Text('Appearance'),
                   tiles: ThemeMode.values.map((e) {
                     String title = 'Automatic (Follow system)';
                     IconData iconData = Icons.brightness_auto;

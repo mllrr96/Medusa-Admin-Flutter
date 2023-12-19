@@ -7,9 +7,9 @@ import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 class TransferOrderController extends GetxController {
-  TransferOrderController({required this.ordersRepo});
+  TransferOrderController({required this.ordersRepo, required this.order});
   final OrdersRepo ordersRepo;
-  final Order order = Get.arguments;
+  final Order order;
   final currentOwnerCtrl = TextEditingController();
   final newOwnerCtrl = TextEditingController();
   // ignore: unnecessary_cast

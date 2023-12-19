@@ -8,31 +8,44 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/product.dart';
 import '../../../../../../data/models/store/sales_channel.dart';
+import '../../../../../../data/repository/collection/collection_repo.dart';
+import '../../../../../../data/repository/product/products_repo.dart';
+import '../../../../../../data/repository/product_tag/product_tag_repo.dart';
+import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../../../../../components/easy_loading.dart';
 import '../../../../../components/pick_products/views/pick_products_view.dart';
 import '../../../../../products_module/products/components/products_filter_view.dart';
-import '../../sales_channels/controllers/sales_channels_controller.dart';
 import '../components/index.dart';
 import '../controllers/sales_channel_details_controller.dart';
 
 @RoutePage()
-class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
-  const SalesChannelDetailsView({super.key});
+class SalesChannelDetailsView extends StatelessWidget {
+  const SalesChannelDetailsView(this.salesChannel, {super.key});
 
+  final SalesChannel salesChannel;
   @override
   Widget build(BuildContext context) {
-    final disabled = controller.salesChannel.isDisabled != null && controller.salesChannel.isDisabled! ? true : false;
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
 
     return GetBuilder<SalesChannelDetailsController>(
+      init: SalesChannelDetailsController(
+        salesChannelRepo: SalesChannelRepo(),
+        productsRepo: ProductsRepo(),
+        collectionRepo: CollectionRepo(),
+        productTagRepo: ProductTagRepo(),
+        salesChannel: salesChannel,
+      ),
       builder: (controller) {
+        final disabled = controller.salesChannel.isDisabled != null &&
+                controller.salesChannel.isDisabled!
+            ? true
+            : false;
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
@@ -57,8 +70,10 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                               onChanged: (val) {
                                 if (val == null) return;
                                 if (val) {
-                                  controller.selectedProducts
-                                      .addAll(controller.pagingController.itemList?.map((e) => e.id!) ?? []);
+                                  controller.selectedProducts.addAll(controller
+                                          .pagingController.itemList
+                                          ?.map((e) => e.id!) ??
+                                      []);
                                   controller.selectAll = true;
                                 } else {
                                   controller.selectedProducts.clear();
@@ -67,24 +82,31 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 controller.update();
                               }),
                           InkWell(
-                            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6.0)),
                             onLongPress: () {
                               controller.resetFilter();
                             },
                             onTap: () async {
                               loadData() async {
-                                if (controller.collections == null || controller.tags == null) {
+                                if (controller.collections == null ||
+                                    controller.tags == null) {
                                   loading(status: 'Loading data');
                                 }
                                 if (controller.collections == null) {
-                                  await controller.collectionRepo.retrieveAll().then((result) {
+                                  await controller.collectionRepo
+                                      .retrieveAll()
+                                      .then((result) {
                                     result.when((success) {
-                                      controller.collections = success.collections;
+                                      controller.collections =
+                                          success.collections;
                                     }, (error) {});
                                   });
                                 }
                                 if (controller.tags == null) {
-                                  await controller.productTagRepo.retrieveProductTags().then((result) {
+                                  await controller.productTagRepo
+                                      .retrieveProductTags()
+                                      .then((result) {
                                     result.when((success) {
                                       controller.tags = success.tags;
                                     }, (error) {});
@@ -93,20 +115,27 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 dismissLoading();
                               }
 
-                              Future<ProductFilter?> productFilterView() async =>
-                                  await showBarModalBottomSheet<ProductFilter>(
-                                      context: context,
-                                      builder: (context) => ProductsFilterView(
-                                            collections: controller.collections,
-                                            tags: controller.tags,
-                                            onResetPressed: () {
-                                              controller.productFilter = null;
-                                              controller.update();
-                                              controller.pagingController.refresh();
-                                              Get.back();
-                                            },
-                                            productFilter: controller.productFilter,
-                                          ));
+                              Future<ProductFilter?>
+                                  productFilterView() async =>
+                                      await showBarModalBottomSheet<
+                                              ProductFilter>(
+                                          context: context,
+                                          builder: (context) =>
+                                              ProductsFilterView(
+                                                collections:
+                                                    controller.collections,
+                                                tags: controller.tags,
+                                                onResetPressed: () {
+                                                  controller.productFilter =
+                                                      null;
+                                                  controller.update();
+                                                  controller.pagingController
+                                                      .refresh();
+                                                  Get.back();
+                                                },
+                                                productFilter:
+                                                    controller.productFilter,
+                                              ));
 
                               await loadData().then((value) async {
                                 productFilterView().then((result) {
@@ -121,20 +150,29 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                             child: Ink(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: (controller.productFilter?.count() ?? 0) != 0
+                                    color: (controller.productFilter?.count() ??
+                                                0) !=
+                                            0
                                         ? ColorManager.primary
                                         : Colors.transparent),
-                                color: Theme.of(context).scaffoldBackgroundColor,
-                                borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(6.0)),
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 8),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Filters', style: context.bodySmall?.copyWith(color: lightWhite)),
+                                  Text('Filters',
+                                      style: context.bodySmall
+                                          ?.copyWith(color: lightWhite)),
                                   if (controller.productFilter?.count() != null)
-                                    Text(' ${controller.productFilter?.count() ?? ''}',
-                                        style: context.bodySmall?.copyWith(color: ColorManager.primary)),
+                                    Text(
+                                        ' ${controller.productFilter?.count() ?? ''}',
+                                        style: context.bodySmall?.copyWith(
+                                            color: ColorManager.primary)),
                                 ],
                               ),
                             ),
@@ -153,31 +191,38 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                         actions: <SheetAction<int>>[
                           const SheetAction(label: 'Edit General Info', key: 0),
                           const SheetAction(label: 'Add Products', key: 1),
-                          if (controller.pagingController.itemList?.isEmpty ?? false)
-                            const SheetAction(label: 'Delete', isDestructiveAction: true, key: 2),
+                          if (controller.pagingController.itemList?.isEmpty ??
+                              false)
+                            const SheetAction(
+                                label: 'Delete',
+                                isDestructiveAction: true,
+                                key: 2),
                         ]).then((value) async {
                       switch (value) {
                         case 0:
-                          await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel)
-                              ?.then((result) {
-                            if (result is SalesChannel) {
-                              controller.salesChannel = result;
-                              controller.update();
-                              SalesChannelsController.instance.pagingController.refresh();
-                            }
-                          });
+                          // await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL, arguments: controller.salesChannel)
+                          //     ?.then((result) {
+                          //   if (result is SalesChannel) {
+                          //     controller.salesChannel = result;
+                          //     controller.update();
+                          //     SalesChannelsController.instance.pagingController.refresh();
+                          //   }
+                          // });
                           break;
                         case 1:
                           final result = await showBarModalBottomSheet(
                             context: context,
                             builder: (context) => PickProductsView(
                               pickProductsReq: PickProductsReq(
-                                disabledProducts: controller.pagingController.itemList,
+                                disabledProducts:
+                                    controller.pagingController.itemList,
                               ),
                             ),
                           );
                           if (result is PickProductsRes) {
-                            final ids = result.selectedProducts.map((e) => e.id!).toList();
+                            final ids = result.selectedProducts
+                                .map((e) => e.id!)
+                                .toList();
                             await controller.addProducts(ids);
                           }
                           break;
@@ -190,17 +235,23 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                   icon: const Icon(Icons.more_horiz))
             ],
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: controller.selectedProducts.isNotEmpty ? SalesChannelFAB(controller) : null,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: controller.selectedProducts.isNotEmpty
+              ? SalesChannelFAB(controller)
+              : null,
           body: SafeArea(
             child: SlidableAutoCloseBehavior(
               child: PagedListView.separated(
-                separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                separatorBuilder: (_, __) =>
+                    const Divider(height: 0, indent: 16),
                 padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Product>(
-                  itemBuilder: (context, product, index) => ProductCheckboxListTile(product),
-                  firstPageProgressIndicatorBuilder: (_) => const Center(child: CircularProgressIndicator.adaptive()),
+                  itemBuilder: (context, product, index) =>
+                      ProductCheckboxListTile(product),
+                  firstPageProgressIndicatorBuilder: (_) =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   noItemsFoundIndicatorBuilder: (_) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -219,10 +270,13 @@ class SalesChannelDetailsView extends GetView<SalesChannelDetailsController> {
                                 context: context,
                                 builder: (context) => PickProductsView(
                                         pickProductsReq: PickProductsReq(
-                                      disabledProducts: controller.pagingController.itemList,
+                                      disabledProducts:
+                                          controller.pagingController.itemList,
                                     )));
                             if (result is PickProductsRes) {
-                              final ids = result.selectedProducts.map((e) => e.id!).toList();
+                              final ids = result.selectedProducts
+                                  .map((e) => e.id!)
+                                  .toList();
 
                               await controller.addProducts(ids);
                             }

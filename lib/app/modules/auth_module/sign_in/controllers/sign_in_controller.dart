@@ -11,29 +11,13 @@ import '../../../components/easy_loading.dart';
 class SignInController extends GetxController {
   SignInController({required this.authRepository});
   AuthRepo authRepository;
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
-  final emailFocusNode = FocusNode();
-  final passwordFocusNode = FocusNode();
   RxString errorMessage = ''.obs;
   Rx<ThemeMode> themeMode = ThemeMode.system.obs;
   RxBool animate = false.obs;
-  final formKey = GlobalKey<FormState>();
   @override
   void onInit() {
-    emailCtrl.text = 'admin@medusa-test.com';
-    passwordCtrl.text = 'supersecret';
     themeMode.value = StorageService.instance.loadThemeMode();
     super.onInit();
-  }
-
-  @override
-  void onClose() {
-    emailCtrl.dispose();
-    passwordCtrl.dispose();
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-    super.onClose();
   }
 
   Future<void> changeThemeMode() async {
@@ -52,16 +36,11 @@ class SignInController extends GetxController {
     update();
   }
 
-  Future<bool> signIn(BuildContext context) async {
-    if (!formKey.currentState!.validate()) {
-      return false;
-    }
+  Future<bool> signIn(String email, String password) async {
 
-    // To hide the keyboard
-    FocusScope.of(context).unfocus();
     loading();
     final result =
-        await authRepository.signIn(req: UserPostAuthReq(email: emailCtrl.text, password: passwordCtrl.text));
+        await authRepository.signIn(req: UserPostAuthReq(email: email, password: password));
 
   return  result.when((success) async {
       await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init());

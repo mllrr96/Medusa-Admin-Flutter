@@ -30,9 +30,13 @@ class DraftOrdersView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),
-            appBar: AppBar(
-              title: const Text('Draft orders'),
-            ),
+            appBar: AppBar(title: Obx(() {
+              return Text(
+                  controller.draftOrdersCount.value != 0
+                      ? 'Drafts (${controller.draftOrdersCount.value})'
+                      : 'Drafts',
+                  overflow: TextOverflow.ellipsis);
+            })),
             floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,7 +46,8 @@ class DraftOrdersView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FloatingActionButton.small(
-                      onPressed: () => context.pushRoute(MedusaSearchRoute(searchCategory: SearchCategory.draftOrders)),
+                      onPressed: () => context.pushRoute(MedusaSearchRoute(
+                          searchCategory: SearchCategory.draftOrders)),
                       heroTag: 'search Draft Order',
                       child: const Icon(CupertinoIcons.search),
                     ),

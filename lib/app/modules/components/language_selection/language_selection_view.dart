@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../data/service/language_service.dart';
@@ -33,15 +33,20 @@ class LanguageSelectionView extends StatelessWidget {
             itemCount: AppLocalizations.supportedLocales.length,
             itemBuilder: (context, index) {
               final languageLocale = AppLocalizations.supportedLocales[index];
-              final languageName = LanguageLocal().getDisplayLanguage(languageLocale.languageCode).name;
-              final languageNativeName = LanguageLocal().getDisplayLanguage(languageLocale.languageCode).nativeName;
+              final languageName = LanguageLocal()
+                  .getDisplayLanguage(languageLocale.languageCode)
+                  .name;
+              final languageNativeName = LanguageLocal()
+                  .getDisplayLanguage(languageLocale.languageCode)
+                  .nativeName;
               return RadioListTile<String>(
                 value: languageLocale.languageCode,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(languageName, style: mediumTextStyle),
-                    if (languageName != languageNativeName) Text(languageNativeName, style: mediumTextStyle),
+                    if (languageName != languageNativeName)
+                      Text(languageNativeName, style: mediumTextStyle),
                   ],
                 ),
                 groupValue: LanguageService.language,
@@ -49,8 +54,9 @@ class LanguageSelectionView extends StatelessWidget {
                   if (val == null) {
                     return;
                   }
-                  await LanguageService.instance.changeLanguage(val);
-                  Get.back();
+                  await LanguageService.instance
+                      .changeLanguage(val)
+                      .then((_) => context.popRoute());
                 },
               );
             },

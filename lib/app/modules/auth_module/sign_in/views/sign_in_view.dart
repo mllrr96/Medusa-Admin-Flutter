@@ -22,12 +22,33 @@ import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
 
 @RoutePage()
-class SignInView extends StatelessWidget {
+class SignInView extends StatefulWidget {
   const SignInView({super.key});
 
   @override
+  State<SignInView> createState() => _SignInViewState();
+}
+
+class _SignInViewState extends State<SignInView> {
+  final formKey = GlobalKey<FormState>();
+  final emailCtrl = TextEditingController();
+  final passwordCtrl = TextEditingController();
+  @override
+  void initState() {
+    emailCtrl.text = 'admin@medusa-test.com';
+    passwordCtrl.text = 'supersecret';
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailCtrl.dispose();
+    passwordCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(context) {
-    // Since there no app bar, annotated region is used to apply theme ui overlay
     return GetBuilder<SignInController>(
         init: SignInController(authRepository: AuthRepo()),
         builder: (controller) {
@@ -35,6 +56,7 @@ class SignInView extends StatelessWidget {
           final bool isRTL = context.isRTL;
           const space = Gap(12);
           final smallTextStyle = context.bodySmall;
+          // Since there no app bar, annotated region is used to apply theme ui overlay
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.theme.appBarTheme.systemOverlayStyle!,
             child: GestureDetector(
@@ -43,7 +65,7 @@ class SignInView extends StatelessWidget {
                 body: SafeArea(
                   child: SingleChildScrollView(
                     child: Form(
-                      key: controller.formKey,
+                      key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -143,7 +165,7 @@ class SignInView extends StatelessWidget {
                                 Hero(
                                     tag: 'email',
                                     child: EmailTextField(
-                                      controller: controller.emailCtrl,
+                                      controller: emailCtrl,
                                       validator: (val) {
                                         if (val?.isEmpty ?? true) {
                                           return 'Email is required';
@@ -160,7 +182,7 @@ class SignInView extends StatelessWidget {
                                 Hero(
                                   tag: 'password',
                                   child: PasswordTextField(
-                                    controller: controller.passwordCtrl,
+                                    controller: passwordCtrl,
                                     validator: (val) {
                                       if (val != null && val.isEmpty) {
                                         return 'Password is required';
@@ -225,8 +247,13 @@ class SignInView extends StatelessWidget {
                               tag: 'continue',
                               child: SignInButton(
                                 onPressed: () async {
+                                  if (!formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  FocusScope.of(context).unfocus();
+
                                   await controller
-                                      .signIn(context)
+                                      .signIn(emailCtrl.text, passwordCtrl.text)
                                       .then((value) {
                                     if (value) {
                                       context.router

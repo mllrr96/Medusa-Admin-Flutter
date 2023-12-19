@@ -7,13 +7,13 @@ import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import '../../../../data/models/store/order.dart';
 
 class CustomerDetailsController extends GetxController with StateMixin<Customer> {
-  CustomerDetailsController({required this.customerRepo, required this.ordersRepo});
+  CustomerDetailsController({required this.customerRepo, required this.ordersRepo, required this.customerId});
   final CustomerRepo customerRepo;
   final OrdersRepo ordersRepo;
   final PagingController<int, Order> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   RxInt ordersCount = 0.obs;
-  String customerId = Get.arguments;
+  final String customerId;
   @override
   Future<void> onInit() async {
     await loadCustomer();
