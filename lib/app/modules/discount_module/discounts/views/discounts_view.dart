@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -28,16 +29,36 @@ class DiscountsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),
-            floatingActionButton: ScrollingExpandableFab(
-              controller: controller.scrollController,
-              label: 'New Discount',
-              icon: const Icon(Icons.add),
-              onPressed: () async {
-                final result = await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT);
-                if (result is bool && result == true) {
-                  controller.pagingController.refresh();
-                }
-              },
+            floatingActionButton: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FloatingActionButton.small(
+                      onPressed: () => context.pushRoute(MedusaSearchRoute(
+                          searchCategory: SearchCategory.discounts)),
+                      heroTag: 'search Order',
+                      child: const Icon(CupertinoIcons.search),
+                    ),
+                    const Gap(4.0),
+                  ],
+                ),
+                const Gap(6.0),
+                ScrollingExpandableFab(
+                  controller: controller.scrollController,
+                  label: 'New Discount',
+                  icon: const Icon(Icons.add),
+                  onPressed: () async {
+                    final result = await context.pushRoute(AddUpdateDiscountRoute(discount: null));
+                    if (result is bool && result == true) {
+                      controller.pagingController.refresh();
+                    }
+                  },
+                ),
+              ],
             ),
             appBar: AppBar(
               title: const Text('Discounts'),

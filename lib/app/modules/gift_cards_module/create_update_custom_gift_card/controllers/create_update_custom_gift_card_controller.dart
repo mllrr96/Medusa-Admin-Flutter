@@ -10,9 +10,9 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';
 
 class CreateUpdateCustomGiftCardController extends GetxController {
-  CreateUpdateCustomGiftCardController({required this.giftCardRepo});
+  CreateUpdateCustomGiftCardController({required this.giftCardRepo, required this.giftCard});
   final GiftCardRepo giftCardRepo;
-  final GiftCard? giftCard = Get.arguments;
+  final GiftCard? giftCard ;
   bool get updateMode => giftCard != null;
   Region? selectedRegion;
   DateTime? expiryDate;

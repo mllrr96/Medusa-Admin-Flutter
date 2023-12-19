@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/data/repository/customer_group/customer_group_r
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -44,9 +43,6 @@ class GroupsView extends StatelessWidget {
                     children: [
                       FloatingActionButton.small(
                         onPressed: () {
-                          // Get.toNamed(Routes.MEDUSA_SEARCH,
-                          //   arguments:
-                          //       SearchReq(searchCategory: SearchCategory.groups));
                           context.pushRoute(MedusaSearchRoute(
                               searchCategory: SearchCategory.groups));
                         },
@@ -62,8 +58,7 @@ class GroupsView extends StatelessWidget {
                     controller: controller.scrollController, label: 'New Group',
                     icon: const Icon(Icons.group_add),
                     onPressed: () async {
-                      final result =
-                          await Get.toNamed(Routes.CREATE_UPDATE_GROUP);
+                      final result = await context.pushRoute(const CreateUpdateGroupRoute());
                       if (result is bool && result) {
                         GroupsController.instance.pagingController.refresh();
                       }

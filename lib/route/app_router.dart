@@ -15,6 +15,12 @@ import '../app/modules/customers_module/customers/views/customers_view.dart';
 import '../app/modules/customers_module/transfer_order/views/transfer_order_view.dart';
 import '../app/modules/dashboard/views/dashboard_view.dart';
 import '../app/modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
+import '../app/modules/discount_module/discount_conditions/components/condition_collection.dart';
+import '../app/modules/discount_module/discount_conditions/components/condition_customer_group.dart';
+import '../app/modules/discount_module/discount_conditions/components/condition_product.dart';
+import '../app/modules/discount_module/discount_conditions/components/condition_tags.dart';
+import '../app/modules/discount_module/discount_conditions/components/condition_type.dart';
+import '../app/modules/discount_module/discount_conditions/controllers/discount_conditions_controller.dart';
 import '../app/modules/discount_module/discount_conditions/views/discount_conditions_view.dart';
 import '../app/modules/discount_module/discount_details/views/discount_details_view.dart';
 import '../app/modules/discount_module/discounts/views/discounts_view.dart';
@@ -29,11 +35,14 @@ import '../app/modules/groups_module/create_update_group/views/create_update_gro
 import '../app/modules/groups_module/group_details/views/group_details_view.dart';
 import '../app/modules/groups_module/groups/views/groups_view.dart';
 import '../app/modules/medusa_search/views/medusa_search_view.dart';
+import '../app/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
+import '../app/modules/orders_module/order_details/components/order_create_fulfillment.dart';
 import '../app/modules/orders_module/order_details/views/order_details_view.dart';
 import '../app/modules/orders_module/orders/views/orders_view.dart';
 import '../app/modules/pricing_module/add_update_price_list/views/add_update_price_list_view.dart';
 import '../app/modules/pricing_module/price_list_details/views/price_list_details_view.dart';
 import '../app/modules/pricing_module/pricing/views/pricing_view.dart';
+import '../app/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import '../app/modules/products_module/add_update_product/views/add_update_product_view.dart';
 import '../app/modules/products_module/product_details/views/product_details_view.dart';
 import '../app/modules/products_module/products/views/products_view.dart';
@@ -97,6 +106,12 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: DiscountDetailsRoute.page),
       AutoRoute(page: DiscountConditionsRoute.page),
       AutoRoute(page: UpdateConditionRoute.page),
+      AutoRoute(page: ConditionProductRoute.page),
+      AutoRoute(page: ConditionCustomerGroupRoute.page),
+      AutoRoute(page: ConditionTagRoute.page),
+      AutoRoute(page: ConditionTypeRoute.page),
+      AutoRoute(page: ConditionCollectionRoute.page),
+
       // Draft orders module
       AutoRoute(page: CreateDraftOrderRoute.page),
       AutoRoute(page: DraftOrderDetailsRoute.page),
@@ -114,6 +129,8 @@ class AppRouter extends _$AppRouter {
 
       // Orders module
       AutoRoute(page: OrderDetailsRoute.page),
+      AutoRoute(page: AddUpdateOrderEditRoute.page),
+      AutoRoute(page: OrderCreateFulfillmentRoute.page),
 
       // Pricing module
       AutoRoute(page: AddUpdatePriceListRoute.page),

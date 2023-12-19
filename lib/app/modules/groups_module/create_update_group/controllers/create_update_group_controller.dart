@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -54,7 +55,7 @@ class CreateUpdateGroupController extends GetxController {
     final result = await customerGroupRepo.updateCustomerGroup(
         id: customerGroup!.id!, name: groupTitleCtrl.text, metadata: metadata);
     result.when((success) {
-      Get.back(result: success.customerGroup);
+      context.popRoute(success.customerGroup);
       EasyLoading.showSuccess('Customer group updated!');
     }, (error) {
       dismissLoading();
@@ -76,7 +77,7 @@ class CreateUpdateGroupController extends GetxController {
     final result = await customerGroupRepo.createCustomerGroup(
         name: groupTitleCtrl.text, metadata: metadata.isNotEmpty ? metadata : null);
     result.when((success) {
-      Get.back(result: true);
+      context.popRoute( true);
       EasyLoading.showSuccess('Customer group created!');
     }, (error) {
       dismissLoading();

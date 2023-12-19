@@ -9,8 +9,7 @@ import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class ChooseCustomerView extends StatelessWidget {
-  const ChooseCustomerView({Key? key, this.onCustomerChanged})
-      : super(key: key);
+  const ChooseCustomerView({super.key, this.onCustomerChanged});
   final void Function(Customer?)? onCustomerChanged;
   @override
   Widget build(BuildContext context) {
@@ -18,6 +17,7 @@ class ChooseCustomerView extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     return GetBuilder<ChooseCustomerController>(
+      init: ChooseCustomerController(),
       builder: (controller) {
         return Column(
           children: [

@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -39,21 +38,20 @@ class ProductsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),
-            appBar: AppBar(
-                title: Obx(() {
-                  return Text(
-                      controller.productsCount.value != 0
-                          ? 'Products (${controller.productsCount.value})'
-                          : 'Products',
-                      overflow: TextOverflow.ellipsis);
-                })),
+            appBar: AppBar(title: Obx(() {
+              return Text(
+                  controller.productsCount.value != 0
+                      ? 'Products (${controller.productsCount.value})'
+                      : 'Products',
+                  overflow: TextOverflow.ellipsis);
+            })),
             floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+                FloatingActionButtonLocation.centerFloat,
             floatingActionButton: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Directionality(
                 textDirection:
-                context.isRTL ? TextDirection.rtl : TextDirection.ltr,
+                    context.isRTL ? TextDirection.rtl : TextDirection.ltr,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -61,23 +59,22 @@ class ProductsView extends StatelessWidget {
                       return SpeedDial(
                         switchLabelPosition: true,
                         backgroundColor: (controller.productFilter == null ||
-                            controller.productFilter?.count() == 0)
+                                controller.productFilter?.count() == 0)
                             ? null
                             : Colors.redAccent,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(16.0))),
+                                BorderRadius.all(Radius.circular(16.0))),
                         icon: CupertinoIcons.doc_text_search,
                         spacing: 10,
                         children: [
                           SpeedDialChild(
                             child:
-                            const Icon(MedusaIcons.magnifying_glass_mini),
+                                const Icon(MedusaIcons.magnifying_glass_mini),
                             label: 'Search for a product',
                             labelStyle: smallTextStyle,
-                            onTap: () =>
-                                context.pushRoute(MedusaSearchRoute(
-                                    searchCategory: SearchCategory.products)),
+                            onTap: () => context.pushRoute(MedusaSearchRoute(
+                                searchCategory: SearchCategory.products)),
                             onLongPress: () {},
                           ),
                           SpeedDialChild(
@@ -87,8 +84,7 @@ class ProductsView extends StatelessWidget {
                             onTap: () async {
                               await showBarModalBottomSheet(
                                   context: context,
-                                  builder: (context) =>
-                                      ProductsFilterView(
+                                  builder: (context) => ProductsFilterView(
                                         collections: controller.collections,
                                         tags: controller.tags,
                                         onResetPressed: () {
@@ -111,20 +107,20 @@ class ProductsView extends StatelessWidget {
                             onTap: () async {
                               final sortOption = controller.sortOptions;
                               final result =
-                              await showModalActionSheet<SortOptions>(
-                                  context: context,
-                                  title: 'Sort products',
-                                  actions: <SheetAction<SortOptions>>[
+                                  await showModalActionSheet<SortOptions>(
+                                      context: context,
+                                      title: 'Sort products',
+                                      actions: <SheetAction<SortOptions>>[
                                     SheetAction(
                                         label: 'A-Z',
                                         key: SortOptions.aZ,
                                         isDestructiveAction:
-                                        sortOption == SortOptions.aZ),
+                                            sortOption == SortOptions.aZ),
                                     SheetAction(
                                         label: 'Z-A',
                                         key: SortOptions.zA,
                                         isDestructiveAction:
-                                        sortOption == SortOptions.zA),
+                                            sortOption == SortOptions.zA),
                                     SheetAction(
                                         label: 'Creation Date',
                                         key: SortOptions.dateRecent,
@@ -134,7 +130,7 @@ class ProductsView extends StatelessWidget {
                                         label: 'Creation Date - Ascending',
                                         key: SortOptions.dateOld,
                                         isDestructiveAction:
-                                        sortOption == SortOptions.dateOld),
+                                            sortOption == SortOptions.dateOld),
                                   ]);
                               if (result != null) {
                                 controller.changeSortOption(result);
@@ -148,7 +144,7 @@ class ProductsView extends StatelessWidget {
                     SpeedDial(
                       shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(16.0))),
+                              BorderRadius.all(Radius.circular(16.0))),
                       animatedIcon: AnimatedIcons.menu_close,
                       spacing: 10,
                       children: [
@@ -157,11 +153,11 @@ class ProductsView extends StatelessWidget {
                           label: 'New Product',
                           labelStyle: smallTextStyle,
                           onTap: () async {
-                            await Get.toNamed(Routes.ADD_UPDATE_PRODUCT)
-                                ?.then((result) {
-                              if (result != null &&
-                                  result is bool &&
-                                  result == true) {
+                            await context
+                                .pushRoute(AddUpdateProductRoute(
+                                    updateProductReq: null))
+                                .then((result) {
+                              if (result is bool && result == true) {
                                 controller.pagingController.refresh();
                               }
                             });
@@ -196,89 +192,83 @@ class ProductsView extends StatelessWidget {
                   : const MaterialClassicHeader(),
               child: PagedListView.separated(
                 separatorBuilder: (_, __) =>
-                const Divider(height: 0, indent: 16),
+                    const Divider(height: 0, indent: 16),
                 padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Product>(
-                  itemBuilder: (context, product, index) =>
-                      ProductListTile(
-                        product: product,
-                        onEdit: () async {
-                          final result = await Get.toNamed(
-                              Routes.ADD_UPDATE_PRODUCT,
-                              arguments:
-                              UpdateProductReq(product: product, number: 7));
-                          if (result != null) {
-                            controller.pagingController.refresh();
-                          }
-                        },
-                        onDelete: () async {
-                          final confirmDelete = await showOkCancelAlertDialog(
-                              context: context,
-                              title: 'Confirm product deletion',
-                              message:
+                  itemBuilder: (context, product, index) => ProductListTile(
+                    product: product,
+                    onEdit: () async {
+                      final result = await context.pushRoute(
+                          AddUpdateProductRoute(
+                              updateProductReq: UpdateProductReq(
+                                  product: product, number: 7)));
+                      if (result != null) {
+                        controller.pagingController.refresh();
+                      }
+                    },
+                    onDelete: () async {
+                      final confirmDelete = await showOkCancelAlertDialog(
+                          context: context,
+                          title: 'Confirm product deletion',
+                          message:
                               'Are you sure you want to delete this product? \n This action is irreversible',
-                              isDestructiveAction: true);
+                          isDestructiveAction: true);
 
-                          if (confirmDelete != OkCancelResult.ok) {
-                            return;
-                          }
-                          await controller.deleteProduct(product.id!);
-                        },
-                        onPublish: () async {
-                          await controller.updateProduct(product);
-                        },
-                        onDuplicate: () async {
-                          await controller.duplicateProduct(product);
-                        },
-                      ),
+                      if (confirmDelete != OkCancelResult.ok) {
+                        return;
+                      }
+                      await controller.deleteProduct(product.id!);
+                    },
+                    onPublish: () async {
+                      await controller.updateProduct(product);
+                    },
+                    onDuplicate: () async {
+                      await controller.duplicateProduct(product);
+                    },
+                  ),
                   firstPageProgressIndicatorBuilder: (_) =>
-                  const Center(child: CircularProgressIndicator.adaptive()),
-                  noItemsFoundIndicatorBuilder: (_) =>
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (controller.searchTerm.value.isEmpty &&
-                              (controller.productFilter?.count() ?? 0) == 0)
-                            Column(
-                              children: [
-                                Text(
-                                    'No products yet!', style: mediumTextStyle),
-                                const SizedBox(height: 12.0),
-                                AdaptiveFilledButton(
-                                    onPressed: () async {
-                                      await Get.toNamed(
-                                          Routes.ADD_UPDATE_PRODUCT)
-                                          ?.then((result) {
-                                        if (result != null &&
-                                            result is bool &&
-                                            result == true) {
-                                          controller.pagingController.refresh();
-                                        }
-                                      });
-                                    },
-                                    child: const Text('Add product',
-                                        style: TextStyle(color: Colors.white)))
-                              ],
-                            ),
-                          if (controller.searchTerm.value.isNotEmpty)
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  noItemsFoundIndicatorBuilder: (_) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (controller.searchTerm.value.isEmpty &&
+                          (controller.productFilter?.count() ?? 0) == 0)
+                        Column(
+                          children: [
+                            Text('No products yet!', style: mediumTextStyle),
+                            const SizedBox(height: 12.0),
+                            AdaptiveFilledButton(
+                                onPressed: () async {
+                                  await context.pushRoute(
+                                      AddUpdateProductRoute(
+                                          updateProductReq: null)).then((result) {
+                                    if (result is bool && result == true) {
+                                      controller.pagingController.refresh();
+                                    }
+                                  });
+                                },
+                                child: const Text('Add product',
+                                    style: TextStyle(color: Colors.white)))
+                          ],
+                        ),
+                      if (controller.searchTerm.value.isNotEmpty)
+                        Text('No products found', style: mediumTextStyle),
+                      if ((controller.productFilter?.count() ?? 0) > 0 &&
+                          controller.searchTerm.value.isEmpty)
+                        Column(
+                          children: [
                             Text('No products found', style: mediumTextStyle),
-                          if ((controller.productFilter?.count() ?? 0) > 0 &&
-                              controller.searchTerm.value.isEmpty)
-                            Column(
-                              children: [
-                                Text('No products found',
-                                    style: mediumTextStyle),
-                                const SizedBox(height: 12.0),
-                                AdaptiveButton(
-                                    onPressed: () {
-                                      controller.resetFilter();
-                                    },
-                                    child: const Text('Clear filters'))
-                              ],
-                            ),
-                        ],
-                      ),
+                            const SizedBox(height: 12.0),
+                            AdaptiveButton(
+                                onPressed: () {
+                                  controller.resetFilter();
+                                },
+                                child: const Text('Clear filters'))
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -13,14 +14,17 @@ import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
+@RoutePage()
 class ConditionProductView extends StatelessWidget {
-  const ConditionProductView({Key? key}) : super(key: key);
-
+  const ConditionProductView(this.disabledProducts, {super.key});
+  final List<Product>? disabledProducts;
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<ConditionProductController>(
-      init: ConditionProductController(productsRepo: ProductsRepo()),
+      init: ConditionProductController(
+          productsRepo: ProductsRepo(),
+          disabledProducts: disabledProducts ?? []),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -51,12 +55,12 @@ class ConditionProductView extends StatelessWidget {
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: Container(
                       height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 4.0),
                       child: SearchTextField(
                         fillColor: context.theme.scaffoldBackgroundColor,
                         controller: controller.searchCtrl,
-                        hintText:
-                        'Search for product name, variant title ...',
+                        hintText: 'Search for product name, variant title ...',
                         onSuffixTap: () {
                           if (controller.searchTerm.isEmpty) return;
                           controller.searchCtrl.clear();
@@ -64,8 +68,7 @@ class ConditionProductView extends StatelessWidget {
                           controller.pagingController.refresh();
                         },
                         onSubmitted: (val) {
-                          if (controller.searchTerm != val &&
-                              val.isNotEmpty) {
+                          if (controller.searchTerm != val && val.isNotEmpty) {
                             controller.searchTerm = val;
                             controller.pagingController.refresh();
                           }
@@ -162,7 +165,8 @@ class ConditionProductView extends StatelessWidget {
 }
 
 class ConditionProductController extends GetxController {
-  ConditionProductController({required this.productsRepo});
+  ConditionProductController(
+      {required this.productsRepo, required this.disabledProducts});
 
   final ProductsRepo productsRepo;
   DiscountConditionOperator discountConditionOperator =
@@ -171,8 +175,7 @@ class ConditionProductController extends GetxController {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   List<Product> selectedProducts = <Product>[];
-  final List<Product> disabledProducts =
-      Get.arguments is List<Product> ? Get.arguments : [];
+  final List<Product> disabledProducts;
 
   bool get updateMode => disabledProducts.isNotEmpty;
   final searchCtrl = TextEditingController();

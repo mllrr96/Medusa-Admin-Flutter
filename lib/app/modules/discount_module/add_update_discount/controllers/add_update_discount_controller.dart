@@ -12,7 +12,7 @@ import '../../../../data/models/store/discount_rule.dart';
 import '../../../../data/models/store/region.dart';
 
 class AddUpdateDiscountController extends GetxController {
-  AddUpdateDiscountController({required this.discountRepo});
+  AddUpdateDiscountController({required this.discountRepo,this.discount });
   final DiscountRepo discountRepo;
   DiscountRuleType discountRuleType = DiscountRuleType.percentage;
   AllocationType allocationType = AllocationType.total;
@@ -24,7 +24,7 @@ class AddUpdateDiscountController extends GetxController {
   List<DiscountCondition> discountConditions = <DiscountCondition>[];
   DateTime? startDate;
   DateTime? endDate;
-  Discount? discount = Get.arguments;
+  final Discount? discount ;
   bool get updateMode => discount != null;
   final codeCtrl = TextEditingController();
   final amountCtrl = TextEditingController();

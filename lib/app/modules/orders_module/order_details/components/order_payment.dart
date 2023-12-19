@@ -13,7 +13,7 @@ import '../../../components/adaptive_button.dart';
 import '../../orders/components/payment_status_label.dart';
 
 class OrderPayment extends GetView<OrderDetailsController> {
-  const OrderPayment(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
+  const OrderPayment(this.order, {super.key, this.onExpansionChanged});
   final Order order;
   final void Function(bool)? onExpansionChanged;
   @override

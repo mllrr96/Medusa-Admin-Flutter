@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -9,9 +10,9 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../components/index.dart';
 import '../controllers/gift_cards_controller.dart';
@@ -56,7 +57,7 @@ class GiftCardsView extends StatelessWidget {
                 subtitle: Text('See the history of purchased Gift Cards',
                     style: smallTextStyle),
                 trailing: const Icon(Icons.arrow_forward),
-                onTap: () => Get.toNamed(Routes.CUSTOM_GIFT_CARDS),
+                onTap: () => context.pushRoute(const CustomGiftCardsRoute()),
               ),
             ),
             body: CustomScrollView(

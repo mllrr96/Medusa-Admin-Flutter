@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -9,10 +10,10 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/countries/components/countries.dart';
 import '../../../components/custom_expansion_tile.dart';
@@ -54,10 +55,10 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               if (value == null) return;
               switch (value) {
                 case 0:
-                  await Get.toNamed(Routes.CUSTOMER_DETAILS, arguments: order.customerId!);
+                  await context.pushRoute(CustomerDetailsRoute(customerId: order.customerId!));
                   break;
                 case 1:
-                  await Get.toNamed(Routes.TRANSFER_ORDER, arguments: order);
+                  await context.pushRoute(TransferOrderRoute(order: order));
                   break;
                 case 2:
                   final result = await showBarModalBottomSheet(
@@ -220,10 +221,10 @@ class _EmailUpdateViewState extends State<EmailUpdateView> {
                         return;
                       }
                       if (emailCtrl.text == widget.currentEmail) {
-                        Get.back();
+                        context.popRoute();
                         return;
                       }
-                      Get.back(result: emailCtrl.text);
+                      context.popRoute(emailCtrl.text);
                     },
                     child: const Text('Save'))
               ],

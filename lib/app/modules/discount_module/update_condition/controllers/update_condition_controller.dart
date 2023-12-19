@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
@@ -6,9 +8,9 @@ import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
 import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 
@@ -38,12 +40,14 @@ class UpdateConditionController extends GetxController {
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
         if (condition.operator == DiscountConditionOperator.notIn) {
-          operatorText = 'Discount is applicable to all products except selected products';
+          operatorText =
+              'Discount is applicable to all products except selected products';
         } else {
           operatorText = 'Discount is applicable to selected products only';
         }
         productsRepo = ProductsRepo();
-        final result = await productsRepo.retrieveAll(queryParameters: {'discount_condition_id': condition.id!});
+        final result = await productsRepo.retrieveAll(
+            queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <Product>[];
           items = <Product>[];
@@ -54,18 +58,22 @@ class UpdateConditionController extends GetxController {
           update();
         }, (error) {
           Get.back();
-          Get.snackbar('Error loading products ${error.code ?? ''}', error.message,
+          Get.snackbar(
+              'Error loading products ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
         });
         break;
       case DiscountConditionType.productType:
         if (condition.operator == DiscountConditionOperator.notIn) {
-          operatorText = 'Discount is applicable to all product types except selected product types';
+          operatorText =
+              'Discount is applicable to all product types except selected product types';
         } else {
-          operatorText = 'Discount is applicable to selected product types only';
+          operatorText =
+              'Discount is applicable to selected product types only';
         }
         typeRepo = ProductTypeRepo();
-        final result = await typeRepo.retrieveProductTypes(queryParameters: {'discount_condition_id': condition.id!});
+        final result = await typeRepo.retrieveProductTypes(
+            queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <ProductType>[];
           items = <ProductType>[];
@@ -76,18 +84,21 @@ class UpdateConditionController extends GetxController {
           update();
         }, (error) {
           Get.back();
-          Get.snackbar('Error loading product types ${error.code ?? ''}', error.message,
+          Get.snackbar(
+              'Error loading product types ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
         });
         break;
       case DiscountConditionType.productCollections:
         if (condition.operator == DiscountConditionOperator.notIn) {
-          operatorText = 'Discount is applicable to all collections except selected collections';
+          operatorText =
+              'Discount is applicable to all collections except selected collections';
         } else {
           operatorText = 'Discount is applicable to selected collections only';
         }
         collectionRepo = CollectionRepo();
-        final result = await collectionRepo.retrieveAll(queryParameters: {'discount_condition_id': condition.id!});
+        final result = await collectionRepo.retrieveAll(
+            queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <ProductCollection>[];
           items = <ProductCollection>[];
@@ -98,18 +109,21 @@ class UpdateConditionController extends GetxController {
           update();
         }, (error) {
           Get.back();
-          Get.snackbar('Error loading collections ${error.code ?? ''}', error.message,
+          Get.snackbar(
+              'Error loading collections ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
         });
         break;
       case DiscountConditionType.productTags:
         if (condition.operator == DiscountConditionOperator.notIn) {
-          operatorText = 'Discount is applicable to all tags except selected tags';
+          operatorText =
+              'Discount is applicable to all tags except selected tags';
         } else {
           operatorText = 'Discount is applicable to selected tags only';
         }
         tagRepo = ProductTagRepo();
-        final result = await tagRepo.retrieveProductTags(queryParameters: {'discount_condition_id': condition.id!});
+        final result = await tagRepo.retrieveProductTags(
+            queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <ProductTag>[];
           items = <ProductTag>[];
@@ -120,19 +134,21 @@ class UpdateConditionController extends GetxController {
           update();
         }, (error) {
           Get.back();
-          Get.snackbar('Error loading collections ${error.code ?? ''}', error.message,
+          Get.snackbar(
+              'Error loading collections ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
         });
         break;
       case DiscountConditionType.customerGroups:
         if (condition.operator == DiscountConditionOperator.notIn) {
-          operatorText = 'Discount is applicable to all groups except selected groups';
+          operatorText =
+              'Discount is applicable to all groups except selected groups';
         } else {
           operatorText = 'Discount is applicable to selected groups only';
         }
         groupRepo = CustomerGroupRepo();
-        final result =
-            await groupRepo.retrieveCustomerGroups(queryParameters: {'discount_condition_id': condition.id!});
+        final result = await groupRepo.retrieveCustomerGroups(
+            queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <CustomerGroup>[];
           items = <CustomerGroup>[];
@@ -143,7 +159,9 @@ class UpdateConditionController extends GetxController {
           update();
         }, (error) {
           Get.back();
-          Get.snackbar('Error loading groups ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+          Get.snackbar(
+              'Error loading groups ${error.code ?? ''}', error.message,
+              snackPosition: SnackPosition.BOTTOM);
         });
         break;
     }
@@ -151,10 +169,12 @@ class UpdateConditionController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> add() async {
+  Future<void> add(BuildContext context) async {
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
-        final result = await Get.to(() => const ConditionProductView(), arguments: items as List<Product>);
+        final result = await context.pushRoute(
+            ConditionProductRoute(disabledProducts: items as List<Product>));
+
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.products!);
           selectedItems.addAll(result.products!);
@@ -162,7 +182,9 @@ class UpdateConditionController extends GetxController {
         }
         break;
       case DiscountConditionType.productType:
-        final result = await Get.to(() => const ConditionTypeView(), arguments: items as List<ProductType>);
+        final result = await context.pushRoute(
+            ConditionTypeRoute(disabledTypes: items as List<ProductType>));
+
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.productTypes!);
           selectedItems.addAll(result.productTypes!);
@@ -170,7 +192,9 @@ class UpdateConditionController extends GetxController {
         }
         break;
       case DiscountConditionType.productCollections:
-        final result = await Get.to(() => const ConditionCollectionView(), arguments: items as List<ProductCollection>);
+        final result = await context.pushRoute(ConditionCollectionRoute(
+            disabledCollections: items as List<ProductCollection>));
+
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.productCollections!);
           selectedItems.addAll(result.productCollections!);
@@ -178,7 +202,9 @@ class UpdateConditionController extends GetxController {
         }
         break;
       case DiscountConditionType.productTags:
-        final result = await Get.to(() => const ConditionTagView(), arguments: items as List<ProductTag>);
+        final result = await context.pushRoute(
+            ConditionTagRoute(disabledTags: items as List<ProductTag>));
+
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.productTags!);
           selectedItems.addAll(result.productTags!);
@@ -186,7 +212,9 @@ class UpdateConditionController extends GetxController {
         }
         break;
       case DiscountConditionType.customerGroups:
-        final result = await Get.to(() => const ConditionCustomerGroupView(), arguments: items as List<CustomerGroup>);
+        final result = await context.pushRoute(ConditionCustomerGroupRoute(
+            disabledGroups: items as List<CustomerGroup>));
+
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.customerGroups!);
           selectedItems.addAll(result.customerGroups!);
@@ -205,8 +233,10 @@ class UpdateConditionController extends GetxController {
         } else {
           Get.back(
               result: UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<Product>).map((e) => e.id!).toList(),
-            originalItemIds: (conditionItems as List<Product>).map((e) => e.id!).toList(),
+            updatedItemIds:
+                (selectedItems as List<Product>).map((e) => e.id!).toList(),
+            originalItemIds:
+                (conditionItems as List<Product>).map((e) => e.id!).toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
@@ -219,22 +249,34 @@ class UpdateConditionController extends GetxController {
         } else {
           Get.back(
               result: UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<ProductType>).map((e) => e.id!).toList(),
-            originalItemIds: (conditionItems as List<ProductType>).map((e) => e.id!).toList(),
+            updatedItemIds:
+                (selectedItems as List<ProductType>).map((e) => e.id!).toList(),
+            originalItemIds: (conditionItems as List<ProductType>)
+                .map((e) => e.id!)
+                .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
         return;
       case DiscountConditionType.productCollections:
-        if (eq((conditionItems as List<ProductCollection>).map((e) => e.id!).toList(),
-            (selectedItems as List<ProductCollection>).map((e) => e.id!).toList())) {
+        if (eq(
+            (conditionItems as List<ProductCollection>)
+                .map((e) => e.id!)
+                .toList(),
+            (selectedItems as List<ProductCollection>)
+                .map((e) => e.id!)
+                .toList())) {
           Get.back();
         } else {
           Get.back(
               result: UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<ProductCollection>).map((e) => e.id!).toList(),
-            originalItemIds: (conditionItems as List<ProductCollection>).map((e) => e.id!).toList(),
+            updatedItemIds: (selectedItems as List<ProductCollection>)
+                .map((e) => e.id!)
+                .toList(),
+            originalItemIds: (conditionItems as List<ProductCollection>)
+                .map((e) => e.id!)
+                .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
@@ -247,22 +289,31 @@ class UpdateConditionController extends GetxController {
         } else {
           Get.back(
               result: UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<ProductTag>).map((e) => e.id!).toList(),
-            originalItemIds: (conditionItems as List<ProductTag>).map((e) => e.id!).toList(),
+            updatedItemIds:
+                (selectedItems as List<ProductTag>).map((e) => e.id!).toList(),
+            originalItemIds:
+                (conditionItems as List<ProductTag>).map((e) => e.id!).toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
         return;
       case DiscountConditionType.customerGroups:
-        if (eq((conditionItems as List<CustomerGroup>).map((e) => e.id!).toList(),
-            (selectedItems as List<CustomerGroup>).map((e) => e.id!).toList())) {
+        if (eq(
+            (conditionItems as List<CustomerGroup>).map((e) => e.id!).toList(),
+            (selectedItems as List<CustomerGroup>)
+                .map((e) => e.id!)
+                .toList())) {
           Get.back();
         } else {
           Get.back(
               result: UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<CustomerGroup>).map((e) => e.id!).toList(),
-            originalItemIds: (conditionItems as List<CustomerGroup>).map((e) => e.id!).toList(),
+            updatedItemIds: (selectedItems as List<CustomerGroup>)
+                .map((e) => e.id!)
+                .toList(),
+            originalItemIds: (conditionItems as List<CustomerGroup>)
+                .map((e) => e.id!)
+                .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
@@ -276,7 +327,8 @@ class UpdateConditionReq {
   final DiscountConditionType discountConditionType;
   final DiscountCondition discountCondition;
 
-  UpdateConditionReq({required this.discountCondition, required this.discountConditionType});
+  UpdateConditionReq(
+      {required this.discountCondition, required this.discountConditionType});
 }
 
 class UpdateConditionRes {

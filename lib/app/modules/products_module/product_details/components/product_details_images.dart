@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,16 @@ import 'package:medusa_admin/app/modules/products_module/add_update_product/comp
 import 'package:medusa_admin/app/modules/products_module/product_details/controllers/product_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
-import '../../../../routes/app_pages.dart';
 import '../../add_update_product/controllers/add_update_product_controller.dart';
 
 class ProductDetailsImages extends GetView<ProductDetailsController> {
-  const ProductDetailsImages({Key? key, required this.product, this.onExpansionChanged, this.expansionKey})
+  const ProductDetailsImages(
+      {Key? key,
+      required this.product,
+      this.onExpansionChanged,
+      this.expansionKey})
       : super(key: key);
   final Product product;
   final void Function(bool)? onExpansionChanged;
@@ -24,7 +29,10 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
     const space = Gap(12);
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final buttonText = product.images == null || (product.images?.isEmpty ?? false) ? 'Add':'Edit';
+    final buttonText =
+        product.images == null || (product.images?.isEmpty ?? false)
+            ? 'Add'
+            : 'Edit';
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ClipRRect(
@@ -38,9 +46,11 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
           trailing: GetPlatform.isAndroid
               ? TextButton(
                   onPressed: () async {
-                    await Get.toNamed(Routes.ADD_UPDATE_PRODUCT,
-                            arguments: UpdateProductReq(product: product, number: 5))
-                        ?.then((result) async {
+                    await context
+                        .pushRoute(AddUpdateProductRoute(
+                            updateProductReq:
+                                UpdateProductReq(product: product, number: 5)))
+                        .then((result) async {
                       if (result != null) {
                         await controller.fetchProduct();
                       }
@@ -49,9 +59,11 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
                   child: Text(buttonText))
               : CupertinoButton(
                   onPressed: () async {
-                    await Get.toNamed(Routes.ADD_UPDATE_PRODUCT,
-                            arguments: UpdateProductReq(product: product, number: 5))
-                        ?.then((result) async {
+                    await context
+                        .pushRoute(AddUpdateProductRoute(
+                            updateProductReq:
+                                UpdateProductReq(product: product, number: 5)))
+                        .then((result) async {
                       if (result != null) {
                         await controller.fetchProduct();
                       }
@@ -59,7 +71,8 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
                   },
                   padding: EdgeInsets.zero,
                   child: Text(buttonText)),
-          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          childrenPadding:
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
           children: [
             // TODO: show images when tapped on, use easy_image_viewer package
             if (product.images != null)
@@ -73,11 +86,14 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
                           child: Hero(
                               tag: e.url!,
                               child: GestureDetector(
-                                  onTap: () => Get.to(() => ImageViewScreen(imageUrl: e.url)),
-                                  child: CachedNetworkImage(imageUrl: e.url!)))))
+                                  onTap: () => Get.to(
+                                      () => ImageViewScreen(imageUrl: e.url)),
+                                  child:
+                                      CachedNetworkImage(imageUrl: e.url!)))))
                       .toList()),
             if (product.images == null || (product.images?.isEmpty ?? false))
-            Text('No images added', style: smallTextStyle?.copyWith(color: lightWhite)),
+              Text('No images added',
+                  style: smallTextStyle?.copyWith(color: lightWhite)),
 
             space,
           ],

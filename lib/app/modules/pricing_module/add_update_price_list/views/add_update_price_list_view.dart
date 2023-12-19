@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
@@ -24,8 +25,9 @@ import '../components/index.dart';
 import '../controllers/add_update_price_list_controller.dart';
 
 @RoutePage()
-class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
-  const AddUpdatePriceListView({super.key});
+class AddUpdatePriceListView extends StatelessWidget {
+  const AddUpdatePriceListView(this.id, {super.key});
+  final String? id;
   static const kDuration = Duration(milliseconds: 300);
   @override
   Widget build(BuildContext context) {
@@ -33,16 +35,16 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
+    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay, required ScrollController scrollController}) async {
       await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
         final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
         final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
-        if (scrollPoint <= controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController
+        final scrollPoint = scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
+        if (scrollPoint <= scrollController.position.maxScrollExtent) {
+          await scrollController
               .animateTo(scrollPoint - 10, duration: kDuration, curve: Curves.fastOutSlowIn);
         } else {
-          await controller.scrollController.animateTo(controller.scrollController.position.maxScrollExtent,
+          await scrollController.animateTo(scrollController.position.maxScrollExtent,
               duration: kDuration, curve: Curves.fastOutSlowIn);
         }
       });
@@ -50,6 +52,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
 
     Widget buildPriceListType() {
       return GetBuilder<AddUpdatePriceListController>(
+        init: AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
         id: 0,
         builder: (controller) {
           return CustomExpansionTile(
@@ -57,7 +60,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
             initiallyExpanded: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.priceListTypeKey);
+                await scrollToSelectedContent(globalKey: controller.priceListTypeKey, scrollController: controller.scrollController);
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -105,7 +108,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
             key: controller.generalKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.generalKey);
+                await scrollToSelectedContent(globalKey: controller.generalKey, scrollController: controller.scrollController);
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -159,7 +162,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
             key: controller.configKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.configKey);
+                await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -183,7 +186,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                   if (val) {
                     controller.priceList = controller.priceList.copyWith.startsAt(DateTime.now());
                     controller.update([2]);
-                    await scrollToSelectedContent(globalKey: controller.configKey);
+                    await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
                   } else {
                     controller.priceList = controller.priceList.copyWith.startsAt(null);
                     controller.update([2]);
@@ -219,7 +222,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                   if (val) {
                     controller.priceList = controller.priceList.copyWith.endsAt(DateTime.now());
                     controller.update([2]);
-                    await scrollToSelectedContent(globalKey: controller.configKey);
+                    await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
                   } else {
                     controller.priceList = controller.priceList.copyWith.endsAt(null);
                     controller.update([2]);
@@ -255,7 +258,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                   if (val) {
                     controller.specifyCustomers = val;
                     controller.update([2]);
-                    await scrollToSelectedContent(globalKey: controller.configKey);
+                    await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
                   } else {
                     controller.specifyCustomers = val;
                     controller.update([2]);
@@ -331,7 +334,7 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
             key: controller.pricesKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.pricesKey);
+                await scrollToSelectedContent(globalKey: controller.pricesKey, scrollController: controller.scrollController);
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -416,10 +419,10 @@ class AddUpdatePriceListView extends GetView<AddUpdatePriceListController> {
                                   ],
                                 ),
                               );
-                            }).toList(),
+                            }),
                         ],
                       ))
-                  .toList(),
+                  ,
               space,
               AdaptiveButton(
                 onPressed: () async {

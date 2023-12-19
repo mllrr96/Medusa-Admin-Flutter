@@ -6,9 +6,9 @@ import 'package:medusa_admin/app/data/repository/order_edit/order_edit_repo.dart
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 class AddUpdateOrderEditController extends GetxController with StateMixin<OrderEdit> {
-  AddUpdateOrderEditController({required this.orderEditRepo});
+  AddUpdateOrderEditController({required this.orderEditRepo, required this.order});
   final OrderEditRepo orderEditRepo;
-  final Order? order = Get.arguments;
+  final Order? order;
   String? get orderId => order?.id;
   final noteCtrl = TextEditingController();
 

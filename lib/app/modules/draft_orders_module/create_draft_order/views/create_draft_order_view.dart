@@ -5,16 +5,18 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/keep_alive_widget.dart';
+import '../../../../data/repository/draft_order/draft_order_repo.dart';
+import '../../../../data/repository/regions/regions_repo.dart';
 import '../components/index.dart';
 import '../controllers/create_draft_order_controller.dart';
 
 @RoutePage()
-class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
+class CreateDraftOrderView extends StatelessWidget {
   const CreateDraftOrderView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Future<bool> willPop() async {
+    Future<bool> willPop(CreateDraftOrderController controller) async {
       if (controller.tabController.index > 0) {
         controller.tabController.animateTo(controller.tabController.index - 1);
         return false;
@@ -39,7 +41,7 @@ class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
       return true;
     }
 
-    Future<void> onCloseTap() async {
+    Future<void> onCloseTap(CreateDraftOrderController controller) async {
       if (controller.customLineItems.isNotEmpty ||
           controller.lineItems.isNotEmpty) {
         await showOkCancelAlertDialog(
@@ -60,14 +62,17 @@ class CreateDraftOrderView extends GetView<CreateDraftOrderController> {
     }
 
     return GetBuilder<CreateDraftOrderController>(
+      init: CreateDraftOrderController(
+          regionsRepo: RegionsRepo(), draftOrderRepo: DraftOrderRepo()),
       builder: (controller) {
         return WillPopScope(
-          onWillPop: willPop,
+          onWillPop: () => willPop(controller),
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: AdaptiveCloseButton(onPressed: onCloseTap),
+                leading: AdaptiveCloseButton(
+                    onPressed: () => onCloseTap(controller)),
                 title: const Text('Create Draft Order'),
               ),
               bottomNavigationBar: Container(

@@ -7,9 +7,9 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 
 class PriceListDetailsController extends GetxController with StateMixin<PriceList> {
-  PriceListDetailsController({required this.priceListRepo});
+  PriceListDetailsController({required this.priceListRepo, required this.id});
   final PriceListRepo priceListRepo;
-  String id = Get.arguments;
+  final String id ;
   final pagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   @override

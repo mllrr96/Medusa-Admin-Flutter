@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
@@ -86,9 +85,7 @@ class CustomersView extends StatelessWidget {
                         customer,
                         index: index,
                         onEditTap: (_) async {
-                          final result = await Get.toNamed(
-                              Routes.UPDATE_CUSTOMER_DETAILS,
-                              arguments: customer);
+                          final result = await context.pushRoute(AddUpdateCustomerRoute(customer: customer));
                           if (result is bool) {
                             controller.pagingController.refresh();
                           }

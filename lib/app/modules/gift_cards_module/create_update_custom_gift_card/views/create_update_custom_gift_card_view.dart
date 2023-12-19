@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../../../data/repository/gift_card/gift_card_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/currency_formatter.dart';
@@ -19,8 +21,8 @@ import '../controllers/create_update_custom_gift_card_controller.dart';
 
 @RoutePage()
 class CreateUpdateCustomGiftCardView extends StatelessWidget {
-  const CreateUpdateCustomGiftCardView({super.key});
-
+  const CreateUpdateCustomGiftCardView(this.giftCard, {super.key});
+  final GiftCard? giftCard ;
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
@@ -28,6 +30,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
     const space = Gap(12);
     const halfSpace = Gap(6);
     return GetBuilder<CreateUpdateCustomGiftCardController>(
+      init: CreateUpdateCustomGiftCardController(giftCardRepo: GiftCardRepo(), giftCard: giftCard),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

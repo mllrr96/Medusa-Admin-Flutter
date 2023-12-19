@@ -5,7 +5,7 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/order.dart';
 
 class OrderStatusLabel extends StatelessWidget {
-  const OrderStatusLabel({Key? key, required this.orderStatus}) : super(key: key);
+  const OrderStatusLabel({super.key, required this.orderStatus});
   final OrderStatus orderStatus;
   @override
   Widget build(BuildContext context) {

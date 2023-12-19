@@ -20,6 +20,7 @@ class AddUpdateProductController extends GetxController {
     required this.collectionRepo,
     required this.uploadRepo,
     required this.salesChannelRepo,
+    this.updateProductReq
   });
   final ProductsRepo productsRepo;
   final ProductTypeRepo productTypeRepo;
@@ -64,7 +65,7 @@ class AddUpdateProductController extends GetxController {
   final countryCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
   bool updateMode = false;
-  UpdateProductReq? updateProductReq;
+ final UpdateProductReq? updateProductReq;
   File? thumbnailImage;
   List<File> images = [];
   late ScrollController scrollController;
@@ -72,9 +73,7 @@ class AddUpdateProductController extends GetxController {
   late ImagePickerHelper imagePickerHelper;
   @override
   Future<void> onInit() async {
-
     scrollController = ScrollController();
-    updateProductReq = Get.arguments;
     imagePickerHelper = ImagePickerHelper();
     fetchProduct();
     await fetchOrganize();

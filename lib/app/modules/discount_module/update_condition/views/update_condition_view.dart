@@ -27,6 +27,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
     final smallTextStyle = context.bodySmall;
 
     return GetBuilder<UpdateConditionController>(
+      init: UpdateConditionController(),
       builder: (controller) {
         final buttonText = AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),
@@ -39,7 +40,7 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
             title: const Text('Update Condition'),
             actions: [
               AdaptiveButton(
-                onPressed: () async => await controller.add(),
+                onPressed: () async => await controller.add(context),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
