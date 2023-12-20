@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -38,12 +39,12 @@ class AddUpdateCustomerController extends GetxController {
     super.onClose();
   }
 
-  Future<void> updateCustomer() async {
+  Future<void> updateCustomer(BuildContext context) async {
     if (emailNameCtrl.text == customer!.email &&
         firstNameCtrl.text == (customer!.firstName ?? '') &&
         lastNameCtrl.text == (customer!.lastName ?? '') &&
         phoneNameCtrl.text == (customer!.phone ?? '')) {
-      Get.back();
+      context.popRoute();
       return;
     }
     if (!keyForm.currentState!.validate()) {
@@ -62,7 +63,7 @@ class AddUpdateCustomerController extends GetxController {
 
     result.when((success) {
       EasyLoading.showSuccess('Updated');
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       dismissLoading();
       Get.snackbar('Error updating customer details ${error.code ?? ''}', error.message,
@@ -70,7 +71,7 @@ class AddUpdateCustomerController extends GetxController {
     });
   }
 
-  Future<void> createCustomer() async {
+  Future<void> createCustomer(BuildContext context) async {
     if (!keyForm.currentState!.validate()) {
       return;
     }
@@ -87,7 +88,7 @@ class AddUpdateCustomerController extends GetxController {
 
     result.when((success) {
       EasyLoading.showSuccess('Customer created');
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       dismissLoading();
       Get.snackbar('Error creating customer details ${error.code ?? ''}', error.message,

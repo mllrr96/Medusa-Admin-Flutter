@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -131,7 +132,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                                                   controller.update();
                                                   controller.pagingController
                                                       .refresh();
-                                                  Get.back();
+                                                  context.popRoute();
                                                 },
                                                 productFilter:
                                                     controller.productFilter,

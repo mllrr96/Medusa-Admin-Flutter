@@ -51,7 +51,7 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: Icon(Icons.percent, color: ColorManager.primary),
                 title: const Text('Tax Settings'),
-                onPressed: (_) => context.pushRoute(const TaxSettingsRoute()),
+                onPressed: (_) => context.pushRoute(const TaxSettingsSelectRegionRoute()),
               ),
               SettingsTile.navigation(
                 leading: Icon(Icons.currency_exchange, color: ColorManager.primary),

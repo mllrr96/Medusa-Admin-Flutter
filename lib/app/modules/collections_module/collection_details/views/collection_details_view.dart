@@ -15,7 +15,6 @@ import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/store/product.dart';
 import '../../../../data/repository/collection/collection_repo.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
 import '../controllers/collection_details_controller.dart';
@@ -77,7 +76,7 @@ class CollectionDetailsView extends StatelessWidget {
                                   isDestructiveAction: true)
                               .then((result) async {
                             if (result == OkCancelResult.ok) {
-                              await controller.deleteCollection();
+                              await controller.deleteCollection(context);
                             }
                           });
                         }
@@ -186,8 +185,8 @@ class CollectionDetailsView extends StatelessWidget {
                       final product = collection.products![index];
                       return ListTile(
                         onTap: () async {
-                          await Get.toNamed(Routes.PRODUCT_DETAILS,
-                              arguments: product.id);
+                          await context.pushRoute(
+                              ProductDetailsRoute(productId: product.id!));
                         },
                         title: Text(product.title!),
                         subtitle: Row(

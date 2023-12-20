@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -46,7 +46,7 @@ class ConditionProductView extends StatelessWidget {
                                     products: controller.selectedProducts,
                                     conditionType:
                                         DiscountConditionType.products);
-                                Get.back(result: res);
+                                context.popRoute(res);
                               }
                             : null,
                         child: const Text('Save')),

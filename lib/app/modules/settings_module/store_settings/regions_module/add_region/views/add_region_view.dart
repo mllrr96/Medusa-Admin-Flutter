@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/country.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
@@ -24,7 +25,8 @@ import '../controllers/add_region_controller.dart';
 
 @RoutePage()
 class AddRegionView extends StatelessWidget {
-  const AddRegionView({super.key});
+  const AddRegionView({super.key, this.region});
+  final Region? region;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class AddRegionView extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: GetBuilder<AddRegionController>(
         init: AddRegionController(
-            regionsRepo: RegionsRepo(), storeRepo: StoreRepo()),
+            regionsRepo: RegionsRepo(), storeRepo: StoreRepo(), region: region),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

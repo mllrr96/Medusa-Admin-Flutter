@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -61,13 +62,13 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
     dismissLoading();
   }
 
-  Future<void> cancelDraftOrder()async{
+  Future<void> cancelDraftOrder(BuildContext context)async{
     loading();
     final result = await draftOrderRepo.deleteDraftOrder(id: draftId);
     result.when((success) {
       if(success.deleted){
         EasyLoading.showSuccess('Draft Order Deleted');
-        Get.back();
+        context.popRoute();
       } else {
         EasyLoading.showError('Error deleting draft order');
       }

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ import '../../../../data/repository/regions/regions_repo.dart';
 import '../controllers/pick_regions_controller.dart';
 
 class PickRegionsView extends StatelessWidget {
-  const PickRegionsView({Key? key, this.pickRegionsReq}) : super(key: key);
+  const PickRegionsView({super.key, this.pickRegionsReq});
   final PickRegionsReq? pickRegionsReq;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class PickRegionsView extends StatelessWidget {
             actions: [
               AdaptiveButton(
                   onPressed: controller.selectedRegions.isNotEmpty
-                      ? () => Get.back(result: PickRegionsRes(regions: controller.selectedRegions))
+                      ? () => context.popRoute(PickRegionsRes(regions: controller.selectedRegions))
                       : null,
                   child: const Text('Done'))
             ],

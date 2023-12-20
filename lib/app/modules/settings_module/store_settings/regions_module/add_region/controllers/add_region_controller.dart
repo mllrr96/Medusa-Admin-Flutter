@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import '../../../../../../data/service/store_service.dart';
 
 class AddRegionController extends GetxController {
-  AddRegionController({required this.regionsRepo, required this.storeRepo});
+  AddRegionController({required this.regionsRepo, required this.storeRepo, required this.region});
   final RegionsRepo regionsRepo;
   final StoreRepo storeRepo;
   final titleCtrl = TextEditingController();
@@ -23,7 +24,7 @@ class AddRegionController extends GetxController {
   Currency? selectedCurrency;
   final providersExpansionKey = GlobalKey();
   final scrollController = ScrollController();
-  final Region? region = Get.arguments;
+  final Region? region;
   bool get updateMode => region != null;
 
   @override
@@ -71,7 +72,7 @@ class AddRegionController extends GetxController {
     result.when((success) {
       if (success.region != null) {
         EasyLoading.showSuccess('Region added');
-        Get.back();
+        context.popRoute();
       } else {
         EasyLoading.showError('Error adding region');
       }
@@ -111,7 +112,7 @@ class AddRegionController extends GetxController {
     result.when((success) {
       if (success.region != null) {
         EasyLoading.showSuccess('Region added');
-        Get.back();
+        context.popRoute();
       } else {
         EasyLoading.showError('Error adding region');
       }
@@ -146,7 +147,6 @@ class AddRegionController extends GetxController {
       });
     }, (error) {
       EasyLoading.showError('Error loading payment providers');
-      Get.back();
       return;
     });
 

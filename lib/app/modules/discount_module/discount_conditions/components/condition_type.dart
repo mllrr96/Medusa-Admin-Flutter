@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -37,13 +38,13 @@ class ConditionTypeView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedTypes.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
+                              final result = DiscountConditionRes(
                                   operator:
                                       controller.discountConditionOperator,
                                   productTypes: controller.selectedTypes,
                                   conditionType:
                                       DiscountConditionType.productType);
-                              Get.back(result: res);
+                              context.popRoute(result);
                             }
                           : null,
                       child: const Text('Save')),

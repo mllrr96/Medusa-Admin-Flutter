@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -49,12 +50,12 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     update();
   }
 
-  Future<void> updateGiftCard() async {
+  Future<void> updateGiftCard(BuildContext context) async {
     loading();
     final result = await giftCardRepo.updateGiftCard(id: giftCard!.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq());
 
     result.when((success) {
-      Get.back();
+      context.popRoute();
       EasyLoading.showSuccess('Updated');
       return;
     },
@@ -63,7 +64,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> createGiftCard() async {
+  Future<void> createGiftCard(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -77,7 +78,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     ));
 
     result.when((success) {
-      Get.back();
+      context.popRoute();
       EasyLoading.showSuccess('Updated');
       CustomGiftCardsController.instance.customGiftCardsPagingController.refresh();
       return;

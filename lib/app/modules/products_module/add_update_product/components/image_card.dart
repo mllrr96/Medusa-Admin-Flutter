@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -179,7 +180,7 @@ class ImageViewScreen extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Get.back();
+        context.popRoute();
       },
       child: Scaffold(
         appBar: AppBar(

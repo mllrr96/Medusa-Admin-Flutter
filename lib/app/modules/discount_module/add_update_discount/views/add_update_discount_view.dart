@@ -1,5 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -46,12 +46,14 @@ class AddUpdateDiscountView extends StatelessWidget {
                     message: 'Are you sure you want to discard changes?',
                     okLabel: 'Discard',
                     isDestructiveAction: true,
-                  ).then((result) =>
-                  result == OkCancelResult.ok
-                      ? Get.back()
-                      : null);
+                  ).then((result) {
+                    if(result == OkCancelResult.ok){
+                      context.popRoute();
+                    }
+                  }
+                  );
                 } else {
-                  Get.back();
+                  context.popRoute();
                 }
               }),
               title: controller.updateMode

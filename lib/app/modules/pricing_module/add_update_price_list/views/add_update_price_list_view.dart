@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -10,9 +10,9 @@ import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
@@ -52,7 +52,6 @@ class AddUpdatePriceListView extends StatelessWidget {
 
     Widget buildPriceListType() {
       return GetBuilder<AddUpdatePriceListController>(
-        init: AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
         id: 0,
         builder: (controller) {
           return CustomExpansionTile(
@@ -426,8 +425,8 @@ class AddUpdatePriceListView extends StatelessWidget {
               space,
               AdaptiveButton(
                 onPressed: () async {
-                  final result =
-                      await Get.toNamed(Routes.PICK_PRODUCTS, arguments: PickProductsReq(includeVariantCount: true));
+                  final result = await context.pushRoute(PickProductsRoute(
+                      pickProductsReq: PickProductsReq(includeVariantCount: true)));
                   if (result is PickProductsRes) {
                     controller.products = result.selectedProducts;
                     controller.update([3]);
@@ -450,6 +449,7 @@ class AddUpdatePriceListView extends StatelessWidget {
     }
 
     return GetBuilder<AddUpdatePriceListController>(
+      init: AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -460,7 +460,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               actions: [
                 AdaptiveButton(
                   onPressed: () async =>
-                      controller.updateMode ? await controller.updatePriceList() : await controller.create(),
+                      controller.updateMode ? await controller.updatePriceList(context) : await controller.create(context),
                   child: controller.updateMode ? const Text('Update') : const Text('Create'),
                 )
               ],

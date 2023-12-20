@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_button.dart';
@@ -39,7 +40,13 @@ class ResetPasswordView extends StatelessWidget {
                 child: Hero(
                     tag: 'continue',
                     child: SignInButton(
-                        onPressed: () async => await controller.resetPassword(),
+                        onPressed: () async {
+                          await controller.resetPassword().then((result) {
+                            if (result) {
+                              context.popRoute();
+                            }
+                          });
+                        },
                         label: tr.resetTokenCardSendResetInstructions)),
               ),
               body: SafeArea(

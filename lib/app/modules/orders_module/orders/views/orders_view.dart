@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +45,6 @@ class OrdersView extends StatelessWidget {
               child: OrdersFilterView(
                 regions: controller.regions,
                 orderFilter: controller.orderFilter,
-                context: context,
                 salesChannels: controller.salesChannels,
                 onResetTap: () {
                   controller.resetFilter();
@@ -67,7 +68,7 @@ class OrdersView extends StatelessWidget {
                     FloatingActionButton.small(
                       onPressed: () => context.pushRoute(MedusaSearchRoute(
                           searchCategory: SearchCategory.orders)),
-                      heroTag: 'search Order',
+                      heroTag: UniqueKey(),
                       child: const Icon(CupertinoIcons.search),
                     ),
                     const Gap(4.0),
@@ -83,92 +84,121 @@ class OrdersView extends StatelessWidget {
                 ),
               ],
             ),
-            body: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                SliverAppBar(
-                  title: const Text('Orders'),
-                  actions: [
-                    Builder(builder: (context) {
-                      return GetBuilder<OrdersController>(
-                          builder: (controller) {
-                        return InkWell(
-                          onLongPress: () => controller.resetFilter(),
-                          onTap: () => Scaffold.of(context).openEndDrawer(),
-                          child: Chip(
-                            side: BorderSide(
-                                color:
-                                    (controller.orderFilter?.count() ?? 0) != 0
+            body: SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: () => controller.pagingController.refresh(),
+              header: Platform.isIOS
+                  ? const ClassicHeader(completeText: '')
+                  : const MaterialClassicHeader(height: 20, offset: 20),
+              child: CustomScrollView(
+                controller: controller.scrollController,
+                slivers: [
+                  if (Platform.isIOS)
+                    CupertinoSliverNavigationBar(
+                      largeTitle: const Text('Orders'),
+                      leading: Builder(builder: (context) {
+                        return CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: const Icon(CupertinoIcons.ellipsis),
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          },
+                        );
+                      }),
+                      trailing: Builder(builder: (context) {
+                        return CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: const Icon(CupertinoIcons.ellipsis),
+                          onPressed: () {
+                            Scaffold.of(context).openEndDrawer();
+                          },
+                        );
+                      }),
+                    ),
+                  if (Platform.isAndroid)
+                    SliverAppBar(
+                      title: const Text('Orders'),
+                      floating: true,
+                      snap: true,
+                      actions: [
+                        Builder(builder: (context) {
+                          return GetBuilder<OrdersController>(
+                              builder: (controller) {
+                            return InkWell(
+                              onLongPress: () => controller.resetFilter(),
+                              onTap: () => Scaffold.of(context).openEndDrawer(),
+                              child: Chip(
+                                side: BorderSide(
+                                    color: (controller.orderFilter?.count() ??
+                                                0) !=
+                                            0
                                         ? ColorManager.primary
                                         : Colors.transparent),
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6.0))),
-                            label: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Filters',
-                                    style: context.bodySmall?.copyWith(
-                                        color: ColorManager.manatee)),
-                                if (controller.orderFilter?.count() != null &&
-                                    controller.orderFilter?.count() != 0)
-                                  Text(
-                                      ' ${controller.orderFilter?.count() ?? ''}',
-                                      style: context.bodySmall?.copyWith(
-                                          color: ColorManager.primary)),
-                              ],
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                        );
-                      });
-                    }),
-                  ],
-                ),
-              ],
-              body: SmartRefresher(
-                controller: controller.refreshController,
-                onRefresh: () => controller.pagingController.refresh(),
-                header: GetPlatform.isIOS
-                    ? const ClassicHeader(completeText: '')
-                    : const MaterialClassicHeader(),
-                child: PagedListView.separated(
-                  scrollController: controller.scrollController,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8.0),
-                  padding: EdgeInsets.only(
-                      bottom: 120,
-                      top: orderSettings.padding,
-                      left: orderSettings.padding,
-                      right: orderSettings.padding),
-                  pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<Order>(
-                      itemBuilder: (context, order, index) {
-                        if (orderSettings.alternativeCard) {
-                          return AlternativeOrderCard(order);
-                        }
-                        return OrderCard(order);
-                      },
-                      noItemsFoundIndicatorBuilder: (_) {
-                        if (controller.orderFilter != null &&
-                            controller.orderFilter?.count() != 0) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('No Orders found'),
-                              AdaptiveButton(
-                                  onPressed: () => controller.resetFilter(),
-                                  child: const Text('Clear filters'))
-                            ],
-                          );
-                        }
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6.0))),
+                                label: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('Filters',
+                                        style: context.bodySmall?.copyWith(
+                                            color: ColorManager.manatee)),
+                                    if (controller.orderFilter?.count() !=
+                                            null &&
+                                        controller.orderFilter?.count() != 0)
+                                      Text(
+                                          ' ${controller.orderFilter?.count() ?? ''}',
+                                          style: context.bodySmall?.copyWith(
+                                              color: ColorManager.primary)),
+                                  ],
+                                ),
+                                padding: EdgeInsets.zero,
+                              ),
+                            );
+                          });
+                        }),
+                      ],
+                    ),
+                  SliverPadding(
+                    padding: EdgeInsets.only(
+                        bottom: 120,
+                        top: orderSettings.padding,
+                        left: orderSettings.padding,
+                        right: orderSettings.padding),
+                    sliver: PagedSliverList.separated(
+                      separatorBuilder: (_, __) => const SizedBox(height: 8.0),
+                      pagingController: controller.pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Order>(
+                          itemBuilder: (context, order, index) {
+                            if (orderSettings.alternativeCard) {
+                              return AlternativeOrderCard(order);
+                            }
+                            return OrderCard(order);
+                          },
+                          noItemsFoundIndicatorBuilder: (_) {
+                            if (controller.orderFilter != null &&
+                                controller.orderFilter?.count() != 0) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('No Orders found'),
+                                  AdaptiveButton(
+                                      onPressed: () => controller.resetFilter(),
+                                      child: const Text('Clear filters'))
+                                ],
+                              );
+                            }
 
-                        return const Center(child: Text('No orders yet!'));
-                      },
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                              child: CircularProgressIndicator.adaptive())),
-                ),
+                            return const Center(child: Text('No orders yet!'));
+                          },
+                          firstPageProgressIndicatorBuilder: (context) =>
+                              const Center(
+                                  child: CircularProgressIndicator.adaptive())),
+                    ),
+                  ),
+                ],
               ),
             ),
           );

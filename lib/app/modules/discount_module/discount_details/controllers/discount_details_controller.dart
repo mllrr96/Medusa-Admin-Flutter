@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
@@ -35,13 +37,13 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     }, (error) => change(null, status: RxStatus.error(error.message)));
   }
 
-  Future<void> deleteDiscount() async {
+  Future<void> deleteDiscount(BuildContext context) async {
     loading();
 
     final result = await discountRepo.deleteDiscount(id: discountId);
 
     result.when((success) {
-      Get.back();
+      context.popRoute();
       Get.snackbar('Success', 'Promotion deleted', snackPosition: SnackPosition.BOTTOM);
       DiscountsController.instance.pagingController.refresh();
     },

@@ -66,7 +66,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                                   isDestructiveAction: true)
                               .then((result) async {
                             if (result == OkCancelResult.ok) {
-                              await controller.deleteProduct(product.id!);
+                              await controller.deleteProduct(product.id!, context);
                             }
                           });
 

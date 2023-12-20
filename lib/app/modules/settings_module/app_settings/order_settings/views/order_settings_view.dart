@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class OrderSettingsView extends StatelessWidget {
                   onPressed: () {
                     StorageService.instance.updateOrderSettings(controller.orderSettings);
                     OrdersController.instance.update();
-                    Get.back();
+                    context.popRoute();
                   },
                   child: const Text('Save'))
             ],

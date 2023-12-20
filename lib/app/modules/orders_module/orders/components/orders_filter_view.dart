@@ -17,7 +17,6 @@ import '../../../components/adaptive_filled_button.dart';
 
 class OrdersFilterView extends StatefulWidget {
   const OrdersFilterView({
-    this.context,
     this.orderFilter,
     this.onResetTap,
     this.regions,
@@ -25,7 +24,6 @@ class OrdersFilterView extends StatefulWidget {
     super.key,
     this.onSubmitted,
   });
-  final BuildContext? context;
   final OrderFilter? orderFilter;
   final void Function()? onResetTap;
   final void Function(OrderFilter?)? onSubmitted;
@@ -457,10 +455,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                   .dy ??
               0.0;
 
-      var topPadding = context.mediaQueryPadding.top +
-          kToolbarHeight +
-          26 +
-          (widget.context?.mediaQueryPadding.top ?? 0);
+      var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
       final scrollPoint = scrollController.offset + yPosition - topPadding;
       if (scrollPoint <= scrollController.position.maxScrollExtent) {
         await scrollController.animateTo(scrollPoint - 10,

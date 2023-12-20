@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -39,12 +40,12 @@ class TeamController extends GetxController with StateMixin<List<User>> {
     }, (error) => change(null, status: RxStatus.error(error.message)));
   }
 
-  Future<void> updateUser({required String id, required UserUpdateUserReq userUpdateUserReq}) async {
+  Future<void> updateUser({required String id, required UserUpdateUserReq userUpdateUserReq, required BuildContext context}) async {
     loading();
     final result = await userRepo.update(id: id, userUpdateUserReq: userUpdateUserReq);
     result.when((success) async {
       EasyLoading.showSuccess('User updated');
-      Get.back();
+      context.popRoute();
       await loadUsers();
     }, (error) => EasyLoading.showError('Error updating user'));
   }

@@ -39,8 +39,8 @@ class AddUpdateSalesChannelView extends StatelessWidget {
               child: AdaptiveFilledButton(
                 buttonColor: controller.disabled ? Colors.blueGrey : null,
                 onPressed: () async => controller.updateMode
-                    ? await controller.updateChannel()
-                    : await controller.createChannel(),
+                    ? await controller.updateChannel(context)
+                    : await controller.createChannel(context),
                 child: controller.updateMode
                     ? const Text('Update Channel',
                         style: TextStyle(color: Colors.white))

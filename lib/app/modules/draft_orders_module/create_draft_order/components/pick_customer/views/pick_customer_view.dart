@@ -1,18 +1,23 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
+import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import '../components/pick_customer_app_bar.dart';
 import '../controllers/pick_customer_controller.dart';
 
+@RoutePage()
 class PickCustomerView extends StatelessWidget {
-  const PickCustomerView({Key? key}) : super(key: key);
+  const PickCustomerView({super.key, this.pickCustomerReq});
+  final PickCustomerReq? pickCustomerReq;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickCustomerController>(
+      init: PickCustomerController(customerRepo: CustomerRepo(), pickCustomerReq: pickCustomerReq ?? PickCustomerReq()),
       builder: (controller) {
         return Scaffold(
           body: CustomScrollView(
@@ -24,7 +29,7 @@ class PickCustomerView extends StatelessWidget {
                 actions: [
                   AdaptiveButton(
                       onPressed: controller.selectedCustomers.isNotEmpty
-                          ? () => Get.back(result: PickCustomerRes(selectedCustomers: controller.selectedCustomers))
+                          ? () => context.popRoute(PickCustomerRes(selectedCustomers: controller.selectedCustomers))
                           : null,
                       child: const Text('Done'))
                 ],

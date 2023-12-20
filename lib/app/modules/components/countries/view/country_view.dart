@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +9,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../controller/country_controller.dart';
 
 class SelectCountryView extends StatelessWidget {
-  const SelectCountryView({Key? key, this.selectCountryReq}) : super(key: key);
+  const SelectCountryView({super.key, this.selectCountryReq});
   final SelectCountryReq? selectCountryReq;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class SelectCountryView extends StatelessWidget {
               AdaptiveButton(
                   onPressed: controller.selectedCountries.isEmpty
                       ? null
-                      : () => Get.back(result: controller.selectedCountries),
+                      : () => context.popRoute(controller.selectedCountries),
                   child: const Text('Save'))
             ],
             bottom: PreferredSize(

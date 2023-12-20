@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -43,7 +44,7 @@ class AddUpdatePriceListController extends GetxController {
     super.onClose();
   }
 
-  Future<void> create() async {
+  Future<void> create(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -66,13 +67,13 @@ class AddUpdatePriceListController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Price List Created');
       PricingController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     },
         (error) => Get.snackbar('Error creating price list ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM));
   }
 
-  Future<void> updatePriceList() async {
+  Future<void> updatePriceList(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -95,7 +96,7 @@ class AddUpdatePriceListController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Price List Updated');
       PricingController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     },
         (error) => Get.snackbar('Error updating price list ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM));

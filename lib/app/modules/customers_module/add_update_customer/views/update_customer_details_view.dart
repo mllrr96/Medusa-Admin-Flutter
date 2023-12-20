@@ -33,8 +33,8 @@ class AddUpdateCustomerView extends StatelessWidget {
               AdaptiveButton(
                   onPressed: () async =>
                   updateMode
-                      ? await controller.updateCustomer()
-                      : await controller.createCustomer(),
+                      ? await controller.updateCustomer(context)
+                      : await controller.createCustomer(context),
                   child: controller.updateMode
                       ? const Text('Update')
                       : const Text('Create'))

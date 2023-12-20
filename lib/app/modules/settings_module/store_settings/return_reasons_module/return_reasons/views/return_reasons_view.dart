@@ -1,11 +1,12 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../../data/repository/return_reason/return_reason_repo.dart';
 import '../../../../../components/adaptive_back_button.dart';
@@ -28,7 +29,7 @@ class ReturnReasonsView extends GetView<ReturnReasonsController> {
           actions: [
             AdaptiveIcon(
                 onPressed: () async =>
-                await Get.toNamed(Routes.CREATE_UPDATE_RETURN_REASON)?.then((
+                    await context.pushRoute(CreateUpdateReturnReasonRoute()).then((
                     value) {
                   if (value != null && value == true) {
                     controller.pagingController.refresh();

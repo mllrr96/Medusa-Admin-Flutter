@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -151,7 +152,7 @@ class AddUpdateDiscountController extends GetxController {
         await discountRepo.createDiscount(userCreateDiscountReq: discount);
 
     result.when((success) {
-      Get.back(result: true);
+      context.popRoute(true);
       EasyLoading.showSuccess('Discount created!');
     }, (error) {
       dismissLoading();
@@ -177,7 +178,7 @@ class AddUpdateDiscountController extends GetxController {
       return;
     }
     if (sameDiscount()) {
-      Get.back();
+      context.popRoute();
       return;
     }
     FocusScope.of(context).unfocus();
@@ -204,7 +205,7 @@ class AddUpdateDiscountController extends GetxController {
         id: discount!.id!, userUpdateDiscountReq: updatedDiscount);
 
     result.when((success) {
-      Get.back(result: true);
+      context.popRoute(true);
       EasyLoading.showSuccess('Discount updated!');
     }, (error) {
       dismissLoading();

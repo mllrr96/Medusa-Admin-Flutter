@@ -15,7 +15,8 @@ import '../../../../../core/utils/enums.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 
 class UpdateConditionController extends GetxController {
-  final UpdateConditionReq updateConditionReq = Get.arguments;
+  UpdateConditionController(this.updateConditionReq);
+  final UpdateConditionReq updateConditionReq ;
   List conditionItems = [];
   List items = [];
   List selectedItems = [];
@@ -57,7 +58,6 @@ class UpdateConditionController extends GetxController {
           items.addAll(success.products!);
           update();
         }, (error) {
-          Get.back();
           Get.snackbar(
               'Error loading products ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
@@ -83,7 +83,7 @@ class UpdateConditionController extends GetxController {
           items.addAll(success.productTypes!);
           update();
         }, (error) {
-          Get.back();
+          // Get.back();
           Get.snackbar(
               'Error loading product types ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
@@ -108,7 +108,7 @@ class UpdateConditionController extends GetxController {
           items.addAll(success.collections!);
           update();
         }, (error) {
-          Get.back();
+          // Get.back();
           Get.snackbar(
               'Error loading collections ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
@@ -133,7 +133,7 @@ class UpdateConditionController extends GetxController {
           items.addAll(success.tags!);
           update();
         }, (error) {
-          Get.back();
+          // Get.back();
           Get.snackbar(
               'Error loading collections ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
@@ -158,7 +158,7 @@ class UpdateConditionController extends GetxController {
           items.addAll(success.customerGroups!);
           update();
         }, (error) {
-          Get.back();
+          // Get.back();
           Get.snackbar(
               'Error loading groups ${error.code ?? ''}', error.message,
               snackPosition: SnackPosition.BOTTOM);
@@ -224,15 +224,15 @@ class UpdateConditionController extends GetxController {
     }
   }
 
-  void save() {
+  void save(BuildContext context) {
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
         if (eq((conditionItems as List<Product>).map((e) => e.id!).toList(),
             (selectedItems as List<Product>).map((e) => e.id!).toList())) {
-          Get.back();
+          context.popRoute();
         } else {
-          Get.back(
-              result: UpdateConditionRes(
+          context.popRoute(
+              UpdateConditionRes(
             updatedItemIds:
                 (selectedItems as List<Product>).map((e) => e.id!).toList(),
             originalItemIds:
@@ -245,10 +245,9 @@ class UpdateConditionController extends GetxController {
       case DiscountConditionType.productType:
         if (eq((conditionItems as List<ProductType>).map((e) => e.id!).toList(),
             (selectedItems as List<ProductType>).map((e) => e.id!).toList())) {
-          Get.back();
+          context.popRoute();
         } else {
-          Get.back(
-              result: UpdateConditionRes(
+          context.popRoute(UpdateConditionRes(
             updatedItemIds:
                 (selectedItems as List<ProductType>).map((e) => e.id!).toList(),
             originalItemIds: (conditionItems as List<ProductType>)
@@ -267,10 +266,9 @@ class UpdateConditionController extends GetxController {
             (selectedItems as List<ProductCollection>)
                 .map((e) => e.id!)
                 .toList())) {
-          Get.back();
+          context.popRoute();
         } else {
-          Get.back(
-              result: UpdateConditionRes(
+          context.popRoute(UpdateConditionRes(
             updatedItemIds: (selectedItems as List<ProductCollection>)
                 .map((e) => e.id!)
                 .toList(),
@@ -285,10 +283,9 @@ class UpdateConditionController extends GetxController {
       case DiscountConditionType.productTags:
         if (eq((conditionItems as List<ProductTag>).map((e) => e.id!).toList(),
             (selectedItems as List<ProductTag>).map((e) => e.id!).toList())) {
-          Get.back();
+          context.popRoute();
         } else {
-          Get.back(
-              result: UpdateConditionRes(
+          context.popRoute(UpdateConditionRes(
             updatedItemIds:
                 (selectedItems as List<ProductTag>).map((e) => e.id!).toList(),
             originalItemIds:
@@ -304,10 +301,9 @@ class UpdateConditionController extends GetxController {
             (selectedItems as List<CustomerGroup>)
                 .map((e) => e.id!)
                 .toList())) {
-          Get.back();
+          context.popRoute();
         } else {
-          Get.back(
-              result: UpdateConditionRes(
+          context.popRoute(UpdateConditionRes(
             updatedItemIds: (selectedItems as List<CustomerGroup>)
                 .map((e) => e.id!)
                 .toList(),

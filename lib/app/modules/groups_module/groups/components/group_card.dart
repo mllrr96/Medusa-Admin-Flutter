@@ -8,7 +8,6 @@ import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../../../routes/app_pages.dart';
 
 class GroupCard extends GetView<GroupsController> {
   const GroupCard(
@@ -28,9 +27,7 @@ class GroupCard extends GetView<GroupsController> {
         children: [
           SlidableAction(
             onPressed: (_) async {
-              await Get.toNamed(Routes.CREATE_UPDATE_GROUP,
-                      arguments: customerGroup)
-                  ?.then((value) {
+              await context.pushRoute(CreateUpdateGroupRoute(customerGroup: customerGroup)).then((value) {
                 if (value is CustomerGroup) {
                   controller.pagingController.refresh();
                 }

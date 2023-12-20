@@ -13,7 +13,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../route/app_router.dart';
 import '../../../../data/repository/collection/collection_repo.dart';
-import '../../../../routes/app_pages.dart';
 import '../components/collection_list_tile.dart';
 import '../controllers/collections_controller.dart';
 
@@ -92,7 +91,7 @@ class CollectionsView extends StatelessWidget {
                               const SizedBox(height: 12.0),
                               AdaptiveFilledButton(
                                   onPressed: () =>
-                                      Get.toNamed(Routes.CREATE_COLLECTION),
+                                      context.pushRoute(CreateCollectionRoute()),
                                   child: const Text('Add collection',
                                       style: TextStyle(color: Colors.white)))
                             ],

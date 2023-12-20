@@ -41,7 +41,7 @@ class PersonalInformationView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AdaptiveButton(
-                      child: const Text('Cancel'), onPressed: () => Get.back()),
+                      child: const Text('Cancel'), onPressed: () => context.popRoute()),
                   AdaptiveButton(
                       child: const Text('Update'),
                       onPressed: () async {
@@ -50,11 +50,11 @@ class PersonalInformationView extends StatelessWidget {
                         }
                         if (controller.firstNameCtrl.text == user.firstName &&
                             controller.lastNameCtrl.text == user.lastName) {
-                          Get.back();
+                          context.popRoute();
                         } else {
                           FocusScope.of(context).unfocus();
                           await controller.updateUser();
-                          Get.back();
+                          context.popRoute();
                         }
                       }),
                 ],
@@ -86,11 +86,11 @@ class PersonalInformationView extends StatelessWidget {
                           }
                           if (controller.firstNameCtrl.text == user.firstName &&
                               controller.lastNameCtrl.text == user.lastName) {
-                            Get.back();
+                            context.popRoute();
                           } else {
                             FocusScope.of(context).unfocus();
                             await controller.updateUser();
-                            Get.back();
+                            context.popRoute();
                           }
                         },
                         validator: (val) {

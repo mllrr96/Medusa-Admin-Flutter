@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,7 @@ class CreateCollectionController extends GetxController {
     super.onClose();
   }
 
-  Future<void> publish() async {
+  Future<void> publish(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -52,21 +53,21 @@ class CreateCollectionController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Collection Created');
       CollectionsController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     }, (error) {
       EasyLoading.showError('Error creating collection');
       debugPrint(error.toString());
     });
   }
 
-  Future<void> edit() async {
+  Future<void> edit(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     if (titleCtrl.text == collection!.title &&
         handleCtrl.text == collection!.handle &&
         metadata == collection!.metadata) {
-      Get.back();
+      context.popRoute();
       return;
     }
 
@@ -81,7 +82,7 @@ class CreateCollectionController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Collection updated');
       CollectionsController.instance.pagingController.refresh();
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       EasyLoading.showError('Error updating collection');
       debugPrint(error.toString());

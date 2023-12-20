@@ -1,15 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/variant_list_tile.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../data/models/store/line_item.dart';
 import '../../../../data/models/store/region.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../controllers/create_draft_order_controller.dart';
@@ -29,8 +29,10 @@ class ItemsView extends StatelessWidget {
     final customLineItems = controller.customLineItems;
 
     Future<void> addItems() async {
-      final result = await Get.toNamed(Routes.PICK_PRODUCT_VARIANTS,
-          arguments: SelectProductsReq(selectedProducts: controller.lineItems.map((e) => e.variant!).toList()));
+      final result = await context.pushRoute(PickProductVariantsRoute(
+          selectProductsReq: SelectProductsReq(
+              selectedProducts:
+                  controller.lineItems.map((e) => e.variant!).toList())));
       if (result is SelectProductsRes) {
         final variants = result.selectedProductVariants;
         if (variants?.isEmpty ?? true) {
@@ -47,12 +49,16 @@ class ItemsView extends StatelessWidget {
           }
         } else {
           // Checking if there's any variants got removed and remove them
-          controller.lineItems.retainWhere((element) => variants!.contains(element.variant));
+          controller.lineItems
+              .retainWhere((element) => variants!.contains(element.variant));
           var newItems = variants;
-          newItems!
-              .removeWhere((element) => controller.lineItems.map((e) => e.variantId).toList().contains(element.id));
+          newItems!.removeWhere((element) => controller.lineItems
+              .map((e) => e.variantId)
+              .toList()
+              .contains(element.id));
           for (var element in newItems) {
-            controller.lineItems.add(LineItem(variantId: element.id, variant: element, quantity: 1));
+            controller.lineItems.add(
+                LineItem(variantId: element.id, variant: element, quantity: 1));
           }
         }
         controller.update();
@@ -60,7 +66,9 @@ class ItemsView extends StatelessWidget {
     }
 
     void onRegionChanged(Region? region) {
-      if (controller.selectedRegion == null && lineItems.isEmpty && customLineItems.isEmpty) {
+      if (controller.selectedRegion == null &&
+          lineItems.isEmpty &&
+          customLineItems.isEmpty) {
         controller.expansionController.expand();
       }
       // if the selected region is the same then just return
@@ -94,16 +102,19 @@ class ItemsView extends StatelessWidget {
                     if (lineItems.isEmpty && customLineItems.isEmpty)
                       Column(
                         children: [
-                          Text('No items has been added yet', style: smallTextStyle),
+                          Text('No items has been added yet',
+                              style: smallTextStyle),
                           space,
                         ],
                       ),
                     if (lineItems.isNotEmpty || customLineItems.isNotEmpty)
-                      Text('Slide left to delete a variant', style: smallTextStyle?.copyWith(color: lightWhite)),
+                      Text('Slide left to delete a variant',
+                          style: smallTextStyle?.copyWith(color: lightWhite)),
                     if (lineItems.isNotEmpty)
                       ListView.builder(
                           itemCount: lineItems.length,
-                          padding: const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
@@ -115,20 +126,25 @@ class ItemsView extends StatelessWidget {
                                 controller.update();
                               },
                               onAddTap: () {
-                                var quantity = controller.lineItems[index].quantity;
+                                var quantity =
+                                    controller.lineItems[index].quantity;
                                 quantity = quantity! + 1;
-                                controller.lineItems[index] =
-                                    controller.lineItems.elementAt(index).copyWith(quantity: quantity);
+                                controller.lineItems[index] = controller
+                                    .lineItems
+                                    .elementAt(index)
+                                    .copyWith(quantity: quantity);
                                 print(quantity);
                                 controller.update();
                               },
                               onRemoveTap: lineItem.quantity! > 1
                                   ? () {
-                                      var quantity = controller.lineItems[index].quantity;
+                                      var quantity =
+                                          controller.lineItems[index].quantity;
                                       if (quantity! > 1) {
                                         quantity = quantity - 1;
-                                        controller.lineItems[index] =
-                                            controller.lineItems[index].copyWith.quantity(quantity);
+                                        controller.lineItems[index] = controller
+                                            .lineItems[index].copyWith
+                                            .quantity(quantity);
                                         controller.update();
                                       }
                                     }
@@ -143,7 +159,9 @@ class ItemsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Divider(),
-                            Text('Custom Items', style: smallTextStyle?.copyWith(color: lightWhite)),
+                            Text('Custom Items',
+                                style: smallTextStyle?.copyWith(
+                                    color: lightWhite)),
                           ],
                         ),
                       ),
@@ -157,22 +175,32 @@ class ItemsView extends StatelessWidget {
                             final customLineItem = customLineItems[index];
                             return CustomVariantListTile(
                               customLineItem,
-                              currencyCode: controller.selectedRegion!.currencyCode!,
+                              currencyCode:
+                                  controller.selectedRegion!.currencyCode!,
                               onDelete: () {
                                 controller.customLineItems.removeAt(index);
                                 controller.update();
                               },
                               onAddTap: () {
-                                controller.customLineItems[index] = controller.customLineItems
+                                controller.customLineItems[index] = controller
+                                    .customLineItems
                                     .elementAt(index)
-                                    .copyWith(quantity: customLineItems[index].quantity! + 1);
+                                    .copyWith(
+                                        quantity:
+                                            customLineItems[index].quantity! +
+                                                1);
                                 controller.update();
                               },
                               onRemoveTap: customLineItems[index].quantity! > 1
                                   ? () {
-                                      if (customLineItems[index].quantity! > 1) {
-                                        controller.customLineItems[index] = controller.customLineItems[index].copyWith
-                                            .quantity(customLineItems[index].quantity! - 1);
+                                      if (customLineItems[index].quantity! >
+                                          1) {
+                                        controller.customLineItems[index] =
+                                            controller
+                                                .customLineItems[index].copyWith
+                                                .quantity(customLineItems[index]
+                                                        .quantity! -
+                                                    1);
                                         controller.update();
                                       }
                                     }
@@ -188,12 +216,15 @@ class ItemsView extends StatelessWidget {
                           AdaptiveButton(
                               onPressed: controller.selectedRegion != null
                                   ? () async {
-                                      final result = await showBarModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return AddCustomItemView(
-                                                currencyCode: controller.selectedRegion?.currencyCode);
-                                          });
+                                      final result =
+                                          await showBarModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return AddCustomItemView(
+                                                    currencyCode: controller
+                                                        .selectedRegion
+                                                        ?.currencyCode);
+                                              });
                                       if (result is LineItem) {
                                         controller.customLineItems.add(result);
                                         controller.update();

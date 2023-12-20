@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/data/repository/customer_group/customer_group_r
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../core/utils/colors.dart';
@@ -82,7 +81,7 @@ class GroupDetailsView extends StatelessWidget {
                                 isDestructiveAction: true,
                               ).then((value) async {
                                 if (value == OkCancelResult.ok) {
-                                  await controller.deleteGroup();
+                                  await controller.deleteGroup(context);
                                 }
                               });
 
@@ -125,8 +124,7 @@ class GroupDetailsView extends StatelessWidget {
                               ]).then((result) async {
                                 switch (result) {
                                   case 0:
-                                    Get.toNamed(Routes.CUSTOMER_DETAILS,
-                                        arguments: customer.id);
+                                    context.pushRoute(CustomerDetailsRoute(customerId: customer.id!));
                                     break;
                                   case 1:
                                     await showOkCancelAlertDialog(

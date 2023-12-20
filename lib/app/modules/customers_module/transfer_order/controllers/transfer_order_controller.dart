@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -14,13 +15,13 @@ class TransferOrderController extends GetxController {
   final newOwnerCtrl = TextEditingController();
   // ignore: unnecessary_cast
   Rx<Customer?> selectedCustomer = (null as Customer?).obs;
-  Future<void> updateOrder() async {
+  Future<void> updateOrder(BuildContext context) async {
     loading();
     final result = await ordersRepo.updateOrder(
         id: order.id!, userUpdateOrderReq: UserUpdateOrderReq(customerId: selectedCustomer.value!.id!));
     result.when((success) {
       EasyLoading.showSuccess('Order transferred');
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       Get.snackbar('Error transferring order ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
     });

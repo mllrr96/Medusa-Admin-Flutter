@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -248,7 +249,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                     controller.update();
                                                     controller.pagingController
                                                         .refresh();
-                                                    Get.back();
+                                                    context.popRoute();
                                                   },
                                                   productFilter:
                                                       controller.productFilter,
@@ -299,7 +300,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                               regions: controller.regions,
                                               orderFilter:
                                                   controller.orderFilter,
-                                              context: context,
                                               salesChannels:
                                                   controller.salesChannels,
                                               onResetTap: () {
@@ -307,7 +307,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                 controller.update();
                                                 controller.pagingController
                                                     .refresh();
-                                                Get.back();
+                                                context.popRoute();
                                               },
                                             ));
 

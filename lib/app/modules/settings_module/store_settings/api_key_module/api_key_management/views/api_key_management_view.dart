@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/publishable_api_key/publishable_api_key_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../../data/models/store/publishable_api_key.dart';
@@ -31,7 +31,7 @@ class ApiKeyManagementView extends StatelessWidget {
               title: const Text('Api Key Management'),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => Get.toNamed(Routes.ADD_UPDATE_API_KEY),
+              onPressed: () => context.pushRoute(AddUpdateApiKeyRoute()),
               child: const Icon(CupertinoIcons.add),
             ),
             body: SafeArea(

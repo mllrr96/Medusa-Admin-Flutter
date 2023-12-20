@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -5,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 import '../../../../data/models/store/address.dart';
 import '../../../../data/models/store/country.dart';
 import '../../../../data/models/store/customer.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../../components/custom_text_field.dart';
@@ -121,10 +122,11 @@ class _AddressViewState extends State<AddressView> with AutomaticKeepAliveClient
                 controller: customerCtrl,
                 readOnly: true,
                 onTap: () async {
-                  final result = await Get.toNamed(Routes.PICK_CUSTOMER,
-                      arguments: PickCustomerReq(
+                 final result = await context.pushRoute(PickCustomerRoute(
+                      pickCustomerReq: PickCustomerReq(
                           selectedCustomers:
-                              controller.selectedCustomer != null ? [controller.selectedCustomer!] : null));
+                          controller.selectedCustomer != null ? [controller.selectedCustomer!] : null)
+                  ));
                   if (result is PickCustomerRes) {
                     final customer = result.selectedCustomers.first;
                     controller.selectedCustomer = customer;

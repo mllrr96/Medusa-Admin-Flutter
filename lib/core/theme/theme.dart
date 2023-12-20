@@ -40,16 +40,16 @@ class AppTheme {
         selectedItemColor: ColorManager.primary,
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
         backgroundColor: CupertinoColors.white,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: ColorManager.primary,
-          statusBarIconBrightness: Brightness.light,
-          statusBarBrightness: Brightness.light,
-          systemNavigationBarColor: const Color(0xFFF2F2F7),
+          statusBarColor:  Color(0xFFF2F2F7),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.dark,
+          systemNavigationBarColor: Color(0xFFF2F2F7),
         ),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
@@ -124,16 +124,16 @@ class AppTheme {
         unselectedItemColor: const Color(0xFF7D7E7D),
       ),
       cardColor: const Color(0xff242527),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
-        backgroundColor: const Color(0xff242527),
+        backgroundColor: Color(0xff242527),
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: ColorManager.primary,
+          statusBarColor: Color(0xFF18191A),
           statusBarIconBrightness: Brightness.light,
-          statusBarBrightness: Brightness.dark,
-          systemNavigationBarColor: const Color(0xFF18191A),
+          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: Color(0xFF18191A),
         ),
       ),
       cupertinoOverrideTheme: NoDefaultCupertinoThemeData(

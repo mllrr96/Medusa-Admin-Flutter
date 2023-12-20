@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -148,7 +149,7 @@ class AddUpdateProductController extends GetxController {
     super.onClose();
   }
 
-  Future<void> addProduct() async {
+  Future<void> addProduct(BuildContext context) async {
     // TODO: check for required fields
     if (!keyForm.currentState!.validate()) {
       if (!generalTileCtrl.isExpanded) {
@@ -165,7 +166,7 @@ class AddUpdateProductController extends GetxController {
       EasyLoading.showSuccess('New product Added');
       await _uploadImages(id: success.id!, images: images);
       await _uploadThumbnail(id: success.id!, thumbnail: thumbnailImage);
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       debugPrint(error.toString());
       dismissLoading();
@@ -233,7 +234,7 @@ class AddUpdateProductController extends GetxController {
             await uploadRepo.deleteFile(fileKey: element.id!);
           }
         }
-        Get.back(result: true);
+        context.popRoute(true);
       },
       (error) {
         EasyLoading.showError('Error updating product');

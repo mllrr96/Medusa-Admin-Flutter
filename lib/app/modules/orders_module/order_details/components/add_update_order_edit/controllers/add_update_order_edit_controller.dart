@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,6 @@ class AddUpdateOrderEditController extends GetxController with StateMixin<OrderE
       change(success.orderEdit, status: RxStatus.success());
       dismissLoading();
     }, (error) {
-      print(error.toString());
       EasyLoading.showError('Error updating line item');
     });
   }
@@ -60,18 +60,16 @@ class AddUpdateOrderEditController extends GetxController with StateMixin<OrderE
       change(success.orderEdit, status: RxStatus.success());
       dismissLoading();
     }, (error) {
-      print(error.toString());
       EasyLoading.showError('Error deleting line item');
     });
   }
 
-  Future<void> save(String orderEditId) async {
+  Future<void> save(String orderEditId, BuildContext context) async {
     final result = await orderEditRepo.requestOrderEdit(id: orderEditId);
     result.when((success) {
       EasyLoading.showSuccess('Order Edit Requested');
-      Get.back();
+      context.popRoute();
     }, (error) {
-      print(error.toString());
       EasyLoading.showError('Error requesting order edit');
     });
   }
@@ -84,23 +82,17 @@ class AddUpdateOrderEditController extends GetxController with StateMixin<OrderE
       change(success.orderEdit, status: RxStatus.success());
       noteCtrl.text = success.orderEdit?.internalNote ?? '';
     }, (error) {
-      print(error.toString());
       EasyLoading.showError('Error requesting order edit');
     });
   }
 
   @override
   Future<void> onInit() async {
-    if (orderId == null) {
-      Get.back();
-    }
+    // if (orderId == null) {
+    //   Get.back();
+    // }
     await loadOrderEdit();
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   @override

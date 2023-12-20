@@ -38,8 +38,8 @@ class CreateCollectionView extends StatelessWidget {
                 actions: [
                   AdaptiveButton(
                       onPressed: controller.updateCollection
-                          ? () async => await controller.edit()
-                          : () async => await controller.publish(),
+                          ? () async => await controller.edit(context)
+                          : () async => await controller.publish(context),
                       child: controller.updateCollection
                           ? Text(tr.collectionModalSaveCollection)
                           : Text(tr.collectionModalPublishCollection))

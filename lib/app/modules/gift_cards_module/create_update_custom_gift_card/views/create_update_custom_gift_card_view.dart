@@ -42,7 +42,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
               actions: [
                 AdaptiveButton(
                     onPressed: () async =>
-                        controller.updateMode ? await controller.updateGiftCard() : await controller.createGiftCard(),
+                        controller.updateMode ? await controller.updateGiftCard(context) : await controller.createGiftCard(context),
                     child: const Text('Save'))
               ],
             ),

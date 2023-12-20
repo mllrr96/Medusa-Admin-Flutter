@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -122,7 +123,7 @@ class _EditAddressState extends State<EditAddress> {
             AdaptiveButton(
                 onPressed: () {
                   if (sameAddress()) {
-                    Get.back();
+                    context.popRoute();
                     return;
                   }
                   final address = Address(
@@ -137,7 +138,7 @@ class _EditAddressState extends State<EditAddress> {
                     province: provinceCtrl.text,
                     countryCode: selectedCountry?.iso2,
                   );
-                  Get.back(result: address);
+                  context.popRoute(address);
                 },
                 child: const Text('Save'))
           ],

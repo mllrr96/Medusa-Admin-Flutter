@@ -93,7 +93,7 @@ class AddUpdateProductView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: () async => controller.updateMode
                           ? await controller.updateProduct(context)
-                          : await controller.addProduct(),
+                          : await controller.addProduct(context),
                       child: controller.updateMode
                           ? const Text('Save')
                           : const Text('Publish')),

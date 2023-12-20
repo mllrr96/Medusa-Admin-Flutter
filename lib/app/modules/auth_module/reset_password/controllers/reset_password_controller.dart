@@ -17,20 +17,21 @@ class ResetPasswordController extends GetxController {
     super.onClose();
   }
 
-  Future<void> resetPassword() async {
+  Future<bool> resetPassword() async {
     if (!_validate()) {
-      return;
+      return false;
     }
 
     errorMessage.value = '';
     loading();
     final result = await userRepo.requestPasswordReset(email: emailCtrl.text);
-    result.when((success) {
+    return await result.when((success) {
       EasyLoading.showSuccess('Reset instructions sent');
-      Get.back();
+      return true;
     }, (error) {
       dismissLoading();
       errorMessage.value = error.message;
+      return false;
     });
   }
 

@@ -36,14 +36,14 @@ class ConditionCustomerGroupView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedCustomerGroups.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
+                              final result = DiscountConditionRes(
                                   operator:
                                       controller.discountConditionOperator,
                                   customerGroups:
                                       controller.selectedCustomerGroups,
                                   conditionType:
                                       DiscountConditionType.customerGroups);
-                              Get.back(result: res);
+                              context.popRoute(result);
                             }
                           : null,
                       child: const Text('Save')),

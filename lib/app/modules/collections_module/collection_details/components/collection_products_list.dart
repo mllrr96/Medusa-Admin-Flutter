@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,7 +17,7 @@ import 'package:collection/collection.dart';
 import '../../../components/adaptive_close_button.dart';
 
 class CollectionProductsList extends StatelessWidget {
-  const CollectionProductsList({Key? key}) : super(key: key);
+  const CollectionProductsList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class CollectionProductsList extends StatelessWidget {
                   onPressed: controller.isEqual
                       ? null
                       : () {
-                          controller.save();
+                          controller.save(context);
                         },
                   child: const Text('Save'))
             ],
@@ -144,7 +145,7 @@ class CollectionProductsController extends GetxController {
     }, (error) => pagingController.error = error.message);
   }
 
-  Future<void> save() async {
+  Future<void> save(BuildContext context) async {
     final addedProducts = productsIds.toSet().difference(originalProductsIds.toSet()).toList();
     final removedProducts = originalProductsIds.toSet().difference(productsIds.toSet()).toList();
     loading();
@@ -155,7 +156,7 @@ class CollectionProductsController extends GetxController {
       result.when((success) {
         if (removedProducts.isEmpty) {
           EasyLoading.showSuccess('Collection updated');
-          Get.back(result: true);
+          context.popRoute(true);
         } else {
           EasyLoading.showError('Error updating collection');
           return;
@@ -171,7 +172,7 @@ class CollectionProductsController extends GetxController {
               UserCollectionRemoveProductsReq(collectionId: collectionId, productsIds: removedProducts));
       result.when((success) {
         EasyLoading.showSuccess('Collection updated');
-        Get.back(result: true);
+        context.popRoute(true);
       }, (error) {
         EasyLoading.showError('Error updating collection');
         return;

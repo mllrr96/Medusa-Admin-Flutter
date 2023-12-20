@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
@@ -9,7 +8,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:super_banners/super_banners.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import 'discount_rule_type_label.dart';
 
@@ -103,9 +101,10 @@ class DiscountCard extends StatelessWidget {
                               }
                               switch (value) {
                                 case 0:
-                                  await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT,
-                                          arguments: discount)
-                                      ?.then((value) {
+                                  await context
+                                      .pushRoute(AddUpdateDiscountRoute(
+                                          discount: discount))
+                                      .then((value) {
                                     if (value is bool && value == true) {
                                       DiscountsController
                                           .instance.pagingController

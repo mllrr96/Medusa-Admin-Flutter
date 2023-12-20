@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -5,8 +6,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../data/models/store/customer.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import '../../groups/controllers/groups_controller.dart';
 
@@ -77,11 +78,11 @@ class GroupDetailsController extends GetxController {
     if (pagingController.value.itemList == null) {
       return;
     }
-    final pickCustomerReq = await Get.toNamed(Routes.PICK_CUSTOMER,
-        arguments: PickCustomerReq(
-            multipleSelection: true,
-            selectedCustomers: pagingController.value.itemList));
-
+    final pickCustomerReq = await context.pushRoute(PickCustomerRoute(
+      pickCustomerReq: PickCustomerReq(
+          multipleSelection: true,
+          selectedCustomers: pagingController.value.itemList)
+    ));
     if (pickCustomerReq == null) {
       return;
     }
@@ -103,7 +104,7 @@ class GroupDetailsController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> deleteGroup() async {
+  Future<void> deleteGroup(BuildContext context) async {
     loading();
     final result =
         await customerGroupRepo.deleteCustomerGroup(id: groupCustomer.id!);
@@ -111,7 +112,7 @@ class GroupDetailsController extends GetxController {
       GroupsController.instance.pagingController.refresh();
       Get.snackbar('Success', 'Customer Group deleted',
           snackPosition: SnackPosition.BOTTOM);
-      Get.back();
+      context.popRoute();
     }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message));
     dismissLoading();
   }

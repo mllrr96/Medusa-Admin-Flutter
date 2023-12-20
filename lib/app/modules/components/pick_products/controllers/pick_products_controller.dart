@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../data/models/store/product.dart';
@@ -44,12 +46,13 @@ class PickProductsController extends GetxController {
     }, (error) => pagingController.error = error.message);
   }
 
-  Future<void> save() async {
+  Future<void> save(BuildContext context) async {
     List<Product> removedProducts = [];
     removedProducts.addAllIf(productsReq.selectedProducts != null, productsReq.selectedProducts ?? []);
     removedProducts.removeWhere((e) => selectedProducts.map((e) => e.id).contains(e.id));
-    Get.back(
-      result: PickProductsRes(
+
+    context.popRoute(
+      PickProductsRes(
         selectedProducts: selectedProducts,
         deSelectedProducts: removedProducts,
       ),

@@ -40,7 +40,7 @@ class DiscountsView extends StatelessWidget {
                     FloatingActionButton.small(
                       onPressed: () => context.pushRoute(MedusaSearchRoute(
                           searchCategory: SearchCategory.discounts)),
-                      heroTag: 'search Order',
+                      heroTag: UniqueKey(),
                       child: const Icon(CupertinoIcons.search),
                     ),
                     const Gap(4.0),

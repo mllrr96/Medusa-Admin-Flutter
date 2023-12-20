@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,7 @@ class StoreDetailsController extends GetxController {
     if (storeCtrl.text == store.name &&
         (swapLinkCtrl.text == store.swapLinkTemplate || swapLinkCtrl.text.isEmpty) &&
         (inviteLinkCtrl.text == store.inviteLinkTemplate || inviteLinkCtrl.text.isEmpty)) {
-      Get.back();
+      context.popRoute();
       return;
     }
 
@@ -58,7 +59,7 @@ class StoreDetailsController extends GetxController {
             inviteLinkTemplate: inviteLinkCtrl.text.removeAllWhitespace.isEmpty ? null : inviteLinkCtrl.text));
     result.when((success) {
       StoreService.instance.updateStore(success.store);
-      EasyLoading.showSuccess('Store details updated').then((value) => Get.back());
+      EasyLoading.showSuccess('Store details updated').then((value) => context.popRoute());
     }, (error)  {
       debugPrint(error.message);
       EasyLoading.showError('Error updating store details');

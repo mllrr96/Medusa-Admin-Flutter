@@ -1,14 +1,16 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../components/adaptive_back_button.dart';
 import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
@@ -17,7 +19,8 @@ import '../controllers/tax_settings_controller.dart';
 
 @RoutePage()
 class TaxSettingsView extends GetView<TaxSettingsController> {
-  const TaxSettingsView({super.key});
+  const TaxSettingsView(this.region, {super.key});
+  final Region region;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +31,8 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
     const space = Gap(12);
     const halfSpace = Gap(6);
     return GetBuilder<TaxSettingsController>(
+      init: TaxSettingsController(
+          taxRateRepo: TaxRateRepo(), storeRepo: StoreRepo(), region: region),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -36,10 +41,11 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
             actions: [
               AdaptiveButton(
                   onPressed: () async {
-                    final result = await Get.toNamed(
-                      Routes.ADD_UPDATE_TAX_RATE,
-                      arguments: AddUpdateTaxRateReq(regionId: controller.region.id!),
-                    );
+                    final result =
+                        await context.pushRoute(AddUpdateTaxRateRoute(
+                      addUpdateTaxRateReq:
+                          AddUpdateTaxRateReq(regionId: controller.region.id!),
+                    ));
                     if (result is bool) {
                       controller.pagingController.refresh();
                     }
@@ -56,64 +62,82 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                 top: MediaQuery.of(context).viewPadding.bottom / 2),
             child: AdaptiveFilledButton(
               onPressed: controller.same() ? null : () {},
-              child: Text('Save', style: TextStyle(color: controller.same() ? Colors.grey : Colors.white)),
+              child: Text('Save',
+                  style: TextStyle(
+                      color: controller.same() ? Colors.grey : Colors.white)),
             ),
           ),
           body: SafeArea(
             child: ListView(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   decoration: BoxDecoration(
                       color: Theme.of(context).appBarTheme.backgroundColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Details', style: context.headlineMedium),
                       halfSpace,
-                      Text('Tax rates', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                      Text('Tax rates',
+                          style: mediumTextStyle?.copyWith(color: lightWhite)),
                       PagedListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                        separatorBuilder: (_, __) =>
+                            const SizedBox(height: 6.0),
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         pagingController: controller.pagingController,
                         builderDelegate: PagedChildBuilderDelegate<TaxRate>(
-                            itemBuilder: (context, taxRate, index) => TaxRateCard(
+                            itemBuilder: (context, taxRate, index) =>
+                                TaxRateCard(
                                   taxRate: taxRate,
                                   onEditTap: () async {
-                                    final result = await Get.toNamed(
-                                      Routes.ADD_UPDATE_TAX_RATE,
-                                      arguments: AddUpdateTaxRateReq(regionId: controller.region.id!, taxRate: taxRate),
-                                    );
+                                    final result = await context
+                                        .pushRoute(AddUpdateTaxRateRoute(
+                                      addUpdateTaxRateReq: AddUpdateTaxRateReq(
+                                          regionId: controller.region.id!,
+                                          taxRate: taxRate),
+                                    ));
                                     if (result is bool) {
                                       controller.pagingController.refresh();
                                     }
                                   },
-                                  onDeleteTap: () async => await controller.deleteTaxRate(taxRate.id!),
+                                  onDeleteTap: () async => await controller
+                                      .deleteTaxRate(taxRate.id!),
                                 ),
                             firstPageProgressIndicatorBuilder: (context) =>
-                                const Center(child: CircularProgressIndicator.adaptive()),
-                            noItemsFoundIndicatorBuilder: (_) =>
-                                TaxRateCard(taxRate: TaxRate(name: 'Default', rate: 0.0, code: '-'))),
+                                const Center(
+                                    child:
+                                        CircularProgressIndicator.adaptive()),
+                            noItemsFoundIndicatorBuilder: (_) => TaxRateCard(
+                                taxRate: TaxRate(
+                                    name: 'Default', rate: 0.0, code: '-'))),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   decoration: BoxDecoration(
                       color: Theme.of(context).appBarTheme.backgroundColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Tax Calculation Settings', style: largeTextStyle),
                       space,
-                      Text('Tax Provider', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                      Text('Tax Provider',
+                          style: mediumTextStyle?.copyWith(color: lightWhite)),
                       halfSpace,
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 300),
@@ -130,9 +154,12 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                                 value: controller.selectedTaxProvider,
                                 decoration: const InputDecoration(
                                     isDense: true,
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4.0)))),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4.0)))),
                               )
-                            : const Center(child: CircularProgressIndicator.adaptive()),
+                            : const Center(
+                                child: CircularProgressIndicator.adaptive()),
                       ),
                       space,
                       CheckboxListTile(
@@ -152,10 +179,12 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                             color: ColorManager.primary,
                           ),
                           contentTheme: InfoPopupContentTheme(
-                            infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+                            infoContainerBackgroundColor:
+                                Theme.of(context).appBarTheme.backgroundColor!,
                             infoTextStyle: smallTextStyle!,
                             contentPadding: const EdgeInsets.all(8),
-                            contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                            contentBorderRadius:
+                                const BorderRadius.all(Radius.circular(4)),
                             infoTextAlign: TextAlign.start,
                           ),
                           contentTitle:
@@ -180,10 +209,12 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
                             color: ColorManager.primary,
                           ),
                           contentTheme: InfoPopupContentTheme(
-                            infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+                            infoContainerBackgroundColor:
+                                Theme.of(context).appBarTheme.backgroundColor!,
                             infoTextStyle: smallTextStyle,
                             contentPadding: const EdgeInsets.all(8),
-                            contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                            contentBorderRadius:
+                                const BorderRadius.all(Radius.circular(4)),
                             infoTextAlign: TextAlign.start,
                           ),
                           contentTitle:

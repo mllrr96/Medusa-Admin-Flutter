@@ -29,7 +29,7 @@ class CreateGiftCardView extends StatelessWidget {
               leading: const AdaptiveCloseButton(),
               title: const Text('Create Gift Card'),
               actions: [
-                AdaptiveButton(onPressed: () async => await controller.createGiftCard(), child: const Text('Create'))
+                AdaptiveButton(onPressed: () async => await controller.createGiftCard(context), child: const Text('Create'))
               ],
             ),
             body: Form(

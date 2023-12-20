@@ -1,13 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 import '../../../../data/repository/draft_order/draft_order_repo.dart';
 import '../../../components/adaptive_button.dart';
@@ -61,8 +62,8 @@ class DraftOrderDetailsView extends StatelessWidget {
             actions: [
               if (controller.state?.status == DraftOrderStatus.completed)
                 AdaptiveButton(
-                  onPressed: () => Get.toNamed(Routes.ORDER_DETAILS,
-                      arguments: controller.state!.orderId!),
+                  onPressed: () => context.pushRoute(
+                      OrderDetailsRoute(orderId: controller.state!.orderId!)),
                   child: const Text('Go to order'),
                 ),
               if (controller.state?.status == DraftOrderStatus.open)
@@ -77,7 +78,7 @@ class DraftOrderDetailsView extends StatelessWidget {
                       isDestructiveAction: true,
                     ).then((result) async {
                       if (result == OkCancelResult.ok) {
-                        await controller.cancelDraftOrder();
+                        await controller.cancelDraftOrder(context);
                       }
                     });
                   },

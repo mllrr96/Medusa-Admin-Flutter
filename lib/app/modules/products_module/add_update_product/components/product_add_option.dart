@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_text_field.dart';
@@ -41,12 +41,12 @@ class _AddOptionViewState extends State<AddOptionView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AdaptiveButton(child: const Text('Cancel'), onPressed: () => Get.back()),
+              AdaptiveButton(child: const Text('Cancel'), onPressed: () => context.popRoute()),
               AdaptiveButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Get.back(
-                          result: ProductOption(
+                      context.popRoute(
+                           ProductOption(
                               title: optionCtrl.text,
                               values: variants.map((e) => ProductOptionValue(value: e)).toList()));
                     }

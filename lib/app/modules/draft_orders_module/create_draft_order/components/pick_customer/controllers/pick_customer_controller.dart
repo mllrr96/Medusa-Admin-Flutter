@@ -5,7 +5,7 @@ import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 
 class PickCustomerController extends GetxController with StateMixin<List<Customer>> {
-  PickCustomerController({required this.customerRepo});
+  PickCustomerController({required this.customerRepo, required this.pickCustomerReq});
   final CustomerRepo customerRepo;
   final int _pageSize = 12;
   final PagingController<int, Customer> pagingController =
@@ -13,7 +13,7 @@ class PickCustomerController extends GetxController with StateMixin<List<Custome
   List<Customer> selectedCustomers = [];
   List<Customer> disabledCustomers = [];
   final searchCtrl = TextEditingController();
-  final PickCustomerReq pickCustomerReq = Get.arguments ?? PickCustomerReq();
+  final PickCustomerReq pickCustomerReq;
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));

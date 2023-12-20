@@ -6,13 +6,13 @@ import 'package:collection/collection.dart';
 import '../../../../../../data/models/store/product_variant.dart';
 
 class PickProductVariantsController extends GetxController {
-  PickProductVariantsController({required this.productVariantRepo});
+  PickProductVariantsController({required this.productVariantRepo, required this.selectProductsReq});
 
   ProductVariantRepo productVariantRepo;
   final int _pageSize = 12;
   final PagingController<int, ProductVariant> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 4);
-  SelectProductsReq selectProductsReq = Get.arguments ?? SelectProductsReq();
+  final SelectProductsReq selectProductsReq;
   final List<ProductVariant> newlySelectedProducts = [];
   // final List<String> originalProductsIds = [];
   Function eq = const SetEquality().equals;

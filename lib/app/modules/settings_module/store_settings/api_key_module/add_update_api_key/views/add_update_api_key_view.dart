@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
@@ -15,7 +16,8 @@ import '../controllers/add_update_api_key_controller.dart';
 
 @RoutePage()
 class AddUpdateApiKeyView extends StatelessWidget {
-  const AddUpdateApiKeyView({super.key});
+  const AddUpdateApiKeyView({super.key, this.publishableApiKey});
+  final PublishableApiKey? publishableApiKey;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<AddUpdateApiKeyController>(
         init: AddUpdateApiKeyController(
-            publishableApiKeyRepo: PublishableApiKeyRepo()),
+            publishableApiKeyRepo: PublishableApiKeyRepo(), publishableApiKey: publishableApiKey),
         builder: (controller) {
           return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -36,7 +38,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
                     : const Text('Create New Api Key'),
                 actions: [
                   AdaptiveButton(
-                    onPressed: () async => await controller.publish(),
+                    onPressed: () async => await controller.publish(context),
                     child: const Text('Publish'),
                   ),
                 ],

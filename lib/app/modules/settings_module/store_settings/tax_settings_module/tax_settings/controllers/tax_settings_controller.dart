@@ -7,7 +7,7 @@ import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 class TaxSettingsController extends GetxController {
-  TaxSettingsController({required this.taxRateRepo, required this.storeRepo});
+  TaxSettingsController({required this.taxRateRepo, required this.storeRepo, required this.region});
   final TaxRateRepo taxRateRepo;
   final StoreRepo storeRepo;
   final pagingController = PagingController<int, TaxRate>(firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -15,7 +15,7 @@ class TaxSettingsController extends GetxController {
   bool automaticTaxes = false;
   bool giftCardsTaxable = false;
   TaxProvider? selectedTaxProvider;
-  Region region = Get.arguments;
+  final Region region ;
   List<TaxProvider>? taxProviders;
   @override
   Future<void> onInit() async {
@@ -65,7 +65,7 @@ class TaxSettingsController extends GetxController {
         update();
       }
     }, (error) {
-      Get.back();
+      // Get.back();
       Get.snackbar('Error loading tax providers ${error.code ?? ''}', error.message,
           snackPosition: SnackPosition.BOTTOM);
     });

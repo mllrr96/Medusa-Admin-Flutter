@@ -37,6 +37,7 @@ class GiftCardsView extends StatelessWidget {
               title: const Text('Gift Cards'),
             ),
             floatingActionButton: ScrollingExpandableFab(
+              heroTag: UniqueKey(),
               controller: controller.scrollController,
               label: 'Gift Card',
               icon: const Icon(Icons.add),

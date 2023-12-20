@@ -27,7 +27,7 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
               isDestructiveAction: true)
           .then((value) async {
         if (value == OkCancelResult.ok) {
-          await controller.deleteDiscount();
+          await controller.deleteDiscount(context);
         }
       });
     }

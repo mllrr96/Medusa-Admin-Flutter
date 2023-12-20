@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,7 @@ class CurrenciesView extends StatelessWidget {
               leading: const AdaptiveBackButton(),
               title: const Text('Currencies'),
               actions: [
-                AdaptiveButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
+                AdaptiveButton(onPressed: () async => await controller.updateStore(context), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -183,7 +184,7 @@ class AllCurrenciesView extends StatelessWidget {
                 actions: [
                   if (controller.selectedCurrencies.isNotEmpty)
                     AdaptiveButton(
-                        onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
+                        onPressed: () => context.popRoute(controller.selectedCurrencies), child: const Text('Save')),
                 ],
               ),
               body: SafeArea(

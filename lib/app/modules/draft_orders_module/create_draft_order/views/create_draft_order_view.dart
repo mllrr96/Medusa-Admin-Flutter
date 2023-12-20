@@ -1,5 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -31,7 +31,7 @@ class CreateDraftOrderView extends StatelessWidget {
             .then((result) {
           switch (result) {
             case OkCancelResult.ok:
-              Get.back();
+              context.popRoute();
               return true;
             case OkCancelResult.cancel:
               return false;
@@ -52,12 +52,12 @@ class CreateDraftOrderView extends StatelessWidget {
             .then((result) {
           switch (result) {
             case OkCancelResult.ok:
-              Get.back();
+              context.popRoute();
             case OkCancelResult.cancel:
           }
         });
       } else {
-        Get.back();
+       context.popRoute();
       }
     }
 
@@ -119,7 +119,7 @@ class CreateDraftOrderView extends StatelessWidget {
                               controller.tabController.animateTo(2);
                               controller.update();
                             },
-                          2 => () async => await controller.createDraftOrder(),
+                          2 => () async => await controller.createDraftOrder(context),
                           int() => null,
                         },
                         child: controller.tabController.index == 2

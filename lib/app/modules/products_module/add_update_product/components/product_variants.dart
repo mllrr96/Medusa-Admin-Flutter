@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -5,15 +6,15 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_option.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../controllers/add_update_product_controller.dart';
 
 class ProductVariants extends StatelessWidget {
-  const ProductVariants({Key? key, this.onExpansionChanged}) : super(key: key);
+  const ProductVariants({super.key, this.onExpansionChanged});
   final void Function(bool)? onExpansionChanged;
 
   @override
@@ -98,8 +99,8 @@ class ProductVariants extends StatelessWidget {
               onPressed: controller.product.options == null || controller.product.options!.isEmpty
                   ? null
                   : () async {
-                      final result = await Get.toNamed(Routes.PRODUCT_ADD_VARIANT,
-                          arguments: ProductVariantReq(product: controller.product));
+                final result = await context.pushRoute(ProductAddVariantRoute(
+                    productVariantReq: ProductVariantReq(product: controller.product)));
                       if (result is ProductVariant) {
                         if (controller.product.variants != null) {
                           List<ProductVariant> variants = controller.product.variants!;

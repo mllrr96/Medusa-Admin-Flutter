@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -11,8 +11,8 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/repository/regions/regions_repo.dart';
@@ -137,8 +137,8 @@ class RegionDetailsView extends StatelessWidget {
                             if (controller.state == null) {
                               return;
                             }
-                            Get.toNamed(Routes.ADD_REGION,
-                                arguments: controller.state!);
+                            context.pushRoute(
+                                AddRegionRoute(region: controller.state!));
                             break;
                           case 1:
                             if (controller.state == null) {
@@ -158,7 +158,7 @@ class RegionDetailsView extends StatelessWidget {
                               isDestructiveAction: true,
                             ).then((value) async {
                               if (value) {
-                                await controller.deleteRegion();
+                                await controller.deleteRegion(context);
                               }
                             });
                             break;
@@ -360,16 +360,16 @@ class RegionDetailsView extends StatelessWidget {
                                                               snapshot
                                                                   .data![index]
                                                                   .id!),
-                                                  onEditTap: () => Get.toNamed(
-                                                    Routes
-                                                        .ADD_UPDATE_SHIPPING_OPTION,
-                                                    arguments:
+                                                  onEditTap: () =>
+                                                      context.pushRoute(
+                                                          AddUpdateShippingOptionRoute(
+                                                    addUpdateShippingOptionReq:
                                                         AddUpdateShippingOptionReq(
                                                       region: region,
                                                       shippingOption:
                                                           snapshot.data![index],
                                                     ),
-                                                  ),
+                                                  )),
                                                 ),
                                               );
                                             } else {
@@ -380,11 +380,12 @@ class RegionDetailsView extends StatelessWidget {
                                 }),
                             Center(
                               child: AdaptiveButton(
-                                onPressed: () => Get.toNamed(
-                                    Routes.ADD_UPDATE_SHIPPING_OPTION,
-                                    arguments: AddUpdateShippingOptionReq(
-                                      region: region,
-                                    )),
+                                onPressed: () => context
+                                    .pushRoute(AddUpdateShippingOptionRoute(
+                                  addUpdateShippingOptionReq:
+                                      AddUpdateShippingOptionReq(
+                                          region: region),
+                                )),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -472,25 +473,26 @@ class RegionDetailsView extends StatelessWidget {
                                                     snapshot.data!.length,
                                                 itemBuilder: (context, index) =>
                                                     ShippingOptionCard(
-                                                  shippingOption:
-                                                      snapshot.data![index],
-                                                  onDeleteTap: () async =>
-                                                      await controller
-                                                          .deleteShippingOption(
-                                                              snapshot
-                                                                  .data![index]
-                                                                  .id!),
-                                                  onEditTap: () => Get.toNamed(
-                                                    Routes
-                                                        .ADD_UPDATE_SHIPPING_OPTION,
-                                                    arguments:
-                                                        AddUpdateShippingOptionReq(
-                                                      region: region,
-                                                      shippingOption:
-                                                          snapshot.data![index],
-                                                    ),
-                                                  ),
-                                                ),
+                                                        shippingOption: snapshot
+                                                            .data![index],
+                                                        onDeleteTap: () async =>
+                                                            await controller
+                                                                .deleteShippingOption(
+                                                                    snapshot
+                                                                        .data![
+                                                                            index]
+                                                                        .id!),
+                                                        onEditTap: () =>
+                                                            context.pushRoute(
+                                                                AddUpdateShippingOptionRoute(
+                                                              addUpdateShippingOptionReq:
+                                                                  AddUpdateShippingOptionReq(
+                                                                region: region,
+                                                                shippingOption:
+                                                                    snapshot.data![
+                                                                        index],
+                                                              ),
+                                                            ))),
                                               );
                                             } else {
                                               return const SizedBox.shrink();
@@ -500,12 +502,14 @@ class RegionDetailsView extends StatelessWidget {
                                 }),
                             Center(
                               child: AdaptiveButton(
-                                onPressed: () => Get.toNamed(
-                                    Routes.ADD_UPDATE_SHIPPING_OPTION,
-                                    arguments: AddUpdateShippingOptionReq(
-                                      region: region,
-                                      returnShippingOption: true,
-                                    )),
+                                onPressed: () => context
+                                    .pushRoute(AddUpdateShippingOptionRoute(
+                                  addUpdateShippingOptionReq:
+                                      AddUpdateShippingOptionReq(
+                                    region: region,
+                                    returnShippingOption: true,
+                                  ),
+                                )),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -29,14 +30,14 @@ class CurrenciesController extends GetxController {
     super.onInit();
   }
 
-  Future<void> updateStore() async {
+  Future<void> updateStore(BuildContext context) async {
     List<String> currenciesIsoCode = [];
     for (var currency in currencies) {
       currenciesIsoCode.add(currency.code!);
     }
 
     if (currencies == StoreService.store.currencies && defaultStoreCurrency == StoreService.store.defaultCurrency) {
-      Get.back();
+      context.popRoute();
       return;
     }
 
@@ -45,7 +46,7 @@ class CurrenciesController extends GetxController {
         storePostReq: StorePostReq(defaultCurrencyCode: defaultStoreCurrency.code!, currencies: currenciesIsoCode));
     result.when((success) async {
       await StoreService.instance.loadStore();
-      EasyLoading.showSuccess('Currencies updated').then((value) => Get.back());
+      EasyLoading.showSuccess('Currencies updated').then((value) => context.popRoute());
     }, (error) {
       debugPrint(error.toString());
       EasyLoading.showError('Error updating currencies');

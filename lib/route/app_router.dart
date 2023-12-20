@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 
 import '../app/data/models/store/index.dart';
@@ -9,6 +10,8 @@ import '../app/modules/categories/views/categories_view.dart';
 import '../app/modules/collections_module/collection_details/views/collection_details_view.dart';
 import '../app/modules/collections_module/collections/views/collections_view.dart';
 import '../app/modules/collections_module/create_collection/views/create_collection_view.dart';
+import '../app/modules/components/pick_products/controllers/pick_products_controller.dart';
+import '../app/modules/components/pick_products/views/pick_products_view.dart';
 import '../app/modules/customers_module/add_update_customer/views/update_customer_details_view.dart';
 import '../app/modules/customers_module/customer_details/views/customer_details_view.dart';
 import '../app/modules/customers_module/customers/views/customers_view.dart';
@@ -24,7 +27,12 @@ import '../app/modules/discount_module/discount_conditions/controllers/discount_
 import '../app/modules/discount_module/discount_conditions/views/discount_conditions_view.dart';
 import '../app/modules/discount_module/discount_details/views/discount_details_view.dart';
 import '../app/modules/discount_module/discounts/views/discounts_view.dart';
+import '../app/modules/discount_module/update_condition/controllers/update_condition_controller.dart';
 import '../app/modules/discount_module/update_condition/views/update_condition_view.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/pick_customer/views/pick_customer_view.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/views/pick_product_vairants_view.dart';
 import '../app/modules/draft_orders_module/create_draft_order/views/create_draft_order_view.dart';
 import '../app/modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
 import '../app/modules/draft_orders_module/draft_orders/views/draft_orders_view.dart';
@@ -42,6 +50,7 @@ import '../app/modules/orders_module/orders/views/orders_view.dart';
 import '../app/modules/pricing_module/add_update_price_list/views/add_update_price_list_view.dart';
 import '../app/modules/pricing_module/price_list_details/views/price_list_details_view.dart';
 import '../app/modules/pricing_module/pricing/views/pricing_view.dart';
+import '../app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import '../app/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import '../app/modules/products_module/add_update_product/views/add_update_product_view.dart';
 import '../app/modules/products_module/product_details/views/product_details_view.dart';
@@ -53,6 +62,7 @@ import '../app/modules/settings_module/store_settings/api_key_module/api_key_man
 import '../app/modules/settings_module/store_settings/currencies/views/currencies_view.dart';
 import '../app/modules/settings_module/store_settings/personal_information/views/personal_information_view.dart';
 import '../app/modules/settings_module/store_settings/regions_module/add_region/views/add_region_view.dart';
+import '../app/modules/settings_module/store_settings/regions_module/add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import '../app/modules/settings_module/store_settings/regions_module/add_update_shipping_option/views/add_update_shipping_option_view.dart';
 import '../app/modules/settings_module/store_settings/regions_module/region_details/views/region_details_view.dart';
 import '../app/modules/settings_module/store_settings/regions_module/regions/views/regions_view.dart';
@@ -64,7 +74,9 @@ import '../app/modules/settings_module/store_settings/sales_channel_module/sales
 import '../app/modules/settings_module/store_settings/shipping/views/shipping_view.dart';
 import '../app/modules/settings_module/store_settings/store_details/views/store_details_view.dart';
 import '../app/modules/settings_module/store_settings/store_settings_view.dart';
+import '../app/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
 import '../app/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/views/add_update_tax_rate_view.dart';
+import '../app/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_select_region_view.dart';
 import '../app/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
 import '../app/modules/settings_module/store_settings/team/views/team_view.dart';
 import '../app/modules/splash/views/splash_view.dart';
@@ -115,6 +127,8 @@ class AppRouter extends _$AppRouter {
       // Draft orders module
       AutoRoute(page: CreateDraftOrderRoute.page),
       AutoRoute(page: DraftOrderDetailsRoute.page),
+      AutoRoute(page: PickCustomerRoute.page),
+      AutoRoute(page: PickProductVariantsRoute.page),
 
       // Gift cards module
       AutoRoute(page: CreateUpdateCustomGiftCardRoute.page),

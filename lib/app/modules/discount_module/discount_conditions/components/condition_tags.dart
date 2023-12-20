@@ -37,14 +37,14 @@ class ConditionTagView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedTags.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
+                              final result = DiscountConditionRes(
                                   operator:
                                       controller.discountConditionOperator,
                                   productTags: controller.selectedTags,
                                   conditionType:
                                       DiscountConditionType.productTags);
-                              Get.back(result: res);
-                            }
+                              context.popRoute(result);
+                      }
                           : null,
                       child: const Text('Save')),
                 ],

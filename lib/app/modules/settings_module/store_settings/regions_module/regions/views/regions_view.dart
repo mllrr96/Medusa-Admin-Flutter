@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +31,7 @@ class RegionsView extends StatelessWidget {
           label: 'New Region',
           icon: const Icon(Icons.add),
           onPressed: () async {
-            final result = await context.pushRoute(const AddRegionRoute());
+            final result = await context.pushRoute(AddRegionRoute());
             if (result is bool && result == true) {
               controller.pagingController.refresh();
             }

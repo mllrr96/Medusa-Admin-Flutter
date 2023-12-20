@@ -54,7 +54,7 @@ class GroupsView extends StatelessWidget {
                   ),
                   const SizedBox(height: 6.0),
                   ScrollingExpandableFab(
-                    // heroTag: UniqueKey(),
+                    heroTag: UniqueKey(),
                     controller: controller.scrollController, label: 'New Group',
                     icon: const Icon(Icons.group_add),
                     onPressed: () async {

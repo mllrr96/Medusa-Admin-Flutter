@@ -77,7 +77,7 @@ class PriceListDetailsView extends StatelessWidget {
                               isDestructiveAction: true,
                             );
                             if (confirmDelete == OkCancelResult.ok) {
-                              await controller.deletePriceList();
+                              await controller.deletePriceList(context);
                             }
                             return;
                         }

@@ -98,6 +98,7 @@ class CustomGiftCardsView extends StatelessWidget {
                                   break;
                                 case 1:
                                   await controller.updateCustomGiftCard(
+                                    context:context,
                                     id: giftCard.id!,
                                     userUpdateGiftCardReq: UserUpdateGiftCardReq(
                                         isDisabled: !isDisabled),

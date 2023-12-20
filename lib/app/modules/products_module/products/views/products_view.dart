@@ -89,7 +89,7 @@ class ProductsView extends StatelessWidget {
                                         tags: controller.tags,
                                         onResetPressed: () {
                                           controller.resetFilter();
-                                          Get.back();
+                                          context.popRoute();
                                         },
                                         productFilter: controller.productFilter,
                                       )).then((result) {

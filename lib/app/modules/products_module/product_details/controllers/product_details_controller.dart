@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -76,14 +77,14 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     return product;
   }
 
-  Future<void> deleteProduct(String id) async {
+  Future<void> deleteProduct(String id, BuildContext context) async {
     final result = await productsRepo.delete(id: id);
     loading();
     result.when((success) {
       if (success.deleted != null && success.deleted!) {
         // product deleted
         EasyLoading.showSuccess('Product Deleted');
-        Get.back(result: true);
+        context.popRoute(true);
       } else {
         EasyLoading.showError('Deletion failed');
       }

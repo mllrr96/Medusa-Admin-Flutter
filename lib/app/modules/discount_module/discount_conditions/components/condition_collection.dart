@@ -38,14 +38,14 @@ class ConditionCollectionView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedCollections.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
+                              final result = DiscountConditionRes(
                                   operator:
                                       controller.discountConditionOperator,
                                   productCollections:
                                       controller.selectedCollections,
                                   conditionType:
                                       DiscountConditionType.productCollections);
-                              Get.back(result: res);
+                              context.popRoute(result);
                             }
                           : null,
                       child: const Text('Save')),

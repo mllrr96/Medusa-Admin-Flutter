@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import '../controllers/pick_groups_controller.dart';
 
 class PickGroupsView extends StatelessWidget {
-  const PickGroupsView({Key? key, this.pickGroupsReq}) : super(key: key);
+  const PickGroupsView({super.key, this.pickGroupsReq});
   final PickGroupsReq? pickGroupsReq;
 
   @override
@@ -25,7 +26,7 @@ class PickGroupsView extends StatelessWidget {
             actions: [
               AdaptiveButton(
                   onPressed: () {
-                    Get.back(result: controller.selectedGroups);
+                    context.popRoute(controller.selectedGroups);
                   },
                   child: const Text('Save'))
             ],

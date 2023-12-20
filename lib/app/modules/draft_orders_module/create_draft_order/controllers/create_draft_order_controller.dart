@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,7 @@ class CreateDraftOrderController extends GetxController
   }
 
 
-  Future<void> createDraftOrder() async {
+  Future<void> createDraftOrder(BuildContext context) async {
     loading();
     final result = await draftOrderRepo.createDraftOrder(
         userCreateDraftOrderReq: UserCreateDraftOrderReq(
@@ -55,7 +56,7 @@ class CreateDraftOrderController extends GetxController
             billingAddress: sameAddress ? shippingAddress : billingAddress,
             items: [...lineItems, ...customLineItems]));
     result.when((success) {
-      Get.back();
+      context.popRoute();
       EasyLoading.showSuccess('Draft order created');
       DraftOrdersController.instance.pagingController.refresh();
       return;

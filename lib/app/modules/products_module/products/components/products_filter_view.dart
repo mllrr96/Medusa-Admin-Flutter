@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -10,11 +11,16 @@ import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_filled_button.dart';
 
 class ProductsFilterView extends StatefulWidget {
-  const ProductsFilterView({super.key, this.productFilter,  this.tags,  this.collections, this.onResetPressed});
-final ProductFilter? productFilter;
-final List<ProductTag>? tags;
-final List<ProductCollection>? collections;
-final void Function()? onResetPressed;
+  const ProductsFilterView(
+      {super.key,
+      this.productFilter,
+      this.tags,
+      this.collections,
+      this.onResetPressed});
+  final ProductFilter? productFilter;
+  final List<ProductTag>? tags;
+  final List<ProductCollection>? collections;
+  final void Function()? onResetPressed;
   @override
   State<ProductsFilterView> createState() => _ProductsFilterViewState();
 }
@@ -24,14 +30,17 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   late ProductFilter productFilter;
   @override
   void initState() {
-    productFilter = widget.productFilter ?? ProductFilter(status: [], tags: [], collection: []);
+    productFilter = widget.productFilter ??
+        ProductFilter(status: [], tags: [], collection: []);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.mediaQueryViewPadding.bottom == 0 ? 20.0 : context.mediaQueryViewPadding.bottom;
+    final bottomPadding = context.mediaQueryViewPadding.bottom == 0
+        ? 20.0
+        : context.mediaQueryViewPadding.bottom;
     const space = Gap(12);
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +48,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         title: const Text('Filter Products'),
         actions: [
           AdaptiveButton(
-            onPressed:widget.onResetPressed,
+            onPressed: widget.onResetPressed,
             child: const Text('Reset'),
           ),
         ],
@@ -49,9 +58,10 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         color: context.theme.appBarTheme.backgroundColor,
         child: AdaptiveFilledButton(
             onPressed: () {
-              Get.back(result: productFilter);
+              context.popRoute(productFilter);
             },
-            child: Text('Apply', style: smallTextStyle?.copyWith(color: Colors.white))),
+            child: Text('Apply',
+                style: smallTextStyle?.copyWith(color: Colors.white))),
       ),
       body: ListView(
         shrinkWrap: true,
@@ -62,7 +72,8 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
             initiallyExpanded: productFilter.status.isNotEmpty,
             children: ProductStatus.values
                 .map((e) => CheckboxListTile(
-                      title: Text(e.name.capitalize ?? e.name, style: smallTextStyle),
+                      title: Text(e.name.capitalize ?? e.name,
+                          style: smallTextStyle),
                       value: productFilter.status.contains(e),
                       controlAffinity: ListTileControlAffinity.leading,
                       contentPadding: EdgeInsets.zero,
@@ -87,25 +98,27 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
             initiallyExpanded: productFilter.collection.isNotEmpty,
             children: [
               if (widget.collections?.isNotEmpty ?? false)
-                ...widget.collections!
-                    .map((e) => CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          contentPadding: EdgeInsets.zero,
-                          value: productFilter.collection.map((e) => e.id).toList().contains(e.id),
-                          onChanged: (val) {
-                            if (val == null) {
-                              return;
-                            }
-                            if (val) {
-                              productFilter.collection.add(e);
-                            } else {
-                              productFilter.collection.removeWhere((element) => element.id == e.id);
-                            }
-                            setState(() {});
-                          },
-                          title: Text(e.title ?? '', style: smallTextStyle),
-                        ))
-                    .toList()
+                ...widget.collections!.map((e) => CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      value: productFilter.collection
+                          .map((e) => e.id)
+                          .toList()
+                          .contains(e.id),
+                      onChanged: (val) {
+                        if (val == null) {
+                          return;
+                        }
+                        if (val) {
+                          productFilter.collection.add(e);
+                        } else {
+                          productFilter.collection
+                              .removeWhere((element) => element.id == e.id);
+                        }
+                        setState(() {});
+                      },
+                      title: Text(e.title ?? '', style: smallTextStyle),
+                    ))
             ],
           ),
           space,
@@ -148,7 +161,8 @@ class ProductFilter {
   final List<ProductTag> tags;
   final List<ProductCollection> collection;
 
-  ProductFilter({required this.status, required this.tags, required this.collection});
+  ProductFilter(
+      {required this.status, required this.tags, required this.collection});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
