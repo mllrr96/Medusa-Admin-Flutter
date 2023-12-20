@@ -26,7 +26,7 @@ import '../controllers/add_update_price_list_controller.dart';
 
 @RoutePage()
 class AddUpdatePriceListView extends StatelessWidget {
-  const AddUpdatePriceListView(this.id, {super.key});
+  const AddUpdatePriceListView({super.key,this.id});
   final String? id;
   static const kDuration = Duration(milliseconds: 300);
   @override

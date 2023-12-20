@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class GroupDetailsView extends StatelessWidget {
             controller: controller.scrollController,
             label: 'Add Customers',
             icon: const Icon(CupertinoIcons.person_add_solid),
-            onPressed: () async => await controller.addCustomers(),
+            onPressed: () async => await controller.addCustomers(context),
           ),
           body: CustomScrollView(
             controller: controller.scrollController,
@@ -65,9 +64,8 @@ class GroupDetailsView extends StatelessWidget {
                             ]).then((result) async {
                           switch (result) {
                             case 0:
-                              await Get.toNamed(Routes.CREATE_UPDATE_GROUP,
-                                  arguments: customerGroup)
-                                  ?.then((value) {
+                              await context.pushRoute(CreateUpdateGroupRoute(customerGroup: customerGroup))
+                                  .then((value) {
                                 if (value is CustomerGroup) {
                                   // customerGroup = value;
                                   GroupsController.instance.pagingController

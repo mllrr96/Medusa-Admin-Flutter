@@ -75,7 +75,7 @@ class DetailedConditionCard extends StatelessWidget {
             ? 'Discount is applicable to all products except specific products'
             : 'Discount is applicable to specific products';
         defaultEdit = () =>
-            context.pushRoute(ConditionProductRoute(disabledProducts: null));
+            context.pushRoute(ConditionProductRoute());
         break;
       case DiscountConditionType.productType:
         title = 'Product Type';
@@ -84,7 +84,7 @@ class DetailedConditionCard extends StatelessWidget {
             ? 'Discount is applicable to all product types expect specific product types'
             : 'Discount is applicable to specific product types';
         defaultEdit =
-            () => context.pushRoute(ConditionTypeRoute(disabledTypes: null));
+            () => context.pushRoute(ConditionTypeRoute());
         break;
       case DiscountConditionType.productCollections:
         title = 'Collection';
@@ -102,7 +102,7 @@ class DetailedConditionCard extends StatelessWidget {
             ? 'Discount is applicable to all product tags except specific product tags'
             : 'Discount is applicable to specific product tags';
         defaultEdit =
-            () => context.pushRoute(ConditionTagRoute(disabledTags: null));
+            () => context.pushRoute(ConditionTagRoute());
         break;
       case DiscountConditionType.customerGroups:
         title = 'Customer Group';

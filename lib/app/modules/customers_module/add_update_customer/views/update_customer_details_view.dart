@@ -12,7 +12,7 @@ import '../controllers/update_customer_details_controller.dart';
 
 @RoutePage()
 class AddUpdateCustomerView extends StatelessWidget {
-  const AddUpdateCustomerView(this.customer,{super.key});
+  const AddUpdateCustomerView({super.key,this.customer});
   final Customer? customer;
   @override
   Widget build(BuildContext context) {

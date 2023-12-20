@@ -4,8 +4,7 @@ import '../../../../data/models/store/customer_group.dart';
 
 class ConditionCustomerGroupListTile extends StatelessWidget {
   const ConditionCustomerGroupListTile(
-      {Key? key, required this.customerGroup, required this.value, this.onChanged, this.enabled})
-      : super(key: key);
+      {super.key, required this.customerGroup, required this.value, this.onChanged, this.enabled});
   final CustomerGroup customerGroup;
   final bool value;
   final void Function(bool?)? onChanged;

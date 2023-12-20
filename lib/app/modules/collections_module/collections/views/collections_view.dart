@@ -57,7 +57,7 @@ class CollectionsView extends StatelessWidget {
               label: 'New Collection',
               icon: const Icon(Icons.add)
               ,
-              onPressed: () => Get.toNamed(Routes.CREATE_COLLECTION),),
+              onPressed: () =>context.pushRoute(CreateCollectionRoute()),),
           ],
         ),
         body: SafeArea(

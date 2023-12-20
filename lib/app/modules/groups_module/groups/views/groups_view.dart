@@ -58,7 +58,7 @@ class GroupsView extends StatelessWidget {
                     controller: controller.scrollController, label: 'New Group',
                     icon: const Icon(Icons.group_add),
                     onPressed: () async {
-                      final result = await context.pushRoute(const CreateUpdateGroupRoute());
+                      final result = await context.pushRoute(CreateUpdateGroupRoute());
                       if (result is bool && result) {
                         GroupsController.instance.pagingController.refresh();
                       }

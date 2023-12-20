@@ -8,8 +8,8 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import '../../../../data/models/store/customer_group.dart';
 
 class CreateUpdateGroupController extends GetxController {
-  CreateUpdateGroupController({required this.customerGroupRepo});
-  final CustomerGroup? customerGroup = Get.arguments;
+  CreateUpdateGroupController({required this.customerGroupRepo, required this.customerGroup});
+  final CustomerGroup? customerGroup;
   final groupTitleCtrl = TextEditingController();
   final CustomerGroupRepo customerGroupRepo;
   final formKey = GlobalKey<FormState>();

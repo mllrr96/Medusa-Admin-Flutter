@@ -2,21 +2,25 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 
+import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../controllers/add_update_sales_channel_controller.dart';
 
 @RoutePage()
-class AddUpdateSalesChannelView extends GetView<AddUpdateSalesChannelController> {
-  const AddUpdateSalesChannelView({super.key});
+class AddUpdateSalesChannelView extends StatelessWidget {
+  const AddUpdateSalesChannelView( {super.key,this.salesChannel});
+  final SalesChannel? salesChannel;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddUpdateSalesChannelController>(
-      assignId: true,
+      init: AddUpdateSalesChannelController(
+          salesChannelRepo: SalesChannelRepo(), salesChannel: salesChannel),
       builder: (controller) {
         final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
         return GestureDetector(
@@ -24,28 +28,35 @@ class AddUpdateSalesChannelView extends GetView<AddUpdateSalesChannelController>
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
-              title:
-                  controller.updateMode ? const Text('Update sales channel') : const Text('Create new sales channel'),
+              title: controller.updateMode
+                  ? const Text('Update sales channel')
+                  : const Text('Create new sales channel'),
             ),
             bottomNavigationBar: Container(
               margin: const EdgeInsets.symmetric(horizontal: 18.0),
-              padding: EdgeInsets.only(bottom: bottomViewPadding, top: bottomViewPadding / 2),
+              padding: EdgeInsets.only(
+                  bottom: bottomViewPadding, top: bottomViewPadding / 2),
               child: AdaptiveFilledButton(
                 buttonColor: controller.disabled ? Colors.blueGrey : null,
-                onPressed: () async =>
-                    controller.updateMode ? await controller.updateChannel() : await controller.createChannel(),
+                onPressed: () async => controller.updateMode
+                    ? await controller.updateChannel()
+                    : await controller.createChannel(),
                 child: controller.updateMode
-                    ? const Text('Update Channel', style: TextStyle(color: Colors.white))
+                    ? const Text('Update Channel',
+                        style: TextStyle(color: Colors.white))
                     : controller.disabled
-                        ? const Text('Save as draft', style: TextStyle(color: Colors.white))
-                        : const Text('Publish Channel', style: TextStyle(color: Colors.white)),
+                        ? const Text('Save as draft',
+                            style: TextStyle(color: Colors.white))
+                        : const Text('Publish Channel',
+                            style: TextStyle(color: Colors.white)),
               ),
             ),
             body: SafeArea(
               child: Form(
                 key: controller.formKey,
                 child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   children: [
                     CustomExpansionTile(
                       initiallyExpanded: true,
@@ -54,7 +65,8 @@ class AddUpdateSalesChannelView extends GetView<AddUpdateSalesChannelController>
                         LabeledTextField(
                           label: 'Title',
                           controller: controller.titleCtrl,
-                          hintText: 'Website, App, Amazon, physical store POS, facebook, product feed',
+                          hintText:
+                              'Website, App, Amazon, physical store POS, facebook, product feed',
                           required: !controller.updateMode,
                           validator: (val) {
                             if (val == null || val.isEmpty) {
@@ -67,7 +79,8 @@ class AddUpdateSalesChannelView extends GetView<AddUpdateSalesChannelController>
                         LabeledTextField(
                           label: 'Description',
                           controller: controller.descriptionCtrl,
-                          hintText: 'Available products at our website, app ...',
+                          hintText:
+                              'Available products at our website, app ...',
                           textInputAction: TextInputAction.done,
                         ),
                         CheckboxListTile(

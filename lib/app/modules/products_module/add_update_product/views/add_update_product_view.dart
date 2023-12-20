@@ -16,7 +16,7 @@ import '../controllers/add_update_product_controller.dart';
 
 @RoutePage()
 class AddUpdateProductView extends StatelessWidget {
-  const AddUpdateProductView(this.updateProductReq, {super.key});
+  const AddUpdateProductView( {super.key,this.updateProductReq});
   final UpdateProductReq? updateProductReq;
   @override
   Widget build(BuildContext context) {

@@ -6,10 +6,10 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import '../../../../../../data/models/req/user_sales_channel_req.dart';
 
 class AddUpdateSalesChannelController extends GetxController {
-  AddUpdateSalesChannelController({required this.salesChannelRepo});
+  AddUpdateSalesChannelController({required this.salesChannelRepo, required this.salesChannel});
   final SalesChannelRepo salesChannelRepo;
 
-  SalesChannel? salesChannel = Get.arguments;
+  final SalesChannel? salesChannel ;
   bool get updateMode => salesChannel == null ? false : true;
   bool disabled = false;
   final formKey = GlobalKey<FormState>();

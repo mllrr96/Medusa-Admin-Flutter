@@ -12,7 +12,7 @@ import '../controllers/add_update_discount_controller.dart';
 
 @RoutePage()
 class AddUpdateDiscountView extends StatelessWidget {
-  const AddUpdateDiscountView(this.discount,{super.key});
+  const AddUpdateDiscountView({super.key,this.discount});
   final Discount? discount;
   @override
   Widget build(BuildContext context) {

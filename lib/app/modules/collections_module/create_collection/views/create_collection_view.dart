@@ -12,7 +12,7 @@ import '../controllers/create_collection_controller.dart';
 
 @RoutePage()
 class CreateCollectionView extends StatelessWidget {
-  const CreateCollectionView(this.updateCollectionReq, {super.key});
+  const CreateCollectionView({super.key, this.updateCollectionReq});
   final UpdateCollectionReq? updateCollectionReq;
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,9 @@ class CreateCollectionView extends StatelessWidget {
     const space = Gap(12);
     final tr = context.tr;
     return GetBuilder<CreateCollectionController>(
-        init: CreateCollectionController(collectionRepo: CollectionRepo(), updateCollectionReq: updateCollectionReq),
+        init: CreateCollectionController(
+            collectionRepo: CollectionRepo(),
+            updateCollectionReq: updateCollectionReq),
         builder: (controller) {
           return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),

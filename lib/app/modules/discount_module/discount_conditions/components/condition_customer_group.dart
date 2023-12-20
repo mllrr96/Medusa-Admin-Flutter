@@ -15,7 +15,7 @@ import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionCustomerGroupView extends StatelessWidget {
-  const ConditionCustomerGroupView(this.disabledGroups, {super.key});
+  const ConditionCustomerGroupView( {super.key,this.disabledGroups});
   final List<CustomerGroup>? disabledGroups;
   @override
   Widget build(BuildContext context) {

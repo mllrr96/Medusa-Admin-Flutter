@@ -15,7 +15,7 @@ import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionCollectionView extends StatelessWidget {
-  const ConditionCollectionView(this.disabledCollections, {super.key});
+  const ConditionCollectionView( {super.key,this.disabledCollections});
   final List<ProductCollection>? disabledCollections;
 
   @override

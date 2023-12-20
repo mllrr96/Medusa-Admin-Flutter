@@ -53,7 +53,7 @@ class PricingView extends StatelessWidget {
               controller: controller.scrollController,
               label: 'New Price List',
               icon: const Icon(Icons.add),
-              onPressed: () => context.pushRoute(AddUpdatePriceListRoute(id: null)),
+              onPressed: () => context.pushRoute(AddUpdatePriceListRoute()),
             ),
             body: SafeArea(
               child: SmartRefresher(

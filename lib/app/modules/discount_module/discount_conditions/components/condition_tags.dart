@@ -15,7 +15,7 @@ import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionTagView extends StatelessWidget {
-  const ConditionTagView(this.disabledTags, {super.key});
+  const ConditionTagView( {super.key,this.disabledTags});
   final List<ProductTag>? disabledTags;
 
   @override

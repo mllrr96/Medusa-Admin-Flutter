@@ -15,7 +15,7 @@ import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionTypeView extends StatelessWidget {
-  const ConditionTypeView(this.disabledTypes, {super.key});
+  const ConditionTypeView({super.key,this.disabledTypes});
   final List<ProductType>? disabledTypes;
 
   @override

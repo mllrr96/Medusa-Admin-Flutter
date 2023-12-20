@@ -21,7 +21,7 @@ import '../controllers/create_update_custom_gift_card_controller.dart';
 
 @RoutePage()
 class CreateUpdateCustomGiftCardView extends StatelessWidget {
-  const CreateUpdateCustomGiftCardView(this.giftCard, {super.key});
+  const CreateUpdateCustomGiftCardView( {super.key,this.giftCard});
   final GiftCard? giftCard ;
   @override
   Widget build(BuildContext context) {

@@ -73,7 +73,7 @@ class GroupDetailsController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> addCustomers() async {
+  Future<void> addCustomers(BuildContext context) async {
     if (pagingController.value.itemList == null) {
       return;
     }

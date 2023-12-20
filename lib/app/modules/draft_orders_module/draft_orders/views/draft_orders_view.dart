@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
@@ -59,7 +58,7 @@ class DraftOrdersView extends StatelessWidget {
                     controller: controller.scrollController,
                     label: 'Draft Order',
                     icon: const Icon(Icons.add),
-                    onPressed: () => Get.toNamed(Routes.CREATE_DRAFT_ORDER),
+                    onPressed: () => context.pushRoute(const CreateDraftOrderRoute()),
                     heroTag: 'Draft Order'),
               ],
             ),

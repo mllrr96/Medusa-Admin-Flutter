@@ -52,7 +52,7 @@ class DiscountsView extends StatelessWidget {
                   label: 'New Discount',
                   icon: const Icon(Icons.add),
                   onPressed: () async {
-                    final result = await context.pushRoute(AddUpdateDiscountRoute(discount: null));
+                    final result = await context.pushRoute(AddUpdateDiscountRoute());
                     if (result is bool && result == true) {
                       controller.pagingController.refresh();
                     }

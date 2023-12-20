@@ -6,8 +6,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 class ProductListTileWithVariantCount extends StatelessWidget {
   const ProductListTileWithVariantCount(
-      {Key? key, required this.product, required this.value, this.onChanged, this.enabled})
-      : super(key: key);
+      {super.key, required this.product, required this.value, this.onChanged, this.enabled});
   final Product product;
   final bool value;
   final bool? enabled;

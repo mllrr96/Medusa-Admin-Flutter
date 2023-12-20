@@ -6,11 +6,10 @@ import 'package:medusa_admin/core/utils/enums.dart';
 
 class ConditionOperatorCard extends StatelessWidget {
   const ConditionOperatorCard(
-      {Key? key,
+      {super.key,
       required this.conditionOperator,
       this.onTap,
-      required this.groupValue})
-      : super(key: key);
+      required this.groupValue});
   final DiscountConditionOperator conditionOperator;
   final DiscountConditionOperator groupValue;
   final void Function(DiscountConditionOperator discountRuleType)? onTap;

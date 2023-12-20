@@ -3,7 +3,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class ConditionCollectionListTile extends StatelessWidget {
-  const ConditionCollectionListTile({Key? key, required this.collection, required this.value, this.onChanged, this.enabled}) : super(key: key);
+  const ConditionCollectionListTile({super.key, required this.collection, required this.value, this.onChanged, this.enabled});
   final ProductCollection collection;
   final bool value;
   final void Function(bool?)? onChanged;

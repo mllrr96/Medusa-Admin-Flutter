@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -54,8 +53,9 @@ class SalesChannelsView extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: () async {
-                  final result =
-                      await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL);
+                  // final result =
+                  //     await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL);
+                  final result =  context.pushRoute(AddUpdateSalesChannelRoute());
                   if (result is bool) {
                     controller.pagingController.refresh();
                   }

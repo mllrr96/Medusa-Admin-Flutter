@@ -47,7 +47,7 @@ class CustomGiftCardsView extends StatelessWidget {
           controller: controller.scrollController,
           label: 'Custom Gift Card',
           icon: const Icon(Icons.add),
-          onPressed: () => context.pushRoute(CreateUpdateCustomGiftCardRoute(giftCard: null)),
+          onPressed: () => context.pushRoute(CreateUpdateCustomGiftCardRoute()),
         ),
         body: SafeArea(
           child: CustomScrollView(

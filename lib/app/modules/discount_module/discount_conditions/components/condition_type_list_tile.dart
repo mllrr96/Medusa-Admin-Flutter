@@ -3,7 +3,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class ConditionTypeListTile extends StatelessWidget {
-  const ConditionTypeListTile({Key? key, required this.type, required this.value, this.onChanged, this.enabled}) : super(key: key);
+  const ConditionTypeListTile({super.key, required this.type, required this.value, this.onChanged, this.enabled});
   final ProductType type;
   final bool value;
   final void Function(bool?)? onChanged;
