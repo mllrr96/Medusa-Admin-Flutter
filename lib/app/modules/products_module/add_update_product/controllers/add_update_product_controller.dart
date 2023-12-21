@@ -69,12 +69,10 @@ class AddUpdateProductController extends GetxController {
  final UpdateProductReq? updateProductReq;
   File? thumbnailImage;
   List<File> images = [];
-  late ScrollController scrollController;
   late Product product;
   late ImagePickerHelper imagePickerHelper;
   @override
   Future<void> onInit() async {
-    scrollController = ScrollController();
     imagePickerHelper = ImagePickerHelper();
     fetchProduct();
     await fetchOrganize();
@@ -145,7 +143,6 @@ class AddUpdateProductController extends GetxController {
     handleCtrl.dispose();
     materialCtrl.dispose();
     descriptionCtrl.dispose();
-    scrollController.dispose();
     super.onClose();
   }
 

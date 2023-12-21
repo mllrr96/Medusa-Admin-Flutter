@@ -23,31 +23,6 @@ class DraftOrderDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey,
-        Duration? delay,
-        required ScrollController scrollController}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
-        final yPosition =
-            (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                    ?.localToGlobal(Offset.zero)
-                    .dy ??
-                0.0;
-        var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
-        final scrollPoint = scrollController.offset + yPosition - topPadding;
-        if (scrollPoint <= scrollController.position.maxScrollExtent) {
-          await scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        } else {
-          await scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
 
     final smallTextStyle = context.bodySmall;
 
@@ -104,9 +79,7 @@ class DraftOrderDetailsView extends StatelessWidget {
                         draftOrder,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.summeryKey,
-                                scrollController: controller.scrollController);
+                            await controller.summeryKey.currentContext.ensureVisibility();
                           }
                         },
                         key: controller.summeryKey,
@@ -116,9 +89,7 @@ class DraftOrderDetailsView extends StatelessWidget {
                         draftOrder,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.paymentKey,
-                                scrollController: controller.scrollController);
+                            await  controller.paymentKey.currentContext.ensureVisibility();
                           }
                         },
                         key: controller.paymentKey,
@@ -128,9 +99,7 @@ class DraftOrderDetailsView extends StatelessWidget {
                         draftOrder,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.shippingKey,
-                                scrollController: controller.scrollController);
+                            await  controller.shippingKey.currentContext.ensureVisibility();
                           }
                         },
                         key: controller.shippingKey,
@@ -140,9 +109,7 @@ class DraftOrderDetailsView extends StatelessWidget {
                         draftOrder,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.customerKey,
-                                scrollController: controller.scrollController);
+                            await controller.customerKey.currentContext.ensureVisibility();
                           }
                         },
                         key: controller.customerKey,

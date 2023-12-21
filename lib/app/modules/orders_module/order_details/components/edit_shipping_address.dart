@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
@@ -24,7 +23,6 @@ class EditAddress extends StatefulWidget {
 }
 
 class _EditAddressState extends State<EditAddress> {
-  final scrollController = ScrollController();
   final contactKey = GlobalKey();
   final locationKey = GlobalKey();
   final metadataKey = GlobalKey();
@@ -59,7 +57,6 @@ class _EditAddressState extends State<EditAddress> {
 
   @override
   void dispose() {
-    scrollController.dispose();
     firstNameCtrl.dispose();
     lastNameCtrl.dispose();
     companyCtrl.dispose();
@@ -79,23 +76,6 @@ class _EditAddressState extends State<EditAddress> {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then(
-        (value) async {
-          final yPosition =
-              (globalKey.currentContext?.findRenderObject() as RenderBox?)?.localToGlobal(Offset.zero).dy ?? 0.0;
-          var topPadding = widget.context.mediaQueryPadding.top + kToolbarHeight;
-          final scrollPoint = scrollController.offset + yPosition - topPadding;
-          if (scrollPoint <= scrollController.position.maxScrollExtent) {
-            await scrollController.animateTo(scrollPoint,
-                duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-          } else {
-            await scrollController.animateTo(scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 300), curve: Curves.fastOutSlowIn);
-          }
-        },
-      );
-    }
 
     bool sameAddress() {
       if (firstNameCtrl.text == address.firstName &&
@@ -147,7 +127,6 @@ class _EditAddressState extends State<EditAddress> {
           child: Form(
             key: formKey,
             child: ListView(
-              controller: scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               children: [
                 CustomExpansionTile(
@@ -156,7 +135,7 @@ class _EditAddressState extends State<EditAddress> {
                   initiallyExpanded: true,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await scrollToSelectedContent(globalKey: contactKey);
+                      await contactKey.currentContext.ensureVisibility();
                     }
                   },
                   children: [
@@ -177,7 +156,7 @@ class _EditAddressState extends State<EditAddress> {
                   label: 'Location',
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await scrollToSelectedContent(globalKey: locationKey);
+                      await locationKey.currentContext.ensureVisibility();
                     }
                   },
                   expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -218,7 +197,7 @@ class _EditAddressState extends State<EditAddress> {
                   label: 'Metadata',
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
-                      await scrollToSelectedContent(globalKey: metadataKey);
+                      await metadataKey.currentContext.ensureVisibility();
                     }
                   },
                   children: const [],

@@ -35,20 +35,6 @@ class AddUpdatePriceListView extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    Future<void> scrollToSelectedContent({required GlobalKey globalKey, Duration? delay, required ScrollController scrollController}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = scrollController.offset + yPosition - context.mediaQuery.padding.top - 56;
-        if (scrollPoint <= scrollController.position.maxScrollExtent) {
-          await scrollController
-              .animateTo(scrollPoint - 10, duration: kDuration, curve: Curves.fastOutSlowIn);
-        } else {
-          await scrollController.animateTo(scrollController.position.maxScrollExtent,
-              duration: kDuration, curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
 
     Widget buildPriceListType() {
       return GetBuilder<AddUpdatePriceListController>(
@@ -59,7 +45,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             initiallyExpanded: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.priceListTypeKey, scrollController: controller.scrollController);
+                await controller.priceListTypeKey.currentContext.ensureVisibility();
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -107,7 +93,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             key: controller.generalKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.generalKey, scrollController: controller.scrollController);
+                await controller.generalKey.currentContext.ensureVisibility();
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -161,7 +147,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             key: controller.configKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
+                await controller.configKey.currentContext.ensureVisibility();
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -185,7 +171,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                   if (val) {
                     controller.priceList = controller.priceList.copyWith.startsAt(DateTime.now());
                     controller.update([2]);
-                    await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
+                    await controller.configKey.currentContext.ensureVisibility();
                   } else {
                     controller.priceList = controller.priceList.copyWith.startsAt(null);
                     controller.update([2]);
@@ -221,7 +207,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                   if (val) {
                     controller.priceList = controller.priceList.copyWith.endsAt(DateTime.now());
                     controller.update([2]);
-                    await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
+                    await controller.configKey.currentContext.ensureVisibility();
                   } else {
                     controller.priceList = controller.priceList.copyWith.endsAt(null);
                     controller.update([2]);
@@ -257,7 +243,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                   if (val) {
                     controller.specifyCustomers = val;
                     controller.update([2]);
-                    await scrollToSelectedContent(globalKey: controller.configKey, scrollController: controller.scrollController);
+                    await controller.configKey.currentContext.ensureVisibility();
                   } else {
                     controller.specifyCustomers = val;
                     controller.update([2]);
@@ -333,7 +319,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             key: controller.pricesKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.pricesKey, scrollController: controller.scrollController);
+                await controller.pricesKey.currentContext.ensureVisibility();
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -469,7 +455,6 @@ class AddUpdatePriceListView extends StatelessWidget {
               child: Form(
                 key: controller.formKey,
                 child: ListView(
-                  controller: controller.scrollController,
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
                   children: [
                     SwitchListTile.adaptive(

@@ -27,32 +27,6 @@ class OrderDetailsView extends StatelessWidget {
     const space = Gap(12);
     final tr = context.tr;
 
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey,
-        Duration? delay,
-        required ScrollController scrollController}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
-        final yPosition =
-            (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                    ?.localToGlobal(Offset.zero)
-                    .dy ??
-                0.0;
-        var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
-        final scrollPoint = scrollController.offset + yPosition - topPadding;
-        if (scrollPoint <= scrollController.position.maxScrollExtent) {
-          await scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        } else {
-          await scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
-
     return GetBuilder<OrderDetailsController>(
       init: OrderDetailsController(
           ordersRepo: OrdersRepo(),
@@ -111,7 +85,7 @@ class OrderDetailsView extends StatelessWidget {
           body: SafeArea(
             child: controller.obx(
               (order) => SingleChildScrollView(
-                controller: controller.scrollController,
+                // controller: controller.scrollController,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 10.0),
@@ -125,9 +99,7 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.summeryKey,
-                                scrollController: controller.scrollController);
+                            await controller.summeryKey.currentContext!.ensureVisibility();
                           }
                         },
                         key: controller.summeryKey,
@@ -137,9 +109,7 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.paymentKey,
-                                scrollController: controller.scrollController);
+                           await controller.paymentKey.currentContext.ensureVisibility();
                           }
                         },
                       ),
@@ -148,9 +118,7 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.fulfillmentKey,
-                                scrollController: controller.scrollController);
+                            await controller.fulfillmentKey.currentContext.ensureVisibility();
                           }
                         },
                       ),
@@ -159,9 +127,7 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.customerKey,
-                                scrollController: controller.scrollController);
+                            await controller.customerKey.currentContext.ensureVisibility();
                           }
                         },
                       ),
@@ -170,9 +136,7 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.timelineKey,
-                                scrollController: controller.scrollController);
+                            await controller.timelineKey.currentContext.ensureVisibility();
                           }
                         },
                       ),

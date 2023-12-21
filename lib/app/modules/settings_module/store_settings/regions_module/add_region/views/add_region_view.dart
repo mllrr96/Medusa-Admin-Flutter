@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/country.dart';
-import 'package:medusa_admin/app/data/models/store/currency.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
@@ -39,30 +37,6 @@ class AddRegionView extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(4.0)),
       borderSide: BorderSide(color: Colors.grey),
     );
-    const kDuration = Duration(milliseconds: 300);
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey,
-        Duration? delay,
-        required ScrollController scrollController}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = scrollController.offset +
-            yPosition -
-            context.mediaQuery.padding.top -
-            56;
-        if (scrollPoint <= scrollController.position.maxScrollExtent) {
-          await scrollController.animateTo(scrollPoint - 10,
-              duration: kDuration, curve: Curves.fastOutSlowIn);
-        } else {
-          await scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: kDuration,
-              curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -274,9 +248,7 @@ class AddRegionView extends StatelessWidget {
                         required: true,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await scrollToSelectedContent(
-                                globalKey: controller.providersExpansionKey,
-                                scrollController: controller.scrollController);
+                            await controller.providersExpansionKey.currentContext.ensureVisibility();
                           }
                         },
                         children: [

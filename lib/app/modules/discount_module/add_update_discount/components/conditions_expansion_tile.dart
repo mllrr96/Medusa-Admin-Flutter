@@ -15,36 +15,13 @@ import '../../discount_conditions/controllers/discount_conditions_controller.dar
 import '../controllers/add_update_discount_controller.dart';
 
 class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
-  const ConditionExpansionTile(this.viewContext, {super.key});
-  final BuildContext viewContext;
+  const ConditionExpansionTile({super.key});
 
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset +
-            yPosition -
-            (viewContext.mediaQueryPadding.top + kToolbarHeight);
-        if (scrollPoint <=
-            controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        } else {
-          await controller.scrollController.animateTo(
-              controller.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
 
     return GetBuilder<AddUpdateDiscountController>(
         id: 3,
@@ -54,8 +31,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
             maintainState: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(
-                    globalKey: controller.conditionsKey);
+                await controller.conditionsKey.currentContext.ensureVisibility();
               }
             },
             initiallyExpanded: controller.updateMode,
@@ -109,8 +85,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
                               result.productTypes?.map((e) => e.id!).toList(),
                         ));
                         controller.update([3]);
-                        await scrollToSelectedContent(
-                            globalKey: controller.conditionsKey);
+                        await controller.conditionsKey.currentContext.ensureVisibility();
                       }
                     },
                     child: Row(

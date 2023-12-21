@@ -7,6 +7,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../app/data/service/storage_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+extension ContextEntension<T> on BuildContext? {
+  /// Scroll to current widget
+  Future<void> ensureVisibility({Duration? delay}) async {
+    if (this == null) return;
+    await Future.delayed(delay ?? const Duration(milliseconds: 240))
+        .then((value) async {
+      await Scrollable.ensureVisible(this!,
+          alignment: 0.04, duration: const Duration(milliseconds: 300));
+    });
+  }
+}
+
 extension BuildContextEntension<T> on BuildContext {
   // text styles
 
@@ -19,13 +31,23 @@ extension BuildContextEntension<T> on BuildContext {
   TextStyle? get bodySmall => Theme.of(this).textTheme.bodySmall;
   TextStyle? get bodyExtraSmall => bodySmallW500?.copyWith(fontSize: 11);
 
-  TextStyle? get bodyLargeW500 => Theme.of(this).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500);
-  TextStyle? get bodyMediumW500 => Theme.of(this).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500);
-  TextStyle? get bodySmallW500 => Theme.of(this).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500);
-  TextStyle? get bodyExtraSmallW500 => bodySmallW500?.copyWith(fontSize: 11, fontWeight: FontWeight.w500);
+  TextStyle? get bodyLargeW500 =>
+      Theme.of(this).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get bodyMediumW500 => Theme.of(this)
+      .textTheme
+      .bodyMedium
+      ?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get bodySmallW500 =>
+      Theme.of(this).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500);
+  TextStyle? get bodyExtraSmallW500 =>
+      bodySmallW500?.copyWith(fontSize: 11, fontWeight: FontWeight.w500);
 
-  TextStyle? get bodyLargeW600 => Theme.of(this).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600);
-  TextStyle? get bodyMediumW600 => Theme.of(this).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyLargeW600 =>
+      Theme.of(this).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600);
+  TextStyle? get bodyMediumW600 => Theme.of(this)
+      .textTheme
+      .bodyMedium
+      ?.copyWith(fontWeight: FontWeight.w600);
 
   // media query
   EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
@@ -34,6 +56,7 @@ extension BuildContextEntension<T> on BuildContext {
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
+
   // TabsRouter get tabsRouter => AutoTabsRouter.of(this);
   int get activeIndex => AutoTabsRouter.of(this).activeIndex;
 
@@ -42,6 +65,9 @@ extension BuildContextEntension<T> on BuildContext {
 
   // Directionality
   bool get isRTL => Directionality.of(this) == TextDirection.rtl;
+
+  /// Unfocus (Hides keyboard)
+  void unfocus() => FocusScope.of(this).unfocus();
 }
 
 extension HexColor on Color {
@@ -73,7 +99,8 @@ extension RandomOfDigits on Random {
   String getRandomString(int length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    return String.fromCharCodes(Iterable.generate(length, (_) => chars.codeUnitAt(nextInt(chars.length))));
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => chars.codeUnitAt(nextInt(chars.length))));
   }
 }
 
@@ -113,12 +140,16 @@ extension TextStyleColor on TextStyle {
 }
 
 extension FormatPrice on num? {
-  String formatAsPrice(String? currencyCode, {bool includeSymbol = true, bool space = true, bool symbolAtEnd = false}) {
+  String formatAsPrice(String? currencyCode,
+      {bool includeSymbol = true,
+      bool space = true,
+      bool symbolAtEnd = false}) {
     if (this == null || currencyCode == null) {
       return this?.toString() ?? '';
     }
     var value = this!;
-    final formatter = NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
+    final formatter =
+        NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
     if (formatter.decimalDigits! > 0) {
       value /= pow(10, formatter.decimalDigits!);
     }

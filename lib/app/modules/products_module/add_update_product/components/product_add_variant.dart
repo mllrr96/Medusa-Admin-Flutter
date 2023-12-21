@@ -40,31 +40,6 @@ class ProductAddVariantView extends StatelessWidget {
             productsRepo: ProductsRepo(), productVariantReq: productVariantReq),
         builder: (controller) {
           final options = controller.product.options;
-          Future<void> scrollToSelectedContent(
-              {required GlobalKey globalKey, Duration? delay}) async {
-            await Future.delayed(delay ?? const Duration(milliseconds: 240))
-                .then((value) async {
-              final yPosition =
-                  (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                          ?.localToGlobal(Offset.zero)
-                          .dy ??
-                      0.0;
-              var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
-              final scrollPoint =
-                  controller.scrollController.offset + yPosition - topPadding;
-              if (scrollPoint <=
-                  controller.scrollController.position.maxScrollExtent) {
-                await controller.scrollController.animateTo(scrollPoint - 10,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.fastOutSlowIn);
-              } else {
-                await controller.scrollController.animateTo(
-                    controller.scrollController.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.fastOutSlowIn);
-              }
-            });
-          }
 
           return WillPopScope(
             onWillPop: () async {
@@ -223,8 +198,8 @@ class ProductAddVariantView extends StatelessWidget {
                                 key: controller.pricingKey,
                                 onExpansionChanged: (expanded) async {
                                   if (expanded) {
-                                    await scrollToSelectedContent(
-                                        globalKey: controller.pricingKey);
+                                    await controller.pricingKey.currentContext
+                                        .ensureVisibility();
                                   }
                                 },
                                 label: 'Pricing',
@@ -351,8 +326,8 @@ class ProductAddVariantView extends StatelessWidget {
                                 key: controller.stockKey,
                                 onExpansionChanged: (expanded) async {
                                   if (expanded) {
-                                    await scrollToSelectedContent(
-                                        globalKey: controller.stockKey);
+                                    await  controller.stockKey.currentContext
+                                        .ensureVisibility();
                                   }
                                 },
                                 children: [
@@ -432,8 +407,8 @@ class ProductAddVariantView extends StatelessWidget {
                             key: controller.shippingKey,
                             onExpansionChanged: (expanded) async {
                               if (expanded) {
-                                await scrollToSelectedContent(
-                                    globalKey: controller.shippingKey);
+                                await controller.shippingKey.currentContext
+                                    .ensureVisibility();
                               }
                             },
                             children: [

@@ -4,6 +4,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/repository/collection/collection_repo.dart';
 import '../../../../data/repository/product/products_repo.dart';
 import '../../../../data/repository/product_type/product_type_repo.dart';
@@ -20,32 +21,6 @@ class AddUpdateProductView extends StatelessWidget {
   final UpdateProductReq? updateProductReq;
   @override
   Widget build(BuildContext context) {
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey,
-        Duration? delay,
-        required ScrollController scrollController}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240)).then(
-        (value) async {
-          final yPosition =
-              (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                      ?.localToGlobal(Offset.zero)
-                      .dy ??
-                  0.0;
-          var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
-          final scrollPoint = scrollController.offset + yPosition - topPadding;
-          if (scrollPoint <= scrollController.position.maxScrollExtent) {
-            await scrollController.animateTo(scrollPoint - 10,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.fastOutSlowIn);
-          } else {
-            await scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.fastOutSlowIn);
-          }
-        },
-      );
-    }
 
     // You can not be a good person until you know how much
     // evil you contain within you
@@ -101,7 +76,6 @@ class AddUpdateProductView extends StatelessWidget {
               ),
               body: SafeArea(
                 child: SingleChildScrollView(
-                  controller: controller.scrollController,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 10.0),
@@ -111,10 +85,7 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.generalKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await scrollToSelectedContent(
-                                  globalKey: controller.generalKey,
-                                  scrollController:
-                                      controller.scrollController);
+                              await  controller.generalKey.currentContext.ensureVisibility();
                             }
                           },
                         ),
@@ -123,10 +94,7 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.organizeKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await scrollToSelectedContent(
-                                  globalKey: controller.organizeKey,
-                                  scrollController:
-                                      controller.scrollController);
+                              await controller.organizeKey.currentContext.ensureVisibility();
                             }
                           },
                         ),
@@ -135,10 +103,7 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.variantKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await scrollToSelectedContent(
-                                  globalKey: controller.variantKey,
-                                  scrollController:
-                                      controller.scrollController);
+                              await controller.variantKey.currentContext.ensureVisibility();
                             }
                           },
                         ),
@@ -147,10 +112,7 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.attributesKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await scrollToSelectedContent(
-                                  globalKey: controller.attributesKey,
-                                  scrollController:
-                                      controller.scrollController);
+                              await controller.attributesKey.currentContext.ensureVisibility();
                             }
                           },
                         ),
@@ -159,10 +121,7 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.thumbnailKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await scrollToSelectedContent(
-                                  globalKey: controller.thumbnailKey,
-                                  scrollController:
-                                      controller.scrollController);
+                              await controller.thumbnailKey.currentContext.ensureVisibility();
                             }
                           },
                         ),
@@ -171,10 +130,7 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.mediaKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await scrollToSelectedContent(
-                                  globalKey: controller.mediaKey,
-                                  scrollController:
-                                      controller.scrollController);
+                              await controller.mediaKey.currentContext.ensureVisibility();
                             }
                           },
                         )

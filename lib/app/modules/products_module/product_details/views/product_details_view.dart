@@ -77,10 +77,7 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.variantsKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await _scrollToSelectedContent(
-                                expansionTileKey: controller.variantsKey,
-                                context: context,
-                                scrollController: controller.scrollController);
+                            await controller.variantsKey.currentContext.ensureVisibility();
                           }
                         },
                       ),
@@ -90,10 +87,7 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.attributesKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await _scrollToSelectedContent(
-                                expansionTileKey: controller.attributesKey,
-                                context: context,
-                                scrollController: controller.scrollController);
+                            await controller.attributesKey.currentContext.ensureVisibility();
                           }
                         },
                         // onExpansionChanged: onExChanged,
@@ -104,10 +98,7 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.thumbnailKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await _scrollToSelectedContent(
-                                expansionTileKey: controller.thumbnailKey,
-                                context: context,
-                                scrollController: controller.scrollController);
+                            await controller.thumbnailKey.currentContext.ensureVisibility();
                           }
                         },
                         // onExpansionChanged: onExChanged,
@@ -118,10 +109,7 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.imagesKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await _scrollToSelectedContent(
-                                expansionTileKey: controller.imagesKey,
-                                context: context,
-                                scrollController: controller.scrollController);
+                            await  controller.imagesKey.currentContext.ensureVisibility();
                           }
                         },
                       ),
@@ -160,30 +148,5 @@ class ProductDetailsView extends StatelessWidget {
       case ProductStatus.rejected:
         return const Icon(Icons.circle, color: Colors.red, size: 12);
     }
-  }
-
-  Future<void> _scrollToSelectedContent(
-      {required GlobalKey expansionTileKey,
-      required BuildContext context,
-      required ScrollController scrollController}) async {
-    await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
-      final box =
-          expansionTileKey.currentContext?.findRenderObject() as RenderBox?;
-      final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0;
-      final scrollPoint = scrollController.offset +
-          yPosition -
-          context.mediaQuery.padding.top -
-          56;
-      if (scrollPoint <= scrollController.position.maxScrollExtent) {
-        await scrollController.animateTo(scrollPoint - 10,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
-      } else {
-        await scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
-      }
-    });
   }
 }

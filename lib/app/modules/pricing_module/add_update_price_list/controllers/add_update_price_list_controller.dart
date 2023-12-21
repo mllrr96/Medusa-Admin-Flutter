@@ -20,7 +20,6 @@ class AddUpdatePriceListController extends GetxController {
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
   final pricesKey = GlobalKey();
-  final scrollController = ScrollController();
   bool specifyCustomers = false;
   final groupCtrl = TextEditingController();
   final nameCtrl = TextEditingController();

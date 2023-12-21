@@ -35,7 +35,6 @@ class OrdersFilterView extends StatefulWidget {
 
 class _OrdersFilterViewState extends State<OrdersFilterView> {
   late OrderFilter orderFilter;
-  final scrollController = ScrollController();
   final statusKey = GlobalKey();
   final paymentStatusKey = GlobalKey();
   final fulfillmentStatusKey = GlobalKey();
@@ -64,7 +63,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
   @override
   void dispose() {
-    scrollController.dispose();
     numberCtrl.dispose();
     super.dispose();
   }
@@ -128,7 +126,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
         body: Form(
           key: formKey,
           child: ListView(
-            controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
             children: [
               CustomExpansionTile(
@@ -136,7 +133,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.status.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: statusKey);
+                    await statusKey.currentContext!.ensureVisibility();
                   }
                 },
                 title: Text('Status', style: smallTextStyle),
@@ -165,7 +162,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.paymentStatus.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: paymentStatusKey);
+                    await paymentStatusKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Payment Status', style: smallTextStyle),
@@ -194,8 +191,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.fulfillmentStatus.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(
-                        globalKey: fulfillmentStatusKey);
+                    await fulfillmentStatusKey.currentContext
+                        .ensureVisibility();
                   }
                 },
                 title: Text('Fulfillment Status', style: smallTextStyle),
@@ -224,7 +221,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.regions.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: regionsKey);
+                    await regionsKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Regions', style: smallTextStyle),
@@ -257,7 +254,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.salesChannel.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: salesChannelKey);
+                    await salesChannelKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Sales Channel', style: smallTextStyle),
@@ -291,7 +288,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.orderDateFilter.active,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: dateKey);
+                    await dateKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Date', style: smallTextStyle),
@@ -443,31 +440,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
         ),
       ),
     );
-  }
-
-  Future<void> scrollToSelectedContent(
-      {required GlobalKey globalKey, Duration? delay}) async {
-    await Future.delayed(delay ?? const Duration(milliseconds: 240))
-        .then((value) async {
-      final yPosition =
-          (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                  ?.localToGlobal(Offset.zero)
-                  .dy ??
-              0.0;
-
-      var topPadding = context.mediaQueryPadding.top + kToolbarHeight;
-      final scrollPoint = scrollController.offset + yPosition - topPadding;
-      if (scrollPoint <= scrollController.position.maxScrollExtent) {
-        await scrollController.animateTo(scrollPoint - 10,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
-      } else {
-        await scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
-      }
-    });
   }
 }
 
