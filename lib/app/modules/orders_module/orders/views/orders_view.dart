@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -101,7 +103,7 @@ class OrdersView extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           child: const Icon(CupertinoIcons.ellipsis),
                           onPressed: () {
-                            Scaffold.of(context).openDrawer();
+                            context.openDrawer();
                           },
                         );
                       }),
@@ -110,7 +112,7 @@ class OrdersView extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           child: const Icon(CupertinoIcons.ellipsis),
                           onPressed: () {
-                            Scaffold.of(context).openEndDrawer();
+                            context.openEndDrawer();
                           },
                         );
                       }),
@@ -126,7 +128,28 @@ class OrdersView extends StatelessWidget {
                               builder: (controller) {
                             return InkWell(
                               onLongPress: () => controller.resetFilter(),
-                              onTap: () => Scaffold.of(context).openEndDrawer(),
+                              onTap: () async {
+                                if (controller.regions == null ||
+                                    controller.salesChannels == null) {
+                                  loading(
+                                      status:
+                                          'Loading regions and sales channels');
+                                  await Future.wait([
+                                    controller.fetchRegions(),
+                                    controller.fetchSalesChannels()
+                                  ]).then((value) {
+                                    if (value.contains(false)) {
+                                      EasyLoading.showError(
+                                          'Error loading regions and sales channels');
+                                    } else {
+                                      dismissLoading();
+                                      context.openEndDrawer();
+                                    }
+                                  });
+                                } else {
+                                  context.openEndDrawer();
+                                }
+                              },
                               child: Chip(
                                 side: BorderSide(
                                     color: (controller.orderFilter?.count() ??

@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
@@ -75,7 +74,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
           title: const Text('Orders Filter'),
           actions: [
             AdaptiveButton(
@@ -115,9 +113,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
                 orderFilter.orderDateFilter.number =
                     int.tryParse(numberCtrl.text) ?? 0;
-                if (widget.onSubmitted != null) {
-                  widget.onSubmitted!(orderFilter);
-                }
+                widget.onSubmitted?.call(orderFilter);
                 context.popRoute();
               },
               child: Text('Apply',
@@ -415,6 +411,12 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     Column(
                       children: [
                         DateCard(
+                          validator: (val) {
+                            if (val == null) {
+                              return 'Field is required';
+                            }
+                            return null;
+                          },
                           dateTime: orderFilter.orderDateFilter.date,
                           dateText: null,
                           dateTimeTextStyle: smallTextStyle,

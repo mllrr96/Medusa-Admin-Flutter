@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
+import 'package:medusa_admin/app/modules/auth_module/reauthenticate.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 
 import '../app/data/models/store/index.dart';
@@ -10,8 +11,14 @@ import '../app/modules/categories/views/categories_view.dart';
 import '../app/modules/collections_module/collection_details/views/collection_details_view.dart';
 import '../app/modules/collections_module/collections/views/collections_view.dart';
 import '../app/modules/collections_module/create_collection/views/create_collection_view.dart';
+import '../app/modules/components/countries/controller/country_controller.dart';
+import '../app/modules/components/countries/view/country_view.dart';
+import '../app/modules/components/pick_groups/controllers/pick_groups_controller.dart';
+import '../app/modules/components/pick_groups/views/pick_groups_view.dart';
 import '../app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import '../app/modules/components/pick_products/views/pick_products_view.dart';
+import '../app/modules/components/pick_regions/controllers/pick_regions_controller.dart';
+import '../app/modules/components/pick_regions/views/pick_regions_view.dart';
 import '../app/modules/customers_module/add_update_customer/views/update_customer_details_view.dart';
 import '../app/modules/customers_module/customer_details/views/customer_details_view.dart';
 import '../app/modules/customers_module/customers/views/customers_view.dart';
@@ -29,10 +36,14 @@ import '../app/modules/discount_module/discount_details/views/discount_details_v
 import '../app/modules/discount_module/discounts/views/discounts_view.dart';
 import '../app/modules/discount_module/update_condition/controllers/update_condition_controller.dart';
 import '../app/modules/discount_module/update_condition/views/update_condition_view.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/address_view.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/draft_order_over_view.dart';
+import '../app/modules/draft_orders_module/create_draft_order/components/items_view.dart';
 import '../app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import '../app/modules/draft_orders_module/create_draft_order/components/pick_customer/views/pick_customer_view.dart';
 import '../app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import '../app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/views/pick_product_vairants_view.dart';
+import '../app/modules/draft_orders_module/create_draft_order/controllers/create_draft_order_controller.dart';
 import '../app/modules/draft_orders_module/create_draft_order/views/create_draft_order_view.dart';
 import '../app/modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
 import '../app/modules/draft_orders_module/draft_orders/views/draft_orders_view.dart';
@@ -102,6 +113,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: StoreSettingsRoute.page),
         AutoRoute(page: AppSettingsRoute.page),
       ]),
+      AutoRoute(page: PickProductsRoute.page),
+      AutoRoute(page: SelectCountryRoute.page),
+      AutoRoute(page: PickGroupsRoute.page),
+      AutoRoute(page: PickRegionsRoute.page),
+
+      // ReAuthenticate
+      AutoRoute(page: ReAuthenticateRoute.page),
+
       // collections module
       AutoRoute(page: CollectionDetailsRoute.page),
       AutoRoute(page: CreateCollectionRoute.page),
@@ -125,7 +144,7 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: ConditionCollectionRoute.page),
 
       // Draft orders module
-      AutoRoute(page: CreateDraftOrderRoute.page),
+      AutoRoute(page: CreateDraftOrderRoute.page, fullscreenDialog: true),
       AutoRoute(page: DraftOrderDetailsRoute.page),
       AutoRoute(page: PickCustomerRoute.page),
       AutoRoute(page: PickProductVariantsRoute.page),
@@ -157,14 +176,30 @@ class AppRouter extends _$AppRouter {
       // Store settings
       AutoRoute(page: RegionsRoute.page),
       AutoRoute(page: RegionDetailsRoute.page),
+      AutoRoute(page: AddRegionRoute.page),
+      AutoRoute(page: AddUpdateShippingOptionRoute.page),
 
       AutoRoute(page: StoreDetailsRoute.page),
+
       AutoRoute(page: ReturnReasonsRoute.page),
+      AutoRoute(page: CreateUpdateReturnReasonRoute.page),
+
+
       AutoRoute(page: PersonalInformationRoute.page),
+
       AutoRoute(page: TaxSettingsRoute.page),
+      AutoRoute(page: AddUpdateTaxRateRoute.page),
+
+
       AutoRoute(page: CurrenciesRoute.page),
+
       AutoRoute(page: SalesChannelsRoute.page),
+      AutoRoute(page: AddUpdateSalesChannelRoute.page),
+      AutoRoute(page: SalesChannelDetailsRoute.page),
+
       AutoRoute(page: ApiKeyManagementRoute.page),
+      AutoRoute(page: AddUpdateApiKeyRoute.page),
+
       AutoRoute(page: TeamRoute.page),
 
       // App Settings

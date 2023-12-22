@@ -43,10 +43,10 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         // elevation: 0.0,
         surfaceTintColor: Colors.transparent,
-        backgroundColor: CupertinoColors.white,
+        backgroundColor: Colors.white,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor:  Color(0xFFF2F2F7),
+          statusBarColor:  Colors.white,
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.dark,
           systemNavigationBarColor: Color(0xFFF2F2F7),
@@ -130,7 +130,7 @@ class AppTheme {
         backgroundColor: Color(0xff242527),
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Color(0xFF18191A),
+          statusBarColor: Color(0xff242527),
           statusBarIconBrightness: Brightness.light,
           statusBarBrightness: Brightness.light,
           systemNavigationBarColor: Color(0xFF18191A),

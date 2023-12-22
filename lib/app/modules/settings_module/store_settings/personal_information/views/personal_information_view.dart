@@ -41,7 +41,8 @@ class PersonalInformationView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AdaptiveButton(
-                      child: const Text('Cancel'), onPressed: () => context.popRoute()),
+                      child: const Text('Cancel'),
+                      onPressed: () => context.popRoute()),
                   AdaptiveButton(
                       child: const Text('Update'),
                       onPressed: () async {
@@ -124,18 +125,27 @@ class PersonalInformationView extends StatelessWidget {
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
               title: const Text('Personal Information'),
-              actions: [
-                controller.obx(
-                    (user) => AdaptiveButton(
-                        onPressed: controller.state != null
-                            ? () async => await updatePersonalInformation(
-                                user!, controller)
-                            : null,
-                        child: const Text('Edit')),
-                    onLoading: const SizedBox.shrink(),
-                    onError: (_) => const SizedBox.shrink())
-              ],
+              // actions: [
+              //   controller.obx(
+              //       (user) => AdaptiveButton(
+              //           onPressed: controller.state != null
+              //               ? () async => await updatePersonalInformation(
+              //                   user!, controller)
+              //               : null,
+              //           child: const Text('Edit')),
+              //       onLoading: const SizedBox.shrink(),
+              //       onError: (_) => const SizedBox.shrink())
+              // ],
             ),
+            floatingActionButton: controller.obx(
+                (user) => FloatingActionButton(
+                    onPressed: controller.state != null
+                        ? () async =>
+                            await updatePersonalInformation(user!, controller)
+                        : null,
+                    child: const Text('Edit')),
+                onLoading: const SizedBox.shrink(),
+                onError: (_) => const SizedBox.shrink()),
             body: SafeArea(
                 child: controller.obx(
                     (user) => Padding(

@@ -50,6 +50,7 @@ class PricingView extends StatelessWidget {
             ),
             drawer: const AppDrawer(),
             floatingActionButton: ScrollingExpandableFab(
+              heroTag: UniqueKey(),
               controller: controller.scrollController,
               label: 'New Price List',
               icon: const Icon(Icons.add),

@@ -16,7 +16,7 @@ class SelectCountryController extends GetxController {
   @override
   void onInit() {
     countriesList.addAll(countries);
-    selectCountryOptions = Get.arguments ?? selectCountryReq ?? const SelectCountryReq();
+    selectCountryOptions = selectCountryReq ?? const SelectCountryReq();
     selectedCountries.addAll(selectCountryOptions.selectedCountries);
     countriesList.sort((a, b) => a.displayName!.toLowerCase().compareTo(b.displayName!.toLowerCase()));
     // sort();

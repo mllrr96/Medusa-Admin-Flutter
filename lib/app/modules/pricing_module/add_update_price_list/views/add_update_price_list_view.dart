@@ -26,7 +26,7 @@ import '../controllers/add_update_price_list_controller.dart';
 
 @RoutePage()
 class AddUpdatePriceListView extends StatelessWidget {
-  const AddUpdatePriceListView({super.key,this.id});
+  const AddUpdatePriceListView({super.key, this.id});
   final String? id;
   static const kDuration = Duration(milliseconds: 300);
   @override
@@ -45,7 +45,8 @@ class AddUpdatePriceListView extends StatelessWidget {
             initiallyExpanded: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await controller.priceListTypeKey.currentContext.ensureVisibility();
+                await controller.priceListTypeKey.currentContext
+                    .ensureVisibility();
               } else {
                 FocusScope.of(context).unfocus();
               }
@@ -54,7 +55,8 @@ class AddUpdatePriceListView extends StatelessWidget {
             required: true,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            childrenPadding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
             children: [
               Text(
                 'Select the type of the price list',
@@ -65,7 +67,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                 priceListType: PriceListType.sale,
                 groupValue: controller.priceList.type,
                 onTap: (val) {
-                  controller.priceList = controller.priceList.copyWith(type: val);
+                  controller.priceList =
+                      controller.priceList.copyWith(type: val);
                   controller.update([0]);
                 },
               ),
@@ -74,7 +77,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                 priceListType: PriceListType.override,
                 groupValue: controller.priceList.type,
                 onTap: (val) {
-                  controller.priceList = controller.priceList.copyWith(type: val);
+                  controller.priceList =
+                      controller.priceList.copyWith(type: val);
                   controller.update([0]);
                 },
               ),
@@ -102,7 +106,8 @@ class AddUpdatePriceListView extends StatelessWidget {
             required: true,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            childrenPadding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
             children: [
               Text(
                 'General information for the price list.',
@@ -155,7 +160,8 @@ class AddUpdatePriceListView extends StatelessWidget {
             label: 'Configuration',
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            childrenPadding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
             children: [
               Text(
                 'The price overrides apply from the time you hit the publish button and forever if left untouched.',
@@ -165,15 +171,20 @@ class AddUpdatePriceListView extends StatelessWidget {
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Price overrides has a start date?'),
-                subtitle: Text('Schedule the price overrides to activate in the future.', style: TextStyle(color: lightWhite)),
+                subtitle: Text(
+                    'Schedule the price overrides to activate in the future.',
+                    style: TextStyle(color: lightWhite)),
                 value: controller.priceList.startsAt != null,
                 onChanged: (val) async {
                   if (val) {
-                    controller.priceList = controller.priceList.copyWith.startsAt(DateTime.now());
+                    controller.priceList =
+                        controller.priceList.copyWith.startsAt(DateTime.now());
                     controller.update([2]);
-                    await controller.configKey.currentContext.ensureVisibility();
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   } else {
-                    controller.priceList = controller.priceList.copyWith.startsAt(null);
+                    controller.priceList =
+                        controller.priceList.copyWith.startsAt(null);
                     controller.update([2]);
                   }
                 },
@@ -183,11 +194,20 @@ class AddUpdatePriceListView extends StatelessWidget {
                   duration: kDuration,
                   child: controller.priceList.startsAt != null
                       ? DateTimeCard(
+                          validator: (date) {
+                            if (date == null) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           onTap: () async {
-                            final result =
-                                await adaptiveDateTimePicker(date: controller.priceList.startsAt, context: context);
+                            final result = await adaptiveDateTimePicker(
+                                date: controller.priceList.startsAt,
+                                context: context);
                             if (result != null) {
-                              controller.priceList = controller.priceList.copyWith.startsAt(result);
+                              controller.priceList = controller
+                                  .priceList.copyWith
+                                  .startsAt(result);
                               controller.update([2]);
                             }
                           },
@@ -201,15 +221,20 @@ class AddUpdatePriceListView extends StatelessWidget {
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Price overrides has a expiry date?'),
-                subtitle: Text('Schedule the price overrides to deactivate in the future.', style: TextStyle(color: lightWhite)),
+                subtitle: Text(
+                    'Schedule the price overrides to deactivate in the future.',
+                    style: TextStyle(color: lightWhite)),
                 value: controller.priceList.endsAt != null,
                 onChanged: (val) async {
                   if (val) {
-                    controller.priceList = controller.priceList.copyWith.endsAt(DateTime.now());
+                    controller.priceList =
+                        controller.priceList.copyWith.endsAt(DateTime.now());
                     controller.update([2]);
-                    await controller.configKey.currentContext.ensureVisibility();
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   } else {
-                    controller.priceList = controller.priceList.copyWith.endsAt(null);
+                    controller.priceList =
+                        controller.priceList.copyWith.endsAt(null);
                     controller.update([2]);
                   }
                 },
@@ -219,11 +244,19 @@ class AddUpdatePriceListView extends StatelessWidget {
                   duration: kDuration,
                   child: controller.priceList.endsAt != null
                       ? DateTimeCard(
+                          validator: (date) {
+                            if (date == null) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
                           onTap: () async {
-                            final result =
-                                await adaptiveDateTimePicker(date: controller.priceList.endsAt, context: context);
+                            final result = await adaptiveDateTimePicker(
+                                date: controller.priceList.endsAt,
+                                context: context);
                             if (result != null) {
-                              controller.priceList = controller.priceList.copyWith.endsAt(result);
+                              controller.priceList =
+                                  controller.priceList.copyWith.endsAt(result);
                               controller.update([2]);
                             }
                           },
@@ -237,13 +270,16 @@ class AddUpdatePriceListView extends StatelessWidget {
               SwitchListTile.adaptive(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Customer availability'),
-                subtitle: Text('Specify which customer groups the price overrides should apply for.', style: TextStyle(color: lightWhite)),
+                subtitle: Text(
+                    'Specify which customer groups the price overrides should apply for.',
+                    style: TextStyle(color: lightWhite)),
                 value: controller.specifyCustomers,
                 onChanged: (val) async {
                   if (val) {
                     controller.specifyCustomers = val;
                     controller.update([2]);
-                    await controller.configKey.currentContext.ensureVisibility();
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   } else {
                     controller.specifyCustomers = val;
                     controller.update([2]);
@@ -271,11 +307,19 @@ class AddUpdatePriceListView extends StatelessWidget {
                                 context: context,
                                 builder: (context) => PickGroupsView(
                                     pickGroupsReq: PickGroupsReq(
-                                        multipleSelect: true, selectedGroups: controller.priceList.customerGroups)));
+                                        multipleSelect: true,
+                                        selectedGroups: controller
+                                            .priceList.customerGroups)));
                             if (result is List<CustomerGroup>) {
-                              controller.priceList = controller.priceList.copyWith.customerGroups(result);
-                              controller.groupCtrl.text =
-                                  result.map((e) => e.name).toList().toString().replaceAll('[', '').replaceAll(']', '');
+                              controller.priceList = controller
+                                  .priceList.copyWith
+                                  .customerGroups(result);
+                              controller.groupCtrl.text = result
+                                  .map((e) => e.name)
+                                  .toList()
+                                  .toString()
+                                  .replaceAll('[', '')
+                                  .replaceAll(']', '');
                               controller.update([2]);
                             }
                           },
@@ -286,17 +330,23 @@ class AddUpdatePriceListView extends StatelessWidget {
                               borderSide: BorderSide(color: Colors.grey),
                             ),
                             hintText: 'Select group(s)',
-                            suffixIcon: controller.priceList.customerGroups?.isEmpty ?? true
+                            suffixIcon: controller
+                                        .priceList.customerGroups?.isEmpty ??
+                                    true
                                 ? const Icon(Icons.keyboard_arrow_down_outlined)
                                 : AdaptiveIcon(
                                     onPressed: () {
-                                      controller.priceList = controller.priceList.copyWith.customerGroups(null);
+                                      controller.priceList = controller
+                                          .priceList.copyWith
+                                          .customerGroups(null);
                                       controller.groupCtrl.clear();
                                       controller.update([2]);
                                     },
-                                    icon: const Icon(CupertinoIcons.clear_circled_solid)),
+                                    icon: const Icon(
+                                        CupertinoIcons.clear_circled_solid)),
                             filled: true,
-                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                            fillColor:
+                                Theme.of(context).scaffoldBackgroundColor,
                             border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(4.0),
@@ -328,91 +378,107 @@ class AddUpdatePriceListView extends StatelessWidget {
             required: true,
             expandedAlignment: Alignment.centerLeft,
             expandedCrossAxisAlignment: CrossAxisAlignment.center,
-            childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            childrenPadding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
             children: [
               Text(
                 'You will be able to override the prices for the products you add here',
                 style: smallTextStyle!.copyWith(color: lightWhite),
               ),
               space,
-              ...controller.products
-                  .map((product) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: double.maxFinite,
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              ...controller.products.map((product) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: double.maxFinite,
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        margin: const EdgeInsets.only(bottom: 10.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(product.title ?? '', style: smallTextStyle),
+                            AdaptiveIcon(
+                                onPressed: () async {
+                                  await showModalActionSheet<int>(
+                                      title: 'Manage Product',
+                                      message: product.title ?? '',
+                                      context: context,
+                                      actions: <SheetAction<int>>[
+                                        const SheetAction(
+                                            label: 'Edit prices', key: 0),
+                                        const SheetAction(
+                                            label: 'Remove',
+                                            isDestructiveAction: true,
+                                            key: 1),
+                                      ]).then((result) async {
+                                    switch (result) {
+                                      case 0:
+                                        // Get.to(()=> ProductPriceList(product: product));
+                                        final result =
+                                            await showBarModalBottomSheet(
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          context: context,
+                                          builder: (context) =>
+                                              ProductPriceList(
+                                                  product: product),
+                                        );
+                                        if (result is List<MoneyAmount>) {
+                                          controller.priceList = controller
+                                              .priceList.copyWith
+                                              .prices(result);
+                                          controller.update([3]);
+                                        }
+                                        return;
+                                      case 1:
+                                        return;
+                                    }
+                                  });
+                                },
+                                icon: const Icon(Icons.more_horiz))
+                          ],
+                        ),
+                      ),
+                      if (product.variants != null &&
+                          controller.priceList.prices != null)
+                        ...product.variants!.map((e) {
+                          final priceCount = controller.priceList.prices!
+                              .where((element) => element.variantId == e.id)
+                              .toList()
+                              .length;
+                          return Container(
+                            width: Get.width * 0.85,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 8.0),
                             margin: const EdgeInsets.only(bottom: 10.0),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey),
-                                borderRadius: const BorderRadius.all(Radius.circular(6))),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(6))),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(product.title ?? '', style: smallTextStyle),
-                                AdaptiveIcon(
-                                    onPressed: () async {
-                                      await showModalActionSheet<int>(
-                                          title: 'Manage Product',
-                                          message: product.title ?? '',
-                                          context: context,
-                                          actions: <SheetAction<int>>[
-                                            const SheetAction(label: 'Edit prices', key: 0),
-                                            const SheetAction(label: 'Remove', isDestructiveAction: true, key: 1),
-                                          ]).then((result) async {
-                                        switch (result) {
-                                          case 0:
-                                            // Get.to(()=> ProductPriceList(product: product));
-                                            final result = await showBarModalBottomSheet(
-                                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                              context: context,
-                                              builder: (context) => ProductPriceList(product: product),
-                                            );
-                                            if (result is List<MoneyAmount>) {
-                                              controller.priceList = controller.priceList.copyWith.prices(result);
-                                              controller.update([3]);
-                                            }
-                                            return;
-                                          case 1:
-                                            return;
-                                        }
-                                      });
-                                    },
-                                    icon: const Icon(Icons.more_horiz))
+                                Text(e.title ?? '', style: smallTextStyle),
+                                if (controller.priceList.prices != null)
+                                  Text(
+                                      '${priceCount == 0 ? 'Add' : priceCount} prices',
+                                      style: smallTextStyle),
                               ],
                             ),
-                          ),
-                          if (product.variants != null && controller.priceList.prices !=null)
-                            ...product.variants!.map((e) {
-                              final priceCount = controller.priceList.prices!
-                                  .where((element) => element.variantId == e.id)
-                                  .toList()
-                                  .length;
-                              return Container(
-                                width: Get.width * 0.85,
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-                                margin: const EdgeInsets.only(bottom: 10.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: const BorderRadius.all(Radius.circular(6))),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(e.title ?? '', style: smallTextStyle),
-                                    if (controller.priceList.prices != null)
-                                      Text('${priceCount == 0 ? 'Add' : priceCount} prices', style: smallTextStyle),
-                                  ],
-                                ),
-                              );
-                            }),
-                        ],
-                      ))
-                  ,
+                          );
+                        }),
+                    ],
+                  )),
               space,
               AdaptiveButton(
                 onPressed: () async {
                   final result = await context.pushRoute(PickProductsRoute(
-                      pickProductsReq: PickProductsReq(includeVariantCount: true)));
+                      pickProductsReq:
+                          PickProductsReq(includeVariantCount: true)));
                   if (result is PickProductsRes) {
                     controller.products = result.selectedProducts;
                     controller.update([3]);
@@ -435,19 +501,25 @@ class AddUpdatePriceListView extends StatelessWidget {
     }
 
     return GetBuilder<AddUpdatePriceListController>(
-      init: AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
+      init:
+          AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveCloseButton(),
-              title: controller.updateMode ? const Text('Update price list') : const Text('Create price list'),
+              title: controller.updateMode
+                  ? const Text('Update price list')
+                  : const Text('Create price list'),
               actions: [
                 AdaptiveButton(
-                  onPressed: () async =>
-                      controller.updateMode ? await controller.updatePriceList(context) : await controller.create(context),
-                  child: controller.updateMode ? const Text('Update') : const Text('Create'),
+                  onPressed: () async => controller.updateMode
+                      ? await controller.updatePriceList(context)
+                      : await controller.create(context),
+                  child: controller.updateMode
+                      ? const Text('Update')
+                      : const Text('Create'),
                 )
               ],
             ),
@@ -455,7 +527,8 @@ class AddUpdatePriceListView extends StatelessWidget {
               child: Form(
                 key: controller.formKey,
                 child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 10.0),
                   children: [
                     SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
@@ -464,7 +537,9 @@ class AddUpdatePriceListView extends StatelessWidget {
                         controller.saveAsDraft = val;
                         controller.update();
                       },
-                      title: controller.updateMode ? const Text('Unpublish') : const Text('Save as draft'),
+                      title: controller.updateMode
+                          ? const Text('Unpublish')
+                          : const Text('Save as draft'),
                     ),
                     const Divider(),
                     buildPriceListType(),

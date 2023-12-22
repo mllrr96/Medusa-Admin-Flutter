@@ -17,18 +17,18 @@ import '../../discount_conditions/components/condition_type_list_tile.dart';
 import '../controllers/update_condition_controller.dart';
 
 @RoutePage()
-class UpdateConditionView extends GetView<UpdateConditionController> {
+class UpdateConditionView extends StatelessWidget {
   const UpdateConditionView(this.updateConditionReq, {super.key});
   final UpdateConditionReq updateConditionReq;
 
   @override
   Widget build(BuildContext context) {
-    final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom == 0
+    final bottomViewPadding = context.bottomViewPadding == 0
         ? 12.0
-        : MediaQuery.of(context).viewPadding.bottom;
-    final topPadding = MediaQuery.of(context).viewPadding.bottom == 0
+        : context.bottomViewPadding;
+    final topPadding = context.bottomViewPadding == 0
         ? 12.0
-        : MediaQuery.of(context).viewPadding.bottom / 2;
+        : context.bottomViewPadding/ 2;
     final smallTextStyle = context.bodySmall;
 
     return GetBuilder<UpdateConditionController>(

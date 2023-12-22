@@ -13,7 +13,6 @@ import '../controllers/add_update_discount_controller.dart';
 class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
   const ConfigurationExpansionTile({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
@@ -54,7 +53,8 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   if (!val) {
                     controller.startDate = null;
                   } else {
-                    await  controller.configKey.currentContext.ensureVisibility();
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   }
                 },
                 title: const Text('Start date'),
@@ -67,6 +67,12 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 duration: const Duration(milliseconds: 300),
                 child: controller.hasStartDate
                     ? DateTimeCard(
+                        validator: (date) {
+                          if (date == null) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
                         dateTime: controller.startDate,
                         dateText: 'Start',
                         onTap: () async {
@@ -95,7 +101,8 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   if (!val) {
                     controller.endDate = null;
                   } else {
-                    await controller.configKey.currentContext.ensureVisibility();
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   }
                 },
                 value: controller.hasEndDate,
@@ -105,6 +112,12 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 duration: const Duration(milliseconds: 300),
                 child: controller.hasEndDate
                     ? DateTimeCard(
+                        validator: (date) {
+                          if (date == null) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
                         dateTime: controller.endDate,
                         dateText: 'Expiry',
                         onTap: () async {
@@ -134,7 +147,8 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   if (!val) {
                     controller.limitCtrl.clear();
                   } else {
-                    await controller.configKey.currentContext.ensureVisibility();
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   }
                 },
               ),
@@ -148,7 +162,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                             child: LabeledNumericTextField(
                               label: 'Number of redemptions',
                               controller: controller.limitCtrl,
-                              hintText: '5',
+                              hintText: '...',
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return 'Required';

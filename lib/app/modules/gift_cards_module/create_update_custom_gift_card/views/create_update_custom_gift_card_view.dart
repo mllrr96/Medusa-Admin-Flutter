@@ -155,6 +155,12 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                               ),
                               if (controller.hasExpiryDate)
                                 DateTimeCard(
+                                  validator: (date) {
+                                    if (date == null) {
+                                      return 'Required';
+                                    }
+                                    return null;
+                                  },
                                   dateTime: controller.expiryDate,
                                   dateText: 'Expiry',
                                   onTap: () async {

@@ -22,8 +22,13 @@ import 'choose_shipping_option.dart';
 
 @RoutePage()
 class CreateDraftOrderItemsView extends StatefulWidget {
-  const CreateDraftOrderItemsView({super.key});
-
+  const CreateDraftOrderItemsView({super.key, this.onSaved});
+  final void Function(
+    List<LineItem> lineItems,
+    List<LineItem> customLineItems,
+    Region selectedRegion,
+    ShippingOption selectedShippingOption,
+  )? onSaved;
   @override
   State<CreateDraftOrderItemsView> createState() =>
       _CreateDraftOrderItemsViewState();
@@ -41,6 +46,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
   Future<Result<UserRegionsRes, Failure>> fetchRegions() async {
     return await RegionsRepo().retrieveAll();
   }
+
   final expansionController = ExpansionTileController();
   List<LineItem> lineItems = [];
   List<LineItem> customLineItems = [];
@@ -146,16 +152,15 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                           onChanged: onRegionChanged,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(4.0))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4.0))),
                           ),
                         ),
                       ],
                     );
                   }, (error) {
                     return Center(
-                        child: Text(
-                            'Error loading regions, ${error.message}'));
+                        child: Text('Error loading regions, ${error.message}'));
                   });
               }
             }),
@@ -170,17 +175,20 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
         ),
         space,
         FormField<List<LineItem>>(
-          validator: (val){
-            if(val == null || val.isEmpty){
-              if(!expansionController.isExpanded){
+          onSaved: (val) {
+            if (selectedRegion != null && selectedShippingOption != null) {
+              widget.onSaved?.call(lineItems, customLineItems, selectedRegion!,
+                  selectedShippingOption!);
+            }
+          },
+          validator: (val) {
+            if (val == null || val.isEmpty) {
+              if (!expansionController.isExpanded) {
                 expansionController.expand();
               }
               return 'At least one item is required';
             }
             return null;
-          },
-          onSaved: (val){
-
           },
           builder: (FormFieldState<List<LineItem>> field) {
             return Column(
@@ -207,7 +215,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                         ListView.builder(
                             itemCount: lineItems.length,
                             padding:
-                            const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
+                                const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
@@ -230,16 +238,18 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                 },
                                 onRemoveTap: lineItem.quantity! > 1
                                     ? () {
-                                  var quantity = lineItems[index].quantity;
-                                  if (quantity! > 1) {
-                                    quantity = quantity - 1;
-                                    lineItems[index] = lineItems[index]
-                                        .copyWith
-                                        .quantity(quantity);
-                                  }
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-                                }
+                                        var quantity =
+                                            lineItems[index].quantity;
+                                        if (quantity! > 1) {
+                                          quantity = quantity - 1;
+                                          lineItems[index] = lineItems[index]
+                                              .copyWith
+                                              .quantity(quantity);
+                                        }
+                                        field.didChange(
+                                            lineItems + customLineItems);
+                                        setState(() {});
+                                      }
                                     : null,
                                 selectedRegion: selectedRegion,
                               );
@@ -277,26 +287,29 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                   customLineItems[index] = customLineItems
                                       .elementAt(index)
                                       .copyWith(
-                                      quantity:
-                                      customLineItems[index].quantity! +
-                                          1);
+                                          quantity:
+                                              customLineItems[index].quantity! +
+                                                  1);
                                   field.didChange(lineItems + customLineItems);
                                   setState(() {});
                                 },
-                                onRemoveTap: customLineItems[index].quantity! > 1
+                                onRemoveTap: customLineItems[index].quantity! >
+                                        1
                                     ? () {
-                                  if (customLineItems[index].quantity! >
-                                      1) {
-                                    customLineItems[index] =
-                                        customLineItems[index]
-                                            .copyWith
-                                            .quantity(customLineItems[index]
-                                            .quantity! -
-                                            1);
-                                  }
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-                                }
+                                        if (customLineItems[index].quantity! >
+                                            1) {
+                                          customLineItems[index] =
+                                              customLineItems[index]
+                                                  .copyWith
+                                                  .quantity(
+                                                      customLineItems[index]
+                                                              .quantity! -
+                                                          1);
+                                        }
+                                        field.didChange(
+                                            lineItems + customLineItems);
+                                        setState(() {});
+                                      }
                                     : null,
                               );
                             }),
@@ -307,21 +320,21 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                           AdaptiveButton(
                               onPressed: selectedRegion != null
                                   ? () async {
-                                final result =
-                                await showBarModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return AddCustomItemView(
-                                          currencyCode: selectedRegion
-                                              ?.currencyCode);
-                                    });
-                                if (result is LineItem) {
-                                  customLineItems.add(result);
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-
-                                }
-                              }
+                                      final result =
+                                          await showBarModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return AddCustomItemView(
+                                                    currencyCode: selectedRegion
+                                                        ?.currencyCode);
+                                              });
+                                      if (result is LineItem) {
+                                        customLineItems.add(result);
+                                        field.didChange(
+                                            lineItems + customLineItems);
+                                        setState(() {});
+                                      }
+                                    }
                                   : null,
                               child: const Row(
                                 children: [
@@ -343,14 +356,16 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                     ],
                   ),
                 ),
-                if(field.hasError)
+                if (field.hasError)
                   Column(
                     children: [
                       const Gap(5.0),
                       Row(
                         children: [
                           const Gap(10.0),
-                          Text(field.errorText!, style: context.bodySmall?.copyWith(color: Colors.red)),
+                          Text(field.errorText!,
+                              style: context.bodySmall
+                                  ?.copyWith(color: Colors.redAccent)),
                         ],
                       ),
                     ],

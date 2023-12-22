@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -16,11 +15,12 @@ class ProductsFilterView extends StatefulWidget {
       this.productFilter,
       this.tags,
       this.collections,
-      this.onResetPressed});
+      this.onResetPressed, this.onSubmitted});
   final ProductFilter? productFilter;
   final List<ProductTag>? tags;
   final List<ProductCollection>? collections;
   final void Function()? onResetPressed;
+  final void Function(ProductFilter?)? onSubmitted;
   @override
   State<ProductsFilterView> createState() => _ProductsFilterViewState();
 }
@@ -35,12 +35,12 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
     super.initState();
   }
 
+  final statusKey = GlobalKey();
+  final collectionKey = GlobalKey();
+  final tagsKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.mediaQueryViewPadding.bottom == 0
-        ? 20.0
-        : context.mediaQueryViewPadding.bottom;
     const space = Gap(12);
     return Scaffold(
       appBar: AppBar(
@@ -54,11 +54,12 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, bottomPadding),
+        padding: const EdgeInsets.all(12.0),
         color: context.theme.appBarTheme.backgroundColor,
         child: AdaptiveFilledButton(
             onPressed: () {
-              context.popRoute(productFilter);
+              // context.popRoute(productFilter);
+              widget.onSubmitted?.call(productFilter);
             },
             child: Text('Apply',
                 style: smallTextStyle?.copyWith(color: Colors.white))),
@@ -68,8 +69,14 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
         children: [
           CustomExpansionTile(
+            key: statusKey,
             title: Text('Status', style: smallTextStyle),
             initiallyExpanded: productFilter.status.isNotEmpty,
+            onExpansionChanged: (expanded) async {
+              if (expanded) {
+                await statusKey.currentContext.ensureVisibility();
+              }
+            },
             children: ProductStatus.values
                 .map((e) => CheckboxListTile(
                       title: Text(e.name.capitalize ?? e.name,
@@ -94,8 +101,14 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           ),
           space,
           CustomExpansionTile(
+            key: collectionKey,
             title: Text('Collection', style: smallTextStyle),
             initiallyExpanded: productFilter.collection.isNotEmpty,
+            onExpansionChanged: (expanded) async {
+              if (expanded) {
+                await collectionKey.currentContext.ensureVisibility();
+              }
+            },
             children: [
               if (widget.collections?.isNotEmpty ?? false)
                 ...widget.collections!.map((e) => CheckboxListTile(
@@ -123,8 +136,14 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           ),
           space,
           CustomExpansionTile(
+            key: tagsKey,
             title: Text('Tags', style: smallTextStyle),
             initiallyExpanded: productFilter.tags.isNotEmpty,
+            onExpansionChanged: (expanded) async {
+              if (expanded) {
+                await tagsKey.currentContext.ensureVisibility();
+              }
+            },
             children: [
               if (widget.tags?.isNotEmpty ?? false)
                 Wrap(

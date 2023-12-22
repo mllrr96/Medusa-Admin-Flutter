@@ -9,6 +9,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 
 import '../controllers/pick_groups_controller.dart';
 
+@RoutePage()
 class PickGroupsView extends StatelessWidget {
   const PickGroupsView({super.key, this.pickGroupsReq});
   final PickGroupsReq? pickGroupsReq;

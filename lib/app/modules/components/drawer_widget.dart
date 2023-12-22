@@ -58,22 +58,24 @@ class _AppDrawerState extends State<AppDrawer> {
             bottom: false,
             child: Column(
               children: [
-                const SizedBox(height: 6.0),
                 Container(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 6.0),
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Store',
-                          style: smallTextStyle?.copyWith(color: lightWhite)),
-                      Text(store.name, style: mediumTextStyle),
-                    ],
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  color: context.theme.cardColor,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 6.0),
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Store',
+                            style: smallTextStyle?.copyWith(color: lightWhite)),
+                        Text(store.name, style: mediumTextStyle),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 6.0),
                 divider,
                 Expanded(
                   child: ListView(
@@ -82,6 +84,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       divider,
                       ListTile(
                         title: const Text('Orders'),
+                        trailing: context.tabsRouter.activeIndex == 0
+                            ? Icon(Icons.circle,
+                                color: ColorManager.primary, size: 12)
+                            : null,
                         leading: const Icon(CupertinoIcons.cart),
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
@@ -91,6 +97,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Draft Orders'),
                         leading: const Icon(CupertinoIcons.cart_badge_plus),
+                        trailing: context.tabsRouter.activeIndex == 1
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(1);
@@ -100,6 +110,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Products'),
                         leading: const Icon(MedusaIcons.tag),
+                        trailing: context.tabsRouter.activeIndex == 2
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(2);
@@ -108,6 +122,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Collections'),
                         leading: const Icon(Icons.collections_bookmark),
+                        trailing: context.tabsRouter.activeIndex == 3
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(3);
@@ -119,6 +137,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: Platform.isAndroid
                             ? const Icon(Icons.person)
                             : const Icon(MedusaIcons.users),
+                        trailing: context.tabsRouter.activeIndex == 4
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(4);
@@ -127,6 +149,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Customer Groups'),
                         leading: const Icon(Icons.groups),
+                        trailing: context.tabsRouter.activeIndex == 5
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(5);
@@ -136,6 +162,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Discounts'),
                         leading: const Icon(Icons.discount_outlined),
+                        trailing: context.tabsRouter.activeIndex == 6
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(6);
@@ -144,6 +174,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Gift Cards'),
                         leading: const Icon(CupertinoIcons.gift),
+                        trailing: context.tabsRouter.activeIndex == 7
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(7);
@@ -152,6 +186,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Pricing'),
                         leading: const Icon(MedusaIcons.currency_dollar),
+                        trailing: context.tabsRouter.activeIndex == 8
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(8);
@@ -161,6 +199,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ListTile(
                         title: const Text('Store Settings'),
                         leading: const Icon(Icons.settings_applications),
+                        trailing: context.tabsRouter.activeIndex == 9
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(9);
@@ -171,6 +213,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: Platform.isIOS
                             ? const Icon(CupertinoIcons.settings)
                             : const Icon(Icons.settings),
+                        trailing: context.tabsRouter.activeIndex == 10
+                            ? Icon(Icons.circle,
+                            color: ColorManager.primary, size: 12)
+                            : null,
                         onTap: () {
                           Scaffold.of(context).closeDrawer();
                           context.tabsRouter.setActiveIndex(10);

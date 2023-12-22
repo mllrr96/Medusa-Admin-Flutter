@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
 import '../controllers/pick_regions_controller.dart';
 
+@RoutePage()
 class PickRegionsView extends StatelessWidget {
   const PickRegionsView({super.key, this.pickRegionsReq});
   final PickRegionsReq? pickRegionsReq;

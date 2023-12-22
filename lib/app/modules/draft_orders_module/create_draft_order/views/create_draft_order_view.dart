@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/MedusaStepper.dart';
+import 'package:medusa_admin/app/modules/components/medusa_stepper.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/repository/draft_order/draft_order_repo.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
@@ -130,20 +130,25 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                       },
                       onStepContinue: () {
                         if (currentStep == 0 &&
-                            !controller.formKey.currentState!.validate()) {
+                            controller.formKey.currentState!.validate()) {
+                          controller.formKey.currentState!.save();
+                          context.unfocus();
+                          goStep(currentStep + 1);
                           return;
                         }
 
                         if (currentStep == 1 &&
-                            !controller.formKey2.currentState!.validate()) {
+                            controller.formKey2.currentState!.validate()) {
+                          controller.formKey2.currentState!.save();
+                          context.unfocus();
+                          goStep(currentStep + 1);
                           return;
                         }
                         if (currentStep == 2) {
+                          context.unfocus();
                           controller.createDraftOrder(context);
                           return;
                         }
-                        goStep(currentStep + 1);
-                        context.unfocus();
                       },
                       onStepCancel: () {
                         if (currentStep > 0) {
@@ -156,7 +161,16 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                           state: getStepState(0),
                           content: Form(
                               key: controller.formKey,
-                              child: const CreateDraftOrderItemsView()),
+                              child: CreateDraftOrderItemsView(
+                                onSaved: (lineItems, customLineItem,
+                                    selectedRegion, selectedShippingOption) {
+                                  controller.lineItems = lineItems;
+                                  controller.customLineItems = customLineItem;
+                                  controller.selectedRegion = selectedRegion;
+                                  controller.selectedShippingOption =
+                                      selectedShippingOption;
+                                },
+                              )),
                           isActive: currentStep >= 0,
                         ),
                         MedusaStep(

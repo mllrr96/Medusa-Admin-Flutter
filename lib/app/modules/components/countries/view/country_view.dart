@@ -8,6 +8,7 @@ import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../controller/country_controller.dart';
 
+@RoutePage()
 class SelectCountryView extends StatelessWidget {
   const SelectCountryView({super.key, this.selectCountryReq});
   final SelectCountryReq? selectCountryReq;

@@ -12,7 +12,6 @@ import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../data/repository/collection/collection_repo.dart';
@@ -38,6 +37,24 @@ class ProductsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),
+            endDrawer: Drawer(
+              shape: const RoundedRectangleBorder(),
+              child: ProductsFilterView(
+                collections: controller.collections,
+                tags: controller.tags,
+                onResetPressed: () {
+                  controller.resetFilter();
+                  context.popRoute();
+                },
+                productFilter: controller.productFilter,
+                onSubmitted: (productFilter) {
+                  if (productFilter == null) {
+                    return;
+                  }
+                  controller.updateFilter(productFilter);
+                },
+              ),
+            ),
             appBar: AppBar(title: Obx(() {
               return Text(
                   controller.productsCount.value != 0
@@ -77,29 +94,29 @@ class ProductsView extends StatelessWidget {
                                 searchCategory: SearchCategory.products)),
                             onLongPress: () {},
                           ),
-                          SpeedDialChild(
-                            child: const Icon(CupertinoIcons.doc_text_search),
-                            label: 'Filters',
-                            labelStyle: smallTextStyle,
-                            onTap: () async {
-                              await showBarModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => ProductsFilterView(
-                                        collections: controller.collections,
-                                        tags: controller.tags,
-                                        onResetPressed: () {
-                                          controller.resetFilter();
-                                          context.popRoute();
-                                        },
-                                        productFilter: controller.productFilter,
-                                      )).then((result) {
-                                if (result is ProductFilter) {
-                                  controller.updateFilter(result);
-                                }
-                              });
-                            },
-                            onLongPress: () => controller.resetFilter(),
-                          ),
+                          // SpeedDialChild(
+                          //   child: const Icon(CupertinoIcons.doc_text_search),
+                          //   label: 'Filters',
+                          //   labelStyle: smallTextStyle,
+                          //   onTap: () async {
+                          //     await showBarModalBottomSheet(
+                          //         context: context,
+                          //         builder: (context) => ProductsFilterView(
+                          //               collections: controller.collections,
+                          //               tags: controller.tags,
+                          //               onResetPressed: () {
+                          //                 controller.resetFilter();
+                          //                 context.popRoute();
+                          //               },
+                          //               productFilter: controller.productFilter,
+                          //             )).then((result) {
+                          //       if (result is ProductFilter) {
+                          //         controller.updateFilter(result);
+                          //       }
+                          //     });
+                          //   },
+                          //   onLongPress: () => controller.resetFilter(),
+                          // ),
                           SpeedDialChild(
                             child: const Icon(CupertinoIcons.sort_up),
                             label: 'Sort',
@@ -240,9 +257,10 @@ class ProductsView extends StatelessWidget {
                             const SizedBox(height: 12.0),
                             AdaptiveFilledButton(
                                 onPressed: () async {
-                                  await context.pushRoute(
-                                      AddUpdateProductRoute(
-                                          updateProductReq: null)).then((result) {
+                                  await context
+                                      .pushRoute(AddUpdateProductRoute(
+                                          updateProductReq: null))
+                                      .then((result) {
                                     if (result is bool && result == true) {
                                       controller.pagingController.refresh();
                                     }

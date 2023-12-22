@@ -68,6 +68,10 @@ extension BuildContextEntension<T> on BuildContext {
 
   /// Unfocus (Hides keyboard)
   void unfocus() => FocusScope.of(this).unfocus();
+
+  // Drawer
+  void openDrawer() => Scaffold.of(this).openDrawer();
+  void openEndDrawer() => Scaffold.of(this).openEndDrawer();
 }
 
 extension HexColor on Color {
