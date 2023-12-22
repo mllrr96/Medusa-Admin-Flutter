@@ -33,6 +33,12 @@ class ConfigurationsCard extends StatelessWidget {
           halfSpace,
           if (discount.startsAt != null)
             DateTimeCard(
+              validator: (date){
+                if(date == null){
+                  return 'Please select a date';
+                }
+                return null;
+              },
               dateTime: discount.startsAt,
               dateText: 'Start',
               dateTimeTextStyle: mediumTextStyle,
@@ -42,6 +48,12 @@ class ConfigurationsCard extends StatelessWidget {
           space,
           if (discount.endsAt != null)
             DateTimeCard(
+              validator: (date){
+                if(date == null){
+                  return 'Please select a date';
+                }
+                return null;
+              },
               dateTime: discount.endsAt,
               dateText: 'Expiry',
               dateTimeTextStyle: mediumTextStyle?.copyWith(color: expired ? Colors.redAccent : null),

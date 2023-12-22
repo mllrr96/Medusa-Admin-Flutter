@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
@@ -16,16 +16,16 @@ import '../../../components/adaptive_filled_button.dart';
 
 class OrdersFilterView extends StatefulWidget {
   const OrdersFilterView({
-    this.context,
     this.orderFilter,
     this.onResetTap,
     this.regions,
     this.salesChannels,
     super.key,
+    this.onSubmitted,
   });
-  final BuildContext? context;
   final OrderFilter? orderFilter;
   final void Function()? onResetTap;
+  final void Function(OrderFilter?)? onSubmitted;
   final List<Region>? regions;
   final List<SalesChannel>? salesChannels;
   @override
@@ -34,7 +34,6 @@ class OrdersFilterView extends StatefulWidget {
 
 class _OrdersFilterViewState extends State<OrdersFilterView> {
   late OrderFilter orderFilter;
-  final scrollController = ScrollController();
   final statusKey = GlobalKey();
   final paymentStatusKey = GlobalKey();
   final fulfillmentStatusKey = GlobalKey();
@@ -63,7 +62,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
   @override
   void dispose() {
-    scrollController.dispose();
     numberCtrl.dispose();
     super.dispose();
   }
@@ -71,15 +69,11 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.mediaQueryViewPadding.bottom == 0
-        ? 20.0
-        : context.mediaQueryViewPadding.bottom;
     const space = Gap(12);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
           title: const Text('Orders Filter'),
           actions: [
             AdaptiveButton(
@@ -89,7 +83,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
           ],
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, bottomPadding),
+          padding: const EdgeInsets.all(12.0),
           color: context.theme.appBarTheme.backgroundColor,
           child: AdaptiveFilledButton(
               onPressed: () {
@@ -119,19 +113,15 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
                 orderFilter.orderDateFilter.number =
                     int.tryParse(numberCtrl.text) ?? 0;
-
-                Get.back(result: orderFilter);
+                widget.onSubmitted?.call(orderFilter);
+                context.popRoute();
               },
-              // onPressed: () {
-
-              // },
               child: Text('Apply',
                   style: smallTextStyle?.copyWith(color: Colors.white))),
         ),
         body: Form(
           key: formKey,
           child: ListView(
-            controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
             children: [
               CustomExpansionTile(
@@ -139,7 +129,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.status.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: statusKey);
+                    await statusKey.currentContext!.ensureVisibility();
                   }
                 },
                 title: Text('Status', style: smallTextStyle),
@@ -168,7 +158,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.paymentStatus.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: paymentStatusKey);
+                    await paymentStatusKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Payment Status', style: smallTextStyle),
@@ -197,8 +187,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.fulfillmentStatus.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(
-                        globalKey: fulfillmentStatusKey);
+                    await fulfillmentStatusKey.currentContext
+                        .ensureVisibility();
                   }
                 },
                 title: Text('Fulfillment Status', style: smallTextStyle),
@@ -227,34 +217,31 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.regions.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: regionsKey);
+                    await regionsKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Regions', style: smallTextStyle),
                 children: [
                   if (widget.regions?.isNotEmpty ?? false)
-                    ...widget.regions!
-                        .map((e) => CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(e.name ?? '', style: smallTextStyle),
-                            value: orderFilter.regions
-                                .map((e) => e.id)
-                                .contains(e.id),
-                            onChanged: (val) {
-                              if (val == null) {
-                                return;
-                              }
+                    ...widget.regions!.map((e) => CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(e.name ?? '', style: smallTextStyle),
+                        value:
+                            orderFilter.regions.map((e) => e.id).contains(e.id),
+                        onChanged: (val) {
+                          if (val == null) {
+                            return;
+                          }
 
-                              if (val) {
-                                orderFilter.regions.add(e);
-                              } else {
-                                orderFilter.regions.removeWhere(
-                                    (element) => element.id == e.id);
-                              }
-                              setState(() {});
-                            }))
-                        .toList(),
+                          if (val) {
+                            orderFilter.regions.add(e);
+                          } else {
+                            orderFilter.regions
+                                .removeWhere((element) => element.id == e.id);
+                          }
+                          setState(() {});
+                        })),
                 ],
               ),
               space,
@@ -263,34 +250,32 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.salesChannel.isNotEmpty,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: salesChannelKey);
+                    await salesChannelKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Sales Channel', style: smallTextStyle),
                 children: [
                   if (widget.salesChannels?.isNotEmpty ?? false)
-                    ...widget.salesChannels!
-                        .map((e) => CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(e.name ?? '', style: smallTextStyle),
-                            value: orderFilter.salesChannel
-                                .map((e) => e.id)
-                                .contains(e.id),
-                            onChanged: (val) {
-                              if (val == null) {
-                                return;
-                              }
+                    ...widget.salesChannels!.map((e) => CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(e.name ?? '', style: smallTextStyle),
+                        value: orderFilter.salesChannel
+                            .map((e) => e.id)
+                            .contains(e.id),
+                        onChanged: (val) {
+                          if (val == null) {
+                            return;
+                          }
 
-                              if (val) {
-                                orderFilter.salesChannel.add(e);
-                              } else {
-                                orderFilter.salesChannel.removeWhere(
-                                    (element) => element.id == e.id);
-                              }
-                              setState(() {});
-                            }))
-                        .toList()
+                          if (val) {
+                            orderFilter.salesChannel.add(e);
+                          } else {
+                            orderFilter.salesChannel
+                                .removeWhere((element) => element.id == e.id);
+                          }
+                          setState(() {});
+                        }))
                 ],
               ),
               space,
@@ -299,7 +284,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 initiallyExpanded: orderFilter.orderDateFilter.active,
                 onExpansionChanged: (expanded) async {
                   if (expanded) {
-                    await scrollToSelectedContent(globalKey: dateKey);
+                    await dateKey.currentContext.ensureVisibility();
                   }
                 },
                 title: Text('Date', style: smallTextStyle),
@@ -426,6 +411,12 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     Column(
                       children: [
                         DateCard(
+                          validator: (val) {
+                            if (val == null) {
+                              return 'Field is required';
+                            }
+                            return null;
+                          },
                           dateTime: orderFilter.orderDateFilter.date,
                           dateText: null,
                           dateTimeTextStyle: smallTextStyle,
@@ -451,34 +442,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
         ),
       ),
     );
-  }
-
-  Future<void> scrollToSelectedContent(
-      {required GlobalKey globalKey, Duration? delay}) async {
-    await Future.delayed(delay ?? const Duration(milliseconds: 240))
-        .then((value) async {
-      final yPosition =
-          (globalKey.currentContext?.findRenderObject() as RenderBox?)
-                  ?.localToGlobal(Offset.zero)
-                  .dy ??
-              0.0;
-
-      var topPadding = context.mediaQueryPadding.top +
-          kToolbarHeight +
-          26 +
-          (widget.context?.mediaQueryPadding.top ?? 0);
-      final scrollPoint = scrollController.offset + yPosition - topPadding;
-      if (scrollPoint <= scrollController.position.maxScrollExtent) {
-        await scrollController.animateTo(scrollPoint - 10,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
-      } else {
-        await scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.fastOutSlowIn);
-      }
-    });
   }
 }
 

@@ -1,4 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +16,15 @@ import 'package:settings_ui/settings_ui.dart';
 
 import '../controllers/order_settings_controller.dart';
 
+@RoutePage()
 class OrderSettingsView extends StatelessWidget {
-  const OrderSettingsView({Key? key}) : super(key: key);
+  const OrderSettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OrderSettingsController>(builder: (controller) {
+    return GetBuilder<OrderSettingsController>(
+        init: OrderSettingsController(),
+        builder: (controller) {
       final switchColor = GetPlatform.isIOS ? ColorManager.primary : null;
       final smallTextStyle = context.bodySmall;
       return WillPopScope(
@@ -45,7 +50,7 @@ class OrderSettingsView extends StatelessWidget {
                   onPressed: () {
                     StorageService.instance.updateOrderSettings(controller.orderSettings);
                     OrdersController.instance.update();
-                    Get.back();
+                    context.popRoute();
                   },
                   child: const Text('Save'))
             ],

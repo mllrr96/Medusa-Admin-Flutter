@@ -7,62 +7,71 @@ import '../../../../data/repository/regions/regions_repo.dart';
 import '../../../components/custom_text_field.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class ChooseRegionView extends GetView<ChooseRegionController> {
+class ChooseRegionView extends StatelessWidget {
   const ChooseRegionView({
-    Key? key,
+    super.key,
     this.onRegionChanged,
-  }) : super(key: key);
+  });
+
   final void Function(Region?)? onRegionChanged;
+
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
-    return controller.obx(
-      (state) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Choose region', style: smallTextStyle),
-            space,
-            DropdownButtonFormField<Region>(
-              style: context.bodyMedium,
-              validator: (val) {
-                if (val == null) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              items: state!
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e.name!)))
-                  .toList(),
-              hint: const Text('Region'),
-              onChanged: onRegionChanged,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                ),
+    return GetBuilder<ChooseRegionController>(
+        init:  ChooseRegionController(regionsRepo: RegionsRepo()),
+        builder: (controller) {
+      return controller.obx(
+            (state) =>
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0, vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Choose region', style: smallTextStyle),
+                  space,
+                  DropdownButtonFormField<Region>(
+                    style: context.bodyMedium,
+                    validator: (val) {
+                      if (val == null) {
+                        return 'Field is required';
+                      }
+                      return null;
+                    },
+                    items: state!
+                        .map((e) =>
+                        DropdownMenuItem(value: e, child: Text(e.name!)))
+                        .toList(),
+                    hint: const Text('Region'),
+                    onChanged: onRegionChanged,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-      onError: (e) => Center(child: Text(e ?? 'Error loading regions')),
-      onLoading: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        child: Skeletonizer(
-          enabled: true,
-          child: LabeledTextField(
-            label: 'Choose region',
-            controller: null,
-            decoration: InputDecoration(
-              hintText: 'North America',
-              suffixIcon: Icon(Icons.add),
+        onError: (e) => Center(child: Text(e ?? 'Error loading regions')),
+        onLoading: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          child: Skeletonizer(
+            enabled: true,
+            child: LabeledTextField(
+              label: 'Choose region',
+              controller: null,
+              decoration: InputDecoration(
+                hintText: 'North America',
+                suffixIcon: Icon(Icons.add),
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -72,6 +81,7 @@ class ChooseRegionController extends GetxController
       Get.find<ChooseRegionController>();
 
   ChooseRegionController({required this.regionsRepo});
+
   final RegionsRepo regionsRepo;
 
   @override
@@ -85,7 +95,8 @@ class ChooseRegionController extends GetxController
     final result = await regionsRepo.retrieveAll(queryParameters: {});
 
     result.when(
-        (success) => change(success.regions ?? [], status: RxStatus.success()),
-        (error) => change(null, status: RxStatus.error(error.message)));
+            (success) =>
+            change(success.regions ?? [], status: RxStatus.success()),
+            (error) => change(null, status: RxStatus.error(error.message)));
   }
 }

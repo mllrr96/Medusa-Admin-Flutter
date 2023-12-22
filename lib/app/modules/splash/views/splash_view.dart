@@ -1,20 +1,65 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../controllers/splash_controller.dart';
+import 'package:medusa_admin/route/app_router.dart';
+import '../../../data/repository/auth/auth_repo.dart';
+import '../../../data/repository/store/store_repo.dart';
+import '../../../data/service/storage_service.dart';
+import '../../../data/service/store_service.dart';
 
-class SplashView extends GetView<SplashController> {
-  const SplashView({Key? key}) : super(key: key);
+@RoutePage()
+class SplashView extends StatefulWidget {
+  const SplashView({super.key});
+
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
+
+  Future load() async {
+    String? cookie = StorageService.cookie;
+    if (cookie == null) {
+      context.router.replaceAll([const SignInRoute()]);
+      return;
+    }
+
+    final result = await AuthRepo().getSession();
+
+    result.when((success) async {
+      if (success.user == null) {
+        context.router.replaceAll([const SignInRoute()]);
+        return;
+      } else {
+        await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init())
+            .then((value) {
+          context.router.replaceAll([const DashboardRoute()]);
+        });
+      }
+    }, (error) async {
+      if (error.code == 401 || error.code == 404) {
+        await StorageService.instance.clearCookie();
+      }
+      debugPrint(error.toString());
+      context.router.replaceAll([const SignInRoute()]);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Since there no app bar, annotated region is used to apply theme ui overlay
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: Theme.of(context).appBarTheme.systemOverlayStyle!,
       child: Scaffold(
         body: Container(
-          height: Get.height,
-          width: Get.width,
+          height: double.maxFinite,
+          width: double.maxFinite,
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

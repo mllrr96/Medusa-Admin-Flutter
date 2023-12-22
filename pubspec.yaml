@@ -12,6 +12,11 @@ dependencies:
   get: ^4.6.5
   # -------------------
 
+  # App routing
+  # -------------------
+  auto_route: ^7.8.4
+  # -------------------
+
   # Image picker packages
   #--------------------
   image_picker: ^1.0.2
@@ -51,7 +56,7 @@ dependencies:
   info_popup: ^4.1.0
   multiselect: ^0.1.0
   flutter_slidable: ^3.0.0
-  package_info_plus: ^4.0.2
+  package_info_plus: ^5.0.1
   flutter_animate: ^4.1.1+1
   flutter_localizations:
     sdk: flutter
@@ -63,11 +68,13 @@ dependencies:
   elegant_notification: ^1.11.0
   timeago: ^3.5.0
   gap: ^3.0.1
+  fx_stepper: ^0.0.1
 
 
 dev_dependencies: 
   flutter_lints: ^3.0.1
-  build_runner: any
+  auto_route_generator: ^7.3.2
+  build_runner: ^2.4.7
   flutter_launcher_icons: ^0.13.1
   copy_with_extension_gen: ^5.0.4
   flutter_test:

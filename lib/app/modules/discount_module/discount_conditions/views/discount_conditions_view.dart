@@ -1,16 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../components/index.dart';
 import '../controllers/discount_conditions_controller.dart';
 
-class DiscountConditionsView extends GetView<DiscountConditionsController> {
-  const DiscountConditionsView({Key? key}) : super(key: key);
+@RoutePage()
+class DiscountConditionsView extends StatelessWidget {
+  const DiscountConditionsView(this.discountConditionReq, {super.key});
+  final DiscountConditionReq? discountConditionReq;
+
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
+    final disabledConditions = discountConditionReq?.discountTypes ?? [];
     return Scaffold(
       appBar: AppBar(
         leading: const AdaptiveCloseButton(),
@@ -20,83 +25,102 @@ class DiscountConditionsView extends GetView<DiscountConditionsController> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           children: [
-            if (controller.disabledConditions.where((element) => element == DiscountConditionType.products).isEmpty)
+            if (disabledConditions
+                .where((element) => element == DiscountConditionType.products)
+                .isEmpty)
               Column(
                 children: [
                   ConditionCard(
-                      title: 'Product',
-                      subtitle: 'Only for specific products',
-                      onTap: () async {
-                        final result = await Get.to(() => const ConditionProductView());
-                        if (result is DiscountConditionRes) {
-                          Get.back(result: result);
-                        }
-                      }),
+                    title: 'Product',
+                    subtitle: 'Only for specific products',
+                    onTap: () async => await context
+                        .pushRoute(
+                            ConditionProductRoute(disabledProducts: null))
+                        .then((result) {
+                      if (result is DiscountConditionRes) {
+                        context.popRoute(result);
+                      }
+                    }),
+                  ),
                   space,
                 ],
               ),
-            if (controller.disabledConditions
-                .where((element) => element == DiscountConditionType.customerGroups)
+            if (disabledConditions
+                .where((element) =>
+                    element == DiscountConditionType.customerGroups)
                 .isEmpty)
               Column(
                 children: [
                   ConditionCard(
                     title: 'Customer group',
                     subtitle: 'Only for specific customer group',
-                    onTap: () async {
-                      final result = await Get.to(() => const ConditionCustomerGroupView());
+                    onTap: () async => await context
+                        .pushRoute(
+                            ConditionCustomerGroupRoute(disabledGroups: null))
+                        .then((result) {
                       if (result is DiscountConditionRes) {
-                        Get.back(result: result);
+                        context.popRoute(result);
                       }
-                    },
+                    }),
                   ),
                   space,
                 ],
               ),
-            if (controller.disabledConditions.where((element) => element == DiscountConditionType.productTags).isEmpty)
+            if (disabledConditions
+                .where(
+                    (element) => element == DiscountConditionType.productTags)
+                .isEmpty)
               Column(
                 children: [
                   ConditionCard(
                     title: 'Tag',
                     subtitle: 'Only for specific tags',
-                    onTap: () async {
-                      final result = await Get.to(() => const ConditionTagView());
+                    onTap: () async => await context
+                        .pushRoute(ConditionTagRoute(disabledTags: null))
+                        .then((result) {
                       if (result is DiscountConditionRes) {
-                        Get.back(result: result);
+                        context.popRoute(result);
                       }
-                    },
+                    }),
                   ),
                   space,
                 ],
               ),
-            if (controller.disabledConditions
-                .where((element) => element == DiscountConditionType.productCollections)
+            if (disabledConditions
+                .where((element) =>
+                    element == DiscountConditionType.productCollections)
                 .isEmpty)
               Column(
                 children: [
                   ConditionCard(
                     title: 'Collection',
                     subtitle: 'Only for specific product collections',
-                    onTap: () async {
-                      final result = await Get.to(() => const ConditionCollectionView());
+                    onTap: () async => await context
+                        .pushRoute(
+                            ConditionCollectionRoute(disabledCollections: null))
+                        .then((result) {
                       if (result is DiscountConditionRes) {
-                        Get.back(result: result);
+                        context.popRoute(result);
                       }
-                    },
+                    }),
                   ),
                   space,
                 ],
               ),
-            if (controller.disabledConditions.where((element) => element == DiscountConditionType.productType).isEmpty)
+            if (disabledConditions
+                .where(
+                    (element) => element == DiscountConditionType.productType)
+                .isEmpty)
               ConditionCard(
                 title: 'Type',
                 subtitle: 'Only for specific product types',
-                onTap: () async {
-                  final result = await Get.to(() => const ConditionTypeView());
+                onTap: () async => await context
+                    .pushRoute(ConditionTypeRoute(disabledTypes: null))
+                    .then((result) {
                   if (result is DiscountConditionRes) {
-                    Get.back(result: result);
+                    context.popRoute(result);
                   }
-                },
+                }),
               ),
           ],
         ),

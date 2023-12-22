@@ -13,13 +13,14 @@ import '../../../../data/repository/order_edit/order_edit_repo.dart';
 import '../../../../data/repository/user/user_repo.dart';
 
 class OrderDetailsController extends GetxController with StateMixin<Order> {
-  OrderDetailsController({
+  OrderDetailsController( {
     required this.ordersRepo,
     required this.orderEditsRepo,
     required this.noteRepo,
     required this.notificationRepo,
     required this.fulfillmentRepo,
     required this.userRepo,
+    required this.orderId,
   });
   final OrdersRepo ordersRepo;
   final OrderEditRepo orderEditsRepo;
@@ -27,7 +28,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   final NotificationRepo notificationRepo;
   final FulfillmentRepo fulfillmentRepo;
   final UserRepo userRepo;
-  String orderId = Get.arguments;
+  final String orderId;
   List<User> loadedUsers = [];
   List timeLine = [];
   final scrollController = ScrollController();

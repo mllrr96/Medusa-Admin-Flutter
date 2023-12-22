@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -7,9 +9,9 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 
 class PriceListDetailsController extends GetxController with StateMixin<PriceList> {
-  PriceListDetailsController({required this.priceListRepo});
+  PriceListDetailsController({required this.priceListRepo, required this.id});
   final PriceListRepo priceListRepo;
-  String id = Get.arguments;
+  final String id ;
   final pagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   @override
@@ -31,7 +33,7 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
   //   super.onClose();
   // }
 
-  Future<void> deletePriceList( ) async {
+  Future<void> deletePriceList(BuildContext context ) async {
 
 
     loading();
@@ -42,7 +44,7 @@ class PriceListDetailsController extends GetxController with StateMixin<PriceLis
         if (success.deleted) {
           EasyLoading.showSuccess('Price list deleted');
           PricingController.instance.pagingController.refresh();
-          Get.back();
+          context.popRoute();
         } else {
           Get.snackbar('Error deleting price list', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
         }

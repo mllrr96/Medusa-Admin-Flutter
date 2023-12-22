@@ -1,16 +1,17 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../core/utils/colors.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/countries/components/countries.dart';
 import '../../../components/custom_expansion_tile.dart';
 
 class DraftOrderCustomer extends StatelessWidget {
-  const DraftOrderCustomer(this.draftOrder, {Key? key, this.onExpansionChanged}) : super(key: key);
+  const DraftOrderCustomer(this.draftOrder, {super.key, this.onExpansionChanged});
   final DraftOrder draftOrder;
   final void Function(bool)? onExpansionChanged;
   @override
@@ -45,7 +46,7 @@ class DraftOrderCustomer extends StatelessWidget {
               if (value == null) return;
               switch (value) {
                 case 0:
-                  await Get.toNamed(Routes.CUSTOMER_DETAILS, arguments: draftOrder.cart!.customerId!);
+                  await context.pushRoute(CustomerDetailsRoute(customerId: draftOrder.cart!.customerId!));
                   break;
                 case 1:
                   break;

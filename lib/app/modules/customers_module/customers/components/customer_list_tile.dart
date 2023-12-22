@@ -1,16 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../../../routes/app_pages.dart';
 
 class CustomerListTile extends StatelessWidget {
-  const CustomerListTile(this.customer, {Key? key, required this.index, this.onEditTap, this.onDeleteTap})
-      : super(key: key);
+  const CustomerListTile(this.customer,
+      {super.key, required this.index, this.onEditTap, this.onDeleteTap});
   final Customer customer;
   final int index;
   final void Function(BuildContext)? onEditTap;
@@ -43,18 +44,24 @@ class CustomerListTile extends StatelessWidget {
       ),
       child: ListTile(
         horizontalTitleGap: 8,
-        tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
+        tileColor:
+            index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
         leading: CircleAvatar(
           backgroundColor: ColorManager.getAvatarColor(customer.email),
           maxRadius: 18,
           child: Text(
-              customer.firstName == null ? customer.email[0].capitalize ?? customer.email[0] : customer.firstName![0],
+              customer.firstName == null
+                  ? customer.email[0].capitalize ?? customer.email[0]
+                  : customer.firstName![0],
               style: largeTextStyle!.copyWith(color: Colors.white)),
         ),
         title: customer.firstName != null
-            ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}', style: mediumTextStyle)
+            ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}',
+                style: mediumTextStyle)
             : Text(customer.email, style: mediumTextStyle),
-        subtitle: customer.firstName != null ? Text(customer.email, style: mediumTextStyle) : null,
+        subtitle: customer.firstName != null
+            ? Text(customer.email, style: mediumTextStyle)
+            : null,
         trailing: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,10 +71,12 @@ class CustomerListTile extends StatelessWidget {
                 customer.createdAt.formatDate(),
                 style: smallTextStyle,
               ),
-            if (customer.orders != null) Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
+            if (customer.orders != null)
+              Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
           ],
         ),
-        onTap: () => Get.toNamed(Routes.CUSTOMER_DETAILS, arguments: customer.id!),
+        onTap: () =>
+            context.pushRoute(CustomerDetailsRoute(customerId: customer.id!)),
       ),
     );
   }

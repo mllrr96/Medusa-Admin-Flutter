@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,14 +13,18 @@ import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
+@RoutePage()
 class ConditionCollectionView extends StatelessWidget {
-  const ConditionCollectionView({Key? key}) : super(key: key);
+  const ConditionCollectionView( {super.key,this.disabledCollections});
+  final List<ProductCollection>? disabledCollections;
 
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<ConditionCollectionController>(
-      init: ConditionCollectionController(collectionRepo: CollectionRepo()),
+      init: ConditionCollectionController(
+          collectionRepo: CollectionRepo(),
+          disabledCollections: disabledCollections ?? []),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -33,45 +38,49 @@ class ConditionCollectionView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedCollections.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
-                                  operator: controller.discountConditionOperator,
-                                  productCollections: controller.selectedCollections,
-                                  conditionType: DiscountConditionType.productCollections);
-                              Get.back(result: res);
+                              final result = DiscountConditionRes(
+                                  operator:
+                                      controller.discountConditionOperator,
+                                  productCollections:
+                                      controller.selectedCollections,
+                                  conditionType:
+                                      DiscountConditionType.productCollections);
+                              context.popRoute(result);
                             }
                           : null,
                       child: const Text('Save')),
                 ],
                 bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child: Container(
-                      height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
-                      child: SearchTextField(
-                        fillColor: context.theme.scaffoldBackgroundColor,
-                        controller: controller.searchCtrl,
-                        hintText:
-                        'Search for collection name, handle',
-                        onSuffixTap: () {
-                          if (controller.searchTerm.isEmpty) return;
-                          controller.searchCtrl.clear();
-                          controller.searchTerm = '';
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    height: kToolbarHeight,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 4.0),
+                    child: SearchTextField(
+                      fillColor: context.theme.scaffoldBackgroundColor,
+                      controller: controller.searchCtrl,
+                      hintText: 'Search for collection name, handle',
+                      onSuffixTap: () {
+                        if (controller.searchTerm.isEmpty) return;
+                        controller.searchCtrl.clear();
+                        controller.searchTerm = '';
+                        controller.pagingController.refresh();
+                      },
+                      onSubmitted: (val) {
+                        if (controller.searchTerm != val && val.isNotEmpty) {
+                          controller.searchTerm = val;
                           controller.pagingController.refresh();
-                        },
-                        onSubmitted: (val) {
-                          if (controller.searchTerm != val &&
-                              val.isNotEmpty) {
-                            controller.searchTerm = val;
-                            controller.pagingController.refresh();
-                          }
-                        },
-                      ),
-                    ),),
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ),
               if (!controller.updateMode)
                 SliverToBoxAdapter(
                     child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   child: Column(
                     children: [
                       ConditionOperatorCard(
@@ -97,25 +106,35 @@ class ConditionCollectionView extends StatelessWidget {
               SliverSafeArea(
                 top: false,
                 sliver: PagedSliverList.separated(
-                  separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
-                    itemBuilder: (context, collection, index) => ConditionCollectionListTile(
+                    itemBuilder: (context, collection, index) =>
+                        ConditionCollectionListTile(
                       collection: collection,
-                      value: controller.selectedCollections.map((e) => e.id!).toList().contains(collection.id),
-                      enabled: !controller.disabledCollections.map((e) => e.id!).toList().contains(collection.id),
+                      value: controller.selectedCollections
+                          .map((e) => e.id!)
+                          .toList()
+                          .contains(collection.id),
+                      enabled: !controller.disabledCollections
+                          .map((e) => e.id!)
+                          .toList()
+                          .contains(collection.id),
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
                           controller.selectedCollections.add(collection);
                         } else {
-                          controller.selectedCollections.removeWhere((e) => e.id == collection.id);
+                          controller.selectedCollections
+                              .removeWhere((e) => e.id == collection.id);
                         }
                         controller.update();
                       },
                     ),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
                     noItemsFoundIndicatorBuilder: (context) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,14 +164,16 @@ class ConditionCollectionView extends StatelessWidget {
 }
 
 class ConditionCollectionController extends GetxController {
-  ConditionCollectionController({required this.collectionRepo});
+  ConditionCollectionController(
+      {required this.collectionRepo, required this.disabledCollections});
   final CollectionRepo collectionRepo;
   List<ProductCollection> selectedCollections = <ProductCollection>[];
-  DiscountConditionOperator discountConditionOperator = DiscountConditionOperator.inn;
+  DiscountConditionOperator discountConditionOperator =
+      DiscountConditionOperator.inn;
   final PagingController<int, ProductCollection> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  final List<ProductCollection> disabledCollections = Get.arguments ?? [];
+  final List<ProductCollection> disabledCollections;
   bool get updateMode => disabledCollections.isNotEmpty;
   final searchCtrl = TextEditingController();
   String searchTerm = '';
@@ -163,11 +184,13 @@ class ConditionCollectionController extends GetxController {
     });
     super.onInit();
   }
+
   @override
   void dispose() {
     searchCtrl.dispose();
     super.dispose();
   }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await collectionRepo.retrieveAll(
       queryParameters: {

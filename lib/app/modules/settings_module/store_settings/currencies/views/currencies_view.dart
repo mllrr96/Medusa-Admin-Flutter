@@ -1,9 +1,12 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/currency.dart';
+import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -13,8 +16,9 @@ import '../../../../../data/repository/currency/currency_repo.dart';
 import '../../../../components/adaptive_back_button.dart';
 import '../controllers/currencies_controller.dart';
 
+@RoutePage()
 class CurrenciesView extends StatelessWidget {
-  const CurrenciesView({Key? key}) : super(key: key);
+  const CurrenciesView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,7 @@ class CurrenciesView extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     return GetBuilder<CurrenciesController>(
+      init: CurrenciesController(currencyRepo: CurrencyRepo(), storeRepo: StoreRepo()),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -31,7 +36,7 @@ class CurrenciesView extends StatelessWidget {
               leading: const AdaptiveBackButton(),
               title: const Text('Currencies'),
               actions: [
-                AdaptiveButton(onPressed: () async => await controller.updateStore(), child: const Text('Save')),
+                AdaptiveButton(onPressed: () async => await controller.updateStore(context), child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -179,7 +184,7 @@ class AllCurrenciesView extends StatelessWidget {
                 actions: [
                   if (controller.selectedCurrencies.isNotEmpty)
                     AdaptiveButton(
-                        onPressed: () => Get.back(result: controller.selectedCurrencies), child: const Text('Save')),
+                        onPressed: () => context.popRoute(controller.selectedCurrencies), child: const Text('Save')),
                 ],
               ),
               body: SafeArea(

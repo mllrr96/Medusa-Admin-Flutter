@@ -5,7 +5,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_icon.dart';
 import '../controllers/custom_gift_cards_controller.dart';
@@ -42,11 +41,12 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                         ]).then((value) async {
                       switch (value) {
                         case 0:
-                          Get.back();
-                          Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
+                          // context.popRoute();
+                          // context.pushRoute(CreateUpdateCustomGiftCardView());
+                          // Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
                           break;
                         case 1:
-                          await controller.updateCustomGiftCard(
+                          await controller.updateCustomGiftCard( context:context,
                               id: giftCard.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled));
                           break;
                       }
@@ -118,7 +118,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                             isDestructiveAction: true)
                         .then((result) async {
                       if (result == OkCancelResult.ok) {
-                        await controller.updateCustomGiftCard(
+                        await controller.updateCustomGiftCard(context:context,
                             id: giftCard.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled));
                       }
                     });

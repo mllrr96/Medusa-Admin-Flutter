@@ -1,6 +1,9 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -8,14 +11,17 @@ import '../../../components/adaptive_button.dart';
 import '../../../components/metadata_card.dart';
 import '../controllers/create_update_group_controller.dart';
 
+@RoutePage()
 class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
-  const CreateUpdateGroupView({Key? key}) : super(key: key);
+  const CreateUpdateGroupView({super.key,this.customerGroup});
+  final CustomerGroup? customerGroup;
 
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
     final largeTextStyle = context.bodyLarge;
     return GetBuilder<CreateUpdateGroupController>(
+      init: CreateUpdateGroupController(customerGroupRepo: CustomerGroupRepo(), customerGroup: customerGroup),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

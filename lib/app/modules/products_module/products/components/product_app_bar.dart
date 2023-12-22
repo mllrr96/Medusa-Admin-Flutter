@@ -1,10 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/medusa_search/controllers/medusa_search_controller.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
@@ -36,9 +36,7 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
           return Row(
             children: [
               AdaptiveIcon(
-                onPressed: () async => await Get.toNamed(Routes.MEDUSA_SEARCH,
-                    arguments:
-                        SearchReq(searchCategory: SearchCategory.products)),
+                onPressed: ()  => context.pushRoute(MedusaSearchRoute(searchCategory: SearchCategory.products)),
                 icon: const Icon(MedusaIcons.magnifying_glass),
               ),
               AdaptiveIcon(
@@ -68,7 +66,7 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
                             tags: controller.tags,
                             onResetPressed: () {
                               controller.resetFilter();
-                              Get.back();
+                              context.popRoute();
                             },
                             productFilter: controller.productFilter,
                           )).then((result) {

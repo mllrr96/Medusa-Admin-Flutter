@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
 import 'package:get/get.dart';
-
+import 'package:auto_route/auto_route.dart';
 class AdaptiveCloseButton extends StatelessWidget {
   /// Creates a Material Design close button.
-  const AdaptiveCloseButton({ super.key, this.color, this.onPressed });
+  const AdaptiveCloseButton({super.key, this.color, this.onPressed});
 
   /// The color to use for the icon.
   ///
@@ -52,7 +52,7 @@ class AdaptiveCloseButton extends StatelessWidget {
         if (onPressed != null) {
           onPressed!();
         } else {
-          Navigator.maybePop(context);
+          context.popRoute();
         }
       },
     );

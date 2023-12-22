@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,14 +13,16 @@ import 'condition_customer_group_list_tile.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
+@RoutePage()
 class ConditionCustomerGroupView extends StatelessWidget {
-  const ConditionCustomerGroupView({Key? key}) : super(key: key);
-
+  const ConditionCustomerGroupView( {super.key,this.disabledGroups});
+  final List<CustomerGroup>? disabledGroups;
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<ConditionCustomerGroupController>(
-      init: ConditionCustomerGroupController(groupRepo: CustomerGroupRepo()),
+      init: ConditionCustomerGroupController(
+          groupRepo: CustomerGroupRepo(), disabledGroups: disabledGroups ?? []),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -33,11 +36,14 @@ class ConditionCustomerGroupView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedCustomerGroups.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
-                                  operator: controller.discountConditionOperator,
-                                  customerGroups: controller.selectedCustomerGroups,
-                                  conditionType: DiscountConditionType.customerGroups);
-                              Get.back(result: res);
+                              final result = DiscountConditionRes(
+                                  operator:
+                                      controller.discountConditionOperator,
+                                  customerGroups:
+                                      controller.selectedCustomerGroups,
+                                  conditionType:
+                                      DiscountConditionType.customerGroups);
+                              context.popRoute(result);
                             }
                           : null,
                       child: const Text('Save')),
@@ -46,12 +52,12 @@ class ConditionCustomerGroupView extends StatelessWidget {
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: Container(
                       height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 4.0),
                       child: SearchTextField(
                         fillColor: context.theme.scaffoldBackgroundColor,
                         controller: controller.searchCtrl,
-                        hintText:
-                            'Search for group name',
+                        hintText: 'Search for group name',
                         onSuffixTap: () {
                           if (controller.searchTerm.isEmpty) return;
                           controller.searchCtrl.clear();
@@ -59,20 +65,19 @@ class ConditionCustomerGroupView extends StatelessWidget {
                           controller.pagingController.refresh();
                         },
                         onSubmitted: (val) {
-                          if (controller.searchTerm != val &&
-                              val.isNotEmpty) {
+                          if (controller.searchTerm != val && val.isNotEmpty) {
                             controller.searchTerm = val;
                             controller.pagingController.refresh();
                           }
                         },
                       ),
-                    )
-                ),
+                    )),
               ),
               if (!controller.updateMode)
                 SliverToBoxAdapter(
                     child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   child: Column(
                     children: [
                       ConditionOperatorCard(
@@ -98,24 +103,35 @@ class ConditionCustomerGroupView extends StatelessWidget {
               SliverSafeArea(
                 top: false,
                 sliver: PagedSliverList.separated(
-                  separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
-                    itemBuilder: (context, customerGroup, index) => ConditionCustomerGroupListTile(
-                        customerGroup: customerGroup,
-                        value: controller.selectedCustomerGroups.map((e) => e.id!).toList().contains(customerGroup.id),
-                        enabled: !controller.disabledGroups.map((e) => e.id!).toList().contains(customerGroup.id),
-                        onChanged: (val) {
-                          if (val == null) return;
-                          if (val) {
-                            controller.selectedCustomerGroups.add(customerGroup);
-                          } else {
-                            controller.selectedCustomerGroups.removeWhere((e) => e.id == customerGroup.id);
-                          }
-                          controller.update();
-                        }),
+                    itemBuilder: (context, customerGroup, index) =>
+                        ConditionCustomerGroupListTile(
+                            customerGroup: customerGroup,
+                            value: controller.selectedCustomerGroups
+                                .map((e) => e.id!)
+                                .toList()
+                                .contains(customerGroup.id),
+                            enabled: !controller.disabledGroups
+                                .map((e) => e.id!)
+                                .toList()
+                                .contains(customerGroup.id),
+                            onChanged: (val) {
+                              if (val == null) return;
+                              if (val) {
+                                controller.selectedCustomerGroups
+                                    .add(customerGroup);
+                              } else {
+                                controller.selectedCustomerGroups.removeWhere(
+                                    (e) => e.id == customerGroup.id);
+                              }
+                              controller.update();
+                            }),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
                     noItemsFoundIndicatorBuilder: (context) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,14 +161,16 @@ class ConditionCustomerGroupView extends StatelessWidget {
 }
 
 class ConditionCustomerGroupController extends GetxController {
-  ConditionCustomerGroupController({required this.groupRepo});
+  ConditionCustomerGroupController(
+      {required this.groupRepo, required this.disabledGroups});
   final CustomerGroupRepo groupRepo;
   List<CustomerGroup> selectedCustomerGroups = <CustomerGroup>[];
-  DiscountConditionOperator discountConditionOperator = DiscountConditionOperator.inn;
+  DiscountConditionOperator discountConditionOperator =
+      DiscountConditionOperator.inn;
   final PagingController<int, CustomerGroup> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  final List<CustomerGroup> disabledGroups = Get.arguments ?? [];
+  final List<CustomerGroup> disabledGroups;
   bool get updateMode => disabledGroups.isNotEmpty;
   final searchCtrl = TextEditingController();
   String searchTerm = '';
@@ -163,11 +181,13 @@ class ConditionCustomerGroupController extends GetxController {
     });
     super.onInit();
   }
+
   @override
   void dispose() {
     searchCtrl.dispose();
     super.dispose();
   }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await groupRepo.retrieveCustomerGroups(
       queryParameters: {

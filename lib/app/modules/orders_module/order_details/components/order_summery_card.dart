@@ -4,7 +4,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class OrderSummeryCard extends StatelessWidget {
-  const OrderSummeryCard({Key? key, required this.order, required this.index}) : super(key: key);
+  const OrderSummeryCard({super.key, required this.order, required this.index});
   final Order order;
   final int index;
   @override

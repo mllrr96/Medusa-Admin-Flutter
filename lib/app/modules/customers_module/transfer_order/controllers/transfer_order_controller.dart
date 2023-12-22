@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -7,20 +8,20 @@ import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
 class TransferOrderController extends GetxController {
-  TransferOrderController({required this.ordersRepo});
+  TransferOrderController({required this.ordersRepo, required this.order});
   final OrdersRepo ordersRepo;
-  final Order order = Get.arguments;
+  final Order order;
   final currentOwnerCtrl = TextEditingController();
   final newOwnerCtrl = TextEditingController();
   // ignore: unnecessary_cast
   Rx<Customer?> selectedCustomer = (null as Customer?).obs;
-  Future<void> updateOrder() async {
+  Future<void> updateOrder(BuildContext context) async {
     loading();
     final result = await ordersRepo.updateOrder(
         id: order.id!, userUpdateOrderReq: UserUpdateOrderReq(customerId: selectedCustomer.value!.id!));
     result.when((success) {
       EasyLoading.showSuccess('Order transferred');
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       Get.snackbar('Error transferring order ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
     });

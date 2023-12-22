@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -85,7 +86,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               searchableFields: controller.searchCategory));
                     }
                   },
-                  hintText: getHintText(controller.searchCategory),
+                  hintText: getHintText(controller.searchCategory ),
                   autoFocus: true,
                   onSuffixTap: () {
                     controller.searchCtrl.clear();
@@ -112,7 +113,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                         style: smallTextStyle?.copyWith(color: lightWhite),
                       ),
                       SearchChip(
-                        searchableField: controller.searchCategory,
+                        searchableField: controller.searchCategory ,
                         onTap: () async {
                           await showBarModalBottomSheet(
                               context: context,
@@ -129,7 +130,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               controller.orderFilter = null;
                               controller.productFilter = null;
                               controller.pagingController.itemList = [];
-                              controller.searchCategory = result;
+                              // controller.searchCategory = result;
                               controller.update();
                               if (controller.searchTerm.isNotEmpty) {
                                 controller.pagingController.refresh();
@@ -248,7 +249,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                     controller.update();
                                                     controller.pagingController
                                                         .refresh();
-                                                    Get.back();
+                                                    context.popRoute();
                                                   },
                                                   productFilter:
                                                       controller.productFilter,
@@ -299,7 +300,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                               regions: controller.regions,
                                               orderFilter:
                                                   controller.orderFilter,
-                                              context: context,
                                               salesChannels:
                                                   controller.salesChannels,
                                               onResetTap: () {
@@ -307,7 +307,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                 controller.update();
                                                 controller.pagingController
                                                     .refresh();
-                                                Get.back();
+                                                context.popRoute();
                                               },
                                             ));
 

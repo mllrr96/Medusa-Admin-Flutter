@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,9 +10,9 @@ import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pric
 import '../../../../data/models/req/user_price_list_req.dart';
 
 class AddUpdatePriceListController extends GetxController {
-  AddUpdatePriceListController({required this.priceListRepo});
+  AddUpdatePriceListController({required this.priceListRepo, required this.id});
   final PriceListRepo priceListRepo;
-  final String? id = Get.arguments;
+  final String? id;
   bool get updateMode => id != null;
   PriceList priceList = const PriceList(type: PriceListType.sale, status: PriceListStatus.active);
   final formKey = GlobalKey<FormState>();
@@ -19,7 +20,6 @@ class AddUpdatePriceListController extends GetxController {
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
   final pricesKey = GlobalKey();
-  final scrollController = ScrollController();
   bool specifyCustomers = false;
   final groupCtrl = TextEditingController();
   final nameCtrl = TextEditingController();
@@ -43,7 +43,7 @@ class AddUpdatePriceListController extends GetxController {
     super.onClose();
   }
 
-  Future<void> create() async {
+  Future<void> create(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -66,13 +66,13 @@ class AddUpdatePriceListController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Price List Created');
       PricingController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     },
         (error) => Get.snackbar('Error creating price list ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM));
   }
 
-  Future<void> updatePriceList() async {
+  Future<void> updatePriceList(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -95,7 +95,7 @@ class AddUpdatePriceListController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Price List Updated');
       PricingController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     },
         (error) => Get.snackbar('Error updating price list ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM));

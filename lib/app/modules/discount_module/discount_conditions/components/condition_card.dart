@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -6,11 +7,11 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-
-import 'index.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 class ConditionCard extends StatelessWidget {
-  const ConditionCard({Key? key, required this.title, required this.subtitle, this.onTap}) : super(key: key);
+  const ConditionCard(
+      {super.key, required this.title, required this.subtitle, this.onTap});
   final String title, subtitle;
   final void Function()? onTap;
 
@@ -24,7 +25,7 @@ class ConditionCard extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-            color: Theme.of(context).appBarTheme.backgroundColor),
+            color: context.theme.appBarTheme.backgroundColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -34,7 +35,8 @@ class ConditionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(title),
-                  Text(subtitle, style: mediumTextStyle?.copyWith(color: lightWhite)),
+                  Text(subtitle,
+                      style: mediumTextStyle?.copyWith(color: lightWhite)),
                 ],
               ),
             ),
@@ -48,11 +50,11 @@ class ConditionCard extends StatelessWidget {
 
 class DetailedConditionCard extends StatelessWidget {
   const DetailedConditionCard({
-    Key? key,
+    super.key,
     required this.discountCondition,
     this.onDeleteTap,
     this.onEditTap,
-  }) : super(key: key);
+  });
   final DiscountCondition discountCondition;
   final void Function()? onDeleteTap;
   final void Function(DiscountConditionType? discountConditionType)? onEditTap;
@@ -68,39 +70,48 @@ class DetailedConditionCard extends StatelessWidget {
     switch (discountCondition.type) {
       case DiscountConditionType.products:
         title = 'Product';
-        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+        subtitle = discountCondition.operator! ==
+                DiscountConditionOperator.notIn
             ? 'Discount is applicable to all products except specific products'
             : 'Discount is applicable to specific products';
-        defaultEdit = () => Get.to(() => const ConditionProductView(), arguments: discountCondition.products?.map((e) => Product(id: e)).toList(),);
+        defaultEdit = () =>
+            context.pushRoute(ConditionProductRoute());
         break;
       case DiscountConditionType.productType:
         title = 'Product Type';
-        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+        subtitle = discountCondition.operator! ==
+                DiscountConditionOperator.notIn
             ? 'Discount is applicable to all product types expect specific product types'
             : 'Discount is applicable to specific product types';
-        defaultEdit = () => Get.to(() => const ConditionTypeView());
-
+        defaultEdit =
+            () => context.pushRoute(ConditionTypeRoute());
         break;
       case DiscountConditionType.productCollections:
         title = 'Collection';
-        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+        subtitle = discountCondition.operator! ==
+                DiscountConditionOperator.notIn
             ? 'Discount is applicable to all collections expect specific collections'
             : 'Discount is applicable to specific collections';
-        defaultEdit = () => Get.to(() => const ConditionCollectionView());
+        defaultEdit = () => context
+            .pushRoute(ConditionCollectionRoute(disabledCollections: null));
         break;
       case DiscountConditionType.productTags:
         title = 'Tag';
-        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+        subtitle = discountCondition.operator! ==
+                DiscountConditionOperator.notIn
             ? 'Discount is applicable to all product tags except specific product tags'
             : 'Discount is applicable to specific product tags';
-        defaultEdit = () => Get.to(() => const ConditionTagView());
+        defaultEdit =
+            () => context.pushRoute(ConditionTagRoute());
         break;
       case DiscountConditionType.customerGroups:
         title = 'Customer Group';
-        subtitle = discountCondition.operator! == DiscountConditionOperator.notIn
+        subtitle = discountCondition.operator! ==
+                DiscountConditionOperator.notIn
             ? 'Discount is applicable to all customer groups except specific customer groups'
             : 'Discount is applicable to specific customer groups';
-        defaultEdit = () => Get.to(() => const ConditionCustomerGroupView());
+        defaultEdit = () => context
+            .pushRoute(ConditionCustomerGroupRoute(disabledGroups: null));
         break;
       case null:
         defaultEdit = () {};
@@ -109,15 +120,21 @@ class DetailedConditionCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)), color: Theme.of(context).scaffoldBackgroundColor),
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+          color: context.theme.scaffoldBackgroundColor),
       child: Row(
         children: [
           Container(
             width: 4.0,
             height: 40.0,
             decoration: BoxDecoration(
-                color: discountCondition.operator! == DiscountConditionOperator.notIn ? Colors.red : null,
-                borderRadius: const BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4))),
+                color: discountCondition.operator! ==
+                        DiscountConditionOperator.notIn
+                    ? Colors.red
+                    : null,
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(4),
+                    bottomRight: Radius.circular(4))),
           ),
           const SizedBox(width: 12.0),
           Expanded(
@@ -126,7 +143,8 @@ class DetailedConditionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(title, style: mediumTextStyle),
-                Text(subtitle, style: smallTextStyle?.copyWith(color: lightWhite)),
+                Text(subtitle,
+                    style: smallTextStyle?.copyWith(color: lightWhite)),
               ],
             ),
           ),
@@ -138,7 +156,8 @@ class DetailedConditionCard extends StatelessWidget {
                     context: context,
                     actions: <SheetAction<int>>[
                       const SheetAction(label: 'Edit', key: 0),
-                      const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                      const SheetAction(
+                          label: 'Delete', isDestructiveAction: true, key: 1),
                     ]).then((result) {
                   if (result == null) return;
                   switch (result) {

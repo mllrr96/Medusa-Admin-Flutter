@@ -1,14 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/routes/app_pages.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_expansion_tile.dart';
 import 'order_summery_card.dart';
 
 class OrderSummery extends StatelessWidget {
-  const OrderSummery(this.order, {Key? key, this.onExpansionChanged}) : super(key: key);
+  const OrderSummery(this.order, {super.key, this.onExpansionChanged});
   final Order order;
 
   final void Function(bool)? onExpansionChanged;
@@ -25,7 +25,7 @@ class OrderSummery extends StatelessWidget {
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Summery'),
       trailing: AdaptiveButton(
-          onPressed: () => Get.toNamed(Routes.ADD_UPDATE_ORDER_EDIT, arguments: order),
+          onPressed: () => context.pushRoute(AddUpdateOrderEditRoute(order: order)),
           padding: EdgeInsets.zero,
           child: const Text('Edit Order')),
       childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),

@@ -11,9 +11,8 @@ import 'discount_allocation_type_card.dart';
 import 'discount_type_card.dart';
 
 class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
-  const DiscountTypeExpansionTile(this.viewContext, {super.key});
+  const DiscountTypeExpansionTile({super.key});
 
-  final BuildContext viewContext;
 
   @override
   Widget build(BuildContext context) {
@@ -21,30 +20,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box
-            ?.localToGlobal(Offset.zero)
-            .dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset +
-            yPosition -
-            (viewContext.mediaQueryPadding.top + kToolbarHeight);
-        if (scrollPoint <=
-            controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        } else {
-          await controller.scrollController.animateTo(
-              controller.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
+
     return GetBuilder<AddUpdateDiscountController>(
         id: 0,
         builder: (controller) {
@@ -53,7 +29,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
             maintainState: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.discountKey);
+                await controller.discountKey.currentContext.ensureVisibility();
               }
             },
             initiallyExpanded: true,
@@ -107,7 +83,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
                       space,
                     ],
                   ))
-                  .toList(),
+                  ,
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: controller.discountRuleType == DiscountRuleType.fixed
@@ -147,7 +123,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
                             space,
                           ],
                         ))
-                        .toList(),
+                        ,
                   ],
                 )
                     : const SizedBox.shrink(

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,9 +10,9 @@ import 'package:medusa_admin/app/modules/products_module/products/controllers/pr
 import '../../../components/easy_loading.dart';
 
 class ProductDetailsController extends GetxController with StateMixin<Product> {
-  ProductDetailsController({required this.productsRepo});
+  ProductDetailsController({required this.productsRepo, required this.productId});
   ProductsRepo productsRepo;
-  final String _productId = Get.arguments;
+  final String productId ;
   late ScrollController scrollController;
   final GlobalKey variantsKey = GlobalKey();
   final GlobalKey attributesKey = GlobalKey();
@@ -39,7 +40,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     change(null, status: RxStatus.loading());
     try {
       final result = await productsRepo.retrieve(
-        _productId,
+        productId,
         queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},
       );
       if (result != null && result.product != null) {
@@ -76,14 +77,14 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     return product;
   }
 
-  Future<void> deleteProduct(String id) async {
+  Future<void> deleteProduct(String id, BuildContext context) async {
     final result = await productsRepo.delete(id: id);
     loading();
     result.when((success) {
       if (success.deleted != null && success.deleted!) {
         // product deleted
         EasyLoading.showSuccess('Product Deleted');
-        Get.back(result: true);
+        context.popRoute(true);
       } else {
         EasyLoading.showError('Deletion failed');
       }

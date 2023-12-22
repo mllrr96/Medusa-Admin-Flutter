@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,14 +13,17 @@ import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
+@RoutePage()
 class ConditionTagView extends StatelessWidget {
-  const ConditionTagView({Key? key}) : super(key: key);
+  const ConditionTagView( {super.key,this.disabledTags});
+  final List<ProductTag>? disabledTags;
 
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<ConditionTagController>(
-      init: ConditionTagController(tagRepo: ProductTagRepo()),
+      init: ConditionTagController(
+          tagRepo: ProductTagRepo(), disabledTags: disabledTags ?? []),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -33,42 +37,41 @@ class ConditionTagView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedTags.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
+                              final result = DiscountConditionRes(
                                   operator:
                                       controller.discountConditionOperator,
                                   productTags: controller.selectedTags,
                                   conditionType:
                                       DiscountConditionType.productTags);
-                              Get.back(result: res);
-                            }
+                              context.popRoute(result);
+                      }
                           : null,
                       child: const Text('Save')),
                 ],
                 bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child:  Container(
-                      height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
-                      child: SearchTextField(
-                        fillColor: context.theme.scaffoldBackgroundColor,
-                        controller: controller.searchCtrl,
-                        hintText:
-                        'Search for tag name',
-                        onSuffixTap: () {
-                          if (controller.searchTerm.isEmpty) return;
-                          controller.searchCtrl.clear();
-                          controller.searchTerm = '';
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    height: kToolbarHeight,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 4.0),
+                    child: SearchTextField(
+                      fillColor: context.theme.scaffoldBackgroundColor,
+                      controller: controller.searchCtrl,
+                      hintText: 'Search for tag name',
+                      onSuffixTap: () {
+                        if (controller.searchTerm.isEmpty) return;
+                        controller.searchCtrl.clear();
+                        controller.searchTerm = '';
+                        controller.pagingController.refresh();
+                      },
+                      onSubmitted: (val) {
+                        if (controller.searchTerm != val && val.isNotEmpty) {
+                          controller.searchTerm = val;
                           controller.pagingController.refresh();
-                        },
-                        onSubmitted: (val) {
-                          if (controller.searchTerm != val &&
-                              val.isNotEmpty) {
-                            controller.searchTerm = val;
-                            controller.pagingController.refresh();
-                          }
-                        },
-                      ),
+                        }
+                      },
                     ),
+                  ),
                 ),
               ),
               if (!controller.updateMode)
@@ -157,7 +160,7 @@ class ConditionTagView extends StatelessWidget {
 }
 
 class ConditionTagController extends GetxController {
-  ConditionTagController({required this.tagRepo});
+  ConditionTagController({required this.tagRepo, required this.disabledTags});
   final ProductTagRepo tagRepo;
   List<ProductTag> selectedTags = <ProductTag>[];
   DiscountConditionOperator discountConditionOperator =
@@ -165,7 +168,7 @@ class ConditionTagController extends GetxController {
   final PagingController<int, ProductTag> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  final List<ProductTag> disabledTags = Get.arguments ?? [];
+  final List<ProductTag> disabledTags;
   final searchCtrl = TextEditingController();
   String searchTerm = '';
   bool get updateMode => disabledTags.isNotEmpty;

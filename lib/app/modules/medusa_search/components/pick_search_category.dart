@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/search_chip.dart';
 
 import '../../../../core/utils/enums.dart';
@@ -14,8 +14,9 @@ class PickSearchCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding =
-        MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
+    final bottomPadding = MediaQuery.of(context).viewPadding.bottom == 0
+        ? 20.0
+        : MediaQuery.of(context).viewPadding.bottom;
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
@@ -35,7 +36,7 @@ class PickSearchCategory extends StatelessWidget {
               alignment: WrapAlignment.start,
               children: SearchCategory.values
                   .map((e) => GestureDetector(
-                        onTap: () => Get.back(result: e),
+                        onTap: () => context.popRoute(e),
                         child: SearchChip(
                           searchableField: e,
                           selected: e == selectedSearchCategory,

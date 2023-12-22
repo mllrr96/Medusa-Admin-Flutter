@@ -1,19 +1,25 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
+import '../../../../../../data/repository/shipping_profile/shipping_profile_repo.dart';
 import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
 
+@RoutePage()
 class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionController> {
-  const AddUpdateShippingOptionView({Key? key}) : super(key: key);
+  const AddUpdateShippingOptionView(this.addUpdateShippingOptionReq, {super.key});
+  final AddUpdateShippingOptionReq addUpdateShippingOptionReq ;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +39,11 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
           style: smallTextStyle?.copyWith(color: lightWhite)),
     );
     return GetBuilder<AddUpdateShippingOptionController>(
+      init: AddUpdateShippingOptionController(
+        shippingProfileRepo: ShippingProfileRepo(),
+        regionsRepo: RegionsRepo(),
+        shippingOptionsRepo: ShippingOptionsRepo(), addUpdateShippingOptionReq: addUpdateShippingOptionReq,
+      ),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

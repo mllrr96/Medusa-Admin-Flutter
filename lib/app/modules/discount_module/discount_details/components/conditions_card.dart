@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -7,17 +8,17 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/req/user_discount_condition_req.dart';
-import '../../../../routes/app_pages.dart';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../../update_condition/controllers/update_condition_controller.dart';
 import '../controllers/discount_details_controller.dart';
 
 class ConditionsCard extends GetView<DiscountDetailsController> {
-  const ConditionsCard(this.discount, {Key? key}) : super(key: key);
+  const ConditionsCard(this.discount, {super.key});
   final Discount discount;
   @override
   Widget build(BuildContext context) {
@@ -40,10 +41,9 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
               const Text('Conditions'),
               AdaptiveIcon(
                   onPressed: () async {
-                    final result = await Get.toNamed(Routes.DISCOUNT_CONDITIONS,
-                        arguments: DiscountConditionReq(
-                            discountTypes: discount.rule?.conditions?.map((e) => e.type!).toList() ?? []));
-                    if (result != null && result is DiscountConditionRes) {
+                    final result  = await context.pushRoute(DiscountConditionsRoute(discountConditionReq: DiscountConditionReq(
+                        discountTypes: discount.rule?.conditions?.map((e) => e.type!).toList() ?? [])));
+                    if (result is DiscountConditionRes) {
                       await controller.addCondition(
                           userCreateConditionReq: UserCreateConditionReq(
                         operator: result.operator,
@@ -80,8 +80,9 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
                     discountCondition: condition,
                     onEditTap: (val) async {
                       if (val == null) return;
-                      final result = await Get.toNamed(Routes.UPDATE_CONDITION,
-                          arguments: UpdateConditionReq(discountCondition: condition, discountConditionType: val));
+                      final result = await context.pushRoute(UpdateConditionRoute(
+                          updateConditionReq:  UpdateConditionReq(discountCondition: condition, discountConditionType: val)
+                      ));
                       if (result != null && result is UpdateConditionRes) {
                         if (result.updatedItemIds.isEmpty) {
                           await controller.deleteCondition(condition.id!);

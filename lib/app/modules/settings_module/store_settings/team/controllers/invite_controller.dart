@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -29,12 +31,12 @@ static InviteController get instance => Get.find<InviteController>();
     }, (error) => change(null, status: RxStatus.error(error.message)));
   }
 
-  Future<void> inviteUser({required String email, required UserRole role}) async {
+  Future<void> inviteUser({required String email, required UserRole role, required BuildContext context}) async {
     loading();
     final result = await inviteRepo.createInvitation(email: email, role: role);
     result.when((success) async {
       EasyLoading.showSuccess('Invite sent');
-      Get.back();
+      context.popRoute();
       await loadInvites();
     }, (error) => EasyLoading.showError('Error sending invite'));
   }

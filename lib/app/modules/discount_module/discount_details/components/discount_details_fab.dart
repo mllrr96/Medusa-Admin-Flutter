@@ -1,17 +1,18 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_details/controllers/discount_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../../../routes/app_pages.dart';
 import '../../discounts/controllers/discounts_controller.dart';
 
 class DiscountDetailsFab extends GetView<DiscountDetailsController> {
-  const DiscountDetailsFab({Key? key, this.expandableStyle = true}) : super(key: key);
+  const DiscountDetailsFab({super.key, this.expandableStyle = true});
   final bool expandableStyle;
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,13 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
               isDestructiveAction: true)
           .then((value) async {
         if (value == OkCancelResult.ok) {
-          await controller.deleteDiscount();
+          await controller.deleteDiscount(context);
         }
       });
     }
 
     onUpdateTap(Discount discount) async {
-      await Get.toNamed(Routes.ADD_UPDATE_DISCOUNT, arguments: discount)?.then((value) async {
+      await context.pushRoute(AddUpdateDiscountRoute(discount: discount)).then((value) async {
         if (value is bool && value == true) {
           await controller.loadDiscount();
           DiscountsController.instance.pagingController.refresh();

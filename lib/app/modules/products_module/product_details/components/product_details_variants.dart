@@ -1,17 +1,21 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import '../../../../routes/app_pages.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../controllers/product_details_controller.dart';
 
 class ProductDetailsVariants extends GetView<ProductDetailsController> {
-  const ProductDetailsVariants({Key? key, required this.product, this.onExpansionChanged, this.expansionKey})
-      : super(key: key);
+  const ProductDetailsVariants(
+      {super.key,
+      required this.product,
+      this.onExpansionChanged,
+      this.expansionKey});
   final Product product;
   final void Function(bool)? onExpansionChanged;
   final Key? expansionKey;
@@ -27,26 +31,32 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
       label: 'Variants',
       trailing: IconButton(
           onPressed: () async {
-            final result = await showModalActionSheet(context: context, actions: <SheetAction>[
+            await showModalActionSheet(context: context, actions: <SheetAction>[
               const SheetAction(label: 'Add Variants', key: 0),
               const SheetAction(label: 'Edit Options', key: 2),
-            ]);
-            switch (result) {
-              case 0:
-                final newVariant =
-                    await Get.toNamed(Routes.PRODUCT_ADD_VARIANT, arguments: ProductVariantReq(product: product));
-                if (newVariant is ProductVariant) {
-                  final options = <ProductOptionValue>[];
+            ]).then((result) async {
+              switch (result) {
+                case 0:
+                  final newVariant = await context.pushRoute(
+                      ProductAddVariantRoute(
+                          productVariantReq:
+                              ProductVariantReq(product: product)));
+                  if (newVariant is ProductVariant) {
+                    final options = <ProductOptionValue>[];
 
-                  newVariant.options?.forEach((element) {
-                    options.add(
-                        ProductOptionValue(value: element.value, optionId: element.optionId, option: element.option));
-                  });
+                    newVariant.options?.forEach((element) {
+                      options.add(ProductOptionValue(
+                          value: element.value,
+                          optionId: element.optionId,
+                          option: element.option));
+                    });
 
-                  newVariant.options = options;
-                  await controller.updateProduct(Product(id: product.id!, variants: [newVariant]));
-                }
-            }
+                    newVariant.options = options;
+                    await controller.updateProduct(
+                        Product(id: product.id!, variants: [newVariant]));
+                  }
+              }
+            });
           },
           icon: const Icon(Icons.more_horiz)),
       expandedAlignment: Alignment.centerLeft,
@@ -60,15 +70,21 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
               itemBuilder: (context, index) {
                 final option = product.options![index];
                 final seen = <String>{};
-                final List<ProductOptionValue> values = product.options![index].values!;
-                final unique = values.where((str) => seen.add(str.value!)).toList();
+                final List<ProductOptionValue> values =
+                    product.options![index].values!;
+                final unique =
+                    values.where((str) => seen.add(str.value!)).toList();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(option.title ?? '', style: mediumTextStyle),
                     Wrap(
                       spacing: 8.0,
-                      children: unique.map((e) => Chip(label: Text(e.value ?? '', style: smallTextStyle))).toList(),
+                      children: unique
+                          .map((e) => Chip(
+                              label:
+                                  Text(e.value ?? '', style: smallTextStyle)))
+                          .toList(),
                     ),
                   ],
                 );
@@ -80,7 +96,8 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
           children: [
             Row(
               children: [
-                Text('Product Variants (${product.variants?.length ?? ''})', style: mediumTextStyle),
+                Text('Product Variants (${product.variants?.length ?? ''})',
+                    style: mediumTextStyle),
               ],
             ),
             space,
@@ -107,28 +124,48 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(variant.title ?? '-', style: smallTextStyle),
+                        child:
+                            Text(variant.title ?? '-', style: smallTextStyle),
                       )),
-                      Expanded(child: Text(variant.sku ?? '-', style: smallTextStyle)),
-                      Expanded(child: Text(variant.ean ?? '-', style: smallTextStyle)),
+                      Expanded(
+                          child:
+                              Text(variant.sku ?? '-', style: smallTextStyle)),
+                      Expanded(
+                          child:
+                              Text(variant.ean ?? '-', style: smallTextStyle)),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Center(child: Text(variant.inventoryQuantity?.toString() ?? '-', style: smallTextStyle)),
+                            Center(
+                                child: Text(
+                                    variant.inventoryQuantity?.toString() ??
+                                        '-',
+                                    style: smallTextStyle)),
                             IconButton(
                                 onPressed: () async {
-                                  final result =
-                                      await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
-                                    const SheetAction(label: 'Edit Variant', key: 0),
-                                    const SheetAction(label: 'Delete Variant', key: 1, isDestructiveAction: true),
-                                  ]);
-                                  switch (result) {
-                                    case 0:
-                                      await Get.toNamed(Routes.PRODUCT_ADD_VARIANT,
-                                          arguments: ProductVariantReq(product: product, productVariant: variant));
-                                    case 1:
-                                  }
+                                  await showModalActionSheet<int>(
+                                      context: context,
+                                      actions: <SheetAction<int>>[
+                                        const SheetAction(
+                                            label: 'Edit Variant', key: 0),
+                                        const SheetAction(
+                                            label: 'Delete Variant',
+                                            key: 1,
+                                            isDestructiveAction: true),
+                                      ]).then((result) async {
+                                    switch (result) {
+                                      case 0:
+                                        await context.pushRoute(
+                                            ProductAddVariantRoute(
+                                                productVariantReq:
+                                                    ProductVariantReq(
+                                                        product: product,
+                                                        productVariant:
+                                                            variant)));
+                                      case 1:
+                                    }
+                                  });
                                 },
                                 icon: const Icon(Icons.more_horiz))
                           ],

@@ -3,15 +3,16 @@ import 'package:flutter/rendering.dart';
 
 class ScrollingExpandableFab extends StatefulWidget {
   const ScrollingExpandableFab({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     required this.icon,
     this.onPressed,
     this.animDuration = const Duration(milliseconds: 350),
     this.labelStyle,
-    this.expandOnTopOnly = true, this.heroTag,
-  }) : super(key: key);
+    this.expandOnTopOnly = true,
+    this.heroTag,
+  });
 
   final ScrollController controller;
 
@@ -33,14 +34,15 @@ class ScrollingExpandableFab extends StatefulWidget {
   State<ScrollingExpandableFab> createState() => _ScrollingExpandableFabState();
 }
 
-class _ScrollingExpandableFabState extends State<ScrollingExpandableFab> with TickerProviderStateMixin {
+class _ScrollingExpandableFabState extends State<ScrollingExpandableFab>
+    with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: widget.animDuration,
     vsync: this,
   );
 
-  late final Animation<double> _anim =
-      Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+  late final Animation<double> _anim = Tween<double>(begin: 0.0, end: 1.0)
+      .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
 
   double lastReverseScrollPosition = 0.0;
   double lastForwardScrollPosition = 0.0;
@@ -104,7 +106,7 @@ class _ScrollingExpandableFabState extends State<ScrollingExpandableFab> with Ti
 
   @override
   Widget build(BuildContext context) {
-    if(widget.heroTag == null){
+    if (widget.heroTag == null) {
       return FloatingActionButton.extended(
         icon: widget.icon,
         onPressed: widget.onPressed,

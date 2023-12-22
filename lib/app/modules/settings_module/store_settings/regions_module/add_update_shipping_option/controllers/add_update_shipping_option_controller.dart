@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -13,14 +14,14 @@ import '../../../../../../data/models/store/fulfillment_option.dart';
 
 class AddUpdateShippingOptionController extends GetxController {
   AddUpdateShippingOptionController(
-      {required this.shippingProfileRepo, required this.regionsRepo, required this.shippingOptionsRepo});
+      {required this.shippingProfileRepo, required this.regionsRepo, required this.shippingOptionsRepo, required this.addUpdateShippingOptionReq});
 
   final ShippingProfileRepo shippingProfileRepo;
   final ShippingOptionsRepo shippingOptionsRepo;
   final RegionsRepo regionsRepo;
   List<FulfillmentOption>? fulfillmentOptions;
   List<ShippingProfile>? shippingProfiles;
-  AddUpdateShippingOptionReq addUpdateShippingOptionReq = Get.arguments;
+  final AddUpdateShippingOptionReq addUpdateShippingOptionReq ;
   bool get updateMode => addUpdateShippingOptionReq.shippingOption != null;
   bool visibleInStore = false;
   final titleCtrl = TextEditingController();
@@ -88,13 +89,13 @@ class AddUpdateShippingOptionController extends GetxController {
     );
 
     result.when((success) async {
-      Get.back();
       if (addUpdateShippingOptionReq.returnShippingOption) {
         RegionDetailsController.instance.updateReturnOptions();
       } else {
         RegionDetailsController.instance.updateOptions();
       }
       dismissLoading();
+      context.popRoute();
     }, (error) {
       Get.snackbar('Error creating shipping option ${error.code ?? ''}', error.message,
           snackPosition: SnackPosition.BOTTOM);
@@ -130,12 +131,13 @@ class AddUpdateShippingOptionController extends GetxController {
       ),
     );
     result.when((success) async {
-      Get.back();
       if (addUpdateShippingOptionReq.returnShippingOption) {
         RegionDetailsController.instance.updateReturnOptions();
       } else {
         RegionDetailsController.instance.updateOptions();
       }
+      context.popRoute();
+      dismissLoading();
     }, (error) {
       Get.snackbar('Error updating shipping option ${error.code ?? ''}', error.message,
           snackPosition: SnackPosition.BOTTOM);
@@ -153,7 +155,6 @@ class AddUpdateShippingOptionController extends GetxController {
       (error) {
         debugPrint(error.toString());
         EasyLoading.showError('Error loading fulfillment options');
-        Get.back();
       },
     );
   }
@@ -166,7 +167,6 @@ class AddUpdateShippingOptionController extends GetxController {
     }, (error) {
       debugPrint(error.toString());
       EasyLoading.showError('Error loading shipping option');
-      Get.back();
     });
   }
 

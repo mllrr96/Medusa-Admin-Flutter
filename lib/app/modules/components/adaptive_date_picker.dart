@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -11,9 +11,11 @@ import 'adaptive_button.dart';
 Future<DateTime?> adaptiveDateTimePicker(
     {DateTime? date,
     required BuildContext context,
-    CupertinoDatePickerMode pickerMode = CupertinoDatePickerMode.dateAndTime, bool? forceAndroidPicker}) async {
+    CupertinoDatePickerMode pickerMode = CupertinoDatePickerMode.dateAndTime,
+    bool? forceAndroidPicker}) async {
   DateTime? selectedDate;
-  final useAndroidPicker = forceAndroidPicker ?? StorageService.appSettings.useAndroidPicker;
+  final useAndroidPicker =
+      forceAndroidPicker ?? StorageService.appSettings.useAndroidPicker;
   if (Platform.isIOS && !useAndroidPicker) {
     return await showCupertinoModalBottomSheet(
         context: context,
@@ -25,11 +27,12 @@ Future<DateTime?> adaptiveDateTimePicker(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AdaptiveButton(onPressed: () => Get.back(), child: const Text('Cancel')),
                     AdaptiveButton(
-                        onPressed: () => Get.back(
-                              result: selectedDate ?? date ?? DateTime.now(),
-                            ),
+                        onPressed: () => context.popRoute(),
+                        child: const Text('Cancel')),
+                    AdaptiveButton(
+                        onPressed: () => context
+                            .popRoute(selectedDate ?? date ?? DateTime.now()),
                         child: const Text('Done')),
                   ],
                 ),
@@ -53,7 +56,8 @@ Future<DateTime?> adaptiveDateTimePicker(
         firstDate: DateTime.now().subtract(const Duration(days: 360)),
         lastDate: DateTime.now().add(const Duration(days: 365)));
     Future<TimeOfDay?> timePicker(DateTime dateTime) async =>
-        await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(dateTime));
+        await showTimePicker(
+            context: context, initialTime: TimeOfDay.fromDateTime(dateTime));
 
     switch (pickerMode) {
       case CupertinoDatePickerMode.dateAndTime:
@@ -66,7 +70,8 @@ Future<DateTime?> adaptiveDateTimePicker(
               return;
             }
 
-            selectedDate = DateTime(dateTime.year, dateTime.month, dateTime.day, timeOfDay.hour, timeOfDay.minute);
+            selectedDate = DateTime(dateTime.year, dateTime.month, dateTime.day,
+                timeOfDay.hour, timeOfDay.minute);
           });
         });
         return selectedDate;
@@ -84,7 +89,8 @@ Future<DateTime?> adaptiveDateTimePicker(
             return null;
           }
           final now = DateTime.now();
-          selectedDate = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+          selectedDate = DateTime(
+              now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
         });
         return selectedDate;
       case CupertinoDatePickerMode.monthYear:

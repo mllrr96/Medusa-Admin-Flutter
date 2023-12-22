@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ class CreateGiftCardController extends GetxController {
 
   var denominations = <(Currency? currency, String? amount, int index)>[];
 
-  Future<void> createGiftCard() async {
+  Future<void> createGiftCard(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -68,7 +69,7 @@ class CreateGiftCardController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Gift Card created');
       GiftCardsController.instance.productsPagingController.refresh();
-      Get.back();
+      context.popRoute();
     }, (error) {
       debugPrint(error.toString());
       dismissLoading();

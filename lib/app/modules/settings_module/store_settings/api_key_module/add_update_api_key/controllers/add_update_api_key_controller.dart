@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -7,9 +8,9 @@ import '../../../../../../data/models/store/publishable_api_key.dart';
 import '../../../../../../data/repository/publishable_api_key/publishable_api_key_repo.dart';
 
 class AddUpdateApiKeyController extends GetxController {
-  AddUpdateApiKeyController({required this.publishableApiKeyRepo});
+  AddUpdateApiKeyController({required this.publishableApiKeyRepo, required this.publishableApiKey});
   final PublishableApiKeyRepo publishableApiKeyRepo;
-  final PublishableApiKey? publishableApiKey = Get.arguments;
+  final PublishableApiKey? publishableApiKey;
   bool get updateMode => publishableApiKey != null;
   final titleCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
@@ -29,7 +30,7 @@ class AddUpdateApiKeyController extends GetxController {
     super.onClose();
   }
 
-  Future<void> publish() async {
+  Future<void> publish(BuildContext context) async {
     if (!keyForm.currentState!.validate()) {
       return;
     }
@@ -38,7 +39,7 @@ class AddUpdateApiKeyController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Api key created');
       ApiKeyManagementController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     }, (error) {
       Get.snackbar('Error creating api key ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
     });

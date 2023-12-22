@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -53,8 +54,8 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                     return;
                   }
 
-                  Get.back(
-                    result: UserCreateRefundOrdersReq(
+                  context.popRoute(
+                    UserCreateRefundOrdersReq(
                       amount: int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
                       reason: reason.toLowerCase(),
                       note: noteCtrl.text.isEmpty ? null : noteCtrl.text,

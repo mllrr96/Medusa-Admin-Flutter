@@ -1,16 +1,22 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../data/models/store/product.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../components/adaptive_icon.dart';
 
 class ProductListTile extends StatelessWidget {
   const ProductListTile(
-      {Key? key, required this.product, this.onTap, this.onDelete, this.onPublish, this.onEdit, this.onDuplicate})
-      : super(key: key);
+      {super.key,
+      required this.product,
+      this.onTap,
+      this.onDelete,
+      this.onPublish,
+      this.onEdit,
+      this.onDuplicate});
   final Product product;
   final void Function()? onTap;
   final void Function()? onDelete;
@@ -23,7 +29,9 @@ class ProductListTile extends StatelessWidget {
         contentPadding: const EdgeInsets.only(left: 16.0),
         onTap: onTap ??
             () async {
-              await Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product.id)?.then((result) {
+              await context
+                  .pushRoute(ProductDetailsRoute(productId: product.id!))
+                  .then((result) {
                 // A product has been deleted, reload data
                 if (result is bool && result == true) {
                   // controller.pagingController.refresh();
@@ -36,7 +44,8 @@ class ProductListTile extends StatelessWidget {
           children: [
             _getStatusIcon(product.status),
             const SizedBox(width: 4.0),
-            Text(product.status.name.capitalize ?? product.status.name, style: context.bodySmall),
+            Text(product.status.name.capitalize ?? product.status.name,
+                style: context.bodySmall),
           ],
         ),
         leading: product.thumbnail != null
@@ -45,8 +54,11 @@ class ProductListTile extends StatelessWidget {
                 child: CachedNetworkImage(
                   key: ValueKey(product.thumbnail),
                   imageUrl: product.thumbnail!,
-                  placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                  errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                  placeholder: (context, text) =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  errorWidget: (context, string, error) => const Icon(
+                      Icons.warning_rounded,
+                      color: Colors.redAccent),
                 ))
             : null,
         trailing: AdaptiveIcon(
@@ -57,9 +69,14 @@ class ProductListTile extends StatelessWidget {
                 context: context,
                 actions: <SheetAction<int>>[
                   const SheetAction(label: 'Edit', key: 0),
-                  SheetAction(label: product.status == ProductStatus.published ? 'Unpublish' : 'Publish', key: 1),
+                  SheetAction(
+                      label: product.status == ProductStatus.published
+                          ? 'Unpublish'
+                          : 'Publish',
+                      key: 1),
                   const SheetAction(label: 'Duplicate', key: 2),
-                  const SheetAction(label: 'Delete', isDestructiveAction: true, key: 3),
+                  const SheetAction(
+                      label: 'Delete', isDestructiveAction: true, key: 3),
                 ]).then((result) async {
               switch (result) {
                 case 0:

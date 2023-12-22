@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -6,10 +7,14 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../data/service/store_service.dart';
 
 class AddRegionController extends GetxController {
-  AddRegionController({required this.regionsRepo, required this.storeRepo});
+  AddRegionController(
+      {required this.regionsRepo,
+      required this.storeRepo,
+      required this.region});
   final RegionsRepo regionsRepo;
   final StoreRepo storeRepo;
   final titleCtrl = TextEditingController();
@@ -23,7 +28,7 @@ class AddRegionController extends GetxController {
   Currency? selectedCurrency;
   final providersExpansionKey = GlobalKey();
   final scrollController = ScrollController();
-  final Region? region = Get.arguments;
+  final Region? region;
   bool get updateMode => region != null;
 
   @override
@@ -71,14 +76,15 @@ class AddRegionController extends GetxController {
     result.when((success) {
       if (success.region != null) {
         EasyLoading.showSuccess('Region added');
-        Get.back();
+        context.popRoute();
       } else {
         EasyLoading.showError('Error adding region');
       }
     }, (error) {
       debugPrint(error.toString());
       if (error.code != null) {
-        Get.snackbar('Error code ${error.code}', error.message, snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar('Error code ${error.code}', error.message,
+            snackPosition: SnackPosition.BOTTOM);
         dismissLoading();
       } else {
         EasyLoading.showError('Error adding region');
@@ -111,14 +117,15 @@ class AddRegionController extends GetxController {
     result.when((success) {
       if (success.region != null) {
         EasyLoading.showSuccess('Region added');
-        Get.back();
+        context.popRoute();
       } else {
         EasyLoading.showError('Error adding region');
       }
     }, (error) {
       debugPrint(error.toString());
       if (error.code != null) {
-        Get.snackbar('Error code ${error.code}', error.message, snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar('Error code ${error.code}', error.message,
+            snackPosition: SnackPosition.BOTTOM);
         dismissLoading();
       } else {
         EasyLoading.showError('Error adding region');
@@ -128,25 +135,12 @@ class AddRegionController extends GetxController {
 
   Future<void> fetchProviders() async {
     final result = await storeRepo.retrievePaymentProviders();
-    const kDuration = Duration(milliseconds: 300);
-
     result.when((success) async {
       paymentProviders = success.paymentProviders;
       update();
-      await Future.delayed(const Duration(milliseconds: 240)).then((value) async {
-        final box = providersExpansionKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = scrollController.offset + yPosition - (Get.context?.mediaQuery.padding.top ?? 0) - 56;
-        if (scrollPoint <= scrollController.position.maxScrollExtent) {
-          await scrollController.animateTo(scrollPoint - 10, duration: kDuration, curve: Curves.fastOutSlowIn);
-        } else {
-          await scrollController.animateTo(scrollController.position.maxScrollExtent,
-              duration: kDuration, curve: Curves.fastOutSlowIn);
-        }
-      });
+      await providersExpansionKey.currentContext.ensureVisibility();
     }, (error) {
       EasyLoading.showError('Error loading payment providers');
-      Get.back();
       return;
     });
 
@@ -160,8 +154,11 @@ class AddRegionController extends GetxController {
 
   void loadRegion() {
     titleCtrl.text = region!.name ?? '';
-    selectedCurrency = StoreService.store.currencies!.where((element) => element.code == region!.currencyCode).first;
+    selectedCurrency = StoreService.store.currencies!
+        .where((element) => element.code == region!.currencyCode)
+        .first;
     selectedCountries = region!.countries ?? [];
-    selectedPaymentProviders = region!.paymentProviders?.map((e) => e.id!).toList() ?? [];
+    selectedPaymentProviders =
+        region!.paymentProviders?.map((e) => e.id!).toList() ?? [];
   }
 }

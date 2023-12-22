@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -194,7 +195,7 @@ class _RenameFileViewState extends State<RenameFileView> {
       var newPath = '${path.substring(0, lastSeparator + 1)}$newName.$fileExtension';
 
       if ('${path.substring(0, lastSeparator + 1)}$newName.$fileExtension' == path) {
-        Get.back();
+        context.popRoute();
         return;
       }
 
@@ -202,7 +203,7 @@ class _RenameFileViewState extends State<RenameFileView> {
         return;
       }
       try {
-        Get.back(result: widget.file.rename(newPath));
+        context.popRoute(widget.file.rename(newPath));
       } catch (e) {
         debugPrint(e.toString());
       }

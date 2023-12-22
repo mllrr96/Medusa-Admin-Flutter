@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,19 +10,20 @@ import '../../../../data/models/store/product_collection.dart';
 import '../../collections/controllers/collections_controller.dart';
 
 class CreateCollectionController extends GetxController {
-  CreateCollectionController({required this.collectionRepo});
+  CreateCollectionController(
+      {required this.collectionRepo, required this.updateCollectionReq});
   CollectionRepo collectionRepo;
   final titleCtrl = TextEditingController();
   final handleCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool updateCollection = false;
   ProductCollection? collection;
+  final UpdateCollectionReq? updateCollectionReq;
   Map<String, dynamic> metadata = {};
   @override
   void onInit() {
-    if (Get.arguments != null && Get.arguments is List && (Get.arguments as List).length == 2) {
-      collection = Get.arguments[0];
-      updateCollection = Get.arguments[1];
+    if (updateCollectionReq != null) {
+      collection = updateCollectionReq!.productCollection;
       titleCtrl.text = collection!.title!;
       handleCtrl.text = collection!.handle ?? '';
       metadata = collection!.metadata ?? {};
@@ -37,32 +39,35 @@ class CreateCollectionController extends GetxController {
     super.onClose();
   }
 
-  Future<void> publish() async {
+  Future<void> publish(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     loading();
     final result = await collectionRepo.create(
         userCreateCollectionReq: UserCreateCollectionReq(
-            title: titleCtrl.text, handle: handleCtrl.text.removeAllWhitespace.isEmpty ? null : handleCtrl.text));
+            title: titleCtrl.text,
+            handle: handleCtrl.text.removeAllWhitespace.isEmpty
+                ? null
+                : handleCtrl.text));
     result.when((success) {
       EasyLoading.showSuccess('Collection Created');
       CollectionsController.instance.pagingController.refresh();
-      Get.back();
+      context.popRoute();
     }, (error) {
       EasyLoading.showError('Error creating collection');
       debugPrint(error.toString());
     });
   }
 
-  Future<void> edit() async {
+  Future<void> edit(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     if (titleCtrl.text == collection!.title &&
         handleCtrl.text == collection!.handle &&
         metadata == collection!.metadata) {
-      Get.back();
+      context.popRoute();
       return;
     }
 
@@ -70,14 +75,22 @@ class CreateCollectionController extends GetxController {
     final result = await collectionRepo.update(
         id: collection!.id!,
         userCreateCollectionReq: UserCreateCollectionReq(
-            title: titleCtrl.text, handle: handleCtrl.text.removeAllWhitespace.isEmpty ? null : handleCtrl.text));
+            title: titleCtrl.text,
+            handle: handleCtrl.text.removeAllWhitespace.isEmpty
+                ? null
+                : handleCtrl.text));
     result.when((success) {
       EasyLoading.showSuccess('Collection updated');
       CollectionsController.instance.pagingController.refresh();
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       EasyLoading.showError('Error updating collection');
       debugPrint(error.toString());
     });
   }
+}
+
+class UpdateCollectionReq {
+  final ProductCollection productCollection;
+  UpdateCollectionReq(this.productCollection);
 }

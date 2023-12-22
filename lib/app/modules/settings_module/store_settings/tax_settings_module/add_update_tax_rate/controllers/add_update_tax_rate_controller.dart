@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -8,9 +9,9 @@ import '../../../../../../data/models/req/user_tax_rate.dart';
 import '../../../../../../data/repository/tax_rate/tax_rate_repo.dart';
 
 class AddUpdateTaxRateController extends GetxController {
-  AddUpdateTaxRateController({required this.taxRateRepo});
+  AddUpdateTaxRateController({required this.taxRateRepo, required this.addUpdateTaxRateReq});
   final TaxRateRepo taxRateRepo;
-  AddUpdateTaxRateReq addUpdateTaxRateReq = Get.arguments;
+  final AddUpdateTaxRateReq addUpdateTaxRateReq;
   TaxRate? get taxRate => addUpdateTaxRateReq.taxRate;
   bool get updateMode => taxRate != null;
   final nameCtrl = TextEditingController();
@@ -36,7 +37,7 @@ class AddUpdateTaxRateController extends GetxController {
     super.onClose();
   }
 
-  Future<void> create() async {
+  Future<void> create(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -54,14 +55,14 @@ class AddUpdateTaxRateController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Tax rate created');
       dismissLoading();
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       Get.snackbar('Error creating tax rate ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
       dismissLoading();
     });
   }
 
-  Future<void> updateTaxRate() async {
+  Future<void> updateTaxRate(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -80,7 +81,7 @@ class AddUpdateTaxRateController extends GetxController {
     result.when((success) {
       EasyLoading.showSuccess('Tax rate created');
       dismissLoading();
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       Get.snackbar('Error creating tax rate ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
       dismissLoading();

@@ -11,9 +11,7 @@ import '../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_discount_controller.dart';
 
 class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
-  const ConfigurationExpansionTile(this.viewContext, {super.key});
-
-  final BuildContext viewContext;
+  const ConfigurationExpansionTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,28 +19,6 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    Future<void> scrollToSelectedContent(
-        {required GlobalKey globalKey, Duration? delay}) async {
-      await Future.delayed(delay ?? const Duration(milliseconds: 240))
-          .then((value) async {
-        final box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final yPosition = box?.localToGlobal(Offset.zero).dy ?? 0.0;
-        final scrollPoint = controller.scrollController.offset +
-            yPosition -
-            (viewContext.mediaQueryPadding.top + kToolbarHeight);
-        if (scrollPoint <=
-            controller.scrollController.position.maxScrollExtent) {
-          await controller.scrollController.animateTo(scrollPoint - 10,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        } else {
-          await controller.scrollController.animateTo(
-              controller.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.fastOutSlowIn);
-        }
-      });
-    }
 
     return GetBuilder<AddUpdateDiscountController>(
         id: 2,
@@ -53,7 +29,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
             maintainState: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await scrollToSelectedContent(globalKey: controller.configKey);
+                await controller.configKey.currentContext.ensureVisibility();
               }
             },
             initiallyExpanded: controller.updateMode,
@@ -77,8 +53,8 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   if (!val) {
                     controller.startDate = null;
                   } else {
-                    await scrollToSelectedContent(
-                        globalKey: controller.configKey);
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   }
                 },
                 title: const Text('Start date'),
@@ -91,6 +67,12 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 duration: const Duration(milliseconds: 300),
                 child: controller.hasStartDate
                     ? DateTimeCard(
+                        validator: (date) {
+                          if (date == null) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
                         dateTime: controller.startDate,
                         dateText: 'Start',
                         onTap: () async {
@@ -119,8 +101,8 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   if (!val) {
                     controller.endDate = null;
                   } else {
-                    await scrollToSelectedContent(
-                        globalKey: controller.configKey);
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   }
                 },
                 value: controller.hasEndDate,
@@ -130,6 +112,12 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 duration: const Duration(milliseconds: 300),
                 child: controller.hasEndDate
                     ? DateTimeCard(
+                        validator: (date) {
+                          if (date == null) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
                         dateTime: controller.endDate,
                         dateText: 'Expiry',
                         onTap: () async {
@@ -159,8 +147,8 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   if (!val) {
                     controller.limitCtrl.clear();
                   } else {
-                    await scrollToSelectedContent(
-                        globalKey: controller.configKey);
+                    await controller.configKey.currentContext
+                        .ensureVisibility();
                   }
                 },
               ),
@@ -174,7 +162,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                             child: LabeledNumericTextField(
                               label: 'Number of redemptions',
                               controller: controller.limitCtrl,
-                              hintText: '5',
+                              hintText: '...',
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return 'Required';

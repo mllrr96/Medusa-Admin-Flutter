@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -56,13 +57,13 @@ class CustomGiftCardsController extends GetxController {
   }
 
   Future<void> updateCustomGiftCard(
-      {required String id, required UserUpdateGiftCardReq userUpdateGiftCardReq, bool getBack = true}) async {
+      {required String id, required UserUpdateGiftCardReq userUpdateGiftCardReq, bool getBack = true, required BuildContext context}) async {
     loading();
     final result = await giftCardRepo.updateGiftCard(id: id, userUpdateGiftCardReq: userUpdateGiftCardReq);
 
     result.when((success) {
       if (getBack) {
-        Get.back();
+        context.popRoute();
       }
       customGiftCardsPagingController.refresh();
       EasyLoading.showSuccess('Gift Card Updated');

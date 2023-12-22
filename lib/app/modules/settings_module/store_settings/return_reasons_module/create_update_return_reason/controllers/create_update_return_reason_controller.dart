@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,10 +10,10 @@ import '../../../../../../data/models/req/user_return_reason.dart';
 
 
 class CreateUpdateReturnReasonController extends GetxController {
-  CreateUpdateReturnReasonController({required this.returnReasonRepo});
+  CreateUpdateReturnReasonController({required this.returnReasonRepo, required this.returnReason});
   ReturnReasonRepo returnReasonRepo;
-  bool updateMode = false;
-  ReturnReason? returnReason;
+  bool get updateMode => returnReason !=null ;
+  final ReturnReason? returnReason;
   final labelCtrl = TextEditingController();
   final valueCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
@@ -20,10 +21,6 @@ class CreateUpdateReturnReasonController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments != null) {
-      updateMode = true;
-      returnReason = Get.arguments;
-    }
     if (updateMode) {
       labelCtrl.text = returnReason!.label ?? '';
       valueCtrl.text = returnReason!.value ?? '';
@@ -52,7 +49,7 @@ class CreateUpdateReturnReasonController extends GetxController {
               label: labelCtrl.text, value: valueCtrl.text, description: descriptionCtrl.text));
       result.when((success) {
         EasyLoading.showSuccess('Updated');
-        Get.back(result: true);
+        context.popRoute(true);
       }, (error) => EasyLoading.showError('Error updating'));
     } else {
       final result = await returnReasonRepo.create(
@@ -62,7 +59,7 @@ class CreateUpdateReturnReasonController extends GetxController {
               description: descriptionCtrl.text.removeAllWhitespace.isEmpty ? null : descriptionCtrl.text));
       result.when((success) {
         EasyLoading.showSuccess('Updated');
-        Get.back(result: true);
+        context.popRoute(true);
       }, (error) => EasyLoading.showError('Error updating'));
     }
   }

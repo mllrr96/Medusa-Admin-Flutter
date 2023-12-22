@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,7 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 
 class DraftOrderDetailsController extends GetxController with StateMixin<DraftOrder> {
-  DraftOrderDetailsController({required this.draftOrderRepo});
+  DraftOrderDetailsController( {required this.draftOrderRepo, required this.draftId,});
 
   final DraftOrderRepo draftOrderRepo;
   final scrollController = ScrollController();
@@ -15,7 +16,7 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
   final paymentKey = GlobalKey();
   final shippingKey = GlobalKey();
   final customerKey = GlobalKey();
-  String id = Get.arguments;
+  final String draftId;
 
   @override
   Future<void> onInit() async {
@@ -32,7 +33,7 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
   Future<void> loadDraftOrder() async {
     change(null, status: RxStatus.loading());
     final result = await draftOrderRepo.retrieveDraftOrder(
-      id: id,
+      id: draftId,
       queryParameters: {
         'expand': 'order,cart',
       },
@@ -48,7 +49,7 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
 
   Future<void> markAsPaid() async {
     loading();
-    final result = await draftOrderRepo.registerPayment(id: id);
+    final result = await draftOrderRepo.registerPayment(id: draftId);
     result.when((success) async {
       if (success.order != null) {
         Get.snackbar('Success', 'Successfully marked as paid', snackPosition: SnackPosition.BOTTOM);
@@ -61,13 +62,13 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
     dismissLoading();
   }
 
-  Future<void> cancelDraftOrder()async{
+  Future<void> cancelDraftOrder(BuildContext context)async{
     loading();
-    final result = await draftOrderRepo.deleteDraftOrder(id: id);
+    final result = await draftOrderRepo.deleteDraftOrder(id: draftId);
     result.when((success) {
       if(success.deleted){
         EasyLoading.showSuccess('Draft Order Deleted');
-        Get.back();
+        context.popRoute();
       } else {
         EasyLoading.showError('Error deleting draft order');
       }

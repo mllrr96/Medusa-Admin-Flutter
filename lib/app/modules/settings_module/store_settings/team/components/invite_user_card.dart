@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -7,7 +8,7 @@ import '../../../../components/custom_text_field.dart';
 import '../controllers/invite_controller.dart';
 
 class InviteUserCard extends StatefulWidget {
-  const InviteUserCard({Key? key}) : super(key: key);
+  const InviteUserCard({super.key});
 
   @override
   State<InviteUserCard> createState() => _InviteUserCardState();
@@ -42,11 +43,11 @@ class _InviteUserCardState extends State<InviteUserCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AdaptiveButton(onPressed: () => Get.back(), child: const Text('Cancel')),
+                AdaptiveButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
                 AdaptiveButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        await InviteController.instance.inviteUser(email: emailCtrl.text, role: selectedRole);
+                        await InviteController.instance.inviteUser(email: emailCtrl.text, role: selectedRole, context: context);
                       }
                     },
                     child: const Text('Invite')),

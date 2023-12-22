@@ -1,15 +1,17 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../../../routes/app_pages.dart';
 
 class GroupCard extends GetView<GroupsController> {
-  const GroupCard({Key? key, required this.customerGroup, required this.index}) : super(key: key);
+  const GroupCard(
+      {super.key, required this.customerGroup, required this.index});
   final CustomerGroup customerGroup;
   final int index;
   @override
@@ -24,8 +26,8 @@ class GroupCard extends GetView<GroupsController> {
         motion: const DrawerMotion(),
         children: [
           SlidableAction(
-            onPressed: (_) async{
-              await Get.toNamed(Routes.CREATE_UPDATE_GROUP, arguments: customerGroup)?.then((value) {
+            onPressed: (_) async {
+              await context.pushRoute(CreateUpdateGroupRoute(customerGroup: customerGroup)).then((value) {
                 if (value is CustomerGroup) {
                   controller.pagingController.refresh();
                 }
@@ -37,7 +39,7 @@ class GroupCard extends GetView<GroupsController> {
             // label: 'Edit',
           ),
           SlidableAction(
-            onPressed: (_) async{
+            onPressed: (_) async {
               await showOkCancelAlertDialog(
                 context: context,
                 title: 'Delete the group',
@@ -58,10 +60,13 @@ class GroupCard extends GetView<GroupsController> {
         ],
       ),
       child: ListTile(
-        onTap: () => Get.toNamed(Routes.GROUP_DETAILS, arguments: customerGroup),
-        tileColor: index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
+        onTap: () =>
+            context.pushRoute(GroupDetailsRoute(customerGroup: customerGroup)),
+        tileColor:
+            index.isOdd ? Theme.of(context).appBarTheme.backgroundColor : null,
         title: Text(customerGroup.name ?? '', style: largeTextStyle),
-        subtitle: Text('Members: ${customerGroup.customers?.length ?? ''}', style: smallTextStyle),
+        subtitle: Text('Members: ${customerGroup.customers?.length ?? ''}',
+            style: smallTextStyle),
       ),
     );
   }

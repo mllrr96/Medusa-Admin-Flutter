@@ -1,11 +1,14 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../../../data/repository/gift_card/gift_card_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/currency_formatter.dart';
@@ -16,9 +19,10 @@ import '../../../components/pick_regions/controllers/pick_regions_controller.dar
 import '../../../components/pick_regions/views/pick_regions_view.dart';
 import '../controllers/create_update_custom_gift_card_controller.dart';
 
+@RoutePage()
 class CreateUpdateCustomGiftCardView extends StatelessWidget {
-  const CreateUpdateCustomGiftCardView({Key? key}) : super(key: key);
-
+  const CreateUpdateCustomGiftCardView( {super.key,this.giftCard});
+  final GiftCard? giftCard ;
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
@@ -26,6 +30,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
     const space = Gap(12);
     const halfSpace = Gap(6);
     return GetBuilder<CreateUpdateCustomGiftCardController>(
+      init: CreateUpdateCustomGiftCardController(giftCardRepo: GiftCardRepo(), giftCard: giftCard),
       builder: (controller) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -37,7 +42,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
               actions: [
                 AdaptiveButton(
                     onPressed: () async =>
-                        controller.updateMode ? await controller.updateGiftCard() : await controller.createGiftCard(),
+                        controller.updateMode ? await controller.updateGiftCard(context) : await controller.createGiftCard(context),
                     child: const Text('Save'))
               ],
             ),
@@ -150,6 +155,12 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                               ),
                               if (controller.hasExpiryDate)
                                 DateTimeCard(
+                                  validator: (date) {
+                                    if (date == null) {
+                                      return 'Required';
+                                    }
+                                    return null;
+                                  },
                                   dateTime: controller.expiryDate,
                                   dateText: 'Expiry',
                                   onTap: () async {

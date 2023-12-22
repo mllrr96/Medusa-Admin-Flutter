@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -10,9 +11,9 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';
 
 class CreateUpdateCustomGiftCardController extends GetxController {
-  CreateUpdateCustomGiftCardController({required this.giftCardRepo});
+  CreateUpdateCustomGiftCardController({required this.giftCardRepo, required this.giftCard});
   final GiftCardRepo giftCardRepo;
-  final GiftCard? giftCard = Get.arguments;
+  final GiftCard? giftCard ;
   bool get updateMode => giftCard != null;
   Region? selectedRegion;
   DateTime? expiryDate;
@@ -49,12 +50,12 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     update();
   }
 
-  Future<void> updateGiftCard() async {
+  Future<void> updateGiftCard(BuildContext context) async {
     loading();
     final result = await giftCardRepo.updateGiftCard(id: giftCard!.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq());
 
     result.when((success) {
-      Get.back();
+      context.popRoute();
       EasyLoading.showSuccess('Updated');
       return;
     },
@@ -63,7 +64,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> createGiftCard() async {
+  Future<void> createGiftCard(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -77,7 +78,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     ));
 
     result.when((success) {
-      Get.back();
+      context.popRoute();
       EasyLoading.showSuccess('Updated');
       CustomGiftCardsController.instance.customGiftCardsPagingController.refresh();
       return;

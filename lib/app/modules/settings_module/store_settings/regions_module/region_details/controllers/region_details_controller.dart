@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,16 +10,15 @@ import '../../../../../../data/models/store/shipping_option.dart';
 import '../../../../../../data/repository/regions/regions_repo.dart';
 
 class RegionDetailsController extends GetxController with StateMixin<Region> {
-  RegionDetailsController({required this.regionsRepo, required this.shippingOptionsRepo});
+  RegionDetailsController({required this.regionsRepo, required this.shippingOptionsRepo, required this.regionId});
   static RegionDetailsController get instance => Get.find<RegionDetailsController>();
   final RegionsRepo regionsRepo;
   final ShippingOptionsRepo shippingOptionsRepo;
-  late String regionId;
+  final String regionId;
   RxString regionName = 'Region'.obs;
 
   @override
   Future<void> onInit() async {
-    regionId = Get.arguments ?? '';
     await loadRegion();
     super.onInit();
   }
@@ -60,13 +60,13 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
     });
   }
 
-  Future<void> deleteRegion() async {
+  Future<void> deleteRegion(BuildContext context) async {
     change(null, status: RxStatus.loading());
     final result = await regionsRepo.delete(id: regionId);
     result.when(
       (success) {
         if (success.deleted) {
-          Get.back();
+          context.popRoute();
           EasyLoading.showSuccess('Region deleted');
           RegionsController.instance.pagingController.refresh();
         }

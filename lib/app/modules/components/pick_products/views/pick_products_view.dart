@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,8 +11,9 @@ import '../../../../data/models/store/product.dart';
 import '../controllers/pick_products_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
-class PickProductsView extends GetView<PickProductsController> {
-  const PickProductsView({Key? key, this.pickProductsReq}) : super(key: key);
+@RoutePage()
+class PickProductsView extends StatelessWidget {
+  const PickProductsView({super.key, this.pickProductsReq});
   final PickProductsReq? pickProductsReq;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class PickProductsView extends GetView<PickProductsController> {
                           .listEquals(controller.productsReq.selectedProducts?.map((e) => e.id!).toList() ?? [])
                       ? null
                       : () {
-                          controller.save();
+                          controller.save(context);
                         },
                   child: const Text('Save'))
             ],

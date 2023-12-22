@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,29 +16,38 @@ import '../../discount_conditions/components/condition_tag_list_tile.dart';
 import '../../discount_conditions/components/condition_type_list_tile.dart';
 import '../controllers/update_condition_controller.dart';
 
-class UpdateConditionView extends GetView<UpdateConditionController> {
-  const UpdateConditionView({Key? key}) : super(key: key);
+@RoutePage()
+class UpdateConditionView extends StatelessWidget {
+  const UpdateConditionView(this.updateConditionReq, {super.key});
+  final UpdateConditionReq updateConditionReq;
 
   @override
   Widget build(BuildContext context) {
-    final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom == 0 ? 12.0:MediaQuery.of(context).viewPadding.bottom ;
-    final topPadding = MediaQuery.of(context).viewPadding.bottom == 0 ? 12.0:MediaQuery.of(context).viewPadding.bottom /2 ;
+    final bottomViewPadding = context.bottomViewPadding == 0
+        ? 12.0
+        : context.bottomViewPadding;
+    final topPadding = context.bottomViewPadding == 0
+        ? 12.0
+        : context.bottomViewPadding/ 2;
     final smallTextStyle = context.bodySmall;
 
     return GetBuilder<UpdateConditionController>(
+      init: UpdateConditionController(updateConditionReq),
       builder: (controller) {
         final buttonText = AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),
             child: controller.selectedItems.isEmpty
-                ? const Text('Delete condition', style: TextStyle(color: Colors.white), key: Key('delete'))
-                : const Text('Update', style: TextStyle(color: Colors.white), key: Key('update')));
+                ? const Text('Delete condition',
+                    style: TextStyle(color: Colors.white), key: Key('delete'))
+                : const Text('Update',
+                    style: TextStyle(color: Colors.white), key: Key('update')));
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
             title: const Text('Update Condition'),
             actions: [
               AdaptiveButton(
-                onPressed: () async => await controller.add(),
+                onPressed: () async => await controller.add(context),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -52,17 +62,23 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
               preferredSize: const Size.fromHeight(kToolbarHeight / 2),
               child: SizedBox(
                 height: kToolbarHeight / 2,
-                child: Text(controller.operatorText, style: smallTextStyle, maxLines: 1),
+                child: Text(controller.operatorText,
+                    style: smallTextStyle, maxLines: 1),
               ),
             ),
           ),
           bottomNavigationBar: Container(
-            padding: EdgeInsets.only(bottom: bottomViewPadding, left: 22.0, right: 22.0, top: topPadding ),
+            padding: EdgeInsets.only(
+                bottom: bottomViewPadding,
+                left: 22.0,
+                right: 22.0,
+                top: topPadding),
             color: Theme.of(context).appBarTheme.backgroundColor,
             child: AdaptiveFilledButton(
               buttonWidth: Get.width / 3,
-              buttonColor: controller.selectedItems.isEmpty ? Colors.redAccent : null,
-              onPressed: () => controller.save(),
+              buttonColor:
+                  controller.selectedItems.isEmpty ? Colors.redAccent : null,
+              onPressed: () => controller.save(context),
               child: buttonText,
             ),
           ),
@@ -75,13 +91,17 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                     final item = controller.items[index] as Product;
                     return ProductListTileWithVariantCount(
                       product: item,
-                      value: (controller.selectedItems as List<Product>).map((e) => e.id!).toList().contains(item.id),
+                      value: (controller.selectedItems as List<Product>)
+                          .map((e) => e.id!)
+                          .toList()
+                          .contains(item.id),
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
                           (controller.selectedItems as List<Product>).add(item);
                         } else {
-                          (controller.selectedItems as List<Product>).removeWhere((element) => element.id == item.id);
+                          (controller.selectedItems as List<Product>)
+                              .removeWhere((element) => element.id == item.id);
                         }
                         controller.update();
                       },
@@ -90,12 +110,15 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                     final item = controller.items[index] as ProductType;
                     return ConditionTypeListTile(
                       type: item,
-                      value:
-                          (controller.selectedItems as List<ProductType>).map((e) => e.id!).toList().contains(item.id),
+                      value: (controller.selectedItems as List<ProductType>)
+                          .map((e) => e.id!)
+                          .toList()
+                          .contains(item.id),
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
-                          (controller.selectedItems as List<ProductType>).add(item);
+                          (controller.selectedItems as List<ProductType>)
+                              .add(item);
                         } else {
                           (controller.selectedItems as List<ProductType>)
                               .removeWhere((element) => element.id == item.id);
@@ -107,14 +130,16 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                     final item = controller.items[index] as ProductCollection;
                     return ConditionCollectionListTile(
                       collection: item,
-                      value: (controller.selectedItems as List<ProductCollection>)
-                          .map((e) => e.id!)
-                          .toList()
-                          .contains(item.id),
+                      value:
+                          (controller.selectedItems as List<ProductCollection>)
+                              .map((e) => e.id!)
+                              .toList()
+                              .contains(item.id),
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
-                          (controller.selectedItems as List<ProductCollection>).add(item);
+                          (controller.selectedItems as List<ProductCollection>)
+                              .add(item);
                         } else {
                           (controller.selectedItems as List<ProductCollection>)
                               .removeWhere((element) => element.id == item.id);
@@ -127,12 +152,15 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                     final item = controller.items[index] as ProductTag;
                     return ConditionTagListTile(
                       tag: item,
-                      value:
-                          (controller.selectedItems as List<ProductTag>).map((e) => e.id!).toList().contains(item.id),
+                      value: (controller.selectedItems as List<ProductTag>)
+                          .map((e) => e.id!)
+                          .toList()
+                          .contains(item.id),
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
-                          (controller.selectedItems as List<ProductTag>).add(item);
+                          (controller.selectedItems as List<ProductTag>)
+                              .add(item);
                         } else {
                           (controller.selectedItems as List<ProductTag>)
                               .removeWhere((element) => element.id == item.id);
@@ -152,7 +180,8 @@ class UpdateConditionView extends GetView<UpdateConditionController> {
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
-                          (controller.selectedItems as List<CustomerGroup>).add(item);
+                          (controller.selectedItems as List<CustomerGroup>)
+                              .add(item);
                         } else {
                           (controller.selectedItems as List<CustomerGroup>)
                               .removeWhere((element) => element.id == item.id);

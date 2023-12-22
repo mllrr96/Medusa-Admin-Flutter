@@ -1,16 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 import '../../../../../../data/models/store/country.dart';
 import '../../../../../../data/models/store/fulfillment_provider.dart';
 import '../../../../../../data/models/store/payment_provider.dart';
 import '../../../../../../data/models/store/region.dart';
-import '../../../../../../routes/app_pages.dart';
 
 class RegionCard extends StatelessWidget {
-  const RegionCard({super.key, required this.region, this.onTap, this.showProviders = true});
+  const RegionCard(
+      {super.key, required this.region, this.onTap, this.showProviders = true});
   final Region region;
   final void Function()? onTap;
   final bool showProviders;
@@ -20,7 +22,8 @@ class RegionCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     return InkWell(
-      onTap: onTap ?? () => Get.toNamed(Routes.REGION_DETAILS, arguments: region.id),
+      onTap: onTap ??
+          () => context.pushRoute(RegionDetailsRoute(regionId: region.id!)),
       borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -45,15 +48,21 @@ class RegionCard extends StatelessWidget {
             if (showProviders)
               Row(
                 children: [
-                  Text('Payment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
-                  Expanded(child: Text(getPaymentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                  Text('Payment Providers: ',
+                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Expanded(
+                      child: Text(getPaymentProviders(),
+                          style: smallTextStyle?.copyWith(color: lightWhite))),
                 ],
               ),
             if (showProviders)
               Row(
                 children: [
-                  Text('Fulfillment Providers: ', style: smallTextStyle?.copyWith(color: lightWhite)),
-                  Expanded(child: Text(getFulfilmentProviders(), style: smallTextStyle?.copyWith(color: lightWhite))),
+                  Text('Fulfillment Providers: ',
+                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Expanded(
+                      child: Text(getFulfilmentProviders(),
+                          style: smallTextStyle?.copyWith(color: lightWhite))),
                 ],
               ),
           ],

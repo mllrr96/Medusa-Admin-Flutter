@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -9,8 +10,9 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../controllers/create_draft_order_controller.dart';
 
-class DraftOrderOverView extends StatelessWidget {
-  const DraftOrderOverView(this.controller, {super.key});
+@RoutePage()
+class CreateDraftOrderOverViewView extends StatelessWidget {
+  const CreateDraftOrderOverViewView(this.controller, {super.key});
   final CreateDraftOrderController controller;
   @override
   Widget build(BuildContext context) {
@@ -27,139 +29,138 @@ class DraftOrderOverView extends StatelessWidget {
     final billingAddress = controller.sameAddress ? controller.shippingAddress : controller.billingAddress;
     final shippingOption = controller.selectedShippingOption;
 
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        children: [
-          CustomExpansionTile(
-            label: 'Items',
-            initiallyExpanded: true,
+    return Column(
+      children: [
+        CustomExpansionTile(
+          label: 'Items',
+          initiallyExpanded: true,
+          children: [
+            ListView.separated(
+              separatorBuilder: (_, __) => const Gap(12),
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 12.0),
+              itemCount: lineItems.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) =>
+                  OverViewListTile(lineItems[index], currencyCode: controller.selectedRegion?.currencyCode ?? ''),
+            ),
+            AdaptiveButton(
+                onPressed: () {},
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add),
+                    Text('Add discount'),
+                  ],
+                ))
+          ],
+        ),
+        space,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            color: context.theme.appBarTheme.backgroundColor,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ListView.separated(
-                separatorBuilder: (_, __) => const Gap(12),
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(bottom: 12.0),
-                itemCount: lineItems.length,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) =>
-                    OverViewListTile(lineItems[index], currencyCode: controller.selectedRegion?.currencyCode ?? ''),
+              const Text('Customer'),
+              space,
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: ColorManager.getAvatarColor(customer.email),
+                    maxRadius: 18,
+                    child: Text(
+                        customer.firstName == null
+                            ? customer.email[0].capitalize ?? customer.email[0]
+                            : customer.firstName![0],
+                        style: largeTextStyle!.copyWith(color: Colors.white)),
+                  ),
+                  const SizedBox(width: 12.0),
+                  if (customer.firstName != null)
+                    Flexible(
+                        child: Text('${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})',
+                            style: smallTextStyle)),
+                  if (customer.firstName == null) Flexible(child: Text(customer.email, style: smallTextStyle)),
+                ],
               ),
-              AdaptiveButton(
-                  onPressed: () {},
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add),
-                      Text('Add discount'),
-                    ],
-                  ))
+              halfSpace,
             ],
           ),
-          space,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              color: context.theme.appBarTheme.backgroundColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Customer'),
-                space,
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: ColorManager.getAvatarColor(customer.email),
-                      maxRadius: 18,
-                      child: Text(
-                          customer.firstName == null
-                              ? customer.email[0].capitalize ?? customer.email[0]
-                              : customer.firstName![0],
-                          style: largeTextStyle!.copyWith(color: Colors.white)),
-                    ),
-                    const SizedBox(width: 12.0),
-                    if (customer.firstName != null)
-                      Flexible(
-                          child: Text('${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})',
-                              style: smallTextStyle)),
-                    if (customer.firstName == null) Flexible(child: Text(customer.email, style: smallTextStyle)),
-                  ],
-                ),
-                halfSpace,
-              ],
-            ),
+        ),
+        space,
+        Container(
+          width: double.maxFinite,
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            color: context.theme.appBarTheme.backgroundColor,
           ),
-          space,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              color: context.theme.appBarTheme.backgroundColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Shipping details'),
-                space,
-                // Address info
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Address', style: smallTextStyle?.copyWith(color: lightWhite)),
-                    Text(
-                        '${shippingAddress.address1}${shippingAddress.address2 != null ? ',' : ''} ${shippingAddress.address2 ?? ''}',
-                        style: smallTextStyle),
-                    Text(
-                        '${shippingAddress.postalCode} ${shippingAddress.city ?? ''}, ${shippingAddress.country?.name?.capitalize ?? ''}',
-                        style: smallTextStyle),
-                  ],
-                ),
-                space,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Shipping method', style: smallTextStyle?.copyWith(color: lightWhite)),
-                    Text(
-                        '${shippingOption?.name ?? ''} - (${shippingOption?.amount.formatAsPrice(shippingOption.region?.currencyCode)})',
-                        style: smallTextStyle),
-                  ],
-                ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Shipping details'),
+              space,
+              // Address info
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Address', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Text(
+                      '${shippingAddress.address1}${shippingAddress.address2 != null ? ',' : ''} ${shippingAddress.address2 ?? ''}',
+                      style: smallTextStyle),
+                  Text(
+                      '${shippingAddress.postalCode} ${shippingAddress.city ?? ''}, ${shippingAddress.country?.name?.capitalize ?? ''}',
+                      style: smallTextStyle),
+                ],
+              ),
+              space,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Shipping method', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Text(
+                      '${shippingOption?.name ?? ''} - (${shippingOption?.amount.formatAsPrice(shippingOption.region?.currencyCode)})',
+                      style: smallTextStyle),
+                ],
+              ),
 
-                halfSpace,
-              ],
-            ),
+              halfSpace,
+            ],
           ),
-          space,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              color: context.theme.appBarTheme.backgroundColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Billing details'),
-                space,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Address', style: smallTextStyle?.copyWith(color: lightWhite)),
-                    Text(
-                        '${billingAddress.address1}${billingAddress.address2 != null ? ',' : ''} ${billingAddress.address2 ?? ''}',
-                        style: smallTextStyle),
-                    Text(
-                        '${billingAddress.postalCode} ${billingAddress.city ?? ''}, ${billingAddress.country?.name?.capitalize ?? ''}',
-                        style: smallTextStyle),
-                  ],
-                ),
-                halfSpace,
-              ],
-            ),
+        ),
+        space,
+        Container(
+          width: double.maxFinite,
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            color: context.theme.appBarTheme.backgroundColor,
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Billing details'),
+              space,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Address', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Text(
+                      '${billingAddress.address1}${billingAddress.address2 != null ? ',' : ''} ${billingAddress.address2 ?? ''}',
+                      style: smallTextStyle),
+                  Text(
+                      '${billingAddress.postalCode} ${billingAddress.city ?? ''}, ${billingAddress.country?.name?.capitalize ?? ''}',
+                      style: smallTextStyle),
+                ],
+              ),
+              halfSpace,
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

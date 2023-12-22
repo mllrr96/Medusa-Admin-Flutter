@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/req/user_user_req.dart';
@@ -8,7 +9,7 @@ import '../../../../components/adaptive_button.dart';
 import '../../../../components/custom_text_field.dart';
 
 class UpdateUserCard extends StatefulWidget {
-  const UpdateUserCard({Key? key, required this.user}) : super(key: key);
+  const UpdateUserCard({super.key, required this.user});
   final User user;
   @override
   State<UpdateUserCard> createState() => _UpdateUserCardState();
@@ -56,7 +57,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AdaptiveButton(onPressed: () => Get.back(), child: const Text('Cancel')),
+                  AdaptiveButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
                   AdaptiveButton(
                       onPressed: () async {
                         if (!formKey.currentState!.validate()) {
@@ -64,12 +65,13 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                         }
 
                         if (user.firstName == firstNameCtrl.text && user.lastName == lastNameCtrl.text) {
-                          Get.back();
+                          context.popRoute();
                           return;
                         }
 
                        await TeamController.instance.updateUser(
                           id: user.id!,
+                          context: context,
                           userUpdateUserReq: UserUpdateUserReq(
                             firstName: firstNameCtrl.text,
                             lastName: lastNameCtrl.text,

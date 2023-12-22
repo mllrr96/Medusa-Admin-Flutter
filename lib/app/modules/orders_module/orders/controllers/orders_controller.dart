@@ -8,11 +8,14 @@ import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_rep
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-
-class OrdersController extends GetxController with GetSingleTickerProviderStateMixin {
+class OrdersController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   static OrdersController get instance => Get.find<OrdersController>();
 
-  OrdersController({required this.ordersRepository, required this.regionsRepo, required this.salesChannelRepo});
+  OrdersController(
+      {required this.ordersRepository,
+      required this.regionsRepo,
+      required this.salesChannelRepo});
   OrdersRepo ordersRepository;
   RegionsRepo regionsRepo;
   SalesChannelRepo salesChannelRepo;
@@ -21,7 +24,8 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
   late TabController tabController;
   RxString searchTerm = ''.obs;
   final scrollController = ScrollController();
-  final pagingController = PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController =
+      PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   OrderFilter? orderFilter;
   List<Region>? regions;
@@ -31,14 +35,6 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
-  }
-
-  @override
-  Future<void> onReady() async {
-    await fetchRegions();
-    await fetchSalesChannels();
-
-    super.onReady();
   }
 
   @override
@@ -52,9 +48,11 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
         queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
-      if (searchTerm.value.removeAllWhitespace.isNotEmpty) 'q': searchTerm.value,
+      if (searchTerm.value.removeAllWhitespace.isNotEmpty)
+        'q': searchTerm.value,
       'expand': 'items,cart,customer,shipping_address,sales_channel,currency',
-      'fields': 'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
+      'fields':
+          'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
     }..addAll(orderFilter?.toJson() ?? {}));
     result.when((success) {
       final isLastPage = success.orders!.length < _pageSize;
@@ -81,31 +79,39 @@ class OrdersController extends GetxController with GetSingleTickerProviderStateM
     update();
   }
 
+
+
   void updateFilter(OrderFilter orderFilter) {
     this.orderFilter = orderFilter;
     pagingController.refresh();
     update();
   }
 
-  fetchRegions() async {
+  Future<bool> fetchRegions() async {
     final result = await regionsRepo.retrieveAll();
-    result.when((success) {
+    return result.when((success) {
       if (success.regions?.isNotEmpty ?? false) {
         regions = success.regions;
       } else {
         regions = [];
       }
-    }, (error) {});
+      return true;
+    }, (error) {
+      return false;
+    });
   }
 
-  fetchSalesChannels() async {
+ Future<bool> fetchSalesChannels() async {
     final result = await salesChannelRepo.retrieveAll();
-    result.when((success) {
+   return result.when((success) {
       if (success.salesChannels?.isNotEmpty ?? false) {
         salesChannels = success.salesChannels;
       } else {
         salesChannels = [];
       }
-    }, (error) {});
+      return true;
+    }, (error) {
+      return false;
+    });
   }
 }

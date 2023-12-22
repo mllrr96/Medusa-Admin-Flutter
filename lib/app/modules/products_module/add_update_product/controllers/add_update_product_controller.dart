@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class AddUpdateProductController extends GetxController {
     required this.collectionRepo,
     required this.uploadRepo,
     required this.salesChannelRepo,
+    this.updateProductReq
   });
   final ProductsRepo productsRepo;
   final ProductTypeRepo productTypeRepo;
@@ -64,17 +66,13 @@ class AddUpdateProductController extends GetxController {
   final countryCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
   bool updateMode = false;
-  UpdateProductReq? updateProductReq;
+ final UpdateProductReq? updateProductReq;
   File? thumbnailImage;
   List<File> images = [];
-  late ScrollController scrollController;
   late Product product;
   late ImagePickerHelper imagePickerHelper;
   @override
   Future<void> onInit() async {
-
-    scrollController = ScrollController();
-    updateProductReq = Get.arguments;
     imagePickerHelper = ImagePickerHelper();
     fetchProduct();
     await fetchOrganize();
@@ -145,11 +143,10 @@ class AddUpdateProductController extends GetxController {
     handleCtrl.dispose();
     materialCtrl.dispose();
     descriptionCtrl.dispose();
-    scrollController.dispose();
     super.onClose();
   }
 
-  Future<void> addProduct() async {
+  Future<void> addProduct(BuildContext context) async {
     // TODO: check for required fields
     if (!keyForm.currentState!.validate()) {
       if (!generalTileCtrl.isExpanded) {
@@ -166,7 +163,7 @@ class AddUpdateProductController extends GetxController {
       EasyLoading.showSuccess('New product Added');
       await _uploadImages(id: success.id!, images: images);
       await _uploadThumbnail(id: success.id!, thumbnail: thumbnailImage);
-      Get.back(result: true);
+      context.popRoute(true);
     }, (error) {
       debugPrint(error.toString());
       dismissLoading();
@@ -234,7 +231,7 @@ class AddUpdateProductController extends GetxController {
             await uploadRepo.deleteFile(fileKey: element.id!);
           }
         }
-        Get.back(result: true);
+        context.popRoute(true);
       },
       (error) {
         EasyLoading.showError('Error updating product');

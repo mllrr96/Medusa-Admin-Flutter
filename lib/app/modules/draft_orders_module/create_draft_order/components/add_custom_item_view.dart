@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,8 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
   Widget build(BuildContext context) {
     final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom == 0
         ? (20.0 + MediaQuery.of(context).viewInsets.bottom)
-        : MediaQuery.of(context).viewPadding.bottom + MediaQuery.of(context).viewInsets.bottom;
+        : MediaQuery.of(context).viewPadding.bottom +
+            MediaQuery.of(context).viewInsets.bottom;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -56,11 +58,12 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                         if (!formKey.currentState!.validate()) {
                           return;
                         }
-                        Get.back(
-                            result: LineItem(
+                        context.popRoute(LineItem(
                           title: titleCtrl.text,
                           quantity: int.tryParse(quantityCtrl.text),
-                          unitPrice: int.tryParse(priceCtrl.text.replaceAll('.', '').replaceAll(',', '')),
+                          unitPrice: int.tryParse(priceCtrl.text
+                              .replaceAll('.', '')
+                              .replaceAll(',', '')),
                         ));
                       },
                       child: const Text('Add'))
@@ -88,7 +91,8 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                             child: LabeledTextField(
                           readOnly: true,
                           label: 'Currency',
-                          controller: TextEditingController(text: widget.currencyCode?.toUpperCase()),
+                          controller: TextEditingController(
+                              text: widget.currencyCode?.toUpperCase()),
                         )),
                         const SizedBox(width: 12.0),
                         Flexible(
@@ -101,7 +105,9 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                                 text = text.replaceAll(RegExp(r'[^0-9]'), '');
                                 var val = int.tryParse(text);
                                 val ??= 0;
-                                priceCtrl.text = (val + 1).formatAsPrice( widget.currencyCode, includeSymbol: false);
+                                priceCtrl.text = (val + 1).formatAsPrice(
+                                    widget.currencyCode,
+                                    includeSymbol: false);
                               },
                               onMinusPressed: () {
                                 var text = priceCtrl.text;
@@ -111,13 +117,21 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                                 if (val == 1) {
                                   return;
                                 }
-                                priceCtrl.text = (val - 1).formatAsPrice( widget.currencyCode, includeSymbol: false);
+                                priceCtrl.text = (val - 1).formatAsPrice(
+                                    widget.currencyCode,
+                                    includeSymbol: false);
                               },
-                              inputFormatters: [CurrencyTextInputFormatter(name: widget.currencyCode)],
+                              inputFormatters: [
+                                CurrencyTextInputFormatter(
+                                    name: widget.currencyCode)
+                              ],
                               validator: (val) {
                                 if (val == null ||
                                     val.isEmpty ||
-                                    int.tryParse(val.replaceAll('.', '').replaceAll(',', '')) == null) {
+                                    int.tryParse(val
+                                            .replaceAll('.', '')
+                                            .replaceAll(',', '')) ==
+                                        null) {
                                   return 'Price is required';
                                 }
                                 return null;

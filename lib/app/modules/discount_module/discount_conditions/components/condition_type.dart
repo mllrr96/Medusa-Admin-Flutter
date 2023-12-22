@@ -1,3 +1,5 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,14 +14,17 @@ import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 
+@RoutePage()
 class ConditionTypeView extends StatelessWidget {
-  const ConditionTypeView({Key? key}) : super(key: key);
+  const ConditionTypeView({super.key,this.disabledTypes});
+  final List<ProductType>? disabledTypes;
 
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<ConditionTypeController>(
-      init: ConditionTypeController(typeRepo: ProductTypeRepo()),
+      init: ConditionTypeController(
+          typeRepo: ProductTypeRepo(), disabledTypes: disabledTypes ?? []),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -33,11 +38,13 @@ class ConditionTypeView extends StatelessWidget {
                   AdaptiveButton(
                       onPressed: controller.selectedTypes.isNotEmpty
                           ? () {
-                              final res = DiscountConditionRes(
-                                  operator: controller.discountConditionOperator,
+                              final result = DiscountConditionRes(
+                                  operator:
+                                      controller.discountConditionOperator,
                                   productTypes: controller.selectedTypes,
-                                  conditionType: DiscountConditionType.productType);
-                              Get.back(result: res);
+                                  conditionType:
+                                      DiscountConditionType.productType);
+                              context.popRoute(result);
                             }
                           : null,
                       child: const Text('Save')),
@@ -46,12 +53,12 @@ class ConditionTypeView extends StatelessWidget {
                   preferredSize: const Size.fromHeight(kToolbarHeight),
                   child: Container(
                     height: kToolbarHeight,
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 4.0),
                     child: SearchTextField(
                       fillColor: context.theme.scaffoldBackgroundColor,
                       controller: controller.searchCtrl,
-                      hintText:
-                      'Search for type',
+                      hintText: 'Search for type',
                       onSuffixTap: () {
                         if (controller.searchTerm.isEmpty) return;
                         controller.searchCtrl.clear();
@@ -59,8 +66,7 @@ class ConditionTypeView extends StatelessWidget {
                         controller.pagingController.refresh();
                       },
                       onSubmitted: (val) {
-                        if (controller.searchTerm != val &&
-                            val.isNotEmpty) {
+                        if (controller.searchTerm != val && val.isNotEmpty) {
                           controller.searchTerm = val;
                           controller.pagingController.refresh();
                         }
@@ -69,53 +75,64 @@ class ConditionTypeView extends StatelessWidget {
                   ),
                 ),
               ),
-              if(!controller.updateMode)
-              SliverToBoxAdapter(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                child: Column(
-                  children: [
-                    ConditionOperatorCard(
-                      conditionOperator: DiscountConditionOperator.inn,
-                      groupValue: controller.discountConditionOperator,
-                      onTap: (val) {
-                        controller.discountConditionOperator = val;
-                        controller.update();
-                      },
-                    ),
-                    space,
-                    ConditionOperatorCard(
-                      conditionOperator: DiscountConditionOperator.notIn,
-                      groupValue: controller.discountConditionOperator,
-                      onTap: (val) {
-                        controller.discountConditionOperator = val;
-                        controller.update();
-                      },
-                    ),
-                  ],
-                ),
-              )),
+              if (!controller.updateMode)
+                SliverToBoxAdapter(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  child: Column(
+                    children: [
+                      ConditionOperatorCard(
+                        conditionOperator: DiscountConditionOperator.inn,
+                        groupValue: controller.discountConditionOperator,
+                        onTap: (val) {
+                          controller.discountConditionOperator = val;
+                          controller.update();
+                        },
+                      ),
+                      space,
+                      ConditionOperatorCard(
+                        conditionOperator: DiscountConditionOperator.notIn,
+                        groupValue: controller.discountConditionOperator,
+                        onTap: (val) {
+                          controller.discountConditionOperator = val;
+                          controller.update();
+                        },
+                      ),
+                    ],
+                  ),
+                )),
               SliverSafeArea(
                 top: false,
                 sliver: PagedSliverList.separated(
-                  separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<ProductType>(
-                    itemBuilder: (context, type, index) => ConditionTypeListTile(
-                        type: type,
-                        value: controller.selectedTypes.map((e) => e.id!).toList().contains(type.id),
-                        enabled: !controller.disabledTypes.map((e) => e.id!).toList().contains(type.id),
-                        onChanged: (val) {
-                          if (val == null) return;
-                          if (val) {
-                            controller.selectedTypes.add(type);
-                          } else {
-                            controller.selectedTypes.removeWhere((e) => e.id == type.id);
-                          }
-                          controller.update();
-                        }),
+                    itemBuilder: (context, type, index) =>
+                        ConditionTypeListTile(
+                            type: type,
+                            value: controller.selectedTypes
+                                .map((e) => e.id!)
+                                .toList()
+                                .contains(type.id),
+                            enabled: !controller.disabledTypes
+                                .map((e) => e.id!)
+                                .toList()
+                                .contains(type.id),
+                            onChanged: (val) {
+                              if (val == null) return;
+                              if (val) {
+                                controller.selectedTypes.add(type);
+                              } else {
+                                controller.selectedTypes
+                                    .removeWhere((e) => e.id == type.id);
+                              }
+                              controller.update();
+                            }),
                     firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
                     noItemsFoundIndicatorBuilder: (context) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,14 +162,16 @@ class ConditionTypeView extends StatelessWidget {
 }
 
 class ConditionTypeController extends GetxController {
-  ConditionTypeController({required this.typeRepo});
+  ConditionTypeController(
+      {required this.typeRepo, required this.disabledTypes});
   final ProductTypeRepo typeRepo;
   List<ProductType> selectedTypes = <ProductType>[];
-  DiscountConditionOperator discountConditionOperator = DiscountConditionOperator.inn;
+  DiscountConditionOperator discountConditionOperator =
+      DiscountConditionOperator.inn;
   final PagingController<int, ProductType> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  final List<ProductType> disabledTypes = Get.arguments ?? [];
+  final List<ProductType> disabledTypes;
   bool get updateMode => disabledTypes.isNotEmpty;
   final searchCtrl = TextEditingController();
   String searchTerm = '';
@@ -163,11 +182,13 @@ class ConditionTypeController extends GetxController {
     });
     super.onInit();
   }
+
   @override
   void onClose() {
     searchCtrl.dispose();
     super.onClose();
   }
+
   Future<void> _fetchPage(int pageKey) async {
     final result = await typeRepo.retrieveProductTypes(
       queryParameters: {
