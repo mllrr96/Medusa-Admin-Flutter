@@ -147,7 +147,7 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const halfSpace = Gap(6);
@@ -162,7 +162,7 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
             Row(
               children: [
                 Text(widget.label!,
-                    style: mediumTextStyle?.copyWith(color: widget.lightLabelColor ? lightWhite : null)),
+                    style: mediumTextStyle?.copyWith(color: widget.lightLabelColor ? manatee : null)),
                 if (widget.required) Text('*', style: mediumTextStyle?.copyWith(color: Colors.red)),
               ],
             ),

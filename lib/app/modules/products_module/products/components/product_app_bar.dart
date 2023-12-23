@@ -21,7 +21,7 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ProductsController.instance;
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     IconData sortIcon = switch (controller.sortOptions) {
       SortOptions.aZ => Icons.sort_by_alpha,
       SortOptions.zA => Icons.sort_by_alpha,
@@ -88,7 +88,7 @@ class ProductsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       Text('Filters',
                           style: context.bodySmall
-                              ?.copyWith(color: lightWhite)),
+                              ?.copyWith(color: manatee)),
                       if (controller.productFilter?.count() != null)
                         Text(' ${controller.productFilter?.count() ?? ''}',
                             style: context.bodySmall

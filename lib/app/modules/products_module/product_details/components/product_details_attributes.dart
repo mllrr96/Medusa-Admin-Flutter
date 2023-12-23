@@ -26,7 +26,7 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     return CustomExpansionTile(
       key: expansionKey,
@@ -61,11 +61,11 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               children: [
                 Expanded(
                     child: Text('Height',
-                        style: mediumTextStyle!.copyWith(color: lightWhite))),
+                        style: mediumTextStyle!.copyWith(color: manatee))),
                 Expanded(
                     flex: 2,
                     child: Text(product.height?.toString() ?? '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right)),
               ],
             ),
@@ -75,11 +75,11 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               children: [
                 Expanded(
                     child: Text('Width',
-                        style: mediumTextStyle.copyWith(color: lightWhite))),
+                        style: mediumTextStyle.copyWith(color: manatee))),
                 Expanded(
                     flex: 2,
                     child: Text(product.width?.toString() ?? '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right)),
               ],
             ),
@@ -89,11 +89,11 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               children: [
                 Expanded(
                     child: Text('Length',
-                        style: mediumTextStyle.copyWith(color: lightWhite))),
+                        style: mediumTextStyle.copyWith(color: manatee))),
                 Expanded(
                     flex: 2,
                     child: Text(product.length?.toString() ?? '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right)),
               ],
             ),
@@ -103,11 +103,11 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               children: [
                 Expanded(
                     child: Text('Weight',
-                        style: mediumTextStyle.copyWith(color: lightWhite))),
+                        style: mediumTextStyle.copyWith(color: manatee))),
                 Expanded(
                     flex: 2,
                     child: Text(product.weight?.toString() ?? '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right)),
               ],
             ),
@@ -120,11 +120,11 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               children: [
                 Expanded(
                     child: Text('MID Code',
-                        style: mediumTextStyle.copyWith(color: lightWhite))),
+                        style: mediumTextStyle.copyWith(color: manatee))),
                 Expanded(
                     flex: 2,
                     child: Text(product.midCode?.toString() ?? '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right)),
               ],
             ),
@@ -134,11 +134,11 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               children: [
                 Expanded(
                     child: Text('HS Code',
-                        style: mediumTextStyle.copyWith(color: lightWhite))),
+                        style: mediumTextStyle.copyWith(color: manatee))),
                 Expanded(
                     flex: 2,
                     child: Text(product.hsCode?.toString() ?? '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right)),
               ],
             ),
@@ -147,7 +147,7 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Country of origin',
-                    style: mediumTextStyle.copyWith(color: lightWhite)),
+                    style: mediumTextStyle.copyWith(color: manatee)),
                 Row(
                   children: [
                     Text(
@@ -156,7 +156,7 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
                                     element.iso2 == product.originCountry)
                                 ?.displayName ??
                             '-',
-                        style: mediumTextStyle.copyWith(color: lightWhite),
+                        style: mediumTextStyle.copyWith(color: manatee),
                         textAlign: TextAlign.right),
                     Flag.fromString(product.originCountry ?? ' ',
                         height: 15, width: 30),

@@ -38,7 +38,7 @@ class LabeledNumericTextField extends StatelessWidget {
 final bool noEndSpace;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -98,7 +98,7 @@ final bool noEndSpace;
               prefixIcon: prefixText != null
                   ? Text(
                 prefixText!,
-                style: smallTextStyle?.copyWith(color: lightWhite),
+                style: smallTextStyle?.copyWith(color: manatee),
               )
                   : null,
               prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),

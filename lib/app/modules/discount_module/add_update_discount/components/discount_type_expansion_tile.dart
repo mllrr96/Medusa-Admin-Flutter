@@ -16,7 +16,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -54,7 +54,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
             children: [
               Text(
                 'Select a discount type',
-                style: smallTextStyle!.copyWith(color: lightWhite),
+                style: smallTextStyle!.copyWith(color: manatee),
               ),
               halfSpace,
               ...DiscountRuleType.values

@@ -21,7 +21,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   bool obscureText = true;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
     const border = OutlineInputBorder(
@@ -33,7 +33,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       style: mediumTextStyle,
       validator: widget.validator,
       maxLines: 1,
-      cursorColor: lightWhite,
+      cursorColor: manatee,
       keyboardType: TextInputType.visiblePassword,
       obscureText: obscureText,
       decoration: InputDecoration(
@@ -57,10 +57,10 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                         child: FadeTransition(opacity: anim, child: child),
                       ),
                   child: obscureText
-                      ? Icon(Icons.lock, key: const ValueKey('icon1'), color: lightWhite)
+                      ? Icon(Icons.lock, key: const ValueKey('icon1'), color: manatee)
                       : Icon(
                           Icons.lock_open,
-                          color: lightWhite,
+                          color: manatee,
                           key: const ValueKey('icon2'),
                         )),
               const SizedBox(width: 12.0),
@@ -77,7 +77,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             },
             icon: Icon(
               obscureText ? Icons.visibility : Icons.visibility_off,
-              color: lightWhite,
+              color: manatee,
             )),
       ),
     );
@@ -99,7 +99,7 @@ class EmailTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
     const border = OutlineInputBorder(
@@ -124,7 +124,7 @@ class EmailTextField extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(width: 16.0),
-                Icon(Icons.mail, color: lightWhite),
+                Icon(Icons.mail, color: manatee),
                 const SizedBox(width: 12.0),
                 const VerticalDivider(indent: 10, endIndent: 10),
                 const SizedBox(width: 12.0),

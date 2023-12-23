@@ -19,7 +19,7 @@ class OrderNoteWidget extends StatelessWidget {
     final email = user?.email;
     final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
     final durationDiff = DateTime.now().difference(note.createdAt ?? DateTime.now());
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(
       children: [
@@ -52,7 +52,7 @@ class OrderNoteWidget extends StatelessWidget {
                       ),
                       const Gap(8),
                       Text(DateTime.now().subtract(durationDiff).timeAgo(),
-                          style: smallTextStyle?.copyWith(color: lightWhite)),
+                          style: smallTextStyle?.copyWith(color: manatee)),
                     ],
                   ),
                 ],

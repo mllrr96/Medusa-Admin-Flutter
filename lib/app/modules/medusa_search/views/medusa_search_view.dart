@@ -40,7 +40,7 @@ class MedusaSearchView extends StatelessWidget {
   final SearchCategory searchCategory;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: context.theme.appBarTheme.systemOverlayStyle!,
@@ -129,7 +129,7 @@ class MedusaSearchView extends StatelessWidget {
                             return ListTile(
                               title: Text(object.name ?? ''),
                               subtitle:
-                                  Text(object.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
+                                  Text(object.description ?? '', style: smallTextStyle?.copyWith(color: manatee)),
                             );
                           } else {
                             return const SizedBox();
@@ -204,7 +204,7 @@ class SearchHistoryView extends StatelessWidget {
   final MedusaSearchController controller;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final searchHistory = StorageService.searchHistory;
     if (controller.searchTerm.removeAllWhitespace.isEmpty && searchHistory.isNotEmpty) {
@@ -216,7 +216,7 @@ class SearchHistoryView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Text(
                 'Search history',
-                style: smallTextStyle?.copyWith(color: lightWhite),
+                style: smallTextStyle?.copyWith(color: manatee),
               ),
             ),
             ...searchHistory

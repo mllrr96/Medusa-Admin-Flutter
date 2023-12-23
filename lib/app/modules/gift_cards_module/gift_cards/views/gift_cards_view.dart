@@ -21,7 +21,7 @@ class GiftCardsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0
         ? 12.0
@@ -83,7 +83,7 @@ class GiftCardsView extends StatelessWidget {
                     sliver: SliverToBoxAdapter(
                       child: Text(
                         'Manage the Gift Cards of your Medusa store',
-                        style: smallTextStyle?.copyWith(color: lightWhite),
+                        style: smallTextStyle?.copyWith(color: manatee),
                       ),
                     ),
                   ),
@@ -128,7 +128,7 @@ class GiftCardsView extends StatelessWidget {
                                 Text(
                                   'No Gift Card has been added yet.',
                                   style:
-                                      smallTextStyle?.copyWith(color: lightWhite),
+                                      smallTextStyle?.copyWith(color: manatee),
                                 ),
                                 AdaptiveButton(
                                     onPressed: () async {

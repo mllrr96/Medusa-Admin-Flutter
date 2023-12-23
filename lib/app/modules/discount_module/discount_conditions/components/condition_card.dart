@@ -17,9 +17,10 @@ class ConditionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     return InkWell(
+      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
       onTap: onTap,
       child: Ink(
         padding: const EdgeInsets.all(12.0),
@@ -36,11 +37,11 @@ class ConditionCard extends StatelessWidget {
                 children: [
                   Text(title),
                   Text(subtitle,
-                      style: mediumTextStyle?.copyWith(color: lightWhite)),
+                      style: mediumTextStyle?.copyWith(color: manatee)),
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: lightWhite, size: 20),
+            Icon(Icons.arrow_forward_ios, color: manatee, size: 20),
           ],
         ),
       ),
@@ -61,7 +62,7 @@ class DetailedConditionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     String title = '', subtitle = '';
@@ -144,7 +145,7 @@ class DetailedConditionCard extends StatelessWidget {
               children: [
                 Text(title, style: mediumTextStyle),
                 Text(subtitle,
-                    style: smallTextStyle?.copyWith(color: lightWhite)),
+                    style: smallTextStyle?.copyWith(color: manatee)),
               ],
             ),
           ),
@@ -176,7 +177,7 @@ class DetailedConditionCard extends StatelessWidget {
                   }
                 });
               },
-              icon: Icon(Icons.more_horiz, color: lightWhite)),
+              icon: Icon(Icons.more_horiz, color: manatee)),
         ],
       ),
     );

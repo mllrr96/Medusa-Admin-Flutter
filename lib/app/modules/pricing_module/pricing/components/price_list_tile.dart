@@ -30,14 +30,14 @@ class PriceListTile extends StatelessWidget {
         ],
       );
     }
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
       onTap: () => context.pushRoute(PriceListDetailsRoute(id: priceList.id!)),
       onLongPress: () => context.pushRoute(AddUpdatePriceListRoute(id: priceList.id!)),
       title: Text(priceList.name ?? ''),
       subtitle: Text(priceList.description ?? '',
-          style: smallTextStyle?.copyWith(color: lightWhite)),
+          style: smallTextStyle?.copyWith(color: manatee)),
       trailing: statusIcon(
           priceList.status == PriceListStatus.active
               ? true

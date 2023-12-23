@@ -21,7 +21,7 @@ class OrderCard extends StatelessWidget {
   final OrderSettings? orderSettings;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -98,11 +98,11 @@ class OrderCard extends StatelessWidget {
                   children: [
                     Text(
                       tr.orderTablePaymentStatus,
-                      style: smallTextStyle?.copyWith(color: lightWhite),
+                      style: smallTextStyle?.copyWith(color: manatee),
                     ),
                     Text(
                       tr.orderTableCustomer,
-                      style: smallTextStyle?.copyWith(color: lightWhite),
+                      style: smallTextStyle?.copyWith(color: manatee),
                     ),
                   ],
                 ),
@@ -140,7 +140,7 @@ class OrderCard extends StatelessWidget {
                                 if (orderSettingsModel.includeEmail)
                                   Text(order.email ?? '',
                                       style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
+                                          color: manatee)),
                               ],
                             )),
                           if (getName() == null)
@@ -172,8 +172,8 @@ class AlternativeOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final lightWhite = ColorManager.manatee;
-    final lightMediumTextStyle = mediumTextStyle?.copyWith(color: lightWhite);
+    final manatee = ColorManager.manatee;
+    final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     String? getName() {
       String? name;
@@ -224,7 +224,7 @@ class AlternativeOrderCard extends StatelessWidget {
                     order.cart?.createdAt != null
                         ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
                         : '',
-                    style: smallTextStyle?.copyWith(color: lightWhite),
+                    style: smallTextStyle?.copyWith(color: manatee),
                   ),
                   Row(
                     children: [
@@ -269,7 +269,7 @@ class AlternativeOrderCard extends StatelessWidget {
                             if (orderSettingsModel.includeEmail)
                               Text(order.email ?? '',
                                   style: smallTextStyle?.copyWith(
-                                      color: lightWhite)),
+                                      color: manatee)),
                           ],
                         )),
                       if (getName() == null)
@@ -295,11 +295,11 @@ class AlternativeOrderCard extends StatelessWidget {
             //       children: [
             //         Text(
             //           'Payment Status',
-            //           style: smallTextStyle!.copyWith(color: lightWhite),
+            //           style: smallTextStyle!.copyWith(color: manatee),
             //         ),
             //         Text(
             //           'Customer',
-            //           style: smallTextStyle.copyWith(color: lightWhite),
+            //           style: smallTextStyle.copyWith(color: manatee),
             //         ),
             //       ],
             //     ),
@@ -439,7 +439,7 @@ class CustomerOrderCard extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final cardDefaultColor = index.isEven
         ? Theme.of(context).appBarTheme.backgroundColor
@@ -498,7 +498,7 @@ class CustomerOrderCard extends StatelessWidget {
                   children: [
                     Text(
                       tr.orderTablePaymentStatus,
-                      style: smallTextStyle!.copyWith(color: lightWhite),
+                      style: smallTextStyle!.copyWith(color: manatee),
                     ),
                     const SizedBox(height: 6.0),
                     PaymentStatusLabel(paymentStatus: order.paymentStatus)
@@ -510,7 +510,7 @@ class CustomerOrderCard extends StatelessWidget {
                   children: [
                     Text(
                       tr.orderTableFulfillment,
-                      style: smallTextStyle.copyWith(color: lightWhite),
+                      style: smallTextStyle.copyWith(color: manatee),
                     ),
                     const SizedBox(height: 6.0),
                     FulfillmentStatusLabel(
@@ -527,11 +527,11 @@ class CustomerOrderCard extends StatelessWidget {
             //       children: [
             //         Text(
             //           'Payment Status',
-            //           style: smallTextStyle!.copyWith(color: lightWhite),
+            //           style: smallTextStyle!.copyWith(color: manatee),
             //         ),
             //         Text(
             //           'Customer',
-            //           style: smallTextStyle.copyWith(color: lightWhite),
+            //           style: smallTextStyle.copyWith(color: manatee),
             //         ),
             //       ],
             //     ),

@@ -21,7 +21,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
 
     final reqDurationDiff = DateTime.now().difference(orderEdit.requestedAt ?? DateTime.now());
@@ -57,7 +57,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
         final text = name.removeAllWhitespace.isNotEmpty ? name : email;
         return Text(
           text ?? '',
-          style: smallTextStyle?.copyWith(color: lightWhite),
+          style: smallTextStyle?.copyWith(color: manatee),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         );
@@ -119,7 +119,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                       Flexible(
                         child: Text(
                           '${DateTime.now().subtract(reqDurationDiff).timeAgo()} by ',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                       ),
                       Flexible(child: userName()),
@@ -169,7 +169,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           space,
-                          Text('Added', style: smallTextStyle?.copyWith(color: lightWhite)),
+                          Text('Added', style: smallTextStyle?.copyWith(color: manatee)),
                           space,
                           ListView.separated(
                               separatorBuilder: (_, __) => halfSpace,
@@ -207,13 +207,13 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                                             ),
                                             Text(
                                               item.lineItem?.variant?.title ?? '',
-                                              style: smallTextStyle?.copyWith(color: lightWhite),
+                                              style: smallTextStyle?.copyWith(color: manatee),
                                             ),
                                           ],
                                         )
                                       : Text(
                                           item.lineItem?.variant?.title ?? '',
-                                          style: smallTextStyle?.copyWith(color: lightWhite),
+                                          style: smallTextStyle?.copyWith(color: manatee),
                                         ),
                                 );
                               }),
@@ -234,7 +234,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           space,
-                          Text('Removed', style: smallTextStyle?.copyWith(color: lightWhite)),
+                          Text('Removed', style: smallTextStyle?.copyWith(color: manatee)),
                           space,
                           ListView.separated(
                               separatorBuilder: (_, __) => halfSpace,
@@ -272,13 +272,13 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
                                             ),
                                             Text(
                                               item?.variant?.title ?? '',
-                                              style: smallTextStyle?.copyWith(color: lightWhite),
+                                              style: smallTextStyle?.copyWith(color: manatee),
                                             ),
                                           ],
                                         )
                                       : Text(
                                           item?.variant?.title ?? '',
-                                          style: smallTextStyle?.copyWith(color: lightWhite),
+                                          style: smallTextStyle?.copyWith(color: manatee),
                                         ),
                                 );
                               }),

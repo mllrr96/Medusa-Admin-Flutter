@@ -15,7 +15,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -41,7 +41,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
             children: [
               Text(
                 'Discount code applies from you hit the publish button and forever if left untouched.',
-                style: smallTextStyle!.copyWith(color: lightWhite),
+                style: smallTextStyle!.copyWith(color: manatee),
               ),
               space,
               SwitchListTile.adaptive(
@@ -60,7 +60,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 title: const Text('Start date'),
                 subtitle: Text(
                     'Schedule the discount to activate in the future.',
-                    style: TextStyle(color: lightWhite)),
+                    style: TextStyle(color: manatee)),
               ),
               halfSpace,
               AnimatedSwitcher(
@@ -94,7 +94,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 title: const Text('Discount has an expiry date?'),
                 subtitle: Text(
                     'Schedule the discount to deactivate in the future.',
-                    style: TextStyle(color: lightWhite)),
+                    style: TextStyle(color: manatee)),
                 onChanged: (val) async {
                   controller.hasEndDate = val;
                   controller.update([2]);
@@ -139,7 +139,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 title: const Text('Limit the number of redemptions?'),
                 subtitle: Text(
                     'Limit applies across all customers, not per customer.',
-                    style: TextStyle(color: lightWhite)),
+                    style: TextStyle(color: manatee)),
                 value: controller.hasLimit,
                 onChanged: (val) async {
                   controller.hasLimit = val;

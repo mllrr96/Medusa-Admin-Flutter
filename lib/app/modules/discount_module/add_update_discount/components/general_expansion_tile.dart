@@ -22,7 +22,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -184,7 +184,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
             ),
             Text(
               'The code your customers will enter during checkout. This will appear on your customer’s invoice. \nUppercase letters and numbers only.',
-              style: smallTextStyle!.copyWith(color: lightWhite),
+              style: smallTextStyle!.copyWith(color: manatee),
             ),
             space,
             LabeledTextField(
@@ -213,7 +213,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                           controller.showTemplateDiscountInfo = !controller.showTemplateDiscountInfo;
                           controller.update([1]);
                         },
-                        icon: Icon(Icons.info_outline, color: lightWhite))
+                        icon: Icon(Icons.info_outline, color: manatee))
                   ],
                 ),
                 subtitle: AnimatedSwitcher(
@@ -221,7 +221,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                   child: controller.showTemplateDiscountInfo
                       ? Text(
                           'Template discounts allow you to define a set of rules that can be used across a group of discounts. This is useful in campaigns that should generate unique codes for each user, but where the rules for all unique codes should be the same.',
-                          style: smallTextStyle.copyWith(color: lightWhite),
+                          style: smallTextStyle.copyWith(color: manatee),
                         )
                       : null,
                 ),

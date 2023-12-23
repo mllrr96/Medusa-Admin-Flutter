@@ -30,7 +30,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final controller = widget.controller;
     final searchCategory = controller.searchCategory;
@@ -110,7 +110,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     children: [
                       Text(
                         'Search for',
-                        style: smallTextStyle?.copyWith(color: lightWhite),
+                        style: smallTextStyle?.copyWith(color: manatee),
                       ),
                       SearchChip(
                         searchableField: controller.searchCategory ,
@@ -147,7 +147,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       children: [
                         Text(
                           'Order by',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                         InkWell(
                           borderRadius: BorderRadius.circular(4.0),
@@ -190,7 +190,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       children: [
                         Text(
                           'Filter by',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                         InkWell(
                           borderRadius: BorderRadius.circular(4.0),

@@ -11,7 +11,7 @@ class OrderOverview extends StatelessWidget {
   final Order order;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final tr = context.tr;
 
@@ -45,7 +45,7 @@ class OrderOverview extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(tr.customerOrdersTableStatus, style: smallTextStyle!.copyWith(color: lightWhite)),
+                  Text(tr.customerOrdersTableStatus, style: smallTextStyle!.copyWith(color: manatee)),
                   const SizedBox(height: 6.0),
                   OrderStatusLabel(orderStatus: order.status),
                 ],

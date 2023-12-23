@@ -18,7 +18,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
@@ -48,7 +48,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(tr.detailsShippingMethod,
-                style: mediumTextStyle!.copyWith(color: lightWhite)),
+                style: mediumTextStyle!.copyWith(color: manatee)),
             FulfillmentStatusLabel(fulfillmentStatus: order.fulfillmentStatus),
           ],
         ),
@@ -90,7 +90,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                     if (canceled) const SizedBox(height: 6.0),
                     Text(
                         shipped ? tr.templatesTracking : tr.templatesNotShipped,
-                        style: smallTextStyle?.copyWith(color: lightWhite)),
+                        style: smallTextStyle?.copyWith(color: manatee)),
                   ],
                 ),
                 trailing: canceled || shipped

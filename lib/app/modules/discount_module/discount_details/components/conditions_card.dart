@@ -22,7 +22,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
   final Discount discount;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     const space = Gap(12);
     const halfSpace = Gap(6);
 
@@ -64,7 +64,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
           if (discount.rule?.conditions?.isEmpty ?? true)
             Column(
               children: [
-                Center(child: Text('This discount has no conditions', style: context.bodyMedium?.copyWith(color: lightWhite))),
+                Center(child: Text('This discount has no conditions', style: context.bodyMedium?.copyWith(color: manatee))),
                 const Gap(15),
               ],
             ),

@@ -46,7 +46,7 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const constraints = BoxConstraints(minWidth: 30.0, minHeight: 40);
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Colors.transparent),
@@ -84,14 +84,14 @@ class SearchTextField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Gap(12),
-            Icon(prefixIconData ?? MedusaIcons.magnifying_glass_mini, color: lightWhite),
+            Icon(prefixIconData ?? MedusaIcons.magnifying_glass_mini, color: manatee),
             const Gap(12),
           ],
         ),
         isDense: true,
         filled: true,
         hintText: hintText,
-        hintStyle: smallTextStyle?.copyWith(color: lightWhite),
+        hintStyle: smallTextStyle?.copyWith(color: manatee),
         fillColor: fillColor ?? context.theme.appBarTheme.backgroundColor,
         border: border,
         focusedBorder: border,

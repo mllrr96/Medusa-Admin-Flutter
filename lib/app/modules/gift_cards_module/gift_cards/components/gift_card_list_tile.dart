@@ -20,7 +20,7 @@ class GiftCardListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final published = giftCard.status == ProductStatus.published;
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
         tileColor: context.theme.appBarTheme.backgroundColor,
@@ -29,7 +29,7 @@ class GiftCardListTile extends StatelessWidget {
         subtitle: giftCard.description != null
             ? Text(
                 giftCard.description!,
-                style: smallTextStyle?.copyWith(color: lightWhite),
+                style: smallTextStyle?.copyWith(color: manatee),
               )
             : null,
         trailing: AdaptiveIcon(

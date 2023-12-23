@@ -60,7 +60,7 @@ class LabeledTextField extends StatelessWidget {
   final TextStyle? style;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -71,7 +71,7 @@ class LabeledTextField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Flexible(child: Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? lightWhite : null), maxLines: 1, overflow: TextOverflow.ellipsis)),
+              Flexible(child: Text(label, style: mediumTextStyle!.copyWith(color: lightLabelColor ? manatee : null), maxLines: 1, overflow: TextOverflow.ellipsis)),
               if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
             ],
           ),
@@ -92,7 +92,7 @@ class LabeledTextField extends StatelessWidget {
             keyboardType: keyboardType,
             maxLines: maxLines,
             minLines: minLines,
-            style: style  ?? smallTextStyle?.copyWith(color: enabled ? null : lightWhite),
+            style: style  ?? smallTextStyle?.copyWith(color: enabled ? null : manatee),
             decoration: decoration ??
                 InputDecoration(
                   isDense: isDense,

@@ -37,7 +37,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -76,7 +76,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text('Select the number of items that you wish to fulfill.',
-                  style: mediumTextStyle?.copyWith(color: lightWhite)),
+                  style: mediumTextStyle?.copyWith(color: manatee)),
             ),
             halfSpace,
             ListView.builder(

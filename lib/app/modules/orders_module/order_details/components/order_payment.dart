@@ -23,7 +23,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
     const halfSpace = Gap(6);
     final tr = context.tr;
     final mediumTextStyle = context.bodyMedium;
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final largeTextStyle = context.bodyLarge;
     Widget? getButton() {
       switch (order.paymentStatus) {
@@ -85,7 +85,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                       if ((order.payments?.isNotEmpty ?? false) && order.payments?.first.capturedAt != null)
                         Text(
                             'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
-                            style: mediumTextStyle!.copyWith(color: lightWhite)),
+                            style: mediumTextStyle!.copyWith(color: manatee)),
                     ],
                   ),
                 ),

@@ -44,7 +44,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final store = StoreService.store;
@@ -70,7 +70,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Store',
-                            style: smallTextStyle?.copyWith(color: lightWhite)),
+                            style: smallTextStyle?.copyWith(color: manatee)),
                         Text(store.name, style: mediumTextStyle),
                       ],
                     ),
@@ -275,10 +275,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                 children: [
                                   Text(appName,
                                       style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
+                                          color: manatee)),
                                   Text('Version $version+$code',
                                       style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
+                                          color: manatee)),
                                 ],
                               ),
                             ],

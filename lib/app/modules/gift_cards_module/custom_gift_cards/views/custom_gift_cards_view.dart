@@ -23,7 +23,7 @@ class CustomGiftCardsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
 
     return GetBuilder<CustomGiftCardsController>(
@@ -81,7 +81,7 @@ class CustomGiftCardsView extends StatelessWidget {
                     sliver: SliverToBoxAdapter(
                       child: Text(
                         'See the history of purchased Gift Cards',
-                        style: smallTextStyle?.copyWith(color: lightWhite),
+                        style: smallTextStyle?.copyWith(color: manatee),
                       ),
                     ),
                   ),

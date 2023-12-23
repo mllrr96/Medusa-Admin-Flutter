@@ -14,7 +14,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final canceledDurationDiff = DateTime.now().difference(orderEdit.canceledAt ?? DateTime.now());
     final declinedDurationDiff = DateTime.now().difference(orderEdit.declinedAt ?? DateTime.now());
@@ -38,7 +38,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Refund Required', style: smallTextStyle),
-                    Text('a few seconds age', style: smallTextStyle?.copyWith(color: lightWhite)),
+                    Text('a few seconds age', style: smallTextStyle?.copyWith(color: manatee)),
                   ],
                 )
               ],
@@ -80,7 +80,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                 ),
                 const SizedBox(width: 12.0),
                 Text('a few seconds ago · ${orderEdit.differenceDue.formatAsPrice(order.currencyCode)}',
-                    style: smallTextStyle?.copyWith(color: lightWhite))
+                    style: smallTextStyle?.copyWith(color: manatee))
               ],
             ),
             space,
@@ -128,7 +128,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
         final text = name.removeAllWhitespace.isNotEmpty ? name : email;
         return Text(
           text ?? '',
-          style: smallTextStyle?.copyWith(color: lightWhite),
+          style: smallTextStyle?.copyWith(color: manatee),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         );
@@ -162,7 +162,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                           Flexible(
                             child: Text(
                               '${DateTime.now().subtract(confirmedDurationDiff).timeAgo()} by ',
-                              style: smallTextStyle?.copyWith(color: lightWhite),
+                              style: smallTextStyle?.copyWith(color: manatee),
                             ),
                           ),
                           Flexible(child: userName(user: orderEdit.confirmedBy)),
@@ -193,7 +193,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                           Flexible(
                             child: Text(
                               '${DateTime.now().subtract(declinedDurationDiff).timeAgo()} by ',
-                              style: smallTextStyle?.copyWith(color: lightWhite),
+                              style: smallTextStyle?.copyWith(color: manatee),
                             ),
                           ),
                           Flexible(child: userName(user: orderEdit.declinedBy)),
@@ -224,7 +224,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                           Flexible(
                             child: Text(
                               '${DateTime.now().subtract(canceledDurationDiff).timeAgo()} by ',
-                              style: smallTextStyle?.copyWith(color: lightWhite),
+                              style: smallTextStyle?.copyWith(color: manatee),
                             ),
                           ),
                           Flexible(child: userName(user: orderEdit.canceledBy)),

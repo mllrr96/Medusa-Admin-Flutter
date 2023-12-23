@@ -19,7 +19,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
   Widget build(BuildContext context) {
     final disabled = discount.isDisabled ?? true;
     final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     Widget discountValueText() {
@@ -50,7 +50,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                 child: Text('${discount.regions?.first.currency?.symbolNative ?? ''} ',
                     style: context.bodyLarge?.copyWith(color: valueColor))),
           Text(valueText, style: context.headlineSmall?.copyWith(color: valueColor)),
-          if (detail.isNotEmpty) Text(detail.toUpperCase(), style: mediumTextStyle?.copyWith(color: lightWhite)),
+          if (detail.isNotEmpty) Text(detail.toUpperCase(), style: mediumTextStyle?.copyWith(color: manatee)),
         ],
       );
     }
@@ -115,7 +115,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       space,
-                      Text(discount.rule?.description ?? '', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                      Text(discount.rule?.description ?? '', style: mediumTextStyle?.copyWith(color: manatee)),
                     ],
                   ),
                 space,
@@ -130,7 +130,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             discountValueText(),
-                            Text('Discount Amount', style: mediumTextStyle?.copyWith(color: lightWhite))
+                            Text('Discount Amount', style: mediumTextStyle?.copyWith(color: manatee))
                           ],
                         ),
                       ),
@@ -155,7 +155,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                             children: [
                               Text(discount.regions?.length.toString() ?? '',
                                   style: Theme.of(context).textTheme.bodyLarge),
-                              Text('Valid Regions', style: mediumTextStyle.copyWith(color: lightWhite))
+                              Text('Valid Regions', style: mediumTextStyle.copyWith(color: manatee))
                             ],
                           ),
                         ),
@@ -168,7 +168,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                           children: [
                             Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
                             Text('Total Redemptions',
-                                style: mediumTextStyle.copyWith(color: lightWhite),
+                                style: mediumTextStyle.copyWith(color: manatee),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis)
                           ],

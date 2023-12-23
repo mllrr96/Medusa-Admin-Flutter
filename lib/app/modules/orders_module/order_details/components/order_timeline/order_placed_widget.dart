@@ -19,7 +19,7 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
   @override
   Widget build(BuildContext context) {
     final durationDiff = DateTime.now().difference(widget.order.createdAt ?? DateTime.now());
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final total = widget.order.total.formatAsPrice(widget.order.currencyCode);
     return InkWell(
@@ -45,10 +45,10 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
               const SizedBox(width: 12.0),
               AnimatedCrossFade(
                 firstChild: Text('${DateTime.now().subtract(durationDiff).timeAgo()} · $total',
-                    style: smallTextStyle?.copyWith(color: lightWhite)),
+                    style: smallTextStyle?.copyWith(color: manatee)),
                 secondChild: Text(
                     '${widget.order.createdAt.formatDate()} ${widget.order.createdAt.formatTime()} · $total',
-                    style: smallTextStyle?.copyWith(color: lightWhite)),
+                    style: smallTextStyle?.copyWith(color: manatee)),
                 crossFadeState: showTimeAgo ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: const Duration(milliseconds: 300),
               ),

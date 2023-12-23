@@ -11,14 +11,14 @@ class CollectionListTile extends StatelessWidget {
   final Color? tileColor;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     return ListTile(
       tileColor: tileColor ?? Theme.of(context).listTileTheme.tileColor,
       onTap: () => context.pushRoute(CollectionDetailsRoute(collectionId: collection.id!)),
       title: Text(collection.title ?? '', style: largeTextStyle),
-      subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle!.copyWith(color: lightWhite)),
+      subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle!.copyWith(color: manatee)),
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

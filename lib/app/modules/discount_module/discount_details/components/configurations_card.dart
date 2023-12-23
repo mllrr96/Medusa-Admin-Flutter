@@ -11,7 +11,7 @@ class ConfigurationsCard extends StatelessWidget {
   final Discount discount;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -42,7 +42,7 @@ class ConfigurationsCard extends StatelessWidget {
               dateTime: discount.startsAt,
               dateText: 'Start',
               dateTimeTextStyle: mediumTextStyle,
-              dateTextStyle: mediumTextStyle?.copyWith(color: lightWhite),
+              dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
               borderColor: Colors.transparent,
             ),
           space,
@@ -57,7 +57,7 @@ class ConfigurationsCard extends StatelessWidget {
               dateTime: discount.endsAt,
               dateText: 'Expiry',
               dateTimeTextStyle: mediumTextStyle?.copyWith(color: expired ? Colors.redAccent : null),
-              dateTextStyle: mediumTextStyle?.copyWith(color: lightWhite),
+              dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
               borderColor: Colors.transparent,
             ),
           if (discount.endsAt != null) space,

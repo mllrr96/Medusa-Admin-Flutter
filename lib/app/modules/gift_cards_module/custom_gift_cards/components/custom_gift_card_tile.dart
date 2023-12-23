@@ -16,7 +16,7 @@ class CustomGiftCardTile extends StatelessWidget {
   final void Function()? onToggle;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final isDisabled = giftCard.isDisabled ?? false;
 
@@ -53,7 +53,7 @@ class CustomGiftCardTile extends StatelessWidget {
       title: Text(giftCard.code ?? ''),
       subtitle: Text(
         giftCard.orderId ?? '_',
-        style: smallTextStyle?.copyWith(color: lightWhite),
+        style: smallTextStyle?.copyWith(color: manatee),
       ),
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
