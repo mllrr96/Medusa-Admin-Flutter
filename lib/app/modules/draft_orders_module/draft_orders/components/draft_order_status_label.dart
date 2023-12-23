@@ -5,7 +5,7 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/draft_order.dart';
 
 class DraftOrderStatusLabel extends StatelessWidget {
-  const DraftOrderStatusLabel(this.draftOrderStatus,{Key? key}) : super(key: key);
+  const DraftOrderStatusLabel(this.draftOrderStatus,{super.key});
   final DraftOrderStatus draftOrderStatus;
   @override
   Widget build(BuildContext context) {

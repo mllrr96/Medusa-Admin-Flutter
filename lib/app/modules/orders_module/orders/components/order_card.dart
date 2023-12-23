@@ -68,7 +68,7 @@ class OrderCard extends StatelessWidget {
                     Text('#${order.displayId}', style: context.bodyMedium),
                     const SizedBox(height: 2.0),
                     Text(
-                      order.cart!.createdAt != null
+                      order.cart?.createdAt != null
                           ? 'on ${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
                           : '',
                       style: smallTextStyle,
@@ -126,7 +126,7 @@ class OrderCard extends StatelessWidget {
                                 order.customer?.email),
                             radius: 16,
                             child: Text(
-                                getName()?[0] ?? order.customer!.email[0],
+                                getName()?[0] ?? order.customer?.email[0] ?? '',
                                 style: largeTextStyle?.copyWith(
                                     color: Colors.white)),
                           ),
@@ -145,7 +145,7 @@ class OrderCard extends StatelessWidget {
                             )),
                           if (getName() == null)
                             Flexible(
-                                child: Text(order.customer!.email,
+                                child: Text(order.customer?.email ?? '',
                                     style: mediumTextStyle,
                                     overflow: TextOverflow.ellipsis)),
                         ],

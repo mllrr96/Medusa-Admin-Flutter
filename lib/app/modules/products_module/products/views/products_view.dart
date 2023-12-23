@@ -6,8 +6,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
@@ -28,7 +26,6 @@ class ProductsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final mediumTextStyle = context.bodyMedium;
     return GetBuilder<ProductsController>(
         init: ProductsController(
             productsRepo: ProductsRepo(),
@@ -37,6 +34,7 @@ class ProductsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),
+            drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             endDrawer: Drawer(
               shape: const RoundedRectangleBorder(),
               child: ProductsFilterView(
@@ -55,13 +53,6 @@ class ProductsView extends StatelessWidget {
                 },
               ),
             ),
-            appBar: AppBar(title: Obx(() {
-              return Text(
-                  controller.productsCount.value != 0
-                      ? 'Products (${controller.productsCount.value})'
-                      : 'Products',
-                  overflow: TextOverflow.ellipsis);
-            })),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: Padding(
@@ -94,29 +85,6 @@ class ProductsView extends StatelessWidget {
                                 searchCategory: SearchCategory.products)),
                             onLongPress: () {},
                           ),
-                          // SpeedDialChild(
-                          //   child: const Icon(CupertinoIcons.doc_text_search),
-                          //   label: 'Filters',
-                          //   labelStyle: smallTextStyle,
-                          //   onTap: () async {
-                          //     await showBarModalBottomSheet(
-                          //         context: context,
-                          //         builder: (context) => ProductsFilterView(
-                          //               collections: controller.collections,
-                          //               tags: controller.tags,
-                          //               onResetPressed: () {
-                          //                 controller.resetFilter();
-                          //                 context.popRoute();
-                          //               },
-                          //               productFilter: controller.productFilter,
-                          //             )).then((result) {
-                          //       if (result is ProductFilter) {
-                          //         controller.updateFilter(result);
-                          //       }
-                          //     });
-                          //   },
-                          //   onLongPress: () => controller.resetFilter(),
-                          // ),
                           SpeedDialChild(
                             child: const Icon(CupertinoIcons.sort_up),
                             label: 'Sort',
@@ -202,92 +170,70 @@ class ProductsView extends StatelessWidget {
               ),
             ),
             body: SmartRefresher(
-              controller: controller.listRefreshController,
+              controller: controller.refreshController,
               onRefresh: () => controller.pagingController.refresh(),
+              // onRefresh: () async => await controller.refreshData(),
               header: GetPlatform.isIOS
                   ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(),
-              child: PagedListView.separated(
-                separatorBuilder: (_, __) =>
-                    const Divider(height: 0, indent: 16),
-                padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Product>(
-                  itemBuilder: (context, product, index) => ProductListTile(
-                    product: product,
-                    onEdit: () async {
-                      final result = await context.pushRoute(
-                          AddUpdateProductRoute(
-                              updateProductReq: UpdateProductReq(
-                                  product: product, number: 7)));
-                      if (result != null) {
-                        controller.pagingController.refresh();
-                      }
-                    },
-                    onDelete: () async {
-                      final confirmDelete = await showOkCancelAlertDialog(
-                          context: context,
-                          title: 'Confirm product deletion',
-                          message:
-                              'Are you sure you want to delete this product? \n This action is irreversible',
-                          isDestructiveAction: true);
+                  : const MaterialClassicHeader(offset: 100),
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    title: Obx(
+                      () => Text(
+                          controller.productsCount.value != 0
+                              ? 'Products (${controller.productsCount.value})'
+                              : 'Products',
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding:
+                        const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+                    sliver: PagedSliverList.separated(
+                      separatorBuilder: (_, __) =>
+                          const Divider(height: 0, indent: 16),
+                      pagingController: controller.pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Product>(
+                        itemBuilder: (context, product, index) =>
+                            ProductListTile(
+                          product: product,
+                          onEdit: () async {
+                            final result = await context.pushRoute(
+                                AddUpdateProductRoute(
+                                    updateProductReq: UpdateProductReq(
+                                        product: product, number: 7)));
+                            if (result != null) {
+                              controller.pagingController.refresh();
+                            }
+                          },
+                          onDelete: () async {
+                            final confirmDelete = await showOkCancelAlertDialog(
+                                context: context,
+                                title: 'Confirm product deletion',
+                                message:
+                                    'Are you sure you want to delete this product? \n This action is irreversible',
+                                isDestructiveAction: true);
 
-                      if (confirmDelete != OkCancelResult.ok) {
-                        return;
-                      }
-                      await controller.deleteProduct(product.id!);
-                    },
-                    onPublish: () async {
-                      await controller.updateProduct(product);
-                    },
-                    onDuplicate: () async {
-                      await controller.duplicateProduct(product);
-                    },
-                  ),
-                  firstPageProgressIndicatorBuilder: (_) =>
-                      const Center(child: CircularProgressIndicator.adaptive()),
-                  noItemsFoundIndicatorBuilder: (_) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (controller.searchTerm.value.isEmpty &&
-                          (controller.productFilter?.count() ?? 0) == 0)
-                        Column(
-                          children: [
-                            Text('No products yet!', style: mediumTextStyle),
-                            const SizedBox(height: 12.0),
-                            AdaptiveFilledButton(
-                                onPressed: () async {
-                                  await context
-                                      .pushRoute(AddUpdateProductRoute(
-                                          updateProductReq: null))
-                                      .then((result) {
-                                    if (result is bool && result == true) {
-                                      controller.pagingController.refresh();
-                                    }
-                                  });
-                                },
-                                child: const Text('Add product',
-                                    style: TextStyle(color: Colors.white)))
-                          ],
+                            if (confirmDelete != OkCancelResult.ok) {
+                              return;
+                            }
+                            await controller.deleteProduct(product.id!);
+                          },
+                          onPublish: () async {
+                            await controller.updateProduct(product);
+                          },
+                          onDuplicate: () async {
+                            await controller.duplicateProduct(product);
+                          },
                         ),
-                      if (controller.searchTerm.value.isNotEmpty)
-                        Text('No products found', style: mediumTextStyle),
-                      if ((controller.productFilter?.count() ?? 0) > 0 &&
-                          controller.searchTerm.value.isEmpty)
-                        Column(
-                          children: [
-                            Text('No products found', style: mediumTextStyle),
-                            const SizedBox(height: 12.0),
-                            AdaptiveButton(
-                                onPressed: () {
-                                  controller.resetFilter();
-                                },
-                                child: const Text('Clear filters'))
-                          ],
-                        ),
-                    ],
+                        firstPageProgressIndicatorBuilder: (_) => const ProductsLoadingPage(),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           );

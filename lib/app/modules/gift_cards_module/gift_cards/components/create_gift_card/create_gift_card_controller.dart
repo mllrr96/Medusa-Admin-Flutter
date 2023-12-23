@@ -68,7 +68,7 @@ class CreateGiftCardController extends GetxController {
     );
     result.when((success) {
       EasyLoading.showSuccess('Gift Card created');
-      GiftCardsController.instance.productsPagingController.refresh();
+      GiftCardsController.instance.pagingController.refresh();
       context.popRoute();
     }, (error) {
       debugPrint(error.toString());

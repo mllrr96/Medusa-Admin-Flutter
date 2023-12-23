@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../../../../data/models/store/product.dart';
@@ -28,16 +29,8 @@ class ProductListTile extends StatelessWidget {
     return ListTile(
         contentPadding: const EdgeInsets.only(left: 16.0),
         onTap: onTap ??
-            () async {
-              await context
-                  .pushRoute(ProductDetailsRoute(productId: product.id!))
-                  .then((result) {
-                // A product has been deleted, reload data
-                if (result is bool && result == true) {
-                  // controller.pagingController.refresh();
-                }
-              });
-            },
+            () async => await context
+                .pushRoute(ProductDetailsRoute(productId: product.id!)),
         title: Text(product.title!, style: context.bodyMedium),
         subtitle: Row(
           mainAxisSize: MainAxisSize.min,
@@ -60,7 +53,7 @@ class ProductListTile extends StatelessWidget {
                       Icons.warning_rounded,
                       color: Colors.redAccent),
                 ))
-            : null,
+            : Container(width: 45, height: double.maxFinite, color: ColorManager.manatee,child: const Icon(Icons.image),),
         trailing: AdaptiveIcon(
           onPressed: () async {
             await showModalActionSheet<int>(

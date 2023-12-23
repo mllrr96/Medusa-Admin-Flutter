@@ -2,19 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../components/search_text_field.dart';
-import '../components/group_card.dart';
+import '../components/index.dart';
 import '../controllers/groups_controller.dart';
 
 @RoutePage()
@@ -23,146 +22,91 @@ class GroupsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediumTextStyle = context.bodyMedium;
     return GetBuilder<GroupsController>(
-        init: GroupsController(customerGroupRepo: CustomerGroupRepo()),
-        builder: (controller) {
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Scaffold(
-              drawer: const AppDrawer(),
-              appBar: AppBar(
-                title: const Text('Groups'),
-              ),
-              floatingActionButton: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FloatingActionButton.small(
-                        onPressed: () {
-                          context.pushRoute(MedusaSearchRoute(
-                              searchCategory: SearchCategory.groups));
-                        },
-                        heroTag: UniqueKey(),
-                        child: const Icon(CupertinoIcons.search),
-                      ),
-                      const SizedBox(width: 4.0),
-                    ],
-                  ),
-                  const SizedBox(height: 6.0),
-                  ScrollingExpandableFab(
-                    heroTag: UniqueKey(),
-                    controller: controller.scrollController, label: 'New Group',
-                    icon: const Icon(Icons.group_add),
-                    onPressed: () async {
-                      final result = await context.pushRoute(CreateUpdateGroupRoute());
-                      if (result is bool && result) {
-                        GroupsController.instance.pagingController.refresh();
-                      }
-                    },
-                  ),
-                ],
-              ),
-              body: SlidableAutoCloseBehavior(
-                child: SmartRefresher(
-                  controller: controller.refreshController,
-                  onRefresh: () => controller.pagingController.refresh(),
-                  header: GetPlatform.isIOS
-                      ? const ClassicHeader(completeText: '')
-                      : const MaterialClassicHeader(),
-                  child: PagedListView.separated(
-                    scrollController: controller.scrollController,
-                    separatorBuilder: (_, __) => Divider(
-                        height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
-                    padding:
-                        const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
-                    pagingController: controller.pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
-                      itemBuilder: (context, customerGroup, index) =>
-                          GroupCard(customerGroup: customerGroup, index: index),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                              child: CircularProgressIndicator.adaptive()),
-                      noItemsFoundIndicatorBuilder: (_) => Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (controller.searchTerm.value.isEmpty)
-                            Text('No group yet!', style: mediumTextStyle),
-                          if (controller.searchTerm.value.isNotEmpty)
-                            Text('No groups found', style: mediumTextStyle),
-                        ],
+      init: GroupsController(customerGroupRepo: CustomerGroupRepo()),
+      builder: (controller) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            drawer: const AppDrawer(),
+            drawerEdgeDragWidth: context.drawerEdgeDragWidth,
+            floatingActionButton: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FloatingActionButton.small(
+                      onPressed: () {
+                        context.pushRoute(MedusaSearchRoute(
+                            searchCategory: SearchCategory.groups));
+                      },
+                      heroTag: UniqueKey(),
+                      child: const Icon(CupertinoIcons.search),
+                    ),
+                    const Gap(4.0),
+                  ],
+                ),
+                const Gap(6.0),
+                ScrollingExpandableFab(
+                  heroTag: UniqueKey(),
+                  controller: controller.scrollController,
+                  label: 'New Group',
+                  icon: const Icon(Icons.group_add),
+                  onPressed: () async {
+                    final result =
+                        await context.pushRoute(CreateUpdateGroupRoute());
+                    if (result is bool && result) {
+                      GroupsController.instance.pagingController.refresh();
+                    }
+                  },
+                ),
+              ],
+            ),
+            body: SlidableAutoCloseBehavior(
+              child: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () async => await controller.refreshData(),
+                header: GetPlatform.isIOS
+                    ? const ClassicHeader(completeText: '')
+                    : const MaterialClassicHeader(offset: 100),
+                child: CustomScrollView(
+                  controller: controller.scrollController,
+                  slivers: [
+                    SliverAppBar(
+                      floating: true,
+                      snap: true,
+                      title: Obx(() => Text(
+                          controller.customerGroupsCount.value != 0
+                              ? 'Groups (${controller.customerGroupsCount.value})'
+                              : 'Groups',
+                          overflow: TextOverflow.ellipsis)),
+                    ),
+                    SliverPadding(
+                      padding:
+                          const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+                      sliver: PagedSliverList.separated(
+                        separatorBuilder: (_, __) => Divider(
+                            height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
+                        pagingController: controller.pagingController,
+                        builderDelegate:
+                            PagedChildBuilderDelegate<CustomerGroup>(
+                          itemBuilder: (context, customerGroup, index) =>
+                              GroupCard(
+                                  customerGroup: customerGroup, index: index),
+                          firstPageProgressIndicatorBuilder: (context) =>
+                              const GroupsLoadingPage(),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
-          );
-        });
-  }
-}
-
-class GroupAppBar extends GetView<GroupsController>
-    implements PreferredSizeWidget {
-  const GroupAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final tr = context.tr;
-    return Container(
-      color: Theme.of(context).appBarTheme.backgroundColor,
-      alignment: Alignment.center,
-      height: kToolbarHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: SearchTextField(
-              controller: controller.searchCtrl,
-              focusNode: controller.focusNode,
-              hintText: 'Search for group name ...',
-              onSuffixTap: () {
-                controller.searchCtrl.clear();
-                controller.searchTerm.value = '';
-              },
-              onChanged: (val) {
-                if (val.isEmpty && controller.searchTerm.value.isNotEmpty) {
-                  controller.searchTerm.value = '';
-                }
-                if (controller.searchTerm.value != val && val.isNotEmpty) {
-                  controller.searchTerm.value = val;
-                }
-              },
-            ),
           ),
-          Obx(() {
-            return AnimatedCrossFade(
-              sizeCurve: Curves.ease,
-              firstChild: AdaptiveButton(
-                  onPressed: () {
-                    controller.focusNode.unfocus();
-                    controller.searchCtrl.clear();
-                    if (controller.searchTerm.value.isNotEmpty) {
-                      controller.searchTerm.value = '';
-                    }
-                  },
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text(tr.modalsCancel, maxLines: 1)),
-              secondChild: const SizedBox.shrink(),
-              crossFadeState: controller.focused.value
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: const Duration(milliseconds: 250),
-            );
-          }),
-        ],
-      ),
+        );
+      },
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

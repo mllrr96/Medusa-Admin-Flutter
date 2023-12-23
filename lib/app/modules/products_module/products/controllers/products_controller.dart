@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
@@ -12,32 +13,32 @@ import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../data/repository/product_tag/product_tag_repo.dart';
 
-class ProductsController extends GetxController with GetSingleTickerProviderStateMixin {
+class ProductsController extends GetxController {
   static ProductsController get instance => Get.find<ProductsController>();
 
-  ProductsController({required this.productsRepo, required this.productTagRepo, required this.collectionRepo});
+  ProductsController(
+      {required this.productsRepo,
+      required this.productTagRepo,
+      required this.collectionRepo});
   ProductsRepo productsRepo;
   ProductTagRepo productTagRepo;
   CollectionRepo collectionRepo;
-  final pagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController = PagingController<int, Product>(
+      firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   ViewOptions viewOptions = ViewOptions.list;
   RefreshController gridRefreshController = RefreshController();
-  RefreshController listRefreshController = RefreshController();
+  RefreshController refreshController = RefreshController();
   RxInt productsCount = 0.obs;
   SortOptions sortOptions = SortOptions.dateRecent;
   late TabController tabController;
-  final searchCtrl = TextEditingController();
-  RxString searchTerm = ''.obs;
-  late Worker searchDebouner;
   List<ProductTag>? tags;
   List<ProductCollection>? collections;
   ProductFilter? productFilter;
+  bool _refreshingData = false;
+
   @override
   void onInit() {
-    searchDebouner =
-        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
-    tabController = TabController(length: 2, vsync: this);
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -54,7 +55,6 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   @override
   void onClose() {
     tabController.dispose();
-    searchDebouner.dispose();
     super.onClose();
   }
 
@@ -65,34 +65,31 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   }
 
   Future<void> _fetchPage(int pageKey) async {
+    if (_refreshingData) {
+      return;
+    }
     Map<String, dynamic> query = {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
-      if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
       'order': sortOptions.map(),
       'is_giftcard': 'false',
     };
 
     final result = await productsRepo.retrieveAll(
-        queryParameters: query..addAll(searchTerm.value.isEmpty ? productFilter?.toJson() ?? {} : {}));
+        queryParameters: query..addAll(productFilter?.toJson() ?? {}));
     result.when((success) {
       final isLastPage = success.products!.length < _pageSize;
-      if (searchTerm.value.isEmpty) {
-        productsCount.value = success.count ?? 0;
-      }
-      update([5]);
+      productsCount.value = success.count ?? 0;
       if (isLastPage) {
         pagingController.appendLastPage(success.products!);
       } else {
         final nextPageKey = pageKey + success.products!.length;
         pagingController.appendPage(success.products!, nextPageKey);
       }
-      gridRefreshController.refreshCompleted();
-      listRefreshController.refreshCompleted();
+      refreshController.refreshCompleted();
     }, (error) {
       pagingController.error = error.message;
-      gridRefreshController.refreshFailed();
-      listRefreshController.refreshFailed();
+      refreshController.refreshFailed();
     });
   }
 
@@ -116,7 +113,9 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
       id: product.id!,
       userPostUpdateProductReq: UserPostUpdateProductReq(
         discountable: product.discountable,
-        status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+        status: product.status == ProductStatus.published
+            ? ProductStatus.draft
+            : ProductStatus.published,
       ),
     );
     result.when((success) {
@@ -163,13 +162,47 @@ class ProductsController extends GetxController with GetSingleTickerProviderStat
   }
 
   Future<void> duplicateProduct(Product product) async {
-    final result = await productsRepo.add(userPostProductReq: UserPostProductReq(product: product.duplicate()));
+    final result = await productsRepo.add(
+        userPostProductReq: UserPostProductReq(product: product.duplicate()));
     result.when((success) {
       EasyLoading.showSuccess('Product duplicated');
       pagingController.refresh();
     }, (error) {
-      print(error.toString());
-       EasyLoading.showError('Error duplicating product');
+      EasyLoading.showError('Error duplicating product');
     });
+  }
+
+  Future<void> refreshData() async {
+    _refreshingData = true;
+    Map<String, dynamic> query = {
+      'offset': 0,
+      'limit': _pageSize,
+      'order': sortOptions.map(),
+      'is_giftcard': 'false',
+    };
+
+    final result = await productsRepo.retrieveAll(
+        queryParameters: query..addAll(productFilter?.toJson() ?? {}));
+    await result.when((success) async {
+      final isLastPage = success.products!.length < _pageSize;
+      productsCount.value = success.count ?? 0;
+      pagingController.value = const PagingState(
+        nextPageKey: null,
+        error: null,
+        itemList: null,
+      );
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (isLastPage) {
+        pagingController.appendLastPage(success.products!);
+      } else {
+        pagingController.appendPage(
+            success.products!, success.products!.length);
+      }
+      refreshController.refreshCompleted();
+    }, (error) {
+      refreshController.refreshFailed();
+      Fluttertoast.showToast(msg: "Error refreshing data");
+    });
+    _refreshingData = false;
   }
 }

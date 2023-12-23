@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:settings_ui/settings_ui.dart';
 import '../../../../core/utils/colors.dart';
@@ -15,6 +16,7 @@ class StoreSettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Store Settings')),
       drawer: const AppDrawer(),
+      drawerEdgeDragWidth: context.drawerEdgeDragWidth,
       body: SafeArea(
           child: SettingsList(
         lightTheme: SettingsThemeData(

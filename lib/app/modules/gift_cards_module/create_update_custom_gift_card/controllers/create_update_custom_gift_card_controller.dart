@@ -80,7 +80,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     result.when((success) {
       context.popRoute();
       EasyLoading.showSuccess('Updated');
-      CustomGiftCardsController.instance.customGiftCardsPagingController.refresh();
+      CustomGiftCardsController.instance.pagingController.refresh();
       return;
     },
         (error) =>

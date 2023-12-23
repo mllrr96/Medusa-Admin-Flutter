@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -6,7 +7,8 @@ import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CollectionsController extends GetxController {
-  static CollectionsController get instance => Get.find<CollectionsController>();
+  static CollectionsController get instance =>
+      Get.find<CollectionsController>();
   CollectionsController({required this.collectionRepo});
   final CollectionRepo collectionRepo;
   RxInt collectionCount = 0.obs;
@@ -15,36 +17,28 @@ class CollectionsController extends GetxController {
   final PagingController<int, ProductCollection> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  final searchCtrl = TextEditingController();
   final scrollController = ScrollController();
-  RxString searchTerm = ''.obs;
-  late Worker searchDebouncer;
+  bool _refreshingData = false;
   @override
   void onInit() {
-    pagingController.addPageRequestListener((pageKey) {
-      debugPrint('Getting data');
-      _fetchPage(pageKey);
-    });
-    searchDebouncer =
-        debounce(searchTerm, (callback) => pagingController.refresh(), time: const Duration(milliseconds: 300));
-
+    pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
   }
 
   @override
   void onClose() {
     pagingController.dispose();
-    searchDebouncer.dispose();
-    searchCtrl.dispose();
     scrollController.dispose();
     super.onClose();
   }
 
   Future<void> _fetchPage(int pageKey) async {
+    if (_refreshingData) {
+      return;
+    }
     final result = await collectionRepo.retrieveAll(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
-      if (searchTerm.value.isNotEmpty) 'q': searchTerm.value,
     });
     result.when((success) {
       final isLastPage = success.collections!.length < _pageSize;
@@ -58,7 +52,36 @@ class CollectionsController extends GetxController {
       refreshController.refreshCompleted();
     }, (error) {
       refreshController.refreshFailed();
-      pagingController.error = 'Error loading orders';
+      pagingController.error = error;
     });
+  }
+
+  Future<void> refreshData() async {
+    _refreshingData = true;
+    final result = await collectionRepo.retrieveAll(queryParameters: {
+      'offset': 0,
+      'limit': _pageSize,
+    });
+    await result.when((success) async {
+      final isLastPage = success.collections!.length < _pageSize;
+      collectionCount.value = success.count ?? 0;
+      pagingController.value = const PagingState(
+        nextPageKey: null,
+        error: null,
+        itemList: null,
+      );
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (isLastPage) {
+        pagingController.appendLastPage(success.collections!);
+      } else {
+        pagingController.appendPage(
+            success.collections!, success.collections!.length);
+      }
+      refreshController.refreshCompleted();
+    }, (_) {
+      refreshController.refreshFailed();
+      Fluttertoast.showToast(msg: "Error refreshing data");
+    });
+    _refreshingData = false;
   }
 }

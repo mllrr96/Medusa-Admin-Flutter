@@ -69,6 +69,7 @@ dependencies:
   timeago: ^3.5.0
   gap: ^3.0.1
   fx_stepper: ^0.0.1
+  fluttertoast: ^8.2.4
 
 
 dev_dependencies: 

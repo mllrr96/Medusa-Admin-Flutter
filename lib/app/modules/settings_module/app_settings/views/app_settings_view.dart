@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +34,7 @@ class AppSettingsView extends StatelessWidget {
               title: const Text('App Settings'),
             ),
             drawer: const AppDrawer(),
+            drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             body: SettingsList(
               contentPadding: EdgeInsets.zero,
               lightTheme: SettingsThemeData(

@@ -1,24 +1,25 @@
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
+import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_loading_page.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../route/app_router.dart';
-import '../../../../data/models/store/order.dart';
 import '../../../../data/repository/order/orders_repo.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
 import '../../../components/adaptive_button.dart';
@@ -41,6 +42,7 @@ class OrdersView extends StatelessWidget {
         builder: (controller) {
           final orderSettings = StorageService.orderSettings;
           return Scaffold(
+            drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             drawer: const AppDrawer(),
             endDrawer: Drawer(
               shape: const RoundedRectangleBorder(),
@@ -59,6 +61,23 @@ class OrdersView extends StatelessWidget {
                 },
               ),
             ),
+            onEndDrawerChanged: (opened) async {
+              if (controller.regions == null ||
+                  controller.salesChannels == null && opened) {
+                loading(status: 'Loading regions and sales channels');
+                await Future.wait([
+                  controller.fetchRegions(),
+                  controller.fetchSalesChannels()
+                ]).then((value) {
+                  if (value.contains(false)) {
+                    EasyLoading.showError(
+                        'Error loading regions and sales channels');
+                  } else {
+                    dismissLoading();
+                  }
+                });
+              }
+            },
             floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,10 +107,10 @@ class OrdersView extends StatelessWidget {
             ),
             body: SmartRefresher(
               controller: controller.refreshController,
-              onRefresh: () => controller.pagingController.refresh(),
+              onRefresh: () async => await controller.refreshData(),
               header: Platform.isIOS
                   ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(height: 20, offset: 20),
+                  : const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 controller: controller.scrollController,
                 slivers: [
@@ -128,27 +147,8 @@ class OrdersView extends StatelessWidget {
                               builder: (controller) {
                             return InkWell(
                               onLongPress: () => controller.resetFilter(),
-                              onTap: () async {
-                                if (controller.regions == null ||
-                                    controller.salesChannels == null) {
-                                  loading(
-                                      status:
-                                          'Loading regions and sales channels');
-                                  await Future.wait([
-                                    controller.fetchRegions(),
-                                    controller.fetchSalesChannels()
-                                  ]).then((value) {
-                                    if (value.contains(false)) {
-                                      EasyLoading.showError(
-                                          'Error loading regions and sales channels');
-                                    } else {
-                                      dismissLoading();
-                                      context.openEndDrawer();
-                                    }
-                                  });
-                                } else {
-                                  context.openEndDrawer();
-                                }
+                              onTap: () {
+                                context.openEndDrawer();
                               },
                               child: Chip(
                                 side: BorderSide(
@@ -158,7 +158,7 @@ class OrdersView extends StatelessWidget {
                                         ? ColorManager.primary
                                         : Colors.transparent),
                                 backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                    context.theme.scaffoldBackgroundColor,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(6.0))),
@@ -191,34 +191,37 @@ class OrdersView extends StatelessWidget {
                         left: orderSettings.padding,
                         right: orderSettings.padding),
                     sliver: PagedSliverList.separated(
-                      separatorBuilder: (_, __) => const SizedBox(height: 8.0),
+                      separatorBuilder: (_, __) => const Gap(8.0),
                       pagingController: controller.pagingController,
                       builderDelegate: PagedChildBuilderDelegate<Order>(
-                          itemBuilder: (context, order, index) {
-                            if (orderSettings.alternativeCard) {
-                              return AlternativeOrderCard(order);
-                            }
-                            return OrderCard(order);
-                          },
-                          noItemsFoundIndicatorBuilder: (_) {
-                            if (controller.orderFilter != null &&
-                                controller.orderFilter?.count() != 0) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text('No Orders found'),
-                                  AdaptiveButton(
-                                      onPressed: () => controller.resetFilter(),
-                                      child: const Text('Clear filters'))
-                                ],
-                              );
-                            }
+                        itemBuilder: (context, order, index) {
+                          if (orderSettings.alternativeCard) {
+                            return AlternativeOrderCard(order);
+                          }
+                          return OrderCard(order);
+                        },
+                        noItemsFoundIndicatorBuilder: (_) {
+                          if (controller.orderFilter != null &&
+                              controller.orderFilter?.count() != 0) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('No Orders found'),
+                                AdaptiveButton(
+                                    onPressed: () => controller.resetFilter(),
+                                    child: const Text('Clear filters'))
+                              ],
+                            );
+                          }
 
-                            return const Center(child: Text('No orders yet!'));
-                          },
-                          firstPageProgressIndicatorBuilder: (context) =>
-                              const Center(
-                                  child: CircularProgressIndicator.adaptive())),
+                          return const Center(child: Text('No orders yet!'));
+                        },
+                        firstPageProgressIndicatorBuilder: (context) =>
+                            const OrdersLoadingPage(),
+                        firstPageErrorIndicatorBuilder: (context) =>
+                            PaginationErrorPage(
+                                pagingController: controller.pagingController),
+                      ),
                     ),
                   ),
                 ],
