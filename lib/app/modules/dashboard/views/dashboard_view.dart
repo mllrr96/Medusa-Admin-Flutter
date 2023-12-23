@@ -27,11 +27,11 @@ class _DashboardViewState extends State<DashboardView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print(state);
-    if (state == AppLifecycleState.resumed) {
-      // Check for authentication, if not logged in, redirect to login page
-      authenticate();
-    }
+    // print(state);
+    // if (state == AppLifecycleState.resumed) {
+    //   // Check for authentication, if not logged in, redirect to login page
+    //   authenticate();
+    // }
   }
 
   Future<void> authenticate() async {

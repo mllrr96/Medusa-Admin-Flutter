@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -58,6 +59,9 @@ class PricingView extends StatelessWidget {
                       itemBuilder: (context, priceList, index) => PriceListTile(priceList),
                       firstPageProgressIndicatorBuilder: (context) =>
                           const PriceListsLoadingPage(),
+                      firstPageErrorIndicatorBuilder: (context) =>
+                          PaginationErrorPage(
+                              pagingController: controller.pagingController),
                     ),
                   ),
                 ],

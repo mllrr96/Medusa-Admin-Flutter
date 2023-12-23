@@ -8,6 +8,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -97,6 +98,9 @@ class GroupsView extends StatelessWidget {
                                   customerGroup: customerGroup, index: index),
                           firstPageProgressIndicatorBuilder: (context) =>
                               const GroupsLoadingPage(),
+                              firstPageErrorIndicatorBuilder: (context) =>
+                                  PaginationErrorPage(
+                                      pagingController: controller.pagingController),
                         ),
                       ),
                     ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/gift_cards_module/custom_gift_cards/components/custom_gift_cards_loading_page.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -126,6 +127,9 @@ class CustomGiftCardsView extends StatelessWidget {
                               const Center(child: Text('No Gift cards')),
                           firstPageProgressIndicatorBuilder: (context) =>
                               const CustomGiftCardsLoadingPage(),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              PaginationErrorPage(
+                                  pagingController: controller.pagingController),
                         ),
                         separatorBuilder: (_, __) => const Divider(height: 0)),
                   ),

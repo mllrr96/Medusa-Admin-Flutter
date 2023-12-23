@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -230,6 +231,9 @@ class ProductsView extends StatelessWidget {
                           },
                         ),
                         firstPageProgressIndicatorBuilder: (_) => const ProductsLoadingPage(),
+                        firstPageErrorIndicatorBuilder: (context) =>
+                            PaginationErrorPage(
+                                pagingController: controller.pagingController),
                       ),
                     ),
                   ),

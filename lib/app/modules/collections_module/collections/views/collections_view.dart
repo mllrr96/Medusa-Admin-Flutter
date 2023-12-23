@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -84,6 +85,9 @@ class CollectionsView extends StatelessWidget {
                                     : null),
                         firstPageProgressIndicatorBuilder: (context) =>
                             const CollectionsLoadingPage(),
+                            firstPageErrorIndicatorBuilder: (context) =>
+                                PaginationErrorPage(
+                                    pagingController: controller.pagingController),
                       ),
                     ),
                   ),

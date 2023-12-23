@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -143,6 +144,9 @@ class GiftCardsView extends StatelessWidget {
                           },
                           firstPageProgressIndicatorBuilder: (context) =>
                              const GiftCardsLoadingPage(),
+                          firstPageErrorIndicatorBuilder: (context) =>
+                              PaginationErrorPage(
+                                  pagingController: controller.pagingController),
                         ),
                         separatorBuilder: (_, __) => const Divider(height: 0),
                     ),
