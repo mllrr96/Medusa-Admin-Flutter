@@ -23,14 +23,14 @@ class DateTimeCard extends StatelessWidget {
   final String? Function(DateTime?)? validator;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const halfSpace = Gap(6);
     return FormField<DateTime>(
       validator: validator,
       builder: (FormFieldState<DateTime> field) {
-        final color = field.hasError ? Colors.red : lightWhite;
+        final color = field.hasError ? Colors.red : manatee;
         return InkWell(
           onTap: onTap,
           child: Container(
@@ -66,7 +66,7 @@ class DateTimeCard extends StatelessWidget {
                                     : '${dateText!.capitalize!} Date',
                                 style: dateTextStyle ??
                                     mediumTextStyle?.copyWith(
-                                        color: lightWhite)),
+                                        color: manatee)),
                             halfSpace,
                             Text(dateTime.formatDate(),
                                 style: dateTimeTextStyle),
@@ -81,7 +81,7 @@ class DateTimeCard extends StatelessWidget {
                                     : '${dateText!.capitalize!} Time',
                                 style: dateTextStyle ??
                                     mediumTextStyle?.copyWith(
-                                        color: lightWhite)),
+                                        color: manatee)),
                             halfSpace,
                             Text(dateTime.formatTime(),
                                 style: dateTimeTextStyle),
@@ -114,12 +114,12 @@ class DateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final largeTextStyle = context.bodyLarge;
     return FormField<DateTime>(
       validator: validator,
       builder: (FormFieldState<DateTime> field) {
-        final color = field.hasError ? Colors.red : lightWhite;
+        final color = field.hasError ? Colors.red : manatee;
 
         return InkWell(
           onTap: onTap,

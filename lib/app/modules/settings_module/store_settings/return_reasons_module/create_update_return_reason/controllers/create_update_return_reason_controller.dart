@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/return_reason/return_reason_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../data/models/req/user_return_reason.dart';
 
@@ -40,7 +41,7 @@ class CreateUpdateReturnReasonController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     loading();
     if (updateMode) {
       final result = await returnReasonRepo.update(

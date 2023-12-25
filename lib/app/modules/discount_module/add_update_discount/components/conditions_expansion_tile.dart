@@ -19,7 +19,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
 
@@ -43,7 +43,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
               if (controller.discountConditions.isEmpty)
                 Text(
                   'Discount code apply to all products if left untouched.',
-                  style: smallTextStyle?.copyWith(color: lightWhite),
+                  style: smallTextStyle?.copyWith(color: manatee),
                 ),
               if (controller.discountConditions.isEmpty) space,
               if (controller.discountConditions.isNotEmpty)

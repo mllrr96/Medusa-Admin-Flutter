@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/res/regions.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -323,6 +324,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                       final result =
                                           await showBarModalBottomSheet(
                                               context: context,
+                                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                               builder: (context) {
                                                 return AddCustomItemView(
                                                     currencyCode: selectedRegion

@@ -2,15 +2,15 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
 import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/components/collection_list_tile.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/components/customer_list_tile.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/components/discount_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_card.dart';
@@ -40,12 +40,12 @@ class MedusaSearchView extends StatelessWidget {
   final SearchCategory searchCategory;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: context.theme.appBarTheme.systemOverlayStyle!,
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => context.unfocus(),
         child: GetBuilder<MedusaSearchController>(
           init: MedusaSearchController(
             productsRepo: ProductsRepo(),
@@ -63,105 +63,114 @@ class MedusaSearchView extends StatelessWidget {
             searchCategory: searchCategory,
           ),
           builder: (controller) {
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: SearchAppBar(controller: controller),
-              body: PagedListView(
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Object>(
-                    itemBuilder: (context, object, index) {
-                      switch (controller.searchCategory) {
-                        case SearchCategory.orders:
-                          if (object is Order) {
-                            return AlternativeOrderCard(object);
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.draftOrders:
-                          if (object is DraftOrder) {
-                            return DraftOrderCard(object);
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.products:
-                          if (object is Product) {
-                            return ProductListTile(product: object);
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.collections:
-                          if (object is ProductCollection) {
-                            return CollectionListTile(object);
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.customers:
-                          if (object is Customer) {
-                            return CustomerListTile(object, index: index);
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.groups:
-                          if (object is CustomerGroup) {
-                            return GroupCard(
-                              customerGroup: object,
-                              index: index,
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.giftCards:
-                          if (object is GiftCard) {
-                            return ListTile(
-                              title: Text(object.code ?? ''),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.discounts:
-                          if (object is Discount) {
-                            return DiscountCard(object);
-                          } else {
-                            return const SizedBox();
-                          }
-                        case SearchCategory.priceLists:
-                          if (object is PriceList) {
-                            return ListTile(
-                              title: Text(object.name ?? ''),
-                              subtitle:
-                                  Text(object.description ?? '', style: smallTextStyle?.copyWith(color: lightWhite)),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                      }
-                    },
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(child: CircularProgressIndicator.adaptive()),
-                    firstPageErrorIndicatorBuilder: (context) {
-                      final error = controller.pagingController.error;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (error is! Failure) const Text('An error occurred while searching'),
-                          if (error is Failure)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('An error occurred while searching'),
-                                Text('Code ${error.code}', style: smallTextStyle),
-                                Text(error.message.toString(), style: smallTextStyle),
-                              ],
-                            ),
-                          AdaptiveButton(
-                              onPressed: () => controller.pagingController.refresh(), child: const Text('Retry'))
-                        ],
-                      );
-                    },
-                    noItemsFoundIndicatorBuilder: (context) {
-                      return SearchHistoryView(controller: controller);
-                    }),
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
+                  statusBarColor: context.theme.scaffoldBackgroundColor),
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                appBar: SearchAppBar(controller: controller),
+                body: PagedListView.separated(
+                  pagingController: controller.pagingController,
+                  separatorBuilder: (context, index) {
+                    switch (controller.searchCategory) {
+                      case SearchCategory.orders:
+                        return const Gap(8.0);
+                      case SearchCategory.draftOrders:
+                        return const Gap(12.0);
+                      case SearchCategory.products:
+                        return const Divider(height: 0, indent: 16);
+                      case SearchCategory.collections:
+                      case SearchCategory.customers:
+                        return const SizedBox.shrink();
+                      case SearchCategory.groups:
+                        return Divider(
+                            height: 0, indent: GetPlatform.isIOS ? 16.0 : 0);
+                      case SearchCategory.giftCards:
+                        return const Divider(height: 0);
+                      case SearchCategory.discounts:
+                        return const Gap(12.0);
+                      case SearchCategory.priceLists:
+                        return const Divider(height: 0, indent: 16.0);
+                    }
+                  },
+                  builderDelegate: PagedChildBuilderDelegate<Object>(
+                      itemBuilder: (context, object, index) {
+                        switch (controller.searchCategory) {
+                          case SearchCategory.orders:
+                            if (object is Order) {
+                              return AlternativeOrderCard(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.draftOrders:
+                            if (object is DraftOrder) {
+                              return DraftOrderCard(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.products:
+                            if (object is Product) {
+                              return ProductListTile(product: object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.collections:
+                            if (object is ProductCollection) {
+                              return CollectionListTile(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.customers:
+                            if (object is Customer) {
+                              return CustomerListTile(object, index: index);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.groups:
+                            if (object is CustomerGroup) {
+                              return GroupCard(
+                                customerGroup: object,
+                                index: index,
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.giftCards:
+                            if (object is GiftCard) {
+                              return ListTile(
+                                title: Text(object.code ?? ''),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.discounts:
+                            if (object is Discount) {
+                              return DiscountCard(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.priceLists:
+                            if (object is PriceList) {
+                              return ListTile(
+                                title: Text(object.name ?? ''),
+                                subtitle: Text(object.description ?? '',
+                                    style: smallTextStyle?.copyWith(
+                                        color: manatee)),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                        }
+                      },
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                      firstPageErrorIndicatorBuilder: (context) =>
+                          PaginationErrorPage(
+                              pagingController: controller.pagingController),
+                      noItemsFoundIndicatorBuilder: (context) =>
+                          SearchHistoryView(controller: controller)),
+                ),
               ),
             );
           },
@@ -204,19 +213,21 @@ class SearchHistoryView extends StatelessWidget {
   final MedusaSearchController controller;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final searchHistory = StorageService.searchHistory;
-    if (controller.searchTerm.removeAllWhitespace.isEmpty && searchHistory.isNotEmpty) {
+    if (controller.searchTerm.removeAllWhitespace.isEmpty &&
+        searchHistory.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Text(
                 'Search history',
-                style: smallTextStyle?.copyWith(color: lightWhite),
+                style: smallTextStyle?.copyWith(color: manatee),
               ),
             ),
             ...searchHistory
@@ -230,7 +241,8 @@ class SearchHistoryView extends StatelessWidget {
                         controller.pagingController.refresh();
                       },
                       onDeleteTap: () async {
-                        await StorageService.instance.updateSearchHistory(e, delete: true);
+                        await StorageService.instance
+                            .updateSearchHistory(e, delete: true);
                         controller.update();
                       },
                     ))
@@ -239,7 +251,8 @@ class SearchHistoryView extends StatelessWidget {
           ],
         ),
       );
-    } else if (controller.searchTerm.removeAllWhitespace.isEmpty && searchHistory.isEmpty) {
+    } else if (controller.searchTerm.removeAllWhitespace.isEmpty &&
+        searchHistory.isEmpty) {
       return const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

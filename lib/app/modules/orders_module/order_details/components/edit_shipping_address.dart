@@ -73,7 +73,7 @@ class _EditAddressState extends State<EditAddress> {
   Widget build(BuildContext context) {
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -94,7 +94,7 @@ class _EditAddressState extends State<EditAddress> {
     }
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
@@ -179,7 +179,7 @@ class _EditAddressState extends State<EditAddress> {
                                 child: Text(e.name ?? ''),
                               ))
                           .toList(),
-                      hint: Text('Select', style: smallTextStyle?.copyWith(color: lightWhite)),
+                      hint: Text('Select', style: smallTextStyle?.copyWith(color: manatee)),
                       value: selectedCountry?.numCode,
                       onChanged: (val) {
                         if (val == null) return;

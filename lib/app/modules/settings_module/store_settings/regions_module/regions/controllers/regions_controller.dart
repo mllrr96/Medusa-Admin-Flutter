@@ -24,7 +24,7 @@ class RegionsController extends GetxController {
 
   @override
   void onClose() {
-    pagingController.dispose();
+    // pagingController.dispose();
     scrollController.dispose();
     super.onClose();
   }

@@ -13,7 +13,7 @@ class RefundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final durationDiff = DateTime.now().difference(refund.createdAt ?? DateTime.now());
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(
       children: [
@@ -40,7 +40,7 @@ class RefundWidget extends StatelessWidget {
                 children: [
                   Text(
                     '${DateTime.now().subtract(durationDiff).timeAgo()} ${refund.amount.formatAsPrice(currencyCode)}',
-                    style: smallTextStyle?.copyWith(color: lightWhite),
+                    style: smallTextStyle?.copyWith(color: manatee),
                   ),
                   if (refund.reason != null)
                     Column(
@@ -48,7 +48,7 @@ class RefundWidget extends StatelessWidget {
                         const SizedBox(height: 6.0),
                         Text(
                           refund.reason?.name.capitalize ?? '',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                       ],
                     )

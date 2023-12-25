@@ -56,7 +56,7 @@ class AddUpdateProductView extends StatelessWidget {
             return true;
           },
           child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveCloseButton(),

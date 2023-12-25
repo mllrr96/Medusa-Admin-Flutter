@@ -30,7 +30,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final controller = widget.controller;
     final searchCategory = controller.searchCategory;
@@ -110,18 +110,20 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     children: [
                       Text(
                         'Search for',
-                        style: smallTextStyle?.copyWith(color: lightWhite),
+                        style: smallTextStyle?.copyWith(color: manatee),
                       ),
                       SearchChip(
                         searchableField: controller.searchCategory ,
                         onTap: () async {
                           await showBarModalBottomSheet(
                               context: context,
+                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                               builder: (context) {
                                 return PickSearchCategory(
                                     selectedSearchCategory:
                                         controller.searchCategory);
                               }).then((result) {
+                                print(result);
                             if (result is SearchCategory) {
                               // Groups can only be sorted to date NOT to name
                               if (result == SearchCategory.groups) {
@@ -130,7 +132,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               controller.orderFilter = null;
                               controller.productFilter = null;
                               controller.pagingController.itemList = [];
-                              // controller.searchCategory = result;
+                              controller.searchCategory = result;
                               controller.update();
                               if (controller.searchTerm.isNotEmpty) {
                                 controller.pagingController.refresh();
@@ -147,7 +149,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       children: [
                         Text(
                           'Order by',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                         InkWell(
                           borderRadius: BorderRadius.circular(4.0),
@@ -190,7 +192,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       children: [
                         Text(
                           'Filter by',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                         InkWell(
                           borderRadius: BorderRadius.circular(4.0),
@@ -238,11 +240,9 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                         await showBarModalBottomSheet<
                                                 ProductFilter>(
                                             context: context,
+                                            overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                             builder: (context) =>
                                                 ProductsFilterView(
-                                                  collections:
-                                                      controller.collections,
-                                                  tags: controller.tags,
                                                   onResetPressed: () {
                                                     controller.productFilter =
                                                         null;
@@ -296,12 +296,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                 Future<OrderFilter?> orderFilterView() async =>
                                     await showBarModalBottomSheet<OrderFilter>(
                                         context: context,
+                                        overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                         builder: (context) => OrdersFilterView(
-                                              regions: controller.regions,
                                               orderFilter:
                                                   controller.orderFilter,
-                                              salesChannels:
-                                                  controller.salesChannels,
                                               onResetTap: () {
                                                 controller.orderFilter = null;
                                                 controller.update();

@@ -49,7 +49,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final largeTextStyle = context.bodyLarge;
     final headlineMediumTextStyle = context.headlineMedium;
 
@@ -92,7 +92,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
               child: AnimatedDefaultTextStyle(
                   style: widget.tabController.index == 0
                       ? headlineMediumTextStyle!
-                      : largeTextStyle!.copyWith(color: lightWhite),
+                      : largeTextStyle!.copyWith(color: manatee),
                   duration: const Duration(milliseconds: 200),
                   child: productsText)),
           CupertinoButton(
@@ -105,7 +105,7 @@ class _ProductsCollectionsTabBarAppBarState extends State<ProductsCollectionsTab
             child: AnimatedDefaultTextStyle(
                 style: widget.tabController.index == 1
                     ? headlineMediumTextStyle!
-                    : largeTextStyle!.copyWith(color: lightWhite),
+                    : largeTextStyle!.copyWith(color: manatee),
                 duration: const Duration(milliseconds: 200),
                 child: collectionText),
           ),

@@ -10,45 +10,27 @@ import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../core/utils/colors.dart';
 import '../../../core/utils/medusa_icons_icons.dart';
 import '../../data/service/storage_service.dart';
+import '../auth_module/sign_in/views/sign_in_view.dart';
 import 'easy_loading.dart';
 
-class AppDrawer extends StatefulWidget {
+class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   @override
-  State<AppDrawer> createState() => _AppDrawerState();
-}
-
-class _AppDrawerState extends State<AppDrawer> {
-  String appName = '';
-  String version = '';
-  String code = '';
-  @override
-  void initState() {
-    super.initState();
-    loadAppVersion();
-  }
-
-  loadAppVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      version = packageInfo.version;
-      code = packageInfo.buildNumber;
-      appName = packageInfo.appName;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final store = StoreService.store;
     const divider = Divider(height: 0);
+    final packageInfo = StorageService.packageInfo;
+    String appName = packageInfo.appName;
+    String version = packageInfo.version;
+    String code = packageInfo.buildNumber;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
           systemNavigationBarColor: context.theme.drawerTheme.backgroundColor),
@@ -70,7 +52,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Store',
-                            style: smallTextStyle?.copyWith(color: lightWhite)),
+                            style: smallTextStyle?.copyWith(color: manatee)),
                         Text(store.name, style: mediumTextStyle),
                       ],
                     ),
@@ -90,7 +72,7 @@ class _AppDrawerState extends State<AppDrawer> {
                             : null,
                         leading: const Icon(CupertinoIcons.cart),
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(0);
                         },
                       ),
@@ -99,10 +81,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(CupertinoIcons.cart_badge_plus),
                         trailing: context.tabsRouter.activeIndex == 1
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(1);
                         },
                       ),
@@ -112,11 +94,23 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(MedusaIcons.tag),
                         trailing: context.tabsRouter.activeIndex == 2
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(2);
+                        },
+                      ),
+                      ListTile(
+                        title: const Text('Categories'),
+                        leading: const Icon(MedusaIcons.tag),
+                        trailing: context.tabsRouter.activeIndex == 11
+                            ? Icon(Icons.circle,
+                                color: ColorManager.primary, size: 12)
+                            : null,
+                        onTap: () {
+                          context.closeDrawer();
+                          context.tabsRouter.setActiveIndex(11);
                         },
                       ),
                       ListTile(
@@ -124,10 +118,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(Icons.collections_bookmark),
                         trailing: context.tabsRouter.activeIndex == 3
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(3);
                         },
                       ),
@@ -139,10 +133,10 @@ class _AppDrawerState extends State<AppDrawer> {
                             : const Icon(MedusaIcons.users),
                         trailing: context.tabsRouter.activeIndex == 4
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(4);
                         },
                       ),
@@ -151,10 +145,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(Icons.groups),
                         trailing: context.tabsRouter.activeIndex == 5
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(5);
                         },
                       ),
@@ -164,10 +158,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(Icons.discount_outlined),
                         trailing: context.tabsRouter.activeIndex == 6
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(6);
                         },
                       ),
@@ -176,10 +170,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(CupertinoIcons.gift),
                         trailing: context.tabsRouter.activeIndex == 7
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(7);
                         },
                       ),
@@ -188,10 +182,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(MedusaIcons.currency_dollar),
                         trailing: context.tabsRouter.activeIndex == 8
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(8);
                         },
                       ),
@@ -201,10 +195,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(Icons.settings_applications),
                         trailing: context.tabsRouter.activeIndex == 9
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(9);
                         },
                       ),
@@ -215,10 +209,10 @@ class _AppDrawerState extends State<AppDrawer> {
                             : const Icon(Icons.settings),
                         trailing: context.tabsRouter.activeIndex == 10
                             ? Icon(Icons.circle,
-                            color: ColorManager.primary, size: 12)
+                                color: ColorManager.primary, size: 12)
                             : null,
                         onTap: () {
-                          Scaffold.of(context).closeDrawer();
+                          context.closeDrawer();
                           context.tabsRouter.setActiveIndex(10);
                         },
                       ),
@@ -254,6 +248,23 @@ class _AppDrawerState extends State<AppDrawer> {
                           );
                         },
                       ),
+                      divider,
+                      const ListTile(
+                        leading: Icon(Icons.bug_report),
+                        title: Text('Debugging'),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.refresh,
+                            color: Colors.redAccent),
+                        title: const Text('Re-Authenticate'),
+                        onTap: () async {
+                          await showBarModalBottomSheet(
+                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                              context: context, builder: (context) => const SignInView());
+                        },
+                      ),
+
+
                       Align(
                         alignment: Alignment.center,
                         child: Container(
@@ -275,10 +286,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                 children: [
                                   Text(appName,
                                       style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
+                                          color: manatee)),
                                   Text('Version $version+$code',
                                       style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
+                                          color: manatee)),
                                 ],
                               ),
                             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
@@ -6,11 +7,13 @@ import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.da
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DraftOrdersController extends GetxController {
-  static DraftOrdersController get instance => Get.find<DraftOrdersController>();
+  static DraftOrdersController get instance =>
+      Get.find<DraftOrdersController>();
   DraftOrdersController({required this.draftOrderRepo});
   final DraftOrderRepo draftOrderRepo;
   final int _pageSize = 20;
   RxInt draftOrdersCount = 0.obs;
+  bool _refreshingData = false;
   RefreshController refreshController = RefreshController();
   final PagingController<int, DraftOrder> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -28,10 +31,12 @@ class DraftOrdersController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
+    if(_refreshingData){
+      return;
+    }
     final result = await draftOrderRepo.retrieveDraftOrders(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
-      // 'expand': 'cart,order',
     });
     result.when((success) {
       final isLastPage = success.draftOrders!.length < _pageSize;
@@ -42,10 +47,37 @@ class DraftOrdersController extends GetxController {
         final nextPageKey = pageKey + success.draftOrders!.length;
         pagingController.appendPage(success.draftOrders!, nextPageKey);
       }
-      refreshController.refreshCompleted();
     }, (error) {
       pagingController.error = 'Error loading orders';
+    });
+  }
+
+  Future<void> refreshData() async {
+    _refreshingData = true;
+    final result = await draftOrderRepo.retrieveDraftOrders(queryParameters: {
+      'offset':  0,
+      'limit': _pageSize,
+    });
+   await result.when((success) async {
+      final isLastPage = success.draftOrders!.length < _pageSize;
+      draftOrdersCount.value = success.count ?? 0;
+      pagingController.value = const PagingState(
+        nextPageKey: null,
+        error: null,
+        itemList: null,
+      );
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (isLastPage) {
+        pagingController.appendLastPage(success.draftOrders!);
+      } else {
+        pagingController.appendPage(
+            success.draftOrders!, success.draftOrders!.length);
+      }
+      refreshController.refreshCompleted();
+    }, (error) {
+      Fluttertoast.showToast(msg: "Error refreshing data");
       refreshController.refreshFailed();
     });
+    _refreshingData = false;
   }
 }

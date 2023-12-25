@@ -18,7 +18,7 @@ import '../components/tax_rate_card.dart';
 import '../controllers/tax_settings_controller.dart';
 
 @RoutePage()
-class TaxSettingsView extends GetView<TaxSettingsController> {
+class TaxSettingsView extends StatelessWidget {
   const TaxSettingsView(this.region, {super.key});
   final Region region;
 
@@ -32,7 +32,9 @@ class TaxSettingsView extends GetView<TaxSettingsController> {
     const halfSpace = Gap(6);
     return GetBuilder<TaxSettingsController>(
       init: TaxSettingsController(
-          taxRateRepo: TaxRateRepo(), storeRepo: StoreRepo(), region: region),
+          region: region,
+          storeRepo: StoreRepo(),
+          taxRateRepo: TaxRateRepo(),),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(

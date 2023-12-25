@@ -18,7 +18,7 @@ class DiscountCard extends StatelessWidget {
   final void Function()? onDelete;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     bool expired = discount.endsAt?.isBefore(DateTime.now()) ?? false;
     Color? iconColor;
     switch (discount.rule?.type) {
@@ -71,7 +71,7 @@ class DiscountCard extends StatelessWidget {
                         child: Row(
                           children: [
                             Icon(Icons.discount_outlined,
-                                size: 20, color: iconColor ?? lightWhite),
+                                size: 20, color: iconColor ?? manatee),
                             const SizedBox(width: 6.0),
                             Flexible(child: Text(discount.code ?? '')),
                           ],
@@ -147,7 +147,7 @@ class DiscountCard extends StatelessWidget {
                         Flexible(
                           child: Text(
                             discount.rule?.description ?? '',
-                            style: smallTextStyle?.copyWith(color: lightWhite),
+                            style: smallTextStyle?.copyWith(color: manatee),
                           ),
                         ),
                       DiscountRuleTypeLabel(discount: discount),
@@ -163,7 +163,7 @@ class DiscountCard extends StatelessWidget {
                         Flexible(
                           child: Text(
                             'Redemptions: ${discount.usageCount}',
-                            style: smallTextStyle?.copyWith(color: lightWhite),
+                            style: smallTextStyle?.copyWith(color: manatee),
                           ),
                         ),
                       ],

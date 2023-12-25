@@ -31,7 +31,7 @@ class AddUpdatePriceListView extends StatelessWidget {
   static const kDuration = Duration(milliseconds: 300);
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -48,7 +48,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                 await controller.priceListTypeKey.currentContext
                     .ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'Price List Type',
@@ -60,7 +60,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             children: [
               Text(
                 'Select the type of the price list',
-                style: smallTextStyle!.copyWith(color: lightWhite),
+                style: smallTextStyle!.copyWith(color: manatee),
               ),
               space,
               PriceListTypeCard(
@@ -99,7 +99,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               if (expanded) {
                 await controller.generalKey.currentContext.ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'General',
@@ -111,7 +111,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             children: [
               Text(
                 'General information for the price list.',
-                style: smallTextStyle!.copyWith(color: lightWhite),
+                style: smallTextStyle!.copyWith(color: manatee),
               ),
               space,
               LabeledTextField(
@@ -154,7 +154,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               if (expanded) {
                 await controller.configKey.currentContext.ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'Configuration',
@@ -165,7 +165,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             children: [
               Text(
                 'The price overrides apply from the time you hit the publish button and forever if left untouched.',
-                style: smallTextStyle!.copyWith(color: lightWhite),
+                style: smallTextStyle!.copyWith(color: manatee),
               ),
               space,
               SwitchListTile.adaptive(
@@ -173,7 +173,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                 title: const Text('Price overrides has a start date?'),
                 subtitle: Text(
                     'Schedule the price overrides to activate in the future.',
-                    style: TextStyle(color: lightWhite)),
+                    style: TextStyle(color: manatee)),
                 value: controller.priceList.startsAt != null,
                 onChanged: (val) async {
                   if (val) {
@@ -223,7 +223,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                 title: const Text('Price overrides has a expiry date?'),
                 subtitle: Text(
                     'Schedule the price overrides to deactivate in the future.',
-                    style: TextStyle(color: lightWhite)),
+                    style: TextStyle(color: manatee)),
                 value: controller.priceList.endsAt != null,
                 onChanged: (val) async {
                   if (val) {
@@ -272,7 +272,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                 title: const Text('Customer availability'),
                 subtitle: Text(
                     'Specify which customer groups the price overrides should apply for.',
-                    style: TextStyle(color: lightWhite)),
+                    style: TextStyle(color: manatee)),
                 value: controller.specifyCustomers,
                 onChanged: (val) async {
                   if (val) {
@@ -305,6 +305,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                           onTap: () async {
                             final result = await showBarModalBottomSheet(
                                 context: context,
+                                overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                 builder: (context) => PickGroupsView(
                                     pickGroupsReq: PickGroupsReq(
                                         multipleSelect: true,
@@ -371,7 +372,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               if (expanded) {
                 await controller.pricesKey.currentContext.ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'Prices',
@@ -383,7 +384,7 @@ class AddUpdatePriceListView extends StatelessWidget {
             children: [
               Text(
                 'You will be able to override the prices for the products you add here',
-                style: smallTextStyle!.copyWith(color: lightWhite),
+                style: smallTextStyle!.copyWith(color: manatee),
               ),
               space,
               ...controller.products.map((product) => Column(
@@ -422,6 +423,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                                             await showBarModalBottomSheet(
                                           backgroundColor: Theme.of(context)
                                               .scaffoldBackgroundColor,
+                                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                           context: context,
                                           builder: (context) =>
                                               ProductPriceList(
@@ -505,7 +507,7 @@ class AddUpdatePriceListView extends StatelessWidget {
           AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveCloseButton(),

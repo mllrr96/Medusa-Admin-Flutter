@@ -24,7 +24,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     String getCountry() {
@@ -63,6 +63,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 2:
                   final result = await showBarModalBottomSheet(
                     context: context,
+                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                     builder: (context) => EditAddress(
                       shippingAddress: order.shippingAddress!,
                       countries: order.region?.countries ?? <Country>[],
@@ -77,6 +78,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 3:
                   final result = await showBarModalBottomSheet(
                     context: context,
+                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                     builder: (context) => EditAddress(
                       shippingAddress: order.billingAddress!,
                       countries: order.region?.countries ?? <Country>[],
@@ -91,6 +93,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 4:
                   final result = await showBarModalBottomSheet(
                       context: context,
+                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                       builder: (context) {
                         return EmailUpdateView(currentEmail: order.email);
                       });
@@ -121,7 +124,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                         Text('${order.customer?.firstName ?? ''} ${order.customer?.lastName ?? ''}',
                             style: mediumTextStyle),
                         Text('${order.shippingAddress?.city ?? ''}, ${getCountry()}',
-                            style: mediumTextStyle?.copyWith(color: lightWhite))
+                            style: mediumTextStyle?.copyWith(color: manatee))
                       ],
                     ),
                   ),
@@ -148,7 +151,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Shipping', style: mediumTextStyle!.copyWith(color: lightWhite)),
+                  Text('Shipping', style: mediumTextStyle!.copyWith(color: manatee)),
                   const SizedBox(height: 5.0),
                   Text('${order.shippingAddress?.address1 ?? ''} ${order.shippingAddress?.address2 ?? ''}',
                       style: context.bodyMedium),
@@ -161,7 +164,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Billing', style: mediumTextStyle.copyWith(color: lightWhite)),
+                  Text('Billing', style: mediumTextStyle.copyWith(color: manatee)),
                   const SizedBox(height: 5.0),
                   Text('${order.billingAddress?.address1 ?? ''} ${order.billingAddress?.address2 ?? ''}',
                       style: context.bodyMedium),

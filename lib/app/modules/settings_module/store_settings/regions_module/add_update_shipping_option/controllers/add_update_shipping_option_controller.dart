@@ -71,7 +71,7 @@ class AddUpdateShippingOptionController extends GetxController {
       if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal),
       if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal),
     ];
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     final result = await shippingOptionsRepo.create(
       userCreateShippingOptionReq: UserCreateShippingOptionReq(
         shippingOption: ShippingOption(
@@ -107,7 +107,7 @@ class AddUpdateShippingOptionController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     final price = int.tryParse(priceCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     final minSubtotal = int.tryParse(minSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     final maxSubtotal = int.tryParse(maxSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));

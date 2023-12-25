@@ -15,7 +15,7 @@ class ConditionOperatorCard extends StatelessWidget {
   final void Function(DiscountConditionOperator discountRuleType)? onTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -76,7 +76,7 @@ class ConditionOperatorCard extends StatelessWidget {
                     Text(title, style: mediumTextStyle),
                     Text(
                       description,
-                      style: smallTextStyle?.copyWith(color: lightWhite),
+                      style: smallTextStyle?.copyWith(color: manatee),
                     ),
                   ],
                 ),

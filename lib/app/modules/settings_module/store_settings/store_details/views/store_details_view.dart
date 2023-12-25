@@ -26,7 +26,7 @@ class StoreDetailsView extends StatelessWidget {
         init: StoreDetailsController(storeRepo: StoreRepo()),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveBackButton(),

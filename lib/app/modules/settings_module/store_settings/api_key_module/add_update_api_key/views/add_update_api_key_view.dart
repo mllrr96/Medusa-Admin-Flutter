@@ -29,7 +29,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
             publishableApiKeyRepo: PublishableApiKeyRepo(), publishableApiKey: publishableApiKey),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveBackButton(),
@@ -52,6 +52,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
                       key: controller.keyForm,
                       child: CustomExpansionTile(
                         label: 'General Information',
+                        initiallyExpanded: true,
                         children: [
                           Text(
                             'Create and manage API keys. Right now this is only related to sales channels.',

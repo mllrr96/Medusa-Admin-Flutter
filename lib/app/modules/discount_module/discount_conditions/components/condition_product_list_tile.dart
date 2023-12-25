@@ -13,7 +13,7 @@ class ProductListTileWithVariantCount extends StatelessWidget {
   final void Function(bool?)? onChanged;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     return CheckboxListTile(
@@ -31,12 +31,12 @@ class ProductListTileWithVariantCount extends StatelessWidget {
               ))
           : null,
       title: Text(product.title ?? '',
-          style: mediumTextStyle?.copyWith(color: enabled != null && enabled == false ? lightWhite : null)),
+          style: mediumTextStyle?.copyWith(color: enabled != null && enabled == false ? manatee : null)),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Variants: ${product.variants?.length ?? '0'}',
-              style: smallTextStyle?.copyWith(color: enabled != null && enabled == false ? lightWhite : null)),
+              style: smallTextStyle?.copyWith(color: enabled != null && enabled == false ? manatee : null)),
           _getStatusIcon(product.status),
         ],
       ),

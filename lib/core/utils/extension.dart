@@ -71,7 +71,12 @@ extension BuildContextEntension<T> on BuildContext {
 
   // Drawer
   void openDrawer() => Scaffold.of(this).openDrawer();
+  void closeDrawer() => Scaffold.of(this).closeDrawer();
   void openEndDrawer() => Scaffold.of(this).openEndDrawer();
+  void closeEndDrawer() => Scaffold.of(this).closeEndDrawer();
+
+  double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 2.5;
+
 }
 
 extension HexColor on Color {

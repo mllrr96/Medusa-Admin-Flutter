@@ -38,13 +38,13 @@ class _ProductPriceListState extends State<ProductPriceList> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final currencies = StoreService.store.currencies!;
     const space = Gap(12);
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
@@ -139,7 +139,7 @@ class _ProductPriceListState extends State<ProductPriceList> {
                             // tileColor: context.theme.appBarTheme.backgroundColor,
                             title: Text(variant?.title ?? ''),
                             subtitle: variant?.sku != null
-                                ? Text('SKU: ${variant!.sku}', style: smallTextStyle?.copyWith(color: lightWhite))
+                                ? Text('SKU: ${variant!.sku}', style: smallTextStyle?.copyWith(color: manatee))
                                 : null,
                             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
                             value: selectedVariants.map((e) => e.id).toList().contains(variant?.id),
@@ -189,7 +189,7 @@ class _ProductPriceListState extends State<ProductPriceList> {
                                 const SizedBox(width: 12.0),
                                 Expanded(
                                     child:
-                                        Text(currency.name ?? '', style: mediumTextStyle!.copyWith(color: lightWhite)))
+                                        Text(currency.name ?? '', style: mediumTextStyle!.copyWith(color: manatee)))
                               ],
                             ),
                           ),
@@ -204,7 +204,7 @@ class _ProductPriceListState extends State<ProductPriceList> {
                                 prefixIcon: Padding(
                                     padding: const EdgeInsets.only(left: 10),
                                     child: Text(currency.symbolNative ?? '',
-                                        style: mediumTextStyle.copyWith(color: lightWhite))),
+                                        style: mediumTextStyle.copyWith(color: manatee))),
                                 prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
                                 hintText: '-',
                                 isDense: true,

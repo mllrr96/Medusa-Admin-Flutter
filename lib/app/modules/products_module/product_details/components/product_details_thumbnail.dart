@@ -25,7 +25,7 @@ class ProductDetailsThumbnail extends GetView<ProductDetailsController> {
   final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     final buttonText = product.thumbnail == null ? 'Add' : 'Edit';
@@ -80,7 +80,7 @@ class ProductDetailsThumbnail extends GetView<ProductDetailsController> {
                           CachedNetworkImage(imageUrl: product.thumbnail!)))),
         if (product.thumbnail == null)
           Text('No thumbnail added',
-              style: smallTextStyle?.copyWith(color: lightWhite)),
+              style: smallTextStyle?.copyWith(color: manatee)),
         space,
       ],
     );

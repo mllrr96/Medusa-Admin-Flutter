@@ -24,7 +24,7 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
       init: CreateUpdateGroupController(customerGroupRepo: CustomerGroupRepo(), customerGroup: customerGroup),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveCloseButton(),

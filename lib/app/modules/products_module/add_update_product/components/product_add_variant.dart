@@ -65,7 +65,7 @@ class ProductAddVariantView extends StatelessWidget {
               }
             },
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => context.unfocus(),
               child: Scaffold(
                 appBar: AppBar(
                   leading: const AdaptiveCloseButton(),
@@ -492,6 +492,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 onTap: () async {
                                   final result = await showBarModalBottomSheet(
                                       context: context,
+                                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                       builder: (context) =>
                                           const SelectCountryView());
                                   if (result is List<Country>) {

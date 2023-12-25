@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/customer_group.dart';
 
@@ -46,7 +47,7 @@ class CreateUpdateGroupController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     loading();
     var metadata = <String, dynamic>{};
     for (var e in metadataTextCtrl) {
@@ -68,7 +69,7 @@ class CreateUpdateGroupController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     loading();
     var metadata = <String, dynamic>{};
     for (var e in metadataTextCtrl) {

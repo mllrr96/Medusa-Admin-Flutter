@@ -7,7 +7,7 @@ import '../../../core/utils/colors.dart';
 
 class BottomNavigationBarButton extends StatelessWidget {
   const BottomNavigationBarButton({
-    Key? key,
+    super.key,
     required this.onPress,
     required this.label,
     this.textStyle,
@@ -17,7 +17,7 @@ class BottomNavigationBarButton extends StatelessWidget {
     this.buttonWidth,
     this.noShadow = false,
     this.containerHeight,
-  }) : super(key: key);
+  });
   final void Function()? onPress;
   final String label;
   final TextStyle? textStyle;

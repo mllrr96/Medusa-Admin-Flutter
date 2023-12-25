@@ -14,7 +14,7 @@ class DiscountTypeCard extends StatelessWidget {
   final bool disabled;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -49,7 +49,7 @@ class DiscountTypeCard extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius:
                 selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
-            color: disabled ? lightWhite.withOpacity(0.3) : Theme.of(context).scaffoldBackgroundColor,
+            color: disabled ? manatee.withOpacity(0.3) : Theme.of(context).scaffoldBackgroundColor,
             border: Border.all(
               color: borderColor,
             )),
@@ -73,10 +73,10 @@ class DiscountTypeCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title, style: mediumTextStyle?.copyWith(color: disabled ? lightWhite : null)),
+                        Text(title, style: mediumTextStyle?.copyWith(color: disabled ? manatee : null)),
                         Text(
                           description,
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                         ),
                       ],
                     ),

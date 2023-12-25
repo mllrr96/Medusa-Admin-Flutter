@@ -16,7 +16,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
   final Product product;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -84,7 +84,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
               children: [
                 space,
                 Text(product.description ?? '',
-                    style: mediumTextStyle!.copyWith(color: lightWhite)),
+                    style: mediumTextStyle!.copyWith(color: manatee)),
               ],
             ),
           const Divider(),
@@ -115,10 +115,10 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                 children: [
                   Flexible(
                       child: Text('Subtitle',
-                          style: mediumTextStyle!.copyWith(color: lightWhite))),
+                          style: mediumTextStyle!.copyWith(color: manatee))),
                   Flexible(
                       child: Text(product.subtitle ?? '-',
-                          style: mediumTextStyle.copyWith(color: lightWhite),
+                          style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],
               ),
@@ -128,11 +128,11 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                 children: [
                   Flexible(
                       child: Text('Handle',
-                          style: mediumTextStyle.copyWith(color: lightWhite))),
+                          style: mediumTextStyle.copyWith(color: manatee))),
                   Flexible(
                       flex: 2,
                       child: Text(product.handle ?? '-',
-                          style: mediumTextStyle.copyWith(color: lightWhite),
+                          style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],
               ),
@@ -142,11 +142,11 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                 children: [
                   Flexible(
                       child: Text('Type',
-                          style: mediumTextStyle.copyWith(color: lightWhite))),
+                          style: mediumTextStyle.copyWith(color: manatee))),
                   Flexible(
                       flex: 2,
                       child: Text(product.type?.value ?? '-',
-                          style: mediumTextStyle.copyWith(color: lightWhite),
+                          style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],
               ),
@@ -156,11 +156,11 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                 children: [
                   Flexible(
                       child: Text('Collection',
-                          style: mediumTextStyle.copyWith(color: lightWhite))),
+                          style: mediumTextStyle.copyWith(color: manatee))),
                   Flexible(
                       flex: 2,
                       child: Text(product.collection?.title ?? '-',
-                          style: mediumTextStyle.copyWith(color: lightWhite),
+                          style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],
               ),
@@ -170,13 +170,13 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                 children: [
                   Flexible(
                       child: Text('Discountable',
-                          style: mediumTextStyle.copyWith(color: lightWhite))),
+                          style: mediumTextStyle.copyWith(color: manatee))),
                   Flexible(
                       flex: 2,
                       child: Text(
                           product.discountable.toString().capitalize ??
                               product.discountable.toString(),
-                          style: mediumTextStyle.copyWith(color: lightWhite),
+                          style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],
               ),

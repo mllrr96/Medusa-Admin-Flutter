@@ -24,7 +24,7 @@ class PriceListDetailsView extends StatelessWidget {
   final String id;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -124,7 +124,7 @@ class PriceListDetailsView extends StatelessWidget {
                             space,
                             Text(priceList.description ?? '',
                                 style: smallTextStyle?.copyWith(
-                                    color: lightWhite)),
+                                    color: manatee)),
                             if (priceList.customerGroups?.isNotEmpty ?? false)
                               space,
                             if (priceList.customerGroups?.isNotEmpty ?? false)
@@ -144,7 +144,7 @@ class PriceListDetailsView extends StatelessWidget {
                                   children: [
                                     Text('Customer groups',
                                         style: smallTextStyle?.copyWith(
-                                            color: lightWhite)),
+                                            color: manatee)),
                                     Text(
                                       getGroupsNames(priceList),
                                       style: mediumTextStyle,
@@ -174,7 +174,7 @@ class PriceListDetailsView extends StatelessWidget {
                                     children: [
                                       Text('Last edited',
                                           style: smallTextStyle?.copyWith(
-                                              color: lightWhite)),
+                                              color: manatee)),
                                       Text(priceList.updatedAt.formatDate(),
                                           style: mediumTextStyle),
                                     ],
@@ -196,7 +196,7 @@ class PriceListDetailsView extends StatelessWidget {
                                     children: [
                                       Text('Price overrides',
                                           style: smallTextStyle?.copyWith(
-                                              color: lightWhite)),
+                                              color: manatee)),
                                       Text(
                                           priceList.prices?.length.toString() ??
                                               '0',
@@ -247,7 +247,7 @@ class PriceListDetailsView extends StatelessWidget {
                           subtitle: product.collection != null
                               ? Text('${product.collection!.title} collection',
                                   style: smallTextStyle?.copyWith(
-                                      color: lightWhite))
+                                      color: manatee))
                               : null,
                           trailing: Text(
                               'Variants: ${product.variants?.length ?? 'N/A'}',
@@ -328,7 +328,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -361,7 +361,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
             ),
             space,
             Text(priceList.description ?? '',
-                style: smallTextStyle?.copyWith(color: lightWhite)),
+                style: smallTextStyle?.copyWith(color: manatee)),
             space,
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -374,7 +374,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                     children: [
                       const Text(''),
                       Text('Customer groups',
-                          style: smallTextStyle?.copyWith(color: lightWhite))
+                          style: smallTextStyle?.copyWith(color: manatee))
                     ],
                   ),
                 ),
@@ -392,7 +392,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                           style: mediumTextStyle,
                         ),
                       Text('Last edited',
-                          style: smallTextStyle?.copyWith(color: lightWhite))
+                          style: smallTextStyle?.copyWith(color: manatee))
                     ],
                   ),
                 ),
@@ -405,7 +405,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
                       Text(priceList.prices?.length.toString() ?? '0',
                           style: mediumTextStyle),
                       Text('Price overrides',
-                          style: smallTextStyle?.copyWith(color: lightWhite))
+                          style: smallTextStyle?.copyWith(color: manatee))
                     ],
                   ),
                 ),

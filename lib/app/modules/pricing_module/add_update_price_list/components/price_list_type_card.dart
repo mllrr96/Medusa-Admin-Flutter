@@ -12,7 +12,7 @@ class PriceListTypeCard extends StatelessWidget {
   final void Function(PriceListType priceListType)? onTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -66,7 +66,7 @@ class PriceListTypeCard extends StatelessWidget {
                   Text(title, style: mediumTextStyle),
                   Text(
                     description,
-                    style: smallTextStyle?.copyWith(color: lightWhite),
+                    style: smallTextStyle?.copyWith(color: manatee),
                   ),
                 ],
               ),

@@ -18,7 +18,7 @@ class ResetPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final bottomPadding =
         context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
     final tr = context.tr;
@@ -27,7 +27,7 @@ class ResetPasswordView extends StatelessWidget {
         init: ResetPasswordController(userRepo: UserRepo()),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading:
@@ -72,7 +72,7 @@ class ResetPasswordView extends StatelessWidget {
                             child: Text(
                               tr.resetTokenCardPasswordResetDescription,
                               style: context.bodyMedium
-                                  ?.copyWith(color: lightWhite),
+                                  ?.copyWith(color: manatee),
                               textAlign: TextAlign.center,
                             ),
                           ),

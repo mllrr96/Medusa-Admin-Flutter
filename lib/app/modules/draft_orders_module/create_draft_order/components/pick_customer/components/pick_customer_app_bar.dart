@@ -58,7 +58,7 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
             AdaptiveButton(
                 child: const Text('Cancel'),
                 onPressed: () async {
-                  FocusScope.of(context).unfocus();
+                  context.unfocus();
                   // await Future.delayed(const Duration(milliseconds: 150));
                   setState(() {
                     expanded = false;

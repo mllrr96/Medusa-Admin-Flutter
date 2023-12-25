@@ -39,7 +39,7 @@ class AddRegionView extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: GetBuilder<AddRegionController>(
         init: AddRegionController(
             regionsRepo: RegionsRepo(), storeRepo: StoreRepo(), region: region),
@@ -181,6 +181,7 @@ class AddRegionView extends StatelessWidget {
                               //     ));
                               final result = await showBarModalBottomSheet(
                                   context: context,
+                                  overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                   builder: (context) => SelectCountryView(
                                           selectCountryReq: SelectCountryReq(
                                         disabledCountriesIso2: controller

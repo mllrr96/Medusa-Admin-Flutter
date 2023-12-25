@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/product_category.dart';
 import 'package:medusa_admin/app/data/repository/product_category/product_category_repo.dart';
+import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/categories_controller.dart';
@@ -19,6 +22,11 @@ class CategoriesView extends StatelessWidget {
         init: CategoriesController(categoryRepo: ProductCategoryRepo()),
         builder: (controller) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text('Categories'),
+            ),
+            drawer: const AppDrawer(),
+            drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             body: SafeArea(
               child: SmartRefresher(
                 controller: controller.refreshController,
@@ -30,13 +38,15 @@ class CategoriesView extends StatelessWidget {
                   pagingController: controller.pagingController,
                   padding: const EdgeInsets.only(bottom: kToolbarHeight),
                   builderDelegate: PagedChildBuilderDelegate<ProductCategory>(
-                    itemBuilder: (context, category, index) => ListTile(
-                      title: Text(category.name ?? ''),
-                    ),
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(
-                            child: CircularProgressIndicator.adaptive()),
-                  ),
+                      itemBuilder: (context, category, index) => ListTile(
+                            title: Text(category.name ?? ''),
+                          ),
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                      firstPageErrorIndicatorBuilder: (context) =>
+                          PaginationErrorPage(
+                              pagingController: controller.pagingController)),
                 ),
               ),
             ),

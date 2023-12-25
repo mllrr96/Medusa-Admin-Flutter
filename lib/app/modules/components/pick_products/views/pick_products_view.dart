@@ -20,7 +20,7 @@ class PickProductsView extends StatelessWidget {
     return GetBuilder<PickProductsController>(
       init: PickProductsController(productsRepo: ProductsRepo(), pickProductsReq: pickProductsReq),
       builder: (controller) {
-        final lightWhite = ColorManager.manatee;
+        final manatee = ColorManager.manatee;
         final smallTextStyle = context.bodySmall;
 
         return Scaffold(
@@ -56,7 +56,7 @@ class PickProductsView extends StatelessWidget {
                       children: [
                         if (controller.productsReq.includeVariantCount)
                           Text('Variants: ${product.variants?.length ?? '0'}',
-                              style: smallTextStyle?.copyWith(color: enabled ? null : lightWhite)),
+                              style: smallTextStyle?.copyWith(color: enabled ? null : manatee)),
                         _getStatusIcon(product.status),
                       ],
                     ),

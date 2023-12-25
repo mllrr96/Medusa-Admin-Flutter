@@ -17,38 +17,28 @@ class GroupsController extends GetxController {
   final int _pageSize = 20;
   final scrollController = ScrollController();
   RxInt customerGroupsCount = 0.obs;
-  final searchCtrl = TextEditingController();
-  RxString searchTerm = ''.obs;
-  final focusNode = FocusNode();
-  RxBool focused = false.obs;
-  late Worker searchDebouner;
-
+  bool _refreshingData = false;
   @override
   void onInit() {
-    focusNode.addListener(() => focused.value = focusNode.hasFocus);
-    searchDebouner = debounce(searchTerm, (callback) {
-      pagingController.refresh();
-    }, time: const Duration(milliseconds: 300));
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
   }
 
   @override
   void dispose() {
-    searchCtrl.dispose();
-    searchDebouner.dispose();
     scrollController.dispose();
     super.dispose();
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await customerGroupRepo.retrieveCustomerGroups(queryParameters: {
+    if(_refreshingData){
+      return;
+    }
+    final result =
+        await customerGroupRepo.retrieveCustomerGroups(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'customers',
-      'q': searchTerm.value,
     });
     result.when((success) {
       final isLastPage = success.customerGroups!.length < _pageSize;
@@ -61,9 +51,41 @@ class GroupsController extends GetxController {
       }
       refreshController.refreshCompleted();
     }, (error) {
-      pagingController.error = 'Error loading customer groups \n ${error.message}';
+      pagingController.error =
+          'Error loading customer groups \n ${error.message}';
       refreshController.refreshFailed();
     });
+  }
+
+  Future<void> refreshData() async {
+_refreshingData = true;
+    final result =
+        await customerGroupRepo.retrieveCustomerGroups(queryParameters: {
+      'offset': 0,
+      'limit': _pageSize,
+      'expand': 'customers',
+    });
+    result.when((success) async {
+      final isLastPage = success.customerGroups!.length < _pageSize;
+      customerGroupsCount.value = success.count ?? 0;
+      pagingController.value = const PagingState(
+        nextPageKey: null,
+        error: null,
+        itemList: null,
+      );
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (isLastPage) {
+        pagingController.appendLastPage(success.customerGroups!);
+      } else {
+        pagingController.appendPage(success.customerGroups!,   success.customerGroups!.length);
+      }
+      refreshController.refreshCompleted();
+    }, (error) {
+      pagingController.error =
+          'Error loading customer groups \n ${error.message}';
+      refreshController.refreshFailed();
+    });
+    _refreshingData = false;
   }
 
   Future<void> deleteGroup({required String id}) async {
@@ -71,7 +93,8 @@ class GroupsController extends GetxController {
     final result = await customerGroupRepo.deleteCustomerGroup(id: id);
     result.when((success) {
       pagingController.refresh();
-      Get.snackbar('Success', 'Customer Group deleted', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Success', 'Customer Group deleted',
+          snackPosition: SnackPosition.BOTTOM);
     }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message));
 
     dismissLoading();

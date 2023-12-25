@@ -1,21 +1,19 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/draft_order.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../../route/app_router.dart';
 import '../../../../data/repository/draft_order/draft_order_repo.dart';
-import '../../../components/adaptive_button.dart';
-import '../../../components/adaptive_icon.dart';
 import '../../../components/scrolling_expandable_fab.dart';
-import '../../../components/search_text_field.dart';
-import '../components/draft_order_card.dart';
+import '../components/index.dart';
 import '../controllers/draft_orders_controller.dart';
 
 @RoutePage()
@@ -29,13 +27,7 @@ class DraftOrdersView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),
-            appBar: AppBar(title: Obx(() {
-              return Text(
-                  controller.draftOrdersCount.value != 0
-                      ? 'Drafts (${controller.draftOrdersCount.value})'
-                      : 'Drafts',
-                  overflow: TextOverflow.ellipsis);
-            })),
+            drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,123 +42,63 @@ class DraftOrdersView extends StatelessWidget {
                       heroTag: 'search Draft Order',
                       child: const Icon(CupertinoIcons.search),
                     ),
-                    const SizedBox(width: 4.0),
+                    const Gap(4.0),
                   ],
                 ),
-                const SizedBox(height: 6.0),
+                const Gap(6.0),
                 ScrollingExpandableFab(
                     controller: controller.scrollController,
                     label: 'Draft Order',
                     icon: const Icon(Icons.add),
-                    onPressed: () => context.pushRoute(const CreateDraftOrderRoute()),
+                    onPressed: () =>
+                        context.pushRoute(const CreateDraftOrderRoute()),
                     heroTag: 'Draft Order'),
               ],
             ),
-            body: SafeArea(
-              child: SmartRefresher(
+            body: SmartRefresher(
                 controller: controller.refreshController,
-                onRefresh: () => controller.pagingController.refresh(),
+                onRefresh: () async {
+                  await controller.refreshData();
+                },
                 header: GetPlatform.isIOS
                     ? const ClassicHeader(completeText: '')
-                    : const MaterialClassicHeader(),
-                child: PagedListView.separated(
-                  padding: const EdgeInsets.fromLTRB(
-                      12.0, 12.0, 12.0, kToolbarHeight * 2),
-                  scrollController: controller.scrollController,
-                  pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
-                      itemBuilder: (context, draftOrder, index) =>
-                          DraftOrderCard(draftOrder),
-                      noItemsFoundIndicatorBuilder: (_) =>
-                          const Center(child: Text('No draft orders yet!')),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                              child: CircularProgressIndicator.adaptive())),
-                  separatorBuilder: (_, __) => const SizedBox(height: 12.0),
-                ),
-              ),
-            ),
+                    : const MaterialClassicHeader(offset: 100),
+                child: CustomScrollView(
+                  controller: controller.scrollController,
+                  slivers: [
+                    SliverAppBar(
+                      floating: true,
+                      snap: true,
+                      title: Obx(() => Text(
+                          controller.draftOrdersCount.value != 0
+                              ? 'Drafts (${controller.draftOrdersCount.value})'
+                              : 'Drafts',
+                          overflow: TextOverflow.ellipsis)),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(
+                          12.0, 12.0, 12.0, kToolbarHeight * 2),
+                      sliver: PagedSliverList.separated(
+                        pagingController: controller.pagingController,
+                        builderDelegate:
+                            PagedChildBuilderDelegate<DraftOrder>(
+                                itemBuilder: (context, draftOrder, index) =>
+                                    DraftOrderCard(draftOrder),
+                                noItemsFoundIndicatorBuilder: (_) =>
+                                    const Center(
+                                        child: Text('No draft orders yet!')),
+                                firstPageProgressIndicatorBuilder:
+                                    (context) => const DraftsLoadingPage(),
+                              firstPageErrorIndicatorBuilder: (context) =>
+                                  PaginationErrorPage(
+                                      pagingController: controller.pagingController),
+                            ),
+                        separatorBuilder: (_, __) => const Gap(12.0),
+                      ),
+                    ),
+                  ],
+                )),
           );
         });
-  }
-}
-
-class DraftOrdersBottomAppBar extends StatefulWidget
-    implements PreferredSizeWidget {
-  const DraftOrdersBottomAppBar({super.key});
-
-  @override
-  State<DraftOrdersBottomAppBar> createState() =>
-      _DraftOrdersBottomAppBarState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _DraftOrdersBottomAppBarState extends State<DraftOrdersBottomAppBar> {
-  final searchCtrl = TextEditingController();
-  final searchNode = FocusNode();
-  bool collectionSearch = false;
-
-  @override
-  Widget build(BuildContext context) {
-    const kDuration = Duration(milliseconds: 200);
-    // final controller = DraftOrdersController.instance;
-    // final lightWhite = Get.isDarkMode ? Colors.white54 : Colors.black54;
-    return Container(
-      color: Theme.of(context).appBarTheme.backgroundColor,
-      child: AnimatedCrossFade(
-          key: const ValueKey(1),
-          firstChild: SizedBox(
-            height: kToolbarHeight,
-            child: Row(
-              children: [
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: SearchTextField(
-                    focusNode: searchNode,
-                    controller: searchCtrl,
-                    hintText: 'Search for product name, variant title ...',
-                  ),
-                ),
-                AdaptiveButton(
-                    child: const Text('Cancel'),
-                    onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      // await Future.delayed(Duration(milliseconds: 150));
-                      setState(() {
-                        collectionSearch = false;
-                        // if (controller.searchTerm.isNotEmpty) {
-                        //   controller.searchTerm = '';
-                        //   controller.pagingController.refresh();
-                        // }
-                        searchCtrl.clear();
-                      });
-                    }),
-              ],
-            ),
-          ),
-          secondChild: SizedBox(
-            height: kToolbarHeight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AdaptiveIcon(
-                    onPressed: () async {
-                      setState(() {
-                        collectionSearch = true;
-                      });
-                      await Future.delayed(kDuration);
-                      searchNode.requestFocus();
-                    },
-                    icon: const Icon(MedusaIcons.magnifying_glass)),
-              ],
-            ),
-          ),
-          crossFadeState: collectionSearch
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-          duration: kDuration),
-    );
   }
 }

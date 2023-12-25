@@ -10,6 +10,7 @@ import '../../models/res/auth.dart';
 
 class AuthRepo extends BaseAuth {
   final _dataProvider = DioClient(dio: Dio());
+
   /// Authenticates a user using email and password combination
   @override
   Future<Result<UserAuthRes, Failure>> signIn({
@@ -23,13 +24,14 @@ class AuthRepo extends BaseAuth {
     try {
       final response = await _dataProvider.post(uri: '/auth', data: req);
       if (response.statusCode == 200) {
-        var cookie = response.headers['set-cookie']!.first.split(';').first;
+        var cookie = response.headers['set-cookie']?.firstOrNull?.split(';').firstOrNull;
         // final string = response.headers['set-cookie']!.first.split(';')[2].replaceAll(' Expires=', '');
         // final formatter = DateFormat('EEE, d MMM yyyy HH:mm:ss');
         // final dateTime = formatter.parse(string);
         // print(dateTime.difference(DateTime.now()).inHours);
-
-        await StorageService.instance.saveCookie(cookie);
+        if (cookie != null) {
+          await StorageService.instance.saveCookie(cookie);
+        }
         return Success(UserAuthRes.fromJson(response.data));
       } else {
         return Error(Failure.from(response));

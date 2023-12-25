@@ -3,8 +3,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
@@ -60,7 +62,7 @@ class _SignInViewState extends State<SignInView> {
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.theme.appBarTheme.systemOverlayStyle!,
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => context.unfocus(),
               child: Scaffold(
                 body: SafeArea(
                   child: SingleChildScrollView(
@@ -105,6 +107,8 @@ class _SignInViewState extends State<SignInView> {
                                         await showBarModalBottomSheet(
                                       backgroundColor:
                                           context.theme.scaffoldBackgroundColor,
+                                      overlayStyle: context
+                                          .theme.appBarTheme.systemOverlayStyle,
                                       context: context,
                                       builder: (context) =>
                                           const LanguageSelectionView(),
@@ -250,7 +254,14 @@ class _SignInViewState extends State<SignInView> {
                                   if (!formKey.currentState!.validate()) {
                                     return;
                                   }
-                                  FocusScope.of(context).unfocus();
+                                  if (!await InternetConnection()
+                                      .hasInternetAccess) {
+                                    await Fluttertoast.showToast(
+                                        msg: 'No internet connection!');
+                                    return;
+                                  }
+
+                                  context.unfocus();
 
                                   await controller
                                       .signIn(emailCtrl.text, passwordCtrl.text)
@@ -274,6 +285,8 @@ class _SignInViewState extends State<SignInView> {
                               onPressed: () async {
                                 await showBarModalBottomSheet(
                                     context: context,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) {
                                       return const UrlUpdateView();
                                     });

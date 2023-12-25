@@ -28,8 +28,6 @@ class SalesChannelDetailsController extends GetxController {
   final ProductTagRepo productTagRepo;
   bool selectAll = false;
   List<String> selectedProducts = [];
-  List<ProductCollection>? collections;
-  List<ProductTag>? tags;
   ProductFilter? productFilter;
   @override
   void onInit() {

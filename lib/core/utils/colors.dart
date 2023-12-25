@@ -21,8 +21,8 @@ class ColorManager {
   static Color grey2 = const Color(0xff797979);
 
   static Color getAvatarColor(String? email) {
-    if (email == null) {
-      return primary;
+    if (email == null || email.removeAllWhitespace.isEmpty) {
+      return manatee;
     }
     var firstLetter = '';
     if (email.length > 1) {
@@ -85,7 +85,7 @@ class ColorManager {
         return Colors.lightBlue;
 
       default:
-        return primary;
+        return manatee;
     }
   }
 }

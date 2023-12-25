@@ -1,53 +1,106 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GiftCardsController extends GetxController {
   static GiftCardsController get instance => Get.find<GiftCardsController>();
 
   GiftCardsController({required this.productsRepo});
   final ProductsRepo productsRepo;
-  final productsPagingController = PagingController<int, Product>(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final pagingController = PagingController<int, Product>(
+      firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final scrollController = ScrollController();
+  final refreshController = RefreshController();
+  RxInt giftCardsCount = 0.obs;
+  bool _refreshingData = false;
   @override
   void onInit() {
-    productsPagingController.addPageRequestListener((pageKey) => _fetchProductGiftCards(pageKey));
+    pagingController
+        .addPageRequestListener((pageKey) => _fetchProductGiftCards(pageKey));
     super.onInit();
   }
-
 
   @override
   void onClose() {
     scrollController.dispose();
+    refreshController.dispose();
+    pagingController.dispose();
     super.onClose();
   }
 
   Future<void> _fetchProductGiftCards(int pageKey) async {
+    if (_refreshingData) {
+      return;
+    }
     final result = await productsRepo.retrieveAll(queryParameters: {
       'is_giftcard': true,
+      'offset': pagingController.itemList?.length ?? 0,
+      'limit': _pageSize,
     });
     result.when((success) {
       if (success.products == null) {
-        productsPagingController.error = 'Error loading gift cards, received null value';
+        pagingController.error =
+            'Error loading gift cards, received null value';
         return;
       }
       final isLastPage = success.products!.length < _pageSize;
+      giftCardsCount.value = success.count ?? 0;
       if (isLastPage) {
-        productsPagingController.appendLastPage(success.products!);
+        pagingController.appendLastPage(success.products!);
       } else {
         final nextPageKey = pageKey + success.products!.length;
-        productsPagingController.appendPage(success.products!, nextPageKey);
+        pagingController.appendPage(success.products!, nextPageKey);
       }
+      refreshController.refreshCompleted();
     }, (error) {
-      productsPagingController.error = 'Error loading gift cards';
+      pagingController.error = error;
+      refreshController.refreshFailed();
+
     });
+  }
+
+  Future<void> refreshData() async {
+    _refreshingData = true;
+    final result = await productsRepo.retrieveAll(queryParameters: {
+      'is_giftcard': true,
+      'offset': 0,
+      'limit': _pageSize,
+    });
+    await result.when((success) async {
+      if (success.products == null) {
+        pagingController.error =
+            'Error loading gift cards, received null value';
+        return;
+      }
+      final isLastPage = success.products!.length < _pageSize;
+      giftCardsCount.value = success.count ?? 0;
+      pagingController.value = const PagingState(
+        nextPageKey: null,
+        error: null,
+        itemList: null,
+      );
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (isLastPage) {
+        pagingController.appendLastPage(success.products!);
+      } else {
+        pagingController.appendPage(
+            success.products!, success.products!.length);
+      }
+      refreshController.refreshCompleted();
+    }, (error) {
+      refreshController.refreshFailed();
+      Fluttertoast.showToast(msg: "Error refreshing data");
+    });
+    _refreshingData = false;
   }
 
   Future<void> deleteProduct(String id) async {
@@ -55,10 +108,12 @@ class GiftCardsController extends GetxController {
     final result = await productsRepo.delete(id: id);
     result.when((success) {
       EasyLoading.showSuccess('Gift card deleted');
-      productsPagingController.refresh();
+      pagingController.refresh();
       return;
     }, (error) {
-      Get.snackbar('Error deleting gift card ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+          'Error deleting gift card ${error.code ?? ''}', error.message,
+          snackPosition: SnackPosition.BOTTOM);
     });
     dismissLoading();
   }
@@ -67,14 +122,18 @@ class GiftCardsController extends GetxController {
     loading();
     final result = await productsRepo.update(
         userPostUpdateProductReq: UserPostUpdateProductReq(
-            status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published),
+            status: product.status == ProductStatus.published
+                ? ProductStatus.draft
+                : ProductStatus.published),
         id: product.id!);
     result.when((success) {
       EasyLoading.showSuccess('Gift card updated');
-      productsPagingController.refresh();
+      pagingController.refresh();
       return;
     }, (error) {
-      Get.snackbar('Error updating gift card ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+          'Error updating gift card ${error.code ?? ''}', error.message,
+          snackPosition: SnackPosition.BOTTOM);
     });
     dismissLoading();
   }

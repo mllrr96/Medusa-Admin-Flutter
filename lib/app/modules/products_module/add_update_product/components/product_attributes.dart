@@ -91,6 +91,7 @@ class ProductAttributes extends StatelessWidget {
               onTap: () async {
                 final result = await showBarModalBottomSheet(
                     context: context,
+                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                     builder: (context) => SelectCountryView(
                           selectCountryReq: SelectCountryReq(selectedCountries: [
                             countries.firstWhere(

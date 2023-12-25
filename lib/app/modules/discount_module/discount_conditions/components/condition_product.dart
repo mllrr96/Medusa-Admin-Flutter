@@ -8,7 +8,7 @@ import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
-
+import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
@@ -27,7 +27,7 @@ class ConditionProductView extends StatelessWidget {
           disabledProducts: disabledProducts ?? []),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             body: CustomScrollView(
