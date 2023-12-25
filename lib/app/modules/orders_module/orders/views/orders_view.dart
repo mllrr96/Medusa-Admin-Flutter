@@ -14,7 +14,6 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../route/app_router.dart';
 import '../../../../data/repository/order/orders_repo.dart';
@@ -30,9 +29,7 @@ class OrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<OrdersController>(
-        init: OrdersController(
-          ordersRepository: OrdersRepo()
-        ),
+        init: OrdersController(ordersRepository: OrdersRepo()),
         builder: (controller) {
           final orderSettings = StorageService.orderSettings;
           return Scaffold(
@@ -89,76 +86,27 @@ class OrdersView extends StatelessWidget {
               child: CustomScrollView(
                 controller: controller.scrollController,
                 slivers: [
-                  if (Platform.isIOS)
-                    CupertinoSliverNavigationBar(
-                      largeTitle: const Text('Orders'),
-                      leading: Builder(builder: (context) {
-                        return CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child: const Icon(CupertinoIcons.ellipsis),
-                          onPressed: () {
-                            context.openDrawer();
-                          },
-                        );
-                      }),
-                      trailing: Builder(builder: (context) {
-                        return CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child: const Icon(CupertinoIcons.ellipsis),
-                          onPressed: () {
-                            context.openEndDrawer();
-                          },
-                        );
-                      }),
-                    ),
-                  if (Platform.isAndroid)
-                    SliverAppBar(
-                      title: const Text('Orders'),
-                      floating: true,
-                      snap: true,
-                      actions: [
-                        Builder(builder: (context) {
-                          return GetBuilder<OrdersController>(
-                              builder: (controller) {
-                            return InkWell(
-                              onLongPress: () => controller.resetFilter(),
-                              onTap: () {
+                  SliverAppBar(
+                    title: const Text('Orders'),
+                    floating: true,
+                    snap: true,
+                    actions: [
+                      Builder(builder: (context) {
+                        return GetBuilder<OrdersController>(
+                            builder: (controller) {
+                          final iconColor =
+                              (controller.orderFilter?.count() ?? -1) > 0
+                                  ? Colors.red
+                                  : null;
+                          return IconButton(
+                              onPressed: () {
                                 context.openEndDrawer();
                               },
-                              child: Chip(
-                                side: BorderSide(
-                                    color: (controller.orderFilter?.count() ??
-                                                0) !=
-                                            0
-                                        ? ColorManager.primary
-                                        : Colors.transparent),
-                                backgroundColor:
-                                    context.theme.scaffoldBackgroundColor,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6.0))),
-                                label: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text('Filters',
-                                        style: context.bodySmall?.copyWith(
-                                            color: ColorManager.manatee)),
-                                    if (controller.orderFilter?.count() !=
-                                            null &&
-                                        controller.orderFilter?.count() != 0)
-                                      Text(
-                                          ' ${controller.orderFilter?.count() ?? ''}',
-                                          style: context.bodySmall?.copyWith(
-                                              color: ColorManager.primary)),
-                                  ],
-                                ),
-                                padding: EdgeInsets.zero,
-                              ),
-                            );
-                          });
-                        }),
-                      ],
-                    ),
+                              icon: Icon(Icons.sort, color: iconColor));
+                        });
+                      })
+                    ],
+                  ),
                   SliverPadding(
                     padding: EdgeInsets.only(
                         bottom: 120,
@@ -176,8 +124,7 @@ class OrdersView extends StatelessWidget {
                           return OrderCard(order);
                         },
                         noItemsFoundIndicatorBuilder: (_) {
-                          if (controller.orderFilter != null &&
-                              controller.orderFilter?.count() != 0) {
+                          if ((controller.orderFilter?.count() ?? -1) > 0) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

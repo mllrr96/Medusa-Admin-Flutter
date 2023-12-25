@@ -79,7 +79,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
               ),
             ],
           ),
-          if (product.description != null && product.description!.isNotEmpty)
+          if (product.description?.isNotEmpty ?? false)
             Column(
               children: [
                 space,

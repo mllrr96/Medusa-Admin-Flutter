@@ -17,9 +17,15 @@ import '../../data/service/storage_service.dart';
 import '../auth_module/sign_in/views/sign_in_view.dart';
 import 'easy_loading.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
 
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  ThemeMode themeMode = StorageService.instance.loadThemeMode();
   @override
   Widget build(BuildContext context) {
     final manatee = ColorManager.manatee;
@@ -41,21 +47,44 @@ class AppDrawer extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0),
                   color: context.theme.cardColor,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 6.0),
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Store',
-                            style: smallTextStyle?.copyWith(color: manatee)),
-                        Text(store.name, style: mediumTextStyle),
-                      ],
-                    ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 6.0),
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Store',
+                              style: smallTextStyle?.copyWith(color: manatee)),
+                          Text(store.name, style: mediumTextStyle),
+                        ],
+                      ),
+                      IconButton(
+                        padding:
+                        const EdgeInsets.all(16.0),
+                        onPressed: () async {
+                          switch (StorageService.instance.loadThemeMode()) {
+                            case ThemeMode.system:
+                              await StorageService.instance.saveThemeMode(ThemeMode.light);
+                              break;
+                            case ThemeMode.light:
+                              await StorageService.instance.saveThemeMode(ThemeMode.dark);
+                              break;
+                            case ThemeMode.dark:
+                              await StorageService.instance.saveThemeMode(ThemeMode.system);
+                              break;
+                          }
+                          themeMode = StorageService.instance.loadThemeMode();
+                          setState(() {});
+                        },
+                        icon: Icon(themeIcon(
+                            themeMode)),
+                      ),
+                    ],
                   ),
                 ),
                 divider,
@@ -303,5 +332,19 @@ class AppDrawer extends StatelessWidget {
             ),
           )),
     );
+
+
+
+  }
+
+  IconData themeIcon(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return Icons.brightness_auto;
+      case ThemeMode.light:
+        return MedusaIcons.sun;
+      case ThemeMode.dark:
+        return MedusaIcons.moon;
+    }
   }
 }

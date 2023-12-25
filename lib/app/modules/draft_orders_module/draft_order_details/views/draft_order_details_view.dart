@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -137,7 +136,7 @@ class DraftOrderDetailsView extends StatelessWidget {
                 ),
               )),
               onLoading:
-                  const Center(child: CircularProgressIndicator.adaptive()),
+                  const DraftOrderLoadingPage(), // DraftOrderLoadingPage(),
             ),
           ),
         );

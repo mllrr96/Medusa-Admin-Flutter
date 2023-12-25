@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 
 class DraftOrderOverview extends StatelessWidget {
-  const DraftOrderOverview(this.draftOrder, {Key? key}) : super(key: key);
+  const DraftOrderOverview(this.draftOrder, {super.key});
   final DraftOrder draftOrder;
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class DraftOrderOverview extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final email = draftOrder.cart?.email;
     final billingAddress = draftOrder.cart?.billingAddress;
-    final currencyCode = draftOrder.cart!.region!.currencyCode;
-    var amount = draftOrder.cart!.total!;
+    final currencyCode = draftOrder.cart?.region?.currencyCode;
+    int? amount = draftOrder.cart?.total;
     const space = Gap(12);
     const halfSpace = Gap(6);
     return Container(

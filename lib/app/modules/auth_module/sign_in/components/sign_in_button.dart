@@ -9,7 +9,7 @@ import '../../../../../core/utils/colors.dart';
 
 class SignInButton extends StatelessWidget {
   const SignInButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.label,
     this.textStyle,
@@ -17,7 +17,7 @@ class SignInButton extends StatelessWidget {
     this.buttonColor,
     this.buttonWidth,
     this.noShadow = false,
-  }) : super(key: key);
+  });
   final void Function()? onPressed;
   final String label;
   final TextStyle? textStyle;

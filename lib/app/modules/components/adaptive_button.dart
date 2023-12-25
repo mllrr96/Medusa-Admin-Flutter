@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
 class AdaptiveButton extends StatelessWidget {
-  const AdaptiveButton({Key? key, required this.onPressed, required this.child, this.padding}) : super(key: key);
+  const AdaptiveButton({super.key, required this.onPressed, required this.child, this.padding});
   final void Function()? onPressed;
   final Widget child;
   final EdgeInsetsGeometry? padding;

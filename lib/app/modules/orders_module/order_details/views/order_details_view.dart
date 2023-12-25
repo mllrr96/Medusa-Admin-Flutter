@@ -99,7 +99,8 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.summeryKey.currentContext!.ensureVisibility();
+                            await controller.summeryKey.currentContext!
+                                .ensureVisibility();
                           }
                         },
                         key: controller.summeryKey,
@@ -109,7 +110,8 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                           await controller.paymentKey.currentContext.ensureVisibility();
+                            await controller.paymentKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                       ),
@@ -118,7 +120,8 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.fulfillmentKey.currentContext.ensureVisibility();
+                            await controller.fulfillmentKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                       ),
@@ -127,7 +130,8 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.customerKey.currentContext.ensureVisibility();
+                            await controller.customerKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                       ),
@@ -136,7 +140,8 @@ class OrderDetailsView extends StatelessWidget {
                         order,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.timelineKey.currentContext.ensureVisibility();
+                            await controller.timelineKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                       ),
@@ -147,8 +152,7 @@ class OrderDetailsView extends StatelessWidget {
               ),
               onEmpty: const Center(child: Text("No order found")),
               onError: (e) => Center(child: Text(e ?? '"Error loading order"')),
-              onLoading:
-                  const Center(child: CircularProgressIndicator.adaptive()),
+              onLoading: const OrderDetailsLoadingPage(),
             ),
           ),
         );

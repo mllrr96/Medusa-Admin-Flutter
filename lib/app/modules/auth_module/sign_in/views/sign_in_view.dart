@@ -60,7 +60,9 @@ class _SignInViewState extends State<SignInView> {
           final smallTextStyle = context.bodySmall;
           // Since there no app bar, annotated region is used to apply theme ui overlay
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: context.theme.appBarTheme.systemOverlayStyle!,
+            value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
+              statusBarColor: context.theme.scaffoldBackgroundColor
+            ),
             child: GestureDetector(
               onTap: () => context.unfocus(),
               child: Scaffold(

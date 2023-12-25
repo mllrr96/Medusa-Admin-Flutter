@@ -21,7 +21,8 @@ class ProductDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<ProductDetailsController>(
-        init: ProductDetailsController(productsRepo: ProductsRepo(), productId: productId),
+        init: ProductDetailsController(
+            productsRepo: ProductsRepo(), productId: productId),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
@@ -77,7 +78,8 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.variantsKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.variantsKey.currentContext.ensureVisibility();
+                            await controller.variantsKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                       ),
@@ -87,7 +89,8 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.attributesKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.attributesKey.currentContext.ensureVisibility();
+                            await controller.attributesKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                         // onExpansionChanged: onExChanged,
@@ -98,7 +101,8 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.thumbnailKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.thumbnailKey.currentContext.ensureVisibility();
+                            await controller.thumbnailKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                         // onExpansionChanged: onExChanged,
@@ -109,7 +113,8 @@ class ProductDetailsView extends StatelessWidget {
                         expansionKey: controller.imagesKey,
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await  controller.imagesKey.currentContext.ensureVisibility();
+                            await controller.imagesKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                       ),
@@ -126,9 +131,7 @@ class ProductDetailsView extends StatelessWidget {
                         onPressed: () async => await controller.fetchProduct()),
                   ],
                 )),
-                onLoading: const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                ),
+                onLoading: const ProductDetailsLoadingPage(),
               ),
             ),
           );
