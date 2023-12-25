@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -20,20 +19,15 @@ class ProductsController extends GetxController {
       {required this.productsRepo,
       required this.productTagRepo,
       required this.collectionRepo});
-  ProductsRepo productsRepo;
-  ProductTagRepo productTagRepo;
-  CollectionRepo collectionRepo;
+  final ProductsRepo productsRepo;
+  final ProductTagRepo productTagRepo;
+  final CollectionRepo collectionRepo;
   final pagingController = PagingController<int, Product>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
-  ViewOptions viewOptions = ViewOptions.list;
-  RefreshController gridRefreshController = RefreshController();
   RefreshController refreshController = RefreshController();
   RxInt productsCount = 0.obs;
   SortOptions sortOptions = SortOptions.dateRecent;
-  late TabController tabController;
-  List<ProductTag>? tags;
-  List<ProductCollection>? collections;
   ProductFilter? productFilter;
   bool _refreshingData = false;
 
@@ -43,19 +37,6 @@ class ProductsController extends GetxController {
       _fetchPage(pageKey);
     });
     super.onInit();
-  }
-
-  @override
-  Future<void> onReady() async {
-    await loadTags();
-    await loadCollections();
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    tabController.dispose();
-    super.onClose();
   }
 
   void changeSortOption(SortOptions sortOption) {
@@ -141,24 +122,6 @@ class ProductsController extends GetxController {
     this.productFilter = productFilter;
     pagingController.refresh();
     update();
-  }
-
-  Future<void> loadTags() async {
-    final result = await productTagRepo.retrieveProductTags();
-    result.when((success) {
-      if (success.tags?.isNotEmpty ?? false) {
-        tags = success.tags!;
-      }
-    }, (error) {});
-  }
-
-  Future<void> loadCollections() async {
-    final result = await collectionRepo.retrieveAll();
-    result.when((success) {
-      if (success.collections?.isNotEmpty ?? false) {
-        collections = success.collections!;
-      }
-    }, (error) {});
   }
 
   Future<void> duplicateProduct(Product product) async {

@@ -27,7 +27,7 @@ class ResetPasswordView extends StatelessWidget {
         init: ResetPasswordController(userRepo: UserRepo()),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading:

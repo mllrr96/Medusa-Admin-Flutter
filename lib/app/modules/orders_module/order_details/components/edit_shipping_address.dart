@@ -94,7 +94,7 @@ class _EditAddressState extends State<EditAddress> {
     }
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),

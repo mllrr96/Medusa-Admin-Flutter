@@ -112,6 +112,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: PricingRoute.page),
         AutoRoute(page: StoreSettingsRoute.page),
         AutoRoute(page: AppSettingsRoute.page),
+        AutoRoute(page: CategoriesRoute.page),
       ]),
       AutoRoute(page: PickProductsRoute.page),
       AutoRoute(page: SelectCountryRoute.page),
@@ -189,6 +190,7 @@ class AppRouter extends _$AppRouter {
 
       AutoRoute(page: TaxSettingsRoute.page),
       AutoRoute(page: AddUpdateTaxRateRoute.page),
+      AutoRoute(page: TaxSettingsSelectRegionRoute.page),
 
 
       AutoRoute(page: CurrenciesRoute.page),

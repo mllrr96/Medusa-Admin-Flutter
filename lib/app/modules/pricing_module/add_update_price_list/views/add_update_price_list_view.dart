@@ -48,7 +48,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                 await controller.priceListTypeKey.currentContext
                     .ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'Price List Type',
@@ -99,7 +99,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               if (expanded) {
                 await controller.generalKey.currentContext.ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'General',
@@ -154,7 +154,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               if (expanded) {
                 await controller.configKey.currentContext.ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'Configuration',
@@ -305,6 +305,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                           onTap: () async {
                             final result = await showBarModalBottomSheet(
                                 context: context,
+                                overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                 builder: (context) => PickGroupsView(
                                     pickGroupsReq: PickGroupsReq(
                                         multipleSelect: true,
@@ -371,7 +372,7 @@ class AddUpdatePriceListView extends StatelessWidget {
               if (expanded) {
                 await controller.pricesKey.currentContext.ensureVisibility();
               } else {
-                FocusScope.of(context).unfocus();
+                context.unfocus();
               }
             },
             label: 'Prices',
@@ -422,6 +423,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                                             await showBarModalBottomSheet(
                                           backgroundColor: Theme.of(context)
                                               .scaffoldBackgroundColor,
+                                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                           context: context,
                                           builder: (context) =>
                                               ProductPriceList(
@@ -505,7 +507,7 @@ class AddUpdatePriceListView extends StatelessWidget {
           AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveCloseButton(),

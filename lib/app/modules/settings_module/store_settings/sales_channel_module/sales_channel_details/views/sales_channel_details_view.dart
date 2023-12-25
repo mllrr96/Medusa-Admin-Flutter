@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,7 +17,6 @@ import '../../../../../../data/repository/collection/collection_repo.dart';
 import '../../../../../../data/repository/product/products_repo.dart';
 import '../../../../../../data/repository/product_tag/product_tag_repo.dart';
 import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
-import '../../../../../components/easy_loading.dart';
 import '../../../../../components/pick_products/views/pick_products_view.dart';
 import '../../../../../products_module/products/components/products_filter_view.dart';
 import '../components/index.dart';
@@ -89,43 +87,14 @@ class SalesChannelDetailsView extends StatelessWidget {
                               controller.resetFilter();
                             },
                             onTap: () async {
-                              loadData() async {
-                                if (controller.collections == null ||
-                                    controller.tags == null) {
-                                  loading(status: 'Loading data');
-                                }
-                                if (controller.collections == null) {
-                                  await controller.collectionRepo
-                                      .retrieveAll()
-                                      .then((result) {
-                                    result.when((success) {
-                                      controller.collections =
-                                          success.collections;
-                                    }, (error) {});
-                                  });
-                                }
-                                if (controller.tags == null) {
-                                  await controller.productTagRepo
-                                      .retrieveProductTags()
-                                      .then((result) {
-                                    result.when((success) {
-                                      controller.tags = success.tags;
-                                    }, (error) {});
-                                  });
-                                }
-                                dismissLoading();
-                              }
-
                               Future<ProductFilter?>
                                   productFilterView() async =>
                                       await showBarModalBottomSheet<
                                               ProductFilter>(
                                           context: context,
+                                          overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                           builder: (context) =>
                                               ProductsFilterView(
-                                                collections:
-                                                    controller.collections,
-                                                tags: controller.tags,
                                                 onResetPressed: () {
                                                   controller.productFilter =
                                                       null;
@@ -137,15 +106,12 @@ class SalesChannelDetailsView extends StatelessWidget {
                                                 productFilter:
                                                     controller.productFilter,
                                               ));
-
-                              await loadData().then((value) async {
-                                productFilterView().then((result) {
-                                  if (result is ProductFilter) {
-                                    controller.productFilter = result;
-                                    controller.update();
-                                    controller.pagingController.refresh();
-                                  }
-                                });
+                              productFilterView().then((result) {
+                                if (result is ProductFilter) {
+                                  controller.productFilter = result;
+                                  controller.update();
+                                  controller.pagingController.refresh();
+                                }
                               });
                             },
                             child: Ink(
@@ -213,6 +179,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                         case 1:
                           final result = await showBarModalBottomSheet(
                             context: context,
+                            overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                             builder: (context) => PickProductsView(
                               pickProductsReq: PickProductsReq(
                                 disabledProducts:
@@ -269,6 +236,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                           onPressed: () async {
                             final result = await showBarModalBottomSheet(
                                 context: context,
+                                overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                 builder: (context) => PickProductsView(
                                         pickProductsReq: PickProductsReq(
                                       disabledProducts:

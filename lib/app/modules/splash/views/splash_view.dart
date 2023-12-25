@@ -55,7 +55,8 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: Theme.of(context).appBarTheme.systemOverlayStyle!,
+      value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
+          statusBarColor: context.theme.scaffoldBackgroundColor),
       child: Scaffold(
         body: Container(
           height: double.maxFinite,

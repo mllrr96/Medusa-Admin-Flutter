@@ -27,7 +27,6 @@ class _DashboardViewState extends State<DashboardView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // print(state);
     // if (state == AppLifecycleState.resumed) {
     //   // Check for authentication, if not logged in, redirect to login page
     //   authenticate();
@@ -59,6 +58,7 @@ class _DashboardViewState extends State<DashboardView>
         PricingRoute(),
         StoreSettingsRoute(),
         AppSettingsRoute(),
+        CategoriesRoute(),
       ],
       transitionBuilder: (context, child, animation) => child,
       builder: (context, child) => child,

@@ -79,6 +79,7 @@ class ProductMedia extends StatelessWidget {
                       onRename: () async {
                         final result = await showBarModalBottomSheet(
                             context: context,
+                            overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                             builder: (context) {
                               return RenameFileView(image);
                             });

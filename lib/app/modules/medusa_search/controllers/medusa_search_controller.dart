@@ -52,7 +52,7 @@ class MedusaSearchController extends GetxController {
   final ProductTagRepo productTagRepo;
   final RegionsRepo regionsRepo;
   final SalesChannelRepo salesChannelRepo;
-  final SearchCategory searchCategory;
+  SearchCategory searchCategory;
   final PagingController<int, Object> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;

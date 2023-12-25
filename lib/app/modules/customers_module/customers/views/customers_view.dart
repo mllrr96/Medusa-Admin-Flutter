@@ -27,7 +27,7 @@ class CustomersView extends StatelessWidget {
         init: CustomersController(customerRepo: CustomerRepo()),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               drawer: const AppDrawer(),
               drawerEdgeDragWidth: context.drawerEdgeDragWidth,

@@ -90,7 +90,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
               statusBarColor: context.theme.appBarTheme.backgroundColor,
             ),
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => context.unfocus(),
               child: Scaffold(
                 appBar: AppBar(
                   title: const Text('Create Draft Order'),

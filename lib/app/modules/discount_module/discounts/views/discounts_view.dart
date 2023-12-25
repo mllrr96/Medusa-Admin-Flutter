@@ -50,6 +50,7 @@ class DiscountsView extends StatelessWidget {
                 const Gap(6.0),
                 ScrollingExpandableFab(
                   controller: controller.scrollController,
+                  heroTag: UniqueKey(),
                   label: 'New Discount',
                   icon: const Icon(Icons.add),
                   onPressed: () async {
@@ -63,7 +64,7 @@ class DiscountsView extends StatelessWidget {
             ),
             body: SmartRefresher(
               controller: controller.refreshController,
-              onRefresh: () => controller.pagingController.refresh(),
+              onRefresh: () async => await controller.refreshData(),
               header: GetPlatform.isIOS
                   ? const ClassicHeader(completeText: '')
                   : const MaterialClassicHeader(offset: 100),

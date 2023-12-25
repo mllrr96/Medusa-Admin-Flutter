@@ -84,7 +84,9 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                       : [...controller.selectedRegions],
                 );
                 await showBarModalBottomSheet(
-                    context: context, builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
+                    context: context,
+                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                    builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
                   if (result is PickRegionsRes) {
                     controller.selectedRegions = result.regions;
                     final regionsName = result.regions.map((e) => e.name).toList();

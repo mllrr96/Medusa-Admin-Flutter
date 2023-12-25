@@ -23,7 +23,7 @@ class CreateGiftCardView extends StatelessWidget {
       builder: (controller) {
         // print(controller.denominations.length);
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveCloseButton(),

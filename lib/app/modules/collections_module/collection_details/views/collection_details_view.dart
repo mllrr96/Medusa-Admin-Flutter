@@ -112,6 +112,7 @@ class CollectionDetailsView extends StatelessWidget {
                               onPressed: () async {
                                 final result = await showBarModalBottomSheet(
                                     context: context,
+                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) => PickProductsView(
                                             pickProductsReq: PickProductsReq(
                                           selectedProducts: collection.products,
@@ -160,6 +161,7 @@ class CollectionDetailsView extends StatelessWidget {
                             onPressed: () async {
                               final result = await showBarModalBottomSheet(
                                   context: context,
+                                  overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                   builder: (context) => PickProductsView(
                                           pickProductsReq: PickProductsReq(
                                         selectedProducts: collection.products,

@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../controllers/add_update_sales_channel_controller.dart';
@@ -24,7 +25,7 @@ class AddUpdateSalesChannelView extends StatelessWidget {
       builder: (controller) {
         final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),

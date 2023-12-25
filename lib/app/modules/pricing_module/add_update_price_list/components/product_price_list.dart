@@ -44,7 +44,7 @@ class _ProductPriceListState extends State<ProductPriceList> {
     final currencies = StoreService.store.currencies!;
     const space = Gap(12);
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),

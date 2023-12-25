@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/product_category.dart';
@@ -18,15 +17,13 @@ class CategoriesController extends GetxController {
 
   @override
   void onInit() {
-    pagingController.addPageRequestListener((pageKey) {
-      debugPrint('Getting data');
-      _fetchPage(pageKey);
-    });
+    pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     super.onInit();
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await categoryRepo.retrieveProductCategories(queryParameters: {
+    final result =
+        await categoryRepo.retrieveProductCategories(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });
@@ -42,7 +39,7 @@ class CategoriesController extends GetxController {
       refreshController.refreshCompleted();
     }, (error) {
       refreshController.refreshFailed();
-      pagingController.error = error.message;
+      pagingController.error = error;
     });
   }
 }

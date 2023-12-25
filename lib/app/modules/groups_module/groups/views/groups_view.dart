@@ -27,7 +27,7 @@ class GroupsView extends StatelessWidget {
       init: GroupsController(customerGroupRepo: CustomerGroupRepo()),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             drawer: const AppDrawer(),
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,

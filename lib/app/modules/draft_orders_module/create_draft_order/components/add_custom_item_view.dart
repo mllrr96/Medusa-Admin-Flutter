@@ -41,7 +41,7 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
             MediaQuery.of(context).viewInsets.bottom;
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: Container(
         color: context.theme.scaffoldBackgroundColor,
         child: Form(

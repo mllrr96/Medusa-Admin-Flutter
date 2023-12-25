@@ -30,7 +30,7 @@ class CurrenciesView extends StatelessWidget {
       init: CurrenciesController(currencyRepo: CurrencyRepo(), storeRepo: StoreRepo()),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
@@ -117,6 +117,7 @@ class CurrenciesView extends StatelessWidget {
                                   List<Currency>? result = await showBarModalBottomSheet(
                                     expand: true,
                                     context: context,
+                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => AllCurrenciesView(storeCurrencies: controller.currencies),
                                   );
@@ -175,7 +176,7 @@ class AllCurrenciesView extends StatelessWidget {
       init: AllCurrenciesController(currencyRepo: CurrencyRepo(), storeCurrencies: storeCurrencies),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Material(
             child: Scaffold(
               appBar: AppBar(

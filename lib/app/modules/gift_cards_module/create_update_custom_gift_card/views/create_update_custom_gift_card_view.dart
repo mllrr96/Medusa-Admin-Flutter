@@ -33,7 +33,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
       init: CreateUpdateCustomGiftCardController(giftCardRepo: GiftCardRepo(), giftCard: giftCard),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
@@ -82,6 +82,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                   );
                                   await showBarModalBottomSheet(
                                       context: context,
+                                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                       builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
                                     if (result is PickRegionsRes) {
                                       if (result.regions.isNotEmpty) {

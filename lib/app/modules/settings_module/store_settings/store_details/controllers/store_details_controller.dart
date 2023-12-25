@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../data/models/req/store_post_req.dart';
 import '../../../../../data/models/store/store.dart';
@@ -49,7 +50,7 @@ class StoreDetailsController extends GetxController {
     if (!keyFrom.currentState!.validate()) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
 
     loading();
     final result = await storeRepo.update(

@@ -9,6 +9,7 @@ import '../../../../data/models/store/index.dart';
 import '../../../../data/repository/discount/discount_repo.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 @RoutePage()
 class AddUpdateDiscountView extends StatelessWidget {
@@ -36,7 +37,7 @@ class AddUpdateDiscountView extends StatelessWidget {
               }
             },
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () => context.unfocus(),
               child: Scaffold(
                 appBar: AppBar(
                   leading: AdaptiveCloseButton(onPressed: () async {

@@ -39,8 +39,6 @@ class ProductsView extends StatelessWidget {
             endDrawer: Drawer(
               shape: const RoundedRectangleBorder(),
               child: ProductsFilterView(
-                collections: controller.collections,
-                tags: controller.tags,
                 onResetPressed: () {
                   controller.resetFilter();
                   context.popRoute();
@@ -51,6 +49,7 @@ class ProductsView extends StatelessWidget {
                     return;
                   }
                   controller.updateFilter(productFilter);
+                  context.popRoute();
                 },
               ),
             ),

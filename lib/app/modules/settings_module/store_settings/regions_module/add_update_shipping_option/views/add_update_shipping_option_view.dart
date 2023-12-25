@@ -46,7 +46,7 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
       ),
       builder: (controller) {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),

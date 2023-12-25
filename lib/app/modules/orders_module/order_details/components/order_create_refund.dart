@@ -43,7 +43,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
     const space = Gap(12);
     const halfSpace = Gap(6);
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Create a refund'),

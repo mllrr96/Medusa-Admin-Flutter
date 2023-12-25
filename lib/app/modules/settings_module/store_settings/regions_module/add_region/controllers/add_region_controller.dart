@@ -53,7 +53,7 @@ class AddRegionController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     var countriesIso = <String>[];
 
     for (Country country in selectedCountries) {
@@ -96,7 +96,7 @@ class AddRegionController extends GetxController {
     if (!formKey.currentState!.validate() || !updateMode) {
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     var countriesIso = <String>[];
 
     for (Country country in selectedCountries) {

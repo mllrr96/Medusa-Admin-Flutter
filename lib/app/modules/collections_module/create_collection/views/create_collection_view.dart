@@ -27,7 +27,7 @@ class CreateCollectionView extends StatelessWidget {
             updateCollectionReq: updateCollectionReq),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveCloseButton(),

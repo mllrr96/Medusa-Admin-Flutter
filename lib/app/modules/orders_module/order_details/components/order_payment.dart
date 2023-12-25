@@ -40,7 +40,9 @@ class OrderPayment extends GetView<OrderDetailsController> {
           return AdaptiveButton(
             onPressed: () async {
               final result =
-                  await showBarModalBottomSheet(context: context, builder: (context) => OrderCreateRefund(order));
+                  await showBarModalBottomSheet(context: context,
+                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                      builder: (context) => OrderCreateRefund(order));
               if (result is UserCreateRefundOrdersReq) {
                 await controller.createRefund(result);
               }

@@ -44,7 +44,6 @@ class DiscountsController extends GetxController {
       'is_dynamic': false,
     });
     result.when((success) {
-      refreshController.refreshCompleted();
       final isLastPage = success.discounts!.length < _pageSize;
       discountsCount.value = success.count ?? 0;
       if (isLastPage) {
@@ -68,7 +67,6 @@ class DiscountsController extends GetxController {
       'is_dynamic': false,
     });
     await result.when((success) async {
-      refreshController.refreshCompleted();
       pagingController.value = const PagingState(
         nextPageKey: null,
         error: null,

@@ -124,7 +124,7 @@ class AddUpdateDiscountController extends GetxController {
       }
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     loading();
     final value = discountRuleType == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)
@@ -181,7 +181,7 @@ class AddUpdateDiscountController extends GetxController {
       context.popRoute();
       return;
     }
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     loading();
     final value = discountRuleType == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)

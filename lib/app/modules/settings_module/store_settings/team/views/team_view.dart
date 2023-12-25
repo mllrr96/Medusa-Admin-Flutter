@@ -36,29 +36,6 @@ class TeamView extends StatelessWidget {
                   appBar: AppBar(
                     leading: const AdaptiveBackButton(),
                     title: const Text('The Team'),
-                    actions: [
-                      AdaptiveButton(
-                          onPressed: () async {
-                            if (Platform.isIOS) {
-                              await showCupertinoModalBottomSheet(
-                                  context: context,
-                                  builder: (_) => const InviteUserCard());
-                            } else {
-                              await showModalBottomSheet(
-                                  context: context,
-                                  builder: (_) => const InviteUserCard(),
-                                  isScrollControlled: true);
-                            }
-                          },
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.add),
-                              SizedBox(width: 5.0),
-                              Text('Invite users')
-                            ],
-                          ))
-                    ],
                     bottom: PreferredSize(
                         preferredSize: const Size.fromHeight(kToolbarHeight),
                         child: Obx(() {
@@ -83,7 +60,7 @@ class TeamView extends StatelessWidget {
                                 AdaptiveButton(
                                   child: const Text('Cancel'),
                                   onPressed: () async {
-                                    FocusScope.of(context).unfocus();
+                                    context.unfocus();
                                     teamController.search.value = false;
                                   },
                                 ),
@@ -126,6 +103,18 @@ class TeamView extends StatelessWidget {
                           );
                         })),
                   ),
+                  floatingActionButton: FloatingActionButton.extended(onPressed: ()async{
+                    if (Platform.isIOS) {
+                      await showCupertinoModalBottomSheet(
+                          context: context,
+                          builder: (_) => const InviteUserCard());
+                    } else {
+                      await showModalBottomSheet(
+                          context: context,
+                          builder: (_) => const InviteUserCard(),
+                          isScrollControlled: true);
+                    }
+                  }, label: const Text('Invite users'), icon: const Icon(Icons.add)),
                   body: SafeArea(
                     child: CustomScrollView(
                       slivers: [

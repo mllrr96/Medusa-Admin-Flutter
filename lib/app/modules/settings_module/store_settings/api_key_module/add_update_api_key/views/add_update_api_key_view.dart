@@ -29,7 +29,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
             publishableApiKeyRepo: PublishableApiKeyRepo(), publishableApiKey: publishableApiKey),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveBackButton(),

@@ -13,6 +13,7 @@ import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_rep
 import 'package:medusa_admin/app/data/repository/upload/upload_repo.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 class AddUpdateProductController extends GetxController {
   AddUpdateProductController({
@@ -183,7 +184,7 @@ class AddUpdateProductController extends GetxController {
   Future<void> updateProduct(BuildContext context) async {
     // Check if there's no update to the product, in that case just go back.
     // Hide the keyboard
-    FocusScope.of(context).unfocus();
+    context.unfocus();
     loading();
 
     final imagesToKeep = List<ImageData>.from(product.images ?? []);

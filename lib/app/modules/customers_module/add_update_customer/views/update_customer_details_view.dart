@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../controllers/update_customer_details_controller.dart';
 
@@ -22,7 +23,7 @@ class AddUpdateCustomerView extends StatelessWidget {
         builder: (controller) {
           final updateMode = controller.updateMode;
       return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => context.unfocus(),
         child: Scaffold(
           appBar: AppBar(
             leading: const AdaptiveCloseButton(),

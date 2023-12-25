@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/strings.dart';
 import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
@@ -12,6 +13,7 @@ class StorageService extends GetxService {
   static String get baseUrl => Get.find<StorageService>()._baseUrl;
   static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
+  static PackageInfo get packageInfo => Get.find<StorageService>()._packageInfo;
   static List<SearchHistory> get searchHistory => Get.find<StorageService>()._searchHistory;
 
   static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
@@ -19,6 +21,7 @@ class StorageService extends GetxService {
 
   late SharedPreferences _prefs;
   late String _baseUrl;
+  late PackageInfo _packageInfo;
   late String _language;
   late String? _cookie;
   late List<SearchHistory> _searchHistory;
@@ -31,6 +34,7 @@ class StorageService extends GetxService {
       _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ?? Get.deviceLocale?.languageCode ?? 'en';
       _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
+      _packageInfo = await PackageInfo.fromPlatform();
       final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
       if (appSettingsCoded != null) {
         _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
@@ -59,6 +63,7 @@ class StorageService extends GetxService {
       _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;
+      _packageInfo = PackageInfo(appName: '', packageName: '', version: '', buildNumber: '');
     }
 
     return this;

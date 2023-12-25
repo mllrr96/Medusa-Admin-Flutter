@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -14,6 +13,7 @@ import 'package:medusa_admin/route/app_router.dart';
 import '../../../../data/models/store/index.dart';
 import '../../../components/adaptive_filled_button.dart';
 import '../controllers/transfer_order_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 @RoutePage()
 class TransferOrderView extends StatelessWidget {
@@ -28,7 +28,7 @@ class TransferOrderView extends StatelessWidget {
         builder: (controller) {
           final order = controller.order;
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveCloseButton(),

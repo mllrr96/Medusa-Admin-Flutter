@@ -24,7 +24,7 @@ class CreateUpdateReturnReasonView extends StatelessWidget {
             returnReasonRepo: ReturnReasonRepo(), returnReason: returnReason),
         builder: (controller) {
           return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
                 leading: const AdaptiveCloseButton(),

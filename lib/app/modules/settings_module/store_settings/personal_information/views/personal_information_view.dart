@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../../core/utils/colors.dart';
 import '../../../../../data/models/store/user.dart';
@@ -53,7 +54,7 @@ class PersonalInformationView extends StatelessWidget {
                             controller.lastNameCtrl.text == user.lastName) {
                           context.popRoute();
                         } else {
-                          FocusScope.of(context).unfocus();
+                          context.unfocus();
                           await controller.updateUser();
                           context.popRoute();
                         }
@@ -89,7 +90,7 @@ class PersonalInformationView extends StatelessWidget {
                               controller.lastNameCtrl.text == user.lastName) {
                             context.popRoute();
                           } else {
-                            FocusScope.of(context).unfocus();
+                            context.unfocus();
                             await controller.updateUser();
                             context.popRoute();
                           }
@@ -138,12 +139,14 @@ class PersonalInformationView extends StatelessWidget {
               // ],
             ),
             floatingActionButton: controller.obx(
-                (user) => FloatingActionButton(
+                (user) => FloatingActionButton.extended(
                     onPressed: controller.state != null
                         ? () async =>
                             await updatePersonalInformation(user!, controller)
                         : null,
-                    child: const Text('Edit')),
+                    label: const Text('Edit'),
+                icon: const Icon(MedusaIcons.pencil_square_solid),
+                ),
                 onLoading: const SizedBox.shrink(),
                 onError: (_) => const SizedBox.shrink()),
             body: SafeArea(

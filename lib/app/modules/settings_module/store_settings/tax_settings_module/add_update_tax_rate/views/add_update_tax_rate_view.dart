@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_tax_rate_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 
 @RoutePage()
 class AddUpdateTaxRateView extends GetView<AddUpdateTaxRateController> {
@@ -22,7 +23,7 @@ class AddUpdateTaxRateView extends GetView<AddUpdateTaxRateController> {
         init: AddUpdateTaxRateController(taxRateRepo: TaxRateRepo(), addUpdateTaxRateReq: addUpdateTaxRateReq),
         builder: (controller) {
       return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => context.unfocus(),
         child: Scaffold(
           appBar: AppBar(
             leading: const AdaptiveCloseButton(),

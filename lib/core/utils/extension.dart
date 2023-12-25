@@ -56,7 +56,6 @@ extension BuildContextEntension<T> on BuildContext {
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
-  double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 3;
 
   // TabsRouter get tabsRouter => AutoTabsRouter.of(this);
   int get activeIndex => AutoTabsRouter.of(this).activeIndex;
@@ -72,7 +71,12 @@ extension BuildContextEntension<T> on BuildContext {
 
   // Drawer
   void openDrawer() => Scaffold.of(this).openDrawer();
+  void closeDrawer() => Scaffold.of(this).closeDrawer();
   void openEndDrawer() => Scaffold.of(this).openEndDrawer();
+  void closeEndDrawer() => Scaffold.of(this).closeEndDrawer();
+
+  double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 2.5;
+
 }
 
 extension HexColor on Color {
