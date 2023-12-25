@@ -3,6 +3,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -89,12 +90,14 @@ class ProductMedia extends StatelessWidget {
                           controller.update([5]);
                         }
                       },
-                      onDelete: () {
+                      onDelete: () async {
                         try {
                           controller.images[index].delete();
                           controller.images.removeAt(index);
                           controller.update([5]);
-                        } catch (e) {}
+                        } catch (e) {
+                         await Fluttertoast.showToast(msg: 'Error deleting image');
+                        }
                       },
                       onCrop: () async {
                         final result = await controller.imagePickerHelper.cropImage(image);
@@ -103,7 +106,9 @@ class ProductMedia extends StatelessWidget {
                             controller.images[index].delete();
                             controller.images[index] = result;
                             controller.update([5]);
-                          } catch (e) {}
+                          } catch (e) {
+                            await Fluttertoast.showToast(msg: 'Error cropping image');
+                          }
                         }
                       },
                     );

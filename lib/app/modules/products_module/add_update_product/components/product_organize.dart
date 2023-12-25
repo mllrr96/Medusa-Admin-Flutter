@@ -9,7 +9,7 @@ import '../../../components/labeled_chip_input_text_field.dart';
 import '../controllers/add_update_product_controller.dart';
 
 class ProductOrganize extends GetView<AddUpdateProductController> {
-  const ProductOrganize({Key? key, this.onExpansionChanged}) : super(key: key);
+  const ProductOrganize({super.key, this.onExpansionChanged});
   final void Function(bool)? onExpansionChanged;
 
   @override

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
@@ -39,15 +40,16 @@ class CollectionsView extends StatelessWidget {
                     FloatingActionButton.small(
                       onPressed: () => context.pushRoute(MedusaSearchRoute(
                           searchCategory: SearchCategory.collections)),
-                      heroTag: 'search collection',
+                      heroTag: UniqueKey(),
                       child: const Icon(CupertinoIcons.search),
                     ),
-                    const SizedBox(width: 4.0),
+                    const Gap(4.0),
                   ],
                 ),
-                const SizedBox(height: 6.0),
+                const Gap(6.0),
                 ScrollingExpandableFab(
                   controller: controller.scrollController,
+                  heroTag: UniqueKey(),
                   label: 'New Collection',
                   icon: const Icon(Icons.add),
                   onPressed: () => context.pushRoute(CreateCollectionRoute()),

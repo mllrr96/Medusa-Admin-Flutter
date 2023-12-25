@@ -61,8 +61,7 @@ class _SignInViewState extends State<SignInView> {
           // Since there no app bar, annotated region is used to apply theme ui overlay
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
-              statusBarColor: context.theme.scaffoldBackgroundColor
-            ),
+                statusBarColor: context.theme.scaffoldBackgroundColor),
             child: GestureDetector(
               onTap: () => context.unfocus(),
               child: Scaffold(
@@ -262,9 +261,9 @@ class _SignInViewState extends State<SignInView> {
                                         msg: 'No internet connection!');
                                     return;
                                   }
-
-                                  context.unfocus();
-
+                                  if (context.mounted) {
+                                    context.unfocus();
+                                  }
                                   await controller
                                       .signIn(emailCtrl.text, passwordCtrl.text)
                                       .then((value) {

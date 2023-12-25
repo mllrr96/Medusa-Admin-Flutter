@@ -14,7 +14,7 @@ class PickRegionsController extends GetxController {
 
   @override
   void onInit() {
-    regionsReq = Get.arguments ?? pickRegionsReq ?? PickRegionsReq();
+    regionsReq = pickRegionsReq ?? PickRegionsReq();
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });

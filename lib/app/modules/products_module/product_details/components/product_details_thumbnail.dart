@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/products_module/add_update_product/components/image_card.dart';
 import 'package:medusa_admin/app/modules/products_module/product_details/controllers/product_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -68,16 +67,15 @@ class ProductDetailsThumbnail extends GetView<ProductDetailsController> {
       children: [
         if (product.thumbnail != null)
           GestureDetector(
-              onTap: () => Get.to(() => ImageViewScreen(
-                    imageUrl: product.thumbnail!,
-                    heroTag: 'thumbnail',
-                  )),
+              onTap: () => context.pushRoute(ImagePreviewRoute(
+                imageUrl: product.thumbnail!,
+                heroTag: 'thumbnail',
+              )),
               child: SizedBox(
                   height: 120,
                   child: Hero(
                       tag: 'thumbnail',
-                      child:
-                          CachedNetworkImage(imageUrl: product.thumbnail!)))),
+                      child: CachedNetworkImage(imageUrl: product.thumbnail!)))),
         if (product.thumbnail == null)
           Text('No thumbnail added',
               style: smallTextStyle?.copyWith(color: manatee)),

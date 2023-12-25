@@ -39,7 +39,7 @@ class DraftOrdersView extends StatelessWidget {
                     FloatingActionButton.small(
                       onPressed: () => context.pushRoute(MedusaSearchRoute(
                           searchCategory: SearchCategory.draftOrders)),
-                      heroTag: 'search Draft Order',
+                      heroTag: UniqueKey(),
                       child: const Icon(CupertinoIcons.search),
                     ),
                     const Gap(4.0),

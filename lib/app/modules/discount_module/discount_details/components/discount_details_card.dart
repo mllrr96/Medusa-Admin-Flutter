@@ -13,7 +13,7 @@ import '../../../../data/models/store/discount_rule.dart';
 import '../../discounts/components/discount_rule_type_label.dart';
 
 class DiscountDetailsCard extends GetView<DiscountDetailsController> {
-  const DiscountDetailsCard(this.discount, {Key? key}) : super(key: key);
+  const DiscountDetailsCard(this.discount, {super.key});
   final Discount discount;
   @override
   Widget build(BuildContext context) {

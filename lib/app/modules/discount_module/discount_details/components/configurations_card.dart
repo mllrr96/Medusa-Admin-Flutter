@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/date_time_card.dart';
 
 class ConfigurationsCard extends StatelessWidget {
-  const ConfigurationsCard(this.discount, {Key? key}) : super(key: key);
+  const ConfigurationsCard(this.discount, {super.key});
   final Discount discount;
   @override
   Widget build(BuildContext context) {

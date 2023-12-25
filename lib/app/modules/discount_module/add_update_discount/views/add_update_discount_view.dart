@@ -40,23 +40,7 @@ class AddUpdateDiscountView extends StatelessWidget {
               onTap: () => context.unfocus(),
               child: Scaffold(
                 appBar: AppBar(
-                  leading: AdaptiveCloseButton(onPressed: () async {
-                    if (controller.updateMode && !controller.sameDiscount()) {
-                      await showOkCancelAlertDialog(
-                        context: context,
-                        title: 'Discard changes',
-                        message: 'Are you sure you want to discard changes?',
-                        okLabel: 'Discard',
-                        isDestructiveAction: true,
-                      ).then((result) {
-                        if (result == OkCancelResult.ok) {
-                          context.popRoute();
-                        }
-                      });
-                    } else {
-                      context.popRoute();
-                    }
-                  }),
+                  leading: const AdaptiveCloseButton(),
                   title: controller.updateMode
                       ? const Text('Update discount')
                       : const Text('Create new discount'),

@@ -38,7 +38,7 @@ class DiscountCard extends StatelessWidget {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       onTap: () =>
-          context.pushRoute(DiscountDetailsRoute(discountId: discount.id!)),
+          context.pushRoute(DiscountDetailsRoute(discount: discount)),
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),

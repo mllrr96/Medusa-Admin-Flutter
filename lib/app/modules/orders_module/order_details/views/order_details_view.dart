@@ -85,7 +85,6 @@ class OrderDetailsView extends StatelessWidget {
           body: SafeArea(
             child: controller.obx(
               (order) => SingleChildScrollView(
-                // controller: controller.scrollController,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 10.0),

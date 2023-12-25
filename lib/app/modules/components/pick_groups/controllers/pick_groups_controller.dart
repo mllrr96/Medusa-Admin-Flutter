@@ -16,7 +16,7 @@ class PickGroupsController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    groupsReq = Get.arguments ?? pickGroupsReq ?? PickGroupsReq();
+    groupsReq = pickGroupsReq ?? PickGroupsReq();
     pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });

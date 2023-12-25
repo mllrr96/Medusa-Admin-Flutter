@@ -76,7 +76,8 @@ class AddUpdateProductController extends GetxController {
   Future<void> onInit() async {
     imagePickerHelper = ImagePickerHelper();
     fetchProduct();
-    await fetchOrganize();
+
+    fetchOrganize();
     super.onInit();
   }
 
@@ -295,7 +296,7 @@ class AddUpdateProductController extends GetxController {
   }
 
   void fetchProduct() {
-    if (Get.arguments == null) {
+    if (updateProductReq == null) {
       product = const Product();
     } else {
       // Update existing product

@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/data/repository/discount_condition/discount_condition_repo.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../data/models/req/discount.dart';
 import '../../../../data/models/req/user_discount_condition_req.dart';
@@ -15,6 +16,7 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
   final DiscountRepo discountRepo;
   final DiscountConditionRepo discountConditionRepo;
   final String discountId;
+  final refreshController = RefreshController();
   @override
   Future<void> onInit() async {
     await loadDiscount();
@@ -23,18 +25,22 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
 
   Future<void> loadDiscount() async {
     change(null, status: RxStatus.loading());
-
     final result = await discountRepo.retrieveDiscount(id: discountId, queryParameters: {
       'expand': 'regions,regions.currency,rule,rule.conditions',
     });
 
     result.when((success) {
       if (success.discount != null) {
+        refreshController.refreshCompleted();
         change(success.discount, status: RxStatus.success());
       } else {
+        refreshController.refreshFailed();
         change(null, status: RxStatus.error('Error loading discount'));
       }
-    }, (error) => change(null, status: RxStatus.error(error.message)));
+    }, (error) {
+      refreshController.refreshFailed();
+      change(null, status: RxStatus.error(error.message));
+    });
   }
 
   Future<void> deleteDiscount(BuildContext context) async {
@@ -87,11 +93,11 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
         discountId: discountId, userCreateConditionReq: userCreateConditionReq);
 
     result.when((success) async {
-      if (success.discount != null) {
-        Get.snackbar('Success', 'Condition added', snackPosition: SnackPosition.BOTTOM);
-      } else {
-        Get.snackbar('Error adding Condition', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
-      }
+      // if (success.discount != null) {
+      //   Get.snackbar('Success', 'Condition added', snackPosition: SnackPosition.BOTTOM);
+      // } else {
+      //   Get.snackbar('Error adding Condition', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
+      // }
       await loadDiscount();
     },
         (error) => Get.snackbar('Error adding Condition ${error.code ?? ''}', error.message,

@@ -20,7 +20,7 @@ class PickProductsController extends GetxController {
 
   @override
   void onInit() {
-    productsReq = Get.arguments ?? pickProductsReq ?? PickProductsReq();
+    productsReq = pickProductsReq ?? PickProductsReq();
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
     selectedProducts.addAllIf(productsReq.selectedProducts != null, productsReq.selectedProducts ?? []);
     super.onInit();
