@@ -9,7 +9,7 @@ import '../../../core/utils/medusa_icons_icons.dart';
 
 class SearchTextField extends StatelessWidget {
   const SearchTextField({
-    Key? key,
+    super.key,
     this.focusNode,
     required this.controller,
     this.hintText,
@@ -26,7 +26,7 @@ class SearchTextField extends StatelessWidget {
     this.contentPadding,
     this.textInputType,
     this.textCapitalization = TextCapitalization.none,
-  }) : super(key: key);
+  });
   final FocusNode? focusNode;
   final TextEditingController controller;
   final String? hintText;

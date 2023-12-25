@@ -50,6 +50,8 @@ class TeamView extends StatelessWidget {
                                 const SizedBox(width: 12.0),
                                 Expanded(
                                     child: SearchTextField(
+                                  fillColor:
+                                      context.theme.scaffoldBackgroundColor,
                                   controller: teamController.searchCtrl,
                                   hintText: 'Search for team email, name',
                                   onChanged: (val) {
@@ -103,18 +105,21 @@ class TeamView extends StatelessWidget {
                           );
                         })),
                   ),
-                  floatingActionButton: FloatingActionButton.extended(onPressed: ()async{
-                    if (Platform.isIOS) {
-                      await showCupertinoModalBottomSheet(
-                          context: context,
-                          builder: (_) => const InviteUserCard());
-                    } else {
-                      await showModalBottomSheet(
-                          context: context,
-                          builder: (_) => const InviteUserCard(),
-                          isScrollControlled: true);
-                    }
-                  }, label: const Text('Invite users'), icon: const Icon(Icons.add)),
+                  floatingActionButton: FloatingActionButton.extended(
+                      onPressed: () async {
+                        if (Platform.isIOS) {
+                          await showCupertinoModalBottomSheet(
+                              context: context,
+                              builder: (_) => const InviteUserCard());
+                        } else {
+                          await showModalBottomSheet(
+                              context: context,
+                              builder: (_) => const InviteUserCard(),
+                              isScrollControlled: true);
+                        }
+                      },
+                      label: const Text('Invite users'),
+                      icon: const Icon(Icons.add)),
                   body: SafeArea(
                     child: CustomScrollView(
                       slivers: [

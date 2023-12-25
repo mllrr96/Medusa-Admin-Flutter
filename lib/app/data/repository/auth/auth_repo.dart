@@ -24,7 +24,7 @@ class AuthRepo extends BaseAuth {
     try {
       final response = await _dataProvider.post(uri: '/auth', data: req);
       if (response.statusCode == 200) {
-        var cookie = response.headers['set-cookie']?.first.split(';').first;
+        var cookie = response.headers['set-cookie']?.firstOrNull?.split(';').firstOrNull;
         // final string = response.headers['set-cookie']!.first.split(';')[2].replaceAll(' Expires=', '');
         // final formatter = DateFormat('EEE, d MMM yyyy HH:mm:ss');
         // final dateTime = formatter.parse(string);

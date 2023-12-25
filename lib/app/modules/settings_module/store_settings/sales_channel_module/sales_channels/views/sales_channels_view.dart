@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
+import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channels/components/index.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -20,8 +22,6 @@ class SalesChannelsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final mediumTextStyle = context.bodyMedium;
-    final largeTextStyle = context.bodyLarge;
     return GetBuilder<SalesChannelsController>(
         init: SalesChannelsController(salesChannelRepo: SalesChannelRepo()),
         builder: (controller) {
@@ -34,7 +34,6 @@ class SalesChannelsView extends StatelessWidget {
                   child: Container(
                     height: kToolbarHeight / 2,
                     alignment: Alignment.center,
-                    // color: Theme.of(context).scaffoldBackgroundColor,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -55,7 +54,7 @@ class SalesChannelsView extends StatelessWidget {
                 onPressed: () async {
                   // final result =
                   //     await Get.toNamed(Routes.ADD_UPDATE_SALES_CHANNEL);
-                  final result =  context.pushRoute(AddUpdateSalesChannelRoute());
+                  final result = await context.pushRoute(AddUpdateSalesChannelRoute());
                   if (result is bool) {
                     controller.pagingController.refresh();
                   }
@@ -74,28 +73,10 @@ class SalesChannelsView extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: kToolbarHeight),
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<SalesChannel>(
-                  itemBuilder: (context, salesChannel, index) => ListTile(
-                    onTap: () => context.pushRoute(
-                        SalesChannelDetailsRoute(salesChannel: salesChannel)),
-                    tileColor: context.theme.appBarTheme.backgroundColor,
-                    title: Text(salesChannel.name ?? '', style: largeTextStyle),
-                    subtitle: Text(salesChannel.description ?? '',
-                        style: smallTextStyle?.copyWith(color: lightWhite)),
-                    trailing: salesChannel.isDisabled != null &&
-                            salesChannel.isDisabled == false
-                        ? null
-                        : Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 6.0),
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(4.0)),
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                            child: Text('Draft', style: mediumTextStyle)),
-                  ),
+                  itemBuilder: (context, salesChannel, index) => SalesChannelTile(salesChannel),
                   firstPageProgressIndicatorBuilder: (_) =>
-                      const Center(child: CircularProgressIndicator.adaptive()),
+                      const SalesChannelsLoadingPage(),
+                  firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(pagingController: controller.pagingController)
                 ),
               ),
             )),

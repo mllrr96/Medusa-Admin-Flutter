@@ -9,7 +9,6 @@ import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../components/custom_text_field.dart';
-import '../../../../../products_module/add_update_product/components/product_general_info.dart';
 import '../controllers/create_update_return_reason_controller.dart';
 
 @RoutePage()
@@ -47,60 +46,66 @@ class CreateUpdateReturnReasonView extends StatelessWidget {
                     children: [
                       Form(
                         key: controller.formKey,
-                        child: EditCard(
-                          label: '',
-                          editMode: true,
-                          children: [
-                            LabeledTextField(
-                              label: 'Label',
-                              controller: controller.labelCtrl,
-                              required: true,
-                              hintText: 'Wrong Size',
-                              validator: (val) {
-                                if (val == null ||
-                                    val.removeAllWhitespace.isEmpty) {
-                                  return 'Field is required';
-                                }
-                                return null;
-                              },
-                            ),
-                            LabeledTextField(
-                              label: 'Value',
-                              controller: controller.valueCtrl,
-                              required: !controller.updateMode,
-                              hintText: 'wrong_size',
-                              enabled: !controller.updateMode,
-                              style: controller.updateMode
-                                  ? context.bodySmall
-                                      ?.copyWith(color: Colors.grey)
-                                  : null,
-                              decoration: controller.updateMode
-                                  ? const InputDecoration(
-                                      disabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent)),
-                                    )
-                                  : null,
-                              validator: (val) {
-                                if (controller.updateMode) {
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: context.theme.appBarTheme.backgroundColor,
+                              borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+                          padding:  const EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 12.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              LabeledTextField(
+                                label: 'Label',
+                                controller: controller.labelCtrl,
+                                required: true,
+                                hintText: 'Wrong Size',
+                                validator: (val) {
+                                  if (val == null ||
+                                      val.removeAllWhitespace.isEmpty) {
+                                    return 'Field is required';
+                                  }
                                   return null;
-                                }
-                                if (val == null ||
-                                    val.removeAllWhitespace.isEmpty) {
-                                  return 'Field is required';
-                                }
-                                return null;
-                              },
-                            ),
-                            LabeledTextField(
-                              label: 'Description',
-                              controller: controller.descriptionCtrl,
-                              hintText: 'Customer received the wrong size',
-                              maxLines: null,
-                              textInputAction: TextInputAction.newline,
-                            ),
-                          ],
-                        ),
+                                },
+                              ),
+                              LabeledTextField(
+                                label: 'Value',
+                                controller: controller.valueCtrl,
+                                required: !controller.updateMode,
+                                hintText: 'wrong_size',
+                                enabled: !controller.updateMode,
+                                style: controller.updateMode
+                                    ? context.bodySmall
+                                    ?.copyWith(color: Colors.grey)
+                                    : null,
+                                decoration: controller.updateMode
+                                    ? const InputDecoration(
+                                  disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent)),
+                                )
+                                    : null,
+                                validator: (val) {
+                                  if (controller.updateMode) {
+                                    return null;
+                                  }
+                                  if (val == null ||
+                                      val.removeAllWhitespace.isEmpty) {
+                                    return 'Field is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              LabeledTextField(
+                                label: 'Description',
+                                controller: controller.descriptionCtrl,
+                                hintText: 'Customer received the wrong size',
+                                maxLines: null,
+                                textInputAction: TextInputAction.newline,
+                              ),
+                            ],
+                          ),
+                        )
                       ),
                     ]),
               ),
