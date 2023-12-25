@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/data/service/theme_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,7 +115,7 @@ class StorageService extends GetxService {
   Future<void> saveThemeMode(ThemeMode themeMode) async {
     try {
       await _prefs.setInt(AppConstants.themeModeKey, themeMode.value());
-      Get.changeThemeMode(themeMode);
+      ThemeController.instance.update();
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -123,6 +124,7 @@ class StorageService extends GetxService {
   Future<void> saveLanguage(String language) async {
     try {
       await _prefs.setString(AppConstants.languageKey, language);
+      ThemeController.instance.update();
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -199,6 +201,19 @@ class StorageService extends GetxService {
       await _prefs.setString(AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+ Locale loadLocale() {
+    try {
+      final locale = _prefs.getString(AppConstants.languageKey);
+      if (locale?.isNotEmpty ?? false) {
+        return Locale(locale!);
+      }
+      return Get.deviceLocale ?? const Locale('en', 'US');
+    } catch (e) {
+      debugPrint(e.toString());
+      return Get.deviceLocale ?? const Locale('en', 'US');
     }
   }
 }
