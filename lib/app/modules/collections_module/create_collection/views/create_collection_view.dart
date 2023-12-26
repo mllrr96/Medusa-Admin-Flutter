@@ -56,7 +56,7 @@ class CreateCollectionView extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(12.0)),
                       color:
-                          Theme.of(context).expansionTileTheme.backgroundColor,
+                          context.theme.cardColor,
                     ),
                     child: Form(
                       key: controller.formKey,

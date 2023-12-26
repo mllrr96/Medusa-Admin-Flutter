@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_status_label.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -24,7 +25,7 @@ class DraftOrderOverview extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: Theme.of(context).expansionTileTheme.backgroundColor,
+        color: context.theme.cardColor,
       ),
       child: Column(
         children: [

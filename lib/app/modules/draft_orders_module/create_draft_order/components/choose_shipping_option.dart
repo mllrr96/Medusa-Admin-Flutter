@@ -4,7 +4,6 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/shipping_option_res.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -262,7 +261,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                     child: Column(
                   children: [
                     Text(asyncSnapshot.error.toString()),
-                    AdaptiveFilledButton(
+                    FilledButton(
                         onPressed: () {
                           shippingOptionsFuture =
                               ShippingOptionsRepo().retrieveAll(queryParams: {

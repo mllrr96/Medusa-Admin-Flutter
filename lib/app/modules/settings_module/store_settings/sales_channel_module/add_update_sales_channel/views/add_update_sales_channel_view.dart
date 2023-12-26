@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -37,8 +36,10 @@ class AddUpdateSalesChannelView extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 18.0),
               padding: EdgeInsets.only(
                   bottom: bottomViewPadding, top: bottomViewPadding / 2),
-              child: AdaptiveFilledButton(
-                buttonColor: controller.disabled ? Colors.blueGrey : null,
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: controller.disabled ? Colors.blueGrey : null
+                ),
                 onPressed: () async => controller.updateMode
                     ? await controller.updateChannel(context)
                     : await controller.createChannel(context),

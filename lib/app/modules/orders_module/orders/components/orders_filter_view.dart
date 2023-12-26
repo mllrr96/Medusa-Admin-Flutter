@@ -13,7 +13,6 @@ import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.d
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../components/adaptive_filled_button.dart';
 import 'orders_filter_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -87,9 +86,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
         ),
         bottomNavigationBar: Container(
           padding: const EdgeInsets.all(12.0),
-          color: context.theme.appBarTheme.backgroundColor,
+          // color: context.theme.appBarTheme.backgroundColor,
           child: controller.obx((state) =>
-              AdaptiveFilledButton(
+              FilledButton(
               onPressed: () {
             if (orderFilter.orderDateFilter.active &&
                 !formKey.currentState!.validate()) {
@@ -124,10 +123,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
           },
             child: Text('Apply',
                 style: smallTextStyle?.copyWith(color: Colors.white))),
-            onLoading: AdaptiveFilledButton(onPressed: null, child: Text('Apply',
+            onLoading: FilledButton(onPressed: null, child: Text('Apply',
                 style: smallTextStyle?.copyWith(color: Colors.white))),
             onEmpty: const SizedBox.shrink(),
-            onError: (_) => AdaptiveFilledButton(onPressed: null, child: Text('Apply',
+            onError: (_) => FilledButton(onPressed: null, child: Text('Apply',
                 style: smallTextStyle?.copyWith(color: Colors.white))),
           )
         ),

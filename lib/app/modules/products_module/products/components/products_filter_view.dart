@@ -8,7 +8,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../components/adaptive_button.dart';
-import '../../../components/adaptive_filled_button.dart';
 import 'products_filter_controller.dart';
 
 class ProductsFilterView extends StatefulWidget {
@@ -57,16 +56,16 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
           padding: const EdgeInsets.all(12.0),
           color: context.theme.appBarTheme.backgroundColor,
           child: controller.obx((state) =>
-              AdaptiveFilledButton(
+              FilledButton(
                   onPressed: () {
                     widget.onSubmitted?.call(productFilter);
                   },
                   child: Text('Apply',
                       style: smallTextStyle?.copyWith(color: Colors.white))),
-            onLoading: AdaptiveFilledButton(onPressed: null, child: Text('Apply',
+            onLoading: FilledButton(onPressed: null, child: Text('Apply',
                 style: smallTextStyle?.copyWith(color: Colors.white))),
             onEmpty: const SizedBox.shrink(),
-            onError: (_) => AdaptiveFilledButton(onPressed: null, child: Text('Apply',
+            onError: (_) => FilledButton(onPressed: null, child: Text('Apply',
                 style: smallTextStyle?.copyWith(color: Colors.white))),
           )
       ),

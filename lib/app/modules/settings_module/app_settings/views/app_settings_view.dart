@@ -1,17 +1,19 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
+import 'package:get/get.dart' hide GetStringUtils;
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
+import 'package:medusa_admin/app/data/service/theme_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:settings_ui/settings_ui.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 import '../../../../data/service/language_service.dart';
@@ -37,14 +39,8 @@ class AppSettingsView extends StatelessWidget {
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             body: SettingsList(
               contentPadding: EdgeInsets.zero,
-              lightTheme: SettingsThemeData(
-                  settingsListBackground:
-                      Theme.of(context).scaffoldBackgroundColor,
-                  settingsSectionBackground: Theme.of(context).cardColor),
-              darkTheme: SettingsThemeData(
-                  settingsListBackground:
-                      Theme.of(context).scaffoldBackgroundColor,
-                  settingsSectionBackground: Theme.of(context).cardColor),
+              lightTheme: context.settingsListLightTheme,
+              darkTheme: context.settingsListDarkTheme,
               sections: [
                 SettingsSection(title: const Text('App settings'), tiles: [
                   SettingsTile.navigation(
@@ -54,35 +50,33 @@ class AppSettingsView extends StatelessWidget {
                   )
                 ]),
                 SettingsSection(
-                  title: const Text('Appearance'),
-                  tiles: ThemeMode.values.map((e) {
-                    String title = 'Automatic (Follow system)';
-                    IconData iconData = Icons.brightness_auto;
-                    switch (e) {
-                      case ThemeMode.system:
-                        break;
-                      case ThemeMode.light:
-                        title = 'Light';
-                        iconData = MedusaIcons.sun;
-                        break;
-                      case ThemeMode.dark:
-                        title = 'Dark';
-                        iconData = MedusaIcons.moon;
-                        break;
-                    }
-                    return SettingsTile(
-                      title: Text(title),
-                      leading: Icon(iconData),
-                      trailing: controller.themeMode == e
-                          ? const Icon(Icons.check)
-                          : null,
-                      onPressed: (_) async =>
-                          await controller.changeThemeMode(e),
-                    );
-                  }).toList(),
-                ),
-                SettingsSection(
-                  tiles: <SettingsTile>[
+                  title: const Text('Theme & Appearance'),
+                  tiles: [
+                    ... ThemeMode.values.map((e) {
+                      String title = 'Automatic (Follow system)';
+                      IconData iconData = Icons.brightness_auto;
+                      switch (e) {
+                        case ThemeMode.system:
+                          break;
+                        case ThemeMode.light:
+                          title = 'Light';
+                          iconData = MedusaIcons.sun;
+                          break;
+                        case ThemeMode.dark:
+                          title = 'Dark';
+                          iconData = MedusaIcons.moon;
+                          break;
+                      }
+                      return SettingsTile(
+                        title: Text(title),
+                        leading: Icon(iconData),
+                        trailing: controller.themeMode == e
+                            ? const Icon(Icons.check)
+                            : null,
+                        onPressed: (_) async =>
+                        await controller.changeThemeMode(e),
+                      );
+                    }),
                     SettingsTile.switchTile(initialValue: appSettings.material3, onToggle: (val)async{
                       final storageService = StorageService.instance;
                       final appSettings = StorageService.appSettings;
@@ -91,7 +85,39 @@ class AppSettingsView extends StatelessWidget {
                               material3:
                               !appSettings.material3));
                       controller.update();
+                      ThemeController.instance.update();
                     }, title: const Text('Material 3')),
+                    SettingsTile.navigation(
+                      title: const Text('Color Scheme'),
+                      value: Text(appSettings.colorScheme.name.capitalize),
+                      leading: const Icon(Icons.color_lens),
+                      onPressed: (_) async =>
+                      await showConfirmationDialog<FlexScheme>(
+                          context: context,
+                          title: 'Color Scheme',
+                          initialSelectedActionKey:appSettings.colorScheme,
+                          actions: FlexScheme.values
+                              .map((e) =>
+                              AlertDialogAction<FlexScheme>(
+                                label: e.name.capitalize,
+                                key: e,
+                              ))
+                              .toList())
+                          .then((result) {
+                        if (result == null) return;
+                        if (result == appSettings.colorScheme) return;
+                        StorageService.instance.updateAppSettings(
+                            appSettings.copyWith(colorScheme: result));
+                        controller.update();
+                        ThemeController.instance.update();
+                      }),
+                    ),
+                  ],
+                ),
+                SettingsSection(
+                  title: const Text('Language and region'),
+                  tiles: [
+
                     SettingsTile.navigation(
                       title: Text(tr.personalInformationLanguageSettingsTitle),
                       value: Row(
@@ -117,6 +143,7 @@ class AppSettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 SettingsSection(
                   title: const Text('DateTime settings'),
                   tiles: <SettingsTile>[

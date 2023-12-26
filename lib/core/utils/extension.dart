@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../app/data/service/storage_service.dart';
@@ -76,6 +77,19 @@ extension BuildContextEntension<T> on BuildContext {
   void closeEndDrawer() => Scaffold.of(this).closeEndDrawer();
 
   double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 2.5;
+
+  // settings list theme
+  SettingsThemeData get settingsListLightTheme => SettingsThemeData(
+  settingsListBackground: Theme.of(this).cardColor,
+  settingsSectionBackground: Theme.of(this).scaffoldBackgroundColor,
+  titleTextColor: Theme.of(this).colorScheme.secondary,
+  );
+
+  SettingsThemeData get settingsListDarkTheme => SettingsThemeData(
+  settingsListBackground: Theme.of(this).cardColor,
+  settingsSectionBackground: Theme.of(this).scaffoldBackgroundColor,
+  titleTextColor: Theme.of(this).colorScheme.secondary,
+  );
 
 }
 

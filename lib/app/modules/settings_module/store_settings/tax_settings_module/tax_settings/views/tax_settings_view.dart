@@ -8,7 +8,6 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../../../../../../../core/utils/colors.dart';
@@ -62,7 +61,7 @@ class TaxSettingsView extends StatelessWidget {
                 right: 18.0,
                 left: 18.0,
                 top: MediaQuery.of(context).viewPadding.bottom / 2),
-            child: AdaptiveFilledButton(
+            child: FilledButton(
               onPressed: controller.same() ? null : () {},
               child: Text('Save',
                   style: TextStyle(

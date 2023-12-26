@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/enums.dart';
@@ -74,10 +73,10 @@ class UpdateConditionView extends StatelessWidget {
                 right: 22.0,
                 top: topPadding),
             color: Theme.of(context).appBarTheme.backgroundColor,
-            child: AdaptiveFilledButton(
-              buttonWidth: Get.width / 3,
-              buttonColor:
-                  controller.selectedItems.isEmpty ? Colors.redAccent : null,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                 backgroundColor: controller.selectedItems.isEmpty ? Colors.redAccent : null,
+              ),
               onPressed: () => controller.save(context),
               child: buttonText,
             ),

@@ -48,7 +48,7 @@ class CreateUpdateReturnReasonView extends StatelessWidget {
                         key: controller.formKey,
                         child: Container(
                           decoration: BoxDecoration(
-                              color: context.theme.appBarTheme.backgroundColor,
+                              color: context.theme.cardColor,
                               borderRadius: const BorderRadius.all(Radius.circular(12.0))),
                           padding:  const EdgeInsets.symmetric(
                               horizontal: 12.0, vertical: 12.0),

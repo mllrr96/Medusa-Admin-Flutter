@@ -36,7 +36,7 @@ class OrdersView extends StatelessWidget {
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             drawer: const AppDrawer(),
             endDrawer: Drawer(
-              shape: const RoundedRectangleBorder(),
+              // shape: const RoundedRectangleBorder(),
               child: OrdersFilterView(
                 orderFilter: controller.orderFilter,
                 onResetTap: () {

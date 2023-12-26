@@ -48,6 +48,12 @@ class OrderCard extends StatelessWidget {
       return name;
     }
 
+    // if(StorageService.appSettings.material3){
+    //   return Card(
+    //
+    //   );
+    // }
+    //
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ??
@@ -203,7 +209,7 @@ class AlternativeOrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: context.theme.cardColor,
             borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [

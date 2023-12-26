@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import '../../../../core/utils/colors.dart';
 
 @RoutePage()
@@ -19,12 +19,9 @@ class StoreSettingsView extends StatelessWidget {
       drawerEdgeDragWidth: context.drawerEdgeDragWidth,
       body: SafeArea(
           child: SettingsList(
-        lightTheme: SettingsThemeData(
-            settingsListBackground: context.theme.scaffoldBackgroundColor,
-            settingsSectionBackground: context.theme.cardColor),
-        darkTheme: SettingsThemeData(
-            settingsListBackground: context.theme.scaffoldBackgroundColor,
-            settingsSectionBackground: context.theme.cardColor),
+            brightness: context.theme.brightness,
+        lightTheme: context.settingsListLightTheme,
+        darkTheme: context.settingsListDarkTheme,
         sections: [
           SettingsSection(
             title: const Text('Manage the settings for your Medusa store'),

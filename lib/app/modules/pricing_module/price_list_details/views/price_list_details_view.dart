@@ -8,7 +8,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/price_list.dart';
 import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -287,7 +286,7 @@ class PriceListDetailsView extends StatelessWidget {
                                 children: [
                                   const Text('No prices added yet'),
                                   const SizedBox(height: 12.0),
-                                  AdaptiveFilledButton(
+                                  FilledButton(
                                       onPressed: () {},
                                       child: const Text('Add Prices'))
                                 ],
@@ -304,7 +303,7 @@ class PriceListDetailsView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(e ?? 'Error loading products'),
-                      AdaptiveFilledButton(
+                      FilledButton(
                           onPressed: () async =>
                               await controller.fetchPriceList(),
                           child: const Text('Retry')),
@@ -340,7 +339,7 @@ class PriceListDetailsDelegate extends SliverPersistentHeaderDelegate {
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-          color: Theme.of(context).expansionTileTheme.backgroundColor,
+          color: context.theme.cardColor,
         ),
         // height: kToolbarHeight * 3,
         // width: Get.width,

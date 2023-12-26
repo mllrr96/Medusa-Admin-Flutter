@@ -1,3 +1,5 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+
 import '../../../../core/utils/enums.dart';
 
 class AppSettings {
@@ -5,12 +7,14 @@ class AppSettings {
   final bool material3;
   final DateFormatOptions dateFormatOptions;
   final TimeFormatOptions timeFormatOptions;
+  final FlexScheme colorScheme;
 
   AppSettings({
     this.useAndroidPicker = false,
     this.material3 = true,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
+    this.colorScheme = FlexScheme.hippieBlue,
   });
 
   AppSettings copyWith({
@@ -18,12 +22,14 @@ class AppSettings {
     bool? material3,
     DateFormatOptions? dateFormatOptions,
     TimeFormatOptions? timeFormatOptions,
+    FlexScheme? colorScheme,
   }) =>
       AppSettings(
         useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker,
         material3: material3 ?? this.material3,
         timeFormatOptions: timeFormatOptions ?? this.timeFormatOptions,
         dateFormatOptions: dateFormatOptions ?? this.dateFormatOptions,
+        colorScheme: colorScheme ?? this.colorScheme,
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,6 +37,7 @@ class AppSettings {
         'material3': material3,
         'timeFormatOptions': timeFormatOptions.index,
         'dateFormatOptions': dateFormatOptions.index,
+        'colorScheme': colorScheme.name,
       };
 
   factory AppSettings.fromJson(Map<String, dynamic>? json) {
@@ -38,7 +45,8 @@ class AppSettings {
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
         material3: json?['material3'] ?? true,
         timeFormatOptions: TimeFormatOptions.fromInt(json?['timeFormatOptions']),
-        dateFormatOptions: DateFormatOptions.fromInt(json?['dateFormatOptions']));
+        dateFormatOptions: DateFormatOptions.fromInt(json?['dateFormatOptions']),
+        colorScheme: FlexScheme.values.firstWhere((e) => e.name == json?['colorScheme'], orElse: () => FlexScheme.hippieBlue));
   }
 }
 

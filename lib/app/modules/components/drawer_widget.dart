@@ -13,6 +13,7 @@ import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../core/utils/colors.dart';
 import '../../../core/utils/medusa_icons_icons.dart';
+import '../../../core/utils/strings.dart';
 import '../../data/service/storage_service.dart';
 import '../auth_module/sign_in/views/sign_in_view.dart';
 import 'easy_loading.dart';
@@ -128,368 +129,382 @@ class _AppDrawerState extends State<AppDrawer> {
       ),
     ];
 
-    if (material3) {
-      return NavigationDrawer(
-          selectedIndex: context.tabsRouter.activeIndex,
-          onDestinationSelected: (index) async {
-            if (index == 12) {
-              await signOut();
-              return;
-            }
-            if (index == 13) {
-              await await showBarModalBottomSheet(
-                  overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                  context: context,
-                  builder: (context) => const SignInView());
-              return;
-            }
-            context.closeDrawer();
-            context.tabsRouter.setActiveIndex(index);
-          },
-          children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(12, 20, 12, 0),
-              padding: const EdgeInsets.only(left: 16.0),
-              height: 56,
-              decoration: ShapeDecoration(
-                shape: const StadiumBorder(),
-                color: context.theme.colorScheme.surface,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    if (!material3) {
+      return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
+            systemNavigationBarColor:
+                context.theme.drawerTheme.backgroundColor),
+        child: Drawer(
+            shape: const RoundedRectangleBorder(),
+            child: SafeArea(
+              bottom: false,
+              child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Store',
-                          style: smallTextStyle?.copyWith(color: manatee)),
-                      Text(store.name, style: mediumTextStyle),
-                    ],
-                  ),
-                  IconButton(
-                    padding: const EdgeInsets.all(16.0),
-                    onPressed: () async {
-                      switch (StorageService.instance.loadThemeMode()) {
-                        case ThemeMode.system:
-                          await StorageService.instance
-                              .saveThemeMode(ThemeMode.light);
-                          break;
-                        case ThemeMode.light:
-                          await StorageService.instance
-                              .saveThemeMode(ThemeMode.dark);
-                          break;
-                        case ThemeMode.dark:
-                          await StorageService.instance
-                              .saveThemeMode(ThemeMode.system);
-                          break;
-                      }
-                      themeMode = StorageService.instance.loadThemeMode();
-                      setState(() {});
-                    },
-                    icon: Icon(themeIcon(themeMode)),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(indent: 28, endIndent: 28),
-            ...items,
-            Container(
-              margin: const EdgeInsets.fromLTRB(12, 20, 12, 20),
-              padding: const EdgeInsets.only(left: 16.0),
-              height: 56,
-              decoration: ShapeDecoration(
-                shape: const StadiumBorder(),
-                color: context.theme.colorScheme.surface,
-              ),
-              child: Row(
-                children: [
-                  Hero(
-                    tag: 'medusa',
-                    child: Image.asset(
-                      'assets/images/medusa.png',
-                      // height: 32,
+                  Container(
+                    color: context.theme.cardColor,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 6.0),
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Store',
+                                style:
+                                    smallTextStyle?.copyWith(color: manatee)),
+                            Text(store.name, style: mediumTextStyle),
+                          ],
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.all(16.0),
+                          onPressed: () async {
+                            switch (StorageService.instance.loadThemeMode()) {
+                              case ThemeMode.system:
+                                await StorageService.instance
+                                    .saveThemeMode(ThemeMode.light);
+                                break;
+                              case ThemeMode.light:
+                                await StorageService.instance
+                                    .saveThemeMode(ThemeMode.dark);
+                                break;
+                              case ThemeMode.dark:
+                                await StorageService.instance
+                                    .saveThemeMode(ThemeMode.system);
+                                break;
+                            }
+                            themeMode = StorageService.instance.loadThemeMode();
+                            setState(() {});
+                          },
+                          icon: Icon(themeIcon(themeMode)),
+                        ),
+                      ],
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(appName,
-                          style: smallTextStyle?.copyWith(color: manatee)),
-                      Text('Version $version+$code',
-                          style: smallTextStyle?.copyWith(color: manatee)),
-                    ],
+                  divider,
+                  Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        divider,
+                        ListTile(
+                          title: const Text('Orders'),
+                          trailing: context.tabsRouter.activeIndex == 0
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          leading: const Icon(CupertinoIcons.cart),
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(0);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Draft Orders'),
+                          leading: const Icon(CupertinoIcons.cart_badge_plus),
+                          trailing: context.tabsRouter.activeIndex == 1
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(1);
+                          },
+                        ),
+                        divider,
+                        ListTile(
+                          title: const Text('Products'),
+                          leading: const Icon(MedusaIcons.tag),
+                          trailing: context.tabsRouter.activeIndex == 2
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(2);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Categories'),
+                          leading: const Icon(MedusaIcons.tag),
+                          trailing: context.tabsRouter.activeIndex == 3
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(3);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Collections'),
+                          leading: const Icon(Icons.collections_bookmark),
+                          trailing: context.tabsRouter.activeIndex == 4
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(4);
+                          },
+                        ),
+                        divider,
+                        ListTile(
+                          title: const Text('Customers'),
+                          leading: Platform.isAndroid
+                              ? const Icon(Icons.person)
+                              : const Icon(MedusaIcons.users),
+                          trailing: context.tabsRouter.activeIndex == 5
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(5);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Customer Groups'),
+                          leading: const Icon(Icons.groups),
+                          trailing: context.tabsRouter.activeIndex == 6
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(6);
+                          },
+                        ),
+                        divider,
+                        ListTile(
+                          title: const Text('Discounts'),
+                          leading: const Icon(Icons.discount_outlined),
+                          trailing: context.tabsRouter.activeIndex == 7
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(7);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Gift Cards'),
+                          leading: const Icon(CupertinoIcons.gift),
+                          trailing: context.tabsRouter.activeIndex == 8
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(8);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Pricing'),
+                          leading: const Icon(MedusaIcons.currency_dollar),
+                          trailing: context.tabsRouter.activeIndex == 9
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(9);
+                          },
+                        ),
+                        divider,
+                        ListTile(
+                          title: const Text('Store Settings'),
+                          leading: const Icon(Icons.settings_applications),
+                          trailing: context.tabsRouter.activeIndex == 10
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(10);
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('App Settings'),
+                          leading: Platform.isIOS
+                              ? const Icon(CupertinoIcons.settings)
+                              : const Icon(Icons.settings),
+                          trailing: context.tabsRouter.activeIndex == 11
+                              ? Icon(Icons.circle,
+                                  color: ColorManager.primary, size: 12)
+                              : null,
+                          onTap: () {
+                            context.closeDrawer();
+                            context.tabsRouter.setActiveIndex(11);
+                          },
+                        ),
+                        divider,
+                        ListTile(
+                          leading: const Icon(Icons.exit_to_app,
+                              color: Colors.redAccent),
+                          title: const Text('Sign out'),
+                          onTap: () async => await signOut(),
+                        ),
+                        divider,
+                        const ListTile(
+                          leading: Icon(Icons.bug_report),
+                          title: Text('Debugging'),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.refresh,
+                              color: Colors.redAccent),
+                          title: const Text('Re-Authenticate'),
+                          onTap: () async {
+                            await showBarModalBottomSheet(
+                                overlayStyle: context
+                                    .theme.appBarTheme.systemOverlayStyle,
+                                context: context,
+                                builder: (context) => const SignInView());
+                          },
+                        ),
+                        Row(
+                          children: [
+                            Hero(
+                              tag: 'medusa',
+                              child: Image.asset(
+                                'assets/images/medusa.png',
+                                scale: 15,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(appName,
+                                    style: smallTextStyle?.copyWith(
+                                        color: manatee)),
+                                Text('Version $version+$code',
+                                    style: smallTextStyle?.copyWith(
+                                        color: manatee)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ]);
+            )),
+      );
     }
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
-          systemNavigationBarColor: context.theme.drawerTheme.backgroundColor),
-      child: Drawer(
-          shape: const RoundedRectangleBorder(),
-          child: SafeArea(
-            bottom: false,
-            child: Column(
+    return NavigationDrawer(
+        key: const PageStorageKey<String>('navigationDrawer'),
+        selectedIndex: context.tabsRouter.activeIndex,
+        onDestinationSelected: (index) async {
+          if (index == 12) {
+            await signOut();
+            return;
+          }
+          if (index == 13) {
+            await await showBarModalBottomSheet(
+                overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                context: context,
+                builder: (context) => const SignInView());
+            return;
+          }
+          context.closeDrawer();
+          context.tabsRouter.setActiveIndex(index);
+        },
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(12, 20, 12, 0),
+            padding: const EdgeInsets.only(left: 16.0),
+            height: 56,
+            decoration: ShapeDecoration(
+              shape: const StadiumBorder(),
+              color: context.theme.colorScheme.surface,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  color: context.theme.cardColor,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 6.0),
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Store',
-                              style: smallTextStyle?.copyWith(color: manatee)),
-                          Text(store.name, style: mediumTextStyle),
-                        ],
-                      ),
-                      IconButton(
-                        padding: const EdgeInsets.all(16.0),
-                        onPressed: () async {
-                          switch (StorageService.instance.loadThemeMode()) {
-                            case ThemeMode.system:
-                              await StorageService.instance
-                                  .saveThemeMode(ThemeMode.light);
-                              break;
-                            case ThemeMode.light:
-                              await StorageService.instance
-                                  .saveThemeMode(ThemeMode.dark);
-                              break;
-                            case ThemeMode.dark:
-                              await StorageService.instance
-                                  .saveThemeMode(ThemeMode.system);
-                              break;
-                          }
-                          themeMode = StorageService.instance.loadThemeMode();
-                          setState(() {});
-                        },
-                        icon: Icon(themeIcon(themeMode)),
-                      ),
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Store',
+                        style: smallTextStyle?.copyWith(color: manatee)),
+                    Text(store.name, style: mediumTextStyle),
+                  ],
                 ),
-                divider,
-                Expanded(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      divider,
-                      ListTile(
-                        title: const Text('Orders'),
-                        trailing: context.tabsRouter.activeIndex == 0
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        leading: const Icon(CupertinoIcons.cart),
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(0);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Draft Orders'),
-                        leading: const Icon(CupertinoIcons.cart_badge_plus),
-                        trailing: context.tabsRouter.activeIndex == 1
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(1);
-                        },
-                      ),
-                      divider,
-                      ListTile(
-                        title: const Text('Products'),
-                        leading: const Icon(MedusaIcons.tag),
-                        trailing: context.tabsRouter.activeIndex == 2
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(2);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Categories'),
-                        leading: const Icon(MedusaIcons.tag),
-                        trailing: context.tabsRouter.activeIndex == 11
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(11);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Collections'),
-                        leading: const Icon(Icons.collections_bookmark),
-                        trailing: context.tabsRouter.activeIndex == 3
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(3);
-                        },
-                      ),
-                      divider,
-                      ListTile(
-                        title: const Text('Customers'),
-                        leading: Platform.isAndroid
-                            ? const Icon(Icons.person)
-                            : const Icon(MedusaIcons.users),
-                        trailing: context.tabsRouter.activeIndex == 4
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(4);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Customer Groups'),
-                        leading: const Icon(Icons.groups),
-                        trailing: context.tabsRouter.activeIndex == 5
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(5);
-                        },
-                      ),
-                      divider,
-                      ListTile(
-                        title: const Text('Discounts'),
-                        leading: const Icon(Icons.discount_outlined),
-                        trailing: context.tabsRouter.activeIndex == 6
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(6);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Gift Cards'),
-                        leading: const Icon(CupertinoIcons.gift),
-                        trailing: context.tabsRouter.activeIndex == 7
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(7);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Pricing'),
-                        leading: const Icon(MedusaIcons.currency_dollar),
-                        trailing: context.tabsRouter.activeIndex == 8
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(8);
-                        },
-                      ),
-                      divider,
-                      ListTile(
-                        title: const Text('Store Settings'),
-                        leading: const Icon(Icons.settings_applications),
-                        trailing: context.tabsRouter.activeIndex == 9
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(9);
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('App Settings'),
-                        leading: Platform.isIOS
-                            ? const Icon(CupertinoIcons.settings)
-                            : const Icon(Icons.settings),
-                        trailing: context.tabsRouter.activeIndex == 10
-                            ? Icon(Icons.circle,
-                                color: ColorManager.primary, size: 12)
-                            : null,
-                        onTap: () {
-                          context.closeDrawer();
-                          context.tabsRouter.setActiveIndex(10);
-                        },
-                      ),
-                      divider,
-                      ListTile(
-                        leading: const Icon(Icons.exit_to_app,
-                            color: Colors.redAccent),
-                        title: const Text('Sign out'),
-                        onTap: () async => await signOut(),
-                      ),
-                      divider,
-                      const ListTile(
-                        leading: Icon(Icons.bug_report),
-                        title: Text('Debugging'),
-                      ),
-                      ListTile(
-                        leading:
-                            const Icon(Icons.refresh, color: Colors.redAccent),
-                        title: const Text('Re-Authenticate'),
-                        onTap: () async {
-                          await showBarModalBottomSheet(
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
-                              context: context,
-                              builder: (context) => const SignInView());
-                        },
-                      ),
-                      Row(
-                        children: [
-                          Hero(
-                            tag: 'medusa',
-                            child: Image.asset(
-                              'assets/images/medusa.png',
-                              scale: 15,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(appName,
-                                  style:
-                                      smallTextStyle?.copyWith(color: manatee)),
-                              Text('Version $version+$code',
-                                  style:
-                                      smallTextStyle?.copyWith(color: manatee)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                IconButton(
+                  padding: const EdgeInsets.all(16.0),
+                  onPressed: () async {
+                    switch (StorageService.instance.loadThemeMode()) {
+                      case ThemeMode.system:
+                        await StorageService.instance
+                            .saveThemeMode(ThemeMode.light);
+                        break;
+                      case ThemeMode.light:
+                        await StorageService.instance
+                            .saveThemeMode(ThemeMode.dark);
+                        break;
+                      case ThemeMode.dark:
+                        await StorageService.instance
+                            .saveThemeMode(ThemeMode.system);
+                        break;
+                    }
+                    themeMode = StorageService.instance.loadThemeMode();
+                    setState(() {});
+                  },
+                  icon: Icon(themeIcon(themeMode)),
                 ),
               ],
             ),
-          )),
-    );
+          ),
+          const Divider(indent: 28, endIndent: 28),
+          ...items,
+          Container(
+            margin: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+            padding: const EdgeInsets.only(left: 16.0),
+            height: 56,
+            decoration: ShapeDecoration(
+              shape: const StadiumBorder(),
+              color: context.theme.colorScheme.surface,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Hero(
+                      tag: 'medusa',
+                      child: Image.asset(
+                        'assets/images/medusa.png',
+                        // height: 32,
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(appName,
+                            style: smallTextStyle?.copyWith(color: manatee)),
+                        Text('Version $version+$code',
+                            style: smallTextStyle?.copyWith(color: manatee)),
+                      ],
+                    ),
+                  ],
+                ),
+                IconButton(
+                  padding: const EdgeInsets.all(16.0),
+                  onPressed: () {
+                    _showAppAboutDialog(context);
+                  },
+                  icon: Icon(Icons.info_outline, color: ColorManager.manatee),
+                ),
+              ],
+            ),
+          ),
+        ]);
   }
 
   IconData themeIcon(ThemeMode themeMode) {
@@ -512,4 +527,39 @@ class DrawerDestination {
 
   final Widget icon;
   final Widget label;
+}
+
+void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
+  final ThemeData theme = Theme.of(context);
+  final TextStyle footerStyle = theme.textTheme.bodySmall!;
+
+  final Size mediaSize = MediaQuery.sizeOf(context);
+  final double width = mediaSize.width;
+  final double height = mediaSize.height;
+
+  showAboutDialog(
+    context: context,
+    applicationName: AppConstants.appName,
+    applicationVersion: StorageService.packageInfo.version,
+    useRootNavigator: useRootNavigator,
+    applicationIcon: Image.asset('assets/images/medusa.png', scale: 12),
+    applicationLegalese: '© 2020 - 2023 \nMohammed Ragheb \nMIT License',
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 24),
+        child: RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                style: footerStyle,
+                text: 'Built with Flutter 3.16.5 stable, '
+                    '\nMedia size (w:${width.toStringAsFixed(0)}, '
+                    'h:${height.toStringAsFixed(0)})',
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
 }

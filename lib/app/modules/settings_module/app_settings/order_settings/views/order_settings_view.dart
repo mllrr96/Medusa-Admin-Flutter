@@ -1,8 +1,8 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
@@ -12,7 +12,6 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/order_c
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 import '../controllers/order_settings_controller.dart';
 
@@ -73,12 +72,8 @@ class OrderSettingsView extends StatelessWidget {
                 SettingsList(
                   shrinkWrap: true,
                   contentPadding: EdgeInsets.zero,
-                  lightTheme: SettingsThemeData(
-                      settingsListBackground: context.theme.scaffoldBackgroundColor,
-                      settingsSectionBackground: context.theme.cardColor),
-                  darkTheme: SettingsThemeData(
-                      settingsListBackground: context.theme.scaffoldBackgroundColor,
-                      settingsSectionBackground: context.theme.cardColor),
+                  lightTheme: context.settingsListLightTheme,
+                  darkTheme: context.settingsListDarkTheme,
                   sections: [
                     SettingsSection(tiles: [
                       SettingsTile.switchTile(
