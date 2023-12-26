@@ -2,28 +2,33 @@ import '../../../../core/utils/enums.dart';
 
 class AppSettings {
   final bool useAndroidPicker;
+  final bool material3;
   final DateFormatOptions dateFormatOptions;
   final TimeFormatOptions timeFormatOptions;
 
   AppSettings({
     this.useAndroidPicker = false,
+    this.material3 = true,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
   });
 
   AppSettings copyWith({
     bool? useAndroidPicker,
+    bool? material3,
     DateFormatOptions? dateFormatOptions,
     TimeFormatOptions? timeFormatOptions,
   }) =>
       AppSettings(
         useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker,
+        material3: material3 ?? this.material3,
         timeFormatOptions: timeFormatOptions ?? this.timeFormatOptions,
         dateFormatOptions: dateFormatOptions ?? this.dateFormatOptions,
       );
 
   Map<String, dynamic> toJson() => {
         'useAndroidPicker': useAndroidPicker,
+        'material3': material3,
         'timeFormatOptions': timeFormatOptions.index,
         'dateFormatOptions': dateFormatOptions.index,
       };
@@ -31,6 +36,7 @@ class AppSettings {
   factory AppSettings.fromJson(Map<String, dynamic>? json) {
     return AppSettings(
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
+        material3: json?['material3'] ?? true,
         timeFormatOptions: TimeFormatOptions.fromInt(json?['timeFormatOptions']),
         dateFormatOptions: DateFormatOptions.fromInt(json?['dateFormatOptions']));
   }

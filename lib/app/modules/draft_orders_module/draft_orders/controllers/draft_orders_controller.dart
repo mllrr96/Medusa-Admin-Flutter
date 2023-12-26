@@ -48,7 +48,7 @@ class DraftOrdersController extends GetxController {
         pagingController.appendPage(success.draftOrders!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = 'Error loading orders';
+      pagingController.error = error;
     });
   }
 

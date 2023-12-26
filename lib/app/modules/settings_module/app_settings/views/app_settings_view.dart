@@ -83,6 +83,15 @@ class AppSettingsView extends StatelessWidget {
                 ),
                 SettingsSection(
                   tiles: <SettingsTile>[
+                    SettingsTile.switchTile(initialValue: appSettings.material3, onToggle: (val)async{
+                      final storageService = StorageService.instance;
+                      final appSettings = StorageService.appSettings;
+                      await storageService.updateAppSettings(
+                          appSettings.copyWith(
+                              material3:
+                              !appSettings.material3));
+                      controller.update();
+                    }, title: const Text('Material 3')),
                     SettingsTile.navigation(
                       title: Text(tr.personalInformationLanguageSettingsTitle),
                       value: Row(

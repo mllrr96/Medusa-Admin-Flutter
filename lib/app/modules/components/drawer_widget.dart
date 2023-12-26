@@ -34,9 +34,199 @@ class _AppDrawerState extends State<AppDrawer> {
     final store = StoreService.store;
     const divider = Divider(height: 0);
     final packageInfo = StorageService.packageInfo;
+    final bool material3 = StorageService.appSettings.material3;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
     String code = packageInfo.buildNumber;
+
+    signOut() async {
+      await showOkCancelAlertDialog(
+              context: context,
+              title: 'Sign out',
+              message: 'Are you sure you want to sign out?',
+              okLabel: 'Sign Out',
+              isDestructiveAction: true)
+          .then(
+        (value) async {
+          if (value == OkCancelResult.ok) {
+            loading();
+            final result = await AuthRepo().signOut();
+            if (result) {
+              await Get.delete(force: true);
+              await StorageService.instance.clearCookie().then(
+                  (value) => context.router.replaceAll([const SplashRoute()]));
+              dismissLoading();
+            } else {
+              EasyLoading.showError('Error signing out');
+            }
+          }
+        },
+      );
+    }
+
+    List<Widget> items = const [
+      NavigationDrawerDestination(
+        icon: Icon(CupertinoIcons.cart),
+        label: Text('Orders'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(CupertinoIcons.cart_badge_plus),
+        label: Text('Draft Orders'),
+      ),
+      Divider(indent: 28, endIndent: 28),
+      NavigationDrawerDestination(
+        icon: Icon(MedusaIcons.tag),
+        label: Text('Products'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(MedusaIcons.tag),
+        label: Text('Categories'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.collections_bookmark),
+        label: Text('Collections'),
+      ),
+      Divider(indent: 28, endIndent: 28),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.person),
+        label: Text('Customers'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.groups),
+        label: Text('Customer Groups'),
+      ),
+      Divider(indent: 28, endIndent: 28),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.discount_outlined),
+        label: Text('Discounts'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(CupertinoIcons.gift),
+        label: Text('Gift Cards'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(MedusaIcons.currency_dollar),
+        label: Text('Pricing'),
+      ),
+      Divider(indent: 28, endIndent: 28),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.settings_applications),
+        label: Text('Store Settings'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(CupertinoIcons.settings),
+        label: Text('App Settings'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.logout, color: Colors.red),
+        label: Text('Sign Out'),
+      ),
+      Divider(indent: 28, endIndent: 28),
+      NavigationDrawerDestination(
+        icon: Icon(Icons.login),
+        label: Text('Re-Authenticate'),
+      ),
+    ];
+
+    if (material3) {
+      return NavigationDrawer(
+          selectedIndex: context.tabsRouter.activeIndex,
+          onDestinationSelected: (index) async {
+            if (index == 12) {
+              await signOut();
+              return;
+            }
+            if (index == 13) {
+              await await showBarModalBottomSheet(
+                  overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                  context: context,
+                  builder: (context) => const SignInView());
+              return;
+            }
+            context.closeDrawer();
+            context.tabsRouter.setActiveIndex(index);
+          },
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(12, 20, 12, 0),
+              padding: const EdgeInsets.only(left: 16.0),
+              height: 56,
+              decoration: ShapeDecoration(
+                shape: const StadiumBorder(),
+                color: context.theme.colorScheme.surface,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Store',
+                          style: smallTextStyle?.copyWith(color: manatee)),
+                      Text(store.name, style: mediumTextStyle),
+                    ],
+                  ),
+                  IconButton(
+                    padding: const EdgeInsets.all(16.0),
+                    onPressed: () async {
+                      switch (StorageService.instance.loadThemeMode()) {
+                        case ThemeMode.system:
+                          await StorageService.instance
+                              .saveThemeMode(ThemeMode.light);
+                          break;
+                        case ThemeMode.light:
+                          await StorageService.instance
+                              .saveThemeMode(ThemeMode.dark);
+                          break;
+                        case ThemeMode.dark:
+                          await StorageService.instance
+                              .saveThemeMode(ThemeMode.system);
+                          break;
+                      }
+                      themeMode = StorageService.instance.loadThemeMode();
+                      setState(() {});
+                    },
+                    icon: Icon(themeIcon(themeMode)),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(indent: 28, endIndent: 28),
+            ...items,
+            Container(
+              margin: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+              padding: const EdgeInsets.only(left: 16.0),
+              height: 56,
+              decoration: ShapeDecoration(
+                shape: const StadiumBorder(),
+                color: context.theme.colorScheme.surface,
+              ),
+              child: Row(
+                children: [
+                  Hero(
+                    tag: 'medusa',
+                    child: Image.asset(
+                      'assets/images/medusa.png',
+                      // height: 32,
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(appName,
+                          style: smallTextStyle?.copyWith(color: manatee)),
+                      Text('Version $version+$code',
+                          style: smallTextStyle?.copyWith(color: manatee)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ]);
+    }
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
           systemNavigationBarColor: context.theme.drawerTheme.backgroundColor),
@@ -64,25 +254,26 @@ class _AppDrawerState extends State<AppDrawer> {
                         ],
                       ),
                       IconButton(
-                        padding:
-                        const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         onPressed: () async {
                           switch (StorageService.instance.loadThemeMode()) {
                             case ThemeMode.system:
-                              await StorageService.instance.saveThemeMode(ThemeMode.light);
+                              await StorageService.instance
+                                  .saveThemeMode(ThemeMode.light);
                               break;
                             case ThemeMode.light:
-                              await StorageService.instance.saveThemeMode(ThemeMode.dark);
+                              await StorageService.instance
+                                  .saveThemeMode(ThemeMode.dark);
                               break;
                             case ThemeMode.dark:
-                              await StorageService.instance.saveThemeMode(ThemeMode.system);
+                              await StorageService.instance
+                                  .saveThemeMode(ThemeMode.system);
                               break;
                           }
                           themeMode = StorageService.instance.loadThemeMode();
                           setState(() {});
                         },
-                        icon: Icon(themeIcon(
-                            themeMode)),
+                        icon: Icon(themeIcon(themeMode)),
                       ),
                     ],
                   ),
@@ -250,32 +441,7 @@ class _AppDrawerState extends State<AppDrawer> {
                         leading: const Icon(Icons.exit_to_app,
                             color: Colors.redAccent),
                         title: const Text('Sign out'),
-                        onTap: () async {
-                          await showOkCancelAlertDialog(
-                                  context: context,
-                                  title: 'Sign out',
-                                  message: 'Are you sure you want to sign out?',
-                                  okLabel: 'Sign Out',
-                                  isDestructiveAction: true)
-                              .then(
-                            (value) async {
-                              if (value == OkCancelResult.ok) {
-                                loading();
-                                final result = await AuthRepo().signOut();
-                                if (result) {
-                                  await Get.delete(force: true);
-                                  await StorageService.instance
-                                      .clearCookie()
-                                      .then((value) => context.router
-                                          .replaceAll([const SplashRoute()]));
-                                  dismissLoading();
-                                } else {
-                                  EasyLoading.showError('Error signing out');
-                                }
-                              }
-                            },
-                          );
-                        },
+                        onTap: () async => await signOut(),
                       ),
                       divider,
                       const ListTile(
@@ -283,47 +449,39 @@ class _AppDrawerState extends State<AppDrawer> {
                         title: Text('Debugging'),
                       ),
                       ListTile(
-                        leading: const Icon(Icons.refresh,
-                            color: Colors.redAccent),
+                        leading:
+                            const Icon(Icons.refresh, color: Colors.redAccent),
                         title: const Text('Re-Authenticate'),
                         onTap: () async {
                           await showBarModalBottomSheet(
-                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                              context: context, builder: (context) => const SignInView());
+                              overlayStyle:
+                                  context.theme.appBarTheme.systemOverlayStyle,
+                              context: context,
+                              builder: (context) => const SignInView());
                         },
                       ),
-
-
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          padding: EdgeInsets.zero,
-                          margin: EdgeInsets.zero,
-                          alignment: Alignment.centerLeft,
-                          child: Row(
+                      Row(
+                        children: [
+                          Hero(
+                            tag: 'medusa',
+                            child: Image.asset(
+                              'assets/images/medusa.png',
+                              scale: 15,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Hero(
-                                tag: 'medusa',
-                                child: Image.asset(
-                                  'assets/images/medusa.png',
-                                  scale: 15,
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(appName,
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                  Text('Version $version+$code',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                ],
-                              ),
+                              Text(appName,
+                                  style:
+                                      smallTextStyle?.copyWith(color: manatee)),
+                              Text('Version $version+$code',
+                                  style:
+                                      smallTextStyle?.copyWith(color: manatee)),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
@@ -332,9 +490,6 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           )),
     );
-
-
-
   }
 
   IconData themeIcon(ThemeMode themeMode) {
@@ -347,4 +502,14 @@ class _AppDrawerState extends State<AppDrawer> {
         return MedusaIcons.moon;
     }
   }
+}
+
+class DrawerDestination {
+  const DrawerDestination({
+    required this.icon,
+    required this.label,
+  });
+
+  final Widget icon;
+  final Widget label;
 }

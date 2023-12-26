@@ -99,24 +99,27 @@ part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
 class AppRouter extends _$AppRouter {
+
+  List<AutoRoute> dashboardChildren =[
+    AutoRoute(page: OrdersRoute.page),
+    AutoRoute(page: DraftOrdersRoute.page),
+    AutoRoute(page: ProductsRoute.page),
+    AutoRoute(page: CategoriesRoute.page),
+    AutoRoute(page: CollectionsRoute.page),
+    AutoRoute(page: CustomersRoute.page),
+    AutoRoute(page: GroupsRoute.page),
+    AutoRoute(page: DiscountsRoute.page),
+    AutoRoute(page: GiftCardsRoute.page),
+    AutoRoute(page: PricingRoute.page),
+    AutoRoute(page: StoreSettingsRoute.page),
+    AutoRoute(page: AppSettingsRoute.page),
+  ];
+
   @override
   List<AutoRoute> get routes {
     return [
       AutoRoute(page: SplashRoute.page, initial: true),
-      AutoRoute(page: DashboardRoute.page, children: [
-        AutoRoute(page: OrdersRoute.page),
-        AutoRoute(page: DraftOrdersRoute.page),
-        AutoRoute(page: ProductsRoute.page),
-        AutoRoute(page: CollectionsRoute.page),
-        AutoRoute(page: CustomersRoute.page),
-        AutoRoute(page: GroupsRoute.page),
-        AutoRoute(page: DiscountsRoute.page),
-        AutoRoute(page: GiftCardsRoute.page),
-        AutoRoute(page: PricingRoute.page),
-        AutoRoute(page: StoreSettingsRoute.page),
-        AutoRoute(page: AppSettingsRoute.page),
-        AutoRoute(page: CategoriesRoute.page),
-      ]),
+      AutoRoute(page: DashboardRoute.page, children: dashboardChildren),
       AutoRoute(page: PickProductsRoute.page),
       AutoRoute(page: SelectCountryRoute.page),
       AutoRoute(page: PickGroupsRoute.page),
@@ -189,13 +192,11 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: ReturnReasonsRoute.page),
       AutoRoute(page: CreateUpdateReturnReasonRoute.page),
 
-
       AutoRoute(page: PersonalInformationRoute.page),
 
       AutoRoute(page: TaxSettingsRoute.page),
       AutoRoute(page: AddUpdateTaxRateRoute.page),
       AutoRoute(page: TaxSettingsSelectRegionRoute.page),
-
 
       AutoRoute(page: CurrenciesRoute.page),
 

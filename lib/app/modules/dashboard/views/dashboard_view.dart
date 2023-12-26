@@ -45,21 +45,22 @@ class _DashboardViewState extends State<DashboardView>
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      routes: const [
-        OrdersRoute(),
-        DraftOrdersRoute(),
-        ProductsRoute(),
-        CollectionsRoute(),
-        CustomersRoute(),
-        GroupsRoute(),
-        DiscountsRoute(),
-        GiftCardsRoute(),
-        PricingRoute(),
-        StoreSettingsRoute(),
-        AppSettingsRoute(),
-        CategoriesRoute(),
-      ],
+    const routes = [
+      OrdersRoute(),
+      DraftOrdersRoute(),
+      ProductsRoute(),
+      CollectionsRoute(),
+      CategoriesRoute(),
+      CustomersRoute(),
+      GroupsRoute(),
+      DiscountsRoute(),
+      GiftCardsRoute(),
+      PricingRoute(),
+      StoreSettingsRoute(),
+      AppSettingsRoute(),
+    ];
+    return  AutoTabsRouter(
+      routes: routes,
       transitionBuilder: (context, child, animation) => child,
       builder: (context, child) => child,
     );
