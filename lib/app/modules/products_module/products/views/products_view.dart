@@ -38,7 +38,7 @@ class ProductsView extends StatelessWidget {
             drawer: const AppDrawer(),
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             endDrawer: Drawer(
-              shape: const RoundedRectangleBorder(),
+              // shape: const RoundedRectangleBorder(),
               child: ProductsFilterView(
                 onResetPressed: () {
                   controller.resetFilter();
@@ -174,7 +174,7 @@ class ProductsView extends StatelessWidget {
                   : const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 slivers: [
-                  SliverAppBar(
+                  SliverAppBar.medium(
                     floating: true,
                     snap: true,
                     title: Obx(

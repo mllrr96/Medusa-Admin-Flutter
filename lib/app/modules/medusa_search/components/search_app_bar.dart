@@ -86,7 +86,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               searchableFields: controller.searchCategory));
                     }
                   },
-                  hintText: getHintText(controller.searchCategory ),
+                  hintText: getHintText(controller.searchCategory),
                   autoFocus: true,
                   onSuffixTap: () {
                     controller.searchCtrl.clear();
@@ -113,17 +113,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
                         style: smallTextStyle?.copyWith(color: manatee),
                       ),
                       SearchChip(
-                        searchableField: controller.searchCategory ,
+                        searchableField: controller.searchCategory,
                         onTap: () async {
                           await showBarModalBottomSheet(
                               context: context,
-                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                              overlayStyle:
+                                  context.theme.appBarTheme.systemOverlayStyle,
                               builder: (context) {
                                 return PickSearchCategory(
                                     selectedSearchCategory:
                                         controller.searchCategory);
                               }).then((result) {
-                                print(result);
                             if (result is SearchCategory) {
                               // Groups can only be sorted to date NOT to name
                               if (result == SearchCategory.groups) {
@@ -208,115 +208,50 @@ class _SearchAppBarState extends State<SearchAppBar> {
                           onTap: () async {
                             switch (searchCategory) {
                               case SearchCategory.products:
-                                loadData() async {
-                                  if (controller.collections == null ||
-                                      controller.tags == null) {
-                                    loading(status: 'Loading data');
+                                await showBarModalBottomSheet<ProductFilter>(
+                                    context: context,
+                                    enableDrag: false,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
+                                    builder: (context) => ProductsFilterView(
+                                          onResetPressed: () {
+                                            controller.productFilter = null;
+                                            controller.update();
+                                            controller.pagingController
+                                                .refresh();
+                                            context.popRoute();
+                                          },
+                                          productFilter:
+                                              controller.productFilter,
+                                        )).then((result) {
+                                  if (result is ProductFilter) {
+                                    controller.productFilter = result;
+                                    controller.update();
+                                    controller.pagingController.refresh();
                                   }
-                                  if (controller.collections == null) {
-                                    await controller.collectionRepo
-                                        .retrieveAll()
-                                        .then((result) {
-                                      result.when((success) {
-                                        controller.collections =
-                                            success.collections;
-                                      }, (error) {});
-                                    });
-                                  }
-                                  if (controller.tags == null) {
-                                    await controller.productTagRepo
-                                        .retrieveProductTags()
-                                        .then((result) {
-                                      result.when((success) {
-                                        controller.tags = success.tags;
-                                      }, (error) {});
-                                    });
-                                  }
-                                  dismissLoading();
-                                }
-
-                                Future<ProductFilter?>
-                                    productFilterView() async =>
-                                        await showBarModalBottomSheet<
-                                                ProductFilter>(
-                                            context: context,
-                                            overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                            builder: (context) =>
-                                                ProductsFilterView(
-                                                  onResetPressed: () {
-                                                    controller.productFilter =
-                                                        null;
-                                                    controller.update();
-                                                    controller.pagingController
-                                                        .refresh();
-                                                    context.popRoute();
-                                                  },
-                                                  productFilter:
-                                                      controller.productFilter,
-                                                ));
-
-                                await loadData().then((value) async {
-                                  productFilterView().then((result) {
-                                    if (result is ProductFilter) {
-                                      controller.productFilter = result;
-                                      controller.update();
-                                      controller.pagingController.refresh();
-                                    }
-                                  });
                                 });
 
                               case SearchCategory.orders:
-                                loadData() async {
-                                  if (controller.regions == null ||
-                                      controller.salesChannels == null) {
-                                    loading(status: 'Loading data');
+                                await showBarModalBottomSheet<OrderFilter>(
+                                    context: context,
+                                    enableDrag: false,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
+                                    builder: (context) => OrdersFilterView(
+                                          orderFilter: controller.orderFilter,
+                                          onResetTap: () {
+                                            controller.orderFilter = null;
+                                            controller.update();
+                                            controller.pagingController
+                                                .refresh();
+                                            context.popRoute();
+                                          },
+                                        )).then((result) {
+                                  if (result is OrderFilter) {
+                                    controller.orderFilter = result;
+                                    controller.update();
+                                    controller.pagingController.refresh();
                                   }
-                                  if (controller.regions == null) {
-                                    await controller.regionsRepo
-                                        .retrieveAll()
-                                        .then((result) {
-                                      result.when((success) {
-                                        controller.regions = success.regions;
-                                      }, (error) {});
-                                    });
-                                  }
-                                  if (controller.salesChannels == null) {
-                                    await controller.salesChannelRepo
-                                        .retrieveAll()
-                                        .then((result) {
-                                      result.when((success) {
-                                        controller.salesChannels =
-                                            success.salesChannels;
-                                      }, (error) {});
-                                    });
-                                  }
-                                  dismissLoading();
-                                }
-
-                                Future<OrderFilter?> orderFilterView() async =>
-                                    await showBarModalBottomSheet<OrderFilter>(
-                                        context: context,
-                                        overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                        builder: (context) => OrdersFilterView(
-                                              orderFilter:
-                                                  controller.orderFilter,
-                                              onResetTap: () {
-                                                controller.orderFilter = null;
-                                                controller.update();
-                                                controller.pagingController
-                                                    .refresh();
-                                                context.popRoute();
-                                              },
-                                            ));
-
-                                await loadData().then((value) async {
-                                  await orderFilterView().then((result) {
-                                    if (result is OrderFilter) {
-                                      controller.orderFilter = result;
-                                      controller.update();
-                                      controller.pagingController.refresh();
-                                    }
-                                  });
                                 });
                               case SearchCategory.draftOrders:
                               case SearchCategory.collections:

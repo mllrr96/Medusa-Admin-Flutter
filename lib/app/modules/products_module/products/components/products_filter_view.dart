@@ -54,7 +54,6 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
       ),
       bottomNavigationBar: Container(
           padding: const EdgeInsets.all(12.0),
-          color: context.theme.appBarTheme.backgroundColor,
           child: controller.obx((state) =>
               FilledButton(
                   onPressed: () {

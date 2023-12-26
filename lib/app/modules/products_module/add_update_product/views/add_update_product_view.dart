@@ -63,7 +63,6 @@ class AddUpdateProductView extends StatelessWidget {
                 title: controller.updateMode
                     ? const Text('Update Product')
                     : const Text('New Product'),
-                centerTitle: true,
                 actions: [
                   AdaptiveButton(
                       onPressed: () async => controller.updateMode

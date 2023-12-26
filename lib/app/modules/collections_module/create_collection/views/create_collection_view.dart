@@ -34,7 +34,6 @@ class CreateCollectionView extends StatelessWidget {
                 title: controller.updateCollection
                     ? Text(tr.collectionModalEditCollection)
                     : Text(tr.collectionModalAddCollection),
-                centerTitle: true,
                 actions: [
                   AdaptiveButton(
                       onPressed: controller.updateCollection

@@ -6,10 +6,10 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
-    Key? key,
+    super.key,
     required this.controller,
     this.onChanged, this.validator,
-  }) : super(key: key);
+  });
   final TextEditingController controller;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;

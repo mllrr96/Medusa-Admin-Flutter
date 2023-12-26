@@ -39,8 +39,13 @@ class MyApp extends StatelessWidget {
         themeMode: themeMode,
         theme: FlexThemeData.light(
           useMaterial3: StorageService.appSettings.material3,
-          // colors: FlexColor.schemes[colorScheme]?.light,
           scheme: colorScheme,
+          subThemesData: const FlexSubThemesData(
+            inputDecoratorBorderType: FlexInputBorderType.outline,
+            inputDecoratorRadius: 4.0,
+            inputDecoratorFocusedHasBorder: true,
+            inputDecoratorUnfocusedHasBorder: true,
+          ),
           blendLevel: 10,
           appBarElevation: 0.5,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
@@ -59,6 +64,12 @@ class MyApp extends StatelessWidget {
           useMaterial3: StorageService.appSettings.material3,
           // colors: FlexColor.schemes[colorScheme]?.light,
           scheme: colorScheme,
+          subThemesData: const FlexSubThemesData(
+            inputDecoratorBorderType: FlexInputBorderType.outline,
+            inputDecoratorRadius: 4.0,
+            inputDecoratorFocusedHasBorder: true,
+            inputDecoratorUnfocusedHasBorder: true,
+          ),
           blendLevel: 12,
           appBarElevation: 1,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
@@ -71,9 +82,7 @@ class MyApp extends StatelessWidget {
             bodyMedium: AppTheme.bodyMedium.dark(),
             bodySmall: AppTheme.bodySmall.dark(),
           ),
-          typography: Typography.material2021(
-            platform: defaultTargetPlatform
-          ),
+          typography: Typography.material2021(platform: defaultTargetPlatform),
         ),
         builder: EasyLoading.init(),
         routerConfig: _appRouter.config(),

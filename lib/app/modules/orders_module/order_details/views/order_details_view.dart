@@ -41,7 +41,6 @@ class OrderDetailsView extends StatelessWidget {
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
             title: Text(tr.orderTableOrder),
-            centerTitle: true,
             actions: [
               if (controller.state?.status != OrderStatus.canceled)
                 AdaptiveIcon(

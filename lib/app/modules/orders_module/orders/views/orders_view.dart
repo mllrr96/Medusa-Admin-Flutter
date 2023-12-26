@@ -87,7 +87,15 @@ class OrdersView extends StatelessWidget {
                 controller: controller.scrollController,
                 slivers: [
                   SliverAppBar(
-                    title: const Text('Orders'),
+                    title: Obx(
+                          () =>
+                          Text(
+                              controller.ordersCount.value != 0
+                                  ? 'Orders (${controller.ordersCount
+                                  .value})'
+                                  : 'Orders',
+                              overflow: TextOverflow.ellipsis),
+                    ),
                     floating: true,
                     snap: true,
                     actions: [

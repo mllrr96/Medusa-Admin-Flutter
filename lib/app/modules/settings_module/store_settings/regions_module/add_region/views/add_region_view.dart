@@ -50,7 +50,6 @@ class AddRegionView extends StatelessWidget {
               title: controller.updateMode
                   ? const Text('Update Region')
                   : const Text('Add Region'),
-              centerTitle: true,
               actions: [
                 AdaptiveButton(
                     onPressed: () async => controller.updateMode
