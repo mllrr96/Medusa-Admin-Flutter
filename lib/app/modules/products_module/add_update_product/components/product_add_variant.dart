@@ -9,16 +9,15 @@ import 'package:intl/intl.dart' as intl;
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/req/user_post_product_req.dart';
 import '../../../components/countries/view/country_view.dart';
 import '../../../components/currency_formatter.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 
@@ -73,7 +72,7 @@ class ProductAddVariantView extends StatelessWidget {
                       ? 'Update Attributes'
                       : 'Create Variant'),
                   actions: [
-                    AdaptiveButton(
+                    TextButton(
                         onPressed: () async => controller.updateMode
                             ? await controller.updateVariant(context)
                             : await controller.save(context),
@@ -91,110 +90,111 @@ class ProductAddVariantView extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              CustomExpansionTile(
+                              HeaderCard(
                                 initiallyExpanded: true,
                                 controller: controller.generalTileCtrl,
-                                required: true,
-                                label: 'General',
-                                children: [
-                                  Text(
-                                      'Configure the general information for this variant.',
-                                      style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
-                                  space,
-                                  LabeledTextField(
-                                    label: 'Custom title',
-                                    controller: controller.customTitleCtrl,
-                                    hintText: 'Green / XL',
-                                  ),
-                                  LabeledTextField(
-                                    label: 'Material',
-                                    controller: controller.materialCtrl,
-                                    hintText: '80% wool, 20% cotton',
-                                  ),
-                                  const Divider(),
-                                  Row(
-                                    children: [
-                                      Text('Options', style: largeTextStyle),
-                                    ],
-                                  ),
-                                  space,
-                                  if (options != null && !controller.updateMode)
-                                    ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: options.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        final currentOption = options[index];
-                                        return Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(currentOption.title!,
-                                                    style: mediumTextStyle),
-                                                Text(' *',
-                                                    style: mediumTextStyle
-                                                        ?.copyWith(
-                                                            color: Colors.red)),
-                                              ],
-                                            ),
-                                            const Gap(6.0),
-                                            if (currentOption.values != null)
-                                              DropdownButtonFormField(
-                                                style: context.bodyMedium,
-                                                validator: (val) {
-                                                  if (val == null) {
-                                                    return 'Field is required';
-                                                  }
-                                                  return null;
-                                                },
-                                                items: currentOption.values!
-                                                    .map((e) =>
-                                                        DropdownMenuItem(
-                                                            value: e,
-                                                            child:
-                                                                Text(e.value!)))
-                                                    .toList(),
-                                                hint: const Text(
-                                                    'Choose an option'),
-                                                onChanged: (value) {
-                                                  if (value != null) {
-                                                    controller
-                                                            .selectedOptionsValue[
-                                                        index] = value;
-                                                  }
-                                                },
+                                title: const Text('General'),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        'Configure the general information for this variant.',
+                                        style: smallTextStyle?.copyWith(
+                                            color: lightWhite)),
+                                    space,
+                                    LabeledTextField(
+                                      label: 'Custom title',
+                                      controller: controller.customTitleCtrl,
+                                      hintText: 'Green / XL',
+                                    ),
+                                    LabeledTextField(
+                                      label: 'Material',
+                                      controller: controller.materialCtrl,
+                                      hintText: '80% wool, 20% cotton',
+                                    ),
+                                    const Divider(),
+                                    Row(
+                                      children: [
+                                        Text('Options', style: largeTextStyle),
+                                      ],
+                                    ),
+                                    space,
+                                    if (options != null && !controller.updateMode)
+                                      ListView.separated(
+                                        shrinkWrap: true,
+                                        itemCount: options.length,
+                                        physics:
+                                        const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          final currentOption = options[index];
+                                          return Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(currentOption.title!,
+                                                      style: mediumTextStyle),
+                                                  Text(' *',
+                                                      style: mediumTextStyle
+                                                          ?.copyWith(
+                                                          color: Colors.red)),
+                                                ],
                                               ),
-                                          ],
-                                        );
-                                      },
-                                      separatorBuilder: (_, __) => space,
-                                    ),
-                                  if (options != null && controller.updateMode)
-                                    ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: options.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        final currentOption = options[index];
-                                        final textCtrl =
-                                            controller.productOptionCtrlMap[
-                                                currentOption];
-                                        return LabeledTextField(
-                                          label: currentOption.title ?? '',
-                                          required: true,
-                                          controller: textCtrl,
-                                        );
-                                      },
-                                      separatorBuilder: (_, __) => space,
-                                    ),
-                                  space,
-                                ],
+                                              const Gap(6.0),
+                                              if (currentOption.values != null)
+                                                DropdownButtonFormField(
+                                                  style: context.bodyMedium,
+                                                  validator: (val) {
+                                                    if (val == null) {
+                                                      return 'Field is required';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  items: currentOption.values!
+                                                      .map((e) =>
+                                                      DropdownMenuItem(
+                                                          value: e,
+                                                          child:
+                                                          Text(e.value!)))
+                                                      .toList(),
+                                                  hint: const Text(
+                                                      'Choose an option'),
+                                                  onChanged: (value) {
+                                                    if (value != null) {
+                                                      controller
+                                                          .selectedOptionsValue[
+                                                      index] = value;
+                                                    }
+                                                  },
+                                                ),
+                                            ],
+                                          );
+                                        },
+                                        separatorBuilder: (_, __) => space,
+                                      ),
+                                    if (options != null && controller.updateMode)
+                                      ListView.separated(
+                                        shrinkWrap: true,
+                                        itemCount: options.length,
+                                        physics:
+                                        const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          final currentOption = options[index];
+                                          final textCtrl =
+                                          controller.productOptionCtrlMap[
+                                          currentOption];
+                                          return LabeledTextField(
+                                            label: currentOption.title ?? '',
+                                            required: true,
+                                            controller: textCtrl,
+                                          );
+                                        },
+                                        separatorBuilder: (_, __) => space,
+                                      ),
+                                    space,
+                                  ],
+                                ),
                               ),
                               space,
-                              CustomExpansionTile(
+                              HeaderCard(
                                 key: controller.pricingKey,
                                 onExpansionChanged: (expanded) async {
                                   if (expanded) {
@@ -202,127 +202,129 @@ class ProductAddVariantView extends StatelessWidget {
                                         .ensureVisibility();
                                   }
                                 },
-                                label: 'Pricing',
-                                childrenPadding: const EdgeInsets.symmetric(
+                                title: const Text('Pricing'),
+                                childPadding: const EdgeInsets.symmetric(
                                     horizontal: 10.0, vertical: 4.0),
-                                children: [
-                                  Text(
-                                      'Configure the pricing for this variant.',
-                                      style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
-                                  space,
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: controller.updateMode
-                                          ? controller.variant!.prices!.length
-                                          : controller.currencies.length,
-                                      itemBuilder: (context, index) {
-                                        final currency = controller
-                                            .currencyCtrlMap.keys
-                                            .toList()[index];
-                                        final currencyCtrl = controller
-                                            .currencyCtrlMap[currency];
-                                        return Column(
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(12.0)),
-                                                color: Theme.of(context)
-                                                    .scaffoldBackgroundColor,
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 12.0,
-                                                      vertical: 8.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Flexible(
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                            currency.code
-                                                                    ?.toUpperCase() ??
-                                                                '',
-                                                            style:
-                                                                mediumTextStyle),
-                                                        space,
-                                                        Expanded(
-                                                            child: Text(
-                                                                currency.name ??
-                                                                    '',
-                                                                style: mediumTextStyle
-                                                                    ?.copyWith(
-                                                                        color:
-                                                                            lightWhite)))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Flexible(
-                                                    child: TextField(
-                                                      controller: currencyCtrl,
-                                                      textDirection:
-                                                          TextDirection.rtl,
-                                                      keyboardType:
-                                                          const TextInputType
-                                                              .numberWithOptions(
-                                                              decimal: true),
-                                                      inputFormatters: [
-                                                        CurrencyTextInputFormatter(
-                                                            name: currency.code)
-                                                      ],
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintTextDirection:
-                                                            TextDirection.rtl,
-                                                        prefixIcon: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 10),
-                                                            child: Text(
-                                                                currency.symbolNative ??
-                                                                    '',
-                                                                style: mediumTextStyle
-                                                                    ?.copyWith(
-                                                                        color:
-                                                                            lightWhite))),
-                                                        prefixIconConstraints:
-                                                            const BoxConstraints(
-                                                                minWidth: 0,
-                                                                minHeight: 0),
-                                                        hintText: '-',
-                                                        isDense: true,
-                                                        border:
-                                                            const OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          4.0)),
-                                                        ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        'Configure the pricing for this variant.',
+                                        style: smallTextStyle?.copyWith(
+                                            color: lightWhite)),
+                                    space,
+                                    ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                        const NeverScrollableScrollPhysics(),
+                                        itemCount: controller.updateMode
+                                            ? controller.variant!.prices!.length
+                                            : controller.currencies.length,
+                                        itemBuilder: (context, index) {
+                                          final currency = controller
+                                              .currencyCtrlMap.keys
+                                              .toList()[index];
+                                          final currencyCtrl = controller
+                                              .currencyCtrlMap[currency];
+                                          return Column(
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(12.0)),
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor,
+                                                ),
+                                                padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 12.0,
+                                                    vertical: 8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                              currency.code
+                                                                  ?.toUpperCase() ??
+                                                                  '',
+                                                              style:
+                                                              mediumTextStyle),
+                                                          space,
+                                                          Expanded(
+                                                              child: Text(
+                                                                  currency.name ??
+                                                                      '',
+                                                                  style: mediumTextStyle
+                                                                      ?.copyWith(
+                                                                      color:
+                                                                      lightWhite)))
+                                                        ],
                                                       ),
-                                                      style: smallTextStyle,
                                                     ),
-                                                  )
-                                                ],
+                                                    Flexible(
+                                                      child: TextField(
+                                                        controller: currencyCtrl,
+                                                        textDirection:
+                                                        TextDirection.rtl,
+                                                        keyboardType:
+                                                        const TextInputType
+                                                            .numberWithOptions(
+                                                            decimal: true),
+                                                        inputFormatters: [
+                                                          CurrencyTextInputFormatter(
+                                                              name: currency.code)
+                                                        ],
+                                                        decoration:
+                                                        InputDecoration(
+                                                          hintTextDirection:
+                                                          TextDirection.rtl,
+                                                          prefixIcon: Padding(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 10),
+                                                              child: Text(
+                                                                  currency.symbolNative ??
+                                                                      '',
+                                                                  style: mediumTextStyle
+                                                                      ?.copyWith(
+                                                                      color:
+                                                                      lightWhite))),
+                                                          prefixIconConstraints:
+                                                          const BoxConstraints(
+                                                              minWidth: 0,
+                                                              minHeight: 0),
+                                                          hintText: '-',
+                                                          isDense: true,
+                                                          border:
+                                                          const OutlineInputBorder(
+                                                            borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius
+                                                                    .circular(
+                                                                    4.0)),
+                                                          ),
+                                                        ),
+                                                        style: smallTextStyle,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            space,
-                                          ],
-                                        );
-                                      }),
-                                ],
+                                              space,
+                                            ],
+                                          );
+                                        }),
+                                  ],
+                                ),
                               ),
                               space,
-                              CustomExpansionTile(
-                                label: 'Stock & Inventory',
+                              HeaderCard(
+                                title: const Text('Stock & Inventory'),
                                 key: controller.stockKey,
                                 onExpansionChanged: (expanded) async {
                                   if (expanded) {
@@ -330,80 +332,82 @@ class ProductAddVariantView extends StatelessWidget {
                                         .ensureVisibility();
                                   }
                                 },
-                                children: [
-                                  Text(
-                                      'Configure the inventory and stock for this variant.',
-                                      style: smallTextStyle?.copyWith(
-                                          color: lightWhite)),
-                                  space,
-                                  Obx(() {
-                                    return SwitchListTile.adaptive(
-                                      contentPadding: EdgeInsets.zero,
-                                      title: Text('Manage inventory',
-                                          style: largeTextStyle),
-                                      subtitle: Text(
-                                          'When checked Medusa will regulate the inventory when orders and returns are made.',
-                                          style: smallTextStyle?.copyWith(
-                                              color: lightWhite)),
-                                      value: controller.manageInventory.value,
-                                      onChanged: (val) => controller
-                                          .manageInventory.value = val,
-                                      activeColor: GetPlatform.isIOS
-                                          ? ColorManager.primary
-                                          : null,
-                                    );
-                                  }),
-                                  space,
-                                  Obx(() {
-                                    return SwitchListTile.adaptive(
-                                      contentPadding: EdgeInsets.zero,
-                                      title: Text('Allow backorders',
-                                          style: largeTextStyle),
-                                      subtitle: Text(
-                                          'When checked the product will be available for purchase despite the product being sold out',
-                                          style: smallTextStyle?.copyWith(
-                                              color: lightWhite)),
-                                      value: controller.allowBackorder.value,
-                                      onChanged: (val) =>
-                                          controller.allowBackorder.value = val,
-                                      activeColor: GetPlatform.isIOS
-                                          ? ColorManager.primary
-                                          : null,
-                                    );
-                                  }),
-                                  space,
-                                  LabeledTextField(
-                                    label: 'Stock keeping unit (SKU)',
-                                    controller: TextEditingController(),
-                                    hintText: 'SUN-G, JK1234...',
-                                  ),
-                                  LabeledNumericTextField(
-                                    controller: controller.quantityCtrl,
-                                    label: 'Quantity in stock',
-                                  ),
-                                  space,
-                                  LabeledTextField(
-                                    label: 'EAN (Barcode)',
-                                    controller: controller.eanCtrl,
-                                    hintText: '123456789123...',
-                                  ),
-                                  LabeledTextField(
-                                    label: 'UPC (Barcode)',
-                                    controller: controller.upcCtrl,
-                                    hintText: '023456789104',
-                                  ),
-                                  LabeledTextField(
-                                    label: 'Barcode',
-                                    controller: controller.barcodeCtrl,
-                                    hintText: '123456789104...',
-                                  ),
-                                ],
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        'Configure the inventory and stock for this variant.',
+                                        style: smallTextStyle?.copyWith(
+                                            color: lightWhite)),
+                                    space,
+                                    Obx(() {
+                                      return SwitchListTile.adaptive(
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Text('Manage inventory',
+                                            style: largeTextStyle),
+                                        subtitle: Text(
+                                            'When checked Medusa will regulate the inventory when orders and returns are made.',
+                                            style: smallTextStyle?.copyWith(
+                                                color: lightWhite)),
+                                        value: controller.manageInventory.value,
+                                        onChanged: (val) => controller
+                                            .manageInventory.value = val,
+                                        activeColor: GetPlatform.isIOS
+                                            ? ColorManager.primary
+                                            : null,
+                                      );
+                                    }),
+                                    space,
+                                    Obx(() {
+                                      return SwitchListTile.adaptive(
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Text('Allow backorders',
+                                            style: largeTextStyle),
+                                        subtitle: Text(
+                                            'When checked the product will be available for purchase despite the product being sold out',
+                                            style: smallTextStyle?.copyWith(
+                                                color: lightWhite)),
+                                        value: controller.allowBackorder.value,
+                                        onChanged: (val) =>
+                                        controller.allowBackorder.value = val,
+                                        activeColor: GetPlatform.isIOS
+                                            ? ColorManager.primary
+                                            : null,
+                                      );
+                                    }),
+                                    space,
+                                    LabeledTextField(
+                                      label: 'Stock keeping unit (SKU)',
+                                      controller: TextEditingController(),
+                                      hintText: 'SUN-G, JK1234...',
+                                    ),
+                                    LabeledNumericTextField(
+                                      controller: controller.quantityCtrl,
+                                      label: 'Quantity in stock',
+                                    ),
+                                    space,
+                                    LabeledTextField(
+                                      label: 'EAN (Barcode)',
+                                      controller: controller.eanCtrl,
+                                      hintText: '123456789123...',
+                                    ),
+                                    LabeledTextField(
+                                      label: 'UPC (Barcode)',
+                                      controller: controller.upcCtrl,
+                                      hintText: '023456789104',
+                                    ),
+                                    LabeledTextField(
+                                      label: 'Barcode',
+                                      controller: controller.barcodeCtrl,
+                                      hintText: '123456789104...',
+                                    ),
+                                  ],
+                                ),
                               ),
                               space,
                             ],
                           ),
-                          CustomExpansionTile(
-                            label: 'Shipping',
+                          HeaderCard(
+                            title: const Text('Shipping'),
                             key: controller.shippingKey,
                             onExpansionChanged: (expanded) async {
                               if (expanded) {
@@ -411,125 +415,127 @@ class ProductAddVariantView extends StatelessWidget {
                                     .ensureVisibility();
                               }
                             },
-                            children: [
-                              Text(
-                                  'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
-                                  style: smallTextStyle?.copyWith(
-                                      color: lightWhite)),
-                              space,
-                              Row(
-                                children: [
-                                  Text('Dimensions', style: largeTextStyle),
-                                ],
-                              ),
-                              space,
-                              Text(
-                                  'Configure to calculate the most accurate shipping rates.',
-                                  style: smallTextStyle?.copyWith(
-                                      color: lightWhite)),
-                              space,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: LabeledNumericTextField(
-                                        controller: controller.widthCtrl,
-                                        label: 'Width'),
-                                  ),
-                                  space,
-                                  Flexible(
-                                    child: LabeledNumericTextField(
-                                        controller: controller.lengthCtrl,
-                                        label: 'Length'),
-                                  ),
-                                ],
-                              ),
-                              space,
-                              const Divider(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: LabeledNumericTextField(
-                                        controller: controller.heightCtrl,
-                                        label: 'Height'),
-                                  ),
-                                  space,
-                                  Flexible(
-                                    child: LabeledNumericTextField(
-                                        controller: controller.weightCtrl,
-                                        label: 'Weight'),
-                                  ),
-                                ],
-                              ),
-                              space,
-                              space,
-                              Row(
-                                children: [
-                                  Text('Customs', style: largeTextStyle),
-                                ],
-                              ),
-                              space,
-                              Text(
-                                  'Configure if you are shipping internationally.',
-                                  style: smallTextStyle?.copyWith(
-                                      color: lightWhite)),
-                              space,
-                              LabeledTextField(
-                                label: 'MID Code',
-                                controller: controller.midCtrl,
-                                hintText: 'XDSKLAD9999...',
-                              ),
-                              LabeledTextField(
-                                label: 'HS Code',
-                                controller: controller.hsCtrl,
-                                hintText: 'BDJSK39277W...',
-                              ),
-                              LabeledTextField(
-                                readOnly: true,
-                                onTap: () async {
-                                  final result = await showBarModalBottomSheet(
-                                      context: context,
-                                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                      builder: (context) =>
-                                          const SelectCountryView());
-                                  if (result is List<Country>) {
-                                    controller.countryCtrl.text =
-                                        result.first.displayName!;
-                                    controller.update([3]);
-                                  }
-                                },
-                                label: 'Country of origin',
-                                controller: controller.countryCtrl,
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  hintText: 'Choose a country',
-                                  suffixIcon: controller
-                                          .countryCtrl.text.isEmpty
-                                      ? const Icon(
-                                          Icons.keyboard_arrow_down_outlined)
-                                      : IconButton(
-                                          onPressed: () {
-                                            controller.countryCtrl.clear();
-                                            controller.update([3]);
-                                          },
-                                          icon: const Icon(CupertinoIcons
-                                              .clear_circled_solid)),
-                                  filled: true,
-                                  fillColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  border: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                    'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
+                                    style: smallTextStyle?.copyWith(
+                                        color: lightWhite)),
+                                space,
+                                Row(
+                                  children: [
+                                    Text('Dimensions', style: largeTextStyle),
+                                  ],
+                                ),
+                                space,
+                                Text(
+                                    'Configure to calculate the most accurate shipping rates.',
+                                    style: smallTextStyle?.copyWith(
+                                        color: lightWhite)),
+                                space,
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: LabeledNumericTextField(
+                                          controller: controller.widthCtrl,
+                                          label: 'Width'),
+                                    ),
+                                    space,
+                                    Flexible(
+                                      child: LabeledNumericTextField(
+                                          controller: controller.lengthCtrl,
+                                          label: 'Length'),
+                                    ),
+                                  ],
+                                ),
+                                space,
+                                const Divider(),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: LabeledNumericTextField(
+                                          controller: controller.heightCtrl,
+                                          label: 'Height'),
+                                    ),
+                                    space,
+                                    Flexible(
+                                      child: LabeledNumericTextField(
+                                          controller: controller.weightCtrl,
+                                          label: 'Weight'),
+                                    ),
+                                  ],
+                                ),
+                                space,
+                                space,
+                                Row(
+                                  children: [
+                                    Text('Customs', style: largeTextStyle),
+                                  ],
+                                ),
+                                space,
+                                Text(
+                                    'Configure if you are shipping internationally.',
+                                    style: smallTextStyle?.copyWith(
+                                        color: lightWhite)),
+                                space,
+                                LabeledTextField(
+                                  label: 'MID Code',
+                                  controller: controller.midCtrl,
+                                  hintText: 'XDSKLAD9999...',
+                                ),
+                                LabeledTextField(
+                                  label: 'HS Code',
+                                  controller: controller.hsCtrl,
+                                  hintText: 'BDJSK39277W...',
+                                ),
+                                LabeledTextField(
+                                  readOnly: true,
+                                  onTap: () async {
+                                    final result = await showBarModalBottomSheet(
+                                        context: context,
+                                        overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                        builder: (context) =>
+                                        const SelectCountryView());
+                                    if (result is List<Country>) {
+                                      controller.countryCtrl.text =
+                                      result.first.displayName!;
+                                      controller.update([3]);
+                                    }
+                                  },
+                                  label: 'Country of origin',
+                                  controller: controller.countryCtrl,
+                                  decoration: InputDecoration(
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
+                                    hintText: 'Choose a country',
+                                    suffixIcon: controller
+                                        .countryCtrl.text.isEmpty
+                                        ? const Icon(
+                                        Icons.keyboard_arrow_down_outlined)
+                                        : IconButton(
+                                        onPressed: () {
+                                          controller.countryCtrl.clear();
+                                          controller.update([3]);
+                                        },
+                                        icon: const Icon(CupertinoIcons
+                                            .clear_circled_solid)),
+                                    filled: true,
+                                    fillColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                    border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(4.0),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -575,7 +581,7 @@ class ProductAddVariantController extends GetxController {
   final stockKey = GlobalKey();
   final shippingKey = GlobalKey();
 
-  final generalTileCtrl = ExpansionTileController();
+  final generalTileCtrl = HeaderCardController();
 
   Map<int, ProductOptionValue> selectedOptionsValue = {};
   RxBool manageInventory = true.obs;

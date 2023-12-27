@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../components/custom_expansion_tile.dart';
 
 import 'order_overview.dart';
 
@@ -32,27 +32,27 @@ class OrderDetailsLoadingPage extends StatelessWidget {
               children: [
                 OrderOverview(order: order),
                 space,
-                const CustomExpansionTile(
+                const HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Summery'),
                 ),
                 space,
-                const CustomExpansionTile(
+                const HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Payment'),
                 ),
                 space,
-                const CustomExpansionTile(
+                const HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Fulfillment'),
                 ),
                 space,
-                const CustomExpansionTile(
+                const HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Customer'),
                 ),
                 space,
-                const CustomExpansionTile(
+                const HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Timeline'),
                 ),

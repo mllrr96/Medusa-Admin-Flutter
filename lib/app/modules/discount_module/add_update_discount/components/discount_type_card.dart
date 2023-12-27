@@ -6,8 +6,11 @@ import '../../../../data/models/store/discount_rule.dart';
 
 class DiscountTypeCard extends StatelessWidget {
   const DiscountTypeCard(
-      {Key? key, required this.discountType, this.onTap, required this.groupValue, this.disabled = false})
-      : super(key: key);
+      {super.key,
+      required this.discountType,
+      this.onTap,
+      required this.groupValue,
+      this.disabled = false});
   final DiscountRuleType discountType;
   final DiscountRuleType? groupValue;
   final void Function(DiscountRuleType discountRuleType)? onTap;
@@ -17,7 +20,20 @@ class DiscountTypeCard extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
+    final ThemeData theme = Theme.of(context);
+    final bool useMaterial3 = theme.useMaterial3;
+    final Color background = theme.scaffoldBackgroundColor;
 
+    // Compute a header color with fixed primary blend from the card color,
+    // if one was not provided
+    final selected = discountType == groupValue;
+    double borderRadius = useMaterial3 ? 12 : 4;
+    final ShapeBorder shapeBorder = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+      side: selected
+          ? BorderSide(color: theme.colorScheme.primaryContainer, width: 1)
+          : BorderSide.none,
+    );
     String title = '';
     String description = '';
     switch (discountType) {
@@ -35,57 +51,55 @@ class DiscountTypeCard extends StatelessWidget {
         break;
     }
 
-    final borderColor = groupValue == discountType ? ColorManager.primary : Colors.transparent;
-    final selected = discountType == groupValue;
-    return InkWell(
-      onTap: () {
-        if (onTap != null && !disabled) {
-          onTap!(discountType);
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        decoration: BoxDecoration(
-            borderRadius:
-                selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
-            color: disabled ? manatee.withOpacity(0.3) : Theme.of(context).scaffoldBackgroundColor,
-            border: Border.all(
-              color: borderColor,
-            )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Row(
-                children: [
-                  Radio<DiscountRuleType>(
-                      value: discountType,
-                      groupValue: groupValue,
-                      onChanged: (val) {
-                        if (val != null) {
-                          if (onTap != null && !disabled) {
-                            onTap!(discountType);
+    return Card(
+      shape: shapeBorder,
+      elevation: 0,
+      color: background,
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () {
+          if (onTap != null && !disabled) {
+            onTap!(discountType);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Row(
+                  children: [
+                    Radio<DiscountRuleType>(
+                        value: discountType,
+                        groupValue: groupValue,
+                        onChanged: (val) {
+                          if (val != null) {
+                            if (onTap != null && !disabled) {
+                              onTap!(discountType);
+                            }
                           }
-                        }
-                      }),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(title, style: mediumTextStyle?.copyWith(color: disabled ? manatee : null)),
-                        Text(
-                          description,
-                          style: smallTextStyle?.copyWith(color: manatee),
-                        ),
-                      ],
+                        }),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(title,
+                              style: mediumTextStyle?.copyWith(
+                                  color: disabled ? manatee : null)),
+                          Text(
+                            description,
+                            style: smallTextStyle?.copyWith(color: manatee),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (disabled) const Icon(Icons.lock)
-          ],
+              if (disabled) const Icon(Icons.lock)
+            ],
+          ),
         ),
       ),
     );

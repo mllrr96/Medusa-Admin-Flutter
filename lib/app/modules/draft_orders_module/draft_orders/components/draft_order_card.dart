@@ -19,24 +19,7 @@ class DraftOrderCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    String? getName() {
-      if (draftOrder.order == null) return null;
-
-      final order = draftOrder.order!;
-      String? name;
-
-      if (order.billingAddress?.firstName != null && order.billingAddress?.lastName != null) {
-        name = '${order.billingAddress!.firstName ?? ''} ${order.billingAddress!.lastName ?? ''}';
-      }
-      if (order.shippingAddress?.firstName != null && order.shippingAddress?.lastName != null) {
-        name = '${order.shippingAddress!.firstName ?? ''} ${order.shippingAddress!.lastName ?? ''}';
-      }
-      if (order.customer?.firstName != null && order.customer?.lastName != null) {
-        name = '${order.customer!.firstName ?? ''} ${order.customer!.lastName ?? ''}';
-      }
-      return name;
-    }
-
+    final customerName = draftOrder.order?.customerName;
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ?? () => context.pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id!)),
@@ -77,11 +60,11 @@ class DraftOrderCard extends StatelessWidget {
                       CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(draftOrder.cart?.email),
                         radius: 16,
-                        child: Text(getName()?[0].capitalize ?? draftOrder.cart?.email?[0].capitalize ?? '', style: largeTextStyle?.copyWith(color: Colors.white)),
+                        child: Text(customerName?[0].capitalize ?? draftOrder.cart?.email?[0].capitalize ?? '', style: largeTextStyle?.copyWith(color: Colors.white)),
                       ),
                       const SizedBox(width: 6.0),
-                      if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
-                      if (getName() == null)
+                      if (customerName!= null) Flexible(child: Text(customerName, style: smallTextStyle)),
+                      if (customerName == null)
                         Flexible(child: Text(draftOrder.cart?.email ?? '', style: mediumTextStyle)),
                     ],
                   ),

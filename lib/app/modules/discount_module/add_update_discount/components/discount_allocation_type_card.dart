@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
 
 class DiscountAllocationTypeDiscount extends StatelessWidget {
-  const DiscountAllocationTypeDiscount({Key? key, required this.allocationType, required this.groupValue, this.onTap})
-      : super(key: key);
+  const DiscountAllocationTypeDiscount({super.key, required this.allocationType, required this.groupValue, this.onTap});
   final AllocationType allocationType;
   final AllocationType? groupValue;
   final void Function(AllocationType allocationType)? onTap;
@@ -16,7 +16,7 @@ class DiscountAllocationTypeDiscount extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-
+    final theme = context.theme;
     String title = '';
     String description = '';
     switch (allocationType) {
@@ -30,43 +30,50 @@ class DiscountAllocationTypeDiscount extends StatelessWidget {
         break;
     }
     final selected = allocationType == groupValue;
-    return InkWell(
-      onTap: () {
-        if (onTap != null) {
-          onTap!(allocationType);
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        decoration: BoxDecoration(
-            borderRadius:
-                selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
-            color: Theme.of(context).scaffoldBackgroundColor,
-            border: Border.all(color: groupValue == allocationType ? ColorManager.primary : Colors.transparent)),
-        child: Row(
-          children: [
-            Radio<AllocationType>(
-                value: allocationType,
-                groupValue: groupValue,
-                onChanged: (val) {
-                  if (val != null) {
-                    if (onTap != null) {
-                      onTap!(allocationType);
+    double borderRadius = context.theme.useMaterial3 ? 12 : 4;
+    final ShapeBorder shapeBorder = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+      side: selected
+          ? BorderSide(color: theme.colorScheme.primaryContainer, width: 1)
+          : BorderSide.none,
+    );
+    return Card(
+      shape: shapeBorder,
+      elevation: 0,
+      color: theme.scaffoldBackgroundColor,
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () {
+          if (onTap != null) {
+            onTap!(allocationType);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Radio<AllocationType>(
+                  value: allocationType,
+                  groupValue: groupValue,
+                  onChanged: (val) {
+                    if (val != null) {
+                      if (onTap != null) {
+                        onTap!(allocationType);
+                      }
                     }
-                  }
-                }),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: mediumTextStyle),
-                Text(
-                  description,
-                  style: smallTextStyle?.copyWith(color: manatee),
-                ),
-              ],
-            ),
-          ],
+                  }),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: mediumTextStyle),
+                  Text(
+                    description,
+                    style: smallTextStyle?.copyWith(color: manatee),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

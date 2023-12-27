@@ -21,16 +21,9 @@ class GroupDetailsView extends StatelessWidget {
   final CustomerGroup customerGroup;
   @override
   Widget build(BuildContext context) {
-    String? getName(Customer customer) {
-      String? name;
-      if (customer.firstName != null && customer.lastName != null) {
-        name = '${customer.firstName ?? ''} ${customer.lastName ?? ''}';
-      }
-      return name;
-    }
-
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
+
 
     return GetBuilder<GroupDetailsController>(
         init: GroupDetailsController(customerGroupRepo: CustomerGroupRepo(), groupCustomer: customerGroup),
@@ -96,7 +89,7 @@ class GroupDetailsView extends StatelessWidget {
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Customer>(
                     itemBuilder: (context, customer, index) {
-                      final name = getName(customer);
+                      final name = customer.fullName;
                       return ListTile(
                         onTap: () => context.pushRoute(CustomerDetailsRoute(customerId:  customer.id!)),
                         leading: CircleAvatar(

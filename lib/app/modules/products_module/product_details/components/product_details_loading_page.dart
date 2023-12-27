@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/product_details/components/index.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -26,22 +26,22 @@ class ProductDetailsLoadingPage extends StatelessWidget {
           children: [
             ProductDetailsOverview(product: product),
             space,
-            CustomExpansionTile(
+            HeaderCard(
               leading: Icon(Icons.info),
               title: Text('Variants'),
             ),
             space,
-            CustomExpansionTile(
+            HeaderCard(
               leading: Icon(Icons.info),
               title: Text('Attributes'),
             ),
             space,
-            CustomExpansionTile(
+            HeaderCard(
               leading: Icon(Icons.info),
               title: Text('Thumbnail'),
             ),
             space,
-            CustomExpansionTile(
+            HeaderCard(
               leading: Icon(Icons.info),
               title: Text('Images'),
             ),

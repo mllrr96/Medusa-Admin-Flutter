@@ -13,6 +13,7 @@ import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_rep
 import 'package:medusa_admin/app/data/repository/upload/upload_repo.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class AddUpdateProductController extends GetxController {
@@ -41,12 +42,12 @@ class AddUpdateProductController extends GetxController {
   final attributesKey = GlobalKey();
   final thumbnailKey = GlobalKey();
   final mediaKey = GlobalKey();
-  final generalTileCtrl = ExpansionTileController();
-  final organizeTileCtrl = ExpansionTileController();
-  final variantTileCtrl = ExpansionTileController();
-  final attributeTileCtrl = ExpansionTileController();
-  final thumbnailTileCtrl = ExpansionTileController();
-  final mediaTileCtrl = ExpansionTileController();
+  final generalTileCtrl = HeaderCardController();
+  final organizeTileCtrl = HeaderCardController();
+  final variantTileCtrl = HeaderCardController();
+  final attributeTileCtrl = HeaderCardController();
+  final thumbnailTileCtrl = HeaderCardController();
+  final mediaTileCtrl = HeaderCardController();
   List<ProductCollection>? collections;
   List<ProductType>? productTypes;
   ProductCollection? selectedCollection;

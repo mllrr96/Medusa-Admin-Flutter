@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
@@ -29,7 +30,6 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final mediumTextStyle = context.bodyMedium;
     final store = StoreService.store;
     final packageInfo = StorageService.packageInfo;
     String appName = packageInfo.appName;
@@ -62,7 +62,7 @@ class _AppDrawerState extends State<AppDrawer> {
     }
 
 
-    List<Widget> items = [
+    List<Widget> items = const [
       NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.cart),
         label: Text('Orders'),
@@ -77,12 +77,12 @@ class _AppDrawerState extends State<AppDrawer> {
         label: Text('Products'),
       ),
       NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Categories'),
-      ),
-      NavigationDrawerDestination(
         icon: Icon(Icons.collections_bookmark),
         label: Text('Collections'),
+      ),
+      NavigationDrawerDestination(
+        icon: Icon(MedusaIcons.tag),
+        label: Text('Categories'),
       ),
       Divider(indent: 28, endIndent: 28),
       NavigationDrawerDestination(
@@ -147,8 +147,8 @@ class _AppDrawerState extends State<AppDrawer> {
         },
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(12, 20, 12, 0),
-            padding: const EdgeInsets.only(left: 16.0),
+            margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+            // padding: const EdgeInsets.only(left: 16.0),
             height: 56,
             decoration: ShapeDecoration(
               shape: const StadiumBorder(),
@@ -157,15 +157,12 @@ class _AppDrawerState extends State<AppDrawer> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Store',
-                        style: smallTextStyle?.copyWith(color: manatee)),
-                    Text(store.name, style: mediumTextStyle),
-                  ],
+                IconButton(
+                  padding: const EdgeInsets.all(16.0),
+                  onPressed: () => context.closeDrawer(),
+                  icon: const Icon(Icons.menu_open)
                 ),
+                Flexible(child: Text(store.name, style: context.bodyLarge, overflow: TextOverflow.ellipsis)),
                 IconButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
@@ -191,7 +188,8 @@ class _AppDrawerState extends State<AppDrawer> {
               ],
             ),
           ),
-          const Divider(indent: 28, endIndent: 28),
+          // const Divider(indent: 28, endIndent: 28),
+          Gap(5),
           ...items,
           Container(
             margin: const EdgeInsets.fromLTRB(12, 20, 12, 20),

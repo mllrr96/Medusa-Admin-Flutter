@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -58,72 +58,74 @@ class OrderPayment extends GetView<OrderDetailsController> {
       return null;
     }
 
-    return CustomExpansionTile(
+    return HeaderCard(
       key: controller.paymentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: Text(tr.detailsPayment),
       trailing: getButton(),
-      childrenPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(alignment: Alignment.centerRight, child: PaymentStatusLabel(paymentStatus: order.paymentStatus)),
-            space,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        order.payments!.first.id!,
-                        style: mediumTextStyle,
-                      ),
-                      halfSpace,
-                      if ((order.payments?.isNotEmpty ?? false) && order.payments?.first.capturedAt != null)
-                        Text(
-                            'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
-                            style: mediumTextStyle!.copyWith(color: manatee)),
-                    ],
-                  ),
-                ),
-                Text(order.payments?.first.amount.formatAsPrice(order.currencyCode) ?? '', style: largeTextStyle),
-              ],
-            ),
-            space,
-            if (refunded)
+      childPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(alignment: Alignment.centerRight, child: PaymentStatusLabel(paymentStatus: order.paymentStatus)),
+              space,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 12.0),
-                      const Icon(Icons.double_arrow_rounded),
-                      Text(
-                        tr.detailsRefunded,
-                        style: mediumTextStyle,
-                      ),
-                    ],
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order.payments!.first.id!,
+                          style: mediumTextStyle,
+                        ),
+                        halfSpace,
+                        if ((order.payments?.isNotEmpty ?? false) && order.payments?.first.capturedAt != null)
+                          Text(
+                              'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
+                              style: mediumTextStyle!.copyWith(color: manatee)),
+                      ],
+                    ),
                   ),
-                  Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
+                  Text(order.payments?.first.amount.formatAsPrice(order.currencyCode) ?? '', style: largeTextStyle),
                 ],
               ),
-          ],
-        ),
-        const Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(tr.detailsTotalPaid, style: largeTextStyle),
-            Text((refunded ? order.refundableAmount : order.payments?.first.amount).formatAsPrice(order.currencyCode),
-                style: largeTextStyle),
-          ],
-        ),
-      ],
+              space,
+              if (refunded)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 12.0),
+                        const Icon(Icons.double_arrow_rounded),
+                        Text(
+                          tr.detailsRefunded,
+                          style: mediumTextStyle,
+                        ),
+                      ],
+                    ),
+                    Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
+                  ],
+                ),
+            ],
+          ),
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(tr.detailsTotalPaid, style: largeTextStyle),
+              Text((refunded ? order.refundableAmount : order.payments?.first.amount).formatAsPrice(order.currencyCode),
+                  style: largeTextStyle),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

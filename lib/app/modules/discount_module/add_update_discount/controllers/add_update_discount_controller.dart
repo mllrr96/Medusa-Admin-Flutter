@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/req/discount.dart';
@@ -41,8 +42,8 @@ class AddUpdateDiscountController extends GetxController {
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
   final conditionsKey = GlobalKey();
-  final generalTileController = ExpansionTileController();
-  final configTileController = ExpansionTileController();
+  final generalTileController = HeaderCardController();
+  final configTileController = HeaderCardController();
   @override
   void onInit() {
     if (discount != null) {

@@ -77,13 +77,13 @@ class AppSettingsView extends StatelessWidget {
                         await controller.changeThemeMode(e),
                       );
                     }),
-                    SettingsTile.switchTile(initialValue: appSettings.material3, onToggle: (val)async{
+                    SettingsTile.switchTile(initialValue: appSettings.useMaterial3, onToggle: (val)async{
                       final storageService = StorageService.instance;
                       final appSettings = StorageService.appSettings;
                       await storageService.updateAppSettings(
                           appSettings.copyWith(
-                              material3:
-                              !appSettings.material3));
+                              useMaterial3:
+                              !appSettings.useMaterial3));
                       controller.update();
                       ThemeController.instance.update();
                     }, title: const Text('Material 3')),

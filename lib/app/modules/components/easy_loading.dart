@@ -1,17 +1,19 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 
 import '../../../core/utils/enums.dart';
 
 Future<void> loading({String? status}) async {
+  final color = FlexColor.schemes[StorageService.appSettings.colorScheme]!.light.primary;
   await EasyLoading.show(
       status: status,
       maskType: EasyLoadingMaskType.black,
       indicator: LoadingAnimationWidget.threeArchedCircle(
-          color: ColorManager.primary, size: 50));
+          color: color, size: 50));
 }
 
 Future<void> dismissLoading() async {

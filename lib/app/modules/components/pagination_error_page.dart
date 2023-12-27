@@ -22,7 +22,7 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('Error loading items', style: context.bodyLarge),
+        Text('Error retrieving data', style: context.bodyLarge),
         const Gap(10.0),
         FilledButton(
             onPressed: () => widget.pagingController.refresh(),

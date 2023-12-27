@@ -27,33 +27,12 @@ class OrderCard extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     final tr = context.tr;
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
-    String? getName() {
-      String? name;
+    final customerName = order.customerName;
+    final Color cardColor = Color.alphaBlend(
+        context.theme.colorScheme.surfaceTint
+            .withAlpha(context.isLight ? 10 : 16),
+        context.theme.cardColor);
 
-      if (order.billingAddress?.firstName != null &&
-          order.billingAddress?.lastName != null) {
-        name =
-            '${order.billingAddress!.firstName ?? ''} ${order.billingAddress!.lastName ?? ''}';
-      }
-      if (order.shippingAddress?.firstName != null &&
-          order.shippingAddress?.lastName != null) {
-        name =
-            '${order.shippingAddress!.firstName ?? ''} ${order.shippingAddress!.lastName ?? ''}';
-      }
-      if (order.customer?.firstName != null &&
-          order.customer?.lastName != null) {
-        name =
-            '${order.customer!.firstName ?? ''} ${order.customer!.lastName ?? ''}';
-      }
-      return name;
-    }
-
-    // if(StorageService.appSettings.material3){
-    //   return Card(
-    //
-    //   );
-    // }
-    //
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ??
@@ -61,7 +40,7 @@ class OrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: cardColor,
             borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [
@@ -132,24 +111,24 @@ class OrderCard extends StatelessWidget {
                                 order.customer?.email),
                             radius: 16,
                             child: Text(
-                                getName()?[0] ?? order.customer?.email[0] ?? '',
+                                customerName?[0] ?? order.customer?.email[0] ?? '',
                                 style: largeTextStyle?.copyWith(
                                     color: Colors.white)),
                           ),
                           const SizedBox(width: 6.0),
-                          if (getName() != null)
+                          if (customerName != null)
                             Flexible(
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(getName()!, style: smallTextStyle),
+                                Text(customerName, style: smallTextStyle),
                                 if (orderSettingsModel.includeEmail)
                                   Text(order.email ?? '',
                                       style: smallTextStyle?.copyWith(
                                           color: manatee)),
                               ],
                             )),
-                          if (getName() == null)
+                          if (customerName == null)
                             Flexible(
                                 child: Text(order.customer?.email ?? '',
                                     style: mediumTextStyle,
@@ -181,27 +160,7 @@ class AlternativeOrderCard extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
-    String? getName() {
-      String? name;
-
-      if (order.billingAddress?.firstName != null &&
-          order.billingAddress?.lastName != null) {
-        name =
-            '${order.billingAddress!.firstName ?? ''} ${order.billingAddress!.lastName ?? ''}';
-      }
-      if (order.shippingAddress?.firstName != null &&
-          order.shippingAddress?.lastName != null) {
-        name =
-            '${order.shippingAddress!.firstName ?? ''} ${order.shippingAddress!.lastName ?? ''}';
-      }
-      if (order.customer?.firstName != null &&
-          order.customer?.lastName != null) {
-        name =
-            '${order.customer!.firstName ?? ''} ${order.customer!.lastName ?? ''}';
-      }
-      return name;
-    }
-
+    final customerName = order.customerName;
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ??
@@ -260,25 +219,25 @@ class AlternativeOrderCard extends StatelessWidget {
                             ColorManager.getAvatarColor(order.customer?.email),
                         radius: 16,
                         child: Text(
-                            getName()?[0].toUpperCase() ??
+                            customerName?[0].toUpperCase() ??
                                 order.customer?.email[0].toUpperCase() ??
                                 '',
                             style: const TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(width: 6.0),
-                      if (getName() != null)
+                      if (customerName!= null)
                         Flexible(
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(getName()!, style: smallTextStyle),
+                            Text(customerName, style: smallTextStyle),
                             if (orderSettingsModel.includeEmail)
                               Text(order.email ?? '',
-                                  style: smallTextStyle?.copyWith(
-                                      color: manatee)),
+                                  style:
+                                      smallTextStyle?.copyWith(color: manatee)),
                           ],
                         )),
-                      if (getName() == null)
+                      if (customerName == null)
                         Flexible(
                             child: Text(order.customer?.email ?? '',
                                 style: mediumTextStyle,

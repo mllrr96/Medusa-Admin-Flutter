@@ -8,11 +8,11 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../controllers/add_update_product_controller.dart';
 import 'image_card.dart';
 
@@ -28,133 +28,134 @@ class ProductMedia extends StatelessWidget {
     return GetBuilder<AddUpdateProductController>(
       id: 5,
       builder: (controller) {
-        return CustomExpansionTile(
+        return HeaderCard(
           controller: controller.mediaTileCtrl,
-          label: 'Media',
+          title: const Text('Media'),
           onExpansionChanged: onExpansionChanged,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Add images to your product.', style: smallTextStyle?.copyWith(color: lightWhite)),
-            space,
-            if (controller.updateMode && (controller.product.images?.isNotEmpty ?? false))
-              Column(
-                children: [
-                  ListView.separated(
-                      separatorBuilder: (_, __) => space,
-                      itemCount: controller.product.images!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final image = controller.product.images![index];
-                        return Opacity(
-                          opacity: controller.imagesToDelete.map((e) => e.url).toList().contains(image.url) ? 0.5 : 1.0,
-                          child: NetworkImageCard(
-                            image.url ?? '',
-                            deleteIconColor: controller.imagesToDelete.map((e) => e.url).toList().contains(image.url)
-                                ? Colors.red
-                                : null,
-                            onDelete: () {
-                              if (controller.imagesToDelete.map((e) => e.url).toList().contains(image.url)) {
-                                controller.imagesToDelete.removeWhere((element) => element.url == image.url);
-                              } else {
-                                controller.imagesToDelete.add(image);
-                              }
-                              controller.update([5]);
-                            },
-                          ),
-                        );
-                      }),
-                  if (controller.images.isNotEmpty) const Divider(),
-                ],
-              ),
-            if (controller.images.isNotEmpty)
-              ListView.separated(
-                  separatorBuilder: (_, __) => space,
-                  itemCount: controller.images.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final image = controller.images[index];
-                    return ImageCard(
-                      image,
-                      onRename: () async {
-                        final result = await showBarModalBottomSheet(
-                            context: context,
-                            overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                            builder: (context) {
-                              return RenameFileView(image);
-                            });
+          child: Column(
+            children: [
+              Text('Add images to your product.', style: smallTextStyle?.copyWith(color: lightWhite)),
+              space,
+              if (controller.updateMode && (controller.product.images?.isNotEmpty ?? false))
+                Column(
+                  children: [
+                    ListView.separated(
+                        separatorBuilder: (_, __) => space,
+                        itemCount: controller.product.images!.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final image = controller.product.images![index];
+                          return Opacity(
+                            opacity: controller.imagesToDelete.map((e) => e.url).toList().contains(image.url) ? 0.5 : 1.0,
+                            child: NetworkImageCard(
+                              image.url ?? '',
+                              deleteIconColor: controller.imagesToDelete.map((e) => e.url).toList().contains(image.url)
+                                  ? Colors.red
+                                  : null,
+                              onDelete: () {
+                                if (controller.imagesToDelete.map((e) => e.url).toList().contains(image.url)) {
+                                  controller.imagesToDelete.removeWhere((element) => element.url == image.url);
+                                } else {
+                                  controller.imagesToDelete.add(image);
+                                }
+                                controller.update([5]);
+                              },
+                            ),
+                          );
+                        }),
+                    if (controller.images.isNotEmpty) const Divider(),
+                  ],
+                ),
+              if (controller.images.isNotEmpty)
+                ListView.separated(
+                    separatorBuilder: (_, __) => space,
+                    itemCount: controller.images.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final image = controller.images[index];
+                      return ImageCard(
+                        image,
+                        onRename: () async {
+                          final result = await showBarModalBottomSheet(
+                              context: context,
+                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                              builder: (context) {
+                                return RenameFileView(image);
+                              });
 
-                        if (result is File) {
-                          controller.images[index] = result;
-                          controller.update([5]);
-                        }
-                      },
-                      onDelete: () async {
-                        try {
-                          controller.images[index].delete();
-                          controller.images.removeAt(index);
-                          controller.update([5]);
-                        } catch (e) {
-                         await Fluttertoast.showToast(msg: 'Error deleting image');
-                        }
-                      },
-                      onCrop: () async {
-                        final result = await controller.imagePickerHelper.cropImage(image);
-                        if (result != null) {
-                          try {
-                            controller.images[index].delete();
+                          if (result is File) {
                             controller.images[index] = result;
                             controller.update([5]);
-                          } catch (e) {
-                            await Fluttertoast.showToast(msg: 'Error cropping image');
                           }
-                        }
-                      },
-                    );
-                  }),
-            Center(
-              child: AdaptiveButton(
-                  onPressed: () async {
-                    ImageSource? imageSource = ImageSource.gallery;
-                    imageSource = await showModalActionSheet<ImageSource>(
-                        context: context,
-                        title: 'Image Source',
-                        actions: ImageSource.values
-                            .map((e) => SheetAction<ImageSource>(
-                                  key: e,
-                                  label: e.name.capitalize ?? e.name,
-                                ))
-                            .toList());
-                    if (imageSource == null) {
-                      return;
-                    }
-                    try {
-                      switch (imageSource) {
-                        case ImageSource.camera:
-                          await controller.imagePickerHelper.imagePicker(source: imageSource).then((result) {
-                            if (result == null) {
-                              return;
-                            }
-                            controller.images.add(result);
+                        },
+                        onDelete: () async {
+                          try {
+                            controller.images[index].delete();
+                            controller.images.removeAt(index);
                             controller.update([5]);
-                          });
-                        case ImageSource.gallery:
-                          await controller.imagePickerHelper.multipleImagePicker().then((result) {
-                            if (result.isEmpty) {
-                              return;
+                          } catch (e) {
+                            await Fluttertoast.showToast(msg: 'Error deleting image');
+                          }
+                        },
+                        onCrop: () async {
+                          final result = await controller.imagePickerHelper.cropImage(image);
+                          if (result != null) {
+                            try {
+                              controller.images[index].delete();
+                              controller.images[index] = result;
+                              controller.update([5]);
+                            } catch (e) {
+                              await Fluttertoast.showToast(msg: 'Error cropping image');
                             }
-                            controller.images.addAll(result);
-                            controller.update([5]);
-                          });
+                          }
+                        },
+                      );
+                    }),
+              Center(
+                child: AdaptiveButton(
+                    onPressed: () async {
+                      ImageSource? imageSource = ImageSource.gallery;
+                      imageSource = await showModalActionSheet<ImageSource>(
+                          context: context,
+                          title: 'Image Source',
+                          actions: ImageSource.values
+                              .map((e) => SheetAction<ImageSource>(
+                            key: e,
+                            label: e.name.capitalize ?? e.name,
+                          ))
+                              .toList());
+                      if (imageSource == null) {
+                        return;
                       }
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    }
-                  },
-                  child: const Text('Pick images')),
-            )
-          ],
+                      try {
+                        switch (imageSource) {
+                          case ImageSource.camera:
+                            await controller.imagePickerHelper.imagePicker(source: imageSource).then((result) {
+                              if (result == null) {
+                                return;
+                              }
+                              controller.images.add(result);
+                              controller.update([5]);
+                            });
+                          case ImageSource.gallery:
+                            await controller.imagePickerHelper.multipleImagePicker().then((result) {
+                              if (result.isEmpty) {
+                                return;
+                              }
+                              controller.images.addAll(result);
+                              controller.update([5]);
+                            });
+                        }
+                      } catch (e) {
+                        debugPrint(e.toString());
+                      }
+                    },
+                    child: const Text('Pick images')),
+              )
+            ],
+          ),
         );
       },
     );

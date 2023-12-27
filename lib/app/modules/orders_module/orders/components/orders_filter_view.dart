@@ -5,9 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -70,69 +68,69 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   }
 
   bool isStatusOpen = false;
+
+  final Widget disabledApplyButton = const FilledButton(
+      onPressed: null,
+      child: Text('Apply'));
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
+
     return GestureDetector(
       onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Orders Filter'),
-          actions: [
-            AdaptiveButton(
-              onPressed: widget.onResetTap,
-              child: const Text('Reset'),
-            )
-          ],
         ),
         bottomNavigationBar: Container(
             padding: const EdgeInsets.all(12.0),
-            // color: context.theme.appBarTheme.backgroundColor,
-            child: controller.obx(
-              (state) => FilledButton(
-                  onPressed: () {
-                    if (orderFilter.orderDateFilter.active &&
-                        !formKey.currentState!.validate()) {
-                      return;
-                    }
-                    final filterType =
-                        orderFilter.orderDateFilter.dateFilterType;
-                    final dateType = orderFilter.orderDateFilter.dateType;
-                    if (filterType == DateFilterType.isInTheLast ||
-                        filterType == DateFilterType.isOlderThan) {
-                      final count = int.tryParse(numberCtrl.text);
-                      if (count != null) {
-                        final now = DateTime.now();
-                        DateTime date;
-                        switch (dateType) {
-                          case DateType.day:
-                            date = now.subtract(Duration(days: count));
-                            break;
-                          case DateType.month:
-                            date = now.subtract(Duration(days: count * 30));
-                            break;
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: widget.onResetTap,
+                  child: const Text('Reset'),
+                ),
+                controller.obx(
+                      (state) => FilledButton(
+                      onPressed: () {
+                        if (orderFilter.orderDateFilter.active &&
+                            !formKey.currentState!.validate()) {
+                          return;
                         }
-                        orderFilter.orderDateFilter.date = date;
-                      }
-                    }
+                        final filterType =
+                            orderFilter.orderDateFilter.dateFilterType;
+                        final dateType = orderFilter.orderDateFilter.dateType;
+                        if (filterType == DateFilterType.isInTheLast ||
+                            filterType == DateFilterType.isOlderThan) {
+                          final count = int.tryParse(numberCtrl.text);
+                          if (count != null) {
+                            final now = DateTime.now();
+                            DateTime date;
+                            switch (dateType) {
+                              case DateType.day:
+                                date = now.subtract(Duration(days: count));
+                                break;
+                              case DateType.month:
+                                date = now.subtract(Duration(days: count * 30));
+                                break;
+                            }
+                            orderFilter.orderDateFilter.date = date;
+                          }
+                        }
 
-                    orderFilter.orderDateFilter.number =
-                        int.tryParse(numberCtrl.text) ?? 0;
-                    widget.onSubmitted?.call(orderFilter);
-                    context.popRoute();
-                  },
-                  child: Text('Apply',
-                      style: smallTextStyle?.copyWith(color: Colors.white))),
-              onLoading: FilledButton(
-                  onPressed: null,
-                  child: Text('Apply',
-                      style: smallTextStyle?.copyWith(color: Colors.white))),
-              onEmpty: const SizedBox.shrink(),
-              onError: (_) => FilledButton(
-                  onPressed: null,
-                  child: Text('Apply',
-                      style: smallTextStyle?.copyWith(color: Colors.white))),
+                        orderFilter.orderDateFilter.number =
+                            int.tryParse(numberCtrl.text) ?? 0;
+                        widget.onSubmitted?.call(orderFilter);
+                        context.popRoute();
+                      },
+                      child: Text('Apply')),
+                  onLoading: disabledApplyButton,
+                  onEmpty: disabledApplyButton,
+                  onError: (_) => disabledApplyButton,
+                ),
+              ],
             )),
         body: Form(
           key: formKey,
@@ -267,39 +265,37 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                             }
                           },
                           title: const Text('Regions'),
-                          child: Column(
-                            children: [
-                              if (regions?.isNotEmpty ?? false)
-                                ...regions!.map((e) => CheckboxListTile(
-                                    controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                    contentPadding: EdgeInsets.zero,
-                                    title:
-                                    Text(e.name ?? '', style: smallTextStyle),
-                                    value: orderFilter.regions
-                                        .map((e) => e.id)
-                                        .contains(e.id),
-                                    onChanged: (val) {
-                                      if (val == null) {
-                                        return;
-                                      }
+                          child: Column(children: [
+                            if (regions?.isNotEmpty ?? false)
+                              ...regions!.map((e) => CheckboxListTile(
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                  contentPadding: EdgeInsets.zero,
+                                  title:
+                                      Text(e.name ?? '', style: smallTextStyle),
+                                  value: orderFilter.regions
+                                      .map((e) => e.id)
+                                      .contains(e.id),
+                                  onChanged: (val) {
+                                    if (val == null) {
+                                      return;
+                                    }
 
-                                      if (val) {
-                                        orderFilter.regions.add(e);
-                                      } else {
-                                        orderFilter.regions.removeWhere(
-                                                (element) => element.id == e.id);
-                                      }
-                                      setState(() {});
-                                    })),
-                            ]
-                          ),
+                                    if (val) {
+                                      orderFilter.regions.add(e);
+                                    } else {
+                                      orderFilter.regions.removeWhere(
+                                          (element) => element.id == e.id);
+                                    }
+                                    setState(() {});
+                                  })),
+                          ]),
                         ),
                         space,
                         HeaderCard(
                           key: salesChannelKey,
                           initiallyExpanded:
-                          orderFilter.salesChannel.isNotEmpty,
+                              orderFilter.salesChannel.isNotEmpty,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
                               await salesChannelKey.currentContext
@@ -307,33 +303,31 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                             }
                           },
                           title: const Text('Sales Channel'),
-                          child: Column(
-                              children: [
-                                if (salesChannels?.isNotEmpty ?? false)
-                                  ...salesChannels!.map((e) => CheckboxListTile(
-                                      controlAffinity:
+                          child: Column(children: [
+                            if (salesChannels?.isNotEmpty ?? false)
+                              ...salesChannels!.map((e) => CheckboxListTile(
+                                  controlAffinity:
                                       ListTileControlAffinity.leading,
-                                      contentPadding: EdgeInsets.zero,
-                                      title:
+                                  contentPadding: EdgeInsets.zero,
+                                  title:
                                       Text(e.name ?? '', style: smallTextStyle),
-                                      value: orderFilter.salesChannel
-                                          .map((e) => e.id)
-                                          .contains(e.id),
-                                      onChanged: (val) {
-                                        if (val == null) {
-                                          return;
-                                        }
+                                  value: orderFilter.salesChannel
+                                      .map((e) => e.id)
+                                      .contains(e.id),
+                                  onChanged: (val) {
+                                    if (val == null) {
+                                      return;
+                                    }
 
-                                        if (val) {
-                                          orderFilter.salesChannel.add(e);
-                                        } else {
-                                          orderFilter.salesChannel.removeWhere(
-                                                  (element) => element.id == e.id);
-                                        }
-                                        setState(() {});
-                                      }))
-                              ]
-                          ),
+                                    if (val) {
+                                      orderFilter.salesChannel.add(e);
+                                    } else {
+                                      orderFilter.salesChannel.removeWhere(
+                                          (element) => element.id == e.id);
+                                    }
+                                    setState(() {});
+                                  }))
+                          ]),
                         ),
                         space,
                         HeaderCard(
@@ -359,194 +353,191 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                 }
                                 setState(() {});
                               }),
-                          child: Column(
-                              children: [
-                                DropdownButtonFormField<DateFilterType>(
-                                  style: context.bodyMedium,
-                                  isDense: true,
-                                  value: orderFilter.orderDateFilter.dateFilterType,
-                                  onChanged: (type) {
-                                    if (type != null) {
-                                      setState(() {
-                                        orderFilter.orderDateFilter.dateFilterType =
-                                            type;
-                                        if (!orderFilter.orderDateFilter.active) {
-                                          orderFilter.orderDateFilter.active = true;
-                                        }
-                                      });
+                          child: Column(children: [
+                            DropdownButtonFormField<DateFilterType>(
+                              style: context.bodyMedium,
+                              isDense: true,
+                              value: orderFilter.orderDateFilter.dateFilterType,
+                              onChanged: (type) {
+                                if (type != null) {
+                                  setState(() {
+                                    orderFilter.orderDateFilter.dateFilterType =
+                                        type;
+                                    if (!orderFilter.orderDateFilter.active) {
+                                      orderFilter.orderDateFilter.active = true;
                                     }
-                                  },
-                                  items: DateFilterType.values
-                                      .map((e) => DropdownMenuItem<DateFilterType>(
+                                  });
+                                }
+                              },
+                              items: DateFilterType.values
+                                  .map((e) => DropdownMenuItem<DateFilterType>(
                                       value: e, child: Text(e.name())))
-                                      .toList(),
-                                ),
-                                space,
-                                if (orderFilter.orderDateFilter.dateFilterType ==
+                                  .toList(),
+                            ),
+                            space,
+                            if (orderFilter.orderDateFilter.dateFilterType ==
                                     DateFilterType.isInTheLast ||
-                                    orderFilter.orderDateFilter.dateFilterType ==
-                                        DateFilterType.isOlderThan)
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: LabeledNumericTextField(
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.digitsOnly,
-                                          ],
-                                          noEndSpace: false,
-
-                                          onPlusPressed: () {
-                                            int? stock = int.tryParse(numberCtrl
-                                                .text.removeAllWhitespace);
-                                            if (stock != null) {
-                                              numberCtrl.text =
-                                                  (stock + 1).toString();
-                                            } else {
-                                              numberCtrl.text = 1.toString();
-                                            }
-                                            if (!orderFilter
-                                                .orderDateFilter.active) {
-                                              setState(() {
-                                                orderFilter.orderDateFilter.active =
+                                orderFilter.orderDateFilter.dateFilterType ==
+                                    DateFilterType.isOlderThan)
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: LabeledNumericTextField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      noEndSpace: false,
+                                      onPlusPressed: () {
+                                        int? stock = int.tryParse(numberCtrl
+                                            .text.removeAllWhitespace);
+                                        if (stock != null) {
+                                          numberCtrl.text =
+                                              (stock + 1).toString();
+                                        } else {
+                                          numberCtrl.text = 1.toString();
+                                        }
+                                        if (!orderFilter
+                                            .orderDateFilter.active) {
+                                          setState(() {
+                                            orderFilter.orderDateFilter.active =
                                                 true;
-                                              });
-                                            }
-                                          },
-                                          onMinusPressed: () {
-                                            int? stock = int.tryParse(numberCtrl
-                                                .text.removeAllWhitespace);
-                                            if (stock != null && stock != 1) {
-                                              numberCtrl.text =
-                                                  (stock - 1).toString();
-                                            }
-                                            if (!orderFilter
-                                                .orderDateFilter.active) {
-                                              setState(() {
-                                                orderFilter.orderDateFilter.active =
+                                          });
+                                        }
+                                      },
+                                      onMinusPressed: () {
+                                        int? stock = int.tryParse(numberCtrl
+                                            .text.removeAllWhitespace);
+                                        if (stock != null && stock != 1) {
+                                          numberCtrl.text =
+                                              (stock - 1).toString();
+                                        }
+                                        if (!orderFilter
+                                            .orderDateFilter.active) {
+                                          setState(() {
+                                            orderFilter.orderDateFilter.active =
                                                 true;
-                                              });
-                                            }
-                                          },
-                                          onChanged: (_) {
-                                            if (!orderFilter
-                                                .orderDateFilter.active) {
-                                              setState(() {
-                                                orderFilter.orderDateFilter.active =
+                                          });
+                                        }
+                                      },
+                                      onChanged: (_) {
+                                        if (!orderFilter
+                                            .orderDateFilter.active) {
+                                          setState(() {
+                                            orderFilter.orderDateFilter.active =
                                                 true;
-                                              });
-                                            }
-                                          },
-                                          label: null,
-                                          controller: numberCtrl,
-                                          validator: (val) {
-                                            if (val == null ||
-                                                val.isEmpty ||
-                                                int.tryParse(val) == 0) {
-                                              return 'Field is required';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12.0),
-                                      Flexible(
-                                        child: DropdownButtonFormField<DateType>(
-                                          style: context.bodyMedium,
-                                          value:
+                                          });
+                                        }
+                                      },
+                                      label: null,
+                                      controller: numberCtrl,
+                                      validator: (val) {
+                                        if (val == null ||
+                                            val.isEmpty ||
+                                            int.tryParse(val) == 0) {
+                                          return 'Field is required';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12.0),
+                                  Flexible(
+                                    child: DropdownButtonFormField<DateType>(
+                                      style: context.bodyMedium,
+                                      value:
                                           orderFilter.orderDateFilter.dateType,
-                                          onChanged: (type) {
-                                            if (type != null) {
-                                              setState(() {
-                                                orderFilter.orderDateFilter
-                                                    .dateType = type;
-                                                if (!orderFilter
-                                                    .orderDateFilter.active) {
-                                                  orderFilter.orderDateFilter
-                                                      .active = true;
-                                                }
-                                              });
+                                      onChanged: (type) {
+                                        if (type != null) {
+                                          setState(() {
+                                            orderFilter.orderDateFilter
+                                                .dateType = type;
+                                            if (!orderFilter
+                                                .orderDateFilter.active) {
+                                              orderFilter.orderDateFilter
+                                                  .active = true;
                                             }
-                                          },
-                                          items: DateType.values
-                                              .map((e) => DropdownMenuItem<
-                                              DateType>(
+                                          });
+                                        }
+                                      },
+                                      items: DateType.values
+                                          .map((e) => DropdownMenuItem<
+                                                  DateType>(
                                               value: e,
                                               child: Text(
                                                   e.name.capitalize ?? e.name)))
-                                              .toList(),
-                                        ),
-                                      ),
-                                    ],
+                                          .toList(),
+                                    ),
                                   ),
-                                if (orderFilter.orderDateFilter.dateFilterType !=
+                                ],
+                              ),
+                            if (orderFilter.orderDateFilter.dateFilterType !=
                                     DateFilterType.isInTheLast &&
-                                    orderFilter.orderDateFilter.dateFilterType !=
-                                        DateFilterType.isOlderThan)
-                                  Column(
-                                    children: [
-                                      DateCard(
-                                        validator: (val) {
-                                          if (val == null) {
-                                            return 'Field is required';
-                                          }
-                                          return null;
-                                        },
-                                        dateTime: orderFilter.orderDateFilter.date,
-                                        dateText: null,
-                                        dateTimeTextStyle: smallTextStyle,
-                                        onTap: () async {
-                                          final result =
+                                orderFilter.orderDateFilter.dateFilterType !=
+                                    DateFilterType.isOlderThan)
+                              Column(
+                                children: [
+                                  DateCard(
+                                    validator: (val) {
+                                      if (val == null) {
+                                        return 'Field is required';
+                                      }
+                                      return null;
+                                    },
+                                    dateTime: orderFilter.orderDateFilter.date,
+                                    dateText: null,
+                                    dateTimeTextStyle: smallTextStyle,
+                                    onTap: () async {
+                                      final result =
                                           await adaptiveDateTimePicker(
                                               context: context,
                                               date: orderFilter
                                                   .orderDateFilter.date,
                                               pickerMode:
-                                              CupertinoDatePickerMode.date);
-                                          if (result != null) {
-                                            setState(() {
-                                              orderFilter.orderDateFilter.date =
-                                                  result;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                      space,
-                                    ],
+                                                  CupertinoDatePickerMode.date);
+                                      if (result != null) {
+                                        setState(() {
+                                          orderFilter.orderDateFilter.date =
+                                              result;
+                                        });
+                                      }
+                                    },
                                   ),
-                              ]
-                          ),
+                                  space,
+                                ],
+                              ),
+                          ]),
                         ),
                       ],
                     );
                   },
-                  onLoading: Skeletonizer(
+                  onLoading: const Skeletonizer(
                     enabled: true,
                     child: Column(
                       children: [
-                        CustomExpansionTile(
-                          title: Text('Status', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Status'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Payment Status', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Payment Status'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title:
-                              Text('Fulfillment Status', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Fulfillment Status'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Regions', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Regions'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Sales Channel', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Sales Channel'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Date', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Date'),
+                          leading: Icon(Icons.check_box_outline_blank),
                         ),
                       ],
                     ),

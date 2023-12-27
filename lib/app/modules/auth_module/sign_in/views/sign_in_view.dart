@@ -125,25 +125,42 @@ class _SignInViewState extends State<SignInView> {
                               ),
                             ],
                           ),
-                          Obx(() {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.animate.value =
-                                    !controller.animate.value;
-                              },
-                              child: Hero(
-                                tag: 'medusa',
-                                child: Image.asset(
-                                  'assets/images/medusa.png',
-                                  scale: 5,
-                                ).animate(
-                                  effects: [const RotateEffect()],
-                                  target: controller.animate.value ? 1 : 0,
-                                  autoPlay: false,
-                                ),
+                          // Obx(() {
+                          //   return GestureDetector(
+                          //     onTap: () {
+                          //       controller.animate.value =
+                          //           !controller.animate.value;
+                          //     },
+                          //     child: Hero(
+                          //       tag: 'medusa',
+                          //       child: Image.asset(
+                          //         'assets/images/medusa.png',
+                          //         scale: 5,
+                          //       ).animate(
+                          //         effects: [const RotateEffect()],
+                          //         // target: controller.animate.value ? 1 : 0,
+                          //         autoPlay: true,
+                          //       ),
+                          //     ),
+                          //   );
+                          // }),
+                          GestureDetector(
+                            onTap: () {
+                              controller.animate.value =
+                              !controller.animate.value;
+                            },
+                            child: Hero(
+                              tag: 'medusa',
+                              child: Image.asset(
+                                'assets/images/medusa.png',
+                                scale: 5,
+                              ).animate(
+                                effects: [const RotateEffect()],
+                                target: controller.animate.value ? 1 : 0,
+                                autoPlay: false,
                               ),
-                            );
-                          }),
+                            ),
+                          ),
                           Text(
                             tr.loginCardLogInToMedusa,
                             style: context.headlineMedium,

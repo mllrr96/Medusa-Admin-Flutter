@@ -174,7 +174,7 @@ class ProductsView extends StatelessWidget {
                   : const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 slivers: [
-                  SliverAppBar.medium(
+                  SliverAppBar(
                     floating: true,
                     snap: true,
                     title: Obx(

@@ -22,11 +22,12 @@ class TeamCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final email = user.email ?? '';
-    final name = getName(user: user);
-    final firstLetter = getName(user: user, firstLetterOnly: true);
+    final name = user.fullName;
+    final firstLetter = user.fullName?[0];
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(16.0))),
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(16.0))),
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Column(
@@ -39,9 +40,12 @@ class TeamCard extends StatelessWidget {
                     if (firstLetter != null || email.isNotEmpty)
                       CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(email),
-                        child: Text(firstLetter ?? email[0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white)),
+                        child: Text(firstLetter ?? email[0].toUpperCase(),
+                            style:
+                                largeTextStyle?.copyWith(color: Colors.white)),
                       ),
-                    if (firstLetter != null || email.isNotEmpty) const SizedBox(width: 6.0),
+                    if (firstLetter != null || email.isNotEmpty)
+                      const SizedBox(width: 6.0),
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,11 +66,15 @@ class TeamCard extends StatelessWidget {
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage user',
-                            message: '${user.firstName ?? ''} ${user.lastName ?? ''}',
+                            message:
+                                '${user.firstName ?? ''} ${user.lastName ?? ''}',
                             context: context,
                             actions: <SheetAction<int>>[
                               const SheetAction(label: 'Edit User', key: 0),
-                              const SheetAction(label: 'Remove User', isDestructiveAction: true, key: 1),
+                              const SheetAction(
+                                  label: 'Remove User',
+                                  isDestructiveAction: true,
+                                  key: 1),
                             ]).then((result) async {
                           switch (result) {
                             case 0:
@@ -91,19 +99,5 @@ class TeamCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String? getName({required User user, bool firstLetterOnly = false}) {
-    if (user.firstName != null && user.lastName != null) {
-      if (user.firstName!.isEmpty) {
-        return null;
-      }
-      if (firstLetterOnly) {
-        return user.firstName![0];
-      } else {
-        return '${user.firstName!} ${user.lastName!}';
-      }
-    }
-    return null;
   }
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_close_button.dart';
@@ -99,7 +99,7 @@ class _ProductPriceListState extends State<ProductPriceList> {
             ),
             if (!applyToAll) const Divider(),
             if (!applyToAll)
-              CustomExpansionTile(
+              HeaderCard(
                 initiallyExpanded: true,
                 title: Text('${widget.product.title ?? ''} Variants'),
                 leading: Checkbox(
@@ -123,42 +123,44 @@ class _ProductPriceListState extends State<ProductPriceList> {
                   },
                   tristate: true,
                 ),
-                children: [
-                  ListView.separated(
-                      separatorBuilder: (_, __) => const Divider(height: 0),
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: variants!.length,
-                      itemBuilder: (context, index) {
-                        final variant = variants?[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 6.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            // tileColor: context.theme.appBarTheme.backgroundColor,
-                            title: Text(variant?.title ?? ''),
-                            subtitle: variant?.sku != null
-                                ? Text('SKU: ${variant!.sku}', style: smallTextStyle?.copyWith(color: manatee))
-                                : null,
-                            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
-                            value: selectedVariants.map((e) => e.id).toList().contains(variant?.id),
-                            onChanged: (bool? value) {
-                              if (value == null) {
-                                return;
-                              }
-                              setState(() {
-                                if (value) {
-                                  selectedVariants.add(variant!);
-                                } else {
-                                  selectedVariants.removeWhere((v) => v.id == variant?.id);
+                child: Column(
+                  children: [
+                    ListView.separated(
+                        separatorBuilder: (_, __) => const Divider(height: 0),
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: variants!.length,
+                        itemBuilder: (context, index) {
+                          final variant = variants?[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 6.0),
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              // tileColor: context.theme.appBarTheme.backgroundColor,
+                              title: Text(variant?.title ?? ''),
+                              subtitle: variant?.sku != null
+                                  ? Text('SKU: ${variant!.sku}', style: smallTextStyle?.copyWith(color: manatee))
+                                  : null,
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                              value: selectedVariants.map((e) => e.id).toList().contains(variant?.id),
+                              onChanged: (bool? value) {
+                                if (value == null) {
+                                  return;
                                 }
-                              });
-                            },
-                          ),
-                        );
-                      }),
-                ],
+                                setState(() {
+                                  if (value) {
+                                    selectedVariants.add(variant!);
+                                  } else {
+                                    selectedVariants.removeWhere((v) => v.id == variant?.id);
+                                  }
+                                });
+                              },
+                            ),
+                          );
+                        }),
+                  ],
+                ),
               ),
             const Divider(),
             const Text('Prices'),
