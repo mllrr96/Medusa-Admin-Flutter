@@ -207,7 +207,7 @@ class HeaderCard extends StatefulWidget {
     this.childPadding,
     this.controller,
     this.controlAffinity,
-    this.maintainState = false,
+    this.maintainState = false, this.onLongTap,
   });
 
   /// A widget to display before the title.
@@ -252,6 +252,9 @@ class HeaderCard extends StatefulWidget {
   ///
   /// Defaults to [EdgeInsets.zero].
   final EdgeInsetsGeometry margin;
+
+
+  final GestureTapCallback? onLongTap;
 
   /// The internal padding of the ListTile used as header.
   ///
@@ -502,6 +505,7 @@ class _HeaderCardState extends State<HeaderCard>
                       : null,
                   trailing: widget.trailing ?? _buildTrailingIcon(context),
                   onTap: _toggleExpansion,
+                  onLongTap:widget.onLongTap,
                 ),
               ),
             AnimatedBuilder(
@@ -541,7 +545,7 @@ class ListTileReveal extends StatefulWidget {
     this.subtitleDense,
     this.enabled = true,
     this.isOpen,
-    this.duration = const Duration(milliseconds: 200),
+    this.duration = const Duration(milliseconds: 200), this.onLongTap,
   });
 
   /// A widget to display before the title.
@@ -585,6 +589,11 @@ class ListTileReveal extends StatefulWidget {
   ///
   /// Inoperative if [enabled] is false.
   final GestureTapCallback? onTap;
+
+  /// Called when the user long taps this list tile.
+  ///
+  /// Inoperative if [enabled] is false.
+  final GestureTapCallback? onLongTap;
 
   /// Whether this list tile and card operation is interactive.
   final bool enabled;
@@ -664,6 +673,7 @@ class _ListTileRevealState extends State<ListTileReveal> {
           ),
           trailing: widget.trailing,
           onTap: widget.enabled ? widget.onTap : null,
+          onLongPress: widget.enabled ? widget.onLongTap : null,
         ),
         AnimatedSwitcher(
           duration: widget.duration,

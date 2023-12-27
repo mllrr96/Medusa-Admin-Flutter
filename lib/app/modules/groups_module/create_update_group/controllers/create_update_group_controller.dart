@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 import '../../../../data/models/store/customer_group.dart';
 
 class CreateUpdateGroupController extends GetxController {
-  CreateUpdateGroupController({required this.customerGroupRepo, required this.customerGroup});
+  CreateUpdateGroupController(
+      {required this.customerGroupRepo, required this.customerGroup});
   final CustomerGroup? customerGroup;
   final groupTitleCtrl = TextEditingController();
   final CustomerGroupRepo customerGroupRepo;
@@ -37,8 +39,9 @@ class CreateUpdateGroupController extends GetxController {
   Future<void> _fetchCustomerGroup() async {
     groupTitleCtrl.text = customerGroup?.name ?? '';
     customerGroup?.metadata?.forEach((key, value) {
-      metadataTextCtrl
-          .add(MetadataTextCtrl(key: TextEditingController(text: key), value: TextEditingController(text: value)));
+      metadataTextCtrl.add(MetadataTextCtrl(
+          key: TextEditingController(text: key),
+          value: TextEditingController(text: value)));
       update();
     });
   }
@@ -60,8 +63,7 @@ class CreateUpdateGroupController extends GetxController {
       EasyLoading.showSuccess('Customer group updated!');
     }, (error) {
       dismissLoading();
-      Get.snackbar('Error updating customer group (${error.code ?? ''})', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
     });
   }
 
@@ -76,15 +78,16 @@ class CreateUpdateGroupController extends GetxController {
       metadata.addAll({e.key.text: e.value.text});
     }
     final result = await customerGroupRepo.createCustomerGroup(
-        name: groupTitleCtrl.text, metadata: metadata.isNotEmpty ? metadata : null);
+        name: groupTitleCtrl.text,
+        metadata: metadata.isNotEmpty ? metadata : null);
     result.when((success) {
-      context.popRoute( true);
-      EasyLoading.showSuccess('Customer group created!');
+      context.showSnackBar('Customer group created!');
+      context.popRoute(true);
     }, (error) {
-      dismissLoading();
-      Get.snackbar('Error creating customer group (${error.code ?? ''})', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(
+          'Error creating customer group, ${error.toSnackBarString()}');
     });
+    dismissLoading();
   }
 }
 

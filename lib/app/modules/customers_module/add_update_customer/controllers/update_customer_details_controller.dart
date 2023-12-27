@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/models/req/user_customer_req.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
 import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class AddUpdateCustomerController extends GetxController {
   AddUpdateCustomerController({required this.customerRepo, this.customer});
@@ -66,8 +67,7 @@ class AddUpdateCustomerController extends GetxController {
       context.popRoute(true);
     }, (error) {
       dismissLoading();
-      Get.snackbar('Error updating customer details ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
     });
   }
 
@@ -91,8 +91,7 @@ class AddUpdateCustomerController extends GetxController {
       context.popRoute(true);
     }, (error) {
       dismissLoading();
-      Get.snackbar('Error creating customer details ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
     });
   }
 }

@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class DraftOrderDetailsController extends GetxController with StateMixin<DraftOrder> {
   DraftOrderDetailsController( {required this.draftOrderRepo, required this.draftId,});
@@ -66,15 +66,12 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
     loading();
     final result = await draftOrderRepo.deleteDraftOrder(id: draftId);
     result.when((success) {
-      if(success.deleted){
-        EasyLoading.showSuccess('Draft Order Deleted');
-        context.popRoute();
-      } else {
-        EasyLoading.showError('Error deleting draft order');
-      }
+      dismissLoading();
+      context.showSnackBar('Draft Order Canceled');
+      context.popRoute();
     }, (error){
       dismissLoading();
-      Get.snackbar('Error deleting draft order', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar('Error deleting draft order, ${error.toSnackBarString()}');
     });
 
   }

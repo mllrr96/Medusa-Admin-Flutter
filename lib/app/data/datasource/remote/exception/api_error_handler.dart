@@ -12,6 +12,20 @@ class Failure {
     return 'code: $code,\n message : $message, \n type: $type';
   }
 
+  String toSnackBarString() {
+    String val = '';
+    if(code !=null){
+      val = 'code: $code';
+    }
+    if(type.isNotEmpty){
+      val = '$val, type: $type.';
+    }
+    if(message.isNotEmpty){
+      val = '$val $message';
+    }
+    return val;
+  }
+
   factory Failure.from(dynamic error) {
     var failure = Failure(message: '', type: '');
     try {

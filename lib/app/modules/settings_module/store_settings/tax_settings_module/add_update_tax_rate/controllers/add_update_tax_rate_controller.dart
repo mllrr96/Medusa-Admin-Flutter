@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 import '../../../../../../data/models/req/user_tax_rate.dart';
 import '../../../../../../data/repository/tax_rate/tax_rate_repo.dart';
@@ -57,7 +58,7 @@ class AddUpdateTaxRateController extends GetxController {
       dismissLoading();
       context.popRoute(true);
     }, (error) {
-      Get.snackbar('Error creating tax rate ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
       dismissLoading();
     });
   }
@@ -83,7 +84,7 @@ class AddUpdateTaxRateController extends GetxController {
       dismissLoading();
       context.popRoute(true);
     }, (error) {
-      Get.snackbar('Error creating tax rate ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
       dismissLoading();
     });
   }

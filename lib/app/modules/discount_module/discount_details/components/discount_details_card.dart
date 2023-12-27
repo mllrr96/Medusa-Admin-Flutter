@@ -102,7 +102,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                                     isDestructiveAction: true)
                                 .then((value) async {
                               if (value == OkCancelResult.ok) {
-                                await controller.toggleDiscount(discount: discount);
+                                await controller.toggleDiscount(discount, context);
                               }
                             });
                           },

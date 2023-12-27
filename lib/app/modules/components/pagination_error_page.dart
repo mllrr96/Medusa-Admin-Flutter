@@ -16,9 +16,11 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
   bool showError = false;
   @override
   Widget build(BuildContext context) {
-    final type = (widget.pagingController.error as Failure).type;
-    final message = (widget.pagingController.error as Failure).message;
-    final code = (widget.pagingController.error as Failure).code;
+    assert(widget.pagingController.error is Failure);
+    final failure = widget.pagingController.error as Failure;
+    final type = failure.type;
+    final message = failure.message;
+    final code = failure.code;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

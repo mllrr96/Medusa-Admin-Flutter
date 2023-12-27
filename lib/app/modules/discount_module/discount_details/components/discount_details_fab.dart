@@ -42,6 +42,11 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
     }
 
     if (expandableStyle) {
+      const emptySpeedDial = SpeedDial(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+        animatedIcon: AnimatedIcons.menu_close,
+      );
+
       return controller.obx(
           (discount) => SpeedDial(
                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -67,8 +72,8 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
                   ),
                 ],
               ),
-          onLoading: const SizedBox.shrink(),
-          onError: (_) => const SizedBox.shrink());
+          onLoading: emptySpeedDial,
+          onError: (_) => emptySpeedDial);
     }
     return controller.obx(
         (discount) => Row(

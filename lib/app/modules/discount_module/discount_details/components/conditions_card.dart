@@ -43,8 +43,9 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
                   onPressed: () async {
                     final result  = await context.pushRoute(DiscountConditionsRoute(discountConditionReq: DiscountConditionReq(
                         discountTypes: discount.rule?.conditions?.map((e) => e.type!).toList() ?? [])));
-                    if (result is DiscountConditionRes) {
+                    if (result is DiscountConditionRes && context.mounted) {
                       await controller.addCondition(
+                        context:context,
                           userCreateConditionReq: UserCreateConditionReq(
                         operator: result.operator,
                         productCollectionIds: result.productCollections?.map((e) => e.id!).toList(),
@@ -85,15 +86,22 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
                       ));
                       if (result != null && result is UpdateConditionRes) {
                         if (result.updatedItemIds.isEmpty) {
-                          await controller.deleteCondition(condition.id!);
+                          if(context.mounted) {
+                            await controller.deleteCondition(condition.id!,
+                                context);
+                          }
                           return;
                         }
                         final addedItems =
                             result.updatedItemIds.toSet().difference(result.originalItemIds.toSet()).toList();
                         final deletedItems =
                             result.originalItemIds.toSet().difference(result.updatedItemIds.toSet()).toList();
-                        await controller.updateCondition(
-                            addedItems: addedItems, deletedItems: deletedItems, conditionId: condition.id!);
+                        if(context.mounted){
+                          await controller.updateCondition(
+                              addedItems: addedItems, deletedItems: deletedItems, conditionId: condition.id!,
+                              context:context
+                          );
+                        }
                       }
                     },
                     onDeleteTap: () async {
@@ -106,7 +114,9 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
                         isDestructiveAction: true,
                       );
                       if (result == OkCancelResult.ok) {
-                        await controller.deleteCondition(condition.id!);
+                        if(context.mounted){
+                        await controller.deleteCondition(condition.id!, context);
+                        }
                       }
                     },
                   );

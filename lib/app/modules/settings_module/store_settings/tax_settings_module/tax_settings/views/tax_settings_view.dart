@@ -110,7 +110,7 @@ class TaxSettingsView extends StatelessWidget {
                                     }
                                   },
                                   onDeleteTap: () async => await controller
-                                      .deleteTaxRate(taxRate.id!),
+                                      .deleteTaxRate(taxRate.id!, context),
                                 ),
                             firstPageProgressIndicatorBuilder: (context) =>
                                 const Center(

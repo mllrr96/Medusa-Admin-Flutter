@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_card.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class DraftsLoadingPage extends StatelessWidget {
   const DraftsLoadingPage({super.key});
@@ -27,7 +26,7 @@ class DraftsLoadingPage extends StatelessWidget {
         children: List.generate(
             20,
             (index) => index.isEven
-                ? Skeletonizer(enabled: true, child: DraftOrderCard(draftOrder))
+                ? DraftOrderCard(draftOrder, shimmer: true)
                 : const Gap(12.0)));
   }
 }

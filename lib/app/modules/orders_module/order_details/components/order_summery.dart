@@ -24,16 +24,18 @@ class OrderSummery extends StatelessWidget {
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Summery'),
       trailing: TextButton(
-          onPressed: () => context.pushRoute(AddUpdateOrderEditRoute(order: order)),
+          onPressed: () =>
+              context.pushRoute(AddUpdateOrderEditRoute(order: order)),
           child: const Text('Edit Order')),
       childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       child: Column(
-        children:  [
+        children: [
           ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: order.items!.length,
-              itemBuilder: (context, index) => OrderSummeryCard(order: order, index: index)),
+              itemBuilder: (context, index) =>
+                  OrderSummeryCard(order: order, index: index)),
           const Divider(indent: 20, endIndent: 20),
           Column(
             children: [
@@ -43,7 +45,8 @@ class OrderSummery extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(tr.detailCardsSubtotal, style: mediumTextStyle),
-                    Text(order.subTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
+                    Text(order.subTotal.formatAsPrice(order.currencyCode),
+                        style: mediumTextStyle),
                   ],
                 ),
               ),
@@ -54,7 +57,8 @@ class OrderSummery extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(tr.detailCardsShipping, style: mediumTextStyle),
-                    Text(order.shippingTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
+                    Text(order.shippingTotal.formatAsPrice(order.currencyCode),
+                        style: mediumTextStyle),
                   ],
                 ),
               ),
@@ -65,7 +69,8 @@ class OrderSummery extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(tr.detailCardsTax, style: mediumTextStyle),
-                    Text(order.taxTotal.formatAsPrice(order.currencyCode), style: mediumTextStyle),
+                    Text(order.taxTotal.formatAsPrice(order.currencyCode),
+                        style: mediumTextStyle),
                   ],
                 ),
               ),
@@ -76,8 +81,13 @@ class OrderSummery extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(refunded ? tr.detailCardsOriginalTotal : tr.detailCardsTotal, style: totalTextTheme),
-                    Text(order.total.formatAsPrice(order.currencyCode), style: context.bodyLarge),
+                    Text(
+                        refunded
+                            ? tr.detailCardsOriginalTotal
+                            : tr.detailCardsTotal,
+                        style: totalTextTheme),
+                    Text(order.total.formatAsPrice(order.currencyCode),
+                        style: context.bodyLarge),
                   ],
                 ),
               ),
@@ -92,8 +102,11 @@ class OrderSummery extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(tr.templatesManuallyRefunded, style: mediumTextStyle),
-                      Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
+                      Text(tr.templatesManuallyRefunded,
+                          style: mediumTextStyle),
+                      Text(
+                          '- ${order.refundedTotal.formatAsPrice(order.currencyCode)}',
+                          style: mediumTextStyle),
                     ],
                   ),
                 ),
@@ -104,7 +117,10 @@ class OrderSummery extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(tr.templatesNetTotal, style: mediumTextStyle),
-                      Text(order.refundableAmount.formatAsPrice(order.currencyCode), style: context.bodyLarge),
+                      Text(
+                          order.refundableAmount
+                              .formatAsPrice(order.currencyCode),
+                          style: context.bodyLarge),
                     ],
                   ),
                 ),

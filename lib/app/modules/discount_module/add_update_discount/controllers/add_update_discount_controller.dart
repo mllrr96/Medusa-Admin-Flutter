@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 import '../../../../data/models/req/discount.dart';
 import '../../../../data/models/store/discount.dart';
@@ -116,15 +117,6 @@ class AddUpdateDiscountController extends GetxController {
       }
       return;
     }
-    if (!_valid()) {
-      if(generalTileController.isExpanded){
-        generalTileController.collapse();
-      }
-      if(!configTileController.isExpanded){
-        configTileController.expand();
-      }
-      return;
-    }
     context.unfocus();
     loading();
     final value = discountRuleType == DiscountRuleType.percentage
@@ -157,8 +149,7 @@ class AddUpdateDiscountController extends GetxController {
       EasyLoading.showSuccess('Discount created!');
     }, (error) {
       dismissLoading();
-      Get.snackbar('Error creating discount ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
     });
   }
 
@@ -169,15 +160,7 @@ class AddUpdateDiscountController extends GetxController {
       }
       return;
     }
-    if (!_valid()) {
-      if(generalTileController.isExpanded){
-        generalTileController.collapse();
-      }
-      if(!configTileController.isExpanded){
-        configTileController.expand();
-      }
-      return;
-    }
+
     if (sameDiscount()) {
       context.popRoute();
       return;
@@ -210,39 +193,8 @@ class AddUpdateDiscountController extends GetxController {
       EasyLoading.showSuccess('Discount updated!');
     }, (error) {
       dismissLoading();
-      Get.snackbar('Error updating discount ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
     });
-  }
-
-  bool _valid() {
-    String title = '';
-    String message = '';
-    if (hasStartDate && startDate == null) {
-      title = 'Field is required';
-      message = 'Please select start date';
-    }
-
-    if (hasEndDate && endDate == null) {
-      title = 'Field is required';
-      message = 'Please select expiry date';
-    }
-
-    if (startDate != null &&
-        endDate != null &&
-        endDate!.isBefore(startDate!)) {
-      title = 'Error';
-      message = 'Expiry date should be after start date';
-    }
-
-    if (title.isEmpty) {
-      return true;
-    } else {
-      Get.snackbar(title, message,
-          snackPosition: SnackPosition.BOTTOM,
-          icon: const Icon(Icons.warning_rounded, color: Colors.red));
-      return false;
-    }
   }
 
   bool sameDiscount() {

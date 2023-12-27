@@ -13,6 +13,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -147,7 +148,7 @@ class _SignInViewState extends State<SignInView> {
                           GestureDetector(
                             onTap: () {
                               controller.animate.value =
-                              !controller.animate.value;
+                                  !controller.animate.value;
                             },
                             child: Hero(
                               tag: 'medusa',
@@ -237,7 +238,7 @@ class _SignInViewState extends State<SignInView> {
                               //     )),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0),
+                                    horizontal: 12.0),
                                 child: TextButton(
                                   child: Text(
                                     tr.loginCardForgotYourPassword,
@@ -364,10 +365,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                           (result) {
                             context.popRoute();
                             if (result) {
-                              Get.snackbar(
-                                  'Success', 'Url updated, restart the app');
+                              context
+                                  .showSnackBar('Url updated, restart the app');
                             } else {
-                              Get.snackbar('Failure', 'Could not update url');
+                              context.showSnackBar('Could not update url');
                             }
                           },
                         ),
@@ -381,10 +382,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                         (result) {
                           context.popRoute();
                           if (result) {
-                            Get.snackbar(
-                                'Success', 'Url updated, restart the app');
+                            context
+                                .showSnackBar('Url updated, restart the app');
                           } else {
-                            Get.snackbar('Failure', 'Could not update url');
+                            context.showSnackBar('Could not update url');
                           }
                         },
                       );
