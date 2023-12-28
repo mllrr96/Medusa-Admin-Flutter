@@ -7,7 +7,9 @@ class UserPriceListRes {
   UserPriceListRes(this.priceList);
 
   factory UserPriceListRes.fromJson(Map<String, dynamic> json) {
-    return UserPriceListRes(json['price_list'] != null ? PriceList.fromJson(json['price_list']) : null);
+    return UserPriceListRes(json['price_list'] != null
+        ? PriceList.fromJson(json['price_list'])
+        : null);
   }
 }
 
@@ -23,7 +25,10 @@ class UserDeletePricesRes {
   final bool deleted;
   UserDeletePricesRes({required this.deleted, this.ids, this.object});
   factory UserDeletePricesRes.fromJson(json) {
-    return UserDeletePricesRes(deleted: json['deleted'] ?? false, ids: json['ids'], object: json['object']);
+    return UserDeletePricesRes(
+        deleted: json['deleted'] ?? false,
+        ids: json['ids'],
+        object: json['object']);
   }
 }
 
@@ -40,7 +45,10 @@ class UserDeleteProductPricesRes {
   final bool deleted;
   UserDeleteProductPricesRes({required this.deleted, this.ids, this.object});
   factory UserDeleteProductPricesRes.fromJson(json) {
-    return UserDeleteProductPricesRes(deleted: json['deleted'] ?? false, ids: json['ids'], object: json['object']);
+    return UserDeleteProductPricesRes(
+        deleted: json['deleted'] ?? false,
+        ids: List<String>.from(json['ids']),
+        object: json['object']);
   }
 }
 
@@ -57,7 +65,10 @@ class UserDeleteVariantPricesRes {
   final bool deleted;
   UserDeleteVariantPricesRes({required this.deleted, this.ids, this.object});
   factory UserDeleteVariantPricesRes.fromJson(json) {
-    return UserDeleteVariantPricesRes(deleted: json['deleted'] ?? false, ids: json['ids'], object: json['object']);
+    return UserDeleteVariantPricesRes(
+        deleted: json['deleted'] ?? false,
+        ids: json['ids'],
+        object: json['object']);
   }
 }
 
@@ -74,7 +85,10 @@ class UserDeletePriceListRes {
   final bool deleted;
   UserDeletePriceListRes({required this.deleted, this.id, this.object});
   factory UserDeletePriceListRes.fromJson(json) {
-    return UserDeletePriceListRes(deleted: json['deleted'] ?? false, id: json['id'], object: json['object']);
+    return UserDeletePriceListRes(
+        deleted: json['deleted'] ?? false,
+        id: json['id'],
+        object: json['object']);
   }
 }
 
@@ -91,7 +105,8 @@ class UserPriceListsRes extends PaginatedResponse {
 class UserPriceListsProductsRes extends PaginatedResponse {
   List<Product>? products;
 
-  UserPriceListsProductsRes.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+  UserPriceListsProductsRes.fromJson(Map<String, dynamic> json)
+      : super.fromJson(json) {
     if (json['products'] == null) return;
     products = <Product>[];
     json['products'].forEach((v) => products!.add(Product.fromJson(v)));

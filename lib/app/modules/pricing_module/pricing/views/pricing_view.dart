@@ -50,18 +50,19 @@ class PricingView extends StatelessWidget {
                             : 'Pricing Lists',
                         overflow: TextOverflow.ellipsis)),
                   ),
-
                   PagedSliverList.separated(
                     separatorBuilder: (_, __) =>
                         const Divider(height: 0, indent: 16.0),
                     pagingController: controller.pagingController,
                     builderDelegate: PagedChildBuilderDelegate<PriceList>(
-                      itemBuilder: (context, priceList, index) => PriceListTile(priceList),
-                      firstPageProgressIndicatorBuilder: (context) =>
+                      itemBuilder: (context, priceList, index) =>
+                          PriceListTile(priceList),
+                      firstPageProgressIndicatorBuilder: (_) =>
                           const PriceListsLoadingPage(),
-                      firstPageErrorIndicatorBuilder: (context) =>
+                      firstPageErrorIndicatorBuilder: (_) =>
                           PaginationErrorPage(
                               pagingController: controller.pagingController),
+                      noItemsFoundIndicatorBuilder: (_)=>const Center(child: Text('No Price Lists Found'),),
                     ),
                   ),
                 ],
