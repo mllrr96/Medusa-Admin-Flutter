@@ -57,6 +57,16 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                             }
                           });
                           break;
+                          case 1:
+                            await context
+                                .pushRoute(AddUpdateProductRoute(
+                                updateProductReq: UpdateProductReq(
+                                    product: product, number: 1)))
+                                .then((result) async {
+                              if (result != null) {
+                                await controller.fetchProduct();
+                              }
+                            });
                         case 2:
                           await showOkCancelAlertDialog(
                                   context: context,
@@ -182,8 +192,24 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
               ),
               space,
               space,
-              Text('Sales Channel', style: mediumTextStyle),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Sales Channel', style: mediumTextStyle),
+                  if(product.salesChannels?.isEmpty ?? true)
+                  Text('-', style: mediumTextStyle),
+                ],
+              ),
               space,
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: product.salesChannels?.map((e) => Chip(
+                    label: Text(
+                  e.name ?? '',
+                  style: smallTextStyle,
+                ))).toList() ?? [],
+              )
             ],
           )
         ],
