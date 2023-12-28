@@ -17,11 +17,10 @@ import '../controllers/add_update_product_controller.dart';
 
 @RoutePage()
 class AddUpdateProductView extends StatelessWidget {
-  const AddUpdateProductView( {super.key,this.updateProductReq});
+  const AddUpdateProductView({super.key, this.updateProductReq});
   final UpdateProductReq? updateProductReq;
   @override
   Widget build(BuildContext context) {
-
     // You can not be a good person until you know how much
     // evil you contain within you
 
@@ -84,7 +83,8 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.generalKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await  controller.generalKey.currentContext.ensureVisibility();
+                              await controller.generalKey.currentContext
+                                  .ensureVisibility();
                             }
                           },
                         ),
@@ -93,7 +93,8 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.organizeKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await controller.organizeKey.currentContext.ensureVisibility();
+                              await controller.organizeKey.currentContext
+                                  .ensureVisibility();
                             }
                           },
                         ),
@@ -102,7 +103,8 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.variantKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await controller.variantKey.currentContext.ensureVisibility();
+                              await controller.variantKey.currentContext
+                                  .ensureVisibility();
                             }
                           },
                         ),
@@ -111,7 +113,8 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.attributesKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await controller.attributesKey.currentContext.ensureVisibility();
+                              await controller.attributesKey.currentContext
+                                  .ensureVisibility();
                             }
                           },
                         ),
@@ -120,7 +123,8 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.thumbnailKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await controller.thumbnailKey.currentContext.ensureVisibility();
+                              await controller.thumbnailKey.currentContext
+                                  .ensureVisibility();
                             }
                           },
                         ),
@@ -129,7 +133,8 @@ class AddUpdateProductView extends StatelessWidget {
                           key: controller.mediaKey,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await controller.mediaKey.currentContext.ensureVisibility();
+                              await controller.mediaKey.currentContext
+                                  .ensureVisibility();
                             }
                           },
                         )

@@ -16,6 +16,7 @@ import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:collection/collection.dart';
 
 class AddUpdateProductController extends GetxController {
   AddUpdateProductController(
@@ -57,6 +58,7 @@ class AddUpdateProductController extends GetxController {
   bool enableSalesChannels = false;
   bool deleteThumbnail = false;
   List<SalesChannel>? salesChannels;
+  List<String> selectedSalesChannels = [];
   final optionCtrl = TextEditingController();
   final variationsCtrl = TextEditingController();
   final widthCtrl = TextEditingController();
@@ -77,7 +79,7 @@ class AddUpdateProductController extends GetxController {
   Future<void> onInit() async {
     imagePickerHelper = ImagePickerHelper();
     fetchProduct();
-
+    fetchSalesChannels();
     fetchOrganize();
     super.onInit();
   }
@@ -108,6 +110,7 @@ class AddUpdateProductController extends GetxController {
     return result.when((success) {
       if (success.salesChannels != null) {
         salesChannels = success.salesChannels;
+        update([1]);
         return salesChannels!;
       } else {
         return [];
@@ -159,9 +162,15 @@ class AddUpdateProductController extends GetxController {
       }
       return;
     }
+    context.unfocus();
 
     product = product.copyWith(title: titleCtrl.text);
-
+    if (enableSalesChannels && selectedSalesChannels.isNotEmpty) {
+      product = product.copyWith(
+          salesChannels: selectedSalesChannels
+              .map((e) => SalesChannel(name: '', id: e))
+              .toList());
+    }
     loading();
     final result = await productsRepo.add(
         userPostProductReq: UserPostProductReq(product: product));
@@ -188,6 +197,10 @@ class AddUpdateProductController extends GetxController {
     final imagesToKeep = List<ImageData>.from(product.images ?? []);
     imagesToKeep.removeWhere((element) =>
         imagesToDelete.map((e) => e.url).toList().contains(element.url));
+
+    final shouldUpdateSalesChannel = !const ListEquality().equals(
+        product.salesChannels?.map((e) => e.id).toList(),
+        selectedSalesChannels);
 
     final result = await productsRepo.update(
       id: product.id!,
@@ -223,6 +236,10 @@ class AddUpdateProductController extends GetxController {
         originCountry: product.originCountry,
         images: imagesToKeep.map((e) => e.url!).toList(),
         thumbnail: deleteThumbnail && thumbnailImage == null ? '' : null,
+        salesChannels: shouldUpdateSalesChannel ? selectedSalesChannels
+                .map((e) => SalesChannel(name: '', id: e))
+                .toList()
+            : null,
       ),
     );
     result.when(
@@ -340,6 +357,13 @@ class AddUpdateProductController extends GetxController {
       weightCtrl.text = product.weight?.toString() ?? '';
       midCodeCtrl.text = product.midCode?.toString() ?? '';
       hsCodeCtrl.text = product.hsCode?.toString() ?? '';
+
+      // Sales channel should be enabled by default when editing a product
+      enableSalesChannels = true;
+      if (product.salesChannels?.isNotEmpty ?? false) {
+        selectedSalesChannels =
+            product.salesChannels!.map((e) => e.id ?? '').toList();
+      }
       if (product.originCountry != null) {
         countryCtrl.text = countries
                 .firstWhere(

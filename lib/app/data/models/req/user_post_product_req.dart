@@ -89,11 +89,8 @@ class UserPostProductReq {
     }
 
     if (product.salesChannels != null) {
-      List<Map<String, dynamic>> salesChannelsList = [];
-      for (var element in product.salesChannels!) {
-        salesChannelsList.add(element.toJson());
-      }
-      data['sales_channels'] = salesChannelsList;
+      data['sales_channels'] =
+          product.salesChannels!.map((e) => {'id': e.id}).toList();
     }
 
     if (product.tags != null) {
@@ -187,12 +184,11 @@ class UserPostUpdateProductReq {
       data['images'] = images;
     }
 
-
     if (thumbnail != null) {
-      if(thumbnail!.isEmpty){
+      if (thumbnail!.isEmpty) {
         data['thumbnail'] = null;
       } else {
-      data['thumbnail'] = thumbnail;
+        data['thumbnail'] = thumbnail;
       }
     }
 
@@ -247,11 +243,7 @@ class UserPostUpdateProductReq {
     }
 
     if (salesChannels != null) {
-      List<Map<String, dynamic>> salesChannelsList = [];
-      for (var element in salesChannels!) {
-        salesChannelsList.add(element.toJson());
-      }
-      data['sales_channels'] = salesChannelsList;
+      data['sales_channels'] = salesChannels!.map((e) => {'id' : e.id}).toList();
     }
 
     if (tags != null) {

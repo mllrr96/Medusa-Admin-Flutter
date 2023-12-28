@@ -29,6 +29,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
         return HeaderCard(
           controller: controller.generalTileCtrl,
           title: const Text('General Information'),
+          maintainState: true,
           onExpansionChanged: onExpansionChanged,
           child: Column(
             children: [
