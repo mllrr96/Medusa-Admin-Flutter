@@ -321,14 +321,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.9"
-  elegant_notification:
-    dependency: "direct main"
-    description:
-      name: elegant_notification
-      sha256: f3b8aad4f8eb0df10d06deceb9a2b64b8c450ec7a1f896281d3563b6434f0574
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.2"
   enum_to_string:
     dependency: transitive
     description:
@@ -565,14 +557,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
-  fx_stepper:
-    dependency: "direct main"
-    description:
-      name: fx_stepper
-      sha256: bdf43f579adae8dfd07ba551c9d72424c4b80eb926c2039d309a509c57fc819f
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   gap:
     dependency: "direct main"
     description:
@@ -885,6 +869,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0-pre"
+  multi_dropdown:
+    dependency: "direct main"
+    description:
+      name: multi_dropdown
+      sha256: "85647129b9ee7aedf7db90165c54403879c7ca1876b827c3c042c6631e55bd11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
   multiple_result:
     dependency: "direct main"
     description:
@@ -893,22 +885,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
-  multiselect:
-    dependency: "direct main"
-    description:
-      name: multiselect
-      sha256: "8d0c4a7b89bee6c5e5e4a25ecba68c796dafc1917492d5606f0caa3947d5905a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
-  navigation_builder:
-    dependency: transitive
-    description:
-      name: navigation_builder
-      sha256: "95e25150191d9cd4e4b86504f33cd9e786d1e6732edb2e3e635bbedc5ef0dea7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.3"
   nm:
     dependency: transitive
     description:
@@ -1226,14 +1202,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
-  states_rebuilder:
-    dependency: transitive
-    description:
-      name: states_rebuilder
-      sha256: bf1a5ab5c543acdefce35e60f482eb7ab592339484fe3266d147ee597f18dc92
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.3.0"
   stream_channel:
     dependency: transitive
     description:

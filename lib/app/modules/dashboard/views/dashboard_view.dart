@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
+import 'package:flutter/services.dart';
 import '../../../../route/app_router.dart';
 
 @RoutePage()
@@ -33,16 +34,6 @@ class _DashboardViewState extends State<DashboardView>
     // }
   }
 
-  Future<void> authenticate() async {
-    final result = await AuthRepo().getSession();
-    await result.whenError((error) async {
-      final result = await context.pushRoute(const ReAuthenticateRoute());
-      if (result == true) {
-        // continue
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     const routes = [
@@ -59,10 +50,16 @@ class _DashboardViewState extends State<DashboardView>
       StoreSettingsRoute(),
       AppSettingsRoute(),
     ];
-    return  AutoTabsRouter(
-      routes: routes,
-      transitionBuilder: (context, child, animation) => child,
-      builder: (context, child) => child,
+    return  AnnotatedRegion<SystemUiOverlayStyle>(
+      value: FlexColorScheme.themedSystemNavigationBar(
+        context,
+        systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
+      ),
+      child: AutoTabsRouter(
+        routes: routes,
+        transitionBuilder: (context, child, animation) => child,
+        builder: (context, child) => child,
+      ),
     );
   }
 }

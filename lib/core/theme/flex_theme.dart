@@ -18,8 +18,7 @@ class FlexTheme {
       inputDecoratorFocusedHasBorder: true,
       inputDecoratorUnfocusedHasBorder: true,
     ),
-    blendLevel: 10,
-    appBarElevation: 0.5,
+    blendLevel: 14,
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     fontFamily: GoogleFonts.cabin().fontFamily,
     textTheme: GoogleFonts.cabinTextTheme().copyWith(
@@ -44,8 +43,7 @@ class FlexTheme {
       inputDecoratorFocusedHasBorder: true,
       inputDecoratorUnfocusedHasBorder: true,
     ),
-    blendLevel: 12,
-    appBarElevation: 1,
+    blendLevel: 14,
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     fontFamily: GoogleFonts.cabin().fontFamily,
     textTheme: GoogleFonts.cabinTextTheme().copyWith(

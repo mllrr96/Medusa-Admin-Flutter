@@ -46,13 +46,56 @@ class AppSettingsView extends StatelessWidget {
                   SettingsTile.navigation(
                     title: Text(tr.sidebarOrders),
                     leading: const Icon(CupertinoIcons.cart),
-                    onPressed: (_) => context.pushRoute(const OrderSettingsRoute()),
+                    onPressed: (_) =>
+                        context.pushRoute(const OrderSettingsRoute()),
                   )
                 ]),
                 SettingsSection(
-                  title: const Text('Theme & Appearance'),
+                  title: const Text('Theme'),
                   tiles: [
-                    ... ThemeMode.values.map((e) {
+                    SettingsTile.navigation(
+                      title: const Text('Color Scheme'),
+                      value: Text(appSettings.colorScheme.name.capitalize),
+                      leading: const Icon(Icons.color_lens),
+                      onPressed: (_) async =>
+                          await showConfirmationDialog<FlexScheme>(
+                                  context: context,
+                                  title: 'Color Scheme',
+                                  initialSelectedActionKey:
+                                      appSettings.colorScheme,
+                                  actions: FlexScheme.values
+                                      .map((e) => AlertDialogAction<FlexScheme>(
+                                            label: e.name.capitalize,
+                                            key: e,
+                                          ))
+                                      .toList())
+                              .then((result) {
+                        if (result == null) return;
+                        if (result == appSettings.colorScheme) return;
+                        StorageService.instance.updateAppSettings(
+                            appSettings.copyWith(colorScheme: result));
+                        controller.update();
+                        ThemeController.instance.update();
+                      }),
+                    ),
+                    SettingsTile.switchTile(
+                        initialValue: appSettings.useMaterial3,
+                        onToggle: (val) async {
+                          final storageService = StorageService.instance;
+                          final appSettings = StorageService.appSettings;
+                          await storageService.updateAppSettings(
+                              appSettings.copyWith(
+                                  useMaterial3: !appSettings.useMaterial3));
+                          controller.update();
+                          ThemeController.instance.update();
+                        },
+                        title: const Text('Use Material 3')),
+                  ],
+                ),
+                SettingsSection(
+                  title: const Text('Appearance'),
+                  tiles: [
+                    ...ThemeMode.values.map((e) {
                       String title = 'Automatic (Follow system)';
                       IconData iconData = Icons.brightness_auto;
                       switch (e) {
@@ -74,50 +117,14 @@ class AppSettingsView extends StatelessWidget {
                             ? const Icon(Icons.check)
                             : null,
                         onPressed: (_) async =>
-                        await controller.changeThemeMode(e),
+                            await controller.changeThemeMode(e),
                       );
                     }),
-                    SettingsTile.switchTile(initialValue: appSettings.useMaterial3, onToggle: (val)async{
-                      final storageService = StorageService.instance;
-                      final appSettings = StorageService.appSettings;
-                      await storageService.updateAppSettings(
-                          appSettings.copyWith(
-                              useMaterial3:
-                              !appSettings.useMaterial3));
-                      controller.update();
-                      ThemeController.instance.update();
-                    }, title: const Text('Material 3')),
-                    SettingsTile.navigation(
-                      title: const Text('Color Scheme'),
-                      value: Text(appSettings.colorScheme.name.capitalize),
-                      leading: const Icon(Icons.color_lens),
-                      onPressed: (_) async =>
-                      await showConfirmationDialog<FlexScheme>(
-                          context: context,
-                          title: 'Color Scheme',
-                          initialSelectedActionKey:appSettings.colorScheme,
-                          actions: FlexScheme.values
-                              .map((e) =>
-                              AlertDialogAction<FlexScheme>(
-                                label: e.name.capitalize,
-                                key: e,
-                              ))
-                              .toList())
-                          .then((result) {
-                        if (result == null) return;
-                        if (result == appSettings.colorScheme) return;
-                        StorageService.instance.updateAppSettings(
-                            appSettings.copyWith(colorScheme: result));
-                        controller.update();
-                        ThemeController.instance.update();
-                      }),
-                    ),
                   ],
                 ),
                 SettingsSection(
                   title: const Text('Language and region'),
                   tiles: [
-
                     SettingsTile.navigation(
                       title: Text(tr.personalInformationLanguageSettingsTitle),
                       value: Row(
@@ -136,14 +143,14 @@ class AppSettingsView extends StatelessWidget {
                       onPressed: (_) async => await showBarModalBottomSheet(
                         backgroundColor:
                             Theme.of(context).scaffoldBackgroundColor,
-                        overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                        overlayStyle:
+                            context.theme.appBarTheme.systemOverlayStyle,
                         context: context,
                         builder: (context) => const LanguageSelectionView(),
                       ),
                     ),
                   ],
                 ),
-
                 SettingsSection(
                   title: const Text('DateTime settings'),
                   tiles: <SettingsTile>[

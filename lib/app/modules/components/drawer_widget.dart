@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -137,7 +138,10 @@ class _AppDrawerState extends State<AppDrawer> {
           }
           if (index == 13) {
             await await showBarModalBottomSheet(
-                overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                overlayStyle: FlexColorScheme.themedSystemNavigationBar(
+                    context,
+                    systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground
+                ),
                 context: context,
                 builder: (context) => const SignInView());
             return;
@@ -189,7 +193,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           ),
           // const Divider(indent: 28, endIndent: 28),
-          Gap(5),
+          const Gap(5),
           ...items,
           Container(
             margin: const EdgeInsets.fromLTRB(12, 20, 12, 20),

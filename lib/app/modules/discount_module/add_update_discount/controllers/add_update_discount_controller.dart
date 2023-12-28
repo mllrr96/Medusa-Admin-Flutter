@@ -189,7 +189,7 @@ class AddUpdateDiscountController extends GetxController {
         id: discount!.id!, userUpdateDiscountReq: updatedDiscount);
 
     result.when((success) {
-      context.popRoute(true);
+      context.router.popForced();
       EasyLoading.showSuccess('Discount updated!');
     }, (error) {
       dismissLoading();

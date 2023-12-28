@@ -15,7 +15,7 @@ import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:multiselect/multiselect.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import '../../../../../components/countries/view/country_view.dart';
 import '../../../../../components/custom_text_field.dart';
 import '../../regions/controllers/regions_controller.dart';
@@ -73,7 +73,7 @@ class AddRegionView extends StatelessWidget {
                         title: const Text('Details'),
                         initiallyExpanded: true,
                         child: Column(
-                          children:  [
+                          children: [
                             Row(
                               children: [
                                 Expanded(
@@ -115,7 +115,7 @@ class AddRegionView extends StatelessWidget {
                               },
                               items: StoreService.store.currencies!
                                   .map((e) => DropdownMenuItem(
-                                  value: e, child: Text(e.name!)))
+                                      value: e, child: Text(e.name!)))
                                   .toList(),
                               hint: const Text('Choose currency'),
                               value: controller.selectedCurrency,
@@ -130,7 +130,7 @@ class AddRegionView extends StatelessWidget {
                                   isDense: true,
                                   filled: true,
                                   fillColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   border: border,
                                   errorBorder: border),
                             ),
@@ -180,17 +180,18 @@ class AddRegionView extends StatelessWidget {
                                 //     ));
                                 final result = await showBarModalBottomSheet(
                                     context: context,
-                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) => SelectCountryView(
-                                        selectCountryReq: SelectCountryReq(
+                                            selectCountryReq: SelectCountryReq(
                                           disabledCountriesIso2: controller
-                                              .updateMode
+                                                  .updateMode
                                               ? RegionsController.instance
-                                              .disabledCountriesIso2(
-                                              excludedRegion:
-                                              controller.region!)
+                                                  .disabledCountriesIso2(
+                                                      excludedRegion:
+                                                          controller.region!)
                                               : RegionsController.instance
-                                              .disabledCountriesIso2(),
+                                                  .disabledCountriesIso2(),
                                           multipleSelect: true,
                                           selectedCountries: [
                                             ...controller.selectedCountries
@@ -204,36 +205,38 @@ class AddRegionView extends StatelessWidget {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                                hintText: controller.selectedCountries.isNotEmpty
-                                    ? 'Countries'
-                                    : 'Choose countries',
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                hintText:
+                                    controller.selectedCountries.isNotEmpty
+                                        ? 'Countries'
+                                        : 'Choose countries',
                                 suffixIcon: controller
-                                    .selectedCountries.isNotEmpty
+                                        .selectedCountries.isNotEmpty
                                     ? AdaptiveIcon(
-                                    onPressed: () {
-                                      controller.selectedCountries.clear();
-                                      controller.update();
-                                    },
-                                    icon: const Icon(
-                                        CupertinoIcons.clear_circled_solid))
-                                    : const Icon(Icons.arrow_drop_down_outlined),
+                                        onPressed: () {
+                                          controller.selectedCountries.clear();
+                                          controller.update();
+                                        },
+                                        icon: const Icon(
+                                            CupertinoIcons.clear_circled_solid))
+                                    : const Icon(
+                                        Icons.arrow_drop_down_outlined),
                                 prefixIconConstraints:
-                                const BoxConstraints(minWidth: 48 * 1.5),
+                                    const BoxConstraints(minWidth: 48 * 1.5),
                                 prefixIcon:
-                                controller.selectedCountries.isNotEmpty
-                                    ? Chip(
-                                  label: Text(controller
-                                      .selectedCountries.length
-                                      .toString()),
-                                  labelStyle: smallTextStyle,
-                                  backgroundColor: Theme.of(context)
-                                      .appBarTheme
-                                      .backgroundColor,
-                                  side: const BorderSide(
-                                      color: Colors.transparent),
-                                )
-                                    : null,
+                                    controller.selectedCountries.isNotEmpty
+                                        ? Chip(
+                                            label: Text(controller
+                                                .selectedCountries.length
+                                                .toString()),
+                                            labelStyle: smallTextStyle,
+                                            backgroundColor: Theme.of(context)
+                                                .appBarTheme
+                                                .backgroundColor,
+                                            side: const BorderSide(
+                                                color: Colors.transparent),
+                                          )
+                                        : null,
                                 enabledBorder: border,
                                 border: border,
                               ),
@@ -248,7 +251,9 @@ class AddRegionView extends StatelessWidget {
                         title: const Text('Providers'),
                         onExpansionChanged: (expanded) async {
                           if (expanded) {
-                            await controller.providersExpansionKey.currentContext.ensureVisibility();
+                            await controller
+                                .providersExpansionKey.currentContext
+                                .ensureVisibility();
                           }
                         },
                         child: Column(
@@ -265,7 +270,8 @@ class AddRegionView extends StatelessWidget {
                             space,
                             Row(
                               children: [
-                                Text('Payment Providers', style: mediumTextStyle),
+                                Text('Payment Providers',
+                                    style: mediumTextStyle),
                                 Text('*',
                                     style: mediumTextStyle.copyWith(
                                         color: Colors.red)),
@@ -275,35 +281,26 @@ class AddRegionView extends StatelessWidget {
                             AnimatedSwitcher(
                               duration: const Duration(milliseconds: 300),
                               child: controller.paymentProviders != null
-                                  ? DropDownMultiSelect(
-                                hintStyle: smallTextStyle,
-                                selected_values_style: smallTextStyle,
-                                options: controller.paymentProviders!
-                                    .map((e) => e.id ?? '')
-                                    .toList(),
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return 'Choose at least one payment providers';
-                                  }
-                                  return '';
-                                },
-                                onChanged: (value) {
-                                  controller.selectedPaymentProviders =
-                                      value;
-                                  controller.update();
-                                },
-                                selectedValues:
-                                controller.selectedPaymentProviders,
-                                whenEmpty: 'Choose payment providers',
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  filled: true,
-                                  fillColor: Theme.of(context)
-                                      .scaffoldBackgroundColor,
-                                  border: border,
-                                  enabledBorder: border,
-                                ),
-                              )
+                                  ? MultiSelectDropDown<String>(
+                                      hintStyle: smallTextStyle,
+                                      options: controller.paymentProviders!
+                                          .map((e) => ValueItem(
+                                              label: e.id ?? 'Unknown',
+                                              value: e.id))
+                                          .toList(),
+                                      inputDecoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                        border: Border.all(color: Colors.grey),
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      optionsBackgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      optionTextStyle: context.bodySmall,
+                                      onOptionSelected: (List<ValueItem<String>>
+                                          selectedOptions) {},
+                                    )
                                   : const CircularProgressIndicator.adaptive(),
                             ),
                             space,
@@ -317,40 +314,40 @@ class AddRegionView extends StatelessWidget {
                               ],
                             ),
                             halfSpace,
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 300),
-                              child: controller.paymentProviders != null
-                                  ? DropDownMultiSelect(
-                                hintStyle: mediumTextStyle,
-                                selected_values_style: smallTextStyle,
-                                options: controller.paymentProviders!
-                                    .map((e) => e.id ?? '')
-                                    .toList(),
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return 'Choose at least one payment providers';
-                                  }
-                                  return '';
-                                },
-                                onChanged: (value) {
-                                  controller.selectedPaymentProviders =
-                                      value;
-                                  controller.update();
-                                },
-                                selectedValues:
-                                controller.selectedPaymentProviders,
-                                whenEmpty: 'Choose payment providers',
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  filled: true,
-                                  fillColor: Theme.of(context)
-                                      .scaffoldBackgroundColor,
-                                  border: border,
-                                  enabledBorder: border,
-                                ),
-                              )
-                                  : const CircularProgressIndicator.adaptive(),
-                            ),
+                            // AnimatedSwitcher(
+                            //   duration: const Duration(milliseconds: 300),
+                            //   child: controller.paymentProviders != null
+                            //       ? DropDownMultiSelect(
+                            //     hintStyle: mediumTextStyle,
+                            //     selected_values_style: smallTextStyle,
+                            //     options: controller.paymentProviders!
+                            //         .map((e) => e.id ?? '')
+                            //         .toList(),
+                            //     validator: (val) {
+                            //       if (val == null || val.isEmpty) {
+                            //         return 'Choose at least one payment providers';
+                            //       }
+                            //       return '';
+                            //     },
+                            //     onChanged: (value) {
+                            //       controller.selectedPaymentProviders =
+                            //           value;
+                            //       controller.update();
+                            //     },
+                            //     selectedValues:
+                            //     controller.selectedPaymentProviders,
+                            //     whenEmpty: 'Choose payment providers',
+                            //     decoration: InputDecoration(
+                            //       isDense: true,
+                            //       filled: true,
+                            //       fillColor: Theme.of(context)
+                            //           .scaffoldBackgroundColor,
+                            //       border: border,
+                            //       enabledBorder: border,
+                            //     ),
+                            //   )
+                            //       : const CircularProgressIndicator.adaptive(),
+                            // ),
                             space,
                           ],
                         ),

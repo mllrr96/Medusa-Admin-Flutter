@@ -56,7 +56,6 @@ dependencies:
   loading_animation_widget: ^1.2.0+4
   flutter_speed_dial: ^7.0.0
   info_popup: ^4.1.0
-  multiselect: ^0.1.0
   flutter_slidable: ^3.0.0
   package_info_plus: ^5.0.1
   flutter_animate: ^4.1.1+1
@@ -67,12 +66,11 @@ dependencies:
   copy_with_extension: ^5.0.3
   skeletonizer: ^0.8.0
   flag: ^7.0.0
-  elegant_notification: ^1.11.0
   timeago: ^3.5.0
   gap: ^3.0.1
-  fx_stepper: ^0.0.1
   fluttertoast: ^8.2.4
   internet_connection_checker_plus: ^2.1.0
+  multi_dropdown: ^2.1.2
 
 
 
