@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/store/customer_group.dart';
 import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
@@ -68,9 +69,9 @@ class GroupDetailsController extends GetxController {
       pagingController.refresh();
       GroupsController.instance.pagingController.refresh();
     },
-        (error) => Get.snackbar(
-            'Error removing customer from group', error.message,
-            snackPosition: SnackPosition.BOTTOM));
+        (error) {
+
+        });
     dismissLoading();
   }
 
@@ -100,7 +101,7 @@ class GroupDetailsController extends GetxController {
       GroupsController.instance.pagingController.refresh();
     },
         (error) =>
-            Get.snackbar('Error adding customer to the group', error.message));
+        context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 
@@ -110,10 +111,9 @@ class GroupDetailsController extends GetxController {
         await customerGroupRepo.deleteCustomerGroup(id: groupCustomer.id!);
     result.when((success) {
       GroupsController.instance.pagingController.refresh();
-      Get.snackbar('Success', 'Customer Group deleted',
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar('Customer Group deleted');
       context.popRoute();
-    }, (error) => Get.snackbar('Failure, ${error.code ?? ''}', error.message));
+    }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 }

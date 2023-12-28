@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/adaptive_date_picker.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../../../components/date_time_card.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_discount_controller.dart';
@@ -23,7 +23,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
     return GetBuilder<AddUpdateDiscountController>(
         id: 2,
         builder: (controller) {
-          return CustomExpansionTile(
+          return HeaderCard(
             key: controller.configKey,
             controller: controller.configTileController,
             maintainState: true,
@@ -35,149 +35,151 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
             initiallyExpanded: controller.updateMode,
             title: Text('Configuration',
                 style: Theme.of(context).textTheme.bodyLarge),
-            expandedAlignment: Alignment.centerLeft,
-            childrenPadding:
+            // expandedAlignment: Alignment.centerLeft,
+            childPadding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-            children: [
-              Text(
-                'Discount code applies from you hit the publish button and forever if left untouched.',
-                style: smallTextStyle!.copyWith(color: manatee),
-              ),
-              space,
-              SwitchListTile.adaptive(
-                contentPadding: EdgeInsets.zero,
-                value: controller.hasStartDate,
-                onChanged: (val) async {
-                  controller.hasStartDate = val;
-                  controller.update([2]);
-                  if (!val) {
-                    controller.startDate = null;
-                  } else {
-                    await controller.configKey.currentContext
-                        .ensureVisibility();
-                  }
-                },
-                title: const Text('Start date'),
-                subtitle: Text(
-                    'Schedule the discount to activate in the future.',
-                    style: TextStyle(color: manatee)),
-              ),
-              halfSpace,
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: controller.hasStartDate
-                    ? DateTimeCard(
-                        validator: (date) {
-                          if (date == null) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                        dateTime: controller.startDate,
-                        dateText: 'Start',
-                        onTap: () async {
-                          await adaptiveDateTimePicker(
-                                  date: controller.startDate, context: context)
-                              .then((result) {
-                            if (result != null) {
-                              controller.startDate = result;
-                              controller.update([2]);
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Discount code applies from you hit the publish button and forever if left untouched.',
+                  style: smallTextStyle!.copyWith(color: manatee),
+                ),
+                space,
+                SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  value: controller.hasStartDate,
+                  onChanged: (val) async {
+                    controller.hasStartDate = val;
+                    controller.update([2]);
+                    if (!val) {
+                      controller.startDate = null;
+                    } else {
+                      await controller.configKey.currentContext
+                          .ensureVisibility();
+                    }
+                  },
+                  title: const Text('Start date'),
+                  subtitle: Text(
+                      'Schedule the discount to activate in the future.',
+                      style: TextStyle(color: manatee)),
+                ),
+                halfSpace,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: controller.hasStartDate
+                      ? DateTimeCard(
+                    validator: (date) {
+                      if (date == null) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    dateTime: controller.startDate,
+                    dateText: 'Start',
+                    onTap: () async {
+                      await adaptiveDateTimePicker(
+                          date: controller.startDate, context: context)
+                          .then((result) {
+                        if (result != null) {
+                          controller.startDate = result;
+                          controller.update([2]);
+                        }
+                      });
+                    },
+                  )
+                      : const SizedBox.shrink(),
+                ),
+                space,
+                SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Discount has an expiry date?'),
+                  subtitle: Text(
+                      'Schedule the discount to deactivate in the future.',
+                      style: TextStyle(color: manatee)),
+                  onChanged: (val) async {
+                    controller.hasEndDate = val;
+                    controller.update([2]);
+                    if (!val) {
+                      controller.endDate = null;
+                    } else {
+                      await controller.configKey.currentContext
+                          .ensureVisibility();
+                    }
+                  },
+                  value: controller.hasEndDate,
+                ),
+                halfSpace,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: controller.hasEndDate
+                      ? DateTimeCard(
+                    validator: (date) {
+                      if (date == null) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    dateTime: controller.endDate,
+                    dateText: 'Expiry',
+                    onTap: () async {
+                      await adaptiveDateTimePicker(
+                          date: controller.endDate, context: context)
+                          .then((result) {
+                        if (result != null) {
+                          controller.endDate = result;
+                          controller.update([2]);
+                        }
+                      });
+                    },
+                  )
+                      : const SizedBox.shrink(),
+                ),
+                space,
+                SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Limit the number of redemptions?'),
+                  subtitle: Text(
+                      'Limit applies across all customers, not per customer.',
+                      style: TextStyle(color: manatee)),
+                  value: controller.hasLimit,
+                  onChanged: (val) async {
+                    controller.hasLimit = val;
+                    controller.update([2]);
+                    if (!val) {
+                      controller.limitCtrl.clear();
+                    } else {
+                      await controller.configKey.currentContext
+                          .ensureVisibility();
+                    }
+                  },
+                ),
+                halfSpace,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: controller.hasLimit
+                      ? Row(
+                    children: [
+                      Flexible(
+                        child: LabeledNumericTextField(
+                          label: 'Number of redemptions',
+                          controller: controller.limitCtrl,
+                          hintText: '...',
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Required';
                             }
-                          });
-                        },
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              space,
-              SwitchListTile.adaptive(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Discount has an expiry date?'),
-                subtitle: Text(
-                    'Schedule the discount to deactivate in the future.',
-                    style: TextStyle(color: manatee)),
-                onChanged: (val) async {
-                  controller.hasEndDate = val;
-                  controller.update([2]);
-                  if (!val) {
-                    controller.endDate = null;
-                  } else {
-                    await controller.configKey.currentContext
-                        .ensureVisibility();
-                  }
-                },
-                value: controller.hasEndDate,
-              ),
-              halfSpace,
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: controller.hasEndDate
-                    ? DateTimeCard(
-                        validator: (date) {
-                          if (date == null) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                        dateTime: controller.endDate,
-                        dateText: 'Expiry',
-                        onTap: () async {
-                          await adaptiveDateTimePicker(
-                                  date: controller.endDate, context: context)
-                              .then((result) {
-                            if (result != null) {
-                              controller.endDate = result;
-                              controller.update([2]);
-                            }
-                          });
-                        },
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              space,
-              SwitchListTile.adaptive(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Limit the number of redemptions?'),
-                subtitle: Text(
-                    'Limit applies across all customers, not per customer.',
-                    style: TextStyle(color: manatee)),
-                value: controller.hasLimit,
-                onChanged: (val) async {
-                  controller.hasLimit = val;
-                  controller.update([2]);
-                  if (!val) {
-                    controller.limitCtrl.clear();
-                  } else {
-                    await controller.configKey.currentContext
-                        .ensureVisibility();
-                  }
-                },
-              ),
-              halfSpace,
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: controller.hasLimit
-                    ? Row(
-                        children: [
-                          Flexible(
-                            child: LabeledNumericTextField(
-                              label: 'Number of redemptions',
-                              controller: controller.limitCtrl,
-                              hintText: '...',
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Required';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          const Flexible(child: SizedBox())
-                        ],
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              space,
-            ],
+                            return null;
+                          },
+                        ),
+                      ),
+                      const Flexible(child: SizedBox())
+                    ],
+                  )
+                      : const SizedBox.shrink(),
+                ),
+                space,
+              ],
+            ),
           );
         });
   }

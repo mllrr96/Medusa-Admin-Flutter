@@ -4,13 +4,13 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_option.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../controllers/add_update_product_controller.dart';
 
 class ProductVariants extends StatelessWidget {
@@ -26,98 +26,99 @@ class ProductVariants extends StatelessWidget {
     return GetBuilder<AddUpdateProductController>(
       id: 2,
       builder: (controller) {
-        return CustomExpansionTile(
+        return HeaderCard(
           controller: controller.variantTileCtrl,
           maintainState: true,
           onExpansionChanged: onExpansionChanged,
           title: Text('Variants', style: Theme.of(context).textTheme.bodyLarge),
-          expandedAlignment: Alignment.centerLeft,
-          childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-          children: [
-            Text(
-                'Add variations of this product.\nOffer your customers different options for color, format, size, shape, etc.',
-                style: smallTextStyle!.copyWith(color: lightWhite)),
-            space,
-            Row(
-              children: [
-                Text('Product options', style: largeTextStyle),
-              ],
-            ),
-            if (controller.product.options != null) space,
-            if (controller.product.options != null)
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => ProductOptionCard(
-                        productOption: controller.product.options![index],
-                        delete: () {
-                          controller.product.options?.removeAt(index);
-                          controller.update([2]);
-                        },
-                      ),
-                  separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                  itemCount: controller.product.options!.length),
-            space,
-            AdaptiveButton(
-                onPressed: () async {
-                  final result = GetPlatform.isIOS
-                      ? await showCupertinoModalBottomSheet(
-                          context: context, builder: (context) => const AddOptionView())
-                      : await showModalBottomSheet(
-                          context: context, builder: (context) => const AddOptionView(), isScrollControlled: true);
-                  if (result is ProductOption) {
-                    List<ProductOption>? options = controller.product.options;
+          childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+          child: Column(
+            children: [
+              Text(
+                  'Add variations of this product.\nOffer your customers different options for color, format, size, shape, etc.',
+                  style: smallTextStyle!.copyWith(color: lightWhite)),
+              space,
+              Row(
+                children: [
+                  Text('Product options', style: largeTextStyle),
+                ],
+              ),
+              if (controller.product.options != null) space,
+              if (controller.product.options != null)
+                ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => ProductOptionCard(
+                      productOption: controller.product.options![index],
+                      delete: () {
+                        controller.product.options?.removeAt(index);
+                        controller.update([2]);
+                      },
+                    ),
+                    separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                    itemCount: controller.product.options!.length),
+              space,
+              AdaptiveButton(
+                  onPressed: () async {
+                    final result = GetPlatform.isIOS
+                        ? await showCupertinoModalBottomSheet(
+                        context: context, builder: (context) => const AddOptionView())
+                        : await showModalBottomSheet(
+                        context: context, builder: (context) => const AddOptionView(), isScrollControlled: true);
+                    if (result is ProductOption) {
+                      List<ProductOption>? options = controller.product.options;
 
-                    if (options != null) {
-                      options.add(result);
-                    } else {
-                      options = [result];
+                      if (options != null) {
+                        options.add(result);
+                      } else {
+                        options = [result];
+                      }
+                      controller.product = controller.product.copyWith(options: options);
+                      controller.update([2]);
                     }
-                    controller.product = controller.product.copyWith(options: options);
-                    controller.update([2]);
+                  },
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [Icon(Icons.add), Text('Add an option')],
+                  )),
+              space,
+              Row(
+                children: [
+                  Text('Product variants', style: largeTextStyle),
+                ],
+              ),
+              if (controller.product.variants != null) space,
+              if (controller.product.variants != null)
+                ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
+                    separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                    itemCount: controller.product.variants!.length),
+              AdaptiveButton(
+                onPressed: controller.product.options == null || controller.product.options!.isEmpty
+                    ? null
+                    : () async {
+                  final result = await context.pushRoute(ProductAddVariantRoute(
+                      productVariantReq: ProductVariantReq(product: controller.product)));
+                  if (result is ProductVariant) {
+                    if (controller.product.variants != null) {
+                      List<ProductVariant> variants = controller.product.variants!;
+                      variants.add(result);
+                      controller.product = controller.product.copyWith(variants: variants);
+                    } else {
+                      controller.product = controller.product.copyWith(variants: [result]);
+                    }
                   }
+                  controller.update();
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Icon(Icons.add), Text('Add an option')],
-                )),
-            space,
-            Row(
-              children: [
-                Text('Product variants', style: largeTextStyle),
-              ],
-            ),
-            if (controller.product.variants != null) space,
-            if (controller.product.variants != null)
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
-                  separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                  itemCount: controller.product.variants!.length),
-            AdaptiveButton(
-              onPressed: controller.product.options == null || controller.product.options!.isEmpty
-                  ? null
-                  : () async {
-                final result = await context.pushRoute(ProductAddVariantRoute(
-                    productVariantReq: ProductVariantReq(product: controller.product)));
-                      if (result is ProductVariant) {
-                        if (controller.product.variants != null) {
-                          List<ProductVariant> variants = controller.product.variants!;
-                          variants.add(result);
-                          controller.product = controller.product.copyWith(variants: variants);
-                        } else {
-                          controller.product = controller.product.copyWith(variants: [result]);
-                        }
-                      }
-                      controller.update();
-                    },
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [Icon(Icons.add), Text('Add a variant')],
+                  children: [Icon(Icons.add), Text('Add a variant')],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/data/repository/shipping_profile/shipping_profi
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 
 class AddUpdateShippingOptionController extends GetxController {
@@ -97,8 +98,7 @@ class AddUpdateShippingOptionController extends GetxController {
       dismissLoading();
       context.popRoute();
     }, (error) {
-      Get.snackbar('Error creating shipping option ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar('Error creating shipping option, ${error.toSnackBarString()}');
       dismissLoading();
     });
   }
@@ -139,8 +139,7 @@ class AddUpdateShippingOptionController extends GetxController {
       context.popRoute();
       dismissLoading();
     }, (error) {
-      Get.snackbar('Error updating shipping option ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar('Error updating shipping option, ${error.toSnackBarString()}');
       dismissLoading();
     });
   }

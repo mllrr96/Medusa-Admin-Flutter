@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -12,7 +13,6 @@ import '../../../../data/models/store/address.dart';
 import '../../../../data/models/store/country.dart';
 import '../../../../data/models/store/customer.dart';
 import '../../../components/adaptive_icon.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_draft_order_controller.dart';
 
@@ -176,158 +176,161 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
         space,
         const Text('Shipping Details'),
         space,
-        CustomExpansionTile(
+        HeaderCard(
           key: shippingGeneralKey,
-          // label: 'General',
-          title: Text('General', style: smallTextStyle),
+          title: const Text('General'),
           onExpansionChanged: (expanded) async {
               await shippingGeneralKey.currentContext.ensureVisibility();
           },
-          children: [
-            LabeledTextField(
-              label: 'First Name',
-              controller: firstNameCtrl,
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              onChanged: (val) {
-                controller.shippingAddress.firstName = val;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Last Name',
-              controller: lastNameCtrl,
-              onChanged: (val) {
-                controller.shippingAddress.lastName = val;
-              },
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Company',
-              controller: companyCtrl,
-              onChanged: (val) {
-                controller.shippingAddress.company = val;
-              },
-            ),
-            LabeledTextField(
-              label: 'Phone Number',
-              controller: phoneCtrl,
-              onChanged: (val) {
-                controller.shippingAddress.phone = int.tryParse(val);
-              },
-            ),
-          ],
+          child: Column(
+            children: <Widget> [
+              LabeledTextField(
+                label: 'First Name',
+                controller: firstNameCtrl,
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                onChanged: (val) {
+                  controller.shippingAddress.firstName = val;
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'Last Name',
+                controller: lastNameCtrl,
+                onChanged: (val) {
+                  controller.shippingAddress.lastName = val;
+                },
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'Company',
+                controller: companyCtrl,
+                onChanged: (val) {
+                  controller.shippingAddress.company = val;
+                },
+              ),
+              LabeledTextField(
+                label: 'Phone Number',
+                controller: phoneCtrl,
+                onChanged: (val) {
+                  controller.shippingAddress.phone = int.tryParse(val);
+                },
+              ),
+            ],
+          ),
         ),
         space,
-        CustomExpansionTile(
+        HeaderCard(
           key: shippingAddressKey,
           // label: 'Shipping Address',
-          title: Text('Shipping Address', style: smallTextStyle),
+          title: const Text('Shipping Address'),
           onExpansionChanged: (expanded) async {
             if (expanded) {
               await shippingAddressKey.currentContext.ensureVisibility();
             }
           },
-          children: [
-            LabeledTextField(
-              label: 'Address 1',
-              controller: address1Ctrl,
-              onChanged: (val) {
-                controller.shippingAddress.address1 = val;
-              },
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Address 2',
-              controller: address2Ctrl,
-              onChanged: (val) {
-                controller.shippingAddress.address2 = val;
-              },
-            ),
-            LabeledTextField(
-              label: 'Postal Code',
-              controller: postalCodeCtrl,
-              onChanged: (val) {
-                controller.shippingAddress.postalCode = val;
-              },
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'City',
-              controller: cityCtrl,
-              onChanged: (val) {
-                controller.shippingAddress.city = val;
-              },
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Province',
-              controller: provinceCtrl,
-              onChanged: (val) {
-                controller.shippingAddress.province = val;
-              },
-            ),
-            if (countries?.isNotEmpty ?? false)
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text('Country', style: mediumTextStyle),
-                      Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
-                    ],
-                  ),
-                  halfSpace,
-                  DropdownButtonFormField<Country>(
-                    style: context.bodyMedium,
-                    value: countries?.first,
-                    items: countries
-                        ?.map((e) => DropdownMenuItem<Country>(
-                              value: e,
-                              child: Text(e.name?.capitalize ?? ''),
-                            ))
-                        .toList(),
-                    onChanged: (Country? country) {
-                      controller.shippingAddress.country = country;
-                    },
-                    validator: (val) {
-                      if (val == null) {
-                        return 'Country is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  space,
-                ],
+          child: Column(
+            children: <Widget>[
+              LabeledTextField(
+                label: 'Address 1',
+                controller: address1Ctrl,
+                onChanged: (val) {
+                  controller.shippingAddress.address1 = val;
+                },
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                required: true,
               ),
-          ],
+              LabeledTextField(
+                label: 'Address 2',
+                controller: address2Ctrl,
+                onChanged: (val) {
+                  controller.shippingAddress.address2 = val;
+                },
+              ),
+              LabeledTextField(
+                label: 'Postal Code',
+                controller: postalCodeCtrl,
+                onChanged: (val) {
+                  controller.shippingAddress.postalCode = val;
+                },
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'City',
+                controller: cityCtrl,
+                onChanged: (val) {
+                  controller.shippingAddress.city = val;
+                },
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'Province',
+                controller: provinceCtrl,
+                onChanged: (val) {
+                  controller.shippingAddress.province = val;
+                },
+              ),
+              if (countries?.isNotEmpty ?? false)
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text('Country', style: mediumTextStyle),
+                        Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
+                      ],
+                    ),
+                    halfSpace,
+                    DropdownButtonFormField<Country>(
+                      style: context.bodyMedium,
+                      value: countries?.first,
+                      items: countries
+                          ?.map((e) => DropdownMenuItem<Country>(
+                        value: e,
+                        child: Text(e.name?.capitalize ?? ''),
+                      ))
+                          .toList(),
+                      onChanged: (Country? country) {
+                        controller.shippingAddress.country = country;
+                      },
+                      validator: (val) {
+                        if (val == null) {
+                          return 'Country is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    space,
+                  ],
+                ),
+            ],
+          ),
         ),
         halfSpace,
         const Divider(),
@@ -359,196 +362,200 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
           controlAffinity: ListTileControlAffinity.leading,
         ),
         space,
-        CustomExpansionTile(
+        HeaderCard(
           key: billingGeneralKey,
           // label: 'General',
-          title: Text('General', style: smallTextStyle),
+          title: Text('General'),
           onExpansionChanged: (expanded) async {
             if (expanded) {
               await billingGeneralKey.currentContext.ensureVisibility();
             }
           },
-          children: [
-            LabeledTextField(
-              label: 'First Name',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingFirstNameCtrl,
-              onChanged: (val) {
-                controller.billingAddress.firstName = val;
-              },
-              validator: (val) {
-                if (controller.sameAddress) {
+          child: Column(
+            children: <Widget>[
+              LabeledTextField(
+                label: 'First Name',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingFirstNameCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.firstName = val;
+                },
+                validator: (val) {
+                  if (controller.sameAddress) {
+                    return null;
+                  }
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
                   return null;
-                }
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Last Name',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingLastNameCtrl,
-              onChanged: (val) {
-                controller.billingAddress.lastName = val;
-              },
-              validator: (val) {
-                if (controller.sameAddress) {
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'Last Name',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingLastNameCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.lastName = val;
+                },
+                validator: (val) {
+                  if (controller.sameAddress) {
+                    return null;
+                  }
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
                   return null;
-                }
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Company',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingCompanyCtrl,
-              onChanged: (val) {
-                controller.billingAddress.company = val;
-              },
-            ),
-            LabeledTextField(
-              label: 'Phone Number',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingPhoneCtrl,
-              onChanged: (val) {
-                controller.billingAddress.phone = int.tryParse(val);
-              },
-            ),
-          ],
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'Company',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingCompanyCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.company = val;
+                },
+              ),
+              LabeledTextField(
+                label: 'Phone Number',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingPhoneCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.phone = int.tryParse(val);
+                },
+              ),
+            ],
+          ),
         ),
         space,
-        CustomExpansionTile(
+        HeaderCard(
           key: billingAddressKey,
           // label: 'Billing Address',
-          title: Text('Billing Address', style: smallTextStyle),
+          title: Text('Billing Address'),
           onExpansionChanged: (expanded) async {
             if (expanded) {
               await billingAddressKey.currentContext.ensureVisibility();
             }
           },
-          children: [
-            LabeledTextField(
-              label: 'Address 1',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingAddress1Ctrl,
-              onChanged: (val) {
-                controller.billingAddress.address1 = val;
-              },
-              validator: (val) {
-                if (controller.sameAddress) {
+          child: Column(
+            children: <Widget>[
+              LabeledTextField(
+                label: 'Address 1',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingAddress1Ctrl,
+                onChanged: (val) {
+                  controller.billingAddress.address1 = val;
+                },
+                validator: (val) {
+                  if (controller.sameAddress) {
+                    return null;
+                  }
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
                   return null;
-                }
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Address 2',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingAddress2Ctrl,
-              onChanged: (val) {
-                controller.billingAddress.address2 = val;
-              },
-            ),
-            LabeledTextField(
-              label: 'Postal Code',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingPostalCodeCtrl,
-              onChanged: (val) {
-                controller.billingAddress.postalCode = val;
-              },
-              validator: (val) {
-                if (controller.sameAddress) {
-                  return null;
-                }
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'City',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingCityCtrl,
-              onChanged: (val) {
-                controller.billingAddress.city = val;
-              },
-              validator: (val) {
-                if (controller.sameAddress) {
-                  return null;
-                }
-                if (val == null || val.isEmpty) {
-                  return 'Field is required';
-                }
-                return null;
-              },
-              required: true,
-            ),
-            LabeledTextField(
-              label: 'Province',
-              lightLabelColor: controller.sameAddress,
-              readOnly: controller.sameAddress,
-              controller: billingProvinceCtrl,
-              onChanged: (val) {
-                controller.billingAddress.province = val;
-              },
-            ),
-            if (countries?.isNotEmpty ?? false)
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text('Country', style: mediumTextStyle),
-                      Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
-                    ],
-                  ),
-                  halfSpace,
-                  DropdownButtonFormField<Country>(
-                    style: context.bodyMedium,
-                    value: countries?.first,
-                    items: countries
-                        ?.map((e) => DropdownMenuItem<Country>(
-                              value: e,
-                              child: Text(e.name?.capitalize ?? ''),
-                            ))
-                        .toList(),
-                    onChanged: (Country? country) {
-                      controller.billingAddress.country = country;
-                    },
-                    validator: (val) {
-                      if (controller.sameAddress) {
-                        return null;
-                      }
-                      if (val == null) {
-                        return 'Country is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  space,
-                ],
+                },
+                required: true,
               ),
-          ],
+              LabeledTextField(
+                label: 'Address 2',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingAddress2Ctrl,
+                onChanged: (val) {
+                  controller.billingAddress.address2 = val;
+                },
+              ),
+              LabeledTextField(
+                label: 'Postal Code',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingPostalCodeCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.postalCode = val;
+                },
+                validator: (val) {
+                  if (controller.sameAddress) {
+                    return null;
+                  }
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'City',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingCityCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.city = val;
+                },
+                validator: (val) {
+                  if (controller.sameAddress) {
+                    return null;
+                  }
+                  if (val == null || val.isEmpty) {
+                    return 'Field is required';
+                  }
+                  return null;
+                },
+                required: true,
+              ),
+              LabeledTextField(
+                label: 'Province',
+                lightLabelColor: controller.sameAddress,
+                readOnly: controller.sameAddress,
+                controller: billingProvinceCtrl,
+                onChanged: (val) {
+                  controller.billingAddress.province = val;
+                },
+              ),
+              if (countries?.isNotEmpty ?? false)
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text('Country', style: mediumTextStyle),
+                        Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
+                      ],
+                    ),
+                    halfSpace,
+                    DropdownButtonFormField<Country>(
+                      style: context.bodyMedium,
+                      value: countries?.first,
+                      items: countries
+                          ?.map((e) => DropdownMenuItem<Country>(
+                        value: e,
+                        child: Text(e.name?.capitalize ?? ''),
+                      ))
+                          .toList(),
+                      onChanged: (Country? country) {
+                        controller.billingAddress.country = country;
+                      },
+                      validator: (val) {
+                        if (controller.sameAddress) {
+                          return null;
+                        }
+                        if (val == null) {
+                          return 'Country is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    space,
+                  ],
+                ),
+            ],
+          ),
         ),
       ],
     );

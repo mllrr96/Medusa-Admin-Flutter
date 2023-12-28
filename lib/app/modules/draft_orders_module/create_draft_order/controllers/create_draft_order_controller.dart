@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import '../../../../data/models/req/user_draft_order_req.dart';
 import '../../../../data/repository/regions/regions_repo.dart';
 import '../../../components/easy_loading.dart';
@@ -38,7 +39,6 @@ class CreateDraftOrderController extends GetxController
     super.onInit();
   }
 
-
   Future<void> createDraftOrder(BuildContext context) async {
     loading();
     final result = await draftOrderRepo.createDraftOrder(
@@ -60,12 +60,9 @@ class CreateDraftOrderController extends GetxController
       EasyLoading.showSuccess('Draft order created');
       DraftOrdersController.instance.pagingController.refresh();
       return;
-    }, (error) {
-      debugPrint(error.toString());
-      Get.snackbar(
-          'Error creating draft order ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
-    });
+    },
+        (error) => context.showSnackBar(
+            'Error creating draft order ${error.toSnackBarString()}'));
 
     dismissLoading();
   }

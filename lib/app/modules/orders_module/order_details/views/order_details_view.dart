@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/order.dart';
@@ -40,11 +39,12 @@ class OrderDetailsView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
-            title: Text(tr.orderTableOrder),
-            centerTitle: true,
+            title: Hero(
+                tag : 'order',
+                child: Text(tr.orderTableOrder)),
             actions: [
               if (controller.state?.status != OrderStatus.canceled)
-                AdaptiveIcon(
+                IconButton(
                     onPressed: () async {
                       await showModalActionSheet<int>(
                           context: context,

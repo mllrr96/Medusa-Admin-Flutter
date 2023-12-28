@@ -192,7 +192,7 @@ class ConditionProductController extends GetxController {
   @override
   void onClose() {
     searchCtrl.dispose();
-    pagingController.dispose();
+    // pagingController.dispose();
     super.onClose();
   }
 

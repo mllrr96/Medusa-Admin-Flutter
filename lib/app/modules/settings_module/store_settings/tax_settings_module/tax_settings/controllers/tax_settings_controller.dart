@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -5,6 +6,7 @@ import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class TaxSettingsController extends GetxController {
   TaxSettingsController({required this.taxRateRepo, required this.storeRepo, required this.region});
@@ -60,18 +62,17 @@ class TaxSettingsController extends GetxController {
       } else {
         taxProviders = [TaxProvider(id: 'System Tax Provider')];
         selectedTaxProvider = taxProviders!.first;
-        Get.snackbar('Error loading tax providers', 'Received tax providers are empty',
-            snackPosition: SnackPosition.BOTTOM);
+        // Get.snackbar('Error loading tax providers', 'Received tax providers are empty',
+        //     snackPosition: SnackPosition.BOTTOM);
         update();
       }
     }, (error) {
-      // Get.back();
-      Get.snackbar('Error loading tax providers ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
+      // Get.snackbar('Error loading tax providers ${error.code ?? ''}', error.message,
+      //     snackPosition: SnackPosition.BOTTOM);
     });
   }
 
-  Future<void> deleteTaxRate(String id) async {
+  Future<void> deleteTaxRate(String id, BuildContext context) async {
     loading();
     final result = await taxRateRepo.deleteTaxRate(id: id);
     result.when((success) {
@@ -79,7 +80,7 @@ class TaxSettingsController extends GetxController {
       pagingController.refresh();
       dismissLoading();
     }, (error) {
-      Get.snackbar('Error deleting tax rate ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
       dismissLoading();
     });
   }

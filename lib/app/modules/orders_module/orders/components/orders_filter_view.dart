@@ -5,15 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../components/adaptive_filled_button.dart';
+import '../../../components/header_card.dart';
 import 'orders_filter_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -69,68 +67,71 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
     super.dispose();
   }
 
+  bool isStatusOpen = false;
+
+  final Widget disabledApplyButton = const FilledButton(
+      onPressed: null,
+      child: Text('Apply'));
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
+
     return GestureDetector(
       onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Orders Filter'),
-          actions: [
-            AdaptiveButton(
-              onPressed: widget.onResetTap,
-              child: const Text('Reset'),
-            )
-          ],
         ),
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(12.0),
-          color: context.theme.appBarTheme.backgroundColor,
-          child: controller.obx((state) =>
-              AdaptiveFilledButton(
-              onPressed: () {
-            if (orderFilter.orderDateFilter.active &&
-                !formKey.currentState!.validate()) {
-              return;
-            }
-            final filterType =
-                orderFilter.orderDateFilter.dateFilterType;
-            final dateType = orderFilter.orderDateFilter.dateType;
-            if (filterType == DateFilterType.isInTheLast ||
-                filterType == DateFilterType.isOlderThan) {
-              final count = int.tryParse(numberCtrl.text);
-              if (count != null) {
-                final now = DateTime.now();
-                DateTime date;
-                switch (dateType) {
-                  case DateType.day:
-                    date = now.subtract(Duration(days: count));
-                    break;
-                  case DateType.month:
-                    date =
-                        now.subtract(Duration(days: count * 30));
-                    break;
-                }
-                orderFilter.orderDateFilter.date = date;
-              }
-            }
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: widget.onResetTap,
+                  child: const Text('Reset'),
+                ),
+                controller.obx(
+                      (state) => FilledButton(
+                      onPressed: () {
+                        if (orderFilter.orderDateFilter.active &&
+                            !formKey.currentState!.validate()) {
+                          return;
+                        }
+                        final filterType =
+                            orderFilter.orderDateFilter.dateFilterType;
+                        final dateType = orderFilter.orderDateFilter.dateType;
+                        if (filterType == DateFilterType.isInTheLast ||
+                            filterType == DateFilterType.isOlderThan) {
+                          final count = int.tryParse(numberCtrl.text);
+                          if (count != null) {
+                            final now = DateTime.now();
+                            DateTime date;
+                            switch (dateType) {
+                              case DateType.day:
+                                date = now.subtract(Duration(days: count));
+                                break;
+                              case DateType.month:
+                                date = now.subtract(Duration(days: count * 30));
+                                break;
+                            }
+                            orderFilter.orderDateFilter.date = date;
+                          }
+                        }
 
-            orderFilter.orderDateFilter.number =
-                int.tryParse(numberCtrl.text) ?? 0;
-            widget.onSubmitted?.call(orderFilter);
-            context.popRoute();
-          },
-            child: Text('Apply',
-                style: smallTextStyle?.copyWith(color: Colors.white))),
-            onLoading: AdaptiveFilledButton(onPressed: null, child: Text('Apply',
-                style: smallTextStyle?.copyWith(color: Colors.white))),
-            onEmpty: const SizedBox.shrink(),
-            onError: (_) => AdaptiveFilledButton(onPressed: null, child: Text('Apply',
-                style: smallTextStyle?.copyWith(color: Colors.white))),
-          )
-        ),
+                        orderFilter.orderDateFilter.number =
+                            int.tryParse(numberCtrl.text) ?? 0;
+                        widget.onSubmitted?.call(orderFilter);
+                        context.popRoute();
+                      },
+                      child: Text('Apply')),
+                  onLoading: disabledApplyButton,
+                  onEmpty: disabledApplyButton,
+                  onError: (_) => disabledApplyButton,
+                ),
+              ],
+            )),
         body: Form(
           key: formKey,
           child: SmartRefresher(
@@ -149,38 +150,40 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     final salesChannels = state?.$2;
                     return Column(
                       children: [
-                        CustomExpansionTile(
+                        HeaderCard(
                           key: statusKey,
+                          title: const Text('Status'),
                           initiallyExpanded: orderFilter.status.isNotEmpty,
                           onExpansionChanged: (expanded) async {
                             if (expanded) {
-                              await statusKey.currentContext!
-                                  .ensureVisibility();
+                              await statusKey.currentContext.ensureVisibility();
                             }
                           },
-                          title: Text('Status', style: smallTextStyle),
-                          children: OrderStatus.values
-                              .map((e) => CheckboxListTile(
-                                  title: Text(e.name(), style: smallTextStyle),
-                                  value: orderFilter.status.contains(e),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  contentPadding: EdgeInsets.zero,
-                                  onChanged: (val) {
-                                    if (val == null) {
-                                      return;
-                                    }
-                                    if (val) {
-                                      orderFilter.status.add(e);
-                                    } else {
-                                      orderFilter.status.remove(e);
-                                    }
-                                    setState(() {});
-                                  }))
-                              .toList(),
+                          child: Column(
+                            children: OrderStatus.values
+                                .map((e) => CheckboxListTile(
+                                    title:
+                                        Text(e.name(), style: smallTextStyle),
+                                    value: orderFilter.status.contains(e),
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    contentPadding: EdgeInsets.zero,
+                                    onChanged: (val) {
+                                      if (val == null) {
+                                        return;
+                                      }
+                                      if (val) {
+                                        orderFilter.status.add(e);
+                                      } else {
+                                        orderFilter.status.remove(e);
+                                      }
+                                      setState(() {});
+                                    }))
+                                .toList(),
+                          ),
                         ),
                         space,
-                        CustomExpansionTile(
+                        HeaderCard(
                           key: paymentStatusKey,
                           initiallyExpanded:
                               orderFilter.paymentStatus.isNotEmpty,
@@ -190,29 +193,33 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                   .ensureVisibility();
                             }
                           },
-                          title: Text('Payment Status', style: smallTextStyle),
-                          children: PaymentStatus.values
-                              .map((e) => CheckboxListTile(
-                                  title: Text(e.name(), style: smallTextStyle),
-                                  value: orderFilter.paymentStatus.contains(e),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  contentPadding: EdgeInsets.zero,
-                                  onChanged: (val) {
-                                    if (val == null) {
-                                      return;
-                                    }
-                                    if (val) {
-                                      orderFilter.paymentStatus.add(e);
-                                    } else {
-                                      orderFilter.paymentStatus.remove(e);
-                                    }
-                                    setState(() {});
-                                  }))
-                              .toList(),
+                          title: const Text('Payment Status'),
+                          child: Column(
+                            children: PaymentStatus.values
+                                .map((e) => CheckboxListTile(
+                                    title:
+                                        Text(e.name(), style: smallTextStyle),
+                                    value:
+                                        orderFilter.paymentStatus.contains(e),
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    contentPadding: EdgeInsets.zero,
+                                    onChanged: (val) {
+                                      if (val == null) {
+                                        return;
+                                      }
+                                      if (val) {
+                                        orderFilter.paymentStatus.add(e);
+                                      } else {
+                                        orderFilter.paymentStatus.remove(e);
+                                      }
+                                      setState(() {});
+                                    }))
+                                .toList(),
+                          ),
                         ),
                         space,
-                        CustomExpansionTile(
+                        HeaderCard(
                           key: fulfillmentStatusKey,
                           initiallyExpanded:
                               orderFilter.fulfillmentStatus.isNotEmpty,
@@ -222,31 +229,33 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                   .ensureVisibility();
                             }
                           },
-                          title:
-                              Text('Fulfillment Status', style: smallTextStyle),
-                          children: FulfillmentStatus.values
-                              .map((e) => CheckboxListTile(
-                                  title: Text(e.name(), style: smallTextStyle),
-                                  value:
-                                      orderFilter.fulfillmentStatus.contains(e),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  contentPadding: EdgeInsets.zero,
-                                  onChanged: (val) {
-                                    if (val == null) {
-                                      return;
-                                    }
-                                    if (val) {
-                                      orderFilter.fulfillmentStatus.add(e);
-                                    } else {
-                                      orderFilter.fulfillmentStatus.remove(e);
-                                    }
-                                    setState(() {});
-                                  }))
-                              .toList(),
+                          title: const Text('Fulfillment Status'),
+                          child: Column(
+                            children: FulfillmentStatus.values
+                                .map((e) => CheckboxListTile(
+                                    title:
+                                        Text(e.name(), style: smallTextStyle),
+                                    value: orderFilter.fulfillmentStatus
+                                        .contains(e),
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    contentPadding: EdgeInsets.zero,
+                                    onChanged: (val) {
+                                      if (val == null) {
+                                        return;
+                                      }
+                                      if (val) {
+                                        orderFilter.fulfillmentStatus.add(e);
+                                      } else {
+                                        orderFilter.fulfillmentStatus.remove(e);
+                                      }
+                                      setState(() {});
+                                    }))
+                                .toList(),
+                          ),
                         ),
                         space,
-                        CustomExpansionTile(
+                        HeaderCard(
                           key: regionsKey,
                           initiallyExpanded: orderFilter.regions.isNotEmpty,
                           onExpansionChanged: (expanded) async {
@@ -255,8 +264,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                   .ensureVisibility();
                             }
                           },
-                          title: Text('Regions', style: smallTextStyle),
-                          children: [
+                          title: const Text('Regions'),
+                          child: Column(children: [
                             if (regions?.isNotEmpty ?? false)
                               ...regions!.map((e) => CheckboxListTile(
                                   controlAffinity:
@@ -280,10 +289,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                     }
                                     setState(() {});
                                   })),
-                          ],
+                          ]),
                         ),
                         space,
-                        CustomExpansionTile(
+                        HeaderCard(
                           key: salesChannelKey,
                           initiallyExpanded:
                               orderFilter.salesChannel.isNotEmpty,
@@ -293,8 +302,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                   .ensureVisibility();
                             }
                           },
-                          title: Text('Sales Channel', style: smallTextStyle),
-                          children: [
+                          title: const Text('Sales Channel'),
+                          child: Column(children: [
                             if (salesChannels?.isNotEmpty ?? false)
                               ...salesChannels!.map((e) => CheckboxListTile(
                                   controlAffinity:
@@ -318,10 +327,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                     }
                                     setState(() {});
                                   }))
-                          ],
+                          ]),
                         ),
                         space,
-                        CustomExpansionTile(
+                        HeaderCard(
                           key: dateKey,
                           initiallyExpanded: orderFilter.orderDateFilter.active,
                           onExpansionChanged: (expanded) async {
@@ -329,7 +338,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               await dateKey.currentContext.ensureVisibility();
                             }
                           },
-                          title: Text('Date', style: smallTextStyle),
+                          title: const Text('Date'),
                           leading: Checkbox(
                               value: orderFilter.orderDateFilter.active,
                               onChanged: (val) {
@@ -344,9 +353,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                 }
                                 setState(() {});
                               }),
-                          children: [
+                          child: Column(children: [
                             DropdownButtonFormField<DateFilterType>(
                               style: context.bodyMedium,
+                              isDense: true,
                               value: orderFilter.orderDateFilter.dateFilterType,
                               onChanged: (type) {
                                 if (type != null) {
@@ -496,38 +506,38 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                   space,
                                 ],
                               ),
-                          ],
+                          ]),
                         ),
                       ],
                     );
                   },
-                  onLoading: Skeletonizer(
+                  onLoading: const Skeletonizer(
                     enabled: true,
                     child: Column(
                       children: [
-                        CustomExpansionTile(
-                          title: Text('Status', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Status'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Payment Status', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Payment Status'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title:
-                              Text('Fulfillment Status', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Fulfillment Status'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Regions', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Regions'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Sales Channel', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Sales Channel'),
                         ),
                         space,
-                        CustomExpansionTile(
-                          title: Text('Date', style: smallTextStyle),
+                        HeaderCard(
+                          title: Text('Date'),
+                          leading: Icon(Icons.check_box_outline_blank),
                         ),
                       ],
                     ),

@@ -11,7 +11,6 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/order_c
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../../../../data/models/store/index.dart';
-import '../../../components/adaptive_filled_button.dart';
 import '../controllers/transfer_order_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -35,14 +34,13 @@ class TransferOrderView extends StatelessWidget {
                 title: const Text('Transfer Order'),
               ),
               bottomNavigationBar: Container(
-                color: Theme.of(context).appBarTheme.backgroundColor,
+                // color: Theme.of(context).appBarTheme.backgroundColor,
                 padding: EdgeInsets.only(
-                    bottom: bottomViewPadding,
+                    bottom: bottomViewPadding == 0 ? 12 : bottomViewPadding,
                     left: 24,
-                    right: 24,
-                    top: bottomViewPadding / 2),
+                    right: 24),
                 child: Obx(() {
-                  return AdaptiveFilledButton(
+                  return FilledButton(
                       onPressed: controller.selectedCustomer.value != null
                           ? () async => await controller.updateOrder(context)
                           : null,

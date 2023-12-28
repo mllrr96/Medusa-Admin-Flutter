@@ -6,6 +6,7 @@ import 'package:medusa_admin/app/data/models/req/user_order.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class TransferOrderController extends GetxController {
   TransferOrderController({required this.ordersRepo, required this.order});
@@ -23,7 +24,7 @@ class TransferOrderController extends GetxController {
       EasyLoading.showSuccess('Order transferred');
       context.popRoute(true);
     }, (error) {
-      Get.snackbar('Error transferring order ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
     });
     dismissLoading();
   }

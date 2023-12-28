@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
+import 'package:medusa_admin/core/utils/strings.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'app/data/service/storage_service.dart';
 import 'app/data/service/theme_service.dart';
-import 'core/theme/theme.dart';
+import 'core/theme/flex_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
@@ -22,15 +23,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ThemeController>(builder: (controller) {
+      final themeMode = StorageService.instance.loadThemeMode();
+      final locale = StorageService.instance.loadLocale();
       return MaterialApp.router(
-        title: "Medusa Admin",
-        locale: StorageService.instance.loadLocale(),
+        title: AppConstants.appName,
+        locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         debugShowCheckedModeBanner: false,
-        themeMode: StorageService.instance.loadThemeMode(),
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
+        themeMode: themeMode,
+        theme: FlexTheme.light,
+        darkTheme: FlexTheme.dark,
         builder: EasyLoading.init(),
         routerConfig: _appRouter.config(),
       );

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../controllers/create_draft_order_controller.dart';
@@ -31,29 +31,31 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
 
     return Column(
       children: [
-        CustomExpansionTile(
-          label: 'Items',
+        HeaderCard(
+          title: const Text('Items'),
           initiallyExpanded: true,
-          children: [
-            ListView.separated(
-              separatorBuilder: (_, __) => const Gap(12),
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(bottom: 12.0),
-              itemCount: lineItems.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) =>
-                  OverViewListTile(lineItems[index], currencyCode: controller.selectedRegion?.currencyCode ?? ''),
-            ),
-            AdaptiveButton(
-                onPressed: () {},
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add),
-                    Text('Add discount'),
-                  ],
-                ))
-          ],
+          child: Column(
+            children: <Widget>[
+              ListView.separated(
+                separatorBuilder: (_, __) => const Gap(12),
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(bottom: 12.0),
+                itemCount: lineItems.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    OverViewListTile(lineItems[index], currencyCode: controller.selectedRegion?.currencyCode ?? ''),
+              ),
+              AdaptiveButton(
+                  onPressed: () {},
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add),
+                      Text('Add discount'),
+                    ],
+                  ))
+            ],
+          ),
         ),
         space,
         Container(

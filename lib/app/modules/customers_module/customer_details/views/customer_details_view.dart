@@ -6,7 +6,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
@@ -80,7 +79,7 @@ class CustomerDetailsView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(e ?? 'Error loading customer details'),
-                  AdaptiveFilledButton(
+                  FilledButton(
                       onPressed: () async => await controller.refreshView(),
                       child: const Text('Retry')),
                 ],
@@ -119,7 +118,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-          color: Theme.of(context).expansionTileTheme.backgroundColor,
+          color: context.theme.cardColor,
         ),
         child: Column(
           children: [

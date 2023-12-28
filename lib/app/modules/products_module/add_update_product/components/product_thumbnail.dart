@@ -5,12 +5,12 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/app/data/models/store/product.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_media.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_button.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../controllers/add_update_product_controller.dart';
 import 'image_card.dart';
 
@@ -96,41 +96,43 @@ class ProductThumbnail extends StatelessWidget {
     return GetBuilder<AddUpdateProductController>(
       id: 4,
       builder: (controller) {
-        return CustomExpansionTile(
+        return HeaderCard(
           controller: controller.thumbnailTileCtrl,
-          label: 'Thumbnail',
+          title: Text('Thumbnail'),
           onExpansionChanged: onExpansionChanged,
-          children: [
-            Text('Used to represent your product during checkout, social sharing and more.',
-                style: smallTextStyle?.copyWith(color: lightWhite)),
-            getThumbnail(controller),
-            AdaptiveButton(
-                onPressed: () async {
-                  ImageSource? imageSource = ImageSource.gallery;
-                  imageSource = await showModalActionSheet<ImageSource>(
-                      context: context,
-                      title: 'Image Source',
-                      actions: ImageSource.values
-                          .map((e) => SheetAction<ImageSource>(
-                                key: e,
-                                label: e.name.capitalize ?? e.name,
-                              ))
-                          .toList());
-                  if (imageSource == null) {
-                    return;
-                  }
-                  try {
-                    final pickedImage = await controller.imagePickerHelper.imagePicker(source: imageSource);
-                    if (pickedImage != null) {
-                      controller.thumbnailImage = pickedImage;
-                      controller.update([4]);
+          child: Column(
+            children: [
+              Text('Used to represent your product during checkout, social sharing and more.',
+                  style: smallTextStyle?.copyWith(color: lightWhite)),
+              getThumbnail(controller),
+              AdaptiveButton(
+                  onPressed: () async {
+                    ImageSource? imageSource = ImageSource.gallery;
+                    imageSource = await showModalActionSheet<ImageSource>(
+                        context: context,
+                        title: 'Image Source',
+                        actions: ImageSource.values
+                            .map((e) => SheetAction<ImageSource>(
+                          key: e,
+                          label: e.name.capitalize ?? e.name,
+                        ))
+                            .toList());
+                    if (imageSource == null) {
+                      return;
                     }
-                  } catch (e) {
-                    debugPrint(e.toString());
-                  }
-                },
-                child: const Text('Pick image')),
-          ],
+                    try {
+                      final pickedImage = await controller.imagePickerHelper.imagePicker(source: imageSource);
+                      if (pickedImage != null) {
+                        controller.thumbnailImage = pickedImage;
+                        controller.update([4]);
+                      }
+                    } catch (e) {
+                      debugPrint(e.toString());
+                    }
+                  },
+                  child: const Text('Pick image')),
+            ],
+          ),
         );
       },
     );

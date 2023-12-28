@@ -36,7 +36,7 @@ class AddRegionController extends GetxController {
     if (updateMode) {
       loadRegion();
     }
-    // await fetchProviders();
+    await fetchProviders();
     super.onInit();
   }
 

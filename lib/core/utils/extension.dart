@@ -2,8 +2,10 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/app/data/models/store/index.dart';
 import '../../app/data/service/storage_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -21,7 +23,7 @@ extension ContextEntension<T> on BuildContext? {
 
 extension BuildContextEntension<T> on BuildContext {
   // text styles
-
+  // ===================================================================//
   TextStyle? get headlineLarge => Theme.of(this).textTheme.headlineLarge;
   TextStyle? get headlineMedium => Theme.of(this).textTheme.headlineMedium;
   TextStyle? get headlineSmall => Theme.of(this).textTheme.headlineSmall;
@@ -48,35 +50,60 @@ extension BuildContextEntension<T> on BuildContext {
       .textTheme
       .bodyMedium
       ?.copyWith(fontWeight: FontWeight.w600);
+  // ===================================================================//
 
   // media query
+  // ===================================================================//
   EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
   double get bottomViewPadding => MediaQuery.of(this).viewPadding.bottom;
   double get bottomViewInsetPadding => MediaQuery.of(this).viewInsets.bottom;
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
+  // ===================================================================//
 
   // TabsRouter get tabsRouter => AutoTabsRouter.of(this);
+  // ===================================================================//
   int get activeIndex => AutoTabsRouter.of(this).activeIndex;
 
   // app localization
+  // ===================================================================//
   AppLocalizations get tr => AppLocalizations.of(this)!;
 
   // Directionality
+  // ===================================================================//
   bool get isRTL => Directionality.of(this) == TextDirection.rtl;
 
   /// Unfocus (Hides keyboard)
+  // ===================================================================//
   void unfocus() => FocusScope.of(this).unfocus();
 
   // Drawer
+  // ===================================================================//
   void openDrawer() => Scaffold.of(this).openDrawer();
   void closeDrawer() => Scaffold.of(this).closeDrawer();
   void openEndDrawer() => Scaffold.of(this).openEndDrawer();
   void closeEndDrawer() => Scaffold.of(this).closeEndDrawer();
 
-  double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 2.5;
+  double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 2;
+  // ===================================================================//
 
+  // settings list theme
+  // ===================================================================//
+  SettingsThemeData get settingsListLightTheme => SettingsThemeData(
+        settingsListBackground: Theme.of(this).scaffoldBackgroundColor,
+        settingsSectionBackground: Theme.of(this).scaffoldBackgroundColor,
+        titleTextColor: Theme.of(this).colorScheme.secondary,
+      );
+
+  SettingsThemeData get settingsListDarkTheme => SettingsThemeData(
+        settingsListBackground: Theme.of(this).scaffoldBackgroundColor,
+        settingsSectionBackground: Theme.of(this).scaffoldBackgroundColor,
+        titleTextColor: Theme.of(this).colorScheme.secondary,
+      );
+// ===================================================================//
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
+  bool get isLight => Theme.of(this).brightness == Brightness.light;
 }
 
 extension HexColor on Color {
@@ -199,3 +226,37 @@ extension FormatDate on DateTime? {
     return timeago.format(this!);
   }
 }
+
+extension Name on Order {
+  String? get customerName {
+    final firstName = billingAddress?.firstName ??
+        shippingAddress?.firstName ??
+        customer?.firstName;
+    final lastName = billingAddress?.lastName ??
+        shippingAddress?.lastName ??
+        customer?.lastName;
+    if (firstName == null && lastName == null) {
+      return null;
+    }
+    return '${firstName ?? ''} ${lastName ?? ''}';
+  }
+}
+
+extension UserFullName on User {
+  String? get fullName {
+    if (firstName == null && lastName == null) {
+      return null;
+    }
+    return '${firstName ?? ''} ${lastName ?? ''}';
+  }
+}
+
+extension CustomerName on Customer {
+  String? get fullName {
+    if (firstName == null && lastName == null) {
+      return null;
+    }
+    return '${firstName ?? ''} ${lastName ?? ''}';
+  }
+}
+

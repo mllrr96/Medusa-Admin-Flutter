@@ -13,17 +13,18 @@ import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_rep
 import 'package:medusa_admin/app/data/repository/upload/upload_repo.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class AddUpdateProductController extends GetxController {
-  AddUpdateProductController({
-    required this.productsRepo,
-    required this.productTypeRepo,
-    required this.collectionRepo,
-    required this.uploadRepo,
-    required this.salesChannelRepo,
-    this.updateProductReq
-  });
+  AddUpdateProductController(
+      {required this.productsRepo,
+      required this.productTypeRepo,
+      required this.collectionRepo,
+      required this.uploadRepo,
+      required this.salesChannelRepo,
+      this.updateProductReq});
   final ProductsRepo productsRepo;
   final ProductTypeRepo productTypeRepo;
   final CollectionRepo collectionRepo;
@@ -41,12 +42,12 @@ class AddUpdateProductController extends GetxController {
   final attributesKey = GlobalKey();
   final thumbnailKey = GlobalKey();
   final mediaKey = GlobalKey();
-  final generalTileCtrl = ExpansionTileController();
-  final organizeTileCtrl = ExpansionTileController();
-  final variantTileCtrl = ExpansionTileController();
-  final attributeTileCtrl = ExpansionTileController();
-  final thumbnailTileCtrl = ExpansionTileController();
-  final mediaTileCtrl = ExpansionTileController();
+  final generalTileCtrl = HeaderCardController();
+  final organizeTileCtrl = HeaderCardController();
+  final variantTileCtrl = HeaderCardController();
+  final attributeTileCtrl = HeaderCardController();
+  final thumbnailTileCtrl = HeaderCardController();
+  final mediaTileCtrl = HeaderCardController();
   List<ProductCollection>? collections;
   List<ProductType>? productTypes;
   ProductCollection? selectedCollection;
@@ -67,7 +68,7 @@ class AddUpdateProductController extends GetxController {
   final countryCtrl = TextEditingController();
   final optionKeyForm = GlobalKey<FormState>();
   bool updateMode = false;
- final UpdateProductReq? updateProductReq;
+  final UpdateProductReq? updateProductReq;
   File? thumbnailImage;
   List<File> images = [];
   late Product product;
@@ -121,7 +122,8 @@ class AddUpdateProductController extends GetxController {
     result.when((success) {
       productTypes = success.productTypes;
       if (updateProductReq != null) {
-        final q = productTypes?.where((element) => element.id == updateProductReq!.product.type?.id);
+        final q = productTypes?.where(
+            (element) => element.id == updateProductReq!.product.type?.id);
         selectedProductType = (q?.isNotEmpty ?? false) ? q?.first : null;
       }
     }, (error) => null);
@@ -129,7 +131,8 @@ class AddUpdateProductController extends GetxController {
     result2.when((success) {
       collections = success.collections;
       if (updateProductReq != null) {
-        final q = collections?.where((element) => element.id == updateProductReq!.product.collection?.id);
+        final q = collections?.where((element) =>
+            element.id == updateProductReq!.product.collection?.id);
         selectedCollection = (q?.isNotEmpty ?? false) ? q?.first : null;
       }
     }, (error) => null);
@@ -160,27 +163,21 @@ class AddUpdateProductController extends GetxController {
     product = product.copyWith(title: titleCtrl.text);
 
     loading();
-    final result = await productsRepo.add(userPostProductReq: UserPostProductReq(product: product));
+    final result = await productsRepo.add(
+        userPostProductReq: UserPostProductReq(product: product));
     result.when((success) async {
       EasyLoading.showSuccess('New product Added');
-      await _uploadImages(id: success.id!, images: images);
-      await _uploadThumbnail(id: success.id!, thumbnail: thumbnailImage);
-      context.popRoute(true);
+      await _uploadImages(id: success.id!, images: images, context: context)
+          .then((value) async {
+        await _uploadThumbnail(
+                id: success.id!, thumbnail: thumbnailImage, context: context)
+            .then((value) => context.popRoute(true));
+      });
     }, (error) {
-      debugPrint(error.toString());
       dismissLoading();
-      Get.snackbar('Error adding product', error.message,
-          snackPosition: SnackPosition.BOTTOM,
-          icon: const Icon(
-            Icons.error,
-            color: Colors.red,
-          ),
-          shouldIconPulse: false,
-          borderRadius: 6,
-      );
+      context.showSnackBar(error.toSnackBarString());
     });
   }
-
 
   Future<void> updateProduct(BuildContext context) async {
     // Check if there's no update to the product, in that case just go back.
@@ -189,24 +186,38 @@ class AddUpdateProductController extends GetxController {
     loading();
 
     final imagesToKeep = List<ImageData>.from(product.images ?? []);
-    imagesToKeep.removeWhere((element) => imagesToDelete.map((e) => e.url).toList().contains(element.url));
+    imagesToKeep.removeWhere((element) =>
+        imagesToDelete.map((e) => e.url).toList().contains(element.url));
 
     final result = await productsRepo.update(
       id: product.id!,
       userPostUpdateProductReq: UserPostUpdateProductReq(
         title: product.title == titleCtrl.text ? null : titleCtrl.text,
-        subtitle: product.subtitle == subtitleCtrl.text ? null : subtitleCtrl.text,
+        subtitle:
+            product.subtitle == subtitleCtrl.text ? null : subtitleCtrl.text,
         handle: product.handle == handleCtrl.text ? null : handleCtrl.text,
-        material: product.material == materialCtrl.text ? null : materialCtrl.text,
-        description: product.description == descriptionCtrl.text ? null : descriptionCtrl.text,
-        discountable: product.discountable == discountable ? null : discountable,
+        material:
+            product.material == materialCtrl.text ? null : materialCtrl.text,
+        description: product.description == descriptionCtrl.text
+            ? null
+            : descriptionCtrl.text,
+        discountable:
+            product.discountable == discountable ? null : discountable,
         tags: product.tags,
         type: selectedProductType,
         collectionId: selectedCollection?.id,
-        weight: product.weight.toString() == weightCtrl.text ? null : int.tryParse(weightCtrl.text),
-        width: product.width.toString() == widthCtrl.text ? null : int.tryParse(widthCtrl.text),
-        height: product.height.toString() == heightCtrl.text ? null : int.tryParse(heightCtrl.text),
-        length: product.length.toString() == lengthCtrl.text ? null : int.tryParse(lengthCtrl.text),
+        weight: product.weight.toString() == weightCtrl.text
+            ? null
+            : int.tryParse(weightCtrl.text),
+        width: product.width.toString() == widthCtrl.text
+            ? null
+            : int.tryParse(widthCtrl.text),
+        height: product.height.toString() == heightCtrl.text
+            ? null
+            : int.tryParse(heightCtrl.text),
+        length: product.length.toString() == lengthCtrl.text
+            ? null
+            : int.tryParse(lengthCtrl.text),
         midCode: product.midCode == midCodeCtrl.text ? null : midCodeCtrl.text,
         hsCode: product.hsCode == hsCodeCtrl.text ? null : hsCodeCtrl.text,
         originCountry: product.originCountry,
@@ -219,21 +230,27 @@ class AddUpdateProductController extends GetxController {
         EasyLoading.showSuccess('Product Updated');
         await _uploadImages(
           id: success.product!.id!,
+          context: context,
           images: images,
           imagesToKeep: imagesToKeep.map((e) => e.url!).toList(),
-        );
-
-        await _uploadThumbnail(
-          id: success.product!.id!,
-          thumbnail: thumbnailImage,
-        );
-
-        if (imagesToDelete.isNotEmpty) {
-          for (var element in imagesToDelete) {
-            await uploadRepo.deleteFile(fileKey: element.id!);
-          }
-        }
-        context.popRoute(true);
+        ).then((value) async {
+          await _uploadThumbnail(
+            id: success.product!.id!,
+            context: context,
+            thumbnail: thumbnailImage,
+          ).then((value) async {
+            if (imagesToDelete.isNotEmpty) {
+              for (var element in imagesToDelete) {
+                await uploadRepo.deleteFile(fileKey: element.id!);
+              }
+              if (context.mounted) {
+                context.popRoute(true);
+              }
+            } else {
+              context.popRoute(true);
+            }
+          });
+        });
       },
       (error) {
         EasyLoading.showError('Error updating product');
@@ -242,8 +259,10 @@ class AddUpdateProductController extends GetxController {
     );
   }
 
-
-  Future<void> _uploadThumbnail({required String id, required File? thumbnail}) async {
+  Future<void> _uploadThumbnail(
+      {required String id,
+      required BuildContext context,
+      required File? thumbnail}) async {
     if (thumbnail == null) {
       return;
     }
@@ -255,22 +274,27 @@ class AddUpdateProductController extends GetxController {
       }
 
       final productResult = await productsRepo.update(
-        userPostUpdateProductReq: UserPostUpdateProductReq(thumbnail: thumbnailSuccess.urls.first),
+        userPostUpdateProductReq:
+            UserPostUpdateProductReq(thumbnail: thumbnailSuccess.urls.first),
         id: id,
       );
       productResult.when((success) {
         EasyLoading.showSuccess('Product Updated');
       }, (error) {
-        Get.snackbar('Error updating product', error.message, snackPosition: SnackPosition.BOTTOM);
+        context.showSnackBar(error.toSnackBarString());
         dismissLoading();
       });
     }, (error) {
-      Get.snackbar('Error uploading thumbnail', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
       dismissLoading();
     });
   }
 
-  Future<void> _uploadImages({required String id, required List<File> images, List<String>? imagesToKeep}) async {
+  Future<void> _uploadImages(
+      {required String id,
+      required BuildContext context,
+      required List<File> images,
+      List<String>? imagesToKeep}) async {
     if (images.isEmpty) {
       return;
     }
@@ -280,17 +304,18 @@ class AddUpdateProductController extends GetxController {
     final imageResult = await uploadRepo.uploadFile(files: filesToUpload);
     await imageResult.when((imageSuccess) async {
       final productResult = await productsRepo.update(
-        userPostUpdateProductReq: UserPostUpdateProductReq(images: imageSuccess.urls + (imagesToKeep ?? [])),
+        userPostUpdateProductReq: UserPostUpdateProductReq(
+            images: imageSuccess.urls + (imagesToKeep ?? [])),
         id: id,
       );
       productResult.when((success) {
         EasyLoading.showSuccess('Product Added');
       }, (error) {
-        Get.snackbar('Error uploading product', error.message, snackPosition: SnackPosition.BOTTOM);
+        context.showSnackBar(error.toSnackBarString());
         dismissLoading();
       });
     }, (error) {
-      Get.snackbar('Error uploading images', error.message, snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar(error.toSnackBarString());
       dismissLoading();
     });
   }
@@ -317,8 +342,15 @@ class AddUpdateProductController extends GetxController {
       hsCodeCtrl.text = product.hsCode?.toString() ?? '';
       if (product.originCountry != null) {
         countryCtrl.text = countries
-                .firstWhere((element) => element.iso2 == product.originCountry?.toLowerCase(),
-                    orElse: () => const Country(iso2: '', iso3: '', numCode: 0, name: '', displayName: ''))
+                .firstWhere(
+                    (element) =>
+                        element.iso2 == product.originCountry?.toLowerCase(),
+                    orElse: () => const Country(
+                        iso2: '',
+                        iso3: '',
+                        numCode: 0,
+                        name: '',
+                        displayName: ''))
                 .displayName ??
             '';
       }

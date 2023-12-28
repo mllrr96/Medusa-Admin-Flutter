@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
@@ -37,8 +36,10 @@ class AddUpdateSalesChannelView extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 18.0),
               padding: EdgeInsets.only(
                   bottom: bottomViewPadding, top: bottomViewPadding / 2),
-              child: AdaptiveFilledButton(
-                buttonColor: controller.disabled ? Colors.blueGrey : null,
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: controller.disabled ? Colors.blueGrey : null
+                ),
                 onPressed: () async => controller.updateMode
                     ? await controller.updateChannel(context)
                     : await controller.createChannel(context),
@@ -59,43 +60,45 @@ class AddUpdateSalesChannelView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 8.0),
                   children: [
-                    CustomExpansionTile(
+                    HeaderCard(
                       initiallyExpanded: true,
-                      label: 'General info',
-                      children: [
-                        LabeledTextField(
-                          label: 'Title',
-                          controller: controller.titleCtrl,
-                          hintText:
-                              'Website, App, Amazon, physical store POS, facebook, product feed',
-                          required: !controller.updateMode,
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Field is required';
-                            }
+                      title: Text('General info'),
+                      child: Column(
+                        children: [
+                          LabeledTextField(
+                            label: 'Title',
+                            controller: controller.titleCtrl,
+                            hintText:
+                            'Website, App, Amazon, physical store POS, facebook, product feed',
+                            required: !controller.updateMode,
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return 'Field is required';
+                              }
 
-                            return null;
-                          },
-                        ),
-                        LabeledTextField(
-                          label: 'Description',
-                          controller: controller.descriptionCtrl,
-                          hintText:
-                              'Available products at our website, app ...',
-                          textInputAction: TextInputAction.done,
-                        ),
-                        CheckboxListTile(
-                          value: controller.disabled,
-                          onChanged: (val) {
-                            if (val == null) return;
-                            controller.disabled = val;
-                            controller.update();
-                          },
-                          title: const Text('Disabled'),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          contentPadding: EdgeInsets.zero,
-                        )
-                      ],
+                              return null;
+                            },
+                          ),
+                          LabeledTextField(
+                            label: 'Description',
+                            controller: controller.descriptionCtrl,
+                            hintText:
+                            'Available products at our website, app ...',
+                            textInputAction: TextInputAction.done,
+                          ),
+                          CheckboxListTile(
+                            value: controller.disabled,
+                            onChanged: (val) {
+                              if (val == null) return;
+                              controller.disabled = val;
+                              controller.update();
+                            },
+                            title: const Text('Disabled'),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            contentPadding: EdgeInsets.zero,
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

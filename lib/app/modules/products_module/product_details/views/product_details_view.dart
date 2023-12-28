@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_filled_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../data/models/store/product.dart';
@@ -126,7 +125,7 @@ class ProductDetailsView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Error loading product'),
-                    AdaptiveFilledButton(
+                    FilledButton(
                         child: const Text('Retry'),
                         onPressed: () async => await controller.fetchProduct()),
                   ],

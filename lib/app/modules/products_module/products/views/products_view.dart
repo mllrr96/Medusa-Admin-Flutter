@@ -38,7 +38,7 @@ class ProductsView extends StatelessWidget {
             drawer: const AppDrawer(),
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             endDrawer: Drawer(
-              shape: const RoundedRectangleBorder(),
+              // shape: const RoundedRectangleBorder(),
               child: ProductsFilterView(
                 onResetPressed: () {
                   controller.resetFilter();

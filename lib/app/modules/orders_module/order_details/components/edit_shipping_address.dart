@@ -4,8 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -13,7 +13,12 @@ import '../../../../data/models/store/address.dart';
 import '../../../../data/models/store/country.dart';
 
 class EditAddress extends StatefulWidget {
-  const EditAddress({super.key, required this.shippingAddress, required this.countries, required this.context, this.appbarTitle});
+  const EditAddress(
+      {super.key,
+      required this.shippingAddress,
+      required this.countries,
+      required this.context,
+      this.appbarTitle});
   final Address shippingAddress;
   final List<Country> countries;
   final BuildContext context;
@@ -98,7 +103,7 @@ class _EditAddressState extends State<EditAddress> {
       child: Scaffold(
         appBar: AppBar(
           leading: const AdaptiveCloseButton(),
-          title: Text( widget.appbarTitle?? 'Update Address'),
+          title: Text(widget.appbarTitle ?? 'Update Address'),
           actions: [
             AdaptiveButton(
                 onPressed: () {
@@ -127,81 +132,111 @@ class _EditAddressState extends State<EditAddress> {
           child: Form(
             key: formKey,
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               children: [
-                CustomExpansionTile(
+                HeaderCard(
                   key: contactKey,
-                  label: 'Contact',
+                  title: const Text('Contact'),
                   initiallyExpanded: true,
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
                       await contactKey.currentContext.ensureVisibility();
                     }
                   },
-                  children: [
-                    LabeledTextField(label: 'First Name', hintText: 'First Name', controller: firstNameCtrl),
-                    LabeledTextField(label: 'Last Name', hintText: 'Last Name', controller: lastNameCtrl),
-                    LabeledTextField(label: 'Company', hintText: 'Company', controller: companyCtrl),
-                    LabeledTextField(
-                      label: 'Phone',
-                      hintText: 'Phone',
-                      controller: phoneCtrl,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ],
+                  child: Column(
+                    children: [
+                      LabeledTextField(
+                          label: 'First Name',
+                          hintText: 'First Name',
+                          controller: firstNameCtrl),
+                      LabeledTextField(
+                          label: 'Last Name',
+                          hintText: 'Last Name',
+                          controller: lastNameCtrl),
+                      LabeledTextField(
+                          label: 'Company',
+                          hintText: 'Company',
+                          controller: companyCtrl),
+                      LabeledTextField(
+                        label: 'Phone',
+                        hintText: 'Phone',
+                        controller: phoneCtrl,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
+                  ),
                 ),
                 space,
-                CustomExpansionTile(
+                HeaderCard(
                   key: locationKey,
-                  label: 'Location',
+                  title: const Text('Location'),
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
                       await locationKey.currentContext.ensureVisibility();
                     }
                   },
-                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    LabeledTextField(label: 'Address 1', hintText: 'Address 1', controller: address1Ctrl),
-                    LabeledTextField(label: 'Address 2', hintText: 'Address 2', controller: address2Ctrl),
-                    LabeledTextField(label: 'Postal Code', hintText: 'Postal Code', controller: postalCodeCtrl),
-                    LabeledTextField(label: 'City', hintText: 'City', controller: cityCtrl),
-                    LabeledTextField(label: 'Province', hintText: 'Province', controller: provinceCtrl),
-                    Text(
-                      'Country',
-                      style: mediumTextStyle,
-                    ),
-                    halfSpace,
-                    DropdownButtonFormField<int>(
-                      style: context.bodyMedium,
-                      items: widget.countries
-                          .map((e) => DropdownMenuItem<int>(
-                                value: e.numCode,
-                                child: Text(e.name ?? ''),
-                              ))
-                          .toList(),
-                      hint: Text('Select', style: smallTextStyle?.copyWith(color: manatee)),
-                      value: selectedCountry?.numCode,
-                      onChanged: (val) {
-                        if (val == null) return;
-                        setState(() {
-                          selectedCountry = countries.firstWhere((element) => element.numCode == val);
-                        });
-                      },
-                    ),
-                    space,
-                  ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LabeledTextField(
+                          label: 'Address 1',
+                          hintText: 'Address 1',
+                          controller: address1Ctrl),
+                      LabeledTextField(
+                          label: 'Address 2',
+                          hintText: 'Address 2',
+                          controller: address2Ctrl),
+                      LabeledTextField(
+                          label: 'Postal Code',
+                          hintText: 'Postal Code',
+                          controller: postalCodeCtrl),
+                      LabeledTextField(
+                          label: 'City',
+                          hintText: 'City',
+                          controller: cityCtrl),
+                      LabeledTextField(
+                          label: 'Province',
+                          hintText: 'Province',
+                          controller: provinceCtrl),
+                      Text(
+                        'Country',
+                        style: mediumTextStyle,
+                      ),
+                      halfSpace,
+                      DropdownButtonFormField<int>(
+                        style: context.bodyMedium,
+                        items: widget.countries
+                            .map((e) => DropdownMenuItem<int>(
+                                  value: e.numCode,
+                                  child: Text(e.name ?? ''),
+                                ))
+                            .toList(),
+                        hint: Text('Select',
+                            style: smallTextStyle?.copyWith(color: manatee)),
+                        value: selectedCountry?.numCode,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          setState(() {
+                            selectedCountry = countries.firstWhere(
+                                (element) => element.numCode == val);
+                          });
+                        },
+                      ),
+                      space,
+                    ],
+                  ),
                 ),
-                space,
-                CustomExpansionTile(
+                HeaderCard(
                   key: metadataKey,
-                  label: 'Metadata',
+                  title: const Text('Metadata'),
                   onExpansionChanged: (expanded) async {
                     if (expanded) {
                       await metadataKey.currentContext.ensureVisibility();
                     }
                   },
-                  children: const [],
                 ),
+                space,
               ],
             ),
           ),

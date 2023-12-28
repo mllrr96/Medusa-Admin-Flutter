@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import '../../../../data/models/req/user_gift_card_req.dart';
 import '../../../../data/models/store/gift_card.dart';
 import '../../../components/adaptive_close_button.dart';
@@ -63,7 +64,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                 InkWell(
                     onTap: () async {
                       await Clipboard.setData(ClipboardData(text: giftCard.code ?? '')).then((_) {
-                        Get.snackbar('Success', 'Gift card code copied', snackPosition: SnackPosition.BOTTOM);
+                        context.showSnackBar('Gift card code copied');
                       });
                     },
                     child: Center(child: Chip(label: Text(giftCard.code ?? '', style: largeTextStyle)))),

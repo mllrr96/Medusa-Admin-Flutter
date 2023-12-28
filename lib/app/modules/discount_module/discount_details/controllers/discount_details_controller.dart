@@ -5,14 +5,19 @@ import 'package:medusa_admin/app/data/models/store/discount.dart';
 import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/data/repository/discount_condition/discount_condition_repo.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../data/models/req/discount.dart';
 import '../../../../data/models/req/user_discount_condition_req.dart';
 import '../../../components/easy_loading.dart';
 
-class DiscountDetailsController extends GetxController with StateMixin<Discount> {
-  DiscountDetailsController({required this.discountRepo, required this.discountConditionRepo, required this.discountId});
+class DiscountDetailsController extends GetxController
+    with StateMixin<Discount> {
+  DiscountDetailsController(
+      {required this.discountRepo,
+      required this.discountConditionRepo,
+      required this.discountId});
   final DiscountRepo discountRepo;
   final DiscountConditionRepo discountConditionRepo;
   final String discountId;
@@ -25,7 +30,8 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
 
   Future<void> loadDiscount() async {
     change(null, status: RxStatus.loading());
-    final result = await discountRepo.retrieveDiscount(id: discountId, queryParameters: {
+    final result =
+        await discountRepo.retrieveDiscount(id: discountId, queryParameters: {
       'expand': 'regions,regions.currency,rule,rule.conditions',
     });
 
@@ -50,58 +56,49 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
 
     result.when((success) {
       context.popRoute();
-      Get.snackbar('Success', 'Promotion deleted', snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar('Promotion deleted');
       DiscountsController.instance.pagingController.refresh();
-    },
-        (error) => Get.snackbar('Error deleting promotion ${error.code ?? ''}', error.message,
-            snackPosition: SnackPosition.BOTTOM));
+    }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 
-  Future<void> toggleDiscount({required Discount discount}) async {
+  Future<void> toggleDiscount(Discount discount, BuildContext context) async {
     loading();
-    bool toggle = discount.isDisabled != null && discount.isDisabled! ? false : true;
+    bool toggle =
+        discount.isDisabled != null && discount.isDisabled! ? false : true;
     final result = await discountRepo.updateDiscount(
-        id: discount.id!, userUpdateDiscountReq: UserUpdateDiscountReq(isDisabled: toggle));
+        id: discount.id!,
+        userUpdateDiscountReq: UserUpdateDiscountReq(isDisabled: toggle));
     result.when((success) async => await loadDiscount(),
-        (error) => Get.snackbar('Error ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM));
+        (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 
-  Future<void> deleteCondition(String conditionId) async {
+  Future<void> deleteCondition(String conditionId, BuildContext context) async {
     loading();
 
-    final result = await discountConditionRepo.deleteDiscountCondition(discountId: discountId, conditionId: conditionId);
+    final result = await discountConditionRepo.deleteDiscountCondition(
+        discountId: discountId, conditionId: conditionId);
 
     result.when((success) async {
-      if (success.deleted) {
-        Get.snackbar('Success', 'Condition deleted', snackPosition: SnackPosition.BOTTOM);
-      } else {
-        Get.snackbar('Error deleting Condition', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
-      }
+      context.showSnackBar('Condition deleted');
       await loadDiscount();
-    },
-        (error) => Get.snackbar('Error deleting Condition ${error.code ?? ''}', error.message,
-            snackPosition: SnackPosition.BOTTOM));
+    }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 
-  Future<void> addCondition({required UserCreateConditionReq userCreateConditionReq}) async {
+  Future<void> addCondition(
+      {required UserCreateConditionReq userCreateConditionReq,
+      required BuildContext context}) async {
     loading();
 
     final result = await discountConditionRepo.createDiscountCondition(
         discountId: discountId, userCreateConditionReq: userCreateConditionReq);
 
     result.when((success) async {
-      // if (success.discount != null) {
-      //   Get.snackbar('Success', 'Condition added', snackPosition: SnackPosition.BOTTOM);
-      // } else {
-      //   Get.snackbar('Error adding Condition', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
-      // }
+      context.showSnackBar('Condition added');
       await loadDiscount();
-    },
-        (error) => Get.snackbar('Error adding Condition ${error.code ?? ''}', error.message,
-            snackPosition: SnackPosition.BOTTOM));
+    }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 
@@ -109,37 +106,32 @@ class DiscountDetailsController extends GetxController with StateMixin<Discount>
     required List<String> deletedItems,
     required List<String> addedItems,
     required String conditionId,
+    required BuildContext context,
   }) async {
     loading();
 
     // Adding items
     if (addedItems.isNotEmpty) {
-      final result =
-          await discountConditionRepo.addBatchResources(discountId: discountId, conditionId: conditionId, itemIds: addedItems);
+      final result = await discountConditionRepo.addBatchResources(
+          discountId: discountId,
+          conditionId: conditionId,
+          itemIds: addedItems);
       result.when((success) async {
-        if (success.discount != null) {
-          Get.snackbar('Success', 'Condition items updated', snackPosition: SnackPosition.BOTTOM);
-        } else {
-          Get.snackbar('Error adding Condition items', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
-        }
-      },
-          (error) => Get.snackbar('Error adding Condition items ${error.code ?? ''}', error.message,
-              snackPosition: SnackPosition.BOTTOM));
+        context.showSnackBar('Condition items updated');
+      }, (error) => context.showSnackBar(error.toSnackBarString()));
     }
 
     // Deleting items
     if (deletedItems.isNotEmpty) {
       final result = await discountConditionRepo.deleteBatchResources(
-          discountId: discountId, conditionId: conditionId, itemIds: deletedItems);
+          discountId: discountId,
+          conditionId: conditionId,
+          itemIds: deletedItems);
       result.when((success) async {
-        if (success.discount != null) {
-          Get.snackbar('Success', 'Condition items updated', snackPosition: SnackPosition.BOTTOM);
-        } else {
-          Get.snackbar('Error deleting Condition items', 'Unknown error', snackPosition: SnackPosition.BOTTOM);
-        }
+        context.showSnackBar('Condition items updated');
       },
-          (error) => Get.snackbar('Error deleting Condition items ${error.code ?? ''}', error.message,
-              snackPosition: SnackPosition.BOTTOM));
+          (error) => context.showSnackBar(
+              'Error deleting condition items, ${error.toSnackBarString()}'));
     }
 
     await loadDiscount();

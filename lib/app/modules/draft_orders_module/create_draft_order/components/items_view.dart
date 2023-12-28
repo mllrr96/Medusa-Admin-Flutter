@@ -7,6 +7,7 @@ import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_hand
 import 'package:medusa_admin/app/data/models/res/regions.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/variant_list_tile.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -16,7 +17,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../components/adaptive_button.dart';
-import '../../../components/custom_expansion_tile.dart';
 import '../../../components/custom_text_field.dart';
 import 'add_custom_item_view.dart';
 import 'choose_shipping_option.dart';
@@ -48,7 +48,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
     return await RegionsRepo().retrieveAll();
   }
 
-  final expansionController = ExpansionTileController();
+  final expansionController = HeaderCardController();
   List<LineItem> lineItems = [];
   List<LineItem> customLineItems = [];
   Region? selectedRegion;
@@ -196,166 +196,168 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SlidableAutoCloseBehavior(
-                  child: CustomExpansionTile(
+                  child: HeaderCard(
                     controller: expansionController,
-                    childrenPadding: EdgeInsets.zero,
-                    title: Text('Order items', style: smallTextStyle),
-                    children: [
-                      if (lineItems.isEmpty && customLineItems.isEmpty)
-                        Column(
-                          children: [
-                            Text('No items has been added yet',
-                                style: smallTextStyle),
-                            space,
-                          ],
-                        ),
-                      if (lineItems.isNotEmpty || customLineItems.isNotEmpty)
-                        Text('Slide left to delete a variant',
-                            style: smallTextStyle?.copyWith(color: lightWhite)),
-                      if (lineItems.isNotEmpty)
-                        ListView.builder(
-                            itemCount: lineItems.length,
-                            padding:
-                                const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final lineItem = lineItems[index];
-                              return VariantListTile(
-                                lineItem,
-                                onDelete: () {
-                                  lineItems.removeAt(index);
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-                                },
-                                onAddTap: () {
-                                  var quantity = lineItems[index].quantity;
-                                  quantity = quantity! + 1;
-                                  lineItems[index] = lineItems
-                                      .elementAt(index)
-                                      .copyWith(quantity: quantity);
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-                                },
-                                onRemoveTap: lineItem.quantity! > 1
-                                    ? () {
-                                        var quantity =
-                                            lineItems[index].quantity;
-                                        if (quantity! > 1) {
-                                          quantity = quantity - 1;
-                                          lineItems[index] = lineItems[index]
-                                              .copyWith
-                                              .quantity(quantity);
-                                        }
-                                        field.didChange(
-                                            lineItems + customLineItems);
-                                        setState(() {});
-                                      }
-                                    : null,
-                                selectedRegion: selectedRegion,
-                              );
-                            }),
-                      if (lineItems.isNotEmpty && customLineItems.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    childPadding: EdgeInsets.zero,
+                    title: const Text('Order items'),
+                    child: Column(
+                      children: [
+                        if (lineItems.isEmpty && customLineItems.isEmpty)
+                          Column(
                             children: [
-                              const Divider(),
-                              Text('Custom Items',
-                                  style: smallTextStyle?.copyWith(
-                                      color: lightWhite)),
+                              Text('No items has been added yet',
+                                  style: smallTextStyle),
+                              space,
                             ],
                           ),
-                        ),
-                      if (customLineItems.isNotEmpty)
-                        ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: customLineItems.length,
-                            padding: const EdgeInsets.symmetric(vertical: 6.0),
-                            itemBuilder: (context, index) {
-                              final customLineItem = customLineItems[index];
-                              return CustomVariantListTile(
-                                customLineItem,
-                                currencyCode: selectedRegion!.currencyCode!,
-                                onDelete: () {
-                                  customLineItems.removeAt(index);
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-                                },
-                                onAddTap: () {
-                                  customLineItems[index] = customLineItems
-                                      .elementAt(index)
-                                      .copyWith(
-                                          quantity:
-                                              customLineItems[index].quantity! +
-                                                  1);
-                                  field.didChange(lineItems + customLineItems);
-                                  setState(() {});
-                                },
-                                onRemoveTap: customLineItems[index].quantity! >
-                                        1
-                                    ? () {
-                                        if (customLineItems[index].quantity! >
-                                            1) {
-                                          customLineItems[index] =
-                                              customLineItems[index]
-                                                  .copyWith
-                                                  .quantity(
-                                                      customLineItems[index]
-                                                              .quantity! -
-                                                          1);
-                                        }
-                                        field.didChange(
-                                            lineItems + customLineItems);
-                                        setState(() {});
-                                      }
-                                    : null,
-                              );
-                            }),
-                      const Divider(height: 0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          AdaptiveButton(
-                              onPressed: selectedRegion != null
-                                  ? () async {
-                                      final result =
-                                          await showBarModalBottomSheet(
-                                              context: context,
-                                              overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                              builder: (context) {
-                                                return AddCustomItemView(
-                                                    currencyCode: selectedRegion
-                                                        ?.currencyCode);
-                                              });
-                                      if (result is LineItem) {
-                                        customLineItems.add(result);
-                                        field.didChange(
-                                            lineItems + customLineItems);
-                                        setState(() {});
-                                      }
+                        if (lineItems.isNotEmpty || customLineItems.isNotEmpty)
+                          Text('Slide left to delete a variant',
+                              style: smallTextStyle?.copyWith(color: lightWhite)),
+                        if (lineItems.isNotEmpty)
+                          ListView.builder(
+                              itemCount: lineItems.length,
+                              padding:
+                              const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final lineItem = lineItems[index];
+                                return VariantListTile(
+                                  lineItem,
+                                  onDelete: () {
+                                    lineItems.removeAt(index);
+                                    field.didChange(lineItems + customLineItems);
+                                    setState(() {});
+                                  },
+                                  onAddTap: () {
+                                    var quantity = lineItems[index].quantity;
+                                    quantity = quantity! + 1;
+                                    lineItems[index] = lineItems
+                                        .elementAt(index)
+                                        .copyWith(quantity: quantity);
+                                    field.didChange(lineItems + customLineItems);
+                                    setState(() {});
+                                  },
+                                  onRemoveTap: lineItem.quantity! > 1
+                                      ? () {
+                                    var quantity =
+                                        lineItems[index].quantity;
+                                    if (quantity! > 1) {
+                                      quantity = quantity - 1;
+                                      lineItems[index] = lineItems[index]
+                                          .copyWith
+                                          .quantity(quantity);
                                     }
-                                  : null,
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.add),
-                                  Text('Add Custom'),
-                                ],
-                              )),
-                          AdaptiveButton(
-                            onPressed: () async => addItems(field),
-                            child: const Row(
+                                    field.didChange(
+                                        lineItems + customLineItems);
+                                    setState(() {});
+                                  }
+                                      : null,
+                                  selectedRegion: selectedRegion,
+                                );
+                              }),
+                        if (lineItems.isNotEmpty && customLineItems.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(Icons.add),
-                                Text('Add Existing'),
+                                const Divider(),
+                                Text('Custom Items',
+                                    style: smallTextStyle?.copyWith(
+                                        color: lightWhite)),
                               ],
                             ),
                           ),
-                        ],
-                      )
-                    ],
+                        if (customLineItems.isNotEmpty)
+                          ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: customLineItems.length,
+                              padding: const EdgeInsets.symmetric(vertical: 6.0),
+                              itemBuilder: (context, index) {
+                                final customLineItem = customLineItems[index];
+                                return CustomVariantListTile(
+                                  customLineItem,
+                                  currencyCode: selectedRegion!.currencyCode!,
+                                  onDelete: () {
+                                    customLineItems.removeAt(index);
+                                    field.didChange(lineItems + customLineItems);
+                                    setState(() {});
+                                  },
+                                  onAddTap: () {
+                                    customLineItems[index] = customLineItems
+                                        .elementAt(index)
+                                        .copyWith(
+                                        quantity:
+                                        customLineItems[index].quantity! +
+                                            1);
+                                    field.didChange(lineItems + customLineItems);
+                                    setState(() {});
+                                  },
+                                  onRemoveTap: customLineItems[index].quantity! >
+                                      1
+                                      ? () {
+                                    if (customLineItems[index].quantity! >
+                                        1) {
+                                      customLineItems[index] =
+                                          customLineItems[index]
+                                              .copyWith
+                                              .quantity(
+                                              customLineItems[index]
+                                                  .quantity! -
+                                                  1);
+                                    }
+                                    field.didChange(
+                                        lineItems + customLineItems);
+                                    setState(() {});
+                                  }
+                                      : null,
+                                );
+                              }),
+                        const Divider(height: 0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            AdaptiveButton(
+                                onPressed: selectedRegion != null
+                                    ? () async {
+                                  final result =
+                                  await showBarModalBottomSheet(
+                                      context: context,
+                                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                      builder: (context) {
+                                        return AddCustomItemView(
+                                            currencyCode: selectedRegion
+                                                ?.currencyCode);
+                                      });
+                                  if (result is LineItem) {
+                                    customLineItems.add(result);
+                                    field.didChange(
+                                        lineItems + customLineItems);
+                                    setState(() {});
+                                  }
+                                }
+                                    : null,
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.add),
+                                    Text('Add Custom'),
+                                  ],
+                                )),
+                            AdaptiveButton(
+                              onPressed: () async => addItems(field),
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.add),
+                                  Text('Add Existing'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 if (field.hasError)

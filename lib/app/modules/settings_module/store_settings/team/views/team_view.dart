@@ -13,7 +13,6 @@ import 'package:medusa_admin/app/modules/settings_module/store_settings/team/con
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../components/adaptive_filled_button.dart';
 import '../../../../components/adaptive_icon.dart';
 import '../components/index.dart';
 import '../controllers/invite_controller.dart';
@@ -175,7 +174,7 @@ class TeamView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(e ?? 'Error loading users'),
-                                AdaptiveFilledButton(
+                                FilledButton(
                                     onPressed: () async =>
                                         teamController.loadUsers(),
                                     child: const Text('Retry'))
@@ -223,7 +222,7 @@ class TeamView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(e ?? 'Error loading invites'),
-                                AdaptiveFilledButton(
+                                FilledButton(
                                     onPressed: () async =>
                                         inviteController.loadInvites(),
                                     child: const Text('Retry'))

@@ -71,7 +71,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: context.theme.expansionTileTheme.backgroundColor,
+        color: context.theme.cardColor,
       ),
       child: Stack(
         alignment: Alignment.topRight,
@@ -102,7 +102,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                                     isDestructiveAction: true)
                                 .then((value) async {
                               if (value == OkCancelResult.ok) {
-                                await controller.toggleDiscount(discount: discount);
+                                await controller.toggleDiscount(discount, context);
                               }
                             });
                           },

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-
 import 'customer_list_tile.dart';
 
 class CustomersLoadingPage extends StatelessWidget {
@@ -22,10 +20,7 @@ class CustomersLoadingPage extends StatelessWidget {
     return Column(
       children: List.generate(
         10,
-        (index) => Skeletonizer(
-          enabled: true,
-          child: CustomerListTile(customer, index: index),
-        ),
+        (index) =>  CustomerListTile(customer, index: index, shimmer: true),
       ),
     );
   }

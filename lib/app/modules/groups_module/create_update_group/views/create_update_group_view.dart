@@ -49,7 +49,7 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                      color: Theme.of(context).expansionTileTheme.backgroundColor,
+                      color: context.theme.cardColor,
                     ),
                     child: Form(
                       key: controller.formKey,

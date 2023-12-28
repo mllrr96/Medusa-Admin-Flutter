@@ -19,69 +19,74 @@ class AddUpdateDiscountView extends StatelessWidget {
   Widget build(BuildContext context) {
     const space = Gap(12);
     return GetBuilder<AddUpdateDiscountController>(
-        init: AddUpdateDiscountController(
-            discountRepo: DiscountRepo(), discount: discount),
-        builder: (controller) {
-          return WillPopScope(
-            onWillPop: () async {
-              if (controller.updateMode && !controller.sameDiscount()) {
-                return await showOkCancelAlertDialog(
-                  context: context,
-                  title: 'Discard changes',
-                  message: 'Are you sure you want to discard changes?',
-                  okLabel: 'Discard',
-                  isDestructiveAction: true,
-                ).then((result) => result == OkCancelResult.ok ? true : false);
-              } else {
-                return true;
-              }
-            },
-            child: GestureDetector(
-              onTap: () => context.unfocus(),
-              child: Scaffold(
-                appBar: AppBar(
-                  leading: const AdaptiveCloseButton(),
-                  title: controller.updateMode
-                      ? const Text('Update discount')
-                      : const Text('Create new discount'),
-                  actions: [
-                    AdaptiveButton(
-                        onPressed: () async => controller.updateMode
-                            ? await controller.updateDiscount(context)
-                            : await controller.createDiscount(context),
-                        child: controller.updateMode
-                            ? const Text('Update')
-                            : const Text('Create')),
-                  ],
-                ),
-                body: SafeArea(
-                  child: SingleChildScrollView(
-                    controller: controller.scrollController,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 10.0),
-                      child: Form(
-                        key: controller.formKey,
-                        child: Column(
-                          children: [
-                            if (!controller.updateMode)
-                              const DiscountTypeExpansionTile(),
-                            if (!controller.updateMode) space,
-                            const GeneralExpansionTile(),
-                            space,
-                            const ConfigurationExpansionTile(),
-                            space,
-                            if (!controller.updateMode)
-                              const ConditionExpansionTile(),
-                          ],
-                        ),
+      init: AddUpdateDiscountController(
+          discountRepo: DiscountRepo(), discount: discount),
+      builder: (controller) {
+        return WillPopScope(
+          onWillPop: () async {
+            if (controller.updateMode && !controller.sameDiscount()) {
+              return await showOkCancelAlertDialog(
+                context: context,
+                title: 'Discard changes',
+                message: 'Are you sure you want to discard changes?',
+                okLabel: 'Discard',
+                isDestructiveAction: true,
+              ).then((result) => result == OkCancelResult.ok ? true : false);
+            } else {
+              return true;
+            }
+          },
+          child: GestureDetector(
+            onTap: () => context.unfocus(),
+            child: Scaffold(
+              appBar: AppBar(
+                leading: const AdaptiveCloseButton(),
+                title: controller.updateMode
+                    ? const Text('Update discount')
+                    : const Text('Create new discount'),
+                actions: [
+                  AdaptiveButton(
+                      onPressed: () async => controller.updateMode
+                          ? await controller.updateDiscount(context)
+                          : await controller.createDiscount(context),
+                      child: controller.updateMode
+                          ? const Text('Update')
+                          : const Text('Create')),
+                ],
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  controller: controller.scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 10.0),
+                    child: Form(
+                      key: controller.formKey,
+                      child: Column(
+                        children: [
+                          if (!controller.updateMode)
+                            const Column(
+                              children: [
+                                DiscountTypeExpansionTile(),
+                                space,
+                              ],
+                            ),
+                          const GeneralExpansionTile(),
+                          space,
+                          const ConfigurationExpansionTile(),
+                          space,
+                          if (!controller.updateMode)
+                            const ConditionExpansionTile(),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

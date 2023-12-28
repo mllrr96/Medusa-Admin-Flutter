@@ -38,7 +38,6 @@ class CollectionDetailsView extends StatelessWidget {
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
               title: Text(tr.productTableCollection),
-              centerTitle: true,
               actions: [
                 AdaptiveButton(
                     onPressed: () async {

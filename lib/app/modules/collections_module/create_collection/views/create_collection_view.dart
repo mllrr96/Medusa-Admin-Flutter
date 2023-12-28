@@ -34,7 +34,6 @@ class CreateCollectionView extends StatelessWidget {
                 title: controller.updateCollection
                     ? Text(tr.collectionModalEditCollection)
                     : Text(tr.collectionModalAddCollection),
-                centerTitle: true,
                 actions: [
                   AdaptiveButton(
                       onPressed: controller.updateCollection
@@ -56,7 +55,7 @@ class CreateCollectionView extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(12.0)),
                       color:
-                          Theme.of(context).expansionTileTheme.backgroundColor,
+                          context.theme.cardColor,
                     ),
                     child: Form(
                       key: controller.formKey,

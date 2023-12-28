@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -13,8 +13,8 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
-import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -57,11 +57,13 @@ class _SignInViewState extends State<SignInView> {
           final tr = context.tr;
           final bool isRTL = context.isRTL;
           const space = Gap(12);
-          final smallTextStyle = context.bodySmall;
           // Since there no app bar, annotated region is used to apply theme ui overlay
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
-                statusBarColor: context.theme.scaffoldBackgroundColor),
+            value: FlexColorScheme.themedSystemNavigationBar(
+              context,
+              noAppBar: true,
+              systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
+            ),
             child: GestureDetector(
               onTap: () => context.unfocus(),
               child: Scaffold(
@@ -128,25 +130,42 @@ class _SignInViewState extends State<SignInView> {
                               ),
                             ],
                           ),
-                          Obx(() {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.animate.value =
-                                    !controller.animate.value;
-                              },
-                              child: Hero(
-                                tag: 'medusa',
-                                child: Image.asset(
-                                  'assets/images/medusa.png',
-                                  scale: 5,
-                                ).animate(
-                                  effects: [const RotateEffect()],
-                                  target: controller.animate.value ? 1 : 0,
-                                  autoPlay: false,
-                                ),
+                          // Obx(() {
+                          //   return GestureDetector(
+                          //     onTap: () {
+                          //       controller.animate.value =
+                          //           !controller.animate.value;
+                          //     },
+                          //     child: Hero(
+                          //       tag: 'medusa',
+                          //       child: Image.asset(
+                          //         'assets/images/medusa.png',
+                          //         scale: 5,
+                          //       ).animate(
+                          //         effects: [const RotateEffect()],
+                          //         // target: controller.animate.value ? 1 : 0,
+                          //         autoPlay: true,
+                          //       ),
+                          //     ),
+                          //   );
+                          // }),
+                          GestureDetector(
+                            onTap: () {
+                              controller.animate.value =
+                                  !controller.animate.value;
+                            },
+                            child: Hero(
+                              tag: 'medusa',
+                              child: Image.asset(
+                                'assets/images/medusa.png',
+                                scale: 5,
+                              ).animate(
+                                effects: [const RotateEffect()],
+                                target: controller.animate.value ? 1 : 0,
+                                autoPlay: false,
                               ),
-                            );
-                          }),
+                            ),
+                          ),
                           Text(
                             tr.loginCardLogInToMedusa,
                             style: context.headlineMedium,
@@ -204,33 +223,30 @@ class _SignInViewState extends State<SignInView> {
                             ),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0, vertical: 4.0),
-                                  width: context.width / 2,
-                                  child: CheckboxListTile(
-                                    value: false,
-                                    onChanged: (val) {},
-                                    contentPadding: EdgeInsets.zero,
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    title: Text(
-                                      'Remember me',
-                                      style: smallTextStyle,
-                                    ),
-                                  )),
+                              // Container(
+                              //     padding: const EdgeInsets.symmetric(
+                              //         horizontal: 12.0, vertical: 4.0),
+                              //     width: context.width / 2,
+                              //     child: CheckboxListTile(
+                              //       value: false,
+                              //       onChanged: (val) {},
+                              //       contentPadding: EdgeInsets.zero,
+                              //       controlAffinity:
+                              //           ListTileControlAffinity.leading,
+                              //       title: Text(
+                              //         'Remember me',
+                              //         style: smallTextStyle,
+                              //       ),
+                              //     )),
                               Padding(
-                                padding: Platform.isAndroid
-                                    ? const EdgeInsets.symmetric(
-                                        horizontal: 12.0)
-                                    : EdgeInsets.zero,
-                                child: AdaptiveButton(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                child: TextButton(
                                   child: Text(
                                     tr.loginCardForgotYourPassword,
-                                    style: context.bodySmall
-                                        ?.copyWith(color: ColorManager.primary),
+                                    style: context.bodySmall,
                                   ),
                                   onPressed: () {
                                     if (controller
@@ -353,10 +369,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                           (result) {
                             context.popRoute();
                             if (result) {
-                              Get.snackbar(
-                                  'Success', 'Url updated, restart the app');
+                              context
+                                  .showSnackBar('Url updated, restart the app');
                             } else {
-                              Get.snackbar('Failure', 'Could not update url');
+                              context.showSnackBar('Could not update url');
                             }
                           },
                         ),
@@ -370,10 +386,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                         (result) {
                           context.popRoute();
                           if (result) {
-                            Get.snackbar(
-                                'Success', 'Url updated, restart the app');
+                            context
+                                .showSnackBar('Url updated, restart the app');
                           } else {
-                            Get.snackbar('Failure', 'Could not update url');
+                            context.showSnackBar('Could not update url');
                           }
                         },
                       );

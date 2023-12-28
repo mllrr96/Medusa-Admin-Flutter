@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import '../../../../../../data/models/req/user_sales_channel_req.dart';
 
 class AddUpdateSalesChannelController extends GetxController {
@@ -54,18 +55,10 @@ class AddUpdateSalesChannelController extends GetxController {
           isDisabled: disabled,
         ));
     result.when((success) {
-      if (success.salesChannel != null) {
-        context.popRoute(success.salesChannel);
-      } else {
-        Get.snackbar(
-            'Error updating sales channel', 'Received sales channel is empty',
-            snackPosition: SnackPosition.BOTTOM);
-      }
-    }, (error) {
-      Get.snackbar(
-          'Error updating sales channel ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
-    });
+      context.popRoute(success.salesChannel);
+    },
+        (error) => context.showSnackBar(
+            'Error updating sales channel, ${error.toSnackBarString()}'));
     dismissLoading();
   }
 
@@ -82,11 +75,7 @@ class AddUpdateSalesChannelController extends GetxController {
     ));
     result.when((success) {
       context.popRoute(true);
-    }, (error) {
-      Get.snackbar(
-          'Error updating sales channel ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM);
-    });
+    }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 }

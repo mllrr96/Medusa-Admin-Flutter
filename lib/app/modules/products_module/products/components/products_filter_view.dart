@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
-import '../../../components/adaptive_button.dart';
-import '../../../components/adaptive_filled_button.dart';
 import 'products_filter_controller.dart';
 
 class ProductsFilterView extends StatefulWidget {
@@ -39,6 +36,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   final collectionKey = GlobalKey();
   final tagsKey = GlobalKey();
   final controller = ProductsFilterController.instance;
+  final Widget disabledApplyButton = const FilledButton(onPressed: null, child: Text('Apply'));
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
@@ -46,28 +44,27 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products Filter'),
-        actions: [
-          AdaptiveButton(
-            onPressed: widget.onResetPressed,
-            child: const Text('Reset'),
-          ),
-        ],
       ),
       bottomNavigationBar: Container(
           padding: const EdgeInsets.all(12.0),
-          color: context.theme.appBarTheme.backgroundColor,
-          child: controller.obx((state) =>
-              AdaptiveFilledButton(
-                  onPressed: () {
-                    widget.onSubmitted?.call(productFilter);
-                  },
-                  child: Text('Apply',
-                      style: smallTextStyle?.copyWith(color: Colors.white))),
-            onLoading: AdaptiveFilledButton(onPressed: null, child: Text('Apply',
-                style: smallTextStyle?.copyWith(color: Colors.white))),
-            onEmpty: const SizedBox.shrink(),
-            onError: (_) => AdaptiveFilledButton(onPressed: null, child: Text('Apply',
-                style: smallTextStyle?.copyWith(color: Colors.white))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: widget.onResetPressed,
+                child: const Text('Reset'),
+              ),
+              controller.obx((state) =>
+                  FilledButton(
+                      onPressed: () {
+                        widget.onSubmitted?.call(productFilter);
+                      },
+                      child: const Text('Apply')),
+                onLoading:disabledApplyButton,
+                onEmpty: disabledApplyButton,
+                onError: (_) => disabledApplyButton,
+              ),
+            ],
           )
       ),
 
@@ -85,48 +82,50 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
               final tags = state?.$2;
               return Column(
                 children: [
-                  CustomExpansionTile(
+                  HeaderCard(
                     key: statusKey,
-                    title: Text('Status', style: smallTextStyle),
+                    title: const Text('Status'),
                     initiallyExpanded: productFilter.status.isNotEmpty,
                     onExpansionChanged: (expanded) async {
                       if (expanded) {
                         await statusKey.currentContext.ensureVisibility();
                       }
                     },
-                    children: ProductStatus.values
-                        .map((e) => CheckboxListTile(
-                      title: Text(e.name.capitalize ?? e.name,
-                          style: smallTextStyle),
-                      value: productFilter.status.contains(e),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      onChanged: (bool? value) {
-                        if (value == null) {
-                          return;
-                        }
+                    child: Column(
+                      children: ProductStatus.values
+                          .map((e) => CheckboxListTile(
+                        title: Text(e.name.capitalize ?? e.name,
+                            style: smallTextStyle),
+                        value: productFilter.status.contains(e),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        onChanged: (bool? value) {
+                          if (value == null) {
+                            return;
+                          }
 
-                        if (value) {
-                          productFilter.status.add(e);
-                        } else {
-                          productFilter.status.remove(e);
-                        }
-                        setState(() {});
-                      },
-                    ))
-                        .toList(),
+                          if (value) {
+                            productFilter.status.add(e);
+                          } else {
+                            productFilter.status.remove(e);
+                          }
+                          setState(() {});
+                        },
+                      ))
+                          .toList(),
+                    ),
                   ),
                   space,
-                  CustomExpansionTile(
+                  HeaderCard(
                     key: collectionKey,
-                    title: Text('Collections', style: smallTextStyle),
+                    title: const Text('Collections'),
                     initiallyExpanded: productFilter.collection.isNotEmpty,
                     onExpansionChanged: (expanded) async {
                       if (expanded) {
                         await collectionKey.currentContext.ensureVisibility();
                       }
                     },
-                    children: [
+                    child: Column(children: [
                       if (collections?.isNotEmpty ?? false)
                         ...collections!.map((e) => CheckboxListTile(
                           controlAffinity: ListTileControlAffinity.leading,
@@ -150,60 +149,63 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                           title: Text(e.title ?? '', style: smallTextStyle),
                         ))
                     ],
+                    ),
                   ),
                   space,
-                  CustomExpansionTile(
+                  HeaderCard(
                     key: tagsKey,
-                    title: Text('Tags', style: smallTextStyle),
+                    title: const Text('Tags'),
                     initiallyExpanded: productFilter.tags.isNotEmpty,
                     onExpansionChanged: (expanded) async {
                       if (expanded) {
                         await tagsKey.currentContext.ensureVisibility();
                       }
                     },
-                    children: [
-                      if (tags?.isNotEmpty ?? false)
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          spacing: 6.0,
-                          children: tags!
-                              .map(
-                                (e) => ChoiceChip(
-                              label: Text(e.value ?? '', style: smallTextStyle),
-                              labelStyle: smallTextStyle,
-                              onSelected: (val) {
-                                if (val) {
-                                  productFilter.tags.add(e);
-                                } else {
-                                  productFilter.tags.remove(e);
-                                }
-                                setState(() {});
-                              },
-                              selected: productFilter.tags.contains(e),
-                            ),
+                    child: Column(
+                      children: [
+                        if (tags?.isNotEmpty ?? false)
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            spacing: 6.0,
+                            children: tags!
+                                .map(
+                                  (e) => ChoiceChip(
+                                label: Text(e.value ?? '', style: smallTextStyle),
+                                labelStyle: smallTextStyle,
+                                onSelected: (val) {
+                                  if (val) {
+                                    productFilter.tags.add(e);
+                                  } else {
+                                    productFilter.tags.remove(e);
+                                  }
+                                  setState(() {});
+                                },
+                                selected: productFilter.tags.contains(e),
+                              ),
+                            )
+                                .toList(),
                           )
-                              .toList(),
-                        )
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               );
             },
-              onLoading: Skeletonizer(
+              onLoading: const Skeletonizer(
                 enabled: true,
                 child: Column(
                   children: [
-                    CustomExpansionTile(
-                      title: Text('Status', style: smallTextStyle),
+                    HeaderCard(
+                      title: Text('Status'),
                     ),
                     space,
-                    CustomExpansionTile(
-                      title: Text('Collections', style: smallTextStyle),
+                    HeaderCard(
+                      title: Text('Collections'),
                     ),
                     space,
-                    CustomExpansionTile(
+                    HeaderCard(
                       title:
-                      Text('Tags', style: smallTextStyle),
+                      Text('Tags'),
                     ),
                   ],
                 ),

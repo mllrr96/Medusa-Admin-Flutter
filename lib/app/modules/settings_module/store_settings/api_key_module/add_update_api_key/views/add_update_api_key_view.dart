@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/custom_expansion_tile.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
+import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -50,41 +50,45 @@ class AddUpdateApiKeyView extends StatelessWidget {
                   children: [
                     Form(
                       key: controller.keyForm,
-                      child: CustomExpansionTile(
-                        label: 'General Information',
+                      child: HeaderCard(
+                        title: const Text('General Information'),
                         initiallyExpanded: true,
-                        children: [
-                          Text(
-                            'Create and manage API keys. Right now this is only related to sales channels.',
-                            style: smallTextStyle?.copyWith(color: lightWhite),
-                          ),
-                          space,
-                          LabeledTextField(
-                            label: 'Title',
-                            controller: controller.titleCtrl,
-                            hintText: 'Name your key',
-                            required: true,
-                            validator: (val) {
-                              if (val == null ||
-                                  val.removeAllWhitespace.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
-                          )
-                        ],
+                       child: Column(
+                         children: [
+                           Text(
+                             'Create and manage API keys. Right now this is only related to sales channels.',
+                             style: smallTextStyle?.copyWith(color: lightWhite),
+                           ),
+                           space,
+                           LabeledTextField(
+                             label: 'Title',
+                             controller: controller.titleCtrl,
+                             hintText: 'Name your key',
+                             required: true,
+                             validator: (val) {
+                               if (val == null ||
+                                   val.removeAllWhitespace.isEmpty) {
+                                 return 'Field is required';
+                               }
+                               return null;
+                             },
+                           )
+                         ],
+                       ),
                       ),
                     ),
                     space,
-                    CustomExpansionTile(
-                      label: 'Sales channels',
-                      children: [
-                        Text(
-                          'Connect as many sales channels to your API key as you need.',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
-                        ),
-                        space,
-                      ],
+                    HeaderCard(
+                      title: const Text('Sales channels'),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Connect as many sales channels to your API key as you need.',
+                            style: smallTextStyle?.copyWith(color: lightWhite),
+                          ),
+                          space,
+                        ],
+                      ),
                     ),
                   ],
                 ),
