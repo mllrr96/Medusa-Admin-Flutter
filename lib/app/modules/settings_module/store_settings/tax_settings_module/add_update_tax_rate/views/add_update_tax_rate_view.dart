@@ -13,7 +13,7 @@ import '../controllers/add_update_tax_rate_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 @RoutePage()
-class AddUpdateTaxRateView extends GetView<AddUpdateTaxRateController> {
+class AddUpdateTaxRateView extends StatelessWidget {
   const AddUpdateTaxRateView(this.addUpdateTaxRateReq, {super.key});
   final AddUpdateTaxRateReq addUpdateTaxRateReq;
 
@@ -31,7 +31,7 @@ class AddUpdateTaxRateView extends GetView<AddUpdateTaxRateController> {
                 ? const Text('Update Tax Rate')
                 : const Text('Add Tax Rate'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                 onPressed: () async =>
                 controller.updateMode
                     ? await controller.updateTaxRate(context)

@@ -10,6 +10,7 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../../data/models/store/fulfillment_option.dart';
 import '../../../../../../data/repository/shipping_profile/shipping_profile_repo.dart';
@@ -17,9 +18,10 @@ import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
 
 @RoutePage()
-class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionController> {
-  const AddUpdateShippingOptionView(this.addUpdateShippingOptionReq, {super.key});
-  final AddUpdateShippingOptionReq addUpdateShippingOptionReq ;
+class AddUpdateShippingOptionView extends StatelessWidget {
+  const AddUpdateShippingOptionView(this.addUpdateShippingOptionReq,
+      {super.key});
+  final AddUpdateShippingOptionReq addUpdateShippingOptionReq;
 
   @override
   Widget build(BuildContext context) {
@@ -29,46 +31,60 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final headlineMediumTextStyle = context.headlineMedium;
-    const border = OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4.0)));
-    final inputFormatter = [
-      CurrencyTextInputFormatter(name: controller.addUpdateShippingOptionReq.region.currencyCode)
-    ];
-    final decoration = InputDecoration(
-      prefixIconConstraints: const BoxConstraints(minHeight: 0, minWidth: 0),
-      prefixIcon: Text('   ${NumberFormat.simpleCurrency(name: controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase()).currencySymbol}   ',
-          style: smallTextStyle?.copyWith(color: lightWhite)),
-    );
+    const border = OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)));
+
     return GetBuilder<AddUpdateShippingOptionController>(
       init: AddUpdateShippingOptionController(
         shippingProfileRepo: ShippingProfileRepo(),
         regionsRepo: RegionsRepo(),
-        shippingOptionsRepo: ShippingOptionsRepo(), addUpdateShippingOptionReq: addUpdateShippingOptionReq,
+        shippingOptionsRepo: ShippingOptionsRepo(),
+        addUpdateShippingOptionReq: addUpdateShippingOptionReq,
       ),
       builder: (controller) {
+        final inputFormatter = [
+          CurrencyTextInputFormatter(
+              name: controller.addUpdateShippingOptionReq.region.currencyCode)
+        ];
+        final decoration = InputDecoration(
+          prefixIconConstraints:
+              const BoxConstraints(minHeight: 0, minWidth: 0),
+          prefixIcon: Text(
+              '   ${NumberFormat.simpleCurrency(name: controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase()).currencySymbol}   ',
+              style: smallTextStyle?.copyWith(color: lightWhite)),
+        );
         return GestureDetector(
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
               leading: const AdaptiveBackButton(),
-              title: controller.updateMode ? const Text('Update Shipping Option') : const Text('Add Shipping Option'),
+              title: controller.updateMode
+                  ? const Text('Update Shipping Option')
+                  : const Text('Add Shipping Option'),
               actions: [
                 AdaptiveButton(
                     onPressed: () async => controller.updateMode
-                        ? null
+                        ? await controller.updateShippingOption(context)
                         : await controller.createShippingOption(context),
-                    child: controller.updateMode ? const Text('Update') : const Text('Add'))
+                    child: controller.updateMode
+                        ? const Text('Update')
+                        : const Text('Add'))
               ],
             ),
             body: SafeArea(
               child: Form(
                 key: controller.formKey,
                 child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   children: [
                     SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
                       title: const Text('Visible in store'),
-                      subtitle: Text('Enable or disable the shipping option visibility in store.', style: TextStyle(color: lightWhite),),
+                      subtitle: Text(
+                        'Enable or disable the shipping option visibility in store.',
+                        style: TextStyle(color: lightWhite),
+                      ),
                       value: controller.visibleInStore,
                       onChanged: (val) {
                         controller.visibleInStore = val;
@@ -77,9 +93,11 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                     ),
                     space,
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12.0)),
                         color: Theme.of(context).appBarTheme.backgroundColor,
                       ),
                       child: Column(
@@ -100,80 +118,77 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                             },
                           ),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Flexible(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text('Price Type', style: mediumTextStyle!),
-                                        Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
-                                      ],
-                                    ),
-                                    halfSpace,
-                                    DropdownButtonFormField<ShippingOptionPriceType>(
-                                      style: context.bodyMedium,
-                                      value: controller.selectedPriceType,
-                                      hint: const Text('Choose a price type'),
-                                      iconSize: 20,
-                                      dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return 'Field is required';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.grey),
-                                        ),
-                                        filled: true,
-                                        fillColor: Theme.of(context).scaffoldBackgroundColor,
-                                        border: border,
-                                      ),
-                                      items: ShippingOptionPriceType.values
-                                          .map((e) => DropdownMenuItem<ShippingOptionPriceType>(
-                                                value: e,
-                                                child: Text(e == ShippingOptionPriceType.calculated
-                                                    ? 'Calculated'
-                                                    : 'Flat Rate'),
-                                              ))
-                                          .toList(),
-                                      onChanged: (val) {
-                                        controller.selectedPriceType = val;
-                                        controller.update();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (controller.selectedPriceType == ShippingOptionPriceType.flatRate)
-                                const SizedBox(width: 12.0),
-                              Flexible(
-                                flex: controller.selectedPriceType == ShippingOptionPriceType.flatRate ? 1 : 0,
-                                child: AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 300),
-                                  child: controller.selectedPriceType == ShippingOptionPriceType.flatRate
-                                      ? LabeledTextField(
-                                          label: 'Price',
-                                          includeSpace: false,
-                                          keyboardType: TextInputType.number,
-                                          decoration: decoration,
-                                          inputFormatters: inputFormatter,
-                                          controller: controller.priceCtrl,
-                                          validator: (val) {
-                                            if (val == null || val.isEmpty) {
-                                              return 'Field is required';
-                                            }
-
-                                            return null;
-                                          },
-                                        )
-                                      : const SizedBox.shrink(),
-                                ),
-                              )
+                              Text('Price Type',
+                                  style: mediumTextStyle!),
+                              Text('*',
+                                  style: mediumTextStyle.copyWith(
+                                      color: Colors.red)),
                             ],
+                          ),
+                          halfSpace,
+                          DropdownButtonFormField<
+                              ShippingOptionPriceType>(
+                            style: context.bodyMedium,
+                            value: controller.selectedPriceType,
+                            hint: const Text('Choose a price type'),
+                            iconSize: 20,
+                            dropdownColor: Theme.of(context)
+                                .appBarTheme
+                                .backgroundColor,
+                            validator: (val) {
+                              if (val == null) {
+                                return 'Field is required';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey),
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context)
+                                  .scaffoldBackgroundColor,
+                              border: border,
+                            ),
+                            items: ShippingOptionPriceType.values
+                                .map((e) => DropdownMenuItem<
+                                        ShippingOptionPriceType>(
+                                      value: e,
+                                      child: Text(e ==
+                                              ShippingOptionPriceType
+                                                  .calculated
+                                          ? 'Calculated'
+                                          : 'Flat Rate'),
+                                    ))
+                                .toList(),
+                            onChanged: (val) {
+                              controller.selectedPriceType = val;
+                              controller.update();
+                            },
+                          ),
+                          halfSpace,
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: controller.selectedPriceType ==
+                                ShippingOptionPriceType.flatRate
+                                ? LabeledTextField(
+                              label: 'Price',
+                              includeSpace: false,
+                              keyboardType: TextInputType.number,
+                              decoration: decoration,
+                              inputFormatters: inputFormatter,
+                              controller: controller.priceCtrl,
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return 'Field is required';
+                                }
+
+                                return null;
+                              },
+                            )
+                                : const SizedBox.shrink(),
                           ),
                           if (!controller.updateMode)
                             Column(
@@ -181,19 +196,27 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                 space,
                                 Row(
                                   children: [
-                                    Text('Shipping Profile', style: mediumTextStyle),
-                                    Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
+                                    Text('Shipping Profile',
+                                        style: mediumTextStyle),
+                                    Text('*',
+                                        style: mediumTextStyle.copyWith(
+                                            color: Colors.red)),
                                   ],
                                 ),
                                 halfSpace,
                                 AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.shippingProfiles != null
-                                      ? DropdownButtonFormField<ShippingProfile>(
+                                      ? DropdownButtonFormField<
+                                          ShippingProfile>(
                                           style: context.bodyMedium,
-                                          value: controller.selectedShippingProfile,
-                                          hint: const Text('Choose a shipping profile'),
-                                          dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
+                                          value: controller
+                                              .selectedShippingProfile,
+                                          hint: const Text(
+                                              'Choose a shipping profile'),
+                                          dropdownColor: Theme.of(context)
+                                              .appBarTheme
+                                              .backgroundColor,
                                           validator: (val) {
                                             if (val == null) {
                                               return 'Field is required';
@@ -201,25 +224,38 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                             return null;
                                           },
                                           decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-                                              borderSide: BorderSide(color: Colors.grey),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey),
                                             ),
                                             filled: true,
-                                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                                            fillColor: Theme.of(context)
+                                                .scaffoldBackgroundColor,
                                             border: border,
                                           ),
                                           items: controller.shippingProfiles!
-                                              .map((e) => DropdownMenuItem<ShippingProfile>(
+                                              .map((e) => DropdownMenuItem<
+                                                      ShippingProfile>(
                                                     value: e,
                                                     child: Text(e.name ?? ''),
                                                   ))
                                               .toList(),
                                           onChanged: (val) {
-                                            controller.selectedShippingProfile = val;
+                                            controller.selectedShippingProfile =
+                                                val;
                                             controller.update();
                                           },
                                         )
-                                      : const Center(child: CircularProgressIndicator.adaptive()),
+                                      : const Skeletonizer(
+                                          enabled: true,
+                                          child: TextField(
+                                            readOnly: true,
+                                            decoration: InputDecoration(
+                                              hintText:
+                                                  'Choose a shipping profile',
+                                            ),
+                                          )),
                                 ),
                               ],
                             ),
@@ -229,19 +265,27 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                 space,
                                 Row(
                                   children: [
-                                    Text('Fulfillment Method', style: mediumTextStyle),
-                                    Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
+                                    Text('Fulfillment Method',
+                                        style: mediumTextStyle),
+                                    Text('*',
+                                        style: mediumTextStyle.copyWith(
+                                            color: Colors.red)),
                                   ],
                                 ),
                                 halfSpace,
                                 AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 300),
                                   child: controller.fulfillmentOptions != null
-                                      ? DropdownButtonFormField<FulfillmentOption>(
+                                      ? DropdownButtonFormField<
+                                          FulfillmentOption>(
                                           style: context.bodyMedium,
-                                          value: controller.selectedFulfillmentOption,
-                                          hint: const Text('Choose a fulfillment method'),
-                                          dropdownColor: Theme.of(context).appBarTheme.backgroundColor,
+                                          value: controller
+                                              .selectedFulfillmentOption,
+                                          hint: const Text(
+                                              'Choose a fulfillment method'),
+                                          dropdownColor: Theme.of(context)
+                                              .appBarTheme
+                                              .backgroundColor,
                                           validator: (val) {
                                             if (val == null) {
                                               return 'Field is required';
@@ -249,25 +293,40 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                                             return null;
                                           },
                                           decoration: InputDecoration(
-                                            enabledBorder: const OutlineInputBorder(
-                                              borderSide: BorderSide(color: Colors.grey),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey),
                                             ),
                                             filled: true,
-                                            fillColor: Theme.of(context).scaffoldBackgroundColor,
+                                            fillColor: Theme.of(context)
+                                                .scaffoldBackgroundColor,
                                             border: border,
                                           ),
                                           items: controller.fulfillmentOptions!
-                                              .map((e) => DropdownMenuItem<FulfillmentOption>(
+                                              .map((e) => DropdownMenuItem<
+                                                      FulfillmentOption>(
                                                     value: e,
-                                                    child: Text(e.providerId ?? ''),
+                                                    child: Text(
+                                                        e.providerId ?? ''),
                                                   ))
                                               .toList(),
                                           onChanged: (val) {
-                                            controller.selectedFulfillmentOption = val;
+                                            controller
+                                                    .selectedFulfillmentOption =
+                                                val;
                                             controller.update();
                                           },
                                         )
-                                      : const Center(child: CircularProgressIndicator.adaptive()),
+                                      : const Skeletonizer(
+                                      enabled: true,
+                                      child: TextField(
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          hintText:
+                                          'Choose a fulfillment method',
+                                        ),
+                                      )),
                                 ),
                               ],
                             ),
@@ -277,9 +336,11 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                     ),
                     space,
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12.0)),
                         color: Theme.of(context).appBarTheme.backgroundColor,
                       ),
                       child: Column(
@@ -294,6 +355,17 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                             decoration: decoration,
                             keyboardType: TextInputType.number,
                             inputFormatters: inputFormatter,
+                            validator: (val){
+                              // When creating a new shipping option, minSubtotal is optional
+                              if(!controller.updateMode){
+                                return null;
+                              }
+                              // when updating a shipping option, minSubtotal is required
+                              if(val?.isEmpty ?? true){
+                                return 'Field is required';
+                              }
+                              return null;
+                            },
                           ),
                           LabeledTextField(
                             label: 'Max. subtotal (Tax excl. price)',
@@ -302,6 +374,17 @@ class AddUpdateShippingOptionView extends GetView<AddUpdateShippingOptionControl
                             decoration: decoration,
                             inputFormatters: inputFormatter,
                             keyboardType: TextInputType.number,
+                            validator: (val){
+                              // When creating a new shipping option, maxSubtotal is optional
+                              if(!controller.updateMode){
+                                return null;
+                              }
+                              // when updating a shipping option, maxSubtotal is required
+                              if(val?.isEmpty ?? true){
+                                return 'Field is required';
+                              }
+                              return null;
+                            },
                           ),
                         ],
                       ),

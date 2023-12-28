@@ -78,7 +78,7 @@ class AddUpdateShippingOptionController extends GetxController {
         shippingOption: ShippingOption(
           name: titleCtrl.text,
           regionId: addUpdateShippingOptionReq.region.id!,
-          profileId: '',
+          profileId: null,
           isReturn: addUpdateShippingOptionReq.returnShippingOption,
           data: {},
           providerId: selectedFulfillmentOption!.providerId,
@@ -107,6 +107,7 @@ class AddUpdateShippingOptionController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
+    loading();
     context.unfocus();
     final price = int.tryParse(priceCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     final minSubtotal = int.tryParse(minSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
@@ -121,10 +122,10 @@ class AddUpdateShippingOptionController extends GetxController {
       userUpdateReturnReasonReq: UserUpdateShippingOptionReq(
         shippingOption: ShippingOption(
           name: shippingOption.name == titleCtrl.text ? null : titleCtrl.text,
-          regionId: addUpdateShippingOptionReq.region.id!,
-          profileId: shippingOption.profileId,
-          providerId: shippingOption.providerId,
-          priceType: selectedPriceType,
+          regionId: null,
+          profileId: null,
+          providerId:null,
+          priceType: null,
           amount: selectedPriceType == ShippingOptionPriceType.flatRate ? price : null,
           requirements: requirements.isNotEmpty ? requirements : null,
         ),
@@ -171,8 +172,12 @@ class AddUpdateShippingOptionController extends GetxController {
 
   void loadShippingOption() {
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
-    // final currencyFormatter = CurrencyTextInputFormatter(name: addUpdateShippingOptionReq.region.currencyCode);
-    visibleInStore = !shippingOption.adminOnly;
+    if(shippingOption.adminOnly != null){
+      visibleInStore = !shippingOption.adminOnly!;
+    } else {
+      visibleInStore = true;
+    }
+
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;
     if (shippingOption.amount != null) {

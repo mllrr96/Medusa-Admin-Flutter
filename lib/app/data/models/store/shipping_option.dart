@@ -44,12 +44,12 @@ class ShippingOption {
   /// Flag to indicate if the Shipping Option can be used for Return shipments.
   ///
   /// Default: false
-  bool isReturn = false;
+  bool? isReturn;
 
   /// Flag to indicate if the Shipping Option usage is restricted to admin users.
   ///
   /// Default: false
-  bool adminOnly = false;
+  bool? adminOnly;
 
   /// The requirements that must be satisfied for the Shipping Option to be available for a Cart. Available if the relation requirements is expanded.
   List<ShippingOptionRequirement>? requirements;
@@ -85,8 +85,8 @@ class ShippingOption {
     this.provider,
     required this.priceType,
     this.amount,
-    this.isReturn = false,
-    this.adminOnly = false,
+    this.isReturn,
+    this.adminOnly,
     this.requirements,
     this.data,
     this.includesTax,
@@ -168,8 +168,13 @@ class ShippingOption {
       json['amount'] = amount;
     }
 
-    json['is_return'] = isReturn;
-    json['admin_only'] = adminOnly;
+    if (isReturn != null) {
+      json['is_return'] = isReturn;
+    }
+
+    if (adminOnly != null) {
+      json['admin_only'] = adminOnly;
+    }
 
     if (requirements != null) {
       json['requirements'] =

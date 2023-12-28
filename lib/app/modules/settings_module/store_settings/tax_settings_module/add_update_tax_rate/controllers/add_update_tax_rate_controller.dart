@@ -49,12 +49,12 @@ class AddUpdateTaxRateController extends GetxController {
         code: taxCodeCtrl.text,
         name: nameCtrl.text,
         regionId: addUpdateTaxRateReq.regionId,
-        rate: double.tryParse(taxRateCtrl.text),
+        rate: int.tryParse(taxRateCtrl.text),
       ),
     );
 
     result.when((success) {
-      EasyLoading.showSuccess('Tax rate created');
+      context.showSnackBar('Tax rate created');
       dismissLoading();
       context.popRoute(true);
     }, (error) {
@@ -80,7 +80,7 @@ class AddUpdateTaxRateController extends GetxController {
     );
 
     result.when((success) {
-      EasyLoading.showSuccess('Tax rate created');
+      context.showSnackBar('Tax rate updated');
       dismissLoading();
       context.popRoute(true);
     }, (error) {

@@ -8,8 +8,11 @@ import '../../../../../components/adaptive_icon.dart';
 import 'shipping_option_label.dart';
 
 class ShippingOptionCard extends StatelessWidget {
-  const ShippingOptionCard({Key? key, required this.shippingOption, this.onEditTap, this.onDeleteTap})
-      : super(key: key);
+  const ShippingOptionCard(
+      {super.key,
+      required this.shippingOption,
+      this.onEditTap,
+      this.onDeleteTap});
   final ShippingOption shippingOption;
   final void Function()? onEditTap;
   final void Function()? onDeleteTap;
@@ -24,7 +27,8 @@ class ShippingOptionCard extends StatelessWidget {
       String text = '';
       for (var requirement in shippingOption.requirements!) {
         if (requirement.type! == RequirementType.maxSubtotal) {
-          text = 'Max. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
+          text =
+              'Max. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
         }
       }
       if (text.isEmpty) {
@@ -37,7 +41,8 @@ class ShippingOptionCard extends StatelessWidget {
       String text = '';
       for (var requirement in shippingOption.requirements!) {
         if (requirement.type! == RequirementType.minSubtotal) {
-          text = 'Min. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
+          text =
+              'Min. subtotal: ${requirement.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}';
         }
       }
       if (text.isEmpty) {
@@ -63,16 +68,22 @@ class ShippingOptionCard extends StatelessWidget {
                 children: [
                   Flexible(
                       child: Text(shippingOption.name ?? '',
-                          style: mediumTextStyle?.copyWith(fontWeight: FontWeight.w500))),
+                          style: mediumTextStyle?.copyWith(
+                              fontWeight: FontWeight.w500))),
                   AdaptiveIcon(
                       onPressed: () async {
                         await showModalActionSheet<int>(
-                            title: shippingOption.isReturn ? 'Manage return shipping option' : 'Manage shipping option',
+                            title: (shippingOption.isReturn ?? false)
+                                ? 'Manage return shipping option'
+                                : 'Manage shipping option',
                             message: shippingOption.name,
                             context: context,
                             actions: <SheetAction<int>>[
                               const SheetAction(label: 'Edit', key: 0),
-                              const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                              const SheetAction(
+                                  label: 'Delete',
+                                  isDestructiveAction: true,
+                                  key: 1),
                             ]).then((value) async {
                           switch (value) {
                             case 0:
@@ -96,14 +107,17 @@ class ShippingOptionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text('Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
+                    child: Text(
+                        'Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
                         style: smallTextStyle?.copyWith(color: lightWhite)),
                   ),
-                  ShippingOptionLabel(adminOnly: shippingOption.adminOnly)
+                  ShippingOptionLabel(
+                      adminOnly: shippingOption.adminOnly ?? false)
                 ],
               ),
               halfSpace,
-              Text('${getMinText()} - ${getMaxText()}', style: smallTextStyle?.copyWith(color: lightWhite)),
+              Text('${getMinText()} - ${getMaxText()}',
+                  style: smallTextStyle?.copyWith(color: lightWhite)),
               halfSpace,
             ],
           ),

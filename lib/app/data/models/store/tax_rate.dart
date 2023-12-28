@@ -9,7 +9,7 @@ class TaxRate {
   /// Example: "txr_01G8XDBAWKBHHJRKH0AV02KXBR"
   String? id;
 
-  double? rate;
+  num? rate;
 
   /// A code to identify the tax type by
   String? code;

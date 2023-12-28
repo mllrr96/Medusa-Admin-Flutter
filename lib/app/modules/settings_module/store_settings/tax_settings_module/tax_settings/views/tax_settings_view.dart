@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
 import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/utils/colors.dart';
 import '../../../../../components/adaptive_back_button.dart';
 import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
@@ -24,16 +24,16 @@ class TaxSettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lightWhite = ColorManager.manatee;
-    final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     const halfSpace = Gap(6);
     return GetBuilder<TaxSettingsController>(
       init: TaxSettingsController(
-          region: region,
-          storeRepo: StoreRepo(),
-          taxRateRepo: TaxRateRepo(),),
+        region: region,
+        storeRepo: StoreRepo(),
+        taxRateRepo: TaxRateRepo(),
+      ),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -68,62 +68,10 @@ class TaxSettingsView extends StatelessWidget {
                       color: controller.same() ? Colors.grey : Colors.white)),
             ),
           ),
-          body: SafeArea(
-            child: ListView(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8.0),
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).appBarTheme.backgroundColor,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Details', style: context.headlineMedium),
-                      halfSpace,
-                      Text('Tax rates',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
-                      PagedListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 6.0),
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        pagingController: controller.pagingController,
-                        builderDelegate: PagedChildBuilderDelegate<TaxRate>(
-                            itemBuilder: (context, taxRate, index) =>
-                                TaxRateCard(
-                                  taxRate: taxRate,
-                                  onEditTap: () async {
-                                    final result = await context
-                                        .pushRoute(AddUpdateTaxRateRoute(
-                                      addUpdateTaxRateReq: AddUpdateTaxRateReq(
-                                          regionId: controller.region.id!,
-                                          taxRate: taxRate),
-                                    ));
-                                    if (result is bool) {
-                                      controller.pagingController.refresh();
-                                    }
-                                  },
-                                  onDeleteTap: () async => await controller
-                                      .deleteTaxRate(taxRate.id!, context),
-                                ),
-                            firstPageProgressIndicatorBuilder: (context) =>
-                                const Center(
-                                    child:
-                                        CircularProgressIndicator.adaptive()),
-                            noItemsFoundIndicatorBuilder: (_) => TaxRateCard(
-                                taxRate: TaxRate(
-                                    name: 'Default', rate: 0.0, code: '-'))),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
+          body: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 8.0),
                   margin: const EdgeInsets.symmetric(
@@ -159,8 +107,15 @@ class TaxSettingsView extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(4.0)))),
                               )
-                            : const Center(
-                                child: CircularProgressIndicator.adaptive()),
+                            : const Skeletonizer(
+                                enabled: true,
+                                child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                    hintText: 'System Tax Provider',
+                                    isDense: true,
+                                  ),
+                                )),
                       ),
                       space,
                       CheckboxListTile(
@@ -174,24 +129,45 @@ class TaxSettingsView extends StatelessWidget {
                         },
                         controlAffinity: ListTileControlAffinity.leading,
                         title: const Text('Calculate taxes automatically?'),
-                        secondary: InfoPopupWidget(
-                          arrowTheme: InfoPopupArrowTheme(
-                            arrowDirection: ArrowDirection.up,
-                            color: ColorManager.primary,
-                          ),
-                          contentTheme: InfoPopupContentTheme(
-                            infoContainerBackgroundColor:
-                                Theme.of(context).appBarTheme.backgroundColor!,
-                            infoTextStyle: smallTextStyle!,
-                            contentPadding: const EdgeInsets.all(8),
-                            contentBorderRadius:
-                                const BorderRadius.all(Radius.circular(4)),
-                            infoTextAlign: TextAlign.start,
-                          ),
-                          contentTitle:
-                              'When checked Medusa will automatically apply tax calculations to Carts in this Region. When unchecked you will have to manually compute taxes at checkout. Manual taxes are recommended if using a 3rd party tax provider to avoid performing too many requests',
-                          child: const Icon(Icons.info_outline),
+                        secondary: IconButton(
+                          iconSize: 20,
+                          isSelected: controller.showAutomaticTaxesHint,
+                          icon: const Icon(Icons.info_outlined),
+                          selectedIcon: const Icon(Icons.info),
+                          onPressed: () {
+                            controller.showAutomaticTaxesHint =
+                                !controller.showAutomaticTaxesHint;
+                            controller.update();
+                          },
                         ),
+                      ),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder:
+                            (Widget child, Animation<double> animation) {
+                          return SizeTransition(
+                            sizeFactor: animation,
+                            child: child,
+                          );
+                        },
+                        child: controller.showAutomaticTaxesHint
+                            ? Column(
+                                children: [
+                                  ListTile(
+                                    tileColor:
+                                        context.theme.dialogBackgroundColor,
+                                    leading: const Icon(Icons.info),
+                                    title: Text(
+                                      'When checked Medusa will automatically apply tax calculations to Carts in this Region. When unchecked you will have to manually compute taxes at checkout. Manual taxes are recommended if using a 3rd party tax provider to avoid performing too many requests',
+                                      style: context.bodySmall
+                                          ?.copyWith(color: lightWhite),
+                                      textAlign: TextAlign.justify,
+                                    ),
+                                  ),
+                                  const Divider(),
+                                ],
+                              )
+                            : const SizedBox.shrink(),
                       ),
                       CheckboxListTile(
                         contentPadding: EdgeInsets.zero,
@@ -204,30 +180,111 @@ class TaxSettingsView extends StatelessWidget {
                         },
                         controlAffinity: ListTileControlAffinity.leading,
                         title: const Text('Apply tax to gift cards?'),
-                        secondary: InfoPopupWidget(
-                          arrowTheme: InfoPopupArrowTheme(
-                            arrowDirection: ArrowDirection.up,
-                            color: ColorManager.primary,
-                          ),
-                          contentTheme: InfoPopupContentTheme(
-                            infoContainerBackgroundColor:
-                                Theme.of(context).appBarTheme.backgroundColor!,
-                            infoTextStyle: smallTextStyle,
-                            contentPadding: const EdgeInsets.all(8),
-                            contentBorderRadius:
-                                const BorderRadius.all(Radius.circular(4)),
-                            infoTextAlign: TextAlign.start,
-                          ),
-                          contentTitle:
-                              'When checked taxes will be applied to gift cards on checkout. In some contries tax regulations require that taxes are applied to gift cards on purchase.',
-                          child: const Icon(Icons.info_outline),
+                        secondary: IconButton(
+                          iconSize: 20,
+                          isSelected: controller.showGiftCardsTaxableHint,
+                          icon: const Icon(Icons.info_outlined),
+                          selectedIcon: const Icon(Icons.info),
+                          onPressed: () {
+                            controller.showGiftCardsTaxableHint =
+                                !controller.showGiftCardsTaxableHint;
+                            controller.update();
+                          },
                         ),
+                      ),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder:
+                            (Widget child, Animation<double> animation) {
+                          return SizeTransition(
+                            sizeFactor: animation,
+                            child: child,
+                          );
+                        },
+                        child: controller.showGiftCardsTaxableHint
+                            ? ListTile(
+                                leading: const Icon(Icons.info),
+                                title: Text(
+                                  'When checked taxes will be applied to gift cards on checkout. In some countries tax regulations require that taxes are applied to gift cards on purchase.',
+                                  style: context.bodySmall
+                                      ?.copyWith(color: lightWhite),
+                                  textAlign: TextAlign.justify,
+                                ),
+                              )
+                            : const SizedBox.shrink(),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Details', style: context.headlineMedium),
+                      halfSpace,
+                      Text('Tax rates: ',
+                          style: mediumTextStyle?.copyWith(color: lightWhite)),
+                    ],
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                sliver: PagedSliverList.separated(
+                  separatorBuilder: (_, __) => const Gap(6.0),
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<TaxRate>(
+                      itemBuilder: (context, taxRate, index) => TaxRateCard(
+                            taxRate: taxRate,
+                            onEditTap: () async {
+                              final result =
+                                  await context.pushRoute(AddUpdateTaxRateRoute(
+                                addUpdateTaxRateReq: AddUpdateTaxRateReq(
+                                    regionId: controller.region.id!,
+                                    taxRate: taxRate),
+                              ));
+                              if (result is bool) {
+                                controller.pagingController.refresh();
+                              }
+                            },
+                            onDeleteTap: () async => await controller
+                                .deleteTaxRate(taxRate.id!, context),
+                          ),
+                      firstPageProgressIndicatorBuilder: (context) => Column(
+                            children: [
+                              TaxRateCard(
+                                  taxRate: TaxRate(
+                                      name: 'Default', rate: 0.0, code: '-'),
+                                  shimmer: true),
+                              const Gap(6.0),
+                              TaxRateCard(
+                                  taxRate: TaxRate(
+                                      name: 'Default', rate: 0.0, code: '-'),
+                                  shimmer: true),
+                            ],
+                          ),
+                      noItemsFoundIndicatorBuilder: (_) => Column(
+                        children: [
+                          TaxRateCard(
+                              taxRate:
+                                  TaxRate(name: 'Default', rate: 0.0, code: '-')),
+                        ],
+                      ),
+
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

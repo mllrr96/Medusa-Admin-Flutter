@@ -18,7 +18,7 @@ class TaxSettingsSelectRegionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GetBuilder<TaxSettingsSelectRegionController>(
         init: TaxSettingsSelectRegionController(regionsRepo: RegionsRepo()),
@@ -36,7 +36,7 @@ class TaxSettingsSelectRegionView extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Select the region you wish to manage taxes for',
-                    style: smallTextStyle?.copyWith(color: lightWhite),
+                    style: smallTextStyle?.copyWith(color: manatee),
                   ),
                 ),
               ),

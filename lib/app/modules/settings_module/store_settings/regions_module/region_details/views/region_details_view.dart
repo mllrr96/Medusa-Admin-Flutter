@@ -481,7 +481,7 @@ class RegionDetailsView extends StatelessWidget {
                                                                     snapshot
                                                                         .data![
                                                                             index]
-                                                                        .id!),
+                                                                        .id!, returnShippingOption: true),
                                                         onEditTap: () =>
                                                             context.pushRoute(
                                                                 AddUpdateShippingOptionRoute(

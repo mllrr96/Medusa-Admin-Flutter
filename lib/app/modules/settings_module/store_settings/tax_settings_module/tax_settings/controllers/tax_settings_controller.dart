@@ -15,7 +15,9 @@ class TaxSettingsController extends GetxController {
   final pagingController = PagingController<int, TaxRate>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   bool automaticTaxes = false;
+  bool showAutomaticTaxesHint = false;
   bool giftCardsTaxable = false;
+  bool showGiftCardsTaxableHint = false;
   TaxProvider? selectedTaxProvider;
   final Region region ;
   List<TaxProvider>? taxProviders;
@@ -62,13 +64,10 @@ class TaxSettingsController extends GetxController {
       } else {
         taxProviders = [TaxProvider(id: 'System Tax Provider')];
         selectedTaxProvider = taxProviders!.first;
-        // Get.snackbar('Error loading tax providers', 'Received tax providers are empty',
-        //     snackPosition: SnackPosition.BOTTOM);
         update();
       }
     }, (error) {
-      // Get.snackbar('Error loading tax providers ${error.code ?? ''}', error.message,
-      //     snackPosition: SnackPosition.BOTTOM);
+      EasyLoading.showError(error.message);
     });
   }
 

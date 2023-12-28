@@ -118,7 +118,7 @@ class ShippingOptionsRepo extends BaseShippingOptions {
         _dataProvider.dio.options.headers.addAll(customHeaders);
       }
       final response = await _dataProvider.post(
-        uri: '/shipping-options',
+        uri: '/shipping-options/$id',
         data: userUpdateReturnReasonReq.toJson(),
       );
       if (response.statusCode == 200) {
