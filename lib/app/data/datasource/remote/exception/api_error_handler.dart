@@ -9,7 +9,7 @@ class Failure {
 
   @override
   String toString() {
-    return 'code: $code,\n message : $message, \n type: $type';
+    return ' code: $code,\n message : $message, \n type: $type';
   }
 
   String toSnackBarString() {

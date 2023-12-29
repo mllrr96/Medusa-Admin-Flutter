@@ -36,7 +36,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   final collectionKey = GlobalKey();
   final tagsKey = GlobalKey();
   final controller = ProductsFilterController.instance;
-  final Widget disabledApplyButton = const FilledButton(onPressed: null, child: Text('Apply'));
+  final Widget disabledApplyButton = const Expanded(
+      flex: 4,
+      child: FilledButton(onPressed: null, child: Text('Apply')));
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
@@ -45,21 +47,25 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
       appBar: AppBar(
         title: const Text('Products Filter'),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextButton(
+              OutlinedButton(
                 onPressed: widget.onResetPressed,
                 child: const Text('Reset'),
               ),
+              const Gap(8.0),
               controller.obx((state) =>
-                  FilledButton(
-                      onPressed: () {
-                        widget.onSubmitted?.call(productFilter);
-                      },
-                      child: const Text('Apply')),
+                  Expanded(
+                    flex: 4,
+                    child: FilledButton(
+                        onPressed: () {
+                          widget.onSubmitted?.call(productFilter);
+                        },
+                        child: const Text('Apply')),
+                  ),
                 onLoading:disabledApplyButton,
                 onEmpty: disabledApplyButton,
                 onError: (_) => disabledApplyButton,
