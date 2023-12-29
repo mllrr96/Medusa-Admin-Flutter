@@ -23,6 +23,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
     return GetBuilder<AddUpdateDiscountController>(
         id: 2,
         builder: (controller) {
+          final disableStartDate = controller.updateMode && controller.discount?.startsAt !=null ;
           return HeaderCard(
             key: controller.configKey,
             controller: controller.configTileController,
@@ -44,52 +45,62 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                   'Discount code applies from you hit the publish button and forever if left untouched.',
                   style: smallTextStyle!.copyWith(color: manatee),
                 ),
-                space,
-                SwitchListTile.adaptive(
-                  contentPadding: EdgeInsets.zero,
-                  value: controller.hasStartDate,
-                  onChanged: (val) async {
-                    controller.hasStartDate = val;
-                    controller.update([2]);
-                    if (!val) {
-                      controller.startDate = null;
-                    } else {
-                      await controller.configKey.currentContext
-                          .ensureVisibility();
-                    }
-                  },
-                  title: const Text('Start date'),
-                  subtitle: Text(
-                      'Schedule the discount to activate in the future.',
-                      style: TextStyle(color: manatee)),
+                IgnorePointer(
+                  ignoring: disableStartDate,
+                  child: Opacity(
+                    opacity:disableStartDate? 0.5 : 1.0,
+                    child: Column(
+                      children: [
+                        space,
+                        SwitchListTile.adaptive(
+                          contentPadding: EdgeInsets.zero,
+                          value: controller.hasStartDate,
+                          onChanged: (val) async {
+                            controller.hasStartDate = val;
+                            controller.update([2]);
+                            if (!val) {
+                              controller.startDate = null;
+                            } else {
+                              await controller.configKey.currentContext
+                                  .ensureVisibility();
+                            }
+                          },
+                          title: const Text('Start date'),
+                          subtitle: Text(
+                              'Schedule the discount to activate in the future.',
+                              style: TextStyle(color: manatee)),
+                        ),
+                        halfSpace,
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: controller.hasStartDate
+                              ? DateTimeCard(
+                            validator: (date) {
+                              if (date == null) {
+                                return 'Required';
+                              }
+                              return null;
+                            },
+                            dateTime: controller.startDate,
+                            dateText: 'Start',
+                            onTap: () async {
+                              await adaptiveDateTimePicker(
+                                  date: controller.startDate, context: context)
+                                  .then((result) {
+                                if (result != null) {
+                                  controller.startDate = result;
+                                  controller.update([2]);
+                                }
+                              });
+                            },
+                          )
+                              : const SizedBox.shrink(),
+                        ),
+                        space,
+                      ],
+                    ),
+                  ),
                 ),
-                halfSpace,
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: controller.hasStartDate
-                      ? DateTimeCard(
-                    validator: (date) {
-                      if (date == null) {
-                        return 'Required';
-                      }
-                      return null;
-                    },
-                    dateTime: controller.startDate,
-                    dateText: 'Start',
-                    onTap: () async {
-                      await adaptiveDateTimePicker(
-                          date: controller.startDate, context: context)
-                          .then((result) {
-                        if (result != null) {
-                          controller.startDate = result;
-                          controller.update([2]);
-                        }
-                      });
-                    },
-                  )
-                      : const SizedBox.shrink(),
-                ),
-                space,
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Discount has an expiry date?'),

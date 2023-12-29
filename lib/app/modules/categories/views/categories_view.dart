@@ -31,9 +31,7 @@ class CategoriesView extends StatelessWidget {
               child: SmartRefresher(
                 controller: controller.refreshController,
                 onRefresh: () => controller.pagingController.refresh(),
-                header: GetPlatform.isIOS
-                    ? const ClassicHeader(completeText: '')
-                    : const MaterialClassicHeader(),
+                header:  const MaterialClassicHeader(),
                 child: PagedListView(
                   pagingController: controller.pagingController,
                   padding: const EdgeInsets.only(bottom: kToolbarHeight),

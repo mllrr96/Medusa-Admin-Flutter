@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../data/models/store/order.dart';
 import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
@@ -39,9 +40,7 @@ class OrderDetailsView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: const AdaptiveBackButton(),
-            title: Hero(
-                tag : 'order',
-                child: Text(tr.orderTableOrder)),
+            title: Hero(tag: 'order', child: Text(tr.orderTableOrder)),
             actions: [
               if (controller.state?.status != OrderStatus.canceled)
                 IconButton(
@@ -83,75 +82,84 @@ class OrderDetailsView extends StatelessWidget {
             ],
           ),
           body: SafeArea(
-            child: controller.obx(
-              (order) => SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 10.0),
-                  child: Column(
-                    children: [
-                      OrderOverview(
-                        order: order!,
-                      ),
-                      space,
-                      OrderSummery(
-                        order,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.summeryKey.currentContext!
-                                .ensureVisibility();
-                          }
-                        },
-                        key: controller.summeryKey,
-                      ),
-                      space,
-                      OrderPayment(
-                        order,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.paymentKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                      ),
-                      space,
-                      OrderFulfillment(
-                        order,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.fulfillmentKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                      ),
-                      space,
-                      OrderCustomer(
-                        order,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.customerKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                      ),
-                      space,
-                      OrderTimeline(
-                        order,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.timelineKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 25.0),
-                    ],
+            child: SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: () async {
+                await controller.fetchOrderDetails();
+                controller.timeLineFuture = controller.fetchTimeLine();
+              },
+              header: const MaterialClassicHeader(),
+              child: controller.obx(
+                (order) => SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+                    child: Column(
+                      children: [
+                        OrderOverview(order: order!),
+                        space,
+                        OrderSummery(
+                          order,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await controller.summeryKey.currentContext!
+                                  .ensureVisibility();
+                            }
+                          },
+                          key: controller.summeryKey,
+                        ),
+                        space,
+                        OrderPayment(
+                          order,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await controller.paymentKey.currentContext
+                                  .ensureVisibility();
+                            }
+                          },
+                        ),
+                        space,
+                        OrderFulfillment(
+                          order,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await controller.fulfillmentKey.currentContext
+                                  .ensureVisibility();
+                            }
+                          },
+                        ),
+                        space,
+                        OrderCustomer(
+                          order,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await controller.customerKey.currentContext
+                                  .ensureVisibility();
+                            }
+                          },
+                        ),
+                        space,
+                        OrderTimeline(
+                          order,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await controller.timelineKey.currentContext
+                                  .ensureVisibility();
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 25.0),
+                      ],
+                    ),
                   ),
                 ),
+                onError: (e) =>
+                    OrderDetailsErrorPage(e ?? '', onRetryTap: () async {
+                  await controller.fetchOrderDetails();
+                  controller.timeLineFuture = controller.fetchTimeLine();
+                }),
+                onLoading: const OrderDetailsLoadingPage(),
               ),
-              onEmpty: const Center(child: Text("No order found")),
-              onError: (e) => Center(child: Text(e ?? '"Error loading order"')),
-              onLoading: const OrderDetailsLoadingPage(),
             ),
           ),
         );

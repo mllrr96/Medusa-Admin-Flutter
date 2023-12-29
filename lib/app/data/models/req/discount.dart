@@ -121,6 +121,8 @@ class UserUpdateDiscountReq {
   /// An optional set of key-value pairs to hold additional information.
   final Map<String, dynamic>? metadata;
 
+  final bool nullEndAt;
+
   UserUpdateDiscountReq({
     this.code,
     this.rule,
@@ -132,6 +134,7 @@ class UserUpdateDiscountReq {
     this.validDuration,
     this.metadata,
     this.usageLimit,
+    this.nullEndAt = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -160,6 +163,10 @@ class UserUpdateDiscountReq {
 
     if (endsAt != null) {
       json['ends_at'] = endsAt.toString();
+    }
+
+    if(nullEndAt){
+      json['ends_at'] = null;
     }
 
     if (validDuration != null) {

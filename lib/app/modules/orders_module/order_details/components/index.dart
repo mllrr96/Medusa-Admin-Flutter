@@ -9,3 +9,4 @@ export 'order_timeline/order_timeline.dart';
 export 'order_create_refund.dart';
 export 'edit_shipping_address.dart';
 export 'order_details_loading_page.dart';
+export 'order_details_error_page.dart';

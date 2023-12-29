@@ -91,6 +91,7 @@ class AddUpdateDiscountController extends GetxController {
     }
     codeCtrl.text = discount!.code ?? '';
     limitCtrl.text = discount!.usageLimit?.toString() ?? '';
+    discount!.usageLimit != null ? hasLimit = true : hasLimit = false;
     descriptionCtrl.text = discount!.rule?.description ?? '';
     regionCtrl.text = discount!.regions
             ?.map((e) => e.name)
@@ -155,9 +156,7 @@ class AddUpdateDiscountController extends GetxController {
 
   Future<void> updateDiscount(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
-      if (!generalTileController.isExpanded) {
         generalTileController.expand();
-      }
       return;
     }
 
@@ -174,6 +173,7 @@ class AddUpdateDiscountController extends GetxController {
     final updatedDiscount = UserUpdateDiscountReq(
       startsAt: hasStartDate ? startDate : null,
       endsAt: hasEndDate ? endDate : null,
+      nullEndAt: !hasEndDate,
       usageLimit: hasLimit ? int.tryParse(limitCtrl.text) : null,
       code: codeCtrl.text,
       rule: DiscountRule(
@@ -189,7 +189,7 @@ class AddUpdateDiscountController extends GetxController {
         id: discount!.id!, userUpdateDiscountReq: updatedDiscount);
 
     result.when((success) {
-      context.router.popForced();
+      context.router.popForced(true);
       EasyLoading.showSuccess('Discount updated!');
     }, (error) {
       dismissLoading();

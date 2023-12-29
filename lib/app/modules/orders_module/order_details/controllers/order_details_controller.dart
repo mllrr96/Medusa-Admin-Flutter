@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../data/models/req/user_fulfillment_req.dart';
 import '../../../../data/models/req/user_order.dart';
 import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
@@ -38,6 +39,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   final customerKey = GlobalKey();
   final timelineKey = GlobalKey();
   final noteCtrl = TextEditingController();
+  final refreshController = RefreshController();
   late Future<List?>? timeLineFuture;
   @override
   Future<void> onInit() async {
@@ -75,12 +77,17 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
       (success) {
         if (success.order != null) {
           change(success.order!, status: RxStatus.success());
+          refreshController.refreshCompleted();
           update();
         } else {
-          change(null, status: RxStatus.error());
+          change(null, status: RxStatus.error('Order not found'));
+          refreshController.refreshFailed();
         }
       },
-      (error) => change(null, status: RxStatus.error()),
+      (error) {
+        refreshController.refreshFailed();
+        change(null, status: RxStatus.error(error.toString()));
+      },
     );
   }
 

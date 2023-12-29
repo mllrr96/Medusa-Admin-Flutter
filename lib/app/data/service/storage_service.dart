@@ -5,6 +5,7 @@ import 'package:medusa_admin/app/data/service/theme_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/utils/extensions/flex_scheme_extension.dart';
 import '../../../core/utils/strings.dart';
 import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import '../models/app/settings.dart';
@@ -40,7 +41,7 @@ class StorageService extends GetxService {
       if (appSettingsCoded != null) {
         _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
       } else {
-        _appSettings = AppSettings();
+        _appSettings = AppSettings(colorScheme: RandomFlexScheme.random());
       }
 
       final orderSettingsCoded = _prefs.getString(AppConstants.orderSettingsKey);
