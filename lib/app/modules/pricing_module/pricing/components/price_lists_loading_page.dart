@@ -15,9 +15,11 @@ class PriceListsLoadingPage extends StatelessWidget {
         status: PriceListStatus.active);
     return Column(
       children: List.generate(
-          10,
-          (index) => const Skeletonizer(
-              enabled: true, child: PriceListTile(priceList))),
+          14,
+          (index) => index.isEven
+              ? const Skeletonizer(
+                  enabled: true, child: PriceListTile(priceList))
+              : const Divider(height: 0, indent: 16.0)),
     );
   }
 }

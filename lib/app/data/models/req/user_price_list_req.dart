@@ -48,7 +48,7 @@ class UserCreatePriceListReq {
     json['prices'] = prices.map((e) => e.toJson()).toList();
 
     if (startsAt != null) {
-      json['starts_at'] = startsAt;
+      json['starts_at'] = startsAt.toString();
     }
 
     if (includeTax != null) {
@@ -64,7 +64,7 @@ class UserCreatePriceListReq {
     }
 
     if (endsAt != null) {
-      json['ends_at'] = endsAt;
+      json['ends_at'] = endsAt.toString();
     }
 
     if (status != null) {
@@ -132,7 +132,7 @@ class UserUpdatePriceListReq {
     }
 
     if (startsAt != null) {
-      json['starts_at'] = startsAt;
+      json['starts_at'] = startsAt.toString();
     }
 
     if (includeTax != null) {
@@ -148,7 +148,7 @@ class UserUpdatePriceListReq {
     }
 
     if (endsAt != null) {
-      json['ends_at'] = endsAt;
+      json['ends_at'] = endsAt.toString();
     }
 
     if (status != null) {

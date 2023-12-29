@@ -35,9 +35,7 @@ class PricingView extends StatelessWidget {
             body: SmartRefresher(
               controller: controller.refreshController,
               onRefresh: () async => await controller.refreshData(),
-              header: GetPlatform.isIOS
-                  ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(offset: 100),
+              header: const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 controller: controller.scrollController,
                 slivers: [
@@ -62,7 +60,9 @@ class PricingView extends StatelessWidget {
                       firstPageErrorIndicatorBuilder: (_) =>
                           PaginationErrorPage(
                               pagingController: controller.pagingController),
-                      noItemsFoundIndicatorBuilder: (_)=>const Center(child: Text('No Price Lists Found'),),
+                      noItemsFoundIndicatorBuilder: (_) => const Center(
+                        child: Text('No Price Lists Found'),
+                      ),
                     ),
                   ),
                 ],

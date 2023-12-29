@@ -150,6 +150,7 @@ class AddUpdatePriceListView extends StatelessWidget {
         builder: (controller) {
           return HeaderCard(
               key: controller.configKey,
+              maintainState: true,
               onExpansionChanged: (expanded) async {
                 if (expanded) {
                   await controller.configKey.currentContext.ensureVisibility();
@@ -211,12 +212,10 @@ class AddUpdatePriceListView extends StatelessWidget {
                                   controller.update([2]);
                                 }
                               },
-                              key: const Key('start'),
                               dateTime: controller.priceList.startsAt,
-                              dateText: 'Start')
-                          : const SizedBox.shrink(
-                              key: Key('noStart'),
-                            )),
+                              dateText: 'Start',
+                            )
+                          : const SizedBox.shrink()),
                   space,
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
@@ -228,7 +227,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                     onChanged: (val) async {
                       if (val) {
                         controller.priceList = controller.priceList.copyWith
-                            .endsAt(DateTime.now());
+                            .endsAt(DateTime.now().add(const Duration(days: 7)));
                         controller.update([2]);
                         await controller.configKey.currentContext
                             .ensureVisibility();
@@ -261,12 +260,9 @@ class AddUpdatePriceListView extends StatelessWidget {
                                   controller.update([2]);
                                 }
                               },
-                              key: const Key('expiry'),
-                              dateTime: controller.priceList.startsAt,
+                              dateTime: controller.priceList.endsAt,
                               dateText: 'Expiry')
-                          : const SizedBox.shrink(
-                              key: Key('noExpiry'),
-                            )),
+                          : const SizedBox.shrink()),
                   space,
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
@@ -417,12 +413,15 @@ class AddUpdatePriceListView extends StatelessWidget {
                                       overlayStyle: context
                                           .theme.appBarTheme.systemOverlayStyle,
                                       context: context,
-                                      builder: (context) => AddUpdateVariantsPriceView(
-                                          product: product,
-                                          prices: controller.priceList.prices),
+                                      builder: (context) =>
+                                          AddUpdateVariantsPriceView(
+                                              product: product,
+                                              prices:
+                                                  controller.priceList.prices),
                                     );
                                     if (result is List<MoneyAmount>) {
-                                      final originalPrices =controller.priceList.prices ?? [];
+                                      final originalPrices =
+                                          controller.priceList.prices ?? [];
                                       controller.priceList = controller
                                           .priceList.copyWith
                                           .prices(result + originalPrices);
@@ -430,7 +429,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                                     }
                                     return;
                                   case 1:
-                                    controller.products.removeWhere((element) => element.id == product.id);
+                                    controller.products.removeWhere(
+                                        (element) => element.id == product.id);
                                     controller.update([3]);
                                     return;
                                 }
@@ -527,6 +527,7 @@ class AddUpdatePriceListView extends StatelessWidget {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
+              systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               leading: const AdaptiveCloseButton(),
               title: controller.updateMode
                   ? const Text('Update price list')
@@ -567,7 +568,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                     space,
                     buildConfig(),
                     space,
-                    if (!controller.updateMode) buildPrices(),
+                    buildPrices(),
                   ],
                 ),
               ),

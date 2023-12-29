@@ -122,4 +122,31 @@ class PriceListDetailsController extends GetxController
           .showSnackBar('Error updating prices, ${error.toSnackBarString()}');
     });
   }
+
+ Future<void> addPrices(BuildContext context, List<MoneyAmount> prices) async{
+    loading();
+    final result = await priceListRepo.updatePrices(
+        id: id,
+        userUpdatePricesReq: UserUpdatePricesReq(
+            prices: prices
+                .map((e) => MoneyAmount(
+                    variantId: e.variantId,
+                    amount: e.amount,
+                    currencyCode: e.currencyCode))
+                .toList()));
+    result.when((success) {
+      context.showSnackBar('Prices updated');
+      dismissLoading();
+      if (success.priceList != null) {
+        change(success.priceList, status: RxStatus.success());
+      } else {
+        fetchPriceList();
+      }
+      pagingController.refresh();
+    }, (error) {
+      dismissLoading();
+      context
+          .showSnackBar('Error updating prices, ${error.toSnackBarString()}');
+    });
+  }
 }

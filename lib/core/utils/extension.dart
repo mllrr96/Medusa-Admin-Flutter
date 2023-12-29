@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -104,6 +106,21 @@ extension BuildContextEntension<T> on BuildContext {
 // ===================================================================//
   bool get isDark => Theme.of(this).brightness == Brightness.dark;
   bool get isLight => Theme.of(this).brightness == Brightness.light;
+
+  // System Ui overlay
+  // ===================================================================//
+  SystemUiOverlayStyle get defaultSystemUiOverlayStyle =>
+      FlexColorScheme.themedSystemNavigationBar(
+        this,
+        systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
+      );
+
+  SystemUiOverlayStyle get systemUiOverlayNoAppBarStyle =>
+      FlexColorScheme.themedSystemNavigationBar(
+        this,
+        noAppBar: true,
+        systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
+      );
 }
 
 extension HexColor on Color {
@@ -259,4 +276,3 @@ extension CustomerName on Customer {
     return '${firstName ?? ''} ${lastName ?? ''}';
   }
 }
-

@@ -53,21 +53,19 @@ class AddUpdatePriceListController extends GetxController {
     }
 
     loading();
-    final prices = <MoneyAmount>[];
-    priceList.prices?.forEach((element) {
-      prices.add(MoneyAmount(
-          amount: element.amount,
-          currencyCode: element.currencyCode,
-          variantId: element.variantId
-      ));
-    });
-
     final result = await priceListRepo.createPriceList(
       userCreatePriceListReq: UserCreatePriceListReq(
         name: nameCtrl.text,
         description: descriptionCtrl.text,
         type: priceList.type,
-        prices: prices,
+        prices: priceList.prices
+                ?.map((e) => MoneyAmount(
+                      amount: e.amount,
+                      currencyCode: e.currencyCode,
+                      variantId: e.variantId,
+                    ))
+                .toList() ??
+            [],
         startsAt: priceList.startsAt,
         endsAt: priceList.endsAt,
         customerGroupIds: priceList.customerGroups?.map((e) => e.id!).toList(),
@@ -110,10 +108,11 @@ class AddUpdatePriceListController extends GetxController {
       EasyLoading.showSuccess('Price List Updated');
       PricingController.instance.pagingController.refresh();
       context.popRoute();
-    },
-        (error) => Get.snackbar(
-            'Error updating price list ${error.code ?? ''}', error.message,
-            snackPosition: SnackPosition.BOTTOM));
+    }, (error) {
+      dismissLoading();
+      context.showSnackBar(
+          'Error updating price list, ${error.toSnackBarString()}');
+    });
   }
 
   Future<void> fetchPriceList() async {
