@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
 import 'package:medusa_admin/app/modules/auth_module/reauthenticate.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
+import 'package:medusa_admin/app/modules/pricing_module/add_update_price_list/components/index.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/image_card.dart';
 
 import '../app/data/models/store/index.dart';
@@ -173,6 +174,7 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: OrderCreateFulfillmentRoute.page),
 
       // Pricing module
+      AutoRoute(page: AddUpdateVariantsPriceRoute.page),
       AutoRoute(page: AddUpdatePriceListRoute.page),
       AutoRoute(page: PriceListDetailsRoute.page),
 

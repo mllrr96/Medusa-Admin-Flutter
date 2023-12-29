@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -59,11 +58,7 @@ class _SignInViewState extends State<SignInView> {
           const space = Gap(12);
           // Since there no app bar, annotated region is used to apply theme ui overlay
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: FlexColorScheme.themedSystemNavigationBar(
-              context,
-              noAppBar: true,
-              systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
-            ),
+            value: context.systemUiOverlayNoAppBarStyle,
             child: GestureDetector(
               onTap: () => context.unfocus(),
               child: Scaffold(

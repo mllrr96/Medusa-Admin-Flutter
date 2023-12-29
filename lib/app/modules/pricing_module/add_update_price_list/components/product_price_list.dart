@@ -11,38 +11,148 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/currency_formatter.dart';
 
-class ProductPriceList extends StatefulWidget {
-  const ProductPriceList({super.key, this.prices, required this.product});
+@RoutePage()
+class AddUpdateVariantsPriceView extends StatefulWidget {
+  const AddUpdateVariantsPriceView({super.key, this.prices, required this.product});
   final List<MoneyAmount>? prices;
   final Product product;
   @override
-  State<ProductPriceList> createState() => _ProductPriceListState();
+  State<AddUpdateVariantsPriceView> createState() => _AddUpdateVariantsPriceViewState();
 }
 
-class _ProductPriceListState extends State<ProductPriceList> {
+class _AddUpdateVariantsPriceViewState extends State<AddUpdateVariantsPriceView> {
   @override
   void initState() {
-    for (Currency currency in StoreService.store.currencies!) {
-      currencyCtrlMap.addAll({currency: TextEditingController()});
+    widget.product.variants?.forEach((variant) {
+      for (Currency currency in StoreService.store.currencies!) {
+        priceListVariants.add(PriceListVariant(
+            textCtrl: TextEditingController(),
+            variant: variant,
+            currency: currency));
+      }
+    });
+    if (widget.prices?.isNotEmpty ?? false) {
+      for (var element in widget.prices!) {
+        final variantId = element.variantId;
+        final currencyCode = element.currencyCode;
+        final priceListVariant = priceListVariants.firstWhereOrNull(
+            (e) => e.variantId == variantId && e.currencyCode == currencyCode);
+        priceListVariant?.textCtrl.text =
+            element.amount?.formatAsPrice(currencyCode) ?? '';
+      }
     }
     super.initState();
   }
 
-  var applyToAll = false;
-
   List<ProductVariant>? get variants => widget.product.variants;
 
-  List<ProductVariant> selectedVariants = [];
+  List<PriceListVariant> priceListVariants = [];
+
   List<MoneyAmount> prices = [];
-  Map<Currency, TextEditingController> currencyCtrlMap = <Currency, TextEditingController>{};
+  // Map<Currency, TextEditingController> currencyCtrlMap =
+  //     <Currency, TextEditingController>{};
+  // Map<String, List<TextEditingController>> variantCtrlMap =
+  //     <String, List<TextEditingController>>{};
+
+  @override
+  void dispose() {
+    for (var element in priceListVariants) {
+      element.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final currencies = StoreService.store.currencies!;
     const space = Gap(12);
+
+    List<Widget> children = [];
+
+    variants?.forEach((variant) {
+      children.add(HeaderCard(
+        title: Text(variant.title ?? ''),
+        initiallyExpanded: variants?.length == 1,
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: priceListVariants
+              .where((e) => e.variantId == variant.id)
+              .toList()
+              .length,
+          padding: EdgeInsets.zero,
+          itemBuilder: (context, index) {
+            final list = priceListVariants
+                .where((e) => e.variantId == variant.id)
+                .toList();
+            final currency = list[index].currency;
+            final currencyCtrl = list[index].textCtrl;
+            return Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                    color: context.theme.appBarTheme.backgroundColor,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Row(
+                          children: [
+                            Text(currency.code?.toUpperCase() ?? '',
+                                style: mediumTextStyle),
+                            const SizedBox(width: 12.0),
+                            Expanded(
+                                child: Text(currency.name ?? '',
+                                    style: mediumTextStyle!
+                                        .copyWith(color: manatee)))
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        child: TextField(
+                          controller: currencyCtrl,
+                          textDirection: TextDirection.rtl,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            CurrencyTextInputFormatter(name: currency.code)
+                          ],
+                          decoration: InputDecoration(
+                            hintTextDirection: TextDirection.rtl,
+                            prefixIcon: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(currency.symbolNative ?? '',
+                                    style: mediumTextStyle.copyWith(
+                                        color: manatee))),
+                            prefixIconConstraints:
+                                const BoxConstraints(minWidth: 0, minHeight: 0),
+                            hintText: '-',
+                            isDense: true,
+                            border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
+                            ),
+                          ),
+                          style: smallTextStyle,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                space,
+              ],
+            );
+          },
+        ),
+      ));
+      children.add(const Gap(5.0));
+    });
     return GestureDetector(
       onTap: () => context.unfocus(),
       child: Scaffold(
@@ -51,183 +161,50 @@ class _ProductPriceListState extends State<ProductPriceList> {
           title: const Text('Edit Prices'),
           actions: [
             AdaptiveButton(
-                onPressed: applyToAll || selectedVariants.isNotEmpty
-                    ? () {
-                        prices.clear();
-                        for (var variant in selectedVariants) {
-                          currencyCtrlMap.forEach((currency, textCtrl) {
-                            if (textCtrl.text.isNotEmpty) {
-                              final amount = int.tryParse(textCtrl.text.replaceAll(',', '').replaceAll('.', ''));
-                              prices.add(
-                                MoneyAmount(amount: amount ?? 0, variantId: variant.id!, currencyCode: currency.code, variant: variant),
-                              );
-                            }
-                          });
-                        }
-                        context.popRoute(prices);
-                      }
-                    : null,
+                onPressed: () {
+                  prices.clear();
+                  for (var element in priceListVariants) {
+                    if (element.textCtrl.text.isNotEmpty) {
+                      final amount = int.tryParse(element.textCtrl.text
+                          .replaceAll(RegExp('[^0-9]'), ''));
+                      prices.add(
+                        MoneyAmount(
+                            amount: amount ?? 0,
+                            variantId: element.variantId,
+                            currencyCode: element.currencyCode,
+                            variant: variants
+                                ?.where((variant) =>
+                                    variant.id == element.variantId)
+                                .firstOrNull),
+                      );
+                    }
+                  }
+                  context.popRoute(prices);
+                },
                 child: const Text('Save'))
           ],
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
           children: [
-            RadioListTile(
-              dense: true,
-              tileColor: context.theme.appBarTheme.backgroundColor,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: !applyToAll ? ColorManager.primary : Colors.transparent),
-                borderRadius: BorderRadius.all(Radius.circular(!applyToAll ? 12 : 4)),
-              ),
-              value: false,
-              onChanged: (val) => setState(() => applyToAll = false),
-              title: const Text('Apply overrides on selected variants'),
-              groupValue: applyToAll,
-            ),
-            const SizedBox(height: 6.0),
-            RadioListTile(
-              dense: true,
-              tileColor: context.theme.appBarTheme.backgroundColor,
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: applyToAll ? ColorManager.primary : Colors.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(applyToAll ? 12 : 4))),
-              value: true,
-              onChanged: (val) => setState(() => applyToAll = true),
-              title: const Text('Apply on all variants'),
-              groupValue: applyToAll,
-            ),
-            if (!applyToAll) const Divider(),
-            if (!applyToAll)
-              HeaderCard(
-                initiallyExpanded: true,
-                title: Text('${widget.product.title ?? ''} Variants'),
-                leading: Checkbox(
-                  value: selectedVariants.length == variants?.length
-                      ? true
-                      : selectedVariants.isEmpty
-                          ? false
-                          : null,
-                  onChanged: (bool? value) {
-                    if (value == null) {
-                      setState(() => selectedVariants.clear());
-                      return;
-                    }
-                    setState(() {
-                      if (value) {
-                        selectedVariants.addAll(variants!);
-                      } else {
-                        selectedVariants.clear();
-                      }
-                    });
-                  },
-                  tristate: true,
-                ),
-                child: Column(
-                  children: [
-                    ListView.separated(
-                        separatorBuilder: (_, __) => const Divider(height: 0),
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: variants!.length,
-                        itemBuilder: (context, index) {
-                          final variant = variants?[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 6.0),
-                            child: CheckboxListTile(
-                              controlAffinity: ListTileControlAffinity.leading,
-                              // tileColor: context.theme.appBarTheme.backgroundColor,
-                              title: Text(variant?.title ?? ''),
-                              subtitle: variant?.sku != null
-                                  ? Text('SKU: ${variant!.sku}', style: smallTextStyle?.copyWith(color: manatee))
-                                  : null,
-                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
-                              value: selectedVariants.map((e) => e.id).toList().contains(variant?.id),
-                              onChanged: (bool? value) {
-                                if (value == null) {
-                                  return;
-                                }
-                                setState(() {
-                                  if (value) {
-                                    selectedVariants.add(variant!);
-                                  } else {
-                                    selectedVariants.removeWhere((v) => v.id == variant?.id);
-                                  }
-                                });
-                              },
-                            ),
-                          );
-                        }),
-                  ],
-                ),
-              ),
-            const Divider(),
-            const Text('Prices'),
-            space,
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: currencies.length,
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) {
-                final currency = currencies[index];
-                final currencyCtrl = currencyCtrlMap[currency];
-                return Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                        color: context.theme.appBarTheme.backgroundColor,
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Row(
-                              children: [
-                                Text(currency.code?.toUpperCase() ?? '', style: mediumTextStyle),
-                                const SizedBox(width: 12.0),
-                                Expanded(
-                                    child:
-                                        Text(currency.name ?? '', style: mediumTextStyle!.copyWith(color: manatee)))
-                              ],
-                            ),
-                          ),
-                          Flexible(
-                            child: TextField(
-                              controller: currencyCtrl,
-                              textDirection: TextDirection.rtl,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              inputFormatters: [CurrencyTextInputFormatter(name: currency.code)],
-                              decoration: InputDecoration(
-                                hintTextDirection: TextDirection.rtl,
-                                prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Text(currency.symbolNative ?? '',
-                                        style: mediumTextStyle.copyWith(color: manatee))),
-                                prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                                hintText: '-',
-                                isDense: true,
-                                border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                                ),
-                              ),
-                              style: smallTextStyle,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    space,
-                  ],
-                );
-              },
-            ),
+            ...children,
           ],
         ),
       ),
     );
   }
+}
+
+class PriceListVariant {
+  final TextEditingController textCtrl;
+  final ProductVariant variant;
+  final Currency currency;
+  PriceListVariant(
+      {required this.textCtrl, required this.variant, required this.currency});
+  void dispose() {
+    textCtrl.dispose();
+  }
+
+  String get variantId => variant.id!;
+  String get currencyCode => currency.code!;
 }

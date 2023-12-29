@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -20,12 +21,10 @@ class DiscountTypeCard extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = context.theme;
     final bool useMaterial3 = theme.useMaterial3;
     final Color background = theme.scaffoldBackgroundColor;
 
-    // Compute a header color with fixed primary blend from the card color,
-    // if one was not provided
     final selected = discountType == groupValue;
     double borderRadius = useMaterial3 ? 12 : 4;
     final ShapeBorder shapeBorder = RoundedRectangleBorder(

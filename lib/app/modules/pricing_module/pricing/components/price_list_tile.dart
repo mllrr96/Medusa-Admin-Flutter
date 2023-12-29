@@ -33,7 +33,7 @@ class PriceListTile extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
-      onTap: () => context.pushRoute(PriceListDetailsRoute(id: priceList.id!)),
+      onTap: () => context.pushRoute(PriceListDetailsRoute(priceList: priceList)),
       onLongPress: () => context.pushRoute(AddUpdatePriceListRoute(id: priceList.id!)),
       title: Text(priceList.name ?? ''),
       subtitle: Text(priceList.description ?? '',

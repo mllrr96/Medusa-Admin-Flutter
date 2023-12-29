@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../data/models/store/price_list.dart';
 
 class PriceListTypeCard extends StatelessWidget {
   const PriceListTypeCard(
-      {Key? key, required this.priceListType, this.onTap, required this.groupValue})
-      : super(key: key);
+      {super.key, required this.priceListType, this.onTap, required this.groupValue});
   final PriceListType priceListType;
   final PriceListType groupValue;
   final void Function(PriceListType priceListType)? onTap;
@@ -15,7 +15,9 @@ class PriceListTypeCard extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-
+    final ThemeData theme = context.theme;
+    final bool useMaterial3 = theme.useMaterial3;
+    final Color background = theme.scaffoldBackgroundColor;
     String title = '';
     String description = '';
     switch (priceListType) {
@@ -28,50 +30,54 @@ class PriceListTypeCard extends StatelessWidget {
         description = 'Use this to override prices.';
         break;
     }
-
-    final borderColor = groupValue == priceListType ? ColorManager.primary : Colors.transparent;
     final selected = priceListType == groupValue;
-    return InkWell(
-      onTap: () {
-        if (onTap != null) {
-          onTap!(priceListType);
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        decoration: BoxDecoration(
-            borderRadius:
-                selected ? const BorderRadius.all(Radius.circular(10)) : const BorderRadius.all(Radius.circular(4)),
-            color:  Theme.of(context).scaffoldBackgroundColor,
-            border: Border.all(
-              color: borderColor,
-            )),
-        child: Row(
-          children: [
-            Radio<PriceListType>(
-                value: priceListType,
-                groupValue: groupValue,
-                onChanged: (val) {
-                  if (val != null) {
-                    if (onTap != null ) {
-                      onTap!(priceListType);
+    double borderRadius = useMaterial3 ? 12 : 4;
+    final ShapeBorder shapeBorder = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+      side: selected
+          ? BorderSide(color: theme.colorScheme.primaryContainer, width: 1)
+          : BorderSide.none,
+    );
+
+    return Card(
+      shape: shapeBorder,
+      elevation: 0,
+      color: background,
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () {
+          if (onTap != null) {
+            onTap!(priceListType);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Radio<PriceListType>(
+                  value: priceListType,
+                  groupValue: groupValue,
+                  onChanged: (val) {
+                    if (val != null) {
+                      if (onTap != null ) {
+                        onTap!(priceListType);
+                      }
                     }
-                  }
-                }),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: mediumTextStyle),
-                  Text(
-                    description,
-                    style: smallTextStyle?.copyWith(color: manatee),
-                  ),
-                ],
+                  }),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: mediumTextStyle),
+                    Text(
+                      description,
+                      style: smallTextStyle?.copyWith(color: manatee),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
