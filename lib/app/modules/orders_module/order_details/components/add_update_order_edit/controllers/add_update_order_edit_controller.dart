@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/data/repository/order_edit/order_edit_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+
+import '../../../../../../data/models/req/user_order_edit.dart';
 
 class AddUpdateOrderEditController extends GetxController with StateMixin<OrderEdit> {
   AddUpdateOrderEditController({required this.orderEditRepo, required this.order});
@@ -99,5 +102,22 @@ class AddUpdateOrderEditController extends GetxController with StateMixin<OrderE
   void onClose() {
     noteCtrl.dispose();
     super.onClose();
+  }
+
+  addLineItems({required String orderEditId, required List<ProductVariant> items, required BuildContext context}) async {
+    loading();
+
+    for (var variant in items) {
+      final result = await orderEditRepo.addLineItem(id: orderEditId, userAddLineItemReq: UserAddLineItemReq(quantity: 1, variantId: variant.id!));
+      result.when((success) {
+        change(success.orderEdit, status: RxStatus.success());
+      }, (error) {
+        context.showSnackBar(error.toSnackBarString());
+      });
+    }
+    dismissLoading();
+    if(context.mounted) {
+      context.showSnackBar('Line items added successfully');
+    }
   }
 }

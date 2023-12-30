@@ -16,10 +16,12 @@ class StorageService extends GetxService {
   static String get language => Get.find<StorageService>()._language;
   static String? get cookie => Get.find<StorageService>()._cookie;
   static PackageInfo get packageInfo => Get.find<StorageService>()._packageInfo;
-  static List<SearchHistory> get searchHistory => Get.find<StorageService>()._searchHistory;
+  static List<SearchHistory> get searchHistory =>
+      Get.find<StorageService>()._searchHistory;
 
   static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
-  static OrderSettings get orderSettings => Get.find<StorageService>()._orderSettings;
+  static OrderSettings get orderSettings =>
+      Get.find<StorageService>()._orderSettings;
 
   late SharedPreferences _prefs;
   late String _baseUrl;
@@ -34,24 +36,30 @@ class StorageService extends GetxService {
     _prefs = await SharedPreferences.getInstance();
     try {
       _cookie = _prefs.getString(AppConstants.cookieKey);
-      _language = _prefs.getString(AppConstants.languageKey) ?? Get.deviceLocale?.languageCode ?? 'en';
-      _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
+      _language = _prefs.getString(AppConstants.languageKey) ??
+          Get.deviceLocale?.languageCode ??
+          'en';
+      _baseUrl =
+          _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
       _packageInfo = await PackageInfo.fromPlatform();
       final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
       if (appSettingsCoded != null) {
         _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
       } else {
         _appSettings = AppSettings(colorScheme: RandomFlexScheme.random());
+        updateAppSettings(_appSettings);
       }
 
-      final orderSettingsCoded = _prefs.getString(AppConstants.orderSettingsKey);
+      final orderSettingsCoded =
+          _prefs.getString(AppConstants.orderSettingsKey);
       if (orderSettingsCoded != null) {
         _orderSettings = OrderSettings.fromJson(jsonDecode(orderSettingsCoded));
       } else {
         _orderSettings = OrderSettings.defaultSettings();
       }
 
-      final String? searchHistoryString = _prefs.getString(AppConstants.searchHistoryKey);
+      final String? searchHistoryString =
+          _prefs.getString(AppConstants.searchHistoryKey);
       if (searchHistoryString != null && searchHistoryString.isNotEmpty) {
         _searchHistory = SearchHistory.decode(searchHistoryString);
       } else {
@@ -65,7 +73,8 @@ class StorageService extends GetxService {
       _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;
-      _packageInfo = PackageInfo(appName: '', packageName: '', version: '', buildNumber: '');
+      _packageInfo = PackageInfo(
+          appName: '', packageName: '', version: '', buildNumber: '');
     }
 
     return this;
@@ -73,7 +82,8 @@ class StorageService extends GetxService {
 
   Future<bool> updateAppSettings(AppSettings appSettings) async {
     try {
-      _prefs.setString(AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
+      _prefs.setString(
+          AppConstants.appSettingsKey, jsonEncode(appSettings.toJson()));
       _appSettings = appSettings;
       return true;
     } catch (e) {
@@ -84,7 +94,8 @@ class StorageService extends GetxService {
 
   Future<bool> updateOrderSettings(OrderSettings orderSettings) async {
     try {
-      _prefs.setString(AppConstants.orderSettingsKey, jsonEncode(orderSettings.toJson()));
+      _prefs.setString(
+          AppConstants.orderSettingsKey, jsonEncode(orderSettings.toJson()));
       _orderSettings = orderSettings;
       return true;
     } catch (e) {
@@ -178,12 +189,14 @@ class StorageService extends GetxService {
     }
   }
 
-  Future<void> updateSearchHistory(SearchHistory searchHistory, {bool delete = false}) async {
+  Future<void> updateSearchHistory(SearchHistory searchHistory,
+      {bool delete = false}) async {
     try {
       if (!delete &&
           _searchHistory
               .where((element) =>
-                  element.text == searchHistory.text && element.searchableFields == searchHistory.searchableFields)
+                  element.text == searchHistory.text &&
+                  element.searchableFields == searchHistory.searchableFields)
               .isNotEmpty) {
         return;
       }
@@ -191,7 +204,8 @@ class StorageService extends GetxService {
       if (delete) {
         _searchHistory.removeWhere((element) =>
             element.text == searchHistory.text &&
-            element.searchableFields.index == searchHistory.searchableFields.index);
+            element.searchableFields.index ==
+                searchHistory.searchableFields.index);
       } else {
         // Limiting search history to 7 items only
         if (_searchHistory.length > 7) {
@@ -199,13 +213,14 @@ class StorageService extends GetxService {
         }
         _searchHistory.add(searchHistory);
       }
-      await _prefs.setString(AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
+      await _prefs.setString(
+          AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
- Locale loadLocale() {
+  Locale loadLocale() {
     try {
       final locale = _prefs.getString(AppConstants.languageKey);
       if (locale?.isNotEmpty ?? false) {
