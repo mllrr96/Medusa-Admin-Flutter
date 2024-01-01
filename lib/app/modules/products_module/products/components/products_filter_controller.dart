@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
-import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
+import 'package:medusa_admin/domain/use_case/products_filter_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProductsFilterController extends GetxController
@@ -9,10 +8,8 @@ class ProductsFilterController extends GetxController
   static ProductsFilterController get instance =>
       Get.find<ProductsFilterController>();
 
-  ProductsFilterController(
-      {required this.productTagRepo, required this.collectionRepo});
-  final ProductTagRepo productTagRepo;
-  final CollectionRepo collectionRepo;
+  ProductsFilterController(this.productsFilterUseCase);
+  final ProductsFilterUseCase productsFilterUseCase;
   final refreshController = RefreshController();
 
   @override
@@ -21,19 +18,15 @@ class ProductsFilterController extends GetxController
     super.onInit();
   }
 
+
   Future<void> loadData() async {
     change(null, status: RxStatus.loading());
-    final collectionResult = await collectionRepo.retrieveAll();
-    final tagsResult = await productTagRepo.retrieveProductTags();
-    collectionResult.when((success) {
-      tagsResult.when((success2) {
-        change((success.collections ?? [], success2.tags ?? []),
-            status: RxStatus.success());
-        refreshController.refreshCompleted();
-      }, (error) {
-        change(null, status: RxStatus.error(error.toString()));
-        refreshController.refreshFailed();
-      });
+    final result = await productsFilterUseCase();
+
+    result.when((success) {
+      change((success.$1.collections!, success.$2.tags!),
+          status: RxStatus.success());
+      refreshController.refreshCompleted();
     }, (error) {
       change(null, status: RxStatus.error(error.toString()));
       refreshController.refreshFailed();

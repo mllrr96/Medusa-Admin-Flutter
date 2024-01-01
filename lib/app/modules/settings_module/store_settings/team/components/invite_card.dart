@@ -1,9 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/components/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../../../../core/utils/colors.dart';
 import '../../../../components/adaptive_icon.dart';

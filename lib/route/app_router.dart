@@ -2,13 +2,11 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/auth_module/reauthenticate.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/app/modules/pricing_module/add_update_price_list/components/index.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/image_card.dart';
-
-import '../app/data/models/store/index.dart';
 import '../app/modules/auth_module/reset_password/views/reset_password_view.dart';
 import '../app/modules/auth_module/sign_in/views/sign_in_view.dart';
 import '../app/modules/categories/views/categories_view.dart';

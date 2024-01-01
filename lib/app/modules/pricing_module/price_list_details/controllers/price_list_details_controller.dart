@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/req/user_price_list_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
+import 'package:medusa_admin/domain/use_case/price_list_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class PriceListDetailsController extends GetxController
     with StateMixin<PriceList> {
-  PriceListDetailsController({required this.priceListRepo, required this.id});
-  final PriceListRepo priceListRepo;
+  PriceListDetailsController({required this.priceListDetailsUseCase, required this.id});
+  final PriceListDetailsUseCase priceListDetailsUseCase;
   final String id;
   final pagingController = PagingController<int, Product>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -29,7 +28,7 @@ class PriceListDetailsController extends GetxController
 
   Future<void> deletePriceList(BuildContext context) async {
     loading();
-    final result = await priceListRepo.deletePriceList(id: id);
+    final result = await priceListDetailsUseCase.delete(id: id);
 
     result.when(
       (success) {
@@ -50,14 +49,14 @@ class PriceListDetailsController extends GetxController
 
   Future<void> fetchPriceList() async {
     change(null, status: RxStatus.loading());
-    final result = await priceListRepo.retrievePriceList(id: id);
+    final result = await priceListDetailsUseCase.fetch(id: id);
     result.when(
-        (success) => change(success.priceList!, status: RxStatus.success()),
+        (priceList) => change(priceList, status: RxStatus.success()),
         (error) => change(null, status: RxStatus.error(error.message)));
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await priceListRepo.retrievePriceListProducts(
+    final result = await priceListDetailsUseCase.fetchProducts(
       id: id,
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
@@ -83,7 +82,7 @@ class PriceListDetailsController extends GetxController
   Future<void> deleteProduct(BuildContext context, Product product) async {
     loading();
     final result =
-        await priceListRepo.deleteProductPrices(id: id, productId: product.id!);
+        await priceListDetailsUseCase.deleteProductPrices(id: id, productId: product.id!);
     result.when((success) {
       success.deleted
           ? EasyLoading.showSuccess('Product deleted')
@@ -99,7 +98,7 @@ class PriceListDetailsController extends GetxController
   Future<void> updatePrices(
       BuildContext context, List<MoneyAmount> prices) async {
     loading();
-    final result = await priceListRepo.updatePrices(
+    final result = await priceListDetailsUseCase.updatePrices(
         id: id,
         userUpdatePricesReq: UserUpdatePricesReq(
             prices: prices
@@ -108,14 +107,10 @@ class PriceListDetailsController extends GetxController
                     amount: e.amount,
                     currencyCode: e.currencyCode))
                 .toList()));
-    result.when((success) async {
+    result.when((priceList) async {
       context.showSnackBar('Prices updated');
       dismissLoading();
-      if (success.priceList != null) {
-        change(success.priceList, status: RxStatus.success());
-      } else {
-        await fetchPriceList();
-      }
+      change(priceList, status: RxStatus.success());
     }, (error) {
       dismissLoading();
       context
@@ -125,7 +120,7 @@ class PriceListDetailsController extends GetxController
 
  Future<void> addPrices(BuildContext context, List<MoneyAmount> prices) async{
     loading();
-    final result = await priceListRepo.updatePrices(
+    final result = await priceListDetailsUseCase.updatePrices(
         id: id,
         userUpdatePricesReq: UserUpdatePricesReq(
             prices: prices
@@ -134,14 +129,10 @@ class PriceListDetailsController extends GetxController
                     amount: e.amount,
                     currencyCode: e.currencyCode))
                 .toList()));
-    result.when((success) {
+    result.when((priceList) {
       context.showSnackBar('Prices updated');
       dismissLoading();
-      if (success.priceList != null) {
-        change(success.priceList, status: RxStatus.success());
-      } else {
-        fetchPriceList();
-      }
+      change(priceList, status: RxStatus.success());
       pagingController.refresh();
     }, (error) {
       dismissLoading();

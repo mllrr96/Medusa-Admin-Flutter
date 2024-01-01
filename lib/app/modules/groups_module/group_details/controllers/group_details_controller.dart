@@ -3,19 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer_group.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/group_details_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../data/models/store/customer.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import '../../groups/controllers/groups_controller.dart';
 
 class GroupDetailsController extends GetxController {
   GroupDetailsController(
-      {required this.customerGroupRepo, required this.groupCustomer});
-  final CustomerGroupRepo customerGroupRepo;
+      {required this.groupDetailsUseCase, required this.groupCustomer});
+  final GroupDetailsUseCase groupDetailsUseCase;
 
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -38,7 +37,7 @@ class GroupDetailsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await customerGroupRepo
+    final result = await groupDetailsUseCase
         .retrieveCustomers(id: groupCustomer.id!, queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
@@ -61,17 +60,14 @@ class GroupDetailsController extends GetxController {
 
   Future<void> deleteCustomer(String customerId) async {
     loading();
-    final result = await customerGroupRepo
+    final result = await groupDetailsUseCase
         .removeCustomers(id: groupCustomer.id!, customerIds: [customerId]);
 
     result.when((success) {
       EasyLoading.showSuccess('Customer removed');
       pagingController.refresh();
       GroupsController.instance.pagingController.refresh();
-    },
-        (error) {
-
-        });
+    }, (error) {});
     dismissLoading();
   }
 
@@ -80,10 +76,9 @@ class GroupDetailsController extends GetxController {
       return;
     }
     final pickCustomerReq = await context.pushRoute(PickCustomerRoute(
-      pickCustomerReq: PickCustomerReq(
-          multipleSelection: true,
-          selectedCustomers: pagingController.value.itemList)
-    ));
+        pickCustomerReq: PickCustomerReq(
+            multipleSelection: true,
+            selectedCustomers: pagingController.value.itemList)));
     if (pickCustomerReq == null) {
       return;
     }
@@ -92,23 +87,21 @@ class GroupDetailsController extends GetxController {
         .map((e) => e.id!)
         .toList();
     loading();
-    final result = await customerGroupRepo.addCustomers(
+    final result = await groupDetailsUseCase.addCustomers(
         id: groupCustomer.id!, customerIds: newCustomers);
 
     result.when((success) {
       EasyLoading.showSuccess('Customers added');
       pagingController.refresh();
       GroupsController.instance.pagingController.refresh();
-    },
-        (error) =>
-        context.showSnackBar(error.toSnackBarString()));
+    }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }
 
   Future<void> deleteGroup(BuildContext context) async {
     loading();
     final result =
-        await customerGroupRepo.deleteCustomerGroup(id: groupCustomer.id!);
+        await groupDetailsUseCase.deleteCustomerGroup(id: groupCustomer.id!);
     result.when((success) {
       GroupsController.instance.pagingController.refresh();
       context.showSnackBar('Customer Group deleted');

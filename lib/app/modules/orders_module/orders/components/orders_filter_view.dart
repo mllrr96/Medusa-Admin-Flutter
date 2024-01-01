@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_date_picker.dart';
 import 'package:medusa_admin/app/modules/components/date_time_card.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
@@ -170,7 +170,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           children: OrderStatus.values
                               .map((e) => CheckboxListTile(
                                   title:
-                                      Text(e.name(), style: smallTextStyle),
+                                      Text(e.name, style: smallTextStyle),
                                   value: orderFilter.status.contains(e),
                                   controlAffinity:
                                       ListTileControlAffinity.leading,
@@ -205,7 +205,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           children: PaymentStatus.values
                               .map((e) => CheckboxListTile(
                                   title:
-                                      Text(e.name(), style: smallTextStyle),
+                                      Text(e.name, style: smallTextStyle),
                                   value:
                                       orderFilter.paymentStatus.contains(e),
                                   controlAffinity:
@@ -241,7 +241,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           children: FulfillmentStatus.values
                               .map((e) => CheckboxListTile(
                                   title:
-                                      Text(e.name(), style: smallTextStyle),
+                                      Text(e.name, style: smallTextStyle),
                                   value: orderFilter.fulfillmentStatus
                                       .contains(e),
                                   controlAffinity:

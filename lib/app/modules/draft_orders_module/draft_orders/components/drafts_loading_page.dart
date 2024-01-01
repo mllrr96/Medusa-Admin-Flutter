@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/components/draft_order_card.dart';
 
 class DraftsLoadingPage extends StatelessWidget {

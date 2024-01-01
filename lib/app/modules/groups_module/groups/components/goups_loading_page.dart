@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/customer_group.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'group_card.dart';

@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product_variant/product_variant_repo.dart';
+import 'package:medusa_admin/domain/use_case/product_variants_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/adaptive_close_button.dart';
 import '../components/product_variant_list_tile.dart';
@@ -16,7 +16,7 @@ class PickProductVariantsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickProductVariantsController>(
-      init: PickProductVariantsController(productVariantRepo: ProductVariantRepo(), selectProductsReq: selectProductsReq ?? SelectProductsReq()),
+      init: PickProductVariantsController(productVariantsUseCase: ProductVariantsUseCase.instance, selectProductsReq: selectProductsReq ?? SelectProductsReq()),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(

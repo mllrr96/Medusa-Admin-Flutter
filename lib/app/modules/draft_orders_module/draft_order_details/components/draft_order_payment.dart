@@ -6,7 +6,7 @@ import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_order_details/controllers/draft_order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import '../../../../data/models/store/draft_order.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
   const DraftOrderPayment(this.draftOrder, {super.key, this.onExpansionChanged});
@@ -38,7 +38,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
                   cancelLabel: 'Cancel',
                 ).then((value) async {
                   if (value == OkCancelResult.ok) {
-                    await controller.markAsPaid();
+                    await controller.markAsPaid(context);
                   }
                 });
               },

@@ -2,18 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-
-import '../../../../data/models/req/user_collection_req.dart';
 import '../../collections/controllers/collections_controller.dart';
 
 class CollectionDetailsController extends GetxController
     with StateMixin<ProductCollection> {
   CollectionDetailsController(
-      {required this.collectionRepo, required this.collectionId});
-  CollectionRepo collectionRepo;
+      {required this.collectionDetailsUseCase, required this.collectionId});
+  CollectionDetailsUseCase collectionDetailsUseCase;
   final String collectionId;
   @override
   Future<void> onInit() async {
@@ -23,41 +22,41 @@ class CollectionDetailsController extends GetxController
 
   Future<void> loadCollection() async {
     change(null, status: RxStatus.loading());
-    final result = await collectionRepo
-        .retrieve(id: collectionId, queryParameters: {'expand': 'products'});
-    result.when((success) {
-      if (success.collection != null) {
-        change(success.collection!, status: RxStatus.success());
-      } else {
-        change(null, status: RxStatus.error('Error loading collection'));
-      }
+    final result = await collectionDetailsUseCase
+        .getCollection(collectionId, queryParameters: {'expand': 'products'});
+    result.when((collection) {
+      change(collection, status: RxStatus.success());
     }, (error) {
-      change(null, status: RxStatus.error('Error loading collection'));
+      change(null,
+          status:
+              RxStatus.error('Error loading collection, ${error.toString()}'));
       debugPrint(error.toString());
     });
   }
 
   Future<void> deleteCollection(BuildContext context) async {
     loading();
-    final result = await collectionRepo.delete(id: collectionId);
+    final result =
+        await collectionDetailsUseCase.deleteCollection(collectionId);
     result.when((success) {
       if (success.deleted != null && success.deleted!) {
-        EasyLoading.showSuccess('Collection deleted');
+        context.showSnackBar('Collection deleted');
         context.popRoute();
         CollectionsController.instance.pagingController.refresh();
       } else {
-        EasyLoading.showError('Error deleting collection');
+        context.showSnackBar('Error deleting collection');
       }
     }, (error) {
-      EasyLoading.showError('Error deleting collection');
-      debugPrint(error.toString());
+      context.showSnackBar(
+          'Error deleting collection, ${error.toSnackBarString()}');
     });
+    dismissLoading();
   }
 
   Future<void> removeProducts(List<String> productIds) async {
     loading();
-    final result = await collectionRepo.removeProducts(
-        userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(
+    final result = await collectionDetailsUseCase.removeProducts(
+        UserCollectionRemoveProductsReq(
             collectionId: collectionId, productsIds: productIds));
 
     result.when((success) async {
@@ -75,8 +74,8 @@ class CollectionDetailsController extends GetxController
       required List<String> removedProducts}) async {
     loading();
     if (addedProducts.isNotEmpty) {
-      final result = await collectionRepo.updateProducts(
-          userCollectionUpdateProductsReq: UserCollectionUpdateProductsReq(
+      final result = await collectionDetailsUseCase.updateProducts(
+          UserCollectionUpdateProductsReq(
               collectionId: collectionId, productsIds: addedProducts));
       result.when((success) async {
         if (removedProducts.isEmpty) {
@@ -91,8 +90,8 @@ class CollectionDetailsController extends GetxController
       });
     }
     if (removedProducts.isNotEmpty) {
-      final result = await collectionRepo.removeProducts(
-          userCollectionRemoveProductsReq: UserCollectionRemoveProductsReq(
+      final result = await collectionDetailsUseCase.removeProducts(
+          UserCollectionRemoveProductsReq(
               collectionId: collectionId, productsIds: removedProducts));
       result.when((success) async {
         if (addedProducts.isEmpty) {

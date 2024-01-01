@@ -1,22 +1,21 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
+import 'package:medusa_admin/app/modules/components/search_floating_action_button.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_loading_page.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../../../route/app_router.dart';
-import '../../../../data/repository/order/orders_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../components/order_card.dart';
 import '../controllers/orders_controller.dart';
@@ -29,7 +28,7 @@ class OrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<OrdersController>(
-        init: OrdersController(ordersRepository: OrdersRepo()),
+        init: OrdersController(ordersUseCase: OrdersUseCase.instance),
         builder: (controller) {
           final orderSettings = StorageService.orderSettings;
           return Scaffold(
@@ -55,16 +54,11 @@ class OrdersView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
+                const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FloatingActionButton.small(
-                      onPressed: () => context.pushRoute(MedusaSearchRoute(
-                          searchCategory: SearchCategory.orders)),
-                      heroTag: UniqueKey(),
-                      child: const Icon(CupertinoIcons.search),
-                    ),
-                    const Gap(4.0),
+                    SearchFloatingActionButton(searchCategory: SearchCategory.orders),
+                    Gap(4.0),
                   ],
                 ),
                 const Gap(6.0),

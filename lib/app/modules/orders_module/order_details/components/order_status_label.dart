@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/store/order.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderStatusLabel extends StatelessWidget {
   const OrderStatusLabel({super.key, required this.orderStatus});

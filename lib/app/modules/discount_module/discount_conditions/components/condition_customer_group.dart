@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
-import '../../../../data/models/store/customer_group.dart';
+import 'package:medusa_admin/domain/use_case/groups_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_customer_group_list_tile.dart';
 import 'condition_operator_card.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionCustomerGroupView extends StatelessWidget {
@@ -22,7 +22,7 @@ class ConditionCustomerGroupView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<ConditionCustomerGroupController>(
       init: ConditionCustomerGroupController(
-          groupRepo: CustomerGroupRepo(), disabledGroups: disabledGroups ?? []),
+          groupsUseCase: GroupsUseCase.instance, disabledGroups: disabledGroups ?? []),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -162,8 +162,8 @@ class ConditionCustomerGroupView extends StatelessWidget {
 
 class ConditionCustomerGroupController extends GetxController {
   ConditionCustomerGroupController(
-      {required this.groupRepo, required this.disabledGroups});
-  final CustomerGroupRepo groupRepo;
+      {required this.groupsUseCase, required this.disabledGroups});
+  final GroupsUseCase groupsUseCase ;
   List<CustomerGroup> selectedCustomerGroups = <CustomerGroup>[];
   DiscountConditionOperator discountConditionOperator =
       DiscountConditionOperator.inn;
@@ -189,7 +189,7 @@ class ConditionCustomerGroupController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await groupRepo.retrieveCustomerGroups(
+    final result = await groupsUseCase.retrieveCustomerGroups(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

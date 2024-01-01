@@ -5,8 +5,7 @@ import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/controllers/add_update_discount_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-
-import '../../../../data/models/store/discount_rule.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'discount_allocation_type_card.dart';
 import 'discount_type_card.dart';
 

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:medusa_admin/app/data/models/res/shipping_option_res.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
+import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
+import 'package:medusa_admin/domain/use_case/shipping_option_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -29,7 +28,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   @override
   void didUpdateWidget(covariant ChooseShippingOptionView oldWidget) {
     if (oldWidget.region?.id != widget.region?.id) {
-      shippingOptionsFuture = ShippingOptionsRepo().retrieveAll(queryParams: {
+      shippingOptionsFuture = ShippingOptionUseCase.instance(queryParams: {
         'is_return': false,
         'region_id': widget.region?.id,
       });
@@ -48,7 +47,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   @override
   void initState() {
     if (widget.region != null) {
-      shippingOptionsFuture = ShippingOptionsRepo().retrieveAll(queryParams: {
+      shippingOptionsFuture = ShippingOptionUseCase.instance(queryParams: {
         'is_return': false,
         'region_id': widget.region?.id,
       });
@@ -197,8 +196,9 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                                   final customPrice = val
                                       .replaceAll('.', '')
                                       .replaceAll(',', '');
-                                  customShippingOption?.amount =
-                                      int.tryParse(customPrice);
+                                  customShippingOption =
+                                      customShippingOption?.copyWith(
+                                          amount: int.tryParse(customPrice));
                                   if (widget.onShippingOptionChanged != null) {
                                     widget.onShippingOptionChanged!(
                                         customShippingOption);
@@ -212,7 +212,8 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                                   final newVal = (val + 100).formatAsPrice(
                                       widget.region?.currencyCode);
                                   customPriceCtrl.text = newVal;
-                                  customShippingOption?.amount = (val + 100);
+                                  customShippingOption = customShippingOption
+                                      ?.copyWith(amount: (val + 100));
 
                                   if (widget.onShippingOptionChanged != null) {
                                     widget.onShippingOptionChanged!(
@@ -230,7 +231,8 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                                   final newVal = (val - 100).formatAsPrice(
                                       widget.region?.currencyCode);
                                   customPriceCtrl.text = newVal;
-                                  customShippingOption?.amount = (val - 100);
+                                  customShippingOption = customShippingOption
+                                      ?.copyWith(amount: (val - 100));
 
                                   if (widget.onShippingOptionChanged != null) {
                                     widget.onShippingOptionChanged!(
@@ -264,7 +266,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                     FilledButton(
                         onPressed: () {
                           shippingOptionsFuture =
-                              ShippingOptionsRepo().retrieveAll(queryParams: {
+                              ShippingOptionUseCase.instance(queryParams: {
                             'is_return': false,
                             'region_id': widget.region?.id,
                           });

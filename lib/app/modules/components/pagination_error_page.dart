@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
+import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class PaginationErrorPage extends StatefulWidget {

@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import '../../../../data/repository/collection/collection_repo.dart';
-import '../../../../data/repository/product/products_repo.dart';
-import '../../../../data/repository/product_type/product_type_repo.dart';
-import '../../../../data/repository/sales_channel/sales_channel_repo.dart';
-import '../../../../data/repository/upload/upload_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
+
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../components/index.dart';
@@ -27,11 +24,7 @@ class AddUpdateProductView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<AddUpdateProductController>(
       init: AddUpdateProductController(
-          productsRepo: ProductsRepo(),
-          productTypeRepo: ProductTypeRepo(),
-          collectionRepo: CollectionRepo(),
-          uploadRepo: UploadRepo(),
-          salesChannelRepo: SalesChannelRepo(),
+          updateProductUseCase: UpdateProductUseCase.instance,
           updateProductReq: updateProductReq),
       builder: (controller) {
         return WillPopScope(

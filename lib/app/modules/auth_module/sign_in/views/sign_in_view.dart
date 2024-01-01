@@ -15,9 +15,10 @@ import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../data/repository/auth/auth_repo.dart';
 import '../../../components/language_selection/language_selection_view.dart';
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
@@ -51,7 +52,7 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(context) {
     return GetBuilder<SignInController>(
-        init: SignInController(authRepository: AuthRepo()),
+        init: SignInController(AuthenticationUseCase.instance),
         builder: (controller) {
           final tr = context.tr;
           final bool isRTL = context.isRTL;
@@ -276,7 +277,7 @@ class _SignInViewState extends State<SignInView> {
                                     context.unfocus();
                                   }
                                   await controller
-                                      .signIn(emailCtrl.text, passwordCtrl.text)
+                                      .login(emailCtrl.text, passwordCtrl.text)
                                       .then((value) {
                                     if (value) {
                                       context.router

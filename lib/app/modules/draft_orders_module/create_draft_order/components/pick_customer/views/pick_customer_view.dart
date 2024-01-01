@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
+import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import '../components/pick_customer_app_bar.dart';
 import '../controllers/pick_customer_controller.dart';
 
@@ -17,7 +18,7 @@ class PickCustomerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickCustomerController>(
-      init: PickCustomerController(customerRepo: CustomerRepo(), pickCustomerReq: pickCustomerReq ?? PickCustomerReq()),
+      init: PickCustomerController(customerUseCase: CustomerUseCase.instance, pickCustomerReq: pickCustomerReq ?? PickCustomerReq()),
       builder: (controller) {
         return Scaffold(
           body: CustomScrollView(

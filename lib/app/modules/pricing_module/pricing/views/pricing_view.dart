@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
+import 'package:medusa_admin/domain/use_case/price_lists_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
@@ -20,7 +20,7 @@ class PricingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PricingController>(
-        init: PricingController(priceListRepo: PriceListRepo()),
+        init: PricingController(priceListsUseCase: PriceListsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),

@@ -6,8 +6,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
@@ -15,7 +16,6 @@ import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/req/user_post_product_req.dart';
 import '../../../components/countries/view/country_view.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_text_field.dart';
@@ -36,7 +36,8 @@ class ProductAddVariantView extends StatelessWidget {
 
     return GetBuilder<ProductAddVariantController>(
         init: ProductAddVariantController(
-            productsRepo: ProductsRepo(), productVariantReq: productVariantReq),
+            updateProductUseCase: UpdateProductUseCase.instance,
+            productVariantReq: productVariantReq),
         builder: (controller) {
           final options = controller.product.options;
 
@@ -118,12 +119,13 @@ class ProductAddVariantView extends StatelessWidget {
                                       ],
                                     ),
                                     space,
-                                    if (options != null && !controller.updateMode)
+                                    if (options != null &&
+                                        !controller.updateMode)
                                       ListView.separated(
                                         shrinkWrap: true,
                                         itemCount: options.length,
                                         physics:
-                                        const NeverScrollableScrollPhysics(),
+                                            const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           final currentOption = options[index];
                                           return Column(
@@ -135,7 +137,8 @@ class ProductAddVariantView extends StatelessWidget {
                                                   Text(' *',
                                                       style: mediumTextStyle
                                                           ?.copyWith(
-                                                          color: Colors.red)),
+                                                              color:
+                                                                  Colors.red)),
                                                 ],
                                               ),
                                               const Gap(6.0),
@@ -150,18 +153,18 @@ class ProductAddVariantView extends StatelessWidget {
                                                   },
                                                   items: currentOption.values!
                                                       .map((e) =>
-                                                      DropdownMenuItem(
-                                                          value: e,
-                                                          child:
-                                                          Text(e.value!)))
+                                                          DropdownMenuItem(
+                                                              value: e,
+                                                              child: Text(
+                                                                  e.value!)))
                                                       .toList(),
                                                   hint: const Text(
                                                       'Choose an option'),
                                                   onChanged: (value) {
                                                     if (value != null) {
                                                       controller
-                                                          .selectedOptionsValue[
-                                                      index] = value;
+                                                              .selectedOptionsValue[
+                                                          index] = value;
                                                     }
                                                   },
                                                 ),
@@ -170,17 +173,18 @@ class ProductAddVariantView extends StatelessWidget {
                                         },
                                         separatorBuilder: (_, __) => space,
                                       ),
-                                    if (options != null && controller.updateMode)
+                                    if (options != null &&
+                                        controller.updateMode)
                                       ListView.separated(
                                         shrinkWrap: true,
                                         itemCount: options.length,
                                         physics:
-                                        const NeverScrollableScrollPhysics(),
+                                            const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           final currentOption = options[index];
                                           final textCtrl =
-                                          controller.productOptionCtrlMap[
-                                          currentOption];
+                                              controller.productOptionCtrlMap[
+                                                  currentOption];
                                           return LabeledTextField(
                                             label: currentOption.title ?? '',
                                             required: true,
@@ -215,7 +219,7 @@ class ProductAddVariantView extends StatelessWidget {
                                     ListView.builder(
                                         shrinkWrap: true,
                                         physics:
-                                        const NeverScrollableScrollPhysics(),
+                                            const NeverScrollableScrollPhysics(),
                                         itemCount: controller.updateMode
                                             ? controller.variant!.prices!.length
                                             : controller.currencies.length,
@@ -230,29 +234,30 @@ class ProductAddVariantView extends StatelessWidget {
                                               Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(12.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(
+                                                              12.0)),
                                                   color: Theme.of(context)
                                                       .scaffoldBackgroundColor,
                                                 ),
                                                 padding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 12.0,
-                                                    vertical: 8.0),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12.0,
+                                                        vertical: 8.0),
                                                 child: Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Flexible(
                                                       child: Row(
                                                         children: [
                                                           Text(
                                                               currency.code
-                                                                  ?.toUpperCase() ??
+                                                                      ?.toUpperCase() ??
                                                                   '',
                                                               style:
-                                                              mediumTextStyle),
+                                                                  mediumTextStyle),
                                                           space,
                                                           Expanded(
                                                               child: Text(
@@ -260,53 +265,55 @@ class ProductAddVariantView extends StatelessWidget {
                                                                       '',
                                                                   style: mediumTextStyle
                                                                       ?.copyWith(
-                                                                      color:
-                                                                      lightWhite)))
+                                                                          color:
+                                                                              lightWhite)))
                                                         ],
                                                       ),
                                                     ),
                                                     Flexible(
                                                       child: TextField(
-                                                        controller: currencyCtrl,
+                                                        controller:
+                                                            currencyCtrl,
                                                         textDirection:
-                                                        TextDirection.rtl,
+                                                            TextDirection.rtl,
                                                         keyboardType:
-                                                        const TextInputType
-                                                            .numberWithOptions(
-                                                            decimal: true),
+                                                            const TextInputType
+                                                                .numberWithOptions(
+                                                                decimal: true),
                                                         inputFormatters: [
                                                           CurrencyTextInputFormatter(
-                                                              name: currency.code)
+                                                              name:
+                                                                  currency.code)
                                                         ],
                                                         decoration:
-                                                        InputDecoration(
+                                                            InputDecoration(
                                                           hintTextDirection:
-                                                          TextDirection.rtl,
+                                                              TextDirection.rtl,
                                                           prefixIcon: Padding(
                                                               padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 10),
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left: 10),
                                                               child: Text(
                                                                   currency.symbolNative ??
                                                                       '',
                                                                   style: mediumTextStyle
                                                                       ?.copyWith(
-                                                                      color:
-                                                                      lightWhite))),
+                                                                          color:
+                                                                              lightWhite))),
                                                           prefixIconConstraints:
-                                                          const BoxConstraints(
-                                                              minWidth: 0,
-                                                              minHeight: 0),
+                                                              const BoxConstraints(
+                                                                  minWidth: 0,
+                                                                  minHeight: 0),
                                                           hintText: '-',
                                                           isDense: true,
                                                           border:
-                                                          const OutlineInputBorder(
+                                                              const OutlineInputBorder(
                                                             borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius
-                                                                    .circular(
-                                                                    4.0)),
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            4.0)),
                                                           ),
                                                         ),
                                                         style: smallTextStyle,
@@ -328,7 +335,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 key: controller.stockKey,
                                 onExpansionChanged: (expanded) async {
                                   if (expanded) {
-                                    await  controller.stockKey.currentContext
+                                    await controller.stockKey.currentContext
                                         .ensureVisibility();
                                   }
                                 },
@@ -367,8 +374,8 @@ class ProductAddVariantView extends StatelessWidget {
                                             style: smallTextStyle?.copyWith(
                                                 color: lightWhite)),
                                         value: controller.allowBackorder.value,
-                                        onChanged: (val) =>
-                                        controller.allowBackorder.value = val,
+                                        onChanged: (val) => controller
+                                            .allowBackorder.value = val,
                                         activeColor: GetPlatform.isIOS
                                             ? ColorManager.primary
                                             : null,
@@ -435,7 +442,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 space,
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
                                       child: LabeledNumericTextField(
@@ -454,7 +461,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 const Divider(),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
                                       child: LabeledNumericTextField(
@@ -495,14 +502,16 @@ class ProductAddVariantView extends StatelessWidget {
                                 LabeledTextField(
                                   readOnly: true,
                                   onTap: () async {
-                                    final result = await showBarModalBottomSheet(
-                                        context: context,
-                                        overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                        builder: (context) =>
-                                        const SelectCountryView());
+                                    final result =
+                                        await showBarModalBottomSheet(
+                                            context: context,
+                                            overlayStyle: context.theme
+                                                .appBarTheme.systemOverlayStyle,
+                                            builder: (context) =>
+                                                const SelectCountryView());
                                     if (result is List<Country>) {
                                       controller.countryCtrl.text =
-                                      result.first.displayName!;
+                                          result.first.displayName!;
                                       controller.update([3]);
                                     }
                                   },
@@ -510,23 +519,24 @@ class ProductAddVariantView extends StatelessWidget {
                                   controller: controller.countryCtrl,
                                   decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
                                     ),
                                     hintText: 'Choose a country',
                                     suffixIcon: controller
-                                        .countryCtrl.text.isEmpty
+                                            .countryCtrl.text.isEmpty
                                         ? const Icon(
-                                        Icons.keyboard_arrow_down_outlined)
+                                            Icons.keyboard_arrow_down_outlined)
                                         : IconButton(
-                                        onPressed: () {
-                                          controller.countryCtrl.clear();
-                                          controller.update([3]);
-                                        },
-                                        icon: const Icon(CupertinoIcons
-                                            .clear_circled_solid)),
+                                            onPressed: () {
+                                              controller.countryCtrl.clear();
+                                              controller.update([3]);
+                                            },
+                                            icon: const Icon(CupertinoIcons
+                                                .clear_circled_solid)),
                                     filled: true,
-                                    fillColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                    fillColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     border: const OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(4.0),
@@ -551,11 +561,11 @@ class ProductAddVariantView extends StatelessWidget {
 
 class ProductAddVariantController extends GetxController {
   ProductAddVariantController({
-    required this.productsRepo,
+    required this.updateProductUseCase,
     required this.productVariantReq,
   });
 
-  final ProductsRepo productsRepo;
+  final UpdateProductUseCase updateProductUseCase;
   late Product product;
   late ProductVariant? variant;
   final ProductVariantReq productVariantReq;
@@ -729,7 +739,7 @@ class ProductAddVariantController extends GetxController {
 
   Future<void> updateVariant(BuildContext context) async {
     loading();
-    final result = await productsRepo.update(
+    final result = await updateProductUseCase.updateProduct(
         id: product.id!,
         userPostUpdateProductReq: UserPostUpdateProductReq(
           status: product.status,

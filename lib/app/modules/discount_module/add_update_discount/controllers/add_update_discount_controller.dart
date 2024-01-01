@@ -2,21 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/discount_condition.dart';
-import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/update_discount_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../data/models/req/discount.dart';
-import '../../../../data/models/store/discount.dart';
-import '../../../../data/models/store/discount_rule.dart';
-import '../../../../data/models/store/region.dart';
 
 class AddUpdateDiscountController extends GetxController {
-  AddUpdateDiscountController({required this.discountRepo,this.discount });
-  final DiscountRepo discountRepo;
+  AddUpdateDiscountController({required this.updateDiscountUseCase,this.discount });
+  final UpdateDiscountUseCase updateDiscountUseCase;
   DiscountRuleType discountRuleType = DiscountRuleType.percentage;
   AllocationType allocationType = AllocationType.total;
   bool hasStartDate = false;
@@ -143,7 +139,7 @@ class AddUpdateDiscountController extends GetxController {
     );
 
     final result =
-        await discountRepo.createDiscount(userCreateDiscountReq: discount);
+        await updateDiscountUseCase.createDiscount(userCreateDiscountReq: discount);
 
     result.when((success) {
       context.popRoute(true);
@@ -180,12 +176,12 @@ class AddUpdateDiscountController extends GetxController {
         id: _loadedDiscount!.ruleId,
         description: descriptionCtrl.text,
         value:
-            discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
+            discountRuleType == DiscountRuleType.freeShipping ? 0 : value, type: null,
       ),
       regionsIds: selectedRegions.map((e) => e.id!).toList(),
     );
 
-    final result = await discountRepo.updateDiscount(
+    final result = await updateDiscountUseCase.updateDiscount(
         id: discount!.id!, userUpdateDiscountReq: updatedDiscount);
 
     result.when((success) {
@@ -211,9 +207,9 @@ class AddUpdateDiscountController extends GetxController {
         id: _loadedDiscount!.ruleId,
         description: descriptionCtrl.text,
         value:
-            discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
+            discountRuleType == DiscountRuleType.freeShipping ? 0 : value, type: null,
       ),
-      regions: selectedRegions.map((e) => e).toList(),
+      regions: selectedRegions.map((e) => e).toList(), isDynamic: null,
     );
     if (a.startsAt == b.startsAt &&
         a.endsAt == b.endsAt &&

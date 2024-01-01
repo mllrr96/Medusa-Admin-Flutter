@@ -5,13 +5,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer_group.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/groups_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../components/index.dart';
@@ -24,7 +24,7 @@ class GroupsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<GroupsController>(
-      init: GroupsController(customerGroupRepo: CustomerGroupRepo()),
+      init: GroupsController(groupsUseCase: GroupsUseCase.instance),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),

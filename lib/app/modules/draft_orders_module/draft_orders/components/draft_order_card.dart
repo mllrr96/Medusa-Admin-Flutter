@@ -6,7 +6,7 @@ import 'package:medusa_admin/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/store/draft_order.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'draft_order_status_label.dart';
 
 class DraftOrderCard extends StatelessWidget {

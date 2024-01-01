@@ -3,17 +3,12 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin/domain/use_case/order_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../../../../data/models/store/order.dart';
-import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
-import '../../../../data/repository/note/note_repo.dart';
-import '../../../../data/repository/notification/notification_repo.dart';
-import '../../../../data/repository/order_edit/order_edit_repo.dart';
-import '../../../../data/repository/user/user_repo.dart';
 import '../components/index.dart';
 import '../controllers/order_details_controller.dart';
 
@@ -29,13 +24,7 @@ class OrderDetailsView extends StatelessWidget {
 
     return GetBuilder<OrderDetailsController>(
       init: OrderDetailsController(
-          ordersRepo: OrdersRepo(),
-          orderEditsRepo: OrderEditRepo(),
-          noteRepo: NoteRepo(),
-          notificationRepo: NotificationRepo(),
-          fulfillmentRepo: FulfillmentRepo(),
-          userRepo: UserRepo(),
-          orderId: orderId),
+          orderDetailsUseCase: OrderDetailsUseCase.instance, orderId: orderId),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(

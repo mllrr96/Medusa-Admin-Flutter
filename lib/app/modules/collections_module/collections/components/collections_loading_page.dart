@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/product_collection.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/components/collection_list_tile.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

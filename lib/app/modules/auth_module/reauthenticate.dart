@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_auth_req.dart';
-import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
@@ -47,12 +47,15 @@ class _ReAuthenticateViewState extends State<ReAuthenticateView> {
               return;
             }
             loading();
-            final result = await AuthRepo().signIn(
-                req: UserPostAuthReq(
-                    email: emailCtrl.text, password: passwordCtrl.text));
-            result.when((success) {
-              context.popRoute(true);
-            }, (error) {
+            await getIt<MedusaAdmin>()
+                .authRepository
+                .signIn(
+                    req: UserPostAuthReq(
+                        email: emailCtrl.text, password: passwordCtrl.text))
+                .then((user) {
+              if (user != null) {
+                context.popRoute(true);
+              }
             });
           },
           label: 'Authenticate'),

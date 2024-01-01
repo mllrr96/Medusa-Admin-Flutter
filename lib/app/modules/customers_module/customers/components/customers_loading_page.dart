@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/customer.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'customer_list_tile.dart';
 
 class CustomersLoadingPage extends StatelessWidget {

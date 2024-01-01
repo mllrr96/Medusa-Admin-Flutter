@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_customer_req.dart';
-import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/update_customer_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class AddUpdateCustomerController extends GetxController {
-  AddUpdateCustomerController({required this.customerRepo, this.customer});
+  AddUpdateCustomerController(
+      {required this.updateCustomerUseCase, this.customer});
   final Customer? customer;
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
@@ -17,7 +17,7 @@ class AddUpdateCustomerController extends GetxController {
   final emailNameCtrl = TextEditingController();
   final phoneNameCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
-  final CustomerRepo customerRepo;
+  final UpdateCustomerUseCase updateCustomerUseCase;
   bool get updateMode => customer != null;
   @override
   void onInit() {
@@ -53,13 +53,21 @@ class AddUpdateCustomerController extends GetxController {
     }
 
     loading();
-    final result = await customerRepo.update(
-        id: customer!.id!,
-        userUpdateCustomerReq: UserUpdateCustomerReq(
-          email: emailNameCtrl.text == (customer!.email) ? null : emailNameCtrl.text,
-          firstName: firstNameCtrl.text == (customer!.firstName ?? '') ? null : firstNameCtrl.text,
-          lastName: lastNameCtrl.text == (customer!.lastName ?? '') ? null : lastNameCtrl.text,
-          phone: phoneNameCtrl.text == (customer!.phone ?? '') ? null : phoneNameCtrl.text,
+    final result = await updateCustomerUseCase.update(
+        customer!.id!,
+        UserUpdateCustomerReq(
+          email: emailNameCtrl.text == (customer!.email)
+              ? null
+              : emailNameCtrl.text,
+          firstName: firstNameCtrl.text == (customer!.firstName ?? '')
+              ? null
+              : firstNameCtrl.text,
+          lastName: lastNameCtrl.text == (customer!.lastName ?? '')
+              ? null
+              : lastNameCtrl.text,
+          phone: phoneNameCtrl.text == (customer!.phone ?? '')
+              ? null
+              : phoneNameCtrl.text,
         ));
 
     result.when((success) {
@@ -77,8 +85,7 @@ class AddUpdateCustomerController extends GetxController {
     }
 
     loading();
-    final result = await customerRepo.create(
-        userCreateCustomerReq: UserCreateCustomerReq(
+    final result = await updateCustomerUseCase.create(UserCreateCustomerReq(
       email: emailNameCtrl.text,
       firstName: firstNameCtrl.text,
       lastName: lastNameCtrl.text,

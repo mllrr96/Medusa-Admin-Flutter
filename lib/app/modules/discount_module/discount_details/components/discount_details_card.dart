@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
-import 'package:medusa_admin/app/data/models/store/discount.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_details/controllers/discount_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:super_banners/super_banners.dart';
-
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/store/discount_rule.dart';
 import '../../discounts/components/discount_rule_type_label.dart';
 
 class DiscountDetailsCard extends GetView<DiscountDetailsController> {

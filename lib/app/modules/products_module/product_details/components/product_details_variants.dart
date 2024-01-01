@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -37,7 +37,7 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
             ]).then((result) async {
               switch (result) {
                 case 0:
-                  final newVariant = await context.pushRoute(
+                  var newVariant = await context.pushRoute(
                       ProductAddVariantRoute(
                           productVariantReq:
                               ProductVariantReq(product: product)));
@@ -48,10 +48,10 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
                       options.add(ProductOptionValue(
                           value: element.value,
                           optionId: element.optionId,
-                          option: element.option));
+                          option: element.option, variantId: null));
                     });
 
-                    newVariant.options = options;
+                    newVariant = newVariant.copyWith(options: options);
                     await controller.updateProduct(
                         Product(id: product.id!, variants: [newVariant]));
                   }

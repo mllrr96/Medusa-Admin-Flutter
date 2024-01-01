@@ -3,20 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import '../../../../../data/models/req/user_post_product_req.dart';
-import '../../../../../data/models/store/currency.dart';
-import '../../../../../data/models/store/money_amount.dart';
-import '../../../../../data/models/store/product.dart';
-import '../../../../../data/models/store/product_option.dart';
-import '../../../../../data/models/store/product_option_value.dart';
-import '../../../../../data/models/store/product_variant.dart';
-import '../../../../../data/repository/product/products_repo.dart';
+import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../controllers/gift_cards_controller.dart';
 
 class CreateGiftCardController extends GetxController {
   static CreateGiftCardController get instance => Get.find<CreateGiftCardController>();
-  CreateGiftCardController({required this.productsRepo});
-  final ProductsRepo productsRepo;
+  CreateGiftCardController({required this.productsUseCase});
+  final ProductsUseCase productsUseCase;
   final nameCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -33,16 +27,16 @@ class CreateGiftCardController extends GetxController {
       return;
     }
     loading();
-    final result = await productsRepo.add(
-      userPostProductReq: UserPostProductReq(
+    final result = await productsUseCase.add(
+      UserPostProductReq(
         product: Product(
           title: nameCtrl.text,
           isGiftCard: true,
           discountable: false,
           status: ProductStatus.published,
           options: [
-            ProductOption(
-              title: 'Denomination',
+            const ProductOption(
+              title: 'Denomination', productId: null,
             )
           ],
           variants: denominations.map((e) {
@@ -59,7 +53,7 @@ class CreateGiftCardController extends GetxController {
                 ],
                 options: [
                   ProductOptionValue(
-                    value: e.$2,
+                    value: e.$2, optionId: null, variantId: null,
                   )
                 ]);
           }).toList(),

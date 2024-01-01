@@ -3,55 +3,22 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-
-import '../../../data/repository/collection/collection_repo.dart';
-import '../../../data/repository/customer/customer_repo.dart';
-import '../../../data/repository/discount/discount_repo.dart';
-import '../../../data/repository/draft_order/draft_order_repo.dart';
-import '../../../data/repository/gift_card/gift_card_repo.dart';
-import '../../../data/repository/order/orders_repo.dart';
-import '../../../data/repository/product_tag/product_tag_repo.dart';
-import '../../../data/repository/sales_channel/sales_channel_repo.dart';
+import 'package:medusa_admin/domain/use_case/search_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class MedusaSearchController extends GetxController {
   static MedusaSearchController get instance =>
       Get.find<MedusaSearchController>();
   MedusaSearchController( {
-    required this.productsRepo,
-    required this.ordersRepo,
-    required this.draftOrderRepo,
-    required this.collectionRepo,
-    required this.customerRepo,
-    required this.customerGroupRepo,
-    required this.giftCardRepo,
-    required this.discountRepo,
-    required this.priceListRepo,
-    required this.productTagRepo,
-    required this.regionsRepo,
-    required this.salesChannelRepo,
+    required this.searchUseCase,
     required this.searchCategory,
   });
 
-  final ProductsRepo productsRepo;
-  final OrdersRepo ordersRepo;
-  final DraftOrderRepo draftOrderRepo;
-  final CollectionRepo collectionRepo;
-  final CustomerRepo customerRepo;
-  final CustomerGroupRepo customerGroupRepo;
-  final GiftCardRepo giftCardRepo;
-  final DiscountRepo discountRepo;
-  final PriceListRepo priceListRepo;
-  final ProductTagRepo productTagRepo;
-  final RegionsRepo regionsRepo;
-  final SalesChannelRepo salesChannelRepo;
+  final SearchUseCase searchUseCase;
   SearchCategory searchCategory;
   final PagingController<int, Object> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -98,7 +65,7 @@ class MedusaSearchController extends GetxController {
           queryParameters.addAll(orderFilter!.toJson());
         }
         final result =
-            await ordersRepo.retrieveOrders(queryParameters: queryParameters);
+            await searchUseCase.fetchOrders(queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.orders!.length < _pageSize;
           if (isLastPage) {
@@ -112,7 +79,7 @@ class MedusaSearchController extends GetxController {
         });
       // -----------------------------------------------------------
       case SearchCategory.draftOrders:
-        final result = await draftOrderRepo.retrieveDraftOrders(
+        final result = await searchUseCase.fetchDraftOrders(
             queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.draftOrders!.length < _pageSize;
@@ -134,7 +101,7 @@ class MedusaSearchController extends GetxController {
           queryParameters.addAll(productFilter!.toJson());
         }
         final result =
-            await productsRepo.retrieveAll(queryParameters: queryParameters);
+            await searchUseCase.fetchProducts(queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.products!.length < _pageSize;
           if (isLastPage) {
@@ -149,7 +116,7 @@ class MedusaSearchController extends GetxController {
       // -----------------------------------------------------------
       case SearchCategory.collections:
         final result =
-            await collectionRepo.retrieveAll(queryParameters: queryParameters);
+            await searchUseCase.fetchCollections(queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.collections!.length < _pageSize;
           if (isLastPage) {
@@ -163,7 +130,7 @@ class MedusaSearchController extends GetxController {
         });
       // -----------------------------------------------------------
       case SearchCategory.customers:
-        final result = await customerRepo.retrieveCustomers(
+        final result = await searchUseCase.fetchCustomers(
             queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.customers!.length < _pageSize;
@@ -184,7 +151,7 @@ class MedusaSearchController extends GetxController {
             'order': sortOptions.map(),
           });
         }
-        final result = await customerGroupRepo.retrieveCustomerGroups(
+        final result = await searchUseCase.fetchCustomerGroups(
             queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.customerGroups!.length < _pageSize;
@@ -199,7 +166,7 @@ class MedusaSearchController extends GetxController {
         });
       // -----------------------------------------------------------
       case SearchCategory.giftCards:
-        final result = await giftCardRepo.retrieveGiftCards(
+        final result = await searchUseCase.fetchGiftCards(
             queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.giftCards!.length < _pageSize;
@@ -214,7 +181,7 @@ class MedusaSearchController extends GetxController {
         });
       // -----------------------------------------------------------
       case SearchCategory.discounts:
-        final result = await discountRepo.retrieveDiscounts(
+        final result = await searchUseCase.fetchDiscounts(
             queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.discounts!.length < _pageSize;
@@ -232,7 +199,7 @@ class MedusaSearchController extends GetxController {
         queryParameters.addAll({
           'order': sortOptions.map(),
         });
-        final result = await priceListRepo.retrievePriceLists(
+        final result = await searchUseCase.fetchPriceLists(
             queryParameters: queryParameters);
         result.when((success) {
           final isLastPage = success.priceLists!.length < _pageSize;

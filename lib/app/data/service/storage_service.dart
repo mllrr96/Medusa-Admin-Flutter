@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/theme_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/di/di.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/extensions/flex_scheme_extension.dart';
@@ -33,9 +34,9 @@ class StorageService extends GetxService {
   late OrderSettings _orderSettings;
 
   Future<StorageService> init() async {
-    _prefs = await SharedPreferences.getInstance();
+    _prefs = getIt<SharedPreferences>();
     try {
-      _cookie = _prefs.getString(AppConstants.cookieKey);
+      _cookie = _prefs.getString('medusa_admin_cookie');
       _language = _prefs.getString(AppConstants.languageKey) ??
           Get.deviceLocale?.languageCode ??
           'en';
@@ -46,7 +47,8 @@ class StorageService extends GetxService {
       if (appSettingsCoded != null) {
         _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
       } else {
-        _appSettings = AppSettings(colorScheme: RandomFlexScheme.random());
+        _appSettings = AppSettings.defaultSettings()
+            .copyWith(colorScheme: RandomFlexScheme.random());
         updateAppSettings(_appSettings);
       }
 
@@ -69,7 +71,7 @@ class StorageService extends GetxService {
       debugPrint(e.toString());
       _cookie = null;
       _language = 'en';
-      _appSettings = AppSettings();
+      _appSettings = AppSettings.defaultSettings();
       _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;

@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
-import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class TaxSettingsController extends GetxController {
   TaxSettingsController({required this.taxRateRepo, required this.storeRepo, required this.region});
-  final TaxRateRepo taxRateRepo;
-  final StoreRepo storeRepo;
+  final TaxRateRepository taxRateRepo;
+  final StoreRepository storeRepo;
   final pagingController = PagingController<int, TaxRate>(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   bool automaticTaxes = false;

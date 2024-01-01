@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/req/user_order.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/labeled_numeric_text_field.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderCreateRefund extends StatefulWidget {
-  const OrderCreateRefund(this.order, {Key? key}) : super(key: key);
+  const OrderCreateRefund(this.order, {super.key});
   final Order order;
 
   @override

@@ -1,10 +1,9 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/product_category.dart';
-import 'package:medusa_admin/app/data/repository/product_category/product_category_repo.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -19,7 +18,7 @@ class CategoriesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CategoriesController>(
-        init: CategoriesController(categoryRepo: ProductCategoryRepo()),
+        init: CategoriesController(categoryRepo: getIt<MedusaAdmin>().productCategoryRepository),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

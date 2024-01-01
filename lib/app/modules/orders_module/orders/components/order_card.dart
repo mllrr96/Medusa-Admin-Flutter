@@ -9,11 +9,11 @@ import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../route/app_router.dart';
 import '../../../../data/models/app/settings.dart';
-import '../../../../data/models/store/order.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(this.order, {super.key, this.onTap, this.orderSettings, this.shimmer = false});

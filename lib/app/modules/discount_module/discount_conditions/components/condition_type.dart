@@ -1,18 +1,16 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
+import 'package:medusa_admin/domain/use_case/types_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_type_list_tile.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionTypeView extends StatelessWidget {
@@ -24,7 +22,7 @@ class ConditionTypeView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<ConditionTypeController>(
       init: ConditionTypeController(
-          typeRepo: ProductTypeRepo(), disabledTypes: disabledTypes ?? []),
+          typesUseCase: TypesUseCase.instance, disabledTypes: disabledTypes ?? []),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -163,8 +161,8 @@ class ConditionTypeView extends StatelessWidget {
 
 class ConditionTypeController extends GetxController {
   ConditionTypeController(
-      {required this.typeRepo, required this.disabledTypes});
-  final ProductTypeRepo typeRepo;
+      {required this.typesUseCase, required this.disabledTypes});
+  final TypesUseCase typesUseCase;
   List<ProductType> selectedTypes = <ProductType>[];
   DiscountConditionOperator discountConditionOperator =
       DiscountConditionOperator.inn;
@@ -190,7 +188,7 @@ class ConditionTypeController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await typeRepo.retrieveProductTypes(
+    final result = await typesUseCase.retrieveProductTypes(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

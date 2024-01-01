@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/tax_rate/tax_rate_repo.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import '../../../../../components/adaptive_button.dart';
@@ -20,7 +21,7 @@ class AddUpdateTaxRateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddUpdateTaxRateController>(
-        init: AddUpdateTaxRateController(taxRateRepo: TaxRateRepo(), addUpdateTaxRateReq: addUpdateTaxRateReq),
+        init: AddUpdateTaxRateController(taxRateRepo: getIt<MedusaAdmin>().taxRateRepository, addUpdateTaxRateReq: addUpdateTaxRateReq),
         builder: (controller) {
       return GestureDetector(
         onTap: () => context.unfocus(),

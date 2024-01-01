@@ -2,26 +2,18 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/products_filter_view.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../data/repository/product_tag/product_tag_repo.dart';
 
 class ProductsController extends GetxController {
   static ProductsController get instance => Get.find<ProductsController>();
 
-  ProductsController(
-      {required this.productsRepo,
-      required this.productTagRepo,
-      required this.collectionRepo});
-  final ProductsRepo productsRepo;
-  final ProductTagRepo productTagRepo;
-  final CollectionRepo collectionRepo;
+  ProductsController({required this.productsUseCase});
+  final ProductsUseCase productsUseCase;
   final pagingController = PagingController<int, Product>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
@@ -56,7 +48,7 @@ class ProductsController extends GetxController {
       'is_giftcard': 'false',
     };
 
-    final result = await productsRepo.retrieveAll(
+    final result = await productsUseCase.fetchProducts(
         queryParameters: query..addAll(productFilter?.toJson() ?? {}));
     result.when((success) {
       final isLastPage = success.products!.length < _pageSize;
@@ -76,7 +68,7 @@ class ProductsController extends GetxController {
 
   Future<void> deleteProduct(String id) async {
     loading();
-    final result = await productsRepo.delete(id: id);
+    final result = await productsUseCase.delete(id: id);
     result.when((success) {
       if (success.deleted != null && success.deleted!) {
         // product deleted
@@ -90,7 +82,7 @@ class ProductsController extends GetxController {
 
   Future<void> updateProduct(Product product) async {
     loading();
-    final result = await productsRepo.update(
+    final result = await productsUseCase.update(
       id: product.id!,
       userPostUpdateProductReq: UserPostUpdateProductReq(
         discountable: product.discountable,
@@ -100,12 +92,8 @@ class ProductsController extends GetxController {
       ),
     );
     result.when((success) {
-      if (success.product != null) {
-        EasyLoading.showSuccess('Product updated');
-        pagingController.refresh();
-      } else {
-        EasyLoading.showError('Update failed');
-      }
+      EasyLoading.showSuccess('Product updated');
+      pagingController.refresh();
     }, (error) => EasyLoading.showError('Update failed'));
   }
 
@@ -125,14 +113,14 @@ class ProductsController extends GetxController {
   }
 
   Future<void> duplicateProduct(Product product) async {
-    final result = await productsRepo.add(
-        userPostProductReq: UserPostProductReq(product: product.duplicate()));
-    result.when((success) {
-      EasyLoading.showSuccess('Product duplicated');
-      pagingController.refresh();
-    }, (error) {
-      EasyLoading.showError('Error duplicating product');
-    });
+    // final result = await productsRepo.add(
+    //     userPostProductReq: UserPostProductReq(product: product.duplicate()));
+    // result.when((success) {
+    //   EasyLoading.showSuccess('Product duplicated');
+    //   pagingController.refresh();
+    // }, (error) {
+    //   EasyLoading.showError('Error duplicating product');
+    // });
   }
 
   Future<void> refreshData() async {
@@ -144,7 +132,7 @@ class ProductsController extends GetxController {
       'is_giftcard': 'false',
     };
 
-    final result = await productsRepo.retrieveAll(
+    final result = await productsUseCase.fetchProducts(
         queryParameters: query..addAll(productFilter?.toJson() ?? {}));
     await result.when((success) async {
       final isLastPage = success.products!.length < _pageSize;

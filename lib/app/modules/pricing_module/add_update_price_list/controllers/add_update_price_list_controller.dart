@@ -2,18 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-
-import '../../../../data/models/req/user_price_list_req.dart';
+import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class AddUpdatePriceListController extends GetxController {
-  AddUpdatePriceListController({required this.priceListRepo, required this.id});
-  final PriceListRepo priceListRepo;
+  AddUpdatePriceListController(
+      {required this.updatePriceListUseCase, required this.id});
+  final UpdatePriceListUseCase updatePriceListUseCase;
   final String? id;
   bool get updateMode => id != null;
   PriceList priceList =
@@ -53,8 +52,8 @@ class AddUpdatePriceListController extends GetxController {
     }
 
     loading();
-    final result = await priceListRepo.createPriceList(
-      userCreatePriceListReq: UserCreatePriceListReq(
+    final result = await updatePriceListUseCase.create(
+      UserCreatePriceListReq(
         name: nameCtrl.text,
         description: descriptionCtrl.text,
         type: priceList.type,
@@ -91,7 +90,7 @@ class AddUpdatePriceListController extends GetxController {
 
     loading();
 
-    final result = await priceListRepo.updatePriceList(
+    final result = await updatePriceListUseCase.update(
       id: id!,
       userUpdatePriceListReq: UserUpdatePriceListReq(
         name: nameCtrl.text,
@@ -117,28 +116,25 @@ class AddUpdatePriceListController extends GetxController {
 
   Future<void> fetchPriceList() async {
     loading();
-    final result = await priceListRepo.retrievePriceList(id: id!);
+    final result = await updatePriceListUseCase.fetch(id: id!);
     result.when(
-      (success) {
-        final priceList = success.priceList;
-        if (priceList != null) {
-          this.priceList = priceList;
-          if (priceList.customerGroups?.isNotEmpty ?? false) {
-            specifyCustomers = true;
-          }
-          saveAsDraft =
-              priceList.status == PriceListStatus.active ? false : true;
-          nameCtrl.text = priceList.name ?? '';
-          descriptionCtrl.text = priceList.description ?? '';
-          groupCtrl.text = priceList.customerGroups
-                  ?.map((e) => e.name)
-                  .toList()
-                  .toString()
-                  .replaceAll('[', '')
-                  .replaceAll(']', '') ??
-              '';
-          update();
+      (result) {
+        priceList = result;
+        if (priceList.customerGroups?.isNotEmpty ?? false) {
+          specifyCustomers = true;
         }
+        saveAsDraft = priceList.status == PriceListStatus.active ? false : true;
+        nameCtrl.text = priceList.name ?? '';
+        descriptionCtrl.text = priceList.description ?? '';
+        groupCtrl.text = priceList.customerGroups
+                ?.map((e) => e.name)
+                .toList()
+                .toString()
+                .replaceAll('[', '')
+                .replaceAll(']', '') ??
+            '';
+        update();
+
         dismissLoading();
       },
       (error) {

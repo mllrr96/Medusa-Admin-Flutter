@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../data/models/store/product.dart';
-import '../../../../../../data/models/store/product_variant.dart';
 
 class ProductVariantListTile extends StatelessWidget {
   const ProductVariantListTile(
-      {Key? key, required this.productVariant, this.value, this.onChanged, required this.index})
-      : super(key: key);
+      {super.key, required this.productVariant, this.value, this.onChanged, required this.index});
   final ProductVariant productVariant;
   final bool? value;
   final void Function(bool?)? onChanged;

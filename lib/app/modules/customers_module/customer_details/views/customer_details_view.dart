@@ -3,8 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
-import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
@@ -13,9 +11,10 @@ import 'package:medusa_admin/app/modules/orders_module/orders/components/order_c
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
+import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../data/models/store/customer.dart';
-import '../../../../data/models/store/order.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 @RoutePage()
 class CustomerDetailsView extends StatelessWidget {
@@ -25,8 +24,8 @@ class CustomerDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<CustomerDetailsController>(
         init: CustomerDetailsController(
-          customerRepo: CustomerRepo(),
-          ordersRepo: OrdersRepo(),
+          customerUseCase: CustomerUseCase.instance,
+          ordersUseCase: OrdersUseCase.instance,
           customerId: customerId,
         ),
         builder: (controller) {

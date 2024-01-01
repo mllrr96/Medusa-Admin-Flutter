@@ -10,6 +10,13 @@ class AppSettings {
   final FlexScheme colorScheme;
 
   AppSettings({
+    required this.useAndroidPicker,
+    required this.useMaterial3,
+    required this.dateFormatOptions,
+    required this.timeFormatOptions,
+    required this.colorScheme,
+  });
+  AppSettings.defaultSettings({
     this.useAndroidPicker = false,
     this.useMaterial3 = true,
     this.dateFormatOptions = DateFormatOptions.fifth,
@@ -44,9 +51,13 @@ class AppSettings {
     return AppSettings(
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
         useMaterial3: json?['useMaterial3'] ?? true,
-        timeFormatOptions: TimeFormatOptions.fromInt(json?['timeFormatOptions']),
-        dateFormatOptions: DateFormatOptions.fromInt(json?['dateFormatOptions']),
-        colorScheme: FlexScheme.values.firstWhere((e) => e.name == json?['colorScheme'], orElse: () => FlexScheme.hippieBlue));
+        timeFormatOptions:
+            TimeFormatOptions.fromInt(json?['timeFormatOptions']),
+        dateFormatOptions:
+            DateFormatOptions.fromInt(json?['dateFormatOptions']),
+        colorScheme: FlexScheme.values.firstWhere(
+            (e) => e.name == json?['colorScheme'],
+            orElse: () => FlexScheme.hippieBlue));
   }
 }
 

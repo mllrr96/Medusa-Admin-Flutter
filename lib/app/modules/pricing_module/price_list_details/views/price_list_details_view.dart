@@ -3,8 +3,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
+import 'package:medusa_admin/domain/use_case/price_list_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/views/pick_products_view.dart';
@@ -22,7 +23,7 @@ class PriceListDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<PriceListDetailsController>(
       init: PriceListDetailsController(
-          priceListRepo: PriceListRepo(), id: priceList.id!),
+          priceListDetailsUseCase: PriceListDetailsUseCase.instance, id: priceList.id!),
       builder: (controller) {
         addProducts() async {
           await showBarModalBottomSheet(

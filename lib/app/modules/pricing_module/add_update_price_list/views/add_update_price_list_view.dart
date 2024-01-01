@@ -5,15 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/adaptive_icon.dart';
@@ -521,7 +521,7 @@ class AddUpdatePriceListView extends StatelessWidget {
 
     return GetBuilder<AddUpdatePriceListController>(
       init:
-          AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
+          AddUpdatePriceListController(updatePriceListUseCase: UpdatePriceListUseCase.instance, id: id),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),

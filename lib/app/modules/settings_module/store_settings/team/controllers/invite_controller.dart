@@ -2,16 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/invite/invite_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../core/utils/enums.dart';
 import '../../../../components/easy_loading.dart';
 
 class InviteController extends GetxController with StateMixin<List<Invite>> {
   InviteController({required this.inviteRepo});
 static InviteController get instance => Get.find<InviteController>();
-  final InviteRepo inviteRepo;
+  final InviteRepository inviteRepo;
   RxString searchTerm = ''.obs;
   @override
   Future<void> onInit() async {

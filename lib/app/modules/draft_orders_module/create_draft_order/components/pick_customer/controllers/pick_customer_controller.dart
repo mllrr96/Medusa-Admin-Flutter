@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
+import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 
 class PickCustomerController extends GetxController with StateMixin<List<Customer>> {
-  PickCustomerController({required this.customerRepo, required this.pickCustomerReq});
-  final CustomerRepo customerRepo;
+  PickCustomerController({required this.customerUseCase, required this.pickCustomerReq});
+  final CustomerUseCase customerUseCase;
   final int _pageSize = 12;
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 4);
@@ -31,7 +32,7 @@ class PickCustomerController extends GetxController with StateMixin<List<Custome
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await customerRepo.retrieveCustomers(
+    final result = await customerUseCase.retrieveCustomers(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

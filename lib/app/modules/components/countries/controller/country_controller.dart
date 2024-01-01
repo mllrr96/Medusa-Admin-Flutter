@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../data/models/store/country.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/countries.dart';
 
 class SelectCountryController extends GetxController {

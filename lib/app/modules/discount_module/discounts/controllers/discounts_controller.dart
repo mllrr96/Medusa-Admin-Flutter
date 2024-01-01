@@ -2,17 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/discount.dart';
-import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/domain/use_case/discounts_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../../../../data/models/req/discount.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class DiscountsController extends GetxController {
   static DiscountsController get instance => Get.find<DiscountsController>();
-  DiscountsController({required this.discountRepo});
-  final DiscountRepo discountRepo;
+  DiscountsController({required this.discountsUseCase});
+  final DiscountsUseCase discountsUseCase;
 
   final PagingController<int, Discount> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 4);
@@ -38,7 +36,7 @@ class DiscountsController extends GetxController {
     if (_refreshingData) {
       return;
     }
-    final result = await discountRepo.retrieveDiscounts(queryParameters: {
+    final result = await discountsUseCase.retrieveDiscounts(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'is_dynamic': false,
@@ -61,7 +59,7 @@ class DiscountsController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await discountRepo.retrieveDiscounts(queryParameters: {
+    final result = await discountsUseCase.retrieveDiscounts(queryParameters: {
       'offset': 0,
       'limit': _pageSize,
       'is_dynamic': false,
@@ -93,7 +91,7 @@ class DiscountsController extends GetxController {
     loading();
     bool toggle =
         discount.isDisabled != null && discount.isDisabled! ? false : true;
-    final result = await discountRepo.updateDiscount(
+    final result = await discountsUseCase.updateDiscount(
         id: discount.id!,
         userUpdateDiscountReq: UserUpdateDiscountReq(isDisabled: toggle));
 
@@ -106,7 +104,7 @@ class DiscountsController extends GetxController {
 
   Future<void> deleteDiscount({required String id}) async {
     loading();
-    final result = await discountRepo.deleteDiscount(id: id);
+    final result = await discountsUseCase.deleteDiscount(id: id);
     result.when((success) {
       Get.snackbar('Success', 'Promotion deleted successfully',
           snackPosition: SnackPosition.BOTTOM);

@@ -3,11 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
-import '../../../../data/models/store/product.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin/domain/use_case/pick_products_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/pick_products_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -18,7 +19,7 @@ class PickProductsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickProductsController>(
-      init: PickProductsController(productsRepo: ProductsRepo(), pickProductsReq: pickProductsReq),
+      init: PickProductsController(pickProductsUseCase: PickProductsUseCase.instance, pickProductsReq: pickProductsReq),
       builder: (controller) {
         final manatee = ColorManager.manatee;
         final smallTextStyle = context.bodySmall;

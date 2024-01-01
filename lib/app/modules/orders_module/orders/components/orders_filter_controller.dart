@@ -1,19 +1,14 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
+import 'package:medusa_admin/domain/use_case/orders_filter_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrdersFilterController extends GetxController
     with StateMixin<(List<Region>, List<SalesChannel>)> {
   static OrdersFilterController get instance =>
       Get.find<OrdersFilterController>();
-  OrdersFilterController({
-    required this.regionsRepo,
-    required this.salesChannelRepo,
-  });
-  final RegionsRepo regionsRepo;
-  final SalesChannelRepo salesChannelRepo;
+  OrdersFilterController( this.ordersFilterUseCase);
+  final OrdersFilterUseCase ordersFilterUseCase;
   final refreshController = RefreshController();
 
   @override
@@ -24,18 +19,12 @@ class OrdersFilterController extends GetxController
 
   Future<void> loadData() async {
     change(null, status: RxStatus.loading());
-    final result = await regionsRepo.retrieveAll();
-    final result2 = await salesChannelRepo.retrieveAll();
+    final result = await ordersFilterUseCase();
 
     result.when((success) {
-      result2.when((success2) {
-        change((success.regions ?? [], success2.salesChannels ?? []),
-            status: RxStatus.success());
-        refreshController.refreshCompleted();
-      }, (error) {
-        change(null, status: RxStatus.error(error.toString()));
-        refreshController.refreshFailed();
-      });
+      change((success.$1.regions!, success.$2.salesChannels!),
+          status: RxStatus.success());
+      refreshController.refreshCompleted();
     }, (error) {
       change(null, status: RxStatus.error(error.toString()));
       refreshController.refreshFailed();

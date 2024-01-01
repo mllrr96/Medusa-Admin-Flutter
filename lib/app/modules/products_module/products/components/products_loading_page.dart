@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/product.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductsLoadingPage extends StatelessWidget {

@@ -2,15 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/user/user_repo.dart';
-import '../../../../../data/models/req/user_user_req.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../components/easy_loading.dart';
 
 class TeamController extends GetxController with StateMixin<List<User>> {
   TeamController({required this.userRepo});
   static TeamController get instance => Get.find<TeamController>();
-  final UserRepo userRepo;
+  final UserRepository userRepo;
   RxBool search = false.obs;
   final searchCtrl = TextEditingController();
   RxInt membersCount = 0.obs;
