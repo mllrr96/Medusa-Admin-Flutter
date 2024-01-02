@@ -31,7 +31,7 @@ class OrderOverview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('#${order.displayId!}', style: context.bodyLarge),
+                      Text('#${order.displayId ??''}', style: context.bodyLarge),
                       IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
@@ -60,7 +60,7 @@ class OrderOverview extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!, style: context.bodyMedium),
+                    Text(order.email ?? '', style: context.bodyMedium),
                     if (order.billingAddress != null && order.billingAddress!.phone != null)
                       Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                   ],

@@ -6,12 +6,11 @@ import 'package:get/get.dart';
 
 class AdaptiveIcon extends StatelessWidget {
   const AdaptiveIcon(
-      {Key? key,
+      {super.key,
       required this.onPressed,
       required this.icon,
       this.iosPadding = const EdgeInsets.symmetric(horizontal: 12.0),
-      this.androidPadding})
-      : super(key: key);
+      this.androidPadding});
   final void Function()? onPressed;
   final Widget icon;
   final EdgeInsetsGeometry? iosPadding;

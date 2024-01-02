@@ -15,7 +15,6 @@ import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

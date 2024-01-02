@@ -1,13 +1,12 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/domain/use_case/return_reasons_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../../../data/repository/return_reason/return_reason_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../../components/adaptive_back_button.dart';
 import '../components/return_reason_list_tile.dart';
 import '../controllers/return_reasons_controller.dart';
@@ -19,7 +18,7 @@ class ReturnReasonsView extends GetView<ReturnReasonsController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ReturnReasonsController>(
-        init: ReturnReasonsController(returnReasonRepo: ReturnReasonRepo()),
+        init: ReturnReasonsController(returnReasonsUseCase: ReturnReasonsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

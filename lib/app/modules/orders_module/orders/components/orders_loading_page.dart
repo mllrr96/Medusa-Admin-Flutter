@@ -12,12 +12,12 @@ class OrdersLoadingPage extends StatelessWidget {
     final order = Order(
         id: '1',
         total: 12345,
-        shippingAddress: Address(countryCode: 'USD'),
+        shippingAddress: const Address(countryCode: 'USD'),
         customerId: '',
         email: "medusa@js.com",
         regionId: "",
         currencyCode: 'USD',
-        customer: Customer(
+        customer: const Customer(
             firstName: 'Medusa', lastName: 'Admin', email: 'Medusa Js'),
         cart: Cart(createdAt: DateTime.now()));
     final orderSettings = StorageService.orderSettings;

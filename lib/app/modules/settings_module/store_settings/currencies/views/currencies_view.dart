@@ -1,18 +1,17 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/data/models/store/currency.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin/domain/use_case/currencies_use_case.dart';
+import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../../core/utils/colors.dart';
-import '../../../../../data/repository/currency/currency_repo.dart';
 import '../../../../components/adaptive_back_button.dart';
 import '../controllers/currencies_controller.dart';
 
@@ -27,7 +26,8 @@ class CurrenciesView extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     return GetBuilder<CurrenciesController>(
-      init: CurrenciesController(currencyRepo: CurrencyRepo(), storeRepo: StoreRepo()),
+      init:
+          CurrenciesController(updateStoreUseCase: UpdateStoreUseCase.instance),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),
@@ -36,7 +36,10 @@ class CurrenciesView extends StatelessWidget {
               leading: const AdaptiveBackButton(),
               title: const Text('Currencies'),
               actions: [
-                AdaptiveButton(onPressed: () async => await controller.updateStore(context), child: const Text('Save')),
+                AdaptiveButton(
+                    onPressed: () async =>
+                        await controller.updateStore(context),
+                    child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -47,9 +50,11 @@ class CurrenciesView extends StatelessWidget {
                       style: mediumTextStyle!.copyWith(color: lightWhite)),
                   space,
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0)),
                       color: context.theme.cardColor,
                     ),
                     child: Column(
@@ -59,9 +64,11 @@ class CurrenciesView extends StatelessWidget {
                         Text('This is the currency your prices are shown in.',
                             style: mediumTextStyle.copyWith(color: lightWhite)),
                         space,
-                        if (controller.currencies.isNotEmpty && controller.currencies.length == 1)
+                        if (controller.currencies.isNotEmpty &&
+                            controller.currencies.length == 1)
                           Text(controller.currencies.first.name ?? ''),
-                        if (controller.currencies.isNotEmpty && controller.currencies.length > 1)
+                        if (controller.currencies.isNotEmpty &&
+                            controller.currencies.length > 1)
                           DropdownButtonFormField<String>(
                             value: controller.defaultStoreCurrency.code,
                             style: context.bodyMedium,
@@ -73,15 +80,18 @@ class CurrenciesView extends StatelessWidget {
                                 .toList(),
                             onChanged: (value) {
                               if (value != null) {
-                                controller.defaultStoreCurrency =
-                                    controller.currencies.where((element) => element.code == value).first;
+                                controller.defaultStoreCurrency = controller
+                                    .currencies
+                                    .where((element) => element.code == value)
+                                    .first;
                               }
                             },
                             decoration: InputDecoration(
                               fillColor: context.theme.scaffoldBackgroundColor,
                               filled: true,
                               border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.0)),
                                   borderSide: BorderSide(color: Colors.grey)),
                             ),
                           ),
@@ -91,9 +101,11 @@ class CurrenciesView extends StatelessWidget {
                   ),
                   space,
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0)),
                       color: context.theme.expansionTileTheme.backgroundColor,
                     ),
                     child: Column(
@@ -106,26 +118,34 @@ class CurrenciesView extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Store currencies', style: largeTextStyle),
-                                  Text('All the currencies available in your store.',
-                                      style: mediumTextStyle.copyWith(color: lightWhite)),
+                                  Text('Store currencies',
+                                      style: largeTextStyle),
+                                  Text(
+                                      'All the currencies available in your store.',
+                                      style: mediumTextStyle.copyWith(
+                                          color: lightWhite)),
                                 ],
                               ),
                             ),
                             AdaptiveButton(
                                 onPressed: () async {
-                                  List<Currency>? result = await showBarModalBottomSheet(
+                                  List<Currency>? result =
+                                      await showBarModalBottomSheet(
                                     expand: true,
                                     context: context,
-                                    overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
                                     backgroundColor: Colors.transparent,
-                                    builder: (context) => AllCurrenciesView(storeCurrencies: controller.currencies),
+                                    builder: (context) => AllCurrenciesView(
+                                        storeCurrencies: controller.currencies),
                                   );
                                   if (result != null) {
                                     controller.currencies = result;
-                                    if (!controller.currencies
-                                        .any((element) => element == controller.defaultStoreCurrency)) {
-                                      controller.defaultStoreCurrency = result.first;
+                                    if (!controller.currencies.any((element) =>
+                                        element ==
+                                        controller.defaultStoreCurrency)) {
+                                      controller.defaultStoreCurrency =
+                                          result.first;
                                     }
                                     controller.update();
                                   }
@@ -144,7 +164,10 @@ class CurrenciesView extends StatelessWidget {
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(NumberFormat.simpleCurrency(name: currency.code?.toUpperCase()).currencySymbol),
+                                      Text(NumberFormat.simpleCurrency(
+                                              name:
+                                                  currency.code?.toUpperCase())
+                                          .currencySymbol),
                                       const SizedBox(width: 12.0),
                                       Text(currency.name ?? ''),
                                     ],
@@ -173,7 +196,9 @@ class AllCurrenciesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AllCurrenciesController>(
-      init: AllCurrenciesController(currencyRepo: CurrencyRepo(), storeCurrencies: storeCurrencies),
+      init: AllCurrenciesController(
+          currenciesUseCase: CurrenciesUseCase.instance,
+          storeCurrencies: storeCurrencies),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),
@@ -185,7 +210,9 @@ class AllCurrenciesView extends StatelessWidget {
                 actions: [
                   if (controller.selectedCurrencies.isNotEmpty)
                     AdaptiveButton(
-                        onPressed: () => context.popRoute(controller.selectedCurrencies), child: const Text('Save')),
+                        onPressed: () =>
+                            context.popRoute(controller.selectedCurrencies),
+                        child: const Text('Save')),
                 ],
               ),
               body: SafeArea(
@@ -193,25 +220,34 @@ class AllCurrenciesView extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Currency>(
-                      itemBuilder: (context, currency, index) => CheckboxListTile(
+                      itemBuilder: (context, currency, index) =>
+                          CheckboxListTile(
                             contentPadding: EdgeInsets.zero,
                             controlAffinity: ListTileControlAffinity.trailing,
                             title: Text(currency.name ?? ''),
-                            secondary: Text(NumberFormat.simpleCurrency(name: currency.code?.toUpperCase()).currencySymbol,
+                            secondary: Text(
+                                NumberFormat.simpleCurrency(
+                                        name: currency.code?.toUpperCase())
+                                    .currencySymbol,
                                 style: context.bodyMediumW600),
                             onChanged: (bool? value) {
-                              var selectedCurrencies = controller.selectedCurrencies;
-                              if (selectedCurrencies.any((element) => element.code == currency.code)) {
-                                selectedCurrencies.removeWhere((element) => element.code == currency.code);
+                              var selectedCurrencies =
+                                  controller.selectedCurrencies;
+                              if (selectedCurrencies.any(
+                                  (element) => element.code == currency.code)) {
+                                selectedCurrencies.removeWhere(
+                                    (element) => element.code == currency.code);
                               } else {
                                 selectedCurrencies.add(currency);
                               }
                               controller.update();
                             },
-                            value: controller.selectedCurrencies.any((element) => element.code == currency.code),
+                            value: controller.selectedCurrencies.any(
+                                (element) => element.code == currency.code),
                           ),
                       firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(child: CircularProgressIndicator.adaptive())),
+                          const Center(
+                              child: CircularProgressIndicator.adaptive())),
                   separatorBuilder: (_, __) => const Divider(height: 0),
                 ),
               ),
@@ -224,9 +260,10 @@ class AllCurrenciesView extends StatelessWidget {
 }
 
 class AllCurrenciesController extends GetxController {
-  AllCurrenciesController({required this.currencyRepo, required this.storeCurrencies});
+  AllCurrenciesController(
+      {required this.currenciesUseCase, required this.storeCurrencies});
 
-  final CurrencyRepo currencyRepo;
+  final CurrenciesUseCase currenciesUseCase;
   final List<Currency> storeCurrencies;
   final PagingController<int, Currency> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -244,7 +281,7 @@ class AllCurrenciesController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await currencyRepo.retrieve(queryParameters: {
+    final result = await currenciesUseCase(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });

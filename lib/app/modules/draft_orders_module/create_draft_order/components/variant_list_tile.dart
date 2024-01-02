@@ -34,7 +34,7 @@ class VariantListTile extends StatelessWidget {
     } else {
       moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
           ? productVariant.prices!.first
-          : MoneyAmount(amount: 0, currencyCode: 'USD');
+          : const MoneyAmount(amount: 0, currencyCode: 'USD');
     }
 
     const space = Gap(12);

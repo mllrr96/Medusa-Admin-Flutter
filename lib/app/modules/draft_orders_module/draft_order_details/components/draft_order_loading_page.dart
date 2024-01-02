@@ -15,7 +15,7 @@ class DraftOrderLoadingPage extends StatelessWidget {
       cart: Cart(
           email: 'Medusa@js.com',
           total: 1234,
-          region: Region(name: '', currencyCode: 'USD', taxRate: 10),
+          region: const Region(name: '', currencyCode: 'USD', taxRate: 10),
           createdAt: DateTime.now()),
       status: DraftOrderStatus.open,
     );

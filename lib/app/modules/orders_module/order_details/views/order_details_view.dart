@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin/domain/use_case/order_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -128,15 +127,15 @@ class OrderDetailsView extends StatelessWidget {
                           },
                         ),
                         space,
-                        OrderTimeline(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await controller.timelineKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                        ),
+                        // OrderTimeline(
+                        //   order,
+                        //   onExpansionChanged: (expanded) async {
+                        //     if (expanded) {
+                        //       await controller.timelineKey.currentContext
+                        //           .ensureVisibility();
+                        //     }
+                        //   },
+                        // ),
                         const SizedBox(height: 25.0),
                       ],
                     ),

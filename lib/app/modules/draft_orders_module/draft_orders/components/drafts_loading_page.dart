@@ -11,7 +11,7 @@ class DraftsLoadingPage extends StatelessWidget {
     final draftOrder = DraftOrder(
       id: '1',
       displayId: 1,
-      order: Order(
+      order: const Order(
           customerId: '',
           email: '',
           regionId: '',

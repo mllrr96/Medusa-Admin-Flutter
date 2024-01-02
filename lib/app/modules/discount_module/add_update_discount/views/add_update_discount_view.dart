@@ -60,25 +60,26 @@ class AddUpdateDiscountView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 10.0),
-                    child: Form(
-                      key: controller.formKey,
-                      child: Column(
-                        children: [
-                          if (!controller.updateMode)
-                            const Column(
-                              children: [
-                                DiscountTypeExpansionTile(),
-                                space,
-                              ],
-                            ),
-                          const GeneralExpansionTile(),
-                          space,
-                          const ConfigurationExpansionTile(),
-                          space,
-                          if (!controller.updateMode)
-                            const ConditionExpansionTile(),
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        if (!controller.updateMode)
+                          const Column(
+                            children: [
+                              DiscountTypeExpansionTile(),
+                              space,
+                            ],
+                          ),
+                        Form(
+                            key: controller.generalFormKey,
+                            child: const GeneralExpansionTile()),
+                        space,
+                        Form(
+                            key: controller.configFormKey,
+                            child: const ConfigurationExpansionTile()),
+                        space,
+                        if (!controller.updateMode)
+                          const ConditionExpansionTile(),
+                      ],
                     ),
                   ),
                 ),

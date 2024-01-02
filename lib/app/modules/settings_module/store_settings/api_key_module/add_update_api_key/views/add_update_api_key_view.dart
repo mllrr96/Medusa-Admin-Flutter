@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/publishable_api_key.dart';
+import 'package:medusa_admin/domain/use_case/api_key_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-
-import '../../../../../../data/repository/publishable_api_key/publishable_api_key_repo.dart';
 import '../controllers/add_update_api_key_controller.dart';
 
 @RoutePage()
@@ -26,7 +25,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<AddUpdateApiKeyController>(
         init: AddUpdateApiKeyController(
-            publishableApiKeyRepo: PublishableApiKeyRepo(), publishableApiKey: publishableApiKey),
+             publishableApiKey: publishableApiKey, apiKeyUseCase: ApiKeyUseCase.instance),
         builder: (controller) {
           return GestureDetector(
             onTap: () => context.unfocus(),

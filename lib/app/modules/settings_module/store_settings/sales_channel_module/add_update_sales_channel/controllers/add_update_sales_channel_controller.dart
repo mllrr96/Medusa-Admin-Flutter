@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_sales_channel_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-import '../../../../../../data/models/req/user_sales_channel_req.dart';
 
 class AddUpdateSalesChannelController extends GetxController {
   AddUpdateSalesChannelController(
-      {required this.salesChannelRepo, required this.salesChannel});
-  final SalesChannelRepo salesChannelRepo;
+      {required this.updateSalesChannelUseCase, required this.salesChannel});
+  final UpdateSalesChannelUseCase updateSalesChannelUseCase;
 
   final SalesChannel? salesChannel;
   bool get updateMode => salesChannel == null ? false : true;
@@ -47,15 +46,15 @@ class AddUpdateSalesChannelController extends GetxController {
       return;
     }
     loading();
-    final result = await salesChannelRepo.update(
+    final result = await updateSalesChannelUseCase.update(
         id: salesChannel!.id!,
-        userSalesChannelUpdateRes: UserSalesChannelUpdateReq(
+        userSalesChannelUpdateReq: UserSalesChannelUpdateReq(
           name: titleCtrl.text,
           description: descriptionCtrl.text,
           isDisabled: disabled,
         ));
-    result.when((success) {
-      context.popRoute(success.salesChannel);
+    result.when((salesChannel) {
+      context.popRoute(salesChannel);
     },
         (error) => context.showSnackBar(
             'Error updating sales channel, ${error.toSnackBarString()}'));
@@ -67,8 +66,8 @@ class AddUpdateSalesChannelController extends GetxController {
       return;
     }
     loading();
-    final result = await salesChannelRepo.create(
-        userSalesChannelCreateReq: UserSalesChannelCreateReq(
+    final result =
+        await updateSalesChannelUseCase.create(UserSalesChannelCreateReq(
       name: titleCtrl.text,
       description: descriptionCtrl.text,
       isDisabled: disabled,

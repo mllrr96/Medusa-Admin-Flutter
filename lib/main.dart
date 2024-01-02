@@ -15,6 +15,7 @@ Future<void> main() async {
 
   //* inject dependencies
   await configureInjection();
+  // await StorageService.instance.init();
   await initServices();
   runApp(const MedusaAdminApp());
 }
@@ -47,7 +48,7 @@ class MedusaAdminApp extends StatelessWidget {
 
 Future<void> initServices() async {
   debugPrint('starting services ...');
-  await Get.putAsync(() => StorageService().init());
+  // await Get.putAsync(() => StorageService().init());
   Get.put(LanguageService().init());
   Get.put(ThemeController());
   debugPrint('All services started...');

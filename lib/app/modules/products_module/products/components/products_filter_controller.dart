@@ -24,7 +24,7 @@ class ProductsFilterController extends GetxController
     final result = await productsFilterUseCase();
 
     result.when((success) {
-      change((success.$1.collections!, success.$2.tags!),
+      change((success.$1.collections ?? [], success.$2.tags ?? []),
           status: RxStatus.success());
       refreshController.refreshCompleted();
     }, (error) {

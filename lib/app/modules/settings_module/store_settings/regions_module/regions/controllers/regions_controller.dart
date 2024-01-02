@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RegionsController extends GetxController {
   static RegionsController get instance => Get.find<RegionsController>();
-  RegionsController({required this.regionsRepo});
-  final RegionsRepo regionsRepo;
-  final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  RegionsController(this.regionsUseCase);
+  final RegionsUseCase regionsUseCase;
+  final PagingController<int, Region> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   final refreshController = RefreshController();
   final scrollController = ScrollController();
@@ -32,7 +33,7 @@ class RegionsController extends GetxController {
   List<String> disabledCountriesIso2({Region? excludedRegion}) {
     List<String> result = [];
     pagingController.value.itemList?.forEach((region) {
-      if(excludedRegion?.name == region.name){
+      if (excludedRegion?.name == region.name) {
         return;
       }
       final countries = region.countries;
@@ -46,7 +47,7 @@ class RegionsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await regionsRepo.retrieveAll(
+    final result = await regionsUseCase(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

@@ -1,8 +1,9 @@
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'di.dart';
 
 @module
 abstract class RegisterCoreDependencies {
@@ -12,8 +13,12 @@ abstract class RegisterCoreDependencies {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
-  @singleton
-  final MedusaAdmin medusaAdmin = MedusaAdmin.initialize(
-    config: MedusaConfig(baseUrl: 'https://medusa-j2t9.onrender.com/admin'),
-  );
+  @preResolve
+  Future<PackageInfo> get packageInfo => PackageInfo.fromPlatform();
+
+  MedusaAdmin getService(StorageService storageService) =>
+      MedusaAdmin.initialize(
+        config: MedusaConfig(
+            baseUrl: StorageService.baseUrl, enableDebugging: true),
+      );
 }

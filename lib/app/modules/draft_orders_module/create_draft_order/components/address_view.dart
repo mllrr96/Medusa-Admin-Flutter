@@ -371,7 +371,7 @@ class _CreateDraftOrderAddressViewState
               billingCityCtrl.clear();
               billingProvinceCtrl.clear();
             } else {
-              controller.billingAddress = Address();
+              controller.billingAddress = const Address();
               controller.sameAddress = false;
             }
             controller.update();

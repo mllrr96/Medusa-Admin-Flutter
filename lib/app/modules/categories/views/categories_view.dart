@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin/domain/use_case/categories_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
@@ -18,7 +18,7 @@ class CategoriesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CategoriesController>(
-        init: CategoriesController(categoryRepo: getIt<MedusaAdmin>().productCategoryRepository),
+        init: CategoriesController(categoriesUseCase: CategoriesUseCase.instance),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

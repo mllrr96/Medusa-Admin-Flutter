@@ -98,7 +98,7 @@ class ProductThumbnail extends StatelessWidget {
       builder: (controller) {
         return HeaderCard(
           controller: controller.thumbnailTileCtrl,
-          title: Text('Thumbnail'),
+          title: const Text('Thumbnail'),
           onExpansionChanged: onExpansionChanged,
           child: Column(
             children: [

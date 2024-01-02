@@ -8,14 +8,10 @@ import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/sales_channel_details_use_case.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../../../../core/utils/colors.dart';
-import '../../../../../../data/models/store/product.dart';
-import '../../../../../../data/models/store/sales_channel.dart';
-import '../../../../../../data/repository/collection/collection_repo.dart';
-import '../../../../../../data/repository/product/products_repo.dart';
-import '../../../../../../data/repository/product_tag/product_tag_repo.dart';
-import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../../../../../components/pick_products/views/pick_products_view.dart';
 import '../../../../../products_module/products/components/products_filter_view.dart';
 import '../components/index.dart';
@@ -33,10 +29,7 @@ class SalesChannelDetailsView extends StatelessWidget {
 
     return GetBuilder<SalesChannelDetailsController>(
       init: SalesChannelDetailsController(
-        salesChannelRepo: SalesChannelRepo(),
-        productsRepo: ProductsRepo(),
-        collectionRepo: CollectionRepo(),
-        productTagRepo: ProductTagRepo(),
+        salesChannelDetailsUseCase: SalesChannelDetailsUseCase.instance,
         salesChannel: salesChannel,
       ),
       builder: (controller) {
@@ -91,7 +84,8 @@ class SalesChannelDetailsView extends StatelessWidget {
                                       await showBarModalBottomSheet<
                                               ProductFilter>(
                                           context: context,
-                                          overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                          overlayStyle: context.theme
+                                              .appBarTheme.systemOverlayStyle,
                                           builder: (context) =>
                                               ProductsFilterView(
                                                 onResetPressed: () {
@@ -178,7 +172,8 @@ class SalesChannelDetailsView extends StatelessWidget {
                         case 1:
                           final result = await showBarModalBottomSheet(
                             context: context,
-                            overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                            overlayStyle:
+                                context.theme.appBarTheme.systemOverlayStyle,
                             builder: (context) => PickProductsView(
                               pickProductsReq: PickProductsReq(
                                 disabledProducts:
@@ -235,7 +230,8 @@ class SalesChannelDetailsView extends StatelessWidget {
                           onPressed: () async {
                             final result = await showBarModalBottomSheet(
                                 context: context,
-                                overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                overlayStyle: context
+                                    .theme.appBarTheme.systemOverlayStyle,
                                 builder: (context) => PickProductsView(
                                         pickProductsReq: PickProductsReq(
                                       disabledProducts:

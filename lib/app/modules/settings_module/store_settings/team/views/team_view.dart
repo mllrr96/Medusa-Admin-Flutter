@@ -4,8 +4,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin/domain/use_case/team_use_case.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
@@ -26,10 +25,10 @@ class TeamView extends StatelessWidget {
     const kDuration = Duration(milliseconds: 200);
     final lightWhite = ColorManager.manatee;
     return GetBuilder<TeamController>(
-        init: TeamController(userRepo: getIt<MedusaAdmin>().userRepository),
+        init: TeamController(teamUseCase: TeamUseCase.instance),
         builder: (teamController) {
           return GetBuilder<InviteController>(
-              init: InviteController(inviteRepo: getIt<MedusaAdmin>().inviteRepository),
+              init: InviteController(teamUseCase: TeamUseCase.instance),
               builder: (inviteController) {
                 return Scaffold(
                   appBar: AppBar(

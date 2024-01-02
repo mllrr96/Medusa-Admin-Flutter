@@ -16,13 +16,13 @@ class OrderSettingsController extends GetxController {
     email: 'Medusa@js.com',
     regionId: '',
     currencyCode: 'usd',
-    customer: Customer(email: 'Medusa@js.com', firstName: 'Medusa', lastName: 'Js'),
+    customer: const Customer(email: 'Medusa@js.com', firstName: 'Medusa', lastName: 'Js'),
     total: 12345,
-    shippingAddress: Address(countryCode: 'us'),
+    shippingAddress: const Address(countryCode: 'us'),
     cart: Cart(
       createdAt: DateTime.now(),
     ),
-    currency: Currency(
+    currency: const Currency(
       name: 'US Dollars',
       symbol: '\$',
       symbolNative: '\$',

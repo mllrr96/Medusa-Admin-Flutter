@@ -37,7 +37,7 @@ class ProductListTile extends StatelessWidget {
           children: [
             _getStatusIcon(product.status),
             const SizedBox(width: 4.0),
-            Text(product.status.name.capitalize ?? product.status.name,
+            Text(product.status.name.capitalize,
                 style: context.bodySmall),
           ],
         ),

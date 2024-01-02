@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -29,8 +30,7 @@ class TaxSettingsView extends StatelessWidget {
     return GetBuilder<TaxSettingsController>(
       init: TaxSettingsController(
         region: region,
-        storeRepo: StoreRepo(),
-        taxRateRepo: TaxRateRepo(),
+        taxSettingsUseCase: TaxSettingsUseCase.instance,
       ),
       builder: (controller) {
         return Scaffold(
@@ -242,43 +242,42 @@ class TaxSettingsView extends StatelessWidget {
                   separatorBuilder: (_, __) => const Gap(6.0),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<TaxRate>(
-                      itemBuilder: (context, taxRate, index) => TaxRateCard(
-                            taxRate: taxRate,
-                            onEditTap: () async {
-                              final result =
-                                  await context.pushRoute(AddUpdateTaxRateRoute(
-                                addUpdateTaxRateReq: AddUpdateTaxRateReq(
-                                    regionId: controller.region.id!,
-                                    taxRate: taxRate),
-                              ));
-                              if (result is bool) {
-                                controller.pagingController.refresh();
-                              }
-                            },
-                            onDeleteTap: () async => await controller
-                                .deleteTaxRate(taxRate.id!, context),
-                          ),
-                      firstPageProgressIndicatorBuilder: (context) => Column(
-                            children: [
-                              TaxRateCard(
-                                  taxRate: TaxRate(
-                                      name: 'Default', rate: 0.0, code: '-'),
-                                  shimmer: true),
-                              const Gap(6.0),
-                              TaxRateCard(
-                                  taxRate: TaxRate(
-                                      name: 'Default', rate: 0.0, code: '-'),
-                                  shimmer: true),
-                            ],
-                          ),
-                      noItemsFoundIndicatorBuilder: (_) => Column(
-                        children: [
-                          TaxRateCard(
-                              taxRate:
-                                  TaxRate(name: 'Default', rate: 0.0, code: '-')),
-                        ],
-                      ),
-
+                    itemBuilder: (context, taxRate, index) => TaxRateCard(
+                      taxRate: taxRate,
+                      onEditTap: () async {
+                        final result =
+                            await context.pushRoute(AddUpdateTaxRateRoute(
+                          addUpdateTaxRateReq: AddUpdateTaxRateReq(
+                              regionId: controller.region.id!,
+                              taxRate: taxRate),
+                        ));
+                        if (result is bool) {
+                          controller.pagingController.refresh();
+                        }
+                      },
+                      onDeleteTap: () async =>
+                          await controller.deleteTaxRate(taxRate.id!, context),
+                    ),
+                    firstPageProgressIndicatorBuilder: (context) => const Column(
+                      children: [
+                        TaxRateCard(
+                            taxRate:
+                                TaxRate(name: 'Default', rate: 0.0, code: '-'),
+                            shimmer: true),
+                        Gap(6.0),
+                        TaxRateCard(
+                            taxRate:
+                                TaxRate(name: 'Default', rate: 0.0, code: '-'),
+                            shimmer: true),
+                      ],
+                    ),
+                    noItemsFoundIndicatorBuilder: (_) => const Column(
+                      children: [
+                        TaxRateCard(
+                            taxRate:
+                                TaxRate(name: 'Default', rate: 0.0, code: '-')),
+                      ],
+                    ),
                   ),
                 ),
               ),

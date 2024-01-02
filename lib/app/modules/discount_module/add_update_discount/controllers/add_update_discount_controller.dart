@@ -9,9 +9,9 @@ import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/update_discount_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-
 class AddUpdateDiscountController extends GetxController {
-  AddUpdateDiscountController({required this.updateDiscountUseCase,this.discount });
+  AddUpdateDiscountController(
+      {required this.updateDiscountUseCase, this.discount});
   final UpdateDiscountUseCase updateDiscountUseCase;
   DiscountRuleType discountRuleType = DiscountRuleType.percentage;
   AllocationType allocationType = AllocationType.total;
@@ -23,7 +23,7 @@ class AddUpdateDiscountController extends GetxController {
   List<DiscountCondition> discountConditions = <DiscountCondition>[];
   DateTime? startDate;
   DateTime? endDate;
-  final Discount? discount ;
+  final Discount? discount;
   bool get updateMode => discount != null;
   final codeCtrl = TextEditingController();
   final amountCtrl = TextEditingController();
@@ -31,7 +31,8 @@ class AddUpdateDiscountController extends GetxController {
   final descriptionCtrl = TextEditingController();
   final limitCtrl = TextEditingController();
   final regionCtrl = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  final generalFormKey = GlobalKey<FormState>();
+  final configFormKey = GlobalKey<FormState>();
   Discount? _loadedDiscount;
   List<Region> selectedRegions = <Region>[];
   late ScrollController scrollController;
@@ -74,7 +75,10 @@ class AddUpdateDiscountController extends GetxController {
       case DiscountRuleType.fixed:
         this.allocationType = allocationType!;
         if (selectedRegions.isNotEmpty) {
-          amountCtrl.text = discount?.rule?.value.formatAsPrice(selectedRegions.first.currencyCode, includeSymbol: false) ?? '';
+          amountCtrl.text = discount?.rule?.value.formatAsPrice(
+                  selectedRegions.first.currencyCode,
+                  includeSymbol: false) ??
+              '';
         } else {
           amountCtrl.text = discount!.rule?.value.toString() ?? '';
         }
@@ -108,12 +112,16 @@ class AddUpdateDiscountController extends GetxController {
   }
 
   Future<void> createDiscount(BuildContext context) async {
-    if (!formKey.currentState!.validate()) {
-      if (!generalTileController.isExpanded) {
-        generalTileController.expand();
-      }
+    if (!generalFormKey.currentState!.validate()) {
+      generalTileController.expand();
       return;
     }
+
+    if (!configFormKey.currentState!.validate()) {
+      configTileController.expand();
+      return;
+    }
+
     context.unfocus();
     loading();
     final value = discountRuleType == DiscountRuleType.percentage
@@ -129,8 +137,7 @@ class AddUpdateDiscountController extends GetxController {
         type: discountRuleType,
         conditions: discountConditions.isNotEmpty ? discountConditions : null,
         description: descriptionCtrl.text,
-        value:
-            discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
+        value: discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
         allocation: discountRuleType == DiscountRuleType.fixed
             ? allocationType
             : AllocationType.total,
@@ -138,8 +145,8 @@ class AddUpdateDiscountController extends GetxController {
       regionsIds: selectedRegions.map((e) => e.id!).toList(),
     );
 
-    final result =
-        await updateDiscountUseCase.createDiscount(userCreateDiscountReq: discount);
+    final result = await updateDiscountUseCase.createDiscount(
+        userCreateDiscountReq: discount);
 
     result.when((success) {
       context.popRoute(true);
@@ -151,8 +158,8 @@ class AddUpdateDiscountController extends GetxController {
   }
 
   Future<void> updateDiscount(BuildContext context) async {
-    if (!formKey.currentState!.validate()) {
-        generalTileController.expand();
+    if (!generalFormKey.currentState!.validate()) {
+      generalTileController.expand();
       return;
     }
 
@@ -175,8 +182,8 @@ class AddUpdateDiscountController extends GetxController {
       rule: DiscountRule(
         id: _loadedDiscount!.ruleId,
         description: descriptionCtrl.text,
-        value:
-            discountRuleType == DiscountRuleType.freeShipping ? 0 : value, type: null,
+        value: discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
+        type: null,
       ),
       regionsIds: selectedRegions.map((e) => e.id!).toList(),
     );
@@ -206,10 +213,11 @@ class AddUpdateDiscountController extends GetxController {
       rule: DiscountRule(
         id: _loadedDiscount!.ruleId,
         description: descriptionCtrl.text,
-        value:
-            discountRuleType == DiscountRuleType.freeShipping ? 0 : value, type: null,
+        value: discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
+        type: null,
       ),
-      regions: selectedRegions.map((e) => e).toList(), isDynamic: null,
+      regions: selectedRegions.map((e) => e).toList(),
+      isDynamic: null,
     );
     if (a.startsAt == b.startsAt &&
         a.endsAt == b.endsAt &&

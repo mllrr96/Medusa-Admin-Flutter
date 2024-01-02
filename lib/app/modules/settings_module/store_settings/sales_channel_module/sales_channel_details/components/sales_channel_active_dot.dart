@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SalesChannelActiveDot extends StatelessWidget {
-  const SalesChannelActiveDot(this.disabled,{Key? key}) : super(key: key);
+  const SalesChannelActiveDot(this.disabled,{super.key});
   final bool disabled;
   @override
   Widget build(BuildContext context) {

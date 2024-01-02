@@ -18,7 +18,7 @@ class CustomGiftCardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final isDisabled = giftCard.isDisabled ?? false;
+    final isDisabled = giftCard.isDisabled;
 
     return ListTile(
       onTap: () {

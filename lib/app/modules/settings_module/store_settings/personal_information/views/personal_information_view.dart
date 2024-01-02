@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/personal_information/components/personal_info_tile.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/domain/use_case/personal_info_use_case.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../../../data/models/store/user.dart';
-import '../../../../../data/repository/auth/auth_repo.dart';
-import '../../../../../data/repository/user/user_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../components/adaptive_back_button.dart';
 import '../../../../components/custom_text_field.dart';
 import '../controllers/personal_information_controller.dart';
@@ -115,8 +114,7 @@ class PersonalInformationView extends StatelessWidget {
     }
 
     return GetBuilder<PersonalInformationController>(
-        init: PersonalInformationController(
-            userRepo: UserRepo(), authRepo: AuthRepo()),
+        init: PersonalInformationController(PersonalInfoUseCase.instance),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
@@ -142,7 +140,7 @@ class PersonalInformationView extends StatelessWidget {
                     await updatePersonalInformation(user!, controller),
               ),
               onError: (e) => Center(child: Text(e ?? 'Error loading user')),
-              onLoading: Skeletonizer(
+              onLoading: const Skeletonizer(
                   enabled: true,
                   child: PersonalInfoTile(User(
                       email: 'admin@medusa-test.com',

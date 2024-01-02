@@ -7,7 +7,8 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/domain/use_case/region_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
@@ -15,8 +16,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/utils/colors.dart';
-import '../../../../../../data/repository/regions/regions_repo.dart';
-import '../../../../../../data/repository/shipping_options/shipping_options_repo.dart';
 import '../../add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import '../components/index.dart';
 import '../controllers/region_details_controller.dart';
@@ -107,8 +106,7 @@ class RegionDetailsView extends StatelessWidget {
 
     return GetBuilder<RegionDetailsController>(
         init: RegionDetailsController(
-          regionsRepo: RegionsRepo(),
-          shippingOptionsRepo: ShippingOptionsRepo(),
+          regionDetailsUseCase: RegionDetailsUseCase.instance,
           regionId: regionId,
         ),
         builder: (controller) {
@@ -321,7 +319,7 @@ class RegionDetailsView extends StatelessWidget {
                                                         ShippingOptionPriceType
                                                             .calculated,
                                                     amount: 1200,
-                                                    region: Region(
+                                                    region: const Region(
                                                         name: 'Test',
                                                         currencyCode: 'USD',
                                                         taxRate: 1000),
@@ -330,11 +328,13 @@ class RegionDetailsView extends StatelessWidget {
                                                         type: RequirementType
                                                             .minSubtotal,
                                                         amount: 1200,
+                                                        shippingOptionId: null,
                                                       ),
                                                       ShippingOptionRequirement(
                                                         type: RequirementType
                                                             .maxSubtotal,
                                                         amount: 2200,
+                                                        shippingOptionId: null,
                                                       ),
                                                     ]),
                                               ),
@@ -442,7 +442,7 @@ class RegionDetailsView extends StatelessWidget {
                                                         ShippingOptionPriceType
                                                             .calculated,
                                                     amount: 1200,
-                                                    region: Region(
+                                                    region: const Region(
                                                         name: 'Test',
                                                         currencyCode: 'USD',
                                                         taxRate: 1000),
@@ -451,11 +451,13 @@ class RegionDetailsView extends StatelessWidget {
                                                         type: RequirementType
                                                             .minSubtotal,
                                                         amount: 1200,
+                                                        shippingOptionId: null,
                                                       ),
                                                       ShippingOptionRequirement(
                                                         type: RequirementType
                                                             .maxSubtotal,
                                                         amount: 2200,
+                                                        shippingOptionId: null,
                                                       ),
                                                     ]),
                                               ),
@@ -481,7 +483,9 @@ class RegionDetailsView extends StatelessWidget {
                                                                     snapshot
                                                                         .data![
                                                                             index]
-                                                                        .id!, returnShippingOption: true),
+                                                                        .id!,
+                                                                    returnShippingOption:
+                                                                        true),
                                                         onEditTap: () =>
                                                             context.pushRoute(
                                                                 AddUpdateShippingOptionRoute(

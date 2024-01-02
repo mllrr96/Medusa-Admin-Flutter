@@ -28,7 +28,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    timeLineFuture = fetchTimeLine();
+    // timeLineFuture = fetchTimeLine();
     super.onInit();
   }
 
@@ -58,8 +58,8 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
 
     result.when(
-      (success) {
-        change(success, status: RxStatus.success());
+      (order) {
+        change(order, status: RxStatus.success());
         refreshController.refreshCompleted();
         update();
       },

@@ -1,9 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -23,7 +22,7 @@ class StoreDetailsView extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     return GetBuilder<StoreDetailsController>(
-        init: StoreDetailsController(storeRepo: StoreRepo()),
+        init: StoreDetailsController(updateStoreUseCase: UpdateStoreUseCase.instance),
         builder: (controller) {
           return GestureDetector(
             onTap: () => context.unfocus(),

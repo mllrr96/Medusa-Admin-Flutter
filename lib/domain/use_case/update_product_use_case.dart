@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin/di/di.dart';

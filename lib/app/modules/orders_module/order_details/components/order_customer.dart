@@ -113,7 +113,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   children: [
                     CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(order.email),
-                        child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email![0].toUpperCase(),
+                        child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email?[0].toUpperCase() ?? '',
                             style: largeTextStyle?.copyWith(color: Colors.white))),
                     const SizedBox(width: 14.0),
                     Flexible(

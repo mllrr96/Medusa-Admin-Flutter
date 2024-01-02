@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/controllers/sales_channel_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-
-import '../../../../../../data/models/store/product.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ProductCheckboxListTile extends GetView<SalesChannelDetailsController> {

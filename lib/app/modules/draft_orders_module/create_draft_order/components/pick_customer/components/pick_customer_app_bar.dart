@@ -8,7 +8,7 @@ import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/adaptive_icon.dart';
 
 class PickCustomerAppBar extends StatefulWidget {
-  const PickCustomerAppBar({Key? key, required this.searchCtrl, this.onChanged, this.searchFocusNode}) : super(key: key);
+  const PickCustomerAppBar({super.key, required this.searchCtrl, this.onChanged, this.searchFocusNode});
   final TextEditingController searchCtrl;
   final void Function(String)? onChanged;
   final FocusNode? searchFocusNode;

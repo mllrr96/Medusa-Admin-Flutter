@@ -54,7 +54,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
                           onTap: (val) {
                             if (controller.discountRuleType != val) {
                               controller.discountRuleType = val;
-                              controller.formKey.currentState!.reset();
+                              controller.generalFormKey.currentState!.reset();
                             }
                             if (val == DiscountRuleType.fixed &&
                                 controller.selectedRegions.length > 1) {

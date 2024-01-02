@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -20,7 +21,7 @@ class TaxSettingsSelectRegionView extends StatelessWidget {
     final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GetBuilder<TaxSettingsSelectRegionController>(
-        init: TaxSettingsSelectRegionController(regionsRepo: RegionsRepo()),
+        init: TaxSettingsSelectRegionController(taxSettingsUseCase: TaxSettingsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

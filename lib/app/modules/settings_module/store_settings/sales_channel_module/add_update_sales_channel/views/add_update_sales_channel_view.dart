@@ -1,14 +1,13 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/domain/use_case/update_sales_channel_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
-import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../controllers/add_update_sales_channel_controller.dart';
 
 @RoutePage()
@@ -20,7 +19,7 @@ class AddUpdateSalesChannelView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AddUpdateSalesChannelController>(
       init: AddUpdateSalesChannelController(
-          salesChannelRepo: SalesChannelRepo(), salesChannel: salesChannel),
+          updateSalesChannelUseCase: UpdateSalesChannelUseCase.instance, salesChannel: salesChannel),
       builder: (controller) {
         final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
         return GestureDetector(
@@ -62,7 +61,7 @@ class AddUpdateSalesChannelView extends StatelessWidget {
                   children: [
                     HeaderCard(
                       initiallyExpanded: true,
-                      title: Text('General info'),
+                      title: const Text('General info'),
                       child: Column(
                         children: [
                           LabeledTextField(

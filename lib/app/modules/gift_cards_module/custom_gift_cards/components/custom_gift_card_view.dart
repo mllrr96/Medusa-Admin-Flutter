@@ -18,7 +18,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final isDisabled = giftCard.isDisabled ?? false;
+    final isDisabled = giftCard.isDisabled;
     final bottomPadding =
         MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
     return Container(

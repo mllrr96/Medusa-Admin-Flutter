@@ -2,20 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/store_post_req.dart';
-import 'package:medusa_admin/app/data/repository/currency/currency_repo.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
-import '../../../../../data/models/store/currency.dart';
-
 class CurrenciesController extends GetxController {
-  CurrenciesController({required this.currencyRepo, required this.storeRepo});
-  final CurrencyRepo currencyRepo;
-  final StoreRepo storeRepo;
+  CurrenciesController({required this.updateStoreUseCase});
+  // final CurrencyRepo currencyRepo;
+  final UpdateStoreUseCase updateStoreUseCase;
   List<Currency> currencies = [];
-  Currency defaultStoreCurrency = Currency();
+  Currency defaultStoreCurrency = const Currency();
 
   @override
   Future<void> onInit() async {
@@ -42,8 +39,8 @@ class CurrenciesController extends GetxController {
     }
 
     loading();
-    final result = await storeRepo.update(
-        storePostReq: StorePostReq(defaultCurrencyCode: defaultStoreCurrency.code!, currencies: currenciesIsoCode));
+    final result = await updateStoreUseCase(
+        StorePostReq(defaultCurrencyCode: defaultStoreCurrency.code!, currencies: currenciesIsoCode));
     result.when((success) async {
       await StoreService.instance.loadStore();
       EasyLoading.showSuccess('Currencies updated').then((value) => context.popRoute());

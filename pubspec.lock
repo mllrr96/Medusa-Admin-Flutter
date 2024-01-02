@@ -874,10 +874,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "3858c57a951a3a8afb9094fcf3832bd5002e4247"
+      resolved-ref: "737badf9772bd31bfa75546ae4e20c9e62e26da7"
       url: "https://github.com/mllrr96/Medusa_Admin_API_Flutter.git"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   meta:
     dependency: transitive
     description:

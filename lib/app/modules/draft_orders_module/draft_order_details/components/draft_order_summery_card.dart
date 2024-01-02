@@ -5,10 +5,10 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 class DraftOrderSummeryCard extends StatelessWidget {
   const DraftOrderSummeryCard({
-    Key? key,
+    super.key,
     required this.item,
     required this.currencyCode,
-  }) : super(key: key);
+  });
   final LineItem item;
   final String currencyCode;
   @override

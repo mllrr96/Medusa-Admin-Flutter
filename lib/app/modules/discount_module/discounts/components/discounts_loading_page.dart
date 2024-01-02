@@ -9,7 +9,7 @@ class DiscountsLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final discount = Discount(
+    const discount = Discount(
         code: 'MEDUSA',
         rule: DiscountRule(
           description: '10% off on all products',
@@ -20,7 +20,7 @@ class DiscountsLoadingPage extends StatelessWidget {
       children: List.generate(
           10,
           (index) =>
-              index.isEven? Skeletonizer(enabled: true, child: DiscountCard(discount)): const Gap(12.0),),
+              index.isEven? const Skeletonizer(enabled: true, child: DiscountCard(discount)): const Gap(12.0),),
     );
   }
 }

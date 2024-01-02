@@ -4,12 +4,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/api_key_module/api_key_management/controllers/api_key_management_controller.dart';
-import '../../../../../../data/models/store/publishable_api_key.dart';
-import '../../../../../../data/repository/publishable_api_key/publishable_api_key_repo.dart';
+import 'package:medusa_admin/domain/use_case/api_key_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class AddUpdateApiKeyController extends GetxController {
-  AddUpdateApiKeyController({required this.publishableApiKeyRepo, required this.publishableApiKey});
-  final PublishableApiKeyRepo publishableApiKeyRepo;
+  AddUpdateApiKeyController(
+      {required this.apiKeyUseCase, required this.publishableApiKey});
+  final ApiKeyUseCase apiKeyUseCase;
   final PublishableApiKey? publishableApiKey;
   bool get updateMode => publishableApiKey != null;
   final titleCtrl = TextEditingController();
@@ -35,13 +36,14 @@ class AddUpdateApiKeyController extends GetxController {
       return;
     }
     loading();
-    final result = await publishableApiKeyRepo.createPublishableApiKey(title: titleCtrl.text);
+    final result = await apiKeyUseCase.create(titleCtrl.text);
     result.when((success) {
       EasyLoading.showSuccess('Api key created');
       ApiKeyManagementController.instance.pagingController.refresh();
       context.popRoute();
     }, (error) {
-      Get.snackbar('Error creating api key ${error.code ?? ''}', error.message, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error creating api key ${error.code ?? ''}', error.message,
+          snackPosition: SnackPosition.BOTTOM);
     });
     dismissLoading();
   }
