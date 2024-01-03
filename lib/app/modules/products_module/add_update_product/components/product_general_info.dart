@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../components/custom_text_field.dart';
 import '../controllers/add_update_product_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductGeneralInformation extends GetView<AddUpdateProductController> {
   const ProductGeneralInformation({
@@ -26,7 +26,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
     return GetBuilder<AddUpdateProductController>(
       id: 0,
       builder: (logic) {
-        return HeaderCard(
+        return FlexExpansionTile(
           controller: controller.generalTileCtrl,
           title: const Text('General Information'),
           maintainState: true,

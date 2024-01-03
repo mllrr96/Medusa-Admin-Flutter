@@ -11,9 +11,9 @@ import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.d
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../components/header_card.dart';
 import 'orders_filter_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrdersFilterView extends StatefulWidget {
   const OrdersFilterView({
@@ -157,7 +157,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                   child: Column(
                   children: [
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: statusKey,
                         title: const Text('Status'),
                         initiallyExpanded: orderFilter.status.isNotEmpty,
@@ -170,7 +170,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           children: OrderStatus.values
                               .map((e) => CheckboxListTile(
                                   title:
-                                      Text(e.name, style: smallTextStyle),
+                                      Text(e.toString(), style: smallTextStyle),
                                   value: orderFilter.status.contains(e),
                                   controlAffinity:
                                       ListTileControlAffinity.leading,
@@ -190,7 +190,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         ),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: paymentStatusKey,
                         initiallyExpanded:
                             orderFilter.paymentStatus.isNotEmpty,
@@ -205,7 +205,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           children: PaymentStatus.values
                               .map((e) => CheckboxListTile(
                                   title:
-                                      Text(e.name, style: smallTextStyle),
+                                      Text(e.toString(), style: smallTextStyle),
                                   value:
                                       orderFilter.paymentStatus.contains(e),
                                   controlAffinity:
@@ -226,7 +226,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         ),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: fulfillmentStatusKey,
                         initiallyExpanded:
                             orderFilter.fulfillmentStatus.isNotEmpty,
@@ -241,7 +241,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           children: FulfillmentStatus.values
                               .map((e) => CheckboxListTile(
                                   title:
-                                      Text(e.name, style: smallTextStyle),
+                                      Text(e.toString(), style: smallTextStyle),
                                   value: orderFilter.fulfillmentStatus
                                       .contains(e),
                                   controlAffinity:
@@ -262,7 +262,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         ),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: regionsKey,
                         initiallyExpanded: orderFilter.regions.isNotEmpty,
                         onExpansionChanged: (expanded) async {
@@ -299,7 +299,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         ]),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: salesChannelKey,
                         initiallyExpanded:
                             orderFilter.salesChannel.isNotEmpty,
@@ -337,7 +337,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         ]),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: dateKey,
                         initiallyExpanded: orderFilter.orderDateFilter.active,
                         onExpansionChanged: (expanded) async {
@@ -526,27 +526,27 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                   enabled: true,
                   child: Column(
                     children: [
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: Text('Status'),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: Text('Payment Status'),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: Text('Fulfillment Status'),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: Text('Regions'),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: Text('Sales Channel'),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: Text('Date'),
                         leading: Icon(Icons.check_box_outline_blank),
                       ),

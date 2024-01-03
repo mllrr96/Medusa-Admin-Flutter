@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'products_filter_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductsFilterView extends StatefulWidget {
   const ProductsFilterView({
@@ -77,9 +77,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
       body: SmartRefresher(
         controller: controller.refreshController,
         onRefresh: () async => await controller.loadData(),
-        header: GetPlatform.isIOS
-            ? const ClassicHeader(completeText: '')
-            : const MaterialClassicHeader(),
+        header: const MaterialClassicHeader(),
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
           children: [
@@ -88,7 +86,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
               final tags = state?.$2;
               return Column(
                 children: [
-                  HeaderCard(
+                  FlexExpansionTile(
                     key: statusKey,
                     title: const Text('Status'),
                     initiallyExpanded: productFilter.status.isNotEmpty,
@@ -122,7 +120,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                     ),
                   ),
                   space,
-                  HeaderCard(
+                  FlexExpansionTile(
                     key: collectionKey,
                     title: const Text('Collections'),
                     initiallyExpanded: productFilter.collection.isNotEmpty,
@@ -158,7 +156,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                     ),
                   ),
                   space,
-                  HeaderCard(
+                  FlexExpansionTile(
                     key: tagsKey,
                     title: const Text('Tags'),
                     initiallyExpanded: productFilter.tags.isNotEmpty,
@@ -201,15 +199,15 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                 enabled: true,
                 child: Column(
                   children: [
-                    HeaderCard(
+                    FlexExpansionTile(
                       title: Text('Status'),
                     ),
                     space,
-                    HeaderCard(
+                    FlexExpansionTile(
                       title: Text('Collections'),
                     ),
                     space,
-                    HeaderCard(
+                    FlexExpansionTile(
                       title:
                       Text('Tags'),
                     ),

@@ -3,7 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/pricing_module/add_update_price_list/components/product_price_list.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
@@ -34,7 +33,7 @@ class _PriceListAddProductsState extends State<PriceListAddProducts> {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-        leading: const AdaptiveCloseButton(),
+        leading: const CloseButton(),
         title: const Text('Add Products'),
         actions: [
           TextButton(

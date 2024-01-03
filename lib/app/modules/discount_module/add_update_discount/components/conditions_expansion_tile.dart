@@ -1,15 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'dart:io';
-import '../../../components/adaptive_button.dart';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../controllers/add_update_discount_controller.dart';
@@ -26,7 +25,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
     return GetBuilder<AddUpdateDiscountController>(
         id: 3,
         builder: (controller) {
-          return HeaderCard(
+          return FlexExpansionTile(
             key: controller.conditionsKey,
             maintainState: true,
             onExpansionChanged: (expanded) async {
@@ -64,7 +63,7 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
                         );
                       }),
                 if (controller.discountConditions.length < 5)
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: () async {
                         final result = await context.pushRoute(
                             DiscountConditionsRoute(

@@ -6,8 +6,6 @@ import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../components/adaptive_button.dart';
-import '../../../components/adaptive_close_button.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 
@@ -50,10 +48,10 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: const Text('Add Custom Item'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: () {
                         if (!formKey.currentState!.validate()) {
                           return;

@@ -8,9 +8,6 @@ import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medusa_admin/app/data/service/language_service.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
@@ -80,10 +77,8 @@ class _SignInViewState extends State<SignInView> {
                                         : Alignment.topLeft,
                                     child: Hero(
                                       tag: 'closeReset',
-                                      child: AdaptiveIcon(
-                                        iosPadding: const EdgeInsets.all(16.0),
-                                        androidPadding:
-                                            const EdgeInsets.all(16.0),
+                                      child: IconButton(
+                                        padding: const EdgeInsets.all(16.0),
                                         onPressed: () async =>
                                             await controller.changeThemeMode(),
                                         icon: Icon(themeIcon(
@@ -100,7 +95,7 @@ class _SignInViewState extends State<SignInView> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 4.0),
-                                  child: AdaptiveButton(
+                                  child: TextButton(
                                     onPressed: () async =>
                                         await showBarModalBottomSheet(
                                       backgroundColor:
@@ -293,7 +288,7 @@ class _SignInViewState extends State<SignInView> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: AdaptiveButton(
+                            child: TextButton(
                               onPressed: () async {
                                 await showBarModalBottomSheet(
                                     context: context,
@@ -354,7 +349,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Update url'),
               actions: [
                 TextButton(

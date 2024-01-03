@@ -5,8 +5,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../components/adaptive_close_button.dart';
-import '../../../components/adaptive_icon.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 import 'package:flutter/services.dart';
 
@@ -27,10 +25,10 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: const Text('Custom Gift Card Details'),
             actions: [
-              AdaptiveIcon(
+              IconButton(
                   onPressed: () async {
                     await showModalActionSheet<int>(
                         title: 'Manage Custom Gift Card',

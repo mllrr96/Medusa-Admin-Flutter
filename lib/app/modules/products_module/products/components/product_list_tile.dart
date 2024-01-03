@@ -7,7 +7,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../components/adaptive_icon.dart';
 
 class ProductListTile extends StatelessWidget {
   const ProductListTile(
@@ -54,7 +53,7 @@ class ProductListTile extends StatelessWidget {
                       color: Colors.redAccent),
                 ))
             : Container(width: 45, height: double.maxFinite, color: ColorManager.manatee,child: const Icon(Icons.image),),
-        trailing: AdaptiveIcon(
+        trailing: IconButton(
           onPressed: () async {
             await showModalActionSheet<int>(
                 title: 'Manage Product',
@@ -95,7 +94,7 @@ class ProductListTile extends StatelessWidget {
           icon: const Icon(Icons.more_horiz),
         )
 
-        // AdaptiveIcon(
+        // IconButton(
         //     onPressed: () async {
         //       await showModalActionSheet(context: context, actions: <SheetAction>[
         //         const SheetAction(label: 'Edit'),

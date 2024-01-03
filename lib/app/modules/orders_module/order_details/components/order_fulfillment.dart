@@ -2,14 +2,13 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrderFulfillment extends GetView<OrderDetailsController> {
   const OrderFulfillment(this.order, {super.key, this.onExpansionChanged});
@@ -21,7 +20,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
-    return HeaderCard(
+    return FlexExpansionTile(
       key: controller.fulfillmentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
@@ -94,7 +93,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                   ),
                   trailing: canceled || shipped
                       ? null
-                      : AdaptiveIcon(
+                      : IconButton(
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             context: context,

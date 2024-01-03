@@ -1,12 +1,12 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'index.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrderTimeline extends StatelessWidget {
   const OrderTimeline(this.order, {super.key, this.onExpansionChanged});
@@ -19,7 +19,7 @@ class OrderTimeline extends StatelessWidget {
     return GetBuilder<OrderDetailsController>(
       id: 5,
       builder: (controller) {
-        return HeaderCard(
+        return FlexExpansionTile(
           key: controller.timelineKey,
           onExpansionChanged: onExpansionChanged,
           controlAffinity: ListTileControlAffinity.leading,

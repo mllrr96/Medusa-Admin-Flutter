@@ -2,11 +2,11 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_order_details/controllers/draft_order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
   const DraftOrderPayment(this.draftOrder, {super.key, this.onExpansionChanged});
@@ -22,7 +22,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
     final largeTextStyle = context.bodyLarge;
     final currencyCode = draftOrder.cart!.region!.currencyCode;
 
-    return HeaderCard(
+    return FlexExpansionTile(
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Payment'),

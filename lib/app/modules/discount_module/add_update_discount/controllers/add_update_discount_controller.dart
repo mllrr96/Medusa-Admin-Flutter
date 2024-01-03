@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/update_discount_use_case.dart';
@@ -40,8 +40,8 @@ class AddUpdateDiscountController extends GetxController {
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
   final conditionsKey = GlobalKey();
-  final generalTileController = HeaderCardController();
-  final configTileController = HeaderCardController();
+  final generalTileController = FlexExpansionTileController();
+  final configTileController = FlexExpansionTileController();
   @override
   void onInit() {
     if (discount != null) {

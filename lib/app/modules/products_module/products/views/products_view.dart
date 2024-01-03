@@ -162,9 +162,7 @@ class ProductsView extends StatelessWidget {
               controller: controller.refreshController,
               onRefresh: () => controller.pagingController.refresh(),
               // onRefresh: () async => await controller.refreshData(),
-              header: GetPlatform.isIOS
-                  ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(offset: 100),
+              header: const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(

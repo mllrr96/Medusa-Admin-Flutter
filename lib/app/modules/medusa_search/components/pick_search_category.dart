@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/search_chip.dart';
 
 import '../../../../core/utils/enums.dart';
-import '../../components/adaptive_close_button.dart';
 
 class PickSearchCategory extends StatelessWidget {
   const PickSearchCategory({
@@ -23,7 +22,7 @@ class PickSearchCategory extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: const Text('Search for'),
           ),
           const SizedBox(height: 12.0),

@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_option.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../controllers/add_update_product_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductVariants extends StatelessWidget {
   const ProductVariants({super.key, this.onExpansionChanged});
@@ -25,7 +24,7 @@ class ProductVariants extends StatelessWidget {
     return GetBuilder<AddUpdateProductController>(
       id: 2,
       builder: (controller) {
-        return HeaderCard(
+        return FlexExpansionTile(
           controller: controller.variantTileCtrl,
           maintainState: true,
           onExpansionChanged: onExpansionChanged,
@@ -57,7 +56,7 @@ class ProductVariants extends StatelessWidget {
                     separatorBuilder: (_, __) => const SizedBox(height: 6.0),
                     itemCount: controller.product.options!.length),
               space,
-              AdaptiveButton(
+              TextButton(
                   onPressed: () async {
                     final result = await showModalBottomSheet(
                         context: context, builder: (context) => const AddOptionView(), isScrollControlled: true);
@@ -91,7 +90,7 @@ class ProductVariants extends StatelessWidget {
                     itemBuilder: (context, index) => ProductVariantCard(variant: controller.product.variants![index]),
                     separatorBuilder: (_, __) => const SizedBox(height: 6.0),
                     itemCount: controller.product.variants!.length),
-              AdaptiveButton(
+              TextButton(
                 onPressed: controller.product.options == null || controller.product.options!.isEmpty
                     ? null
                     : () async {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_order_details/components/draft_order_overview.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class DraftOrderLoadingPage extends StatelessWidget {
   const DraftOrderLoadingPage({super.key});
@@ -30,22 +30,22 @@ class DraftOrderLoadingPage extends StatelessWidget {
             children: [
               DraftOrderOverview(draftOrder),
               space,
-              const HeaderCard(
+              const FlexExpansionTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 title: Text('Summery'),
               ),
               space,
-              const HeaderCard(
+              const FlexExpansionTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 title: Text('Payment'),
               ),
               space,
-              const HeaderCard(
+              const FlexExpansionTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 title: Text('Shipping'),
               ),
               space,
-              const HeaderCard(
+              const FlexExpansionTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 title: Text('Customer'),
               ),

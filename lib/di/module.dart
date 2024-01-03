@@ -22,7 +22,7 @@ abstract class RegisterCoreDependencies {
         prefs: sharedPreferences,
         config: MedusaConfig(
           baseUrl: StorageService.baseUrl,
-          enableDebugging: true,
+          enableDebugging: false,
         ),
       );
 }

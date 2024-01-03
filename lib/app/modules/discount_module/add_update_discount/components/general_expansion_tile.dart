@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
-import '../../../components/adaptive_icon.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
@@ -29,7 +28,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
     return GetBuilder<AddUpdateDiscountController>(
       id: 1,
       builder: (controller) {
-        return HeaderCard(
+        return FlexExpansionTile(
           key: controller.generalKey,
           controller: controller.generalTileController,
           initiallyExpanded: controller.updateMode,
@@ -234,7 +233,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                     children: [
                       Text('This is a template discount',
                           style: mediumTextStyle),
-                      AdaptiveIcon(
+                      IconButton(
                           onPressed: () {
                             controller.showTemplateDiscountInfo =
                                 !controller.showTemplateDiscountInfo;

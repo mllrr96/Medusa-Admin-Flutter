@@ -8,11 +8,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-
 import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
@@ -20,6 +17,7 @@ import '../../../components/countries/view/country_view.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class ProductAddVariantView extends StatelessWidget {
@@ -68,7 +66,7 @@ class ProductAddVariantView extends StatelessWidget {
               onTap: () => context.unfocus(),
               child: Scaffold(
                 appBar: AppBar(
-                  leading: const AdaptiveCloseButton(),
+                  leading: const CloseButton(),
                   title: Text(controller.updateMode
                       ? 'Update Attributes'
                       : 'Create Variant'),
@@ -91,7 +89,7 @@ class ProductAddVariantView extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              HeaderCard(
+                              FlexExpansionTile(
                                 initiallyExpanded: true,
                                 controller: controller.generalTileCtrl,
                                 title: const Text('General'),
@@ -198,7 +196,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 ),
                               ),
                               space,
-                              HeaderCard(
+                              FlexExpansionTile(
                                 key: controller.pricingKey,
                                 onExpansionChanged: (expanded) async {
                                   if (expanded) {
@@ -330,7 +328,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 ),
                               ),
                               space,
-                              HeaderCard(
+                              FlexExpansionTile(
                                 title: const Text('Stock & Inventory'),
                                 key: controller.stockKey,
                                 onExpansionChanged: (expanded) async {
@@ -413,7 +411,7 @@ class ProductAddVariantView extends StatelessWidget {
                               space,
                             ],
                           ),
-                          HeaderCard(
+                          FlexExpansionTile(
                             title: const Text('Shipping'),
                             key: controller.shippingKey,
                             onExpansionChanged: (expanded) async {
@@ -591,7 +589,7 @@ class ProductAddVariantController extends GetxController {
   final stockKey = GlobalKey();
   final shippingKey = GlobalKey();
 
-  final generalTileCtrl = HeaderCardController();
+  final generalTileCtrl = FlexExpansionTileController();
 
   Map<int, ProductOptionValue> selectedOptionsValue = {};
   RxBool manageInventory = true.obs;

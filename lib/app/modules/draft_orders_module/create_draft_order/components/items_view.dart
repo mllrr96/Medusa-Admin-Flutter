@@ -6,7 +6,6 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/variant_list_tile.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -15,10 +14,10 @@ import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../components/adaptive_button.dart';
 import '../../../components/custom_text_field.dart';
 import 'add_custom_item_view.dart';
 import 'choose_shipping_option.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class CreateDraftOrderItemsView extends StatefulWidget {
@@ -47,7 +46,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
     return await RegionsUseCase.instance();
   }
 
-  final expansionController = HeaderCardController();
+  final expansionController = FlexExpansionTileController();
   List<LineItem> lineItems = [];
   List<LineItem> customLineItems = [];
   Region? selectedRegion;
@@ -195,7 +194,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SlidableAutoCloseBehavior(
-                  child: HeaderCard(
+                  child: FlexExpansionTile(
                     controller: expansionController,
                     childPadding: EdgeInsets.zero,
                     title: const Text('Order items'),
@@ -318,7 +317,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            AdaptiveButton(
+                            TextButton(
                                 onPressed: selectedRegion != null
                                     ? () async {
                                   final result =
@@ -344,7 +343,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                     Text('Add Custom'),
                                   ],
                                 )),
-                            AdaptiveButton(
+                            TextButton(
                               onPressed: () async => addItems(field),
                               child: const Row(
                                 children: [

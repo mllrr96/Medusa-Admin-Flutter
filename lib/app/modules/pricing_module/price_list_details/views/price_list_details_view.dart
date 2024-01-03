@@ -6,7 +6,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/price_list_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/views/pick_products_view.dart';
 import 'package:medusa_admin/app/modules/pricing_module/price_list_details/components/index.dart';
@@ -60,7 +59,6 @@ class PriceListDetailsView extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-              leading: const AdaptiveBackButton(),
               title: const Text('Price List Details'),
               actions: [
                 IconButton(

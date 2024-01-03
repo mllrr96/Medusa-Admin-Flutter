@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../../components/adaptive_button.dart';
 import '../../../../components/custom_text_field.dart';
 import '../controllers/invite_controller.dart';
 
@@ -43,8 +42,8 @@ class _InviteUserCardState extends State<InviteUserCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AdaptiveButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
-                AdaptiveButton(
+                TextButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
+                TextButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         await InviteController.instance.inviteUser(email: emailCtrl.text, role: selectedRole, context: context);

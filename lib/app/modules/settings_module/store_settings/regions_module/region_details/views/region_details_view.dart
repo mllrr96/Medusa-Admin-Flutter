@@ -9,9 +9,6 @@ import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/domain/use_case/region_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -112,12 +109,11 @@ class RegionDetailsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: Obx(() {
                 return Text(controller.regionName.value);
               }),
               actions: [
-                AdaptiveIcon(
+                IconButton(
                     icon: const Icon(Icons.more_horiz_outlined),
                     onPressed: () async {
                       await showModalActionSheet<int>(
@@ -379,7 +375,7 @@ class RegionDetailsView extends StatelessWidget {
                                       });
                                 }),
                             Center(
-                              child: AdaptiveButton(
+                              child: TextButton(
                                 onPressed: () => context
                                     .pushRoute(AddUpdateShippingOptionRoute(
                                   addUpdateShippingOptionReq:
@@ -505,7 +501,7 @@ class RegionDetailsView extends StatelessWidget {
                                       });
                                 }),
                             Center(
-                              child: AdaptiveButton(
+                              child: TextButton(
                                 onPressed: () => context
                                     .pushRoute(AddUpdateShippingOptionRoute(
                                   addUpdateShippingOptionReq:
@@ -540,7 +536,7 @@ class RegionDetailsView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(e ?? 'Error loading users', style: largeTextStyle),
-                    AdaptiveButton(
+                    TextButton(
                         onPressed: () async => controller.loadRegion(),
                         child: const Text('Retry'))
                   ],

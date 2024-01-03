@@ -2,12 +2,10 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/update_group_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../components/adaptive_button.dart';
 import '../../../components/metadata_card.dart';
 import '../controllers/create_update_group_controller.dart';
 
@@ -27,11 +25,11 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveCloseButton(),
+              leading: const CloseButton(),
               title:
                   controller.updateMode ? const Text('Update Customer Group') : const Text('Create New Customer Group'),
               actions: [
-                AdaptiveButton(
+                TextButton(
                     onPressed: () async {
                       controller.updateMode
                           ? await controller.updateCustomerGroup(context)
@@ -73,7 +71,7 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('Metadata', style: largeTextStyle),
-                              AdaptiveButton(
+                              TextButton(
                                 child: const Row(mainAxisSize: MainAxisSize.min, children: [
                                   Icon(Icons.add),
                                   Text('Add Metadata'),

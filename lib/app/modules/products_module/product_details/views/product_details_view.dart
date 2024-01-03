@@ -3,8 +3,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/product_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -25,11 +23,10 @@ class ProductDetailsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Product Details'),
               actions: [
                 controller.obx(
-                    (product) => AdaptiveButton(
+                    (product) => TextButton(
                           onPressed: () async {
                             await showOkCancelAlertDialog(
                               context: context,

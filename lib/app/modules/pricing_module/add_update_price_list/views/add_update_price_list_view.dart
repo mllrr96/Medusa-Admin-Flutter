@@ -5,9 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -16,12 +14,12 @@ import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_date_picker.dart';
-import '../../../components/adaptive_icon.dart';
 import '../../../components/date_time_card.dart';
 import '../../../components/pick_groups/controllers/pick_groups_controller.dart';
 import '../../../components/pick_products/controllers/pick_products_controller.dart';
 import '../components/index.dart';
 import '../controllers/add_update_price_list_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class AddUpdatePriceListView extends StatelessWidget {
@@ -39,7 +37,7 @@ class AddUpdatePriceListView extends StatelessWidget {
       return GetBuilder<AddUpdatePriceListController>(
         id: 0,
         builder: (controller) {
-          return HeaderCard(
+          return FlexExpansionTile(
               key: controller.priceListTypeKey,
               initiallyExpanded: true,
               onExpansionChanged: (expanded) async {
@@ -91,7 +89,7 @@ class AddUpdatePriceListView extends StatelessWidget {
       return GetBuilder<AddUpdatePriceListController>(
         id: 1,
         builder: (controller) {
-          return HeaderCard(
+          return FlexExpansionTile(
             key: controller.generalKey,
             controller: controller.generalController,
             maintainState: true,
@@ -148,7 +146,7 @@ class AddUpdatePriceListView extends StatelessWidget {
       return GetBuilder<AddUpdatePriceListController>(
         id: 2,
         builder: (controller) {
-          return HeaderCard(
+          return FlexExpansionTile(
               key: controller.configKey,
               controller: controller.configController,
               maintainState: true,
@@ -336,7 +334,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                                         true
                                     ? const Icon(
                                         Icons.keyboard_arrow_down_outlined)
-                                    : AdaptiveIcon(
+                                    : IconButton(
                                         onPressed: () {
                                           controller.priceList = controller
                                               .priceList.copyWith
@@ -367,7 +365,7 @@ class AddUpdatePriceListView extends StatelessWidget {
       return GetBuilder<AddUpdatePriceListController>(
         id: 3,
         builder: (controller) {
-          return HeaderCard(
+          return FlexExpansionTile(
             key: controller.pricesKey,
             onExpansionChanged: (expanded) async {
               if (expanded) {
@@ -530,7 +528,7 @@ class AddUpdatePriceListView extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-              leading: const AdaptiveCloseButton(),
+              leading: const CloseButton(),
               title: controller.updateMode
                   ? const Text('Update price list')
                   : const Text('Create price list'),

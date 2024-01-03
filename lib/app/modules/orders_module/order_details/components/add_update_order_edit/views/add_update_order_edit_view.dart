@@ -8,13 +8,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/order_edit_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../../components/adaptive_button.dart';
 import '../../../../../draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import '../controllers/add_update_order_edit_controller.dart';
 
@@ -30,11 +27,10 @@ class AddUpdateOrderEditView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveBackButton(),
                 title: const Text('Order edit'),
                 actions: [
                   controller.obx(
-                    (state) => AdaptiveButton(
+                    (state) => TextButton(
                         onPressed: controller.state?.id != null
                             ? () async =>
                                 controller.save(controller.state!.id!, context)
@@ -143,7 +139,7 @@ class EditOrderItems extends GetView<AddUpdateOrderEditController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(tr.editItems, style: context.bodyLarge),
-            AdaptiveButton(
+            TextButton(
                 onPressed: () async {
                   final result =
                       await context.pushRoute(PickProductVariantsRoute());
@@ -205,7 +201,7 @@ class EditOrderItems extends GetView<AddUpdateOrderEditController> {
                           style: context.bodyMedium
                               ?.copyWith(color: ColorManager.manatee),
                         ),
-                        AdaptiveIcon(
+                        IconButton(
                             onPressed: () async {
                               final result = await showModalActionSheet(
                                   context: context,
@@ -247,7 +243,7 @@ class EditOrderItems extends GetView<AddUpdateOrderEditController> {
                               const BorderRadius.all(Radius.circular(12.0))),
                       child: Row(
                         children: [
-                          AdaptiveIcon(
+                          IconButton(
                             onPressed: item.quantity! > 1
                                 ? () async {
                                     final canRemove = item.quantity! > 1;
@@ -268,7 +264,7 @@ class EditOrderItems extends GetView<AddUpdateOrderEditController> {
                                     (addedItems[item.id] ?? 0))
                                 .toString()),
                           ),
-                          AdaptiveIcon(
+                          IconButton(
                             onPressed: () async {
                               await controller.updateLineItem(
                                   orderEditId: orderEdit.id!,

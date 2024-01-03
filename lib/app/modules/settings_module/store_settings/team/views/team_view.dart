@@ -5,14 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/team_use_case.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/controllers/team_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../components/adaptive_icon.dart';
 import '../components/index.dart';
 import '../controllers/invite_controller.dart';
 
@@ -32,7 +29,6 @@ class TeamView extends StatelessWidget {
               builder: (inviteController) {
                 return Scaffold(
                   appBar: AppBar(
-                    leading: const AdaptiveBackButton(),
                     title: const Text('The Team'),
                     bottom: PreferredSize(
                         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -57,7 +53,7 @@ class TeamView extends StatelessWidget {
                                         teamController.searchCtrl.text) {}
                                   },
                                 )),
-                                AdaptiveButton(
+                                TextButton(
                                   child: const Text('Cancel'),
                                   onPressed: () async {
                                     context.unfocus();
@@ -74,13 +70,13 @@ class TeamView extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      AdaptiveIcon(
+                                      IconButton(
                                           onPressed: () async {
                                             teamController.search.value = true;
                                           },
                                           icon: const Icon(
                                               CupertinoIcons.search)),
-                                      AdaptiveIcon(
+                                      IconButton(
                                           onPressed: () async {},
                                           icon: const Icon(
                                               CupertinoIcons.sort_down)),

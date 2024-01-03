@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -69,7 +68,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             ],
           ),
         ),
-        suffixIcon: AdaptiveIcon(
+        suffixIcon: IconButton(
             onPressed: () {
               setState(() {
                 obscureText = !obscureText;

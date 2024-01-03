@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -455,7 +454,7 @@ class CustomerOrderCard extends StatelessWidget {
                       style: context.bodyMedium
                           ?.copyWith(color: const Color(0xff6B7280)),
                     ),
-                    AdaptiveIcon(
+                    IconButton(
                         onPressed: onTransferTap,
                         icon: const Icon(CupertinoIcons.arrow_2_circlepath))
                   ],

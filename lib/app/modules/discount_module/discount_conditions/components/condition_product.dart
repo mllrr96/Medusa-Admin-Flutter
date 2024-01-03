@@ -5,9 +5,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/search_text_field.dart';
@@ -34,10 +31,9 @@ class ConditionProductView extends StatelessWidget {
               slivers: [
                 SliverAppBar(
                   pinned: true,
-                  leading: const AdaptiveBackButton(),
                   title: const Text('Choose products'),
                   actions: [
-                    AdaptiveButton(
+                    TextButton(
                         onPressed: controller.selectedProducts.isNotEmpty
                             ? () {
                                 final res = DiscountConditionRes(
@@ -142,7 +138,7 @@ class ConditionProductView extends StatelessWidget {
                           children: [
                             const Text('No products found'),
                             if (controller.searchTerm.isNotEmpty)
-                              AdaptiveButton(
+                              TextButton(
                                   onPressed: () {
                                     controller.searchTerm = '';
                                     controller.searchCtrl.clear();

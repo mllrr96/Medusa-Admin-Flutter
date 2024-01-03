@@ -3,7 +3,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/order_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -27,7 +26,6 @@ class OrderDetailsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveBackButton(),
             title: Hero(tag: 'order', child: Text(tr.orderTableOrder)),
             actions: [
               if (controller.state?.status != OrderStatus.canceled)

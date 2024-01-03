@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/pick_regions_controller.dart';
@@ -20,10 +17,10 @@ class PickRegionsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: controller.regionsReq.multipleSelect ? const Text('Pick Regions') : const Text('Pick Region'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: controller.selectedRegions.isNotEmpty
                       ? () => context.popRoute(PickRegionsRes(regions: controller.selectedRegions))
                       : null,

@@ -4,7 +4,6 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
-import '../../../../../components/adaptive_icon.dart';
 import 'shipping_option_label.dart';
 
 class ShippingOptionCard extends StatelessWidget {
@@ -70,7 +69,7 @@ class ShippingOptionCard extends StatelessWidget {
                       child: Text(shippingOption.name ?? '',
                           style: mediumTextStyle?.copyWith(
                               fontWeight: FontWeight.w500))),
-                  AdaptiveIcon(
+                  IconButton(
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: (shippingOption.isReturn)

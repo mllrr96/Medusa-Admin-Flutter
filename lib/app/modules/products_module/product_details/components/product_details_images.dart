@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/product_details/controllers/product_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 
 import '../../add_update_product/controllers/add_update_product_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductDetailsImages extends GetView<ProductDetailsController> {
   const ProductDetailsImages(
@@ -31,7 +31,7 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
         product.images == null || (product.images?.isEmpty ?? false)
             ? 'Add'
             : 'Edit';
-    return HeaderCard(
+    return FlexExpansionTile(
       key: expansionKey,
       maintainState: true,
       onExpansionChanged: onExpansionChanged,

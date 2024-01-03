@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'order_summery_card.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrderSummery extends StatelessWidget {
   const OrderSummery(this.order, {super.key, this.onExpansionChanged});
@@ -19,7 +19,7 @@ class OrderSummery extends StatelessWidget {
     final totalTextTheme = refunded ? mediumTextStyle : context.bodyLarge;
     final tr = context.tr;
 
-    return HeaderCard(
+    return FlexExpansionTile(
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Summery'),

@@ -6,8 +6,6 @@ import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -42,10 +40,9 @@ class OrderSettingsView extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveBackButton(),
             title: const Text('Order Settings'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: () {
                     StorageService.instance.updateOrderSettings(controller.orderSettings);
                     OrdersController.instance.update();

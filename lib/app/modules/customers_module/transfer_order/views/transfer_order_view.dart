@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
@@ -30,7 +29,7 @@ class TransferOrderView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: const Text('Transfer Order'),
               ),
               bottomNavigationBar: Container(

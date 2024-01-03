@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../components/adaptive_button.dart';
 import '../components/order_card.dart';
 import '../controllers/orders_controller.dart';
 import 'package:gap/gap.dart';
@@ -35,7 +33,6 @@ class OrdersView extends StatelessWidget {
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             drawer: const AppDrawer(),
             endDrawer: Drawer(
-              // shape: const RoundedRectangleBorder(),
               child: OrdersFilterView(
                 orderFilter: controller.orderFilter,
                 onResetTap: () {
@@ -57,7 +54,8 @@ class OrdersView extends StatelessWidget {
                 const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SearchFloatingActionButton(searchCategory: SearchCategory.orders),
+                    SearchFloatingActionButton(
+                        searchCategory: SearchCategory.orders),
                     Gap(4.0),
                   ],
                 ),
@@ -74,21 +72,17 @@ class OrdersView extends StatelessWidget {
             body: SmartRefresher(
               controller: controller.refreshController,
               onRefresh: () async => await controller.refreshData(),
-              header: Platform.isIOS
-                  ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(offset: 100),
+              header:  const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 controller: controller.scrollController,
                 slivers: [
                   SliverAppBar(
                     title: Obx(
-                          () =>
-                          Text(
-                              controller.ordersCount.value != 0
-                                  ? 'Orders (${controller.ordersCount
-                                  .value})'
-                                  : 'Orders',
-                              overflow: TextOverflow.ellipsis),
+                      () => Text(
+                          controller.ordersCount.value != 0
+                              ? 'Orders (${controller.ordersCount.value})'
+                              : 'Orders',
+                          overflow: TextOverflow.ellipsis),
                     ),
                     floating: true,
                     snap: true,
@@ -108,6 +102,7 @@ class OrdersView extends StatelessWidget {
                         });
                       })
                     ],
+                    pinned: true,
                   ),
                   SliverPadding(
                     padding: EdgeInsets.only(
@@ -131,7 +126,7 @@ class OrdersView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text('No Orders found'),
-                                AdaptiveButton(
+                                TextButton(
                                     onPressed: () => controller.resetFilter(),
                                     child: const Text('Clear filters'))
                               ],

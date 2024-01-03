@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/product_variants_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../../../components/adaptive_button.dart';
-import '../../../../../components/adaptive_close_button.dart';
 import '../components/product_variant_list_tile.dart';
 import '../controllers/pick_product_variants_controller.dart';
 
@@ -20,10 +18,10 @@ class PickProductVariantsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: const Text('Add Products'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: controller.isEqual
                       ? null
                       : () => context.popRoute(

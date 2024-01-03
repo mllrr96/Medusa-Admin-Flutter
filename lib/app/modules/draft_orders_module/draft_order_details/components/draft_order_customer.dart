@@ -3,9 +3,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../components/countries/components/countries.dart';
 
@@ -31,7 +31,7 @@ class DraftOrderCustomer extends StatelessWidget {
       return countryName.capitalize ?? countryName;
     }
 
-    return HeaderCard(
+    return FlexExpansionTile(
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Customer'),

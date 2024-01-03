@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
@@ -13,7 +12,6 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
-import '../../../components/adaptive_close_button.dart';
 
 class CollectionProductsList extends StatelessWidget {
   const CollectionProductsList({super.key});
@@ -27,10 +25,10 @@ class CollectionProductsList extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: const Text('Products'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: controller.isEqual
                       ? null
                       : () {

@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
@@ -25,10 +23,10 @@ class PickCustomerView extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: const Text('Pick Customer'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: controller.selectedCustomers.isNotEmpty
                           ? () => context.popRoute(PickCustomerRes(selectedCustomers: controller.selectedCustomers))
                           : null,

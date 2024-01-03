@@ -3,8 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/domain/use_case/pick_products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -25,10 +23,10 @@ class PickProductsView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: const Text('Products'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: controller.selectedProducts
                           .map((e) => e.id!)
                           .toList()

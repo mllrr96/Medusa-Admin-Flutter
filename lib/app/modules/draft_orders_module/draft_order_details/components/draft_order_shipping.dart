@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 import '../../../../../core/utils/colors.dart';
 
@@ -17,7 +17,7 @@ class DraftOrderShipping extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    return HeaderCard(
+    return FlexExpansionTile(
       title: const Text('Shipping'),
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,

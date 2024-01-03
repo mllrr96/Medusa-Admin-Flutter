@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'adaptive_icon.dart';
 import 'custom_text_field.dart';
 
 class MetadataCard extends StatelessWidget {
@@ -39,7 +37,7 @@ class MetadataCard extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: AdaptiveIcon(
+                    child: IconButton(
                       onPressed: onDelete,
                       icon: const Icon(Icons.delete_forever, color: Colors.red),
                     ),

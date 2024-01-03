@@ -5,12 +5,10 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/utils/colors.dart';
-import '../../../../../components/adaptive_back_button.dart';
 import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
 import '../components/tax_rate_card.dart';
 import '../controllers/tax_settings_controller.dart';
@@ -35,10 +33,9 @@ class TaxSettingsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveBackButton(),
             title: Text(controller.region.name ?? ''),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: () async {
                     final result =
                         await context.pushRoute(AddUpdateTaxRateRoute(

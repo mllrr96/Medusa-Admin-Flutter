@@ -8,11 +8,11 @@ import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class AddUpdateProductController extends GetxController {
   AddUpdateProductController(
@@ -31,12 +31,12 @@ class AddUpdateProductController extends GetxController {
   final attributesKey = GlobalKey();
   final thumbnailKey = GlobalKey();
   final mediaKey = GlobalKey();
-  final generalTileCtrl = HeaderCardController();
-  final organizeTileCtrl = HeaderCardController();
-  final variantTileCtrl = HeaderCardController();
-  final attributeTileCtrl = HeaderCardController();
-  final thumbnailTileCtrl = HeaderCardController();
-  final mediaTileCtrl = HeaderCardController();
+  final generalTileCtrl = FlexExpansionTileController();
+  final organizeTileCtrl = FlexExpansionTileController();
+  final variantTileCtrl = FlexExpansionTileController();
+  final attributeTileCtrl = FlexExpansionTileController();
+  final thumbnailTileCtrl = FlexExpansionTileController();
+  final mediaTileCtrl = FlexExpansionTileController();
   List<ProductCollection>? collections;
   List<ProductType>? productTypes;
   ProductCollection? selectedCollection;

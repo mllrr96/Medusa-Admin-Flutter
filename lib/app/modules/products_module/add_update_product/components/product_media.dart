@@ -7,14 +7,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../components/adaptive_button.dart';
 import '../controllers/add_update_product_controller.dart';
 import 'image_card.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductMedia extends StatelessWidget {
   const ProductMedia({super.key, this.onExpansionChanged});
@@ -28,7 +26,7 @@ class ProductMedia extends StatelessWidget {
     return GetBuilder<AddUpdateProductController>(
       id: 5,
       builder: (controller) {
-        return HeaderCard(
+        return FlexExpansionTile(
           controller: controller.mediaTileCtrl,
           title: const Text('Media'),
           onExpansionChanged: onExpansionChanged,
@@ -114,7 +112,7 @@ class ProductMedia extends StatelessWidget {
                       );
                     }),
               Center(
-                child: AdaptiveButton(
+                child: TextButton(
                     onPressed: () async {
                       ImageSource? imageSource = ImageSource.gallery;
                       imageSource = await showModalActionSheet<ImageSource>(
@@ -223,9 +221,8 @@ class _RenameFileViewState extends State<RenameFileView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            leading: const AdaptiveBackButton(),
             title: const Text('Rename File'),
-            actions: [AdaptiveButton(onPressed: () async => renameFile(), child: const Text('Rename'))],
+            actions: [TextButton(onPressed: () async => renameFile(), child: const Text('Rename'))],
           ),
           Form(
             key: formKey,

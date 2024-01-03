@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -50,7 +49,7 @@ class ChooseCustomerView extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Choose customer',
                 suffixIcon: controller.selectedCustomer != null
-                    ? AdaptiveIcon(
+                    ? IconButton(
                         onPressed: () {
                           controller.selectedCustomer = null;
                           controller.customerCtrl.clear();

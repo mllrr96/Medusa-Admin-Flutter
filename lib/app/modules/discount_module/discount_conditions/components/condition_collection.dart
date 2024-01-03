@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_collection_list_tile.dart';
 import 'package:medusa_admin/domain/use_case/collection_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../components/adaptive_back_button.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
@@ -31,10 +29,9 @@ class ConditionCollectionView extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                leading: const AdaptiveBackButton(),
                 title: const Text('Choose collections'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: controller.selectedCollections.isNotEmpty
                           ? () {
                               final result = DiscountConditionRes(
@@ -141,7 +138,7 @@ class ConditionCollectionView extends StatelessWidget {
                         children: [
                           const Text('No collections found'),
                           if (controller.searchTerm.isNotEmpty)
-                            AdaptiveButton(
+                            TextButton(
                                 onPressed: () {
                                   controller.searchTerm = '';
                                   controller.searchCtrl.clear();

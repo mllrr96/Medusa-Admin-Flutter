@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../components/adaptive_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_chip_input_text_field.dart';
 
@@ -41,8 +40,8 @@ class _AddOptionViewState extends State<AddOptionView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AdaptiveButton(child: const Text('Cancel'), onPressed: () => context.popRoute()),
-              AdaptiveButton(
+              TextButton(child: const Text('Cancel'), onPressed: () => context.popRoute()),
+              TextButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       context.popRoute(

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
@@ -64,9 +63,7 @@ class GiftCardsView extends StatelessWidget {
               onRefresh: () async {
                 await controller.refreshData();
               },
-              header: GetPlatform.isIOS
-                  ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(offset: 100),
+              header: const MaterialClassicHeader(offset: 100),
               child: CustomScrollView(
                 controller: controller.scrollController,
                 slivers: [
@@ -132,7 +129,7 @@ class GiftCardsView extends StatelessWidget {
                                   style:
                                       smallTextStyle?.copyWith(color: manatee),
                                 ),
-                                AdaptiveButton(
+                                TextButton(
                                     onPressed: () async {
                                       await showBarModalBottomSheet(
                                           context: context,

@@ -4,7 +4,6 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../core/utils/colors.dart';
-import '../../../../components/adaptive_icon.dart';
 import 'user_role_label.dart';
 
 class TeamCard extends StatelessWidget {
@@ -62,7 +61,7 @@ class TeamCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  AdaptiveIcon(
+                  IconButton(
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage user',

@@ -5,13 +5,11 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/api_key_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../controllers/add_update_api_key_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class AddUpdateApiKeyView extends StatelessWidget {
@@ -31,12 +29,11 @@ class AddUpdateApiKeyView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveBackButton(),
                 title: controller.updateMode
                     ? const Text('Update Api Key')
                     : const Text('Create New Api Key'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                     onPressed: () async => await controller.publish(context),
                     child: const Text('Publish'),
                   ),
@@ -49,7 +46,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
                   children: [
                     Form(
                       key: controller.keyForm,
-                      child: HeaderCard(
+                      child: FlexExpansionTile(
                         title: const Text('General Information'),
                         initiallyExpanded: true,
                        child: Column(
@@ -77,7 +74,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
                       ),
                     ),
                     space,
-                    HeaderCard(
+                    FlexExpansionTile(
                       title: const Text('Sales channels'),
                       child: Column(
                         children: [

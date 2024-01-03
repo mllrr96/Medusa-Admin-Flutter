@@ -10,7 +10,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/enums.dart';
-import '../../components/adaptive_back_button.dart';
 import '../../components/easy_loading.dart';
 import '../../orders_module/orders/components/orders_filter_view.dart';
 import '../../products_module/products/components/products_filter_view.dart';
@@ -72,7 +71,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         children: [
           Row(
             children: [
-              const AdaptiveBackButton(),
+              const BackButton(),
               Flexible(
                 child: SearchTextField(
                   controller: controller.searchCtrl,

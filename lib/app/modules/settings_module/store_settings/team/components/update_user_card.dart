@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/controllers/team_controller.dart';
 
-import '../../../../components/adaptive_button.dart';
-import '../../../../components/custom_text_field.dart';
 
 class UpdateUserCard extends StatefulWidget {
   const UpdateUserCard({super.key, required this.user});
@@ -57,8 +55,8 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AdaptiveButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
-                  AdaptiveButton(
+                  TextButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
+                  TextButton(
                       onPressed: () async {
                         if (!formKey.currentState!.validate()) {
                           return;

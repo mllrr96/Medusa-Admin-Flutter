@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/discount_module/add_update_discount/controllers/add_update_discount_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'discount_allocation_type_card.dart';
 import 'discount_type_card.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
   const DiscountTypeExpansionTile({super.key});
@@ -23,7 +23,7 @@ class DiscountTypeExpansionTile extends GetView<AddUpdateDiscountController> {
     return GetBuilder<AddUpdateDiscountController>(
         id: 0,
         builder: (controller) {
-          return HeaderCard(
+          return FlexExpansionTile(
             key: controller.discountKey,
             maintainState: true,
             onExpansionChanged: (expanded) async {

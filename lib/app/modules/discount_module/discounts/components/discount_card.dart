@@ -7,7 +7,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:super_banners/super_banners.dart';
-import '../../../components/adaptive_icon.dart';
 import 'discount_rule_type_label.dart';
 
 class DiscountCard extends StatelessWidget {
@@ -76,7 +75,7 @@ class DiscountCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      AdaptiveIcon(
+                      IconButton(
                           onPressed: () async {
                             await showModalActionSheet<int>(
                                 title: 'Manage discount',

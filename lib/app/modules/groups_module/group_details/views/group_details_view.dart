@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -42,7 +41,7 @@ class GroupDetailsView extends StatelessWidget {
                     pinned: true,
                     title: Text(customerGroup.name ?? ''),
                     actions: [
-                      AdaptiveIcon(
+                      IconButton(
                           onPressed: () async {
                             await showModalActionSheet<int>(
                                 title: 'Manage group',
@@ -112,7 +111,7 @@ class GroupDetailsView extends StatelessWidget {
                             subtitle: name != null
                                 ? Text(customer.email, style: smallTextStyle)
                                 : null,
-                            trailing: AdaptiveIcon(
+                            trailing: IconButton(
                                 onPressed: () async {
                                   await showModalActionSheet<int>(
                                       context: context,

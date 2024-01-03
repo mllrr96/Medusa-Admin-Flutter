@@ -3,9 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -45,10 +42,9 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
 
     return Scaffold(
       appBar: AppBar(
-        leading: const AdaptiveBackButton(),
         title: const Text('Create Fulfillment'),
         actions: [
-          AdaptiveButton(
+          TextButton(
               onPressed: lineItemCount.values.toList().sum != 0
                   ? () {
                       List<LineItem> lineItems = [];
@@ -119,7 +115,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                         child: Row(
                           children: [
                             Text('${lineItemCount[item.id]!.toString()} / ${item.quantity!}'),
-                            AdaptiveIcon(
+                            IconButton(
                               onPressed: () {
                                 if (lineItemCount[item.id!] == 0) {
                                   return;
@@ -130,7 +126,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                               },
                               icon: const Icon(CupertinoIcons.minus),
                             ),
-                            AdaptiveIcon(
+                            IconButton(
                               onPressed: () {
                                 if (lineItemCount[item.id!] == item.quantity!) {
                                   return;

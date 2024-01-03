@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -9,6 +8,7 @@ import '../../../components/adaptive_date_picker.dart';
 import '../../../components/date_time_card.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_discount_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
   const ConfigurationExpansionTile({super.key});
@@ -24,7 +24,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
         id: 2,
         builder: (controller) {
           final disableStartDate = controller.updateMode && controller.discount?.startsAt !=null ;
-          return HeaderCard(
+          return FlexExpansionTile(
             key: controller.configKey,
             controller: controller.configTileController,
             maintainState: true,

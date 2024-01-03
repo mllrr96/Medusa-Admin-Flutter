@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../controller/country_controller.dart';
@@ -23,13 +21,13 @@ class SelectCountryView extends StatelessWidget {
         final multipleSelect = controller.selectCountryOptions.multipleSelect;
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveCloseButton(),
+            leading: const CloseButton(),
             title: multipleSelect
                 ? Text(
                     'Select Countries ${controller.selectedCountries.isNotEmpty ? '(${controller.selectedCountries.length})' : ''}')
                 : const Text('Select Country'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: controller.selectedCountries.isEmpty
                       ? null
                       : () => context.popRoute(controller.selectedCountries),
@@ -53,8 +51,7 @@ class SelectCountryView extends StatelessWidget {
                             controller: controller.searchCtrl,
                           )),
                           AnimatedCrossFade(
-                              firstChild: AdaptiveButton(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              firstChild: TextButton(
                                   onPressed: () {
                                     controller.searchFocusNode.unfocus();
                                     controller.searchCtrl.clear();

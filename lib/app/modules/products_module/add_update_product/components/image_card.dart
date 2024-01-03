@@ -4,11 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../components/adaptive_icon.dart';
 
 class NetworkImageCard extends StatelessWidget {
   const NetworkImageCard(
@@ -47,7 +45,7 @@ class NetworkImageCard extends StatelessWidget {
                 child: CachedNetworkImage(imageUrl: imageUrl),
               ),
             ),
-            AdaptiveIcon(
+            IconButton(
                 onPressed: onDelete,
                 icon: Icon(Icons.delete_forever, color: deleteIconColor)),
           ],
@@ -122,7 +120,7 @@ class ImageCard extends StatelessWidget {
                 ],
               ),
             ),
-            AdaptiveIcon(
+            IconButton(
                 onPressed: () async {
                   await showModalActionSheet<int>(
                       context: context,
@@ -196,7 +194,7 @@ class ImagePreviewView extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
+          leading: const CloseButton(),
         ),
         body: Center(
           child: disableHero

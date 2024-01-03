@@ -24,7 +24,7 @@
 //             child: Row(
 //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //               children: [
-//                 AdaptiveButton(
+//                 TextButton(
 //                     onPressed: () {},
 //                     child: Row(
 //                       mainAxisSize: MainAxisSize.min,
@@ -33,7 +33,7 @@
 //                         const Text('Add Custom'),
 //                       ],
 //                     )),
-//                 AdaptiveButton(
+//                 TextButton(
 //                     onPressed: () async {
 //                       // final result = await Get.toNamed(Routes.PICK_PRODUCT_VARIANTS,
 //                       //     arguments: SelectProductsReq(selectedProducts: controller.selectedProducts));

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_return_reason_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../components/custom_text_field.dart';
@@ -27,12 +25,12 @@ class CreateUpdateReturnReasonView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: controller.updateMode
                     ? const Text('Update Return Reason')
                     : const Text('Create Return Reason'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                     onPressed: () async => await controller.save(context),
                     child: controller.updateMode
                         ? const Text('Update')

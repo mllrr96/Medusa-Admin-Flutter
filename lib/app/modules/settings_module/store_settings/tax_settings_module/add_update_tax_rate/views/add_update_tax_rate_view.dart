@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_tax_rate_use_case.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import '../../../../../components/adaptive_button.dart';
 import '../../../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_tax_rate_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -28,7 +26,7 @@ class AddUpdateTaxRateView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: controller.updateMode
                     ? const Text('Update Tax Rate')
                     : const Text('Add Tax Rate'),
@@ -158,7 +156,7 @@ class AddUpdateTaxRateView extends StatelessWidget {
                               child: Text('Override'),
                             ),
                             Center(
-                              child: AdaptiveButton(
+                              child: TextButton(
                                   onPressed: () {},
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,

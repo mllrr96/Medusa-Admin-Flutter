@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_button.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
 
@@ -31,7 +30,7 @@ class ResetPasswordView extends StatelessWidget {
             child: Scaffold(
               appBar: AppBar(
                 leading:
-                    const Hero(tag: 'closeReset', child: AdaptiveCloseButton()),
+                    const Hero(tag: 'closeReset', child: CloseButton()),
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               ),
               bottomNavigationBar: Container(

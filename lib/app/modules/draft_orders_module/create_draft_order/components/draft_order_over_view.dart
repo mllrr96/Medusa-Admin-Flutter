@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
 import '../controllers/create_draft_order_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class CreateDraftOrderOverViewView extends StatelessWidget {
@@ -36,7 +35,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
 
     return Column(
       children: [
-        HeaderCard(
+        FlexExpansionTile(
           title: const Text('Items'),
           initiallyExpanded: true,
           child: Column(
@@ -52,7 +51,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                     currencyCode:
                         controller.selectedRegion?.currencyCode ?? ''),
               ),
-              AdaptiveButton(
+              TextButton(
                   onPressed: () {},
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,

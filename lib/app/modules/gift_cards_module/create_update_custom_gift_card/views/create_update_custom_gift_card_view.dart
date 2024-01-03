@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/update_gift_card_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_text_field.dart';
@@ -36,11 +34,10 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title:
                   controller.updateMode ? const Text('Update Custom Gift Card') : const Text('Create Custom Gift Card'),
               actions: [
-                AdaptiveButton(
+                TextButton(
                     onPressed: () async =>
                         controller.updateMode ? await controller.updateGiftCard(context) : await controller.createGiftCard(context),
                     child: const Text('Save'))

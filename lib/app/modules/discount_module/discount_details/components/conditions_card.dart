@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -37,7 +36,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Conditions'),
-              AdaptiveIcon(
+              IconButton(
                   onPressed: () async {
                     final result  = await context.pushRoute(DiscountConditionsRoute(discountConditionReq: DiscountConditionReq(
                         discountTypes: discount.rule?.conditions?.map((e) => e.type!).toList() ?? [])));

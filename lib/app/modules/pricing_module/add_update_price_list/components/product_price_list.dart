@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../components/adaptive_close_button.dart';
 import '../../../components/currency_formatter.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class AddUpdateVariantsPriceView extends StatefulWidget {
@@ -72,7 +70,7 @@ class _AddUpdateVariantsPriceViewState extends State<AddUpdateVariantsPriceView>
     List<Widget> children = [];
 
     variants?.forEach((variant) {
-      children.add(HeaderCard(
+      children.add(FlexExpansionTile(
         title: Text(variant.title ?? ''),
         initiallyExpanded: variants?.length == 1,
         child: ListView.builder(
@@ -157,10 +155,10 @@ class _AddUpdateVariantsPriceViewState extends State<AddUpdateVariantsPriceView>
       onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
+          leading: const CloseButton(),
           title: const Text('Edit Prices'),
           actions: [
-            AdaptiveButton(
+            TextButton(
                 onPressed: () {
                   prices.clear();
                   for (var element in priceListVariants) {

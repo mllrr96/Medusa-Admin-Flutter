@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'draft_order_summery_card.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class DraftOrderSummery extends StatelessWidget {
   const DraftOrderSummery(this.draftOrder, {super.key, this.onExpansionChanged});
@@ -16,7 +16,7 @@ class DraftOrderSummery extends StatelessWidget {
     final totalTextTheme = context.headlineMedium;
     final currencyCode = draftOrder.cart?.region?.currencyCode;
 
-    return HeaderCard(
+    return FlexExpansionTile(
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Summery'),

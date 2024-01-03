@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -47,7 +46,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
         appBar: AppBar(
           title: const Text('Create a refund'),
           actions: [
-            AdaptiveButton(
+            TextButton(
                 onPressed: () {
                   if (!formKey.currentState!.validate()) {
                     return;

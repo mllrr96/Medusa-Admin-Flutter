@@ -6,8 +6,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/tags_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_tag_list_tile.dart';
-import '../../../components/adaptive_back_button.dart';
-import '../../../components/adaptive_button.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
@@ -30,10 +28,9 @@ class ConditionTagView extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                leading: const AdaptiveBackButton(),
                 title: const Text('Choose tags'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: controller.selectedTags.isNotEmpty
                           ? () {
                               final result = DiscountConditionRes(
@@ -137,7 +134,7 @@ class ConditionTagView extends StatelessWidget {
                         children: [
                           const Text('No tags found'),
                           if (controller.searchTerm.isNotEmpty)
-                            AdaptiveButton(
+                            TextButton(
                                 onPressed: () {
                                   controller.searchTerm = '';
                                   controller.searchCtrl.clear();

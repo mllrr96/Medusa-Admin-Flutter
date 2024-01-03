@@ -6,8 +6,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/types_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_type_list_tile.dart';
-import '../../../components/adaptive_back_button.dart';
-import '../../../components/adaptive_button.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
@@ -30,10 +28,9 @@ class ConditionTypeView extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                leading: const AdaptiveBackButton(),
                 title: const Text('Choose types'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: controller.selectedTypes.isNotEmpty
                           ? () {
                               final result = DiscountConditionRes(
@@ -138,7 +135,7 @@ class ConditionTypeView extends StatelessWidget {
                         children: [
                           const Text('No types found'),
                           if (controller.searchTerm.isNotEmpty)
-                            AdaptiveButton(
+                            TextButton(
                                 onPressed: () {
                                   controller.searchTerm = '';
                                   controller.searchCtrl.clear();

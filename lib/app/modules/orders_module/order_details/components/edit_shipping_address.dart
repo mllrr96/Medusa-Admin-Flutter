@@ -1,15 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../components/countries/components/countries.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class EditAddress extends StatefulWidget {
   const EditAddress(
@@ -101,10 +99,10 @@ class _EditAddressState extends State<EditAddress> {
       onTap: () => context.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: const AdaptiveCloseButton(),
+          leading: const CloseButton(),
           title: Text(widget.appbarTitle ?? 'Update Address'),
           actions: [
-            AdaptiveButton(
+            TextButton(
                 onPressed: () {
                   if (sameAddress()) {
                     context.popRoute();
@@ -134,7 +132,7 @@ class _EditAddressState extends State<EditAddress> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               children: [
-                HeaderCard(
+                FlexExpansionTile(
                   key: contactKey,
                   title: const Text('Contact'),
                   initiallyExpanded: true,
@@ -167,7 +165,7 @@ class _EditAddressState extends State<EditAddress> {
                   ),
                 ),
                 space,
-                HeaderCard(
+                FlexExpansionTile(
                   key: locationKey,
                   title: const Text('Location'),
                   onExpansionChanged: (expanded) async {
@@ -226,7 +224,7 @@ class _EditAddressState extends State<EditAddress> {
                     ],
                   ),
                 ),
-                HeaderCard(
+                FlexExpansionTile(
                   key: metadataKey,
                   title: const Text('Metadata'),
                   onExpansionChanged: (expanded) async {

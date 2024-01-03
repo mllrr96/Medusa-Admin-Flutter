@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class AddUpdatePriceListController extends GetxController {
   AddUpdatePriceListController(
@@ -22,8 +22,8 @@ class AddUpdatePriceListController extends GetxController {
   final generalFormKey = GlobalKey<FormState>();
   final priceListTypeKey = GlobalKey();
   final generalKey = GlobalKey();
-  final generalController = HeaderCardController();
-  final configController = HeaderCardController();
+  final generalController = FlexExpansionTileController();
+  final configController = FlexExpansionTileController();
   final configKey = GlobalKey();
   final pricesKey = GlobalKey();
   bool specifyCustomers = false;

@@ -3,8 +3,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/update_condition_use_case.dart';
@@ -42,10 +40,9 @@ class UpdateConditionView extends StatelessWidget {
                     style: TextStyle(color: Colors.white), key: Key('update')));
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveBackButton(),
             title: const Text('Update Condition'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                 onPressed: () async => await controller.add(context),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

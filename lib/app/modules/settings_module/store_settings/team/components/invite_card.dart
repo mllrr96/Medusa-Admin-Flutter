@@ -6,7 +6,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../../../../core/utils/colors.dart';
-import '../../../../components/adaptive_icon.dart';
 
 class InviteCard extends StatelessWidget {
   const InviteCard({
@@ -47,7 +46,7 @@ class InviteCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  AdaptiveIcon(
+                  IconButton(
                       onPressed: () async {
                         await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
                           const SheetAction(label: 'Resend Invitation', key: 0),

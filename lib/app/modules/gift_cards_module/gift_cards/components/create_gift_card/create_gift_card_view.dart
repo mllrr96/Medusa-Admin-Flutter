@@ -4,9 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -26,10 +23,10 @@ class CreateGiftCardView extends StatelessWidget {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveCloseButton(),
+              leading: const CloseButton(),
               title: const Text('Create Gift Card'),
               actions: [
-                AdaptiveButton(onPressed: () async => await controller.createGiftCard(context), child: const Text('Create'))
+                TextButton(onPressed: () async => await controller.createGiftCard(context), child: const Text('Create'))
               ],
             ),
             body: Form(
@@ -98,7 +95,7 @@ class CreateGiftCardView extends StatelessWidget {
                               );
                             }),
                         Center(
-                          child: AdaptiveButton(
+                          child: TextButton(
                             onPressed: () {
                               controller.denominations.add((null, null, controller.denominations.length));
                               controller.update();
@@ -175,7 +172,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
             const SizedBox(width: 12.0),
             Flexible(
                 child: Center(
-                    child: AdaptiveIcon(
+                    child: IconButton(
                         onPressed: () {
                           // print(controller.denominations.length);
                           setState(() {

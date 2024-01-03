@@ -1,14 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/personal_information/components/personal_info_tile.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/domain/use_case/personal_info_use_case.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../../components/adaptive_back_button.dart';
 import '../../../../components/custom_text_field.dart';
 import '../controllers/personal_information_controller.dart';
 
@@ -36,10 +34,10 @@ class PersonalInformationView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AdaptiveButton(
+                  TextButton(
                       child: const Text('Cancel'),
                       onPressed: () => context.popRoute()),
-                  AdaptiveButton(
+                  TextButton(
                       child: const Text('Update'),
                       onPressed: () async {
                         if (!controller.formKey.currentState!.validate()) {
@@ -118,7 +116,6 @@ class PersonalInformationView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Personal Information'),
             ),
             floatingActionButton: controller.obx(

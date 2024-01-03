@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/sales_channels_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channels/components/index.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -27,7 +26,6 @@ class SalesChannelsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Sales Channels'),
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(kToolbarHeight / 2),
@@ -64,9 +62,7 @@ class SalesChannelsView extends StatelessWidget {
                 child: SmartRefresher(
               controller: controller.refreshController,
               onRefresh: () => controller.pagingController.refresh(),
-              header: GetPlatform.isIOS
-                  ? const ClassicHeader(completeText: '')
-                  : const MaterialClassicHeader(),
+              header: const MaterialClassicHeader(),
               child: PagedListView.separated(
                 separatorBuilder: (_, __) =>
                     const Divider(height: 0, indent: 16.0),

@@ -8,7 +8,6 @@ import 'package:medusa_admin/app/modules/settings_module/store_settings/return_r
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../../components/adaptive_icon.dart';
 
 class ReturnReasonCard extends GetView<ReturnReasonsController> {
   const ReturnReasonCard(this.returnReason,
@@ -108,7 +107,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
                 ],
               ),
             ),
-            AdaptiveIcon(
+            IconButton(
               onPressed: () async {
                 await showOkCancelAlertDialog(
                   context: context,

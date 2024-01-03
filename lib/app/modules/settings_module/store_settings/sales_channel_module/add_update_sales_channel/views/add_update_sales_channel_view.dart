@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_sales_channel_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../controllers/add_update_sales_channel_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class AddUpdateSalesChannelView extends StatelessWidget {
@@ -26,7 +25,6 @@ class AddUpdateSalesChannelView extends StatelessWidget {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: controller.updateMode
                   ? const Text('Update sales channel')
                   : const Text('Create new sales channel'),
@@ -59,7 +57,7 @@ class AddUpdateSalesChannelView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 8.0),
                   children: [
-                    HeaderCard(
+                    FlexExpansionTile(
                       initiallyExpanded: true,
                       title: const Text('General info'),
                       child: Column(

@@ -2,7 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -148,7 +147,7 @@ class DetailedConditionCard extends StatelessWidget {
               ],
             ),
           ),
-          AdaptiveIcon(
+          IconButton(
               onPressed: () async {
                 await showModalActionSheet<int>(
                     title: 'Manage condition',

@@ -4,17 +4,16 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
 import 'package:medusa_admin/app/modules/components/countries/view/country_view.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
 import '../controllers/add_update_product_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductAttributes extends StatelessWidget {
   const ProductAttributes({super.key, this.onExpansionChanged});
@@ -30,7 +29,7 @@ class ProductAttributes extends StatelessWidget {
     return GetBuilder<AddUpdateProductController>(
       id: 3,
       builder: (controller) {
-        return HeaderCard(
+        return FlexExpansionTile(
           controller: controller.attributeTileCtrl,
           onExpansionChanged: onExpansionChanged,
           title: const Text('Attributes'),
@@ -115,7 +114,7 @@ class ProductAttributes extends StatelessWidget {
                   hintText: 'Choose a country',
                   suffixIcon: controller.countryCtrl.text.isEmpty
                       ? const Icon(Icons.keyboard_arrow_down_outlined)
-                      : AdaptiveIcon(
+                      : IconButton(
                       onPressed: () {
                         controller.countryCtrl.clear();
                         controller.product = controller.product.copyWith.originCountry(null);

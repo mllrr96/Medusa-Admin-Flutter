@@ -6,11 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_region_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/countries/controller/country_controller.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -19,6 +15,7 @@ import '../../../../../components/countries/view/country_view.dart';
 import '../../../../../components/custom_text_field.dart';
 import '../../regions/controllers/regions_controller.dart';
 import '../controllers/add_region_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
 class AddRegionView extends StatelessWidget {
@@ -45,12 +42,11 @@ class AddRegionView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: controller.updateMode
                   ? const Text('Update Region')
                   : const Text('Add Region'),
               actions: [
-                AdaptiveButton(
+                TextButton(
                     onPressed: () async => controller.updateMode
                         ? await controller.updateRegion(context)
                         : await controller.createRegion(context),
@@ -68,7 +64,7 @@ class AddRegionView extends StatelessWidget {
                   child: ListView(
                     controller: controller.scrollController,
                     children: [
-                      HeaderCard(
+                      FlexExpansionTile(
                         title: const Text('Details'),
                         initiallyExpanded: true,
                         child: Column(
@@ -211,7 +207,7 @@ class AddRegionView extends StatelessWidget {
                                         : 'Choose countries',
                                 suffixIcon: controller
                                         .selectedCountries.isNotEmpty
-                                    ? AdaptiveIcon(
+                                    ? IconButton(
                                         onPressed: () {
                                           controller.selectedCountries.clear();
                                           controller.update();
@@ -245,7 +241,7 @@ class AddRegionView extends StatelessWidget {
                         ),
                       ),
                       space,
-                      HeaderCard(
+                      FlexExpansionTile(
                         key: controller.providersExpansionKey,
                         title: const Text('Providers'),
                         onExpansionChanged: (expanded) async {

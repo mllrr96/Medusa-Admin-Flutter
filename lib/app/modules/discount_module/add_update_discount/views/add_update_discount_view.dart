@@ -3,8 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/domain/use_case/update_discount_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';
@@ -40,12 +38,12 @@ class AddUpdateDiscountView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: controller.updateMode
                     ? const Text('Update discount')
                     : const Text('Create new discount'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: () async => controller.updateMode
                           ? await controller.updateDiscount(context)
                           : await controller.createDiscount(context),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/search_floating_action_button.dart';
 import 'package:medusa_admin/domain/use_case/drafts_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
@@ -33,16 +34,12 @@ class DraftOrdersView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
+                const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FloatingActionButton.small(
-                      onPressed: () => context.pushRoute(MedusaSearchRoute(
-                          searchCategory: SearchCategory.draftOrders)),
-                      heroTag: UniqueKey(),
-                      child: const Icon(CupertinoIcons.search),
-                    ),
-                    const Gap(4.0),
+                    SearchFloatingActionButton(
+                        searchCategory: SearchCategory.draftOrders),
+                    Gap(4.0),
                   ],
                 ),
                 const Gap(6.0),
@@ -60,9 +57,7 @@ class DraftOrdersView extends StatelessWidget {
                 onRefresh: () async {
                   await controller.refreshData();
                 },
-                header: GetPlatform.isIOS
-                    ? const ClassicHeader(completeText: '')
-                    : const MaterialClassicHeader(offset: 100),
+                header: const MaterialClassicHeader(offset: 100),
                 child: CustomScrollView(
                   controller: controller.scrollController,
                   slivers: [

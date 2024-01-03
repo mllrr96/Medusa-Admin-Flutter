@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -33,7 +32,7 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(child: Text(product.title ?? '')),
-              AdaptiveIcon(
+              IconButton(
                 onPressed: () async {
                   await showModalActionSheet<int>(context: context, actions: [
                     const SheetAction(

@@ -7,7 +7,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../components/adaptive_button.dart';
 import '../../../components/currency_formatter.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_numeric_text_field.dart';
@@ -141,7 +140,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                     if (!isCustomPrice)
                       Align(
                           alignment: Alignment.centerRight,
-                          child: AdaptiveButton(
+                          child: TextButton(
                               onPressed: shippingOption != null
                                   ? () {
                                       setState(() => isCustomPrice = true);
@@ -151,7 +150,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                     if (isCustomPrice)
                       Align(
                         alignment: Alignment.centerRight,
-                        child: AdaptiveButton(
+                        child: TextButton(
                           onPressed: shippingOption != null
                               ? () {
                                   setState(() => isCustomPrice = false);

@@ -5,12 +5,12 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../controllers/product_details_controller.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ProductDetailsAttributes extends GetView<ProductDetailsController> {
   const ProductDetailsAttributes(
@@ -27,7 +27,7 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
     const space = Gap(12);
     final manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    return HeaderCard(
+    return FlexExpansionTile(
       key: expansionKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/pick_groups_controller.dart';
@@ -23,7 +22,7 @@ class PickGroupsView extends StatelessWidget {
                 ? const Text('Pick Customer Groups')
                 : const Text('Pick Customer Group'),
             actions: [
-              AdaptiveButton(
+              TextButton(
                   onPressed: () {
                     context.popRoute(controller.selectedGroups);
                   },

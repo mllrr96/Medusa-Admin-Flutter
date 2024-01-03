@@ -2,11 +2,9 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/collection_use_case.dart';
-import '../../../components/adaptive_close_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_collection_controller.dart';
 
@@ -30,12 +28,12 @@ class CreateCollectionView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: controller.updateCollection
                     ? Text(tr.collectionModalEditCollection)
                     : Text(tr.collectionModalAddCollection),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: controller.updateCollection
                           ? () async => await controller.edit(context)
                           : () async => await controller.publish(context),
@@ -122,7 +120,7 @@ class CreateCollectionView extends StatelessWidget {
                               ],
                             ),
                           ),
-                          AdaptiveButton(
+                          TextButton(
                               child: const Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [

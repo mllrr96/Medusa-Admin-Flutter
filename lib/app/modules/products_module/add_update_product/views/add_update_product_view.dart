@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -7,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
 
-import '../../../components/adaptive_button.dart';
-import '../../../components/adaptive_close_button.dart';
 import '../components/index.dart';
 import '../controllers/add_update_product_controller.dart';
 
@@ -51,12 +48,12 @@ class AddUpdateProductView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveCloseButton(),
+                leading: const CloseButton(),
                 title: controller.updateMode
                     ? const Text('Update Product')
                     : const Text('New Product'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       onPressed: () async => controller.updateMode
                           ? await controller.updateProduct(context)
                           : await controller.addProduct(context),

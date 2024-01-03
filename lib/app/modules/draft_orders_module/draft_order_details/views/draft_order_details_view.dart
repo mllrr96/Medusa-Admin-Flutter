@@ -2,15 +2,12 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/draft_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 
-import '../../../components/adaptive_button.dart';
 import '../components/draft_order_summery.dart';
 import '../components/index.dart';
 import '../controllers/draft_order_details_controller.dart';
@@ -31,17 +28,16 @@ class DraftOrderDetailsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            leading: const AdaptiveBackButton(),
             title: const Text('Draft Order Details'),
             actions: [
               if (controller.state?.status == DraftOrderStatus.completed)
-                AdaptiveButton(
+                TextButton(
                   onPressed: () => context.pushRoute(
                       OrderDetailsRoute(orderId: controller.state!.orderId!)),
                   child: const Text('Go to order'),
                 ),
               if (controller.state?.status == DraftOrderStatus.open)
-                AdaptiveButton(
+                TextButton(
                   onPressed: () async {
                     await showOkCancelAlertDialog(
                       context: context,

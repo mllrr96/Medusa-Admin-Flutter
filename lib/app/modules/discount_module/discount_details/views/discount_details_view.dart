@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/discount_details_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -26,7 +25,6 @@ class DiscountDetailsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Discount Details'),
             ),
             floatingActionButton: const DiscountDetailsFab(),

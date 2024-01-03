@@ -17,10 +17,10 @@
 //     const halfSpace = Gap(6.0);
 //     return Scaffold(
 //       appBar: AppBar(
-//         leading: const AdaptiveCloseButton(),
+//         leading: const CloseButton(),
 //         title: const Text('Update Custom Gift Card'),
 //         actions: [
-//           AdaptiveButton(
+//           TextButton(
 //               onPressed: () {
 //                 context.popRoute();
 //               },

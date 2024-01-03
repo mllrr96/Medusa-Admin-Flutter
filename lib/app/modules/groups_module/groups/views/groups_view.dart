@@ -8,6 +8,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
+import 'package:medusa_admin/app/modules/components/search_floating_action_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/groups_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -35,18 +36,12 @@ class GroupsView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
+                const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FloatingActionButton.small(
-                      onPressed: () {
-                        context.pushRoute(MedusaSearchRoute(
-                            searchCategory: SearchCategory.groups));
-                      },
-                      heroTag: UniqueKey(),
-                      child: const Icon(CupertinoIcons.search),
-                    ),
-                    const Gap(4.0),
+                    SearchFloatingActionButton(
+                        searchCategory: SearchCategory.groups),
+                    Gap(4.0),
                   ],
                 ),
                 const Gap(6.0),
@@ -69,9 +64,7 @@ class GroupsView extends StatelessWidget {
               child: SmartRefresher(
                 controller: controller.refreshController,
                 onRefresh: () async => await controller.refreshData(),
-                header: GetPlatform.isIOS
-                    ? const ClassicHeader(completeText: '')
-                    : const MaterialClassicHeader(offset: 100),
+                header: const MaterialClassicHeader(offset: 100),
                 child: CustomScrollView(
                   controller: controller.scrollController,
                   slivers: [

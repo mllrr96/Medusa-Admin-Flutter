@@ -1,11 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-
-import '../../../../../components/adaptive_button.dart';
-import '../../../../../components/adaptive_icon.dart';
 
 class PickCustomerAppBar extends StatefulWidget {
   const PickCustomerAppBar({super.key, required this.searchCtrl, this.onChanged, this.searchFocusNode});
@@ -55,7 +51,7 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
                   ),
                 ),
               )),
-            AdaptiveButton(
+            TextButton(
                 child: const Text('Cancel'),
                 onPressed: () async {
                   context.unfocus();
@@ -77,7 +73,7 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AdaptiveIcon(
+            IconButton(
                 onPressed: () async {
                   setState(() {
                     expanded = true;

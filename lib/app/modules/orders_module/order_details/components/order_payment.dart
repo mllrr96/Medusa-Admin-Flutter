@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../components/adaptive_button.dart';
 import '../../orders/components/payment_status_label.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrderPayment extends GetView<OrderDetailsController> {
   const OrderPayment(this.order, {super.key, this.onExpansionChanged});
@@ -27,16 +26,15 @@ class OrderPayment extends GetView<OrderDetailsController> {
     Widget? getButton() {
       switch (order.paymentStatus) {
         case PaymentStatus.refunded:
-          return AdaptiveButton(
+          return TextButton(
             onPressed: () async => await controller.capturePayment(),
-            padding: EdgeInsets.zero,
             child: Text(tr.templatesCapturePayment),
           );
         case PaymentStatus.notPaid:
         case PaymentStatus.awaiting:
         case PaymentStatus.partiallyRefunded:
         case PaymentStatus.captured:
-          return AdaptiveButton(
+          return TextButton(
             onPressed: () async {
               final result =
                   await showBarModalBottomSheet(context: context,
@@ -46,7 +44,6 @@ class OrderPayment extends GetView<OrderDetailsController> {
                 await controller.createRefund(result);
               }
             },
-            padding: EdgeInsets.zero,
             child: Text(tr.templatesRefund),
           );
         case PaymentStatus.canceled:
@@ -57,7 +54,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
       return null;
     }
 
-    return HeaderCard(
+    return FlexExpansionTile(
       key: controller.paymentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,

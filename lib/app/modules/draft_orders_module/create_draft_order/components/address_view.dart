@@ -3,14 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
-import '../../../components/adaptive_icon.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_draft_order_controller.dart';
 
@@ -119,7 +118,7 @@ class _CreateDraftOrderAddressViewState
             hintText: 'Choose customer',
             suffixIcon: controller.selectedCustomer != null &&
                     !controller.customCustomer
-                ? AdaptiveIcon(
+                ? IconButton(
                     onPressed: () {
                       controller.selectedCustomer = null;
                       controller.customCustomer = true;
@@ -184,7 +183,7 @@ class _CreateDraftOrderAddressViewState
         space,
         const Text('Shipping Details'),
         space,
-        HeaderCard(
+        FlexExpansionTile(
           key: shippingGeneralKey,
           title: const Text('General'),
           onExpansionChanged: (expanded) async {
@@ -242,7 +241,7 @@ class _CreateDraftOrderAddressViewState
           ),
         ),
         space,
-        HeaderCard(
+        FlexExpansionTile(
           key: shippingAddressKey,
           // label: 'Shipping Address',
           title: const Text('Shipping Address'),
@@ -381,7 +380,7 @@ class _CreateDraftOrderAddressViewState
           controlAffinity: ListTileControlAffinity.leading,
         ),
         space,
-        HeaderCard(
+        FlexExpansionTile(
           key: billingGeneralKey,
           // label: 'General',
           title: const Text('General'),
@@ -456,7 +455,7 @@ class _CreateDraftOrderAddressViewState
           ),
         ),
         space,
-        HeaderCard(
+        FlexExpansionTile(
           key: billingAddressKey,
           // label: 'Billing Address',
           title: const Text('Billing Address'),

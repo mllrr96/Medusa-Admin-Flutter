@@ -7,12 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:medusa_admin/domain/use_case/currencies_use_case.dart';
 import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../../core/utils/colors.dart';
-import '../../../../components/adaptive_back_button.dart';
 import '../controllers/currencies_controller.dart';
 
 @RoutePage()
@@ -33,10 +31,9 @@ class CurrenciesView extends StatelessWidget {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Currencies'),
               actions: [
-                AdaptiveButton(
+                TextButton(
                     onPressed: () async =>
                         await controller.updateStore(context),
                     child: const Text('Save')),
@@ -127,7 +124,7 @@ class CurrenciesView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            AdaptiveButton(
+                            TextButton(
                                 onPressed: () async {
                                   List<Currency>? result =
                                       await showBarModalBottomSheet(
@@ -205,11 +202,10 @@ class AllCurrenciesView extends StatelessWidget {
           child: Material(
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveBackButton(),
                 title: const Text('Add Store Currencies'),
                 actions: [
                   if (controller.selectedCurrencies.isNotEmpty)
-                    AdaptiveButton(
+                    TextButton(
                         onPressed: () =>
                             context.popRoute(controller.selectedCurrencies),
                         child: const Text('Save')),

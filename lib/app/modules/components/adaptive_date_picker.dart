@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-import 'adaptive_button.dart';
 
 Future<DateTime?> adaptiveDateTimePicker(
     {DateTime? date,
@@ -27,10 +24,10 @@ Future<DateTime?> adaptiveDateTimePicker(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AdaptiveButton(
+                    TextButton(
                         onPressed: () => context.popRoute(),
                         child: const Text('Cancel')),
-                    AdaptiveButton(
+                    TextButton(
                         onPressed: () => context
                             .popRoute(selectedDate ?? date ?? DateTime.now()),
                         child: const Text('Done')),

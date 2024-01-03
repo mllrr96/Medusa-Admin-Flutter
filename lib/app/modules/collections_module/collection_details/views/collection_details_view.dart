@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/views/pick_products_view.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
@@ -15,8 +14,6 @@ import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../components/adaptive_back_button.dart';
-import '../../../components/adaptive_button.dart';
 import '../controllers/collection_details_controller.dart';
 
 @RoutePage()
@@ -36,10 +33,9 @@ class CollectionDetailsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: Text(tr.productTableCollection),
               actions: [
-                AdaptiveButton(
+                TextButton(
                     onPressed: () async {
                       if (controller.state == null) {
                         return;
@@ -107,7 +103,7 @@ class CollectionDetailsView extends StatelessWidget {
                         ),
                         if (collection.products != null &&
                             collection.products!.isNotEmpty)
-                          AdaptiveButton(
+                          TextButton(
                               onPressed: () async {
                                 final result = await showBarModalBottomSheet(
                                     context: context,
@@ -135,7 +131,6 @@ class CollectionDetailsView extends StatelessWidget {
                                   );
                                 }
                               },
-                              padding: EdgeInsets.zero,
                               child: Text(tr.detailsEditProducts))
                       ],
                     ),
@@ -156,7 +151,7 @@ class CollectionDetailsView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text('No products in this collection'),
-                        AdaptiveButton(
+                        TextButton(
                             onPressed: () async {
                               final result = await showBarModalBottomSheet(
                                   context: context,
@@ -215,7 +210,7 @@ class CollectionDetailsView extends StatelessWidget {
                                           color: Colors.redAccent),
                                 ))
                             : null,
-                        trailing: AdaptiveIcon(
+                        trailing: IconButton(
                             onPressed: () async {
                               await showOkCancelAlertDialog(
                                       context: context,

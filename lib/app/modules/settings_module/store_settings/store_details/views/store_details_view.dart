@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -28,10 +26,9 @@ class StoreDetailsView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
-                leading: const AdaptiveBackButton(),
                 title: const Text('Store Details'),
                 actions: [
-                  AdaptiveButton(
+                  TextButton(
                       child: const Text('Save'),
                       onPressed: () async => await controller.save(context)),
                 ],

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
@@ -25,7 +24,6 @@ class TaxSettingsSelectRegionView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
-              leading: const AdaptiveBackButton(),
               title: const Text('Regions'),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight / 2),
@@ -45,9 +43,7 @@ class TaxSettingsSelectRegionView extends StatelessWidget {
               child: SmartRefresher(
                 controller: controller.refreshController,
                 onRefresh: () => controller.pagingController.refresh(),
-                header: GetPlatform.isIOS
-                    ? const ClassicHeader(completeText: '')
-                    : const MaterialClassicHeader(),
+                header: const MaterialClassicHeader(),
                 child: PagedListView.separated(
                   separatorBuilder: (_, __) => const SizedBox(height: 6.0),
                   padding: const EdgeInsets.symmetric(
