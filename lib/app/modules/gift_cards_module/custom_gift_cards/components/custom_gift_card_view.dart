@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-import '../../../../data/models/req/user_gift_card_req.dart';
-import '../../../../data/models/store/gift_card.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/adaptive_icon.dart';
 import '../controllers/custom_gift_cards_controller.dart';
@@ -19,7 +18,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
     final lightWhite = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
-    final isDisabled = giftCard.isDisabled ?? false;
+    final isDisabled = giftCard.isDisabled;
     final bottomPadding =
         MediaQuery.of(context).viewPadding.bottom == 0 ? 20.0 : MediaQuery.of(context).viewPadding.bottom;
     return Container(

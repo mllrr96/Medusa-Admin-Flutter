@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../data/models/store/country.dart';
-import '../../../../../../data/models/store/fulfillment_provider.dart';
-import '../../../../../../data/models/store/payment_provider.dart';
-import '../../../../../../data/models/store/region.dart';
 
 class RegionCard extends StatelessWidget {
   const RegionCard(

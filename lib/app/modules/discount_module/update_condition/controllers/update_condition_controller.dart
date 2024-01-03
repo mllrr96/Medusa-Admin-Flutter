@@ -1,31 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
-import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
-import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
+import 'package:medusa_admin/domain/use_case/update_condition_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../../core/utils/enums.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 
 class UpdateConditionController extends GetxController {
-  UpdateConditionController(this.updateConditionReq);
+  UpdateConditionController(this.updateConditionReq, this.updateConditionUseCase);
   final UpdateConditionReq updateConditionReq ;
   List conditionItems = [];
   List items = [];
   List selectedItems = [];
   String operatorText = '';
-  late ProductsRepo productsRepo;
-  late ProductTypeRepo typeRepo;
-  late CollectionRepo collectionRepo;
-  late ProductTagRepo tagRepo;
-  late CustomerGroupRepo groupRepo;
+  final UpdateConditionUseCase updateConditionUseCase;
   Function eq = const DeepCollectionEquality.unordered().equals;
 
   @override
@@ -46,8 +37,7 @@ class UpdateConditionController extends GetxController {
         } else {
           operatorText = 'Discount is applicable to selected products only';
         }
-        productsRepo = ProductsRepo();
-        final result = await productsRepo.retrieveAll(
+        final result = await updateConditionUseCase.retrieveProducts(
             queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <Product>[];
@@ -71,8 +61,7 @@ class UpdateConditionController extends GetxController {
           operatorText =
               'Discount is applicable to selected product types only';
         }
-        typeRepo = ProductTypeRepo();
-        final result = await typeRepo.retrieveProductTypes(
+        final result = await updateConditionUseCase.retrieveProductTypes(
             queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <ProductType>[];
@@ -96,8 +85,7 @@ class UpdateConditionController extends GetxController {
         } else {
           operatorText = 'Discount is applicable to selected collections only';
         }
-        collectionRepo = CollectionRepo();
-        final result = await collectionRepo.retrieveAll(
+        final result = await updateConditionUseCase.retrieveCollections(
             queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <ProductCollection>[];
@@ -121,8 +109,7 @@ class UpdateConditionController extends GetxController {
         } else {
           operatorText = 'Discount is applicable to selected tags only';
         }
-        tagRepo = ProductTagRepo();
-        final result = await tagRepo.retrieveProductTags(
+        final result = await updateConditionUseCase.retrieveProductTags(
             queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <ProductTag>[];
@@ -146,8 +133,7 @@ class UpdateConditionController extends GetxController {
         } else {
           operatorText = 'Discount is applicable to selected groups only';
         }
-        groupRepo = CustomerGroupRepo();
-        final result = await groupRepo.retrieveCustomerGroups(
+        final result = await updateConditionUseCase.retrieveCustomerGroups(
             queryParameters: {'discount_condition_id': condition.id!});
         result.when((success) {
           selectedItems = <CustomerGroup>[];

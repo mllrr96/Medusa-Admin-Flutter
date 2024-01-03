@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:medusa_admin/app/data/datasource/remote/exception/api_error_handler.dart';
-import 'package:medusa_admin/app/data/models/res/regions.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
+import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/variant_list_tile.dart';
@@ -45,7 +44,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
   }
 
   Future<Result<UserRegionsRes, Failure>> fetchRegions() async {
-    return await RegionsRepo().retrieveAll();
+    return await RegionsUseCase.instance();
   }
 
   final expansionController = HeaderCardController();

@@ -5,8 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/medusa_stepper.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import '../../../../data/repository/draft_order/draft_order_repo.dart';
-import '../../../../data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/domain/use_case/create_draft_use_case.dart';
 import '../components/index.dart';
 import '../controllers/create_draft_order_controller.dart';
 
@@ -80,8 +79,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateDraftOrderController>(
-        init: CreateDraftOrderController(
-            regionsRepo: RegionsRepo(), draftOrderRepo: DraftOrderRepo()),
+        init: CreateDraftOrderController(createDraftUseCase: CreateDraftUseCase.instance),
         builder: (controller) {
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(

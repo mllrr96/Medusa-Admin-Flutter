@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/product_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../data/models/store/product.dart';
-import '../../../../data/repository/product/products_repo.dart';
 import '../components/index.dart';
 import '../controllers/product_details_controller.dart';
 
@@ -21,7 +21,7 @@ class ProductDetailsView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<ProductDetailsController>(
         init: ProductDetailsController(
-            productsRepo: ProductsRepo(), productId: productId),
+            productDetailsUseCase: ProductDetailsUseCase.instance, productId: productId),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

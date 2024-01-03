@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/store/order.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class PaymentStatusLabel extends StatelessWidget {
-  const PaymentStatusLabel({Key? key, required this.paymentStatus, this.dotOnly = false}) : super(key: key);
+  const PaymentStatusLabel({super.key, required this.paymentStatus, this.dotOnly = false});
   final PaymentStatus paymentStatus;
   final bool dotOnly;
   @override

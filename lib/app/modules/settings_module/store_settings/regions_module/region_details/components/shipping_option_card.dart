@@ -1,6 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -73,7 +73,7 @@ class ShippingOptionCard extends StatelessWidget {
                   AdaptiveIcon(
                       onPressed: () async {
                         await showModalActionSheet<int>(
-                            title: (shippingOption.isReturn ?? false)
+                            title: (shippingOption.isReturn)
                                 ? 'Manage return shipping option'
                                 : 'Manage shipping option',
                             message: shippingOption.name,
@@ -112,7 +112,7 @@ class ShippingOptionCard extends StatelessWidget {
                         style: smallTextStyle?.copyWith(color: lightWhite)),
                   ),
                   ShippingOptionLabel(
-                      adminOnly: shippingOption.adminOnly ?? false)
+                      adminOnly: shippingOption.adminOnly)
                 ],
               ),
               halfSpace,

@@ -5,9 +5,10 @@ import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/di/di.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/repository/user/user_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../components/error_widget.dart';
 import '../controllers/reset_password_controller.dart';
 
@@ -23,7 +24,7 @@ class ResetPasswordView extends StatelessWidget {
     final tr = context.tr;
 
     return GetBuilder<ResetPasswordController>(
-        init: ResetPasswordController(userRepo: UserRepo()),
+        init: ResetPasswordController(userRepo: getIt<MedusaAdmin>().userRepository),
         builder: (controller) {
           return GestureDetector(
             onTap: () => context.unfocus(),

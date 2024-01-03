@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
@@ -19,7 +19,7 @@ class CreateGiftCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateGiftCardController>(
-      init: CreateGiftCardController(productsRepo: ProductsRepo()),
+      init: CreateGiftCardController(productsUseCase: ProductsUseCase.instance),
       builder: (controller) {
         // print(controller.denominations.length);
         return GestureDetector(
@@ -142,7 +142,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
 
   List<Currency> get currencies => StoreService.store.currencies!;
   Currency? selectedCurrency =
-      StoreService.store.currencies!.isNotEmpty ? StoreService.store.currencies!.first : Currency(code: 'usd');
+      StoreService.store.currencies!.isNotEmpty ? StoreService.store.currencies!.first : const Currency(code: 'usd');
   var textCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {

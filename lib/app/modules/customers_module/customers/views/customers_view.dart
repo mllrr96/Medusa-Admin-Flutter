@@ -5,12 +5,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../route/app_router.dart';
@@ -24,7 +24,7 @@ class CustomersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CustomersController>(
-        init: CustomersController(customerRepo: CustomerRepo()),
+        init: CustomersController(customerUseCase: CustomerUseCase.instance),
         builder: (controller) {
           return GestureDetector(
             onTap: () => context.unfocus(),

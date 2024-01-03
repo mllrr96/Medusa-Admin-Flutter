@@ -1,11 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'index.dart';
 
 class OrderTimeline extends StatelessWidget {
@@ -50,12 +50,12 @@ class OrderTimeline extends StatelessWidget {
                 hintText: 'Write a note',
                 prefixIconData: Icons.tag_faces,
                 suffixIconData: Icons.send,
-                onSuffixTap: () async => await controller.addNote(),
+                onSuffixTap: () async => await controller.addNote(context),
                 maxLines: null,
                 contentPadding: const EdgeInsets.symmetric(vertical: 5),
                 textInputAction: TextInputAction.send,
                 textCapitalization: TextCapitalization.sentences,
-                onSubmitted: (_) async => await controller.addNote(),
+                onSubmitted: (_) async => await controller.addNote(context),
               ),
               const Divider(),
               FutureBuilder<List?>(
@@ -88,7 +88,7 @@ class OrderTimeline extends StatelessWidget {
                                 return OrderNoteWidget(
                                   item,
                                   onNoteDelete: () async =>
-                                      controller.deleteNote(item.draftId),
+                                      controller.deleteNote(item.draftId, context),
                                 );
                               case const (Refund):
                                 return RefundWidget(item,

@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
+import 'package:medusa_admin/domain/use_case/price_lists_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PricingController extends GetxController {
   static PricingController get instance => Get.find<PricingController>();
-  PricingController({required this.priceListRepo});
-  final PriceListRepo priceListRepo;
+  PricingController({required this.priceListsUseCase});
+  final PriceListsUseCase priceListsUseCase;
 
   final pagingController = PagingController<int, PriceList>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -34,7 +35,7 @@ class PricingController extends GetxController {
     if(_refreshingData){
       return;
     }
-    final result = await priceListRepo.retrievePriceLists(queryParameters: {
+    final result = await priceListsUseCase(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'customer_groups,prices'
@@ -57,7 +58,7 @@ class PricingController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await priceListRepo.retrievePriceLists(queryParameters: {
+    final result = await priceListsUseCase(queryParameters: {
       'offset': 0,
       'limit': _pageSize,
       'expand': 'customer_groups,prices'

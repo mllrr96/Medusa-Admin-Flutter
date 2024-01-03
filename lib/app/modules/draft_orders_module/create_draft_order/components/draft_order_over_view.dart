@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -24,9 +24,14 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
     const halfSpace = Gap(6);
     final lineItems = controller.lineItems + controller.customLineItems;
     final customer = controller.selectedCustomer ??
-        Customer(email: 'Placeholder', firstName: 'Placeholder', lastName: 'Placeholder');
+        const Customer(
+            email: 'Placeholder',
+            firstName: 'Placeholder',
+            lastName: 'Placeholder');
     final shippingAddress = controller.shippingAddress;
-    final billingAddress = controller.sameAddress ? controller.shippingAddress : controller.billingAddress;
+    final billingAddress = controller.sameAddress
+        ? controller.shippingAddress
+        : controller.billingAddress;
     final shippingOption = controller.selectedShippingOption;
 
     return Column(
@@ -42,8 +47,10 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 12.0),
                 itemCount: lineItems.length,
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) =>
-                    OverViewListTile(lineItems[index], currencyCode: controller.selectedRegion?.currencyCode ?? ''),
+                itemBuilder: (context, index) => OverViewListTile(
+                    lineItems[index],
+                    currencyCode:
+                        controller.selectedRegion?.currencyCode ?? ''),
               ),
               AdaptiveButton(
                   onPressed: () {},
@@ -72,7 +79,8 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: ColorManager.getAvatarColor(customer.email),
+                    backgroundColor:
+                        ColorManager.getAvatarColor(customer.email),
                     maxRadius: 18,
                     child: Text(
                         customer.firstName == null
@@ -83,9 +91,12 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                   const SizedBox(width: 12.0),
                   if (customer.firstName != null)
                     Flexible(
-                        child: Text('${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})',
+                        child: Text(
+                            '${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})',
                             style: smallTextStyle)),
-                  if (customer.firstName == null) Flexible(child: Text(customer.email, style: smallTextStyle)),
+                  if (customer.firstName == null)
+                    Flexible(
+                        child: Text(customer.email, style: smallTextStyle)),
                 ],
               ),
               halfSpace,
@@ -109,7 +120,8 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Address', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Text('Address',
+                      style: smallTextStyle?.copyWith(color: lightWhite)),
                   Text(
                       '${shippingAddress.address1}${shippingAddress.address2 != null ? ',' : ''} ${shippingAddress.address2 ?? ''}',
                       style: smallTextStyle),
@@ -122,7 +134,8 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Shipping method', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Text('Shipping method',
+                      style: smallTextStyle?.copyWith(color: lightWhite)),
                   Text(
                       '${shippingOption?.name ?? ''} - (${shippingOption?.amount.formatAsPrice(shippingOption.region?.currencyCode)})',
                       style: smallTextStyle),
@@ -149,7 +162,8 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Address', style: smallTextStyle?.copyWith(color: lightWhite)),
+                  Text('Address',
+                      style: smallTextStyle?.copyWith(color: lightWhite)),
                   Text(
                       '${billingAddress.address1}${billingAddress.address2 != null ? ',' : ''} ${billingAddress.address2 ?? ''}',
                       style: smallTextStyle),
@@ -189,13 +203,14 @@ class OverViewListTile extends StatelessWidget {
           )
         ]);
     MoneyAmount? moneyAmount;
-    final priceList = productVariant.prices?.where((e) => e.currencyCode == currencyCode);
+    final priceList =
+        productVariant.prices?.where((e) => e.currencyCode == currencyCode);
     if (priceList?.isNotEmpty ?? false) {
       moneyAmount = priceList!.first;
     } else {
       moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
           ? productVariant.prices!.first
-          : MoneyAmount(amount: 0, currencyCode: 'usd');
+          : const MoneyAmount(amount: 0, currencyCode: 'usd');
     }
 
     const space = Gap(12);
@@ -212,9 +227,11 @@ class OverViewListTile extends StatelessWidget {
                     child: CachedNetworkImage(
                       key: ValueKey(productVariant.product!.thumbnail!),
                       imageUrl: productVariant.product!.thumbnail!,
-                      placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                      errorWidget: (context, string, error) =>
-                          const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                      placeholder: (context, text) => const Center(
+                          child: CircularProgressIndicator.adaptive()),
+                      errorWidget: (context, string, error) => const Icon(
+                          Icons.warning_rounded,
+                          color: Colors.redAccent),
                     )),
               space,
               // Product, Variant name and price
@@ -244,11 +261,16 @@ class OverViewListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('${moneyAmount.amount.formatAsPrice(currencyCode)} x ${lineItem.quantity!}',
-                  style: smallTextStyle, maxLines: 1),
+              Text(
+                  '${moneyAmount.amount.formatAsPrice(currencyCode)} x ${lineItem.quantity!}',
+                  style: smallTextStyle,
+                  maxLines: 1),
               const Divider(height: 5),
-              Text(((lineItem.quantity ?? 1) * (moneyAmount.amount ?? 1)).formatAsPrice(currencyCode),
-                  style: mediumTextStyle, maxLines: 1),
+              Text(
+                  ((lineItem.quantity ?? 1) * (moneyAmount.amount ?? 1))
+                      .formatAsPrice(currencyCode),
+                  style: mediumTextStyle,
+                  maxLines: 1),
             ],
           ),
         ),

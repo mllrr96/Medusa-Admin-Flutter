@@ -4,17 +4,17 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GiftCardsController extends GetxController {
   static GiftCardsController get instance => Get.find<GiftCardsController>();
 
-  GiftCardsController({required this.productsRepo});
-  final ProductsRepo productsRepo;
+  GiftCardsController({required this.productsUseCase});
+  final ProductsUseCase productsUseCase;
   final pagingController = PagingController<int, Product>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
@@ -41,7 +41,7 @@ class GiftCardsController extends GetxController {
     if (_refreshingData) {
       return;
     }
-    final result = await productsRepo.retrieveAll(queryParameters: {
+    final result = await productsUseCase.fetchProducts(queryParameters: {
       'is_giftcard': true,
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
@@ -70,7 +70,7 @@ class GiftCardsController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await productsRepo.retrieveAll(queryParameters: {
+    final result = await productsUseCase.fetchProducts(queryParameters: {
       'is_giftcard': true,
       'offset': 0,
       'limit': _pageSize,
@@ -105,7 +105,7 @@ class GiftCardsController extends GetxController {
 
   Future<void> deleteProduct(String id) async {
     loading();
-    final result = await productsRepo.delete(id: id);
+    final result = await productsUseCase.delete(id: id);
     result.when((success) {
       EasyLoading.showSuccess('Gift card deleted');
       pagingController.refresh();
@@ -120,7 +120,7 @@ class GiftCardsController extends GetxController {
 
   Future<void> toggleProduct(Product product) async {
     loading();
-    final result = await productsRepo.update(
+    final result = await productsUseCase.update(
         userPostUpdateProductReq: UserPostUpdateProductReq(
             status: product.status == ProductStatus.published
                 ? ProductStatus.draft

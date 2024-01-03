@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/domain/use_case/api_key_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../data/models/store/publishable_api_key.dart';
-import '../../../../../../data/repository/publishable_api_key/publishable_api_key_repo.dart';
 
 class ApiKeyManagementController extends GetxController {
-  ApiKeyManagementController({required this.apiKeyRepo});
-  final PublishableApiKeyRepo apiKeyRepo;
+  ApiKeyManagementController({required this.apiKeyUseCase});
+  final ApiKeyUseCase apiKeyUseCase;
   static ApiKeyManagementController get instance => Get.find<ApiKeyManagementController>();
 
   final pagingController = PagingController<int, PublishableApiKey>(firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -31,7 +31,7 @@ class ApiKeyManagementController extends GetxController {
   // }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await apiKeyRepo.retrievePublishableApiKeys(queryParameters: {
+    final result = await apiKeyUseCase.fetchApiKeys(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });

@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../data/repository/auth/auth_repo.dart';
-import '../../../data/repository/store/store_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../data/service/storage_service.dart';
 import '../../../data/service/store_service.dart';
 
@@ -32,24 +33,22 @@ class _SplashViewState extends State<SplashView> {
       return;
     }
 
-    final result = await AuthRepo().getSession();
+    final result = await getIt<AuthenticationUseCase>().getSession();
 
-    result.when((success) async {
-      if (success.user == null) {
-        context.router.replaceAll([const SignInRoute()]);
-        return;
-      } else {
-        await Get.putAsync(() => StoreService(storeRepo: StoreRepo()).init())
-            .then((value) {
-          context.router.replaceAll([const DashboardRoute()]);
-        });
-      }
+    result.when((user) async {
+      await Get.putAsync(() =>
+          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
+              .init()).then((value) {
+        context.router.replaceAll([const DashboardRoute()]);
+      });
     }, (error) async {
       if (error.code == 401 || error.code == 404) {
-        await StorageService.instance.clearCookie();
+        await StorageService.instance.clearCookie().then((_) {
+          context.router.replaceAll([const SignInRoute()]);
+        });
+      } else {
+        context.router.replaceAll([const SignInRoute()]);
       }
-      debugPrint(error.toString());
-      context.router.replaceAll([const SignInRoute()]);
     });
   }
 

@@ -1,34 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/order_details_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../data/models/req/user_fulfillment_req.dart';
-import '../../../../data/models/req/user_order.dart';
-import '../../../../data/repository/fulfillment/fulfillment_repo.dart';
-import '../../../../data/repository/note/note_repo.dart';
-import '../../../../data/repository/notification/notification_repo.dart';
-import '../../../../data/repository/order_edit/order_edit_repo.dart';
-import '../../../../data/repository/user/user_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderDetailsController extends GetxController with StateMixin<Order> {
-  OrderDetailsController( {
-    required this.ordersRepo,
-    required this.orderEditsRepo,
-    required this.noteRepo,
-    required this.notificationRepo,
-    required this.fulfillmentRepo,
-    required this.userRepo,
+  OrderDetailsController({
+    required this.orderDetailsUseCase,
     required this.orderId,
   });
-  final OrdersRepo ordersRepo;
-  final OrderEditRepo orderEditsRepo;
-  final NoteRepo noteRepo;
-  final NotificationRepo notificationRepo;
-  final FulfillmentRepo fulfillmentRepo;
-  final UserRepo userRepo;
+  final OrderDetailsUseCase orderDetailsUseCase;
   final String orderId;
   List<User> loadedUsers = [];
   List timeLine = [];
@@ -44,7 +28,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    timeLineFuture = fetchTimeLine();
+    // timeLineFuture = fetchTimeLine();
     super.onInit();
   }
 
@@ -61,7 +45,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> fetchOrderDetails() async {
     change(null, status: RxStatus.loading());
-    final result = await ordersRepo.retrieveOrder(
+    final result = await orderDetailsUseCase.retrieveOrder(
       id: orderId,
       queryParameters: {
         'expand': 'customer,billing_address,shipping_address,discounts,discounts.rule,shipping_methods,payments,items,'
@@ -74,15 +58,10 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
 
     result.when(
-      (success) {
-        if (success.order != null) {
-          change(success.order!, status: RxStatus.success());
-          refreshController.refreshCompleted();
-          update();
-        } else {
-          change(null, status: RxStatus.error('Order not found'));
-          refreshController.refreshFailed();
-        }
+      (order) {
+        change(order, status: RxStatus.success());
+        refreshController.refreshCompleted();
+        update();
       },
       (error) {
         refreshController.refreshFailed();
@@ -104,24 +83,29 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   }
 
   Future<List<OrderEdit>?> fetchOrderEdits({bool shuffle = false}) async {
-    final result = await orderEditsRepo.retrieveAllOrderEdit(
+    final result = await orderDetailsUseCase.retrieveAllOrderEdit(
       queryParameters: {'order_id': orderId},
     );
     return await result.when(
       (success) async {
         if (success.orderEdits != null) {
-          final createdByList = success.orderEdits?.map((e) => e.createdBy).toSet().toList();
+          final createdByList =
+              success.orderEdits?.map((e) => e.createdBy).toSet().toList();
           success.orderEdits?.forEach((element) {
             timeLine.add(element);
             if (element.status == OrderEditStatus.requested) {
-              timeLine.add(element.copyWith.requestedAt(null).copyWith.confirmedAt(DateTime.now()));
+              timeLine.add(element.copyWith
+                  .requestedAt(null)
+                  .copyWith
+                  .confirmedAt(DateTime.now()));
             } else {
               timeLine.add(element.copyWith.requestedAt(null));
             }
           });
           createdByList?.forEach(
             (element) async {
-              if (loadedUsers.isNotEmpty && loadedUsers.map((e) => e.id).toList().contains(element)) {
+              if (loadedUsers.isNotEmpty &&
+                  loadedUsers.map((e) => e.id).toList().contains(element)) {
               } else {
                 await fetchUser(element ?? '');
               }
@@ -141,25 +125,21 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   }
 
   Future<User?> fetchUser(String userId) async {
-    final result = await userRepo.retrieve(id: userId);
-    return await result.when((success) {
-      if (success.user != null) {
-        final userExist = loadedUsers.map((e) => e.id).toList().contains(success.user?.id);
-        if (!userExist) {
-          loadedUsers.add(success.user!);
-          update([5]);
-        }
-        return success.user;
-      } else {
-        return null;
+    final result = await orderDetailsUseCase.retrieveUser(id: userId);
+    return await result.when((user) {
+      final userExist = loadedUsers.map((e) => e.id).toList().contains(user.id);
+      if (!userExist) {
+        loadedUsers.add(user);
+        update([5]);
       }
+      return user;
     }, (error) {
       return null;
     });
   }
 
   Future<void> fetchOrderNotes() async {
-    final result = await noteRepo.retrieveNotes(
+    final result = await orderDetailsUseCase.retrieveNotes(
       queryParameters: {
         'resource_id': orderId,
       },
@@ -182,7 +162,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   }
 
   Future<void> fetchOrderNotification() async {
-    final result = await notificationRepo.retrieveNotifications(
+    final result = await orderDetailsUseCase.retrieveNotifications(
       queryParameters: {
         'resource_id': orderId,
       },
@@ -206,7 +186,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> cancelOrder() async {
     loading();
-    final result = await ordersRepo.cancelOrder(id: orderId);
+    final result = await orderDetailsUseCase.cancelOrder(id: orderId);
     result.when((success) async {
       EasyLoading.showSuccess('Order Canceled!');
       await fetchOrderDetails();
@@ -223,7 +203,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> cancelOrderEdit(String id) async {
     loading();
-    final result = await orderEditsRepo.cancelOrderEdit(id: id);
+    final result = await orderDetailsUseCase.cancelOrderEdit(id: id);
     result.when((success) async {
       EasyLoading.showSuccess('Order Edit Canceled!');
       await fetchOrderEdits();
@@ -240,7 +220,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> confirmOrderEdit(String id) async {
     loading();
-    final result = await orderEditsRepo.confirmOrderEdit(id: id);
+    final result = await orderDetailsUseCase.confirmOrderEdit(id: id);
     result.when((success) async {
       EasyLoading.showSuccess('Order Edit Confirmed!');
       await fetchOrderEdits();
@@ -257,7 +237,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> createFulfillment(List<LineItem> items) async {
     loading();
-    final result = await fulfillmentRepo.createFulfillment(
+    final result = await orderDetailsUseCase.createFulfillment(
       id: orderId,
       userCreateFulfillmentReq: UserCreateFulfillmentReq(items: items),
     );
@@ -278,9 +258,10 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> createOrderShipment({required String fulfillmentId, List<String>? trackingNumbers}) async {
+  Future<void> createOrderShipment(
+      {required String fulfillmentId, List<String>? trackingNumbers}) async {
     loading();
-    final result = await ordersRepo.createOrderShipment(
+    final result = await orderDetailsUseCase.createOrderShipment(
       id: orderId,
       fulfillmentId: fulfillmentId,
       trackingNumbers: trackingNumbers,
@@ -304,7 +285,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> cancelFulfillment(String fulfillmentId) async {
     loading();
-    final result = await fulfillmentRepo.cancelFulfillment(
+    final result = await orderDetailsUseCase.cancelFulfillment(
       fulfillmentId: fulfillmentId,
       id: orderId,
     );
@@ -325,9 +306,10 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     );
   }
 
-  Future<void> createRefund(UserCreateRefundOrdersReq userCreateRefundOrdersReq) async {
+  Future<void> createRefund(
+      UserCreateRefundOrdersReq userCreateRefundOrdersReq) async {
     loading();
-    final result = await ordersRepo.createRefund(
+    final result = await orderDetailsUseCase.createRefund(
       id: orderId,
       userCreateRefundOrdersReq: userCreateRefundOrdersReq,
     );
@@ -350,7 +332,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> capturePayment() async {
     loading();
-    final result = await ordersRepo.captureOrderPayment(id: orderId);
+    final result = await orderDetailsUseCase.captureOrderPayment(id: orderId);
     result.when(
       (success) async {
         EasyLoading.showSuccess('Payment captured');
@@ -370,7 +352,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> updateShippingAddress(Address address) async {
     loading();
-    final result = await ordersRepo.updateOrder(
+    final result = await orderDetailsUseCase.updateOrder(
       id: orderId,
       userUpdateOrderReq: UserUpdateOrderReq(shippingAddress: address),
     );
@@ -381,7 +363,8 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         dismissLoading();
       },
       (error) {
-        Get.snackbar('Error updating shipping address ${error.code ?? ''}', error.message,
+        Get.snackbar('Error updating shipping address ${error.code ?? ''}',
+            error.message,
             snackPosition: SnackPosition.BOTTOM);
         dismissLoading();
       },
@@ -390,7 +373,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> updateBillingAddress(Address address) async {
     loading();
-    final result = await ordersRepo.updateOrder(
+    final result = await orderDetailsUseCase.updateOrder(
       id: orderId,
       userUpdateOrderReq: UserUpdateOrderReq(billingAddress: address),
     );
@@ -401,44 +384,44 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         dismissLoading();
       },
       (error) {
-        Get.snackbar('Error updating billing address ${error.code ?? ''}', error.message,
+        Get.snackbar(
+            'Error updating billing address ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM);
         dismissLoading();
       },
     );
   }
 
-  Future<void> deleteNote(String? id) async {
+  Future<void> deleteNote(String? id, BuildContext context) async {
     if (id == null) return;
     loading();
-    final result = await noteRepo.deleteNote(id: id);
+    final result = await orderDetailsUseCase.deleteNote(id: id);
     await result.when((success) async {
       EasyLoading.showSuccess('Note deleted');
       reloadTimeLine();
     }, (error) {
-      Get.snackbar(
-        'Error deleting note ${error.code ?? ''}',
-        error.message,
-        snackPosition: SnackPosition.BOTTOM,
+      dismissLoading();
+      context.showSnackBar(
+        'Error deleting note, ${error.toSnackBarString()}',
       );
     });
   }
 
-  Future<void> addNote() async {
+  Future<void> addNote(BuildContext context) async {
     if (noteCtrl.text.removeAllWhitespace.isEmpty) {
       return;
     }
     loading();
-    final result = await noteRepo.createNote(resourceId: orderId, resourceType: 'order', value: noteCtrl.text);
+    final result = await orderDetailsUseCase.createNote(
+        resourceId: orderId, resourceType: 'order', value: noteCtrl.text);
     await result.when((success) async {
       EasyLoading.showSuccess('Note created');
       noteCtrl.clear();
       reloadTimeLine();
     }, (error) {
-      Get.snackbar(
-        'Error creating note ${error.code ?? ''}',
-        error.message,
-        snackPosition: SnackPosition.BOTTOM,
+      dismissLoading();
+      context.showSnackBar(
+        'Error creating note, ${error.toSnackBarString()}',
       );
     });
   }
@@ -452,7 +435,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
 
   Future<void> updateEmail(String email) async {
     loading();
-    final result = await ordersRepo.updateOrder(
+    final result = await orderDetailsUseCase.updateOrder(
       id: orderId,
       userUpdateOrderReq: UserUpdateOrderReq(email: email),
     );
@@ -463,7 +446,8 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
         dismissLoading();
       },
       (error) {
-        Get.snackbar('Error updating email address ${error.code ?? ''}', error.message,
+        Get.snackbar(
+            'Error updating email address ${error.code ?? ''}', error.message,
             snackPosition: SnackPosition.BOTTOM);
         dismissLoading();
       },

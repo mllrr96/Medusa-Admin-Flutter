@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/product_category.dart';
-import 'package:medusa_admin/app/data/repository/product_category/product_category_repo.dart';
+import 'package:medusa_admin/domain/use_case/categories_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CategoriesController extends GetxController {
-  CategoriesController({required this.categoryRepo});
+  CategoriesController({required this.categoriesUseCase});
   static CategoriesController get instance => Get.find<CategoriesController>();
 
-  final ProductCategoryRepo categoryRepo;
+  final CategoriesUseCase categoriesUseCase;
   final refreshController = RefreshController();
   final int _pageSize = 20;
   final PagingController<int, ProductCategory> pagingController =
@@ -22,11 +23,11 @@ class CategoriesController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result =
-        await categoryRepo.retrieveProductCategories(queryParameters: {
+    final result = await categoriesUseCase(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });
+
     result.when((success) {
       final isLastPage = success.productCategories!.length < _pageSize;
       categoriesCount.value = success.count ?? 0;

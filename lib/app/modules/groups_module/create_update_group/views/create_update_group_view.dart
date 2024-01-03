@@ -2,11 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/update_group_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/metadata_card.dart';
 import '../controllers/create_update_group_controller.dart';
@@ -21,7 +21,7 @@ class CreateUpdateGroupView extends GetView<CreateUpdateGroupController> {
     const space = Gap(12);
     final largeTextStyle = context.bodyLarge;
     return GetBuilder<CreateUpdateGroupController>(
-      init: CreateUpdateGroupController(customerGroupRepo: CustomerGroupRepo(), customerGroup: customerGroup),
+      init: CreateUpdateGroupController(updateGroupUseCase: UpdateGroupUseCase.instance, customerGroup: customerGroup),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),

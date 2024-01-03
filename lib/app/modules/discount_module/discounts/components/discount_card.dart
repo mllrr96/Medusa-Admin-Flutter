@@ -1,12 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/discount.dart';
-import 'package:medusa_admin/app/data/models/store/discount_rule.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:super_banners/super_banners.dart';
 import '../../../components/adaptive_icon.dart';
 import 'discount_rule_type_label.dart';

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_user_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:medusa_admin/app/modules/settings_module/store_settings/team/controllers/team_controller.dart';
 
 import '../../../../components/adaptive_button.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/gift_card.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'custom_gift_card_tile.dart';
@@ -17,12 +17,15 @@ class CustomGiftCardsLoadingPage extends StatelessWidget {
       orderId: '12345678',
       createdAt: DateTime(2021, 10, 10, 10, 10, 10),
     );
-    return Column(
-      children: List.generate(
-          19,
-          (index) => index.isEven
-              ? Skeletonizer(enabled: true, child: CustomGiftCardTile(giftCard))
-              : const Divider(height: 0)),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            19,
+            (index) => index.isEven
+                ? CustomGiftCardTile(giftCard)
+                : const Divider(height: 0)),
+      ),
     );
   }
 }

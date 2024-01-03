@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import '../components/index.dart';
 import '../controllers/discount_conditions_controller.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 @RoutePage()
 class DiscountConditionsView extends StatelessWidget {

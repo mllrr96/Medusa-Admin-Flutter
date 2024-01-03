@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../../core/utils/colors.dart';
 import 'order_status_label.dart';
 
@@ -32,7 +31,7 @@ class OrderOverview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('#${order.displayId!}', style: context.bodyLarge),
+                      Text('#${order.displayId ??''}', style: context.bodyLarge),
                       IconButton(onPressed: () {}, icon: const Icon(Icons.copy, size: 14))
                     ],
                   ),
@@ -61,7 +60,7 @@ class OrderOverview extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(order.email!, style: context.bodyMedium),
+                    Text(order.email ?? '', style: context.bodyMedium),
                     if (order.billingAddress != null && order.billingAddress!.phone != null)
                       Text(order.billingAddress!.phone.toString(), style: context.bodyMedium),
                   ],

@@ -2,17 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
-
-import '../../../../data/models/req/user_collection_req.dart';
-import '../../../../data/models/store/product_collection.dart';
+import 'package:medusa_admin/domain/use_case/collection_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../collections/controllers/collections_controller.dart';
 
 class CreateCollectionController extends GetxController {
   CreateCollectionController(
-      {required this.collectionRepo, required this.updateCollectionReq});
-  CollectionRepo collectionRepo;
+      {required this.collectionUseCase, required this.updateCollectionReq});
+  CollectionUseCase collectionUseCase;
   final titleCtrl = TextEditingController();
   final handleCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -44,7 +42,7 @@ class CreateCollectionController extends GetxController {
       return;
     }
     loading();
-    final result = await collectionRepo.create(
+    final result = await collectionUseCase.create(
         userCreateCollectionReq: UserCreateCollectionReq(
             title: titleCtrl.text,
             handle: handleCtrl.text.removeAllWhitespace.isEmpty
@@ -72,7 +70,7 @@ class CreateCollectionController extends GetxController {
     }
 
     loading();
-    final result = await collectionRepo.update(
+    final result = await collectionUseCase.update(
         id: collection!.id!,
         userCreateCollectionReq: UserCreateCollectionReq(
             title: titleCtrl.text,

@@ -2,21 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_region_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_region_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../data/service/store_service.dart';
 
 class AddRegionController extends GetxController {
   AddRegionController(
-      {required this.regionsRepo,
-      required this.storeRepo,
-      required this.region});
-  final RegionsRepo regionsRepo;
-  final StoreRepo storeRepo;
+      {required this.updateRegionUseCase, required this.region});
+  final UpdateRegionUseCase updateRegionUseCase;
   final titleCtrl = TextEditingController();
   final defaultTaxRateCtrl = TextEditingController();
   final defaultTextCode = TextEditingController();
@@ -61,8 +56,8 @@ class AddRegionController extends GetxController {
     }
 
     loading();
-    final result = await regionsRepo.create(
-      userCreateRegionReq: UserCreateRegionReq(
+    final result = await updateRegionUseCase.create(
+      UserCreateRegionReq(
         name: titleCtrl.text,
         currencyCode: selectedCurrency!.code!,
         taxRate: double.parse(defaultTaxRateCtrl.text),
@@ -73,13 +68,9 @@ class AddRegionController extends GetxController {
       ),
     );
 
-    result.when((success) {
-      if (success.region != null) {
-        EasyLoading.showSuccess('Region added');
-        context.popRoute();
-      } else {
-        EasyLoading.showError('Error adding region');
-      }
+    result.when((region) {
+      EasyLoading.showSuccess('Region added');
+      context.popRoute();
     }, (error) {
       debugPrint(error.toString());
       if (error.code != null) {
@@ -104,7 +95,7 @@ class AddRegionController extends GetxController {
     }
 
     loading();
-    final result = await regionsRepo.update(
+    final result = await updateRegionUseCase.update(
       id: region!.id!,
       userUpdateRegionReq: UserUpdateRegionReq(
         name: titleCtrl.text,
@@ -114,13 +105,9 @@ class AddRegionController extends GetxController {
       ),
     );
 
-    result.when((success) {
-      if (success.region != null) {
-        EasyLoading.showSuccess('Region added');
-        context.popRoute();
-      } else {
-        EasyLoading.showError('Error adding region');
-      }
+    result.when((region) {
+      EasyLoading.showSuccess('Region added');
+      context.popRoute();
     }, (error) {
       debugPrint(error.toString());
       if (error.code != null) {
@@ -134,9 +121,9 @@ class AddRegionController extends GetxController {
   }
 
   Future<void> fetchProviders() async {
-    final result = await storeRepo.retrievePaymentProviders();
-    result.when((success) async {
-      paymentProviders = success.paymentProviders;
+    final result = await updateRegionUseCase.fetchPaymentProviders();
+    result.when((paymentProviders) async {
+      this.paymentProviders = paymentProviders;
       update();
       await providersExpansionKey.currentContext.ensureVisibility();
     }, (error) {

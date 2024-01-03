@@ -4,10 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../data/models/store/line_item.dart';
-import '../../../../data/models/store/money_amount.dart';
-import '../../../../data/models/store/region.dart';
 
 class VariantListTile extends StatelessWidget {
   const VariantListTile(
@@ -36,7 +34,7 @@ class VariantListTile extends StatelessWidget {
     } else {
       moneyAmount = (productVariant.prices?.isNotEmpty ?? false)
           ? productVariant.prices!.first
-          : MoneyAmount(amount: 0, currencyCode: 'USD');
+          : const MoneyAmount(amount: 0, currencyCode: 'USD');
     }
 
     const space = Gap(12);

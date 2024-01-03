@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-
-import '../../../../data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/pick_regions_controller.dart';
 
 @RoutePage()
@@ -17,7 +16,7 @@ class PickRegionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PickRegionsController>(
-      init: PickRegionsController(regionsRepo: RegionsRepo(), pickRegionsReq: pickRegionsReq),
+      init: PickRegionsController(regionsRepo: getIt<MedusaAdmin>().regionsRepository, pickRegionsReq: pickRegionsReq),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(

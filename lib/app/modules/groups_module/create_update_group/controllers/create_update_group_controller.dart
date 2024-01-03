@@ -2,19 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-
-import '../../../../data/models/store/customer_group.dart';
+import 'package:medusa_admin/domain/use_case/update_group_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class CreateUpdateGroupController extends GetxController {
   CreateUpdateGroupController(
-      {required this.customerGroupRepo, required this.customerGroup});
+      {required this.updateGroupUseCase, required this.customerGroup});
   final CustomerGroup? customerGroup;
   final groupTitleCtrl = TextEditingController();
-  final CustomerGroupRepo customerGroupRepo;
+  final UpdateGroupUseCase updateGroupUseCase;
   final formKey = GlobalKey<FormState>();
   bool get updateMode => customerGroup != null;
   final scrollController = ScrollController();
@@ -56,10 +55,10 @@ class CreateUpdateGroupController extends GetxController {
     for (var e in metadataTextCtrl) {
       metadata.addAll({e.key.text: e.value.text});
     }
-    final result = await customerGroupRepo.updateCustomerGroup(
+    final result = await updateGroupUseCase.updateCustomerGroup(
         id: customerGroup!.id!, name: groupTitleCtrl.text, metadata: metadata);
-    result.when((success) {
-      context.popRoute(success.customerGroup);
+    result.when((customerGroup) {
+      context.popRoute(customerGroup);
       EasyLoading.showSuccess('Customer group updated!');
     }, (error) {
       dismissLoading();
@@ -77,7 +76,7 @@ class CreateUpdateGroupController extends GetxController {
     for (var e in metadataTextCtrl) {
       metadata.addAll({e.key.text: e.value.text});
     }
-    final result = await customerGroupRepo.createCustomerGroup(
+    final result = await updateGroupUseCase.createCustomerGroup(
         name: groupTitleCtrl.text,
         metadata: metadata.isNotEmpty ? metadata : null);
     result.when((success) {

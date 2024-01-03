@@ -15,9 +15,9 @@ import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../data/repository/auth/auth_repo.dart';
 import '../../../components/language_selection/language_selection_view.dart';
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
@@ -51,7 +51,7 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(context) {
     return GetBuilder<SignInController>(
-        init: SignInController(authRepository: AuthRepo()),
+        init: SignInController(AuthenticationUseCase.instance),
         builder: (controller) {
           final tr = context.tr;
           final bool isRTL = context.isRTL;
@@ -276,7 +276,7 @@ class _SignInViewState extends State<SignInView> {
                                     context.unfocus();
                                   }
                                   await controller
-                                      .signIn(emailCtrl.text, passwordCtrl.text)
+                                      .login(emailCtrl.text, passwordCtrl.text)
                                       .then((value) {
                                     if (value) {
                                       context.router
@@ -375,8 +375,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
+                      //  in case theres '/' in the end remove it before updating
+                      final url = textCtrl.text.endsWith('/') ? textCtrl.text.replaceAll(RegExp(r'.$'), "") : textCtrl.text;
                       await StorageService.instance
-                          .updateUrl(textCtrl.text)
+                          .updateUrl(url)
                           .then(
                         (result) {
                           context.popRoute();
@@ -406,8 +408,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                       Text(
                           '* Make sure to restart the app after updating baseurl',
                           style: context.bodyMedium),
-                      Text('* base url MUST end with /admin',
-                          style: context.bodyMedium),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -431,10 +431,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
 
                       if (!val.isURL) {
                         return 'Invalid url';
-                      }
-
-                      if (!val.contains('admin')) {
-                        return 'Url must end with /admin';
                       }
 
                       return null;

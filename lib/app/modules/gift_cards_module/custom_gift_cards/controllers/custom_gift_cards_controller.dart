@@ -4,18 +4,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/req/user_gift_card_req.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/domain/use_case/gift_cards_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../../../../data/models/store/gift_card.dart';
-import '../../../../data/repository/gift_card/gift_card_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class CustomGiftCardsController extends GetxController {
   static CustomGiftCardsController get instance =>
       Get.find<CustomGiftCardsController>();
-  CustomGiftCardsController({required this.giftCardRepo});
-  final GiftCardRepo giftCardRepo;
+  CustomGiftCardsController({required this.giftCardsUseCase});
+  final GiftCardsUseCase giftCardsUseCase;
 
   final pagingController = PagingController<int, GiftCard>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
@@ -43,7 +41,7 @@ class CustomGiftCardsController extends GetxController {
     if (_refreshingData) {
       return;
     }
-    final result = await giftCardRepo.retrieveGiftCards(
+    final result = await giftCardsUseCase.fetchGiftCards(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,
@@ -67,7 +65,7 @@ class CustomGiftCardsController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await giftCardRepo.retrieveGiftCards(
+    final result = await giftCardsUseCase.fetchGiftCards(
       queryParameters: {
         'offset': 0,
         'limit': _pageSize,
@@ -102,7 +100,7 @@ class CustomGiftCardsController extends GetxController {
       bool getBack = true,
       required BuildContext context}) async {
     loading();
-    final result = await giftCardRepo.updateGiftCard(
+    final result = await giftCardsUseCase.update(
         id: id, userUpdateGiftCardReq: userUpdateGiftCardReq);
 
     result.when((success) {

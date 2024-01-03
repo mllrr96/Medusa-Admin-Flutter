@@ -2,12 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/discount_details_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../data/repository/discount/discount_repo.dart';
-import '../../../../data/repository/discount_condition/discount_condition_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';
 import '../controllers/discount_details_controller.dart';
 
@@ -21,8 +20,7 @@ class DiscountDetailsView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<DiscountDetailsController>(
         init: DiscountDetailsController(
-          discountRepo: DiscountRepo(),
-          discountConditionRepo: DiscountConditionRepo(),
+          discountDetailsUseCase: DiscountDetailsUseCase.instance,
           discountId: discount.id!,
         ),
         builder: (controller) {

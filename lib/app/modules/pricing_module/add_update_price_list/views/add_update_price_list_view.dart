@@ -5,15 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/price_list/price_list_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/components/pick_groups/views/pick_groups_view.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/adaptive_icon.dart';
@@ -150,6 +150,7 @@ class AddUpdatePriceListView extends StatelessWidget {
         builder: (controller) {
           return HeaderCard(
               key: controller.configKey,
+              controller: controller.configController,
               maintainState: true,
               onExpansionChanged: (expanded) async {
                 if (expanded) {
@@ -227,7 +228,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                     onChanged: (val) async {
                       if (val) {
                         controller.priceList = controller.priceList.copyWith
-                            .endsAt(DateTime.now().add(const Duration(days: 7)));
+                            .endsAt(
+                                DateTime.now().add(const Duration(days: 7)));
                         controller.update([2]);
                         await controller.configKey.currentContext
                             .ensureVisibility();
@@ -520,8 +522,8 @@ class AddUpdatePriceListView extends StatelessWidget {
     }
 
     return GetBuilder<AddUpdatePriceListController>(
-      init:
-          AddUpdatePriceListController(priceListRepo: PriceListRepo(), id: id),
+      init: AddUpdatePriceListController(
+          updatePriceListUseCase: UpdatePriceListUseCase.instance, id: id),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),
@@ -544,33 +546,30 @@ class AddUpdatePriceListView extends StatelessWidget {
               ],
             ),
             body: SafeArea(
-              child: Form(
-                key: controller.formKey,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 10.0),
-                  children: [
-                    SwitchListTile.adaptive(
-                      contentPadding: EdgeInsets.zero,
-                      value: controller.saveAsDraft,
-                      onChanged: (val) {
-                        controller.saveAsDraft = val;
-                        controller.update();
-                      },
-                      title: controller.updateMode
-                          ? const Text('Unpublish')
-                          : const Text('Save as draft'),
-                    ),
-                    const Divider(),
-                    buildPriceListType(),
-                    space,
-                    buildGeneral(),
-                    space,
-                    buildConfig(),
-                    space,
-                    buildPrices(),
-                  ],
-                ),
+              child: ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                children: [
+                  SwitchListTile.adaptive(
+                    contentPadding: EdgeInsets.zero,
+                    value: controller.saveAsDraft,
+                    onChanged: (val) {
+                      controller.saveAsDraft = val;
+                      controller.update();
+                    },
+                    title: controller.updateMode
+                        ? const Text('Unpublish')
+                        : const Text('Save as draft'),
+                  ),
+                  const Divider(),
+                  buildPriceListType(),
+                  space,
+                  Form(key: controller.generalFormKey, child: buildGeneral()),
+                  space,
+                  Form(key: controller.configFormKey, child: buildConfig()),
+                  space,
+                  buildPrices(),
+                ],
               ),
             ),
           ),

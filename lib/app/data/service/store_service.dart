@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class StoreService extends GetxService {
   StoreService({required this.storeRepo});
   static StoreService get instance => Get.find<StoreService>();
   static Store get store => instance._store;
-  StoreRepo storeRepo;
+  StoreRepository storeRepo;
   late Store _store;
 
   Future<StoreService> init() async {
@@ -17,8 +16,10 @@ class StoreService extends GetxService {
 
   Future<void> loadStore() async {
     try {
-      final result = await storeRepo.retrieve(queryParameters: {'expand': 'currencies,default_sales_channel'});
-      result.when((success) =>  _store = success.store, (error) => debugPrint(error.message));
+      final store = await storeRepo.retrieve(queryParameters: {'expand': 'currencies,default_sales_channel'});
+      if(store != null){
+        _store = store;
+      }
     } catch (e) {
       debugPrint(e.toString());
       // Show Error loading store

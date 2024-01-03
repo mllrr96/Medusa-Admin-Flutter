@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/update_gift_card_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../data/repository/gift_card/gift_card_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/adaptive_date_picker.dart';
 import '../../../components/currency_formatter.dart';
@@ -30,7 +30,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
     const space = Gap(12);
     const halfSpace = Gap(6);
     return GetBuilder<CreateUpdateCustomGiftCardController>(
-      init: CreateUpdateCustomGiftCardController(giftCardRepo: GiftCardRepo(), giftCard: giftCard),
+      init: CreateUpdateCustomGiftCardController(updateGiftCardUseCase: UpdateGiftCardUseCase.instance, giftCard: giftCard),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),

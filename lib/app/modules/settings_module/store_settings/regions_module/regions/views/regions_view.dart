@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
@@ -22,7 +22,7 @@ class RegionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RegionsController>(
-        init: RegionsController(regionsRepo: RegionsRepo()),
+        init: RegionsController(RegionsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

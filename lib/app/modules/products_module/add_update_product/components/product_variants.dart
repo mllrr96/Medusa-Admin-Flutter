@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/product_add_option.dart';
@@ -10,7 +10,6 @@ import 'package:medusa_admin/app/modules/products_module/add_update_product/comp
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../controllers/add_update_product_controller.dart';
 
 class ProductVariants extends StatelessWidget {
@@ -60,10 +59,7 @@ class ProductVariants extends StatelessWidget {
               space,
               AdaptiveButton(
                   onPressed: () async {
-                    final result = GetPlatform.isIOS
-                        ? await showCupertinoModalBottomSheet(
-                        context: context, builder: (context) => const AddOptionView())
-                        : await showModalBottomSheet(
+                    final result = await showModalBottomSheet(
                         context: context, builder: (context) => const AddOptionView(), isScrollControlled: true);
                     if (result is ProductOption) {
                       List<ProductOption>? options = controller.product.options;

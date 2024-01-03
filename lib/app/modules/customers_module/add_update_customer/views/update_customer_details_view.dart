@@ -2,12 +2,12 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/update_customer_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../controllers/update_customer_details_controller.dart';
 
@@ -19,7 +19,7 @@ class AddUpdateCustomerView extends StatelessWidget {
   Widget build(BuildContext context) {
     const halfSpace = Gap(6.0);
     return GetBuilder<AddUpdateCustomerController>(
-        init: AddUpdateCustomerController(customerRepo: CustomerRepo(), customer: customer),
+        init: AddUpdateCustomerController( customer: customer, updateCustomerUseCase: UpdateCustomerUseCase.instance),
         builder: (controller) {
           final updateMode = controller.updateMode;
       return GestureDetector(

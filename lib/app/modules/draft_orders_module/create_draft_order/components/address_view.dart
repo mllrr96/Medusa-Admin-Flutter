@@ -8,10 +8,8 @@ import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../data/models/store/address.dart';
-import '../../../../data/models/store/country.dart';
-import '../../../../data/models/store/customer.dart';
 import '../../../components/adaptive_icon.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_draft_order_controller.dart';
@@ -21,10 +19,12 @@ class CreateDraftOrderAddressView extends StatefulWidget {
   const CreateDraftOrderAddressView(this.controller, {super.key});
   final CreateDraftOrderController controller;
   @override
-  State<CreateDraftOrderAddressView> createState() => _CreateDraftOrderAddressViewState();
+  State<CreateDraftOrderAddressView> createState() =>
+      _CreateDraftOrderAddressViewState();
 }
 
-class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressView>{
+class _CreateDraftOrderAddressViewState
+    extends State<CreateDraftOrderAddressView> {
   final customerCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
 
@@ -96,11 +96,11 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
           controller: customerCtrl,
           readOnly: true,
           onTap: () async {
-           final result = await context.pushRoute(PickCustomerRoute(
+            final result = await context.pushRoute(PickCustomerRoute(
                 pickCustomerReq: PickCustomerReq(
-                    selectedCustomers:
-                    controller.selectedCustomer != null ? [controller.selectedCustomer!] : null)
-            ));
+                    selectedCustomers: controller.selectedCustomer != null
+                        ? [controller.selectedCustomer!]
+                        : null)));
             if (result is PickCustomerRes) {
               final customer = result.selectedCustomers.first;
               controller.selectedCustomer = customer;
@@ -117,7 +117,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
           },
           decoration: InputDecoration(
             hintText: 'Choose customer',
-            suffixIcon: controller.selectedCustomer != null && !controller.customCustomer
+            suffixIcon: controller.selectedCustomer != null &&
+                    !controller.customCustomer
                 ? AdaptiveIcon(
                     onPressed: () {
                       controller.selectedCustomer = null;
@@ -133,11 +134,13 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 : const Icon(Icons.arrow_drop_down),
           ),
           validator: (val) {
-            if (emailCtrl.text.removeAllWhitespace.isNotEmpty && (val?.isEmpty ?? true)) {
+            if (emailCtrl.text.removeAllWhitespace.isNotEmpty &&
+                (val?.isEmpty ?? true)) {
               return null;
             }
 
-            if (emailCtrl.text.removeAllWhitespace.isEmpty && (val?.isEmpty ?? true)) {
+            if (emailCtrl.text.removeAllWhitespace.isEmpty &&
+                (val?.isEmpty ?? true)) {
               return 'Field is required';
             }
 
@@ -146,9 +149,12 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
         ),
         LabeledTextField(
           label: 'Email',
-          style: controller.customCustomer ? null : smallTextStyle?.copyWith(color: lightWhite),
+          style: controller.customCustomer
+              ? null
+              : smallTextStyle?.copyWith(color: lightWhite),
           onChanged: (val) {
-            if (!controller.customCustomer && controller.selectedCustomer == null) {
+            if (!controller.customCustomer &&
+                controller.selectedCustomer == null) {
               controller.customCustomer = true;
             }
             if (val.removeAllWhitespace.isNotEmpty) {
@@ -171,7 +177,9 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
           readOnly: !controller.customCustomer,
           hintText: 'lebron@james.com',
           decoration: InputDecoration(
-              prefixIcon: controller.customCustomer ? null : Icon(CupertinoIcons.lock_fill, color: lightWhite)),
+              prefixIcon: controller.customCustomer
+                  ? null
+                  : Icon(CupertinoIcons.lock_fill, color: lightWhite)),
         ),
         space,
         const Text('Shipping Details'),
@@ -180,10 +188,10 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
           key: shippingGeneralKey,
           title: const Text('General'),
           onExpansionChanged: (expanded) async {
-              await shippingGeneralKey.currentContext.ensureVisibility();
+            await shippingGeneralKey.currentContext.ensureVisibility();
           },
           child: Column(
-            children: <Widget> [
+            children: <Widget>[
               LabeledTextField(
                 label: 'First Name',
                 controller: firstNameCtrl,
@@ -194,7 +202,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                   return null;
                 },
                 onChanged: (val) {
-                  controller.shippingAddress.firstName = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(firstName: val);
                 },
                 required: true,
               ),
@@ -202,7 +211,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 label: 'Last Name',
                 controller: lastNameCtrl,
                 onChanged: (val) {
-                  controller.shippingAddress.lastName = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(lastName: val);
                 },
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -216,14 +226,16 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 label: 'Company',
                 controller: companyCtrl,
                 onChanged: (val) {
-                  controller.shippingAddress.company = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(company: val);
                 },
               ),
               LabeledTextField(
                 label: 'Phone Number',
                 controller: phoneCtrl,
                 onChanged: (val) {
-                  controller.shippingAddress.phone = int.tryParse(val);
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(phone: val);
                 },
               ),
             ],
@@ -245,7 +257,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 label: 'Address 1',
                 controller: address1Ctrl,
                 onChanged: (val) {
-                  controller.shippingAddress.address1 = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(address1: val);
                 },
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -259,14 +272,16 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 label: 'Address 2',
                 controller: address2Ctrl,
                 onChanged: (val) {
-                  controller.shippingAddress.address2 = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(address2: val);
                 },
               ),
               LabeledTextField(
                 label: 'Postal Code',
                 controller: postalCodeCtrl,
                 onChanged: (val) {
-                  controller.shippingAddress.postalCode = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(postalCode: val);
                 },
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -280,7 +295,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 label: 'City',
                 controller: cityCtrl,
                 onChanged: (val) {
-                  controller.shippingAddress.city = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(city: val);
                 },
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -294,7 +310,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 label: 'Province',
                 controller: provinceCtrl,
                 onChanged: (val) {
-                  controller.shippingAddress.province = val;
+                  controller.shippingAddress =
+                      controller.shippingAddress.copyWith(province: val);
                 },
               ),
               if (countries?.isNotEmpty ?? false)
@@ -303,7 +320,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                     Row(
                       children: [
                         Text('Country', style: mediumTextStyle),
-                        Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
+                        Text('*',
+                            style: mediumTextStyle?.copyWith(color: Colors.red))
                       ],
                     ),
                     halfSpace,
@@ -312,12 +330,13 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                       value: countries?.first,
                       items: countries
                           ?.map((e) => DropdownMenuItem<Country>(
-                        value: e,
-                        child: Text(e.name?.capitalize ?? ''),
-                      ))
+                                value: e,
+                                child: Text(e.name?.capitalize ?? ''),
+                              ))
                           .toList(),
                       onChanged: (Country? country) {
-                        controller.shippingAddress.country = country;
+                        controller.shippingAddress = controller.shippingAddress
+                            .copyWith(country: country);
                       },
                       validator: (val) {
                         if (val == null) {
@@ -352,7 +371,7 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
               billingCityCtrl.clear();
               billingProvinceCtrl.clear();
             } else {
-              controller.billingAddress = Address();
+              controller.billingAddress = const Address();
               controller.sameAddress = false;
             }
             controller.update();
@@ -365,7 +384,7 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
         HeaderCard(
           key: billingGeneralKey,
           // label: 'General',
-          title: Text('General'),
+          title: const Text('General'),
           onExpansionChanged: (expanded) async {
             if (expanded) {
               await billingGeneralKey.currentContext.ensureVisibility();
@@ -379,7 +398,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingFirstNameCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.firstName = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(firstName: val);
                 },
                 validator: (val) {
                   if (controller.sameAddress) {
@@ -398,7 +418,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingLastNameCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.lastName = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(lastName: val);
                 },
                 validator: (val) {
                   if (controller.sameAddress) {
@@ -417,7 +438,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingCompanyCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.company = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(company: val);
                 },
               ),
               LabeledTextField(
@@ -426,7 +448,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingPhoneCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.phone = int.tryParse(val);
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(phone: val);
                 },
               ),
             ],
@@ -436,7 +459,7 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
         HeaderCard(
           key: billingAddressKey,
           // label: 'Billing Address',
-          title: Text('Billing Address'),
+          title: const Text('Billing Address'),
           onExpansionChanged: (expanded) async {
             if (expanded) {
               await billingAddressKey.currentContext.ensureVisibility();
@@ -450,7 +473,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingAddress1Ctrl,
                 onChanged: (val) {
-                  controller.billingAddress.address1 = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(address1: val);
                 },
                 validator: (val) {
                   if (controller.sameAddress) {
@@ -469,7 +493,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingAddress2Ctrl,
                 onChanged: (val) {
-                  controller.billingAddress.address2 = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(address2: val);
                 },
               ),
               LabeledTextField(
@@ -478,7 +503,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingPostalCodeCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.postalCode = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(postalCode: val);
                 },
                 validator: (val) {
                   if (controller.sameAddress) {
@@ -497,7 +523,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingCityCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.city = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(city: val);
                 },
                 validator: (val) {
                   if (controller.sameAddress) {
@@ -516,7 +543,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                 readOnly: controller.sameAddress,
                 controller: billingProvinceCtrl,
                 onChanged: (val) {
-                  controller.billingAddress.province = val;
+                  controller.billingAddress =
+                      controller.billingAddress.copyWith(province: val);
                 },
               ),
               if (countries?.isNotEmpty ?? false)
@@ -525,7 +553,8 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                     Row(
                       children: [
                         Text('Country', style: mediumTextStyle),
-                        Text('*', style: mediumTextStyle?.copyWith(color: Colors.red))
+                        Text('*',
+                            style: mediumTextStyle?.copyWith(color: Colors.red))
                       ],
                     ),
                     halfSpace,
@@ -534,12 +563,13 @@ class _CreateDraftOrderAddressViewState extends State<CreateDraftOrderAddressVie
                       value: countries?.first,
                       items: countries
                           ?.map((e) => DropdownMenuItem<Country>(
-                        value: e,
-                        child: Text(e.name?.capitalize ?? ''),
-                      ))
+                                value: e,
+                                child: Text(e.name?.capitalize ?? ''),
+                              ))
                           .toList(),
                       onChanged: (Country? country) {
-                        controller.billingAddress.country = country;
+                        controller.billingAddress = controller.billingAddress
+                            .copyWith(country: country);
                       },
                       validator: (val) {
                         if (controller.sameAddress) {

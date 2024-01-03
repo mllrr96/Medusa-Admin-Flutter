@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../../core/utils/colors.dart';
-import '../../../../../data/models/store/order.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderPlacedWidget extends StatefulWidget {
   const OrderPlacedWidget(this.order, {super.key});

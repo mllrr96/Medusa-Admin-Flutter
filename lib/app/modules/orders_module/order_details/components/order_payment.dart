@@ -7,10 +7,9 @@ import 'package:medusa_admin/app/modules/orders_module/order_details/controllers
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../data/models/req/user_order.dart';
-import '../../../../data/models/store/order.dart';
 import '../../../components/adaptive_button.dart';
 import '../../orders/components/payment_status_label.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderPayment extends GetView<OrderDetailsController> {
   const OrderPayment(this.order, {super.key, this.onExpansionChanged});

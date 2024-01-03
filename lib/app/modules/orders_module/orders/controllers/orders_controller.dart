@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
-import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
-import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
+import 'package:medusa_admin/domain/use_case/orders_filter_use_case.dart';
+import 'package:medusa_admin/domain/use_case/products_filter_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/app/modules/products_module/products/components/products_filter_controller.dart';
+import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class OrdersController extends GetxController {
   static OrdersController get instance => Get.find<OrdersController>();
 
-  OrdersController({required this.ordersRepository});
-  final OrdersRepo ordersRepository;
+  OrdersController({required this.ordersUseCase});
+  final OrdersUseCase ordersUseCase;
   final refreshController = RefreshController();
   RxInt ordersCount = 0.obs;
   final scrollController = ScrollController();
@@ -29,9 +27,8 @@ class OrdersController extends GetxController {
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
-    Get.put(OrdersFilterController(
-        regionsRepo: RegionsRepo(), salesChannelRepo: SalesChannelRepo()));
-    Get.put(ProductsFilterController(productTagRepo: ProductTagRepo(), collectionRepo: CollectionRepo()));
+    Get.put(OrdersFilterController(OrdersFilterUseCase.instance));
+    Get.put(ProductsFilterController(ProductsFilterUseCase.instance));
     super.onInit();
   }
 
@@ -45,7 +42,7 @@ class OrdersController extends GetxController {
     if (refreshingData) {
       return;
     }
-    final result = await ordersRepository.retrieveOrders(
+    final result = await ordersUseCase.retrieveOrders(
         queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
@@ -71,7 +68,7 @@ class OrdersController extends GetxController {
 
   Future<void> refreshData() async {
     refreshingData = true;
-    final result = await ordersRepository.retrieveOrders(
+    final result = await ordersUseCase.retrieveOrders(
         queryParameters: {
       'offset': 0,
       'limit': _pageSize,

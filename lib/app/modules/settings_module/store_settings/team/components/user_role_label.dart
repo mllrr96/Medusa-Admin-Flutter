@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class UserRoleLabel extends StatelessWidget {
-  const UserRoleLabel({Key? key, required this.userRole}) : super(key: key);
+  const UserRoleLabel({super.key, required this.userRole});
   final UserRole userRole;
   @override
   Widget build(BuildContext context) {

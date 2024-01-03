@@ -2,30 +2,27 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.dart';
+import 'package:medusa_admin/domain/use_case/create_draft_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-import '../../../../data/models/req/user_draft_order_req.dart';
-import '../../../../data/repository/regions/regions_repo.dart';
 import '../../../components/easy_loading.dart';
 
 class CreateDraftOrderController extends GetxController
     with GetSingleTickerProviderStateMixin {
   CreateDraftOrderController(
-      {required this.regionsRepo, required this.draftOrderRepo});
+      {required this.createDraftUseCase});
   static CreateDraftOrderController get instance =>
       Get.find<CreateDraftOrderController>();
-  final RegionsRepo regionsRepo;
-  final DraftOrderRepo draftOrderRepo;
+  final CreateDraftUseCase createDraftUseCase;
   late TabController tabController;
 
   List<LineItem> lineItems = [];
   List<LineItem> customLineItems = [];
   Customer? selectedCustomer;
   bool customCustomer = true;
-  Address shippingAddress = Address();
-  Address billingAddress = Address();
+  Address shippingAddress = const Address();
+  Address billingAddress = const Address();
   bool sameAddress = false;
 
   Region? selectedRegion;
@@ -41,8 +38,8 @@ class CreateDraftOrderController extends GetxController
 
   Future<void> createDraftOrder(BuildContext context) async {
     loading();
-    final result = await draftOrderRepo.createDraftOrder(
-        userCreateDraftOrderReq: UserCreateDraftOrderReq(
+    final result = await createDraftUseCase(
+        UserCreateDraftOrderReq(
             discounts: [],
             email: selectedCustomer!.email,
             customerId: selectedCustomer?.id,

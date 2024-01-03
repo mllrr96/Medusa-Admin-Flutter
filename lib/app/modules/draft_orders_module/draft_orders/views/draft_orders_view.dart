@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/draft_order.dart';
+import 'package:medusa_admin/domain/use_case/drafts_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../route/app_router.dart';
-import '../../../../data/repository/draft_order/draft_order_repo.dart';
 import '../../../components/scrolling_expandable_fab.dart';
 import '../components/index.dart';
 import '../controllers/draft_orders_controller.dart';
@@ -23,7 +23,7 @@ class DraftOrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DraftOrdersController>(
-        init: DraftOrdersController(draftOrderRepo: DraftOrderRepo()),
+        init: DraftOrdersController(draftsUseCase: DraftsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             drawer: const AppDrawer(),

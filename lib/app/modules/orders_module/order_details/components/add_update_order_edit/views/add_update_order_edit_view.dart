@@ -6,15 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/domain/use_case/order_edit_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-
-import '../../../../../../data/repository/order_edit/order_edit_repo.dart';
 import '../../../../../components/adaptive_button.dart';
 import '../../../../../draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import '../controllers/add_update_order_edit_controller.dart';
@@ -27,7 +26,7 @@ class AddUpdateOrderEditView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AddUpdateOrderEditController>(
         init: AddUpdateOrderEditController(
-            orderEditRepo: OrderEditRepo(), order: order),
+            orderEditUseCase: OrderEditUseCase.instance, order: order),
         builder: (controller) {
           return Scaffold(
               appBar: AppBar(
@@ -112,7 +111,7 @@ class AddUpdateOrderEditView extends StatelessWidget {
                       const SizedBox(height: 12.0),
                       FilledButton(
                           onPressed: () async =>
-                              await controller.loadOrderEdit(),
+                              await controller.fetchOrderEdits(),
                           child: const Text('Retry')),
                     ],
                   ),

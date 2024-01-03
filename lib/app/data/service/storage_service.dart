@@ -1,29 +1,29 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/app/data/service/theme_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/di/di.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/extensions/flex_scheme_extension.dart';
 import '../../../core/utils/strings.dart';
 import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import '../models/app/settings.dart';
+@singleton
+class StorageService {
+  StorageService(SharedPreferences prefs) : _prefs = prefs;
+  static StorageService get instance => getIt<StorageService>();
+  static String get baseUrl => instance._baseUrl;
+  static String get language => instance._language;
+  static String? get cookie => instance._cookie;
+  static PackageInfo get packageInfo => instance._packageInfo;
+  static List<SearchHistory> get searchHistory => instance._searchHistory;
 
-class StorageService extends GetxService {
-  static StorageService get instance => Get.find<StorageService>();
-  static String get baseUrl => Get.find<StorageService>()._baseUrl;
-  static String get language => Get.find<StorageService>()._language;
-  static String? get cookie => Get.find<StorageService>()._cookie;
-  static PackageInfo get packageInfo => Get.find<StorageService>()._packageInfo;
-  static List<SearchHistory> get searchHistory =>
-      Get.find<StorageService>()._searchHistory;
-
-  static AppSettings get appSettings => Get.find<StorageService>()._appSettings;
-  static OrderSettings get orderSettings =>
-      Get.find<StorageService>()._orderSettings;
-
-  late SharedPreferences _prefs;
+  static AppSettings get appSettings => instance._appSettings;
+  static OrderSettings get orderSettings => instance._orderSettings;
+  final SharedPreferences _prefs;
   late String _baseUrl;
   late PackageInfo _packageInfo;
   late String _language;
@@ -31,27 +31,27 @@ class StorageService extends GetxService {
   late List<SearchHistory> _searchHistory;
   late AppSettings _appSettings;
   late OrderSettings _orderSettings;
-
-  Future<StorageService> init() async {
-    _prefs = await SharedPreferences.getInstance();
+  @PostConstruct()
+  void init() {
     try {
-      _cookie = _prefs.getString(AppConstants.cookieKey);
+      _cookie = _prefs.getString('medusa_admin_cookie');
       _language = _prefs.getString(AppConstants.languageKey) ??
           Get.deviceLocale?.languageCode ??
           'en';
       _baseUrl =
           _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
-      _packageInfo = await PackageInfo.fromPlatform();
+      _packageInfo = getIt<PackageInfo>();
       final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
       if (appSettingsCoded != null) {
         _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
       } else {
-        _appSettings = AppSettings(colorScheme: RandomFlexScheme.random());
+        _appSettings = AppSettings.defaultSettings()
+            .copyWith(colorScheme: RandomFlexScheme.random());
         updateAppSettings(_appSettings);
       }
 
       final orderSettingsCoded =
-          _prefs.getString(AppConstants.orderSettingsKey);
+      _prefs.getString(AppConstants.orderSettingsKey);
       if (orderSettingsCoded != null) {
         _orderSettings = OrderSettings.fromJson(jsonDecode(orderSettingsCoded));
       } else {
@@ -59,7 +59,7 @@ class StorageService extends GetxService {
       }
 
       final String? searchHistoryString =
-          _prefs.getString(AppConstants.searchHistoryKey);
+      _prefs.getString(AppConstants.searchHistoryKey);
       if (searchHistoryString != null && searchHistoryString.isNotEmpty) {
         _searchHistory = SearchHistory.decode(searchHistoryString);
       } else {
@@ -69,15 +69,13 @@ class StorageService extends GetxService {
       debugPrint(e.toString());
       _cookie = null;
       _language = 'en';
-      _appSettings = AppSettings();
+      _appSettings = AppSettings.defaultSettings();
       _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;
       _packageInfo = PackageInfo(
           appName: '', packageName: '', version: '', buildNumber: '');
     }
-
-    return this;
   }
 
   Future<bool> updateAppSettings(AppSettings appSettings) async {

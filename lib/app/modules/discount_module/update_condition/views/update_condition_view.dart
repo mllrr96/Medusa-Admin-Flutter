@@ -3,12 +3,12 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
-import '../../../../../core/utils/enums.dart';
+import 'package:medusa_admin/domain/use_case/update_condition_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../discount_conditions/components/condition_collection_list_tile.dart';
 import '../../discount_conditions/components/condition_customer_group_list_tile.dart';
 import '../../discount_conditions/components/condition_tag_list_tile.dart';
@@ -31,7 +31,7 @@ class UpdateConditionView extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
 
     return GetBuilder<UpdateConditionController>(
-      init: UpdateConditionController(updateConditionReq),
+      init: UpdateConditionController(updateConditionReq, UpdateConditionUseCase.instance),
       builder: (controller) {
         final buttonText = AnimatedSwitcher(
             duration: const Duration(milliseconds: 220),

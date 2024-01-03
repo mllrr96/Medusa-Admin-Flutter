@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer.dart';
-import 'package:medusa_admin/app/data/repository/customer/customer_repo.dart';
+import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CustomersController extends GetxController {
   static CustomersController get instance => Get.find<CustomersController>();
-  CustomersController({required this.customerRepo});
-  final CustomerRepo customerRepo;
+  CustomersController({required this.customerUseCase});
+  final CustomerUseCase customerUseCase;
 
   RefreshController refreshController = RefreshController();
   final PagingController<int, Customer> pagingController =
@@ -35,7 +35,7 @@ class CustomersController extends GetxController {
     if (_refreshingData) {
       return;
     }
-    final result = await customerRepo.retrieveCustomers(queryParameters: {
+    final result = await customerUseCase.retrieveCustomers(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'orders',
@@ -59,7 +59,7 @@ class CustomersController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await customerRepo.retrieveCustomers(queryParameters: {
+    final result = await customerUseCase.retrieveCustomers(queryParameters: {
       'offset': 0,
       'limit': _pageSize,
       'expand': 'orders',

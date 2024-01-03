@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/order.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../../../core/utils/colors.dart';
 
 class FulfillmentStatusLabel extends StatelessWidget {
-  const FulfillmentStatusLabel({Key? key, required this.fulfillmentStatus}) : super(key: key);
+  const FulfillmentStatusLabel({super.key, required this.fulfillmentStatus});
   final FulfillmentStatus fulfillmentStatus;
   @override
   Widget build(BuildContext context) {

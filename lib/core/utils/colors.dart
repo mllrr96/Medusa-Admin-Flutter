@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:ui';
 
 class ColorManager {
   static Color primary = const Color(0xFF8B5DF6);

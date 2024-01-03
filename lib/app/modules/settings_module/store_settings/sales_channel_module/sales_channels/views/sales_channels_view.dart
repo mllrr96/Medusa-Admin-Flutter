@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin/domain/use_case/sales_channels_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_channel_module/sales_channels/components/index.dart';
@@ -11,7 +12,6 @@ import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../../../data/repository/sales_channel/sales_channel_repo.dart';
 import '../controllers/sales_channels_controller.dart';
 
 @RoutePage()
@@ -23,7 +23,7 @@ class SalesChannelsView extends StatelessWidget {
     final lightWhite = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GetBuilder<SalesChannelsController>(
-        init: SalesChannelsController(salesChannelRepo: SalesChannelRepo()),
+        init: SalesChannelsController(salesChannelsUseCase: SalesChannelsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

@@ -12,6 +12,12 @@ dependencies:
   get: ^4.6.5
   # -------------------
 
+  # Dependency injection packages
+  # -------------------
+  get_it: ^7.6.4
+  injectable: ^2.3.2
+  # -------------------
+
   # App routing
   # -------------------
   auto_route: ^7.8.4
@@ -24,10 +30,9 @@ dependencies:
   uuid: ^4.2.1
   #--------------------
 
-  # UI packages
+  # UI & animation packages
   # -------------------
   adaptive_dialog: ^2.0.0
-#  settings_ui: ^2.0.2
   flutter_settings_ui: ^3.0.0
   flutter_easyloading: ^3.0.5
   flutter_svg: ^2.0.6
@@ -36,10 +41,18 @@ dependencies:
   pull_to_refresh: ^2.0.0
   modal_bottom_sheet: ^3.0.0-pre
   flex_color_scheme: ^7.3.1
+  loading_animation_widget: ^1.2.0+4
+  flutter_speed_dial: ^7.0.0
+  flutter_slidable: ^3.0.0
+  flutter_animate: ^4.1.1+1
+  super_banners: ^0.0.1
+  google_fonts: ^6.1.0
+  skeletonizer: ^0.8.0
+  fluttertoast: ^8.2.4
+  info_popup: ^4.3.1
+  #--------------------
 
-  # Miscellaneous packages
-  # -------------------
-  equatable: ^2.0.5
+
 
   # Storage packages
   # -------------------
@@ -48,38 +61,43 @@ dependencies:
   cached_network_image: ^3.2.3
   # -------------------
 
+  # Network packages
+  # -------------------
   dio: ^5.1.2
+  internet_connection_checker_plus: ^2.1.0
+  # -------------------
 
-  flutter:
-    sdk: flutter
-  multiple_result: ^5.0.0
-  loading_animation_widget: ^1.2.0+4
-  flutter_speed_dial: ^7.0.0
-  info_popup: ^4.1.0
-  flutter_slidable: ^3.0.0
-  package_info_plus: ^5.0.1
-  flutter_animate: ^4.1.1+1
-  flutter_localizations:
-    sdk: flutter
-  super_banners: ^0.0.1
-  google_fonts: ^6.1.0
-  copy_with_extension: ^5.0.3
-  skeletonizer: ^0.8.0
+
+  # Miscellaneous packages
+  # -------------------
+  equatable: ^2.0.5
   flag: ^7.0.0
   timeago: ^3.5.0
   gap: ^3.0.1
-  fluttertoast: ^8.2.4
-  internet_connection_checker_plus: ^2.1.0
+  multiple_result: ^5.0.0
+  package_info_plus: ^5.0.1
+  copy_with_extension: ^5.0.3
   multi_dropdown: ^2.1.2
+  flutter:
+    sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+
+  medusa_admin_flutter:
+    git:
+      url: https://github.com/mllrr96/Medusa_Admin_API_Flutter.git
+      ref: main
 
 
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^3.0.1
   auto_route_generator: ^7.3.2
   build_runner: ^2.4.7
   flutter_launcher_icons: ^0.13.1
   copy_with_extension_gen: ^5.0.4
+  injectable_generator: ^2.4.1
   flutter_test:
     sdk: flutter
 

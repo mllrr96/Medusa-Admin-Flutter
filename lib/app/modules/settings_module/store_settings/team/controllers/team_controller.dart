@@ -2,15 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/user/user_repo.dart';
-import '../../../../../data/models/req/user_user_req.dart';
+import 'package:medusa_admin/domain/use_case/team_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../components/easy_loading.dart';
 
 class TeamController extends GetxController with StateMixin<List<User>> {
-  TeamController({required this.userRepo});
+  TeamController({required this.teamUseCase});
   static TeamController get instance => Get.find<TeamController>();
-  final UserRepo userRepo;
+  final TeamUseCase teamUseCase;
   RxBool search = false.obs;
   final searchCtrl = TextEditingController();
   RxInt membersCount = 0.obs;
@@ -29,7 +28,7 @@ class TeamController extends GetxController with StateMixin<List<User>> {
 
   Future<void> loadUsers() async {
     change(null, status: RxStatus.loading());
-    final result = await userRepo.retrieveAll();
+    final result = await teamUseCase.fetchUsers();
     result.when((success) {
       if (success.userList != null) {
         membersCount.value = success.userList!.length;
@@ -40,9 +39,13 @@ class TeamController extends GetxController with StateMixin<List<User>> {
     }, (error) => change(null, status: RxStatus.error(error.message)));
   }
 
-  Future<void> updateUser({required String id, required UserUpdateUserReq userUpdateUserReq, required BuildContext context}) async {
+  Future<void> updateUser(
+      {required String id,
+      required UserUpdateUserReq userUpdateUserReq,
+      required BuildContext context}) async {
     loading();
-    final result = await userRepo.update(id: id, userUpdateUserReq: userUpdateUserReq);
+    final result = await teamUseCase.updateUser(
+        id: id, userUpdateUserReq: userUpdateUserReq);
     result.when((success) async {
       EasyLoading.showSuccess('User updated');
       context.popRoute();
@@ -52,7 +55,7 @@ class TeamController extends GetxController with StateMixin<List<User>> {
 
   Future<void> deleteUser(String id) async {
     loading();
-    final result = await userRepo.delete(id: id);
+    final result = await teamUseCase.deleteUser(id);
     result.when((success) async {
       EasyLoading.showSuccess('User deleted');
       await loadUsers();

@@ -2,15 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_order.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class TransferOrderController extends GetxController {
-  TransferOrderController({required this.ordersRepo, required this.order});
-  final OrdersRepo ordersRepo;
+  TransferOrderController({required this.ordersUseCase, required this.order});
+  final OrdersUseCase ordersUseCase;
   final Order order;
   final currentOwnerCtrl = TextEditingController();
   final newOwnerCtrl = TextEditingController();
@@ -18,7 +17,7 @@ class TransferOrderController extends GetxController {
   Rx<Customer?> selectedCustomer = (null as Customer?).obs;
   Future<void> updateOrder(BuildContext context) async {
     loading();
-    final result = await ordersRepo.updateOrder(
+    final result = await ordersUseCase.updateOrder(
         id: order.id!, userUpdateOrderReq: UserUpdateOrderReq(customerId: selectedCustomer.value!.id!));
     result.when((success) {
       EasyLoading.showSuccess('Order transferred');

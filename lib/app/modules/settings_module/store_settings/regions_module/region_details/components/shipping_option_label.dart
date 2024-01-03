@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class ShippingOptionLabel extends StatelessWidget {
-  const ShippingOptionLabel({Key? key, required this.adminOnly}) : super(key: key);
+  const ShippingOptionLabel({super.key, required this.adminOnly});
   final bool adminOnly;
   @override
   Widget build(BuildContext context) {

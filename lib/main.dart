@@ -8,17 +8,22 @@ import 'app/data/service/storage_service.dart';
 import 'app/data/service/theme_service.dart';
 import 'core/theme/flex_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'di/di.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //* inject dependencies
+  await configureInjection();
+  // await StorageService.instance.init();
   await initServices();
-  runApp(MyApp());
+  runApp(const MedusaAdminApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MedusaAdminApp extends StatelessWidget {
+  const MedusaAdminApp({super.key});
 
-  final _appRouter = AppRouter();
+  AppRouter get _router => getIt<AppRouter>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
         theme: FlexTheme.light,
         darkTheme: FlexTheme.dark,
         builder: EasyLoading.init(),
-        routerConfig: _appRouter.config(),
+        routerConfig: _router.config(),
       );
     });
   }
@@ -43,7 +48,7 @@ class MyApp extends StatelessWidget {
 
 Future<void> initServices() async {
   debugPrint('starting services ...');
-  await Get.putAsync(() => StorageService().init());
+  // await Get.putAsync(() => StorageService().init());
   Get.put(LanguageService().init());
   Get.put(ThemeController());
   debugPrint('All services started...');

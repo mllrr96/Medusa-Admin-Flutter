@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
+import 'package:medusa_admin/domain/use_case/collections_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CollectionsController extends GetxController {
   static CollectionsController get instance =>
       Get.find<CollectionsController>();
-  CollectionsController({required this.collectionRepo});
-  final CollectionRepo collectionRepo;
+  CollectionsController({required this.collectionsUseCase});
+  final CollectionsUseCase collectionsUseCase;
   RxInt collectionCount = 0.obs;
   RefreshController refreshController = RefreshController();
 
@@ -36,7 +36,7 @@ class CollectionsController extends GetxController {
     if (_refreshingData) {
       return;
     }
-    final result = await collectionRepo.retrieveAll(queryParameters: {
+    final result = await collectionsUseCase.fetchCollections(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });
@@ -58,7 +58,7 @@ class CollectionsController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await collectionRepo.retrieveAll(queryParameters: {
+    final result = await collectionsUseCase.fetchCollections(queryParameters: {
       'offset': 0,
       'limit': _pageSize,
     });

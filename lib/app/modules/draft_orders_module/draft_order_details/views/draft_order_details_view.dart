@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/draft_order.dart';
+import 'package:medusa_admin/domain/use_case/draft_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 
-import '../../../../data/repository/draft_order/draft_order_repo.dart';
 import '../../../components/adaptive_button.dart';
 import '../components/draft_order_summery.dart';
 import '../components/index.dart';
@@ -27,7 +27,7 @@ class DraftOrderDetailsView extends StatelessWidget {
 
     return GetBuilder<DraftOrderDetailsController>(
       init: DraftOrderDetailsController(
-          draftOrderRepo: DraftOrderRepo(), draftId: draftId),
+          draftDetailsUseCase: DraftDetailsUseCase.instance, draftId: draftId),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(

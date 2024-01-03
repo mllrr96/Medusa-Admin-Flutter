@@ -9,14 +9,13 @@ import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dar
 import 'package:medusa_admin/app/modules/gift_cards_module/custom_gift_cards/components/custom_gift_cards_loading_page.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/gift_cards_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../../../core/utils/enums.dart';
-import '../../../../data/models/req/user_gift_card_req.dart';
-import '../../../../data/models/store/gift_card.dart';
-import '../../../../data/repository/gift_card/gift_card_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';
 import '../controllers/custom_gift_cards_controller.dart';
+import '../../../../../core/utils/enums.dart';
 
 @RoutePage()
 class CustomGiftCardsView extends StatelessWidget {
@@ -28,7 +27,7 @@ class CustomGiftCardsView extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
 
     return GetBuilder<CustomGiftCardsController>(
-        init: CustomGiftCardsController(giftCardRepo: GiftCardRepo()),
+        init: CustomGiftCardsController(giftCardsUseCase: GiftCardsUseCase.instance),
         builder: (controller) {
           return Scaffold(
             floatingActionButton: Column(
@@ -92,7 +91,7 @@ class CustomGiftCardsView extends StatelessWidget {
                         pagingController: controller.pagingController,
                         builderDelegate: PagedChildBuilderDelegate<GiftCard>(
                           itemBuilder: (context, giftCard, index) {
-                            final isDisabled = giftCard.isDisabled ?? false;
+                            final isDisabled = giftCard.isDisabled;
 
                             final listTile = CustomGiftCardTile(
                               giftCard,

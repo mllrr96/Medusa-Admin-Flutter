@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/customer_group.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'group_card.dart';
@@ -10,12 +10,13 @@ class GroupsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const group = CustomerGroup(name: 'Medusa', customers: [], id: '1');
-    return Column(
-      children: List.generate(
-          10,
-          (index) => Skeletonizer(
-              enabled: true,
-              child: GroupCard(customerGroup: group, index: index))),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            10,
+            (index) => GroupCard(customerGroup: group, index: index)),
+      ),
     );
   }
 }

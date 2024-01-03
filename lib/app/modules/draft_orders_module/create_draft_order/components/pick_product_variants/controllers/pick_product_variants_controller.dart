@@ -1,14 +1,13 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/repository/product_variant/product_variant_repo.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import '../../../../../../data/models/store/product_variant.dart';
+import 'package:medusa_admin/domain/use_case/product_variants_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class PickProductVariantsController extends GetxController {
-  PickProductVariantsController({required this.productVariantRepo, required this.selectProductsReq});
-
-  ProductVariantRepo productVariantRepo;
+  PickProductVariantsController({required this.productVariantsUseCase, required this.selectProductsReq});
+  ProductVariantsUseCase productVariantsUseCase;
   final int _pageSize = 12;
   final PagingController<int, ProductVariant> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 4);
@@ -29,7 +28,7 @@ class PickProductVariantsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await productVariantRepo.retrieveProductVariants(
+    final result = await productVariantsUseCase(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

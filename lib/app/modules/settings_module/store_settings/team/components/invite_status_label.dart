@@ -4,7 +4,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../../../../core/utils/colors.dart';
 
 class InviteStatusLabel extends StatelessWidget {
-  const InviteStatusLabel({Key? key, required this.accepted}) : super(key: key);
+  const InviteStatusLabel({super.key, required this.accepted});
   final bool? accepted;
   @override
   Widget build(BuildContext context) {

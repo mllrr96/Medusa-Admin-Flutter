@@ -4,7 +4,7 @@ import 'package:medusa_admin/app/modules/settings_module/store_settings/sales_ch
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class SalesChannelFAB extends StatelessWidget {
-  const SalesChannelFAB(this.controller,{Key? key}) : super(key: key);
+  const SalesChannelFAB(this.controller,{super.key});
   final SalesChannelDetailsController controller ;
   @override
   Widget build(BuildContext context) {

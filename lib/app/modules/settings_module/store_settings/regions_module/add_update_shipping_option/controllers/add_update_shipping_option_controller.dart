@@ -2,24 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_shipping_option_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
-import 'package:medusa_admin/app/data/repository/shipping_profile/shipping_profile_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_shipping_option_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-import '../../../../../../data/models/store/fulfillment_option.dart';
 
 class AddUpdateShippingOptionController extends GetxController {
   AddUpdateShippingOptionController(
-      {required this.shippingProfileRepo, required this.regionsRepo, required this.shippingOptionsRepo, required this.addUpdateShippingOptionReq});
+      {required this.updateShippingOptionUseCase, required this.addUpdateShippingOptionReq});
 
-  final ShippingProfileRepo shippingProfileRepo;
-  final ShippingOptionsRepo shippingOptionsRepo;
-  final RegionsRepo regionsRepo;
+  final UpdateShippingOptionUseCase updateShippingOptionUseCase;
   List<FulfillmentOption>? fulfillmentOptions;
   List<ShippingProfile>? shippingProfiles;
   final AddUpdateShippingOptionReq addUpdateShippingOptionReq ;
@@ -69,12 +63,12 @@ class AddUpdateShippingOptionController extends GetxController {
     final minSubtotal = int.tryParse(minSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     final maxSubtotal = int.tryParse(maxSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     List<ShippingOptionRequirement>? requirements = [
-      if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal),
-      if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal),
+      if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal, shippingOptionId:null),
+      if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal, shippingOptionId:null),
     ];
     context.unfocus();
-    final result = await shippingOptionsRepo.create(
-      userCreateShippingOptionReq: UserCreateShippingOptionReq(
+    final result = await updateShippingOptionUseCase.createShippingOption(
+      UserCreateShippingOptionReq(
         shippingOption: ShippingOption(
           name: titleCtrl.text,
           regionId: addUpdateShippingOptionReq.region.id!,
@@ -113,13 +107,13 @@ class AddUpdateShippingOptionController extends GetxController {
     final minSubtotal = int.tryParse(minSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     final maxSubtotal = int.tryParse(maxSubtotalCtrl.text.replaceAll('.', '').replaceAll(',', ''));
     List<ShippingOptionRequirement>? requirements = [
-      if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal),
-      if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal),
+      if (minSubtotal != null) ShippingOptionRequirement(type: RequirementType.minSubtotal, amount: minSubtotal, shippingOptionId:null),
+      if (maxSubtotal != null) ShippingOptionRequirement(type: RequirementType.maxSubtotal, amount: maxSubtotal, shippingOptionId:null),
     ];
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
-    final result = await shippingOptionsRepo.update(
+    final result = await updateShippingOptionUseCase.updateShippingOption(
       id: shippingOption.id!,
-      userUpdateReturnReasonReq: UserUpdateShippingOptionReq(
+      userUpdateShippingOptionReq: UserUpdateShippingOptionReq(
         shippingOption: ShippingOption(
           name: shippingOption.name == titleCtrl.text ? null : titleCtrl.text,
           regionId: null,
@@ -146,10 +140,10 @@ class AddUpdateShippingOptionController extends GetxController {
   }
 
   Future<void> loadFulfillmentOptions() async {
-    final result = await regionsRepo.retrieveFulfillmentOptions(id: addUpdateShippingOptionReq.region.id!);
+    final result = await updateShippingOptionUseCase.fetchFulfillmentOptions(addUpdateShippingOptionReq.region.id!);
     result.when(
-      (success) {
-        fulfillmentOptions = success.fulfillmentOptions;
+      (fulfillmentOptions) {
+        this.fulfillmentOptions = fulfillmentOptions;
         update();
       },
       (error) {
@@ -160,7 +154,7 @@ class AddUpdateShippingOptionController extends GetxController {
   }
 
   Future<void> loadShippingProfile() async {
-    final result = await shippingProfileRepo.retrieveAll();
+    final result = await updateShippingOptionUseCase.fetchShippingProfiles();
     result.when((success) {
       shippingProfiles = success.shippingProfiles;
       update();
@@ -172,11 +166,7 @@ class AddUpdateShippingOptionController extends GetxController {
 
   void loadShippingOption() {
     final shippingOption = addUpdateShippingOptionReq.shippingOption!;
-    if(shippingOption.adminOnly != null){
-      visibleInStore = !shippingOption.adminOnly!;
-    } else {
-      visibleInStore = true;
-    }
+    visibleInStore = !shippingOption.adminOnly;
 
     titleCtrl.text = shippingOption.name ?? '';
     selectedPriceType = shippingOption.priceType;

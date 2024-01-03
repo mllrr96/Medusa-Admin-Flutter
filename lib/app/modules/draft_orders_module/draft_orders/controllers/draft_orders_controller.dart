@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/draft_order.dart';
-import 'package:medusa_admin/app/data/repository/draft_order/draft_order_repo.dart';
+import 'package:medusa_admin/domain/use_case/drafts_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DraftOrdersController extends GetxController {
   static DraftOrdersController get instance =>
       Get.find<DraftOrdersController>();
-  DraftOrdersController({required this.draftOrderRepo});
-  final DraftOrderRepo draftOrderRepo;
+  DraftOrdersController({required this.draftsUseCase});
+  final DraftsUseCase draftsUseCase;
   final int _pageSize = 20;
   RxInt draftOrdersCount = 0.obs;
   bool _refreshingData = false;
@@ -34,7 +34,7 @@ class DraftOrdersController extends GetxController {
     if(_refreshingData){
       return;
     }
-    final result = await draftOrderRepo.retrieveDraftOrders(queryParameters: {
+    final result = await draftsUseCase(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
     });
@@ -54,7 +54,7 @@ class DraftOrdersController extends GetxController {
 
   Future<void> refreshData() async {
     _refreshingData = true;
-    final result = await draftOrderRepo.retrieveDraftOrders(queryParameters: {
+    final result = await draftsUseCase(queryParameters: {
       'offset':  0,
       'limit': _pageSize,
     });

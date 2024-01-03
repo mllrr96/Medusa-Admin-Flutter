@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/discount.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../data/models/store/discount_rule.dart';
 
 class DiscountRuleTypeLabel extends StatelessWidget {
-  const DiscountRuleTypeLabel({Key? key, required this.discount}) : super(key: key);
+  const DiscountRuleTypeLabel({super.key, required this.discount});
   final Discount discount;
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class DiscountRuleTypeLabel extends StatelessWidget {
 }
 
 class DiscountStatusDot extends StatelessWidget {
-  const DiscountStatusDot({Key? key, required this.disabled}) : super(key: key);
+  const DiscountStatusDot({super.key, required this.disabled});
   final bool disabled;
   @override
   Widget build(BuildContext context) {

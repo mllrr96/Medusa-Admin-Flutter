@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../components/adaptive_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/labeled_chip_input_text_field.dart';
@@ -48,7 +48,7 @@ class _AddOptionViewState extends State<AddOptionView> {
                       context.popRoute(
                            ProductOption(
                               title: optionCtrl.text,
-                              values: variants.map((e) => ProductOptionValue(value: e)).toList()));
+                              values: variants.map((e) => ProductOptionValue(value: e, optionId: null, variantId: null)).toList(), productId: null));
                     }
                   },
                   child: const Text('Add')),

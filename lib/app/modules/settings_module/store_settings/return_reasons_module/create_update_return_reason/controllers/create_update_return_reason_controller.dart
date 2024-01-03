@@ -2,18 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/return_reason/return_reason_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_return_reason_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
-import '../../../../../../data/models/req/user_return_reason.dart';
-
-
 class CreateUpdateReturnReasonController extends GetxController {
-  CreateUpdateReturnReasonController({required this.returnReasonRepo, required this.returnReason});
-  ReturnReasonRepo returnReasonRepo;
-  bool get updateMode => returnReason !=null ;
+  CreateUpdateReturnReasonController(
+      {required this.updateReturnReasonUseCase, required this.returnReason});
+  final UpdateReturnReasonUseCase updateReturnReasonUseCase;
+  bool get updateMode => returnReason != null;
   final ReturnReason? returnReason;
   final labelCtrl = TextEditingController();
   final valueCtrl = TextEditingController();
@@ -44,20 +42,24 @@ class CreateUpdateReturnReasonController extends GetxController {
     context.unfocus();
     loading();
     if (updateMode) {
-      final result = await returnReasonRepo.update(
+      final result = await updateReturnReasonUseCase.update(
           id: returnReason!.id!,
           userUpdateReturnReasonReq: UserUpdateReturnReasonReq(
-              label: labelCtrl.text, value: valueCtrl.text, description: descriptionCtrl.text));
+              label: labelCtrl.text,
+              value: valueCtrl.text,
+              description: descriptionCtrl.text));
       result.when((success) {
         EasyLoading.showSuccess('Updated');
         context.popRoute(true);
       }, (error) => EasyLoading.showError('Error updating'));
     } else {
-      final result = await returnReasonRepo.create(
-          userCreateReturnReasonReq: UserCreateReturnReasonReq(
+      final result = await updateReturnReasonUseCase.create(
+          UserCreateReturnReasonReq(
               label: labelCtrl.text,
               value: valueCtrl.text,
-              description: descriptionCtrl.text.removeAllWhitespace.isEmpty ? null : descriptionCtrl.text));
+              description: descriptionCtrl.text.removeAllWhitespace.isEmpty
+                  ? null
+                  : descriptionCtrl.text));
       result.when((success) {
         EasyLoading.showSuccess('Updated');
         context.popRoute(true);

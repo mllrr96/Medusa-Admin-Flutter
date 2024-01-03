@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_icon.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
+import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../data/models/store/index.dart';
-import '../../orders/components/fulfillment_label.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderFulfillment extends GetView<OrderDetailsController> {
   const OrderFulfillment(this.order, {super.key, this.onExpansionChanged});

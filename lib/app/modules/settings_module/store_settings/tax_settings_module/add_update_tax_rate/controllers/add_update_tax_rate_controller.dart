@@ -1,17 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/update_tax_rate_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../data/models/req/user_tax_rate.dart';
-import '../../../../../../data/repository/tax_rate/tax_rate_repo.dart';
 
 class AddUpdateTaxRateController extends GetxController {
-  AddUpdateTaxRateController({required this.taxRateRepo, required this.addUpdateTaxRateReq});
-  final TaxRateRepo taxRateRepo;
+  AddUpdateTaxRateController({required this.updateTaxRateUseCase, required this.addUpdateTaxRateReq});
+  final UpdateTaxRateUseCase updateTaxRateUseCase;
   final AddUpdateTaxRateReq addUpdateTaxRateReq;
   TaxRate? get taxRate => addUpdateTaxRateReq.taxRate;
   bool get updateMode => taxRate != null;
@@ -44,8 +42,8 @@ class AddUpdateTaxRateController extends GetxController {
     }
 
     loading();
-    final result = await taxRateRepo.createTaxRate(
-      userCreateTaxRateReq: UserCreateTaxRateReq(
+    final result = await updateTaxRateUseCase.create(
+       UserCreateTaxRateReq(
         code: taxCodeCtrl.text,
         name: nameCtrl.text,
         regionId: addUpdateTaxRateReq.regionId,
@@ -69,7 +67,7 @@ class AddUpdateTaxRateController extends GetxController {
     }
 
     loading();
-    final result = await taxRateRepo.updateTaxRate(
+    final result = await updateTaxRateUseCase.update(
       id: taxRate!.id!,
       userUpdateTaxRateReq: UserUpdateTaxRateReq(
         code: taxCodeCtrl.text,

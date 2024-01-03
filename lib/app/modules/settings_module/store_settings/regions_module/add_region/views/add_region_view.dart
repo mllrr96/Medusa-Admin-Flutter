@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/store/store_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_region_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
@@ -42,7 +41,7 @@ class AddRegionView extends StatelessWidget {
       onTap: () => context.unfocus(),
       child: GetBuilder<AddRegionController>(
         init: AddRegionController(
-            regionsRepo: RegionsRepo(), storeRepo: StoreRepo(), region: region),
+            updateRegionUseCase: UpdateRegionUseCase.instance, region: region),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(

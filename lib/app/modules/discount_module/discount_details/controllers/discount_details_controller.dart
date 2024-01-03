@@ -1,25 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/discount.dart';
-import 'package:medusa_admin/app/data/repository/discount/discount_repo.dart';
-import 'package:medusa_admin/app/data/repository/discount_condition/discount_condition_repo.dart';
+import 'package:medusa_admin/domain/use_case/discount_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../../../../data/models/req/discount.dart';
-import '../../../../data/models/req/user_discount_condition_req.dart';
 import '../../../components/easy_loading.dart';
 
 class DiscountDetailsController extends GetxController
     with StateMixin<Discount> {
   DiscountDetailsController(
-      {required this.discountRepo,
-      required this.discountConditionRepo,
-      required this.discountId});
-  final DiscountRepo discountRepo;
-  final DiscountConditionRepo discountConditionRepo;
+      {required this.discountDetailsUseCase, required this.discountId});
+  final DiscountDetailsUseCase discountDetailsUseCase;
   final String discountId;
   final refreshController = RefreshController();
   @override
@@ -30,19 +23,14 @@ class DiscountDetailsController extends GetxController
 
   Future<void> loadDiscount() async {
     change(null, status: RxStatus.loading());
-    final result =
-        await discountRepo.retrieveDiscount(id: discountId, queryParameters: {
+    final result = await discountDetailsUseCase
+        .retrieveDiscount(id: discountId, queryParameters: {
       'expand': 'regions,regions.currency,rule,rule.conditions',
     });
 
-    result.when((success) {
-      if (success.discount != null) {
-        refreshController.refreshCompleted();
-        change(success.discount, status: RxStatus.success());
-      } else {
-        refreshController.refreshFailed();
-        change(null, status: RxStatus.error('Error loading discount'));
-      }
+    result.when((discount) {
+      refreshController.refreshCompleted();
+      change(discount, status: RxStatus.success());
     }, (error) {
       refreshController.refreshFailed();
       change(null, status: RxStatus.error(error.message));
@@ -52,7 +40,7 @@ class DiscountDetailsController extends GetxController
   Future<void> deleteDiscount(BuildContext context) async {
     loading();
 
-    final result = await discountRepo.deleteDiscount(id: discountId);
+    final result = await discountDetailsUseCase.deleteDiscount(id: discountId);
 
     result.when((success) {
       context.popRoute();
@@ -66,7 +54,7 @@ class DiscountDetailsController extends GetxController
     loading();
     bool toggle =
         discount.isDisabled != null && discount.isDisabled! ? false : true;
-    final result = await discountRepo.updateDiscount(
+    final result = await discountDetailsUseCase.updateDiscount(
         id: discount.id!,
         userUpdateDiscountReq: UserUpdateDiscountReq(isDisabled: toggle));
     result.when((success) async => await loadDiscount(),
@@ -77,7 +65,7 @@ class DiscountDetailsController extends GetxController
   Future<void> deleteCondition(String conditionId, BuildContext context) async {
     loading();
 
-    final result = await discountConditionRepo.deleteDiscountCondition(
+    final result = await discountDetailsUseCase.deleteDiscountCondition(
         discountId: discountId, conditionId: conditionId);
 
     result.when((success) async {
@@ -92,7 +80,7 @@ class DiscountDetailsController extends GetxController
       required BuildContext context}) async {
     loading();
 
-    final result = await discountConditionRepo.createDiscountCondition(
+    final result = await discountDetailsUseCase.createDiscountCondition(
         discountId: discountId, userCreateConditionReq: userCreateConditionReq);
 
     result.when((success) async {
@@ -112,7 +100,7 @@ class DiscountDetailsController extends GetxController
 
     // Adding items
     if (addedItems.isNotEmpty) {
-      final result = await discountConditionRepo.addBatchResources(
+      final result = await discountDetailsUseCase.addBatchResources(
           discountId: discountId,
           conditionId: conditionId,
           itemIds: addedItems);
@@ -123,7 +111,7 @@ class DiscountDetailsController extends GetxController
 
     // Deleting items
     if (deletedItems.isNotEmpty) {
-      final result = await discountConditionRepo.deleteBatchResources(
+      final result = await discountDetailsUseCase.deleteBatchResources(
           discountId: discountId,
           conditionId: conditionId,
           itemIds: deletedItems);

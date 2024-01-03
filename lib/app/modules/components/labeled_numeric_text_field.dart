@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 
 class LabeledNumericTextField extends StatelessWidget {
   const LabeledNumericTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.controller,
     this.onPlusPressed,
@@ -20,7 +20,7 @@ class LabeledNumericTextField extends StatelessWidget {
     this.onTapOutside,
     this.inputFormatters,
     this.onChanged, this.keyboardType,  this.noEndSpace = false, this.addOrSubtractValue = 1,
-  }) : super(key: key);
+  });
   final TextEditingController controller;
   final void Function()? onPlusPressed;
   final void Function()? onMinusPressed;

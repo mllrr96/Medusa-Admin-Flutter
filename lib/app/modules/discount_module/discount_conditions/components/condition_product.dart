@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
+import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
@@ -12,7 +13,6 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionProductView extends StatelessWidget {
@@ -23,7 +23,7 @@ class ConditionProductView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<ConditionProductController>(
       init: ConditionProductController(
-          productsRepo: ProductsRepo(),
+          productsUseCase: ProductsUseCase.instance,
           disabledProducts: disabledProducts ?? []),
       builder: (controller) {
         return GestureDetector(
@@ -166,9 +166,9 @@ class ConditionProductView extends StatelessWidget {
 
 class ConditionProductController extends GetxController {
   ConditionProductController(
-      {required this.productsRepo, required this.disabledProducts});
+      {required this.productsUseCase, required this.disabledProducts});
 
-  final ProductsRepo productsRepo;
+  final ProductsUseCase productsUseCase;
   DiscountConditionOperator discountConditionOperator =
       DiscountConditionOperator.inn;
   final PagingController<int, Product> pagingController =
@@ -197,7 +197,7 @@ class ConditionProductController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await productsRepo.retrieveAll(
+    final result = await productsUseCase.fetchProducts(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

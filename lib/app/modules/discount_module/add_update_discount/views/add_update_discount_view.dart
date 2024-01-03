@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import '../../../../data/models/store/index.dart';
-import '../../../../data/repository/discount/discount_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_discount_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';
 import '../controllers/add_update_discount_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -20,7 +20,7 @@ class AddUpdateDiscountView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<AddUpdateDiscountController>(
       init: AddUpdateDiscountController(
-          discountRepo: DiscountRepo(), discount: discount),
+          updateDiscountUseCase: UpdateDiscountUseCase.instance, discount: discount),
       builder: (controller) {
         return WillPopScope(
           onWillPop: () async {
@@ -60,25 +60,26 @@ class AddUpdateDiscountView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 10.0),
-                    child: Form(
-                      key: controller.formKey,
-                      child: Column(
-                        children: [
-                          if (!controller.updateMode)
-                            const Column(
-                              children: [
-                                DiscountTypeExpansionTile(),
-                                space,
-                              ],
-                            ),
-                          const GeneralExpansionTile(),
-                          space,
-                          const ConfigurationExpansionTile(),
-                          space,
-                          if (!controller.updateMode)
-                            const ConditionExpansionTile(),
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        if (!controller.updateMode)
+                          const Column(
+                            children: [
+                              DiscountTypeExpansionTile(),
+                              space,
+                            ],
+                          ),
+                        Form(
+                            key: controller.generalFormKey,
+                            child: const GeneralExpansionTile()),
+                        space,
+                        Form(
+                            key: controller.configFormKey,
+                            child: const ConfigurationExpansionTile()),
+                        space,
+                        if (!controller.updateMode)
+                          const ConditionExpansionTile(),
+                      ],
                     ),
                   ),
                 ),

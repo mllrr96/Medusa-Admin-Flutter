@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/region.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class PickRegionsController extends GetxController {
   PickRegionsController({required this.regionsRepo, this.pickRegionsReq});
-  final RegionsRepo regionsRepo;
+  final RegionsRepository regionsRepo;
   final PickRegionsReq? pickRegionsReq;
-  final PagingController<int, Region> pagingController = PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  final PagingController<int, Region> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;
   late PickRegionsReq regionsReq;
   var selectedRegions = <Region>[];
@@ -26,24 +26,38 @@ class PickRegionsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await regionsRepo.retrieveAll(
-      queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
-        'limit': _pageSize,
-      },
-    );
-
-    result.when((success) {
-      final isLastPage = success.regions!.length < _pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(success.regions!);
-      } else {
-        final nextPageKey = pageKey + success.regions!.length;
-        pagingController.appendPage(success.regions!, nextPageKey);
+    try {
+      final result = await regionsRepo.retrieveAll(
+        queryParameters: {
+          'offset': pagingController.itemList?.length ?? 0,
+          'limit': _pageSize,
+        },
+      );
+      if (result != null) {
+        final isLastPage = result.regions!.length < _pageSize;
+        if (isLastPage) {
+          pagingController.appendLastPage(result.regions!);
+        } else {
+          final nextPageKey = pageKey + result.regions!.length;
+          pagingController.appendPage(result.regions!, nextPageKey);
+        }
       }
-    }, (error) {
-      pagingController.error = error.message;
-    });
+    } catch (error) {
+      pagingController.error = error;
+    }
+
+    //
+    // result.when((success) {
+    //   final isLastPage = success.regions!.length < _pageSize;
+    //   if (isLastPage) {
+    //     pagingController.appendLastPage(success.regions!);
+    //   } else {
+    //     final nextPageKey = pageKey + success.regions!.length;
+    //     pagingController.appendPage(success.regions!, nextPageKey);
+    //   }
+    // }, (error) {
+    //   pagingController.error = error.message;
+    // });
   }
 }
 

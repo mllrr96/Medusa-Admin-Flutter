@@ -1,5 +1,4 @@
-import '../../../../data/models/store/index.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class DiscountConditionRes {
   final List<Product>? products;

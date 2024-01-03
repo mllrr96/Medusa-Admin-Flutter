@@ -2,15 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/order/orders_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/payment_status_label.dart';
+import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import '../../../../data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/transfer_order_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
@@ -23,7 +23,7 @@ class TransferOrderView extends StatelessWidget {
     const space = Gap(12);
     final bottomViewPadding = MediaQuery.of(context).viewPadding.bottom;
     return GetBuilder<TransferOrderController>(
-        init: TransferOrderController(ordersRepo: OrdersRepo(), order: order),
+        init: TransferOrderController(ordersUseCase: OrdersUseCase.instance, order: order),
         builder: (controller) {
           final order = controller.order;
           return GestureDetector(

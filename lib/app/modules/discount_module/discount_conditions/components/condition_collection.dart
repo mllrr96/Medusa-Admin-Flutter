@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_collection_list_tile.dart';
+import 'package:medusa_admin/domain/use_case/collection_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../components/adaptive_back_button.dart';
 import '../../../components/search_text_field.dart';
 import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
-import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class ConditionCollectionView extends StatelessWidget {
@@ -23,7 +22,7 @@ class ConditionCollectionView extends StatelessWidget {
     const space = Gap(12);
     return GetBuilder<ConditionCollectionController>(
       init: ConditionCollectionController(
-          collectionRepo: CollectionRepo(),
+          collectionUseCase: CollectionUseCase.instance,
           disabledCollections: disabledCollections ?? []),
       builder: (controller) {
         return Scaffold(
@@ -165,8 +164,8 @@ class ConditionCollectionView extends StatelessWidget {
 
 class ConditionCollectionController extends GetxController {
   ConditionCollectionController(
-      {required this.collectionRepo, required this.disabledCollections});
-  final CollectionRepo collectionRepo;
+      {required this.collectionUseCase, required this.disabledCollections});
+  final CollectionUseCase collectionUseCase;
   List<ProductCollection> selectedCollections = <ProductCollection>[];
   DiscountConditionOperator discountConditionOperator =
       DiscountConditionOperator.inn;
@@ -192,7 +191,7 @@ class ConditionCollectionController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await collectionRepo.retrieveAll(
+    final result = await collectionUseCase.retrieveAll(
       queryParameters: {
         'offset': pagingController.itemList?.length ?? 0,
         'limit': _pageSize,

@@ -2,16 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/invite/invite_repo.dart';
+import 'package:medusa_admin/domain/use_case/team_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../core/utils/enums.dart';
 import '../../../../components/easy_loading.dart';
 
 class InviteController extends GetxController with StateMixin<List<Invite>> {
-  InviteController({required this.inviteRepo});
+  InviteController({required this.teamUseCase});
 static InviteController get instance => Get.find<InviteController>();
-  final InviteRepo inviteRepo;
+  final TeamUseCase teamUseCase;
   RxString searchTerm = ''.obs;
   @override
   Future<void> onInit() async {
@@ -21,7 +20,7 @@ static InviteController get instance => Get.find<InviteController>();
 
   Future<void> loadInvites() async {
     change(null, status: RxStatus.loading());
-    final result = await inviteRepo.retrieveInvites();
+    final result = await teamUseCase.fetchInvites();
     result.when((success) {
       if (success.invites == null || success.invites!.isEmpty) {
         change(null, status: RxStatus.empty());
@@ -33,7 +32,7 @@ static InviteController get instance => Get.find<InviteController>();
 
   Future<void> inviteUser({required String email, required UserRole role, required BuildContext context}) async {
     loading();
-    final result = await inviteRepo.createInvitation(email: email, role: role);
+    final result = await teamUseCase.inviteUser(email: email, role: role);
     result.when((success) async {
       EasyLoading.showSuccess('Invite sent');
       context.popRoute();
@@ -43,7 +42,7 @@ static InviteController get instance => Get.find<InviteController>();
 
   Future<void> resendInvite(String inviteId) async {
     loading();
-    final result = await inviteRepo.resendInvite(inviteId: inviteId);
+    final result = await teamUseCase.resendInvite(inviteId);
     result.when((success) {
       EasyLoading.showSuccess('Invite resent');
     }, (error) => EasyLoading.showError('Error resending invite'));
@@ -51,7 +50,7 @@ static InviteController get instance => Get.find<InviteController>();
 
   Future<void> deleteInvite(String inviteId) async {
     loading();
-    final result = await inviteRepo.deleteInvite(inviteId: inviteId);
+    final result = await teamUseCase.deleteInvite(inviteId);
     result.when((success) async {
       EasyLoading.showSuccess('Invite removed');
       await loadInvites();

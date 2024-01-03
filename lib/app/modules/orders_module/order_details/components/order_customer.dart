@@ -3,18 +3,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
-import 'package:medusa_admin/app/modules/orders_module/order_details/components/index.dart';
 import 'package:medusa_admin/app/modules/orders_module/order_details/controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../components/countries/components/countries.dart';
+import 'edit_shipping_address.dart';
 
 class OrderCustomer extends GetView<OrderDetailsController> {
   const OrderCustomer(this.order, {super.key, this.onExpansionChanged});
@@ -113,7 +113,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                   children: [
                     CircleAvatar(
                         backgroundColor: ColorManager.getAvatarColor(order.email),
-                        child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email![0].toUpperCase(),
+                        child: Text(order.customer?.firstName?[0].toUpperCase() ?? order.email?[0].toUpperCase() ?? '',
                             style: largeTextStyle?.copyWith(color: Colors.white))),
                     const SizedBox(width: 14.0),
                     Flexible(

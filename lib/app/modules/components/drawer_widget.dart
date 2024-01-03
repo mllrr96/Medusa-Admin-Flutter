@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/auth/auth_repo.dart';
+import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -48,7 +49,7 @@ class _AppDrawerState extends State<AppDrawer> {
         (value) async {
           if (value == OkCancelResult.ok) {
             loading();
-            final result = await AuthRepo().signOut();
+            final result = await getIt<MedusaAdmin>().authRepository.signOut();
             if (result) {
               await Get.delete(force: true);
               await StorageService.instance.clearCookie().then(
@@ -166,7 +167,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   onPressed: () => context.closeDrawer(),
                   icon: const Icon(Icons.menu_open)
                 ),
-                Flexible(child: Text(store.name, style: context.bodyLarge, overflow: TextOverflow.ellipsis)),
+                Flexible(child: Text(store.name ?? '', style: context.bodyLarge, overflow: TextOverflow.ellipsis)),
                 IconButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: () async {

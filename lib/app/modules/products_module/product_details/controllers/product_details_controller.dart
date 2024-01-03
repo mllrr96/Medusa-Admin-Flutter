@@ -2,17 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
 import 'package:medusa_admin/app/modules/products_module/products/controllers/products_controller.dart';
+import 'package:medusa_admin/domain/use_case/product_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../components/easy_loading.dart';
 
 class ProductDetailsController extends GetxController with StateMixin<Product> {
-  ProductDetailsController({required this.productsRepo, required this.productId});
-  ProductsRepo productsRepo;
-  final String productId ;
+  ProductDetailsController(
+      {required this.productDetailsUseCase, required this.productId});
+  ProductDetailsUseCase productDetailsUseCase;
+  final String productId;
   late ScrollController scrollController;
   final GlobalKey variantsKey = GlobalKey();
   final GlobalKey attributesKey = GlobalKey();
@@ -38,47 +38,43 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
 
   Future<void> fetchProduct() async {
     change(null, status: RxStatus.loading());
-    try {
-      final result = await productsRepo.retrieve(
-        productId,
-        queryParameters: {'expand': 'images,options,variants,collection,tags,sales_channels,options.values'},
-      );
-      if (result != null && result.product != null) {
-        change(await _fetchProductVariants(result.product!), status: RxStatus.success());
-        update();
-      } else {
-        change(null, status: RxStatus.error());
-      }
-    } catch (e) {
+    final result = await productDetailsUseCase.fetchProduct(
+      productId,
+      queryParameters: {
+        'expand':
+            'images,options,variants,collection,tags,sales_channels,options.values'
+      },
+    );
+    result.when((success) async {
+      change(await _fetchProductVariants(success), status: RxStatus.success());
+      update();
+    }, (error) {
       change(null, status: RxStatus.error());
-    }
+    });
   }
 
   Future<Product> _fetchProductVariants(Product product) async {
-    try {
-      if (product.variants == null) {
-        return product;
-      }
-      List<ProductVariant> variants = [];
-      for (ProductVariant variant in product.variants!) {
-        final result =
-            await productsRepo.retrieveVariants(queryParameters: {'id': variant.id!, 'expand': 'options,prices'});
-        if (result?.variants != null) {
-          variants.addAll(result?.variants?.toList() ?? []);
-        }
-      }
-
-      if (variants.isNotEmpty) {
-        return product.copyWith.variants(variants);
-      }
-    } catch (e) {
-      debugPrint(e.toString());
+    if (product.variants == null) {
+      return product;
     }
+    List<ProductVariant> variants = [];
+    for (ProductVariant variant in product.variants!) {
+      final result = await productDetailsUseCase.fetchVariants(
+          queryParameters: {'id': variant.id!, 'expand': 'options,prices'});
+      result.when((success) {
+        variants.addAll(success);
+      }, (error) {});
+    }
+
+    if (variants.isNotEmpty) {
+      return product.copyWith.variants(variants);
+    }
+
     return product;
   }
 
   Future<void> deleteProduct(String id, BuildContext context) async {
-    final result = await productsRepo.delete(id: id);
+    final result = await productDetailsUseCase.deleteProduct(id: id);
     loading();
     result.when((success) {
       if (success.deleted != null && success.deleted!) {
@@ -105,21 +101,19 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
 
   Future<void> publishProduct(Product product) async {
     loading();
-    final result = await productsRepo.update(
+    final result = await productDetailsUseCase.updateProduct(
       id: product.id!,
       userPostUpdateProductReq: UserPostUpdateProductReq(
         discountable: product.discountable,
-        status: product.status == ProductStatus.published ? ProductStatus.draft : ProductStatus.published,
+        status: product.status == ProductStatus.published
+            ? ProductStatus.draft
+            : ProductStatus.published,
       ),
     );
     result.when((success) async {
-      if (success.product != null) {
-        EasyLoading.showSuccess('Product updated');
-        await fetchProduct();
-        ProductsController.instance.pagingController.refresh();
-      } else {
-        EasyLoading.showError('Update failed');
-      }
+      EasyLoading.showSuccess('Product updated');
+      await fetchProduct();
+      ProductsController.instance.pagingController.refresh();
     }, (error) => EasyLoading.showError('Update failed'));
   }
 }

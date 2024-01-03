@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/customer_group.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/domain/use_case/groups_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GroupsController extends GetxController {
   static GroupsController get instance => Get.find<GroupsController>();
-  GroupsController({required this.customerGroupRepo});
+  GroupsController({required this.groupsUseCase});
 
-  final CustomerGroupRepo customerGroupRepo;
+  final GroupsUseCase groupsUseCase;
   final PagingController<int, CustomerGroup> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   RefreshController refreshController = RefreshController();
@@ -35,7 +35,7 @@ class GroupsController extends GetxController {
       return;
     }
     final result =
-        await customerGroupRepo.retrieveCustomerGroups(queryParameters: {
+        await groupsUseCase.retrieveCustomerGroups(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
       'expand': 'customers',
@@ -60,7 +60,7 @@ class GroupsController extends GetxController {
   Future<void> refreshData() async {
 _refreshingData = true;
     final result =
-        await customerGroupRepo.retrieveCustomerGroups(queryParameters: {
+        await groupsUseCase.retrieveCustomerGroups(queryParameters: {
       'offset': 0,
       'limit': _pageSize,
       'expand': 'customers',
@@ -90,7 +90,7 @@ _refreshingData = true;
 
   Future<void> deleteGroup({required String id}) async {
     loading();
-    final result = await customerGroupRepo.deleteCustomerGroup(id: id);
+    final result = await groupsUseCase.deleteCustomerGroup(id: id);
     result.when((success) {
       pagingController.refresh();
       Get.snackbar('Success', 'Customer Group deleted',

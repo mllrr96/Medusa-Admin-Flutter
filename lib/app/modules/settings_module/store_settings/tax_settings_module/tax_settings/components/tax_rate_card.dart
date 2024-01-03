@@ -2,12 +2,10 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../../../../../core/utils/colors.dart';
-import '../../../../../components/adaptive_icon.dart';
 
 class TaxRateCard extends StatelessWidget {
   const TaxRateCard({super.key, required this.taxRate, this.onEditTap, this.onDeleteTap, this.shimmer = false});
@@ -21,7 +19,6 @@ class TaxRateCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
-    const halfSpace = SizedBox(height: 6.0);
     return Skeletonizer(
       enabled : shimmer,
       child: Container(

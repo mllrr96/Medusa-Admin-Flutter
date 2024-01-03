@@ -2,10 +2,10 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/domain/use_case/collection_use_case.dart';
 import '../../../components/adaptive_close_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../controllers/create_collection_controller.dart';
@@ -23,8 +23,8 @@ class CreateCollectionView extends StatelessWidget {
     final tr = context.tr;
     return GetBuilder<CreateCollectionController>(
         init: CreateCollectionController(
-            collectionRepo: CollectionRepo(),
-            updateCollectionReq: updateCollectionReq),
+            updateCollectionReq: updateCollectionReq,
+            collectionUseCase: CollectionUseCase.instance),
         builder: (controller) {
           return GestureDetector(
             onTap: () => context.unfocus(),
@@ -54,8 +54,7 @@ class CreateCollectionView extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(12.0)),
-                      color:
-                          context.theme.cardColor,
+                      color: context.theme.cardColor,
                     ),
                     child: Form(
                       key: controller.formKey,

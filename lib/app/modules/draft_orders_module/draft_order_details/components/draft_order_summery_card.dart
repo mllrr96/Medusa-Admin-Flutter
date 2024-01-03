@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 
 class DraftOrderSummeryCard extends StatelessWidget {
   const DraftOrderSummeryCard({
-    Key? key,
+    super.key,
     required this.item,
     required this.currencyCode,
-  }) : super(key: key);
+  });
   final LineItem item;
   final String currencyCode;
   @override

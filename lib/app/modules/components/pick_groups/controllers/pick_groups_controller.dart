@@ -1,12 +1,10 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/repository/customer_group/customer_group_repo.dart';
-
-import '../../../../data/models/store/customer_group.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class PickGroupsController extends GetxController {
   PickGroupsController({required this.groupRepo, required this.pickGroupsReq});
-  final CustomerGroupRepo groupRepo;
+  final CustomerGroupRepository groupRepo;
   final PickGroupsReq? pickGroupsReq;
   late PickGroupsReq groupsReq;
   final PagingController<int, CustomerGroup> pagingController =
@@ -29,24 +27,26 @@ class PickGroupsController extends GetxController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    final result = await groupRepo.retrieveCustomerGroups(
-      queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
-        'limit': _pageSize,
-      },
-    );
+    try {
+      final result = await groupRepo.retrieveCustomerGroups(
+        queryParameters: {
+          'offset': pagingController.itemList?.length ?? 0,
+          'limit': _pageSize,
+        },
+      );
 
-    result.when((success) {
-      final isLastPage = success.customerGroups!.length < _pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(success.customerGroups!);
-      } else {
-        final nextPageKey = pageKey + success.customerGroups!.length;
-        pagingController.appendPage(success.customerGroups!, nextPageKey);
+      if (result != null) {
+        final isLastPage = result.customerGroups!.length < _pageSize;
+        if (isLastPage) {
+          pagingController.appendLastPage(result.customerGroups!);
+        } else {
+          final nextPageKey = pageKey + result.customerGroups!.length;
+          pagingController.appendPage(result.customerGroups!, nextPageKey);
+        }
       }
-    }, (error) {
-      pagingController.error = error.message;
-    });
+    } catch (error) {
+      pagingController.error = error;
+    }
   }
 }
 

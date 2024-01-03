@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_close_button.dart';
-import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../data/models/store/address.dart';
-import '../../../../data/models/store/country.dart';
+import '../../../components/countries/components/countries.dart';
 
 class EditAddress extends StatefulWidget {
   const EditAddress(
@@ -86,7 +85,7 @@ class _EditAddressState extends State<EditAddress> {
       if (firstNameCtrl.text == address.firstName &&
           lastNameCtrl.text == address.lastName &&
           companyCtrl.text == address.company &&
-          int.tryParse(phoneCtrl.text) == address.phone &&
+          phoneCtrl.text == address.phone &&
           address1Ctrl.text == address.address1 &&
           address2Ctrl.text == address.address2 &&
           postalCodeCtrl.text == address.postalCode &&
@@ -115,7 +114,7 @@ class _EditAddressState extends State<EditAddress> {
                     firstName: firstNameCtrl.text,
                     lastName: lastNameCtrl.text,
                     company: companyCtrl.text,
-                    phone: int.tryParse(phoneCtrl.text),
+                    phone: phoneCtrl.text,
                     address1: address1Ctrl.text,
                     address2: address2Ctrl.text,
                     postalCode: postalCodeCtrl.text,

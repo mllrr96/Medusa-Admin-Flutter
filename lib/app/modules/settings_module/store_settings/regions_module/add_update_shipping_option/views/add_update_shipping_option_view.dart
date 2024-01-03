@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_shipping_option_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_back_button.dart';
 import 'package:medusa_admin/app/modules/components/adaptive_button.dart';
 import 'package:medusa_admin/app/modules/components/custom_text_field.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/utils/colors.dart';
-import '../../../../../../data/models/store/fulfillment_option.dart';
-import '../../../../../../data/repository/shipping_profile/shipping_profile_repo.dart';
 import '../../../../../components/currency_formatter.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
 
@@ -36,10 +33,8 @@ class AddUpdateShippingOptionView extends StatelessWidget {
 
     return GetBuilder<AddUpdateShippingOptionController>(
       init: AddUpdateShippingOptionController(
-        shippingProfileRepo: ShippingProfileRepo(),
-        regionsRepo: RegionsRepo(),
-        shippingOptionsRepo: ShippingOptionsRepo(),
         addUpdateShippingOptionReq: addUpdateShippingOptionReq,
+        updateShippingOptionUseCase: UpdateShippingOptionUseCase.instance,
       ),
       builder: (controller) {
         final inputFormatter = [
@@ -119,23 +114,20 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text('Price Type',
-                                  style: mediumTextStyle!),
+                              Text('Price Type', style: mediumTextStyle!),
                               Text('*',
                                   style: mediumTextStyle.copyWith(
                                       color: Colors.red)),
                             ],
                           ),
                           halfSpace,
-                          DropdownButtonFormField<
-                              ShippingOptionPriceType>(
+                          DropdownButtonFormField<ShippingOptionPriceType>(
                             style: context.bodyMedium,
                             value: controller.selectedPriceType,
                             hint: const Text('Choose a price type'),
                             iconSize: 20,
-                            dropdownColor: Theme.of(context)
-                                .appBarTheme
-                                .backgroundColor,
+                            dropdownColor:
+                                Theme.of(context).appBarTheme.backgroundColor,
                             validator: (val) {
                               if (val == null) {
                                 return 'Field is required';
@@ -144,21 +136,19 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                             },
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey),
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                               filled: true,
-                              fillColor: Theme.of(context)
-                                  .scaffoldBackgroundColor,
+                              fillColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
                               border: border,
                             ),
                             items: ShippingOptionPriceType.values
-                                .map((e) => DropdownMenuItem<
-                                        ShippingOptionPriceType>(
+                                .map((e) =>
+                                    DropdownMenuItem<ShippingOptionPriceType>(
                                       value: e,
                                       child: Text(e ==
-                                              ShippingOptionPriceType
-                                                  .calculated
+                                              ShippingOptionPriceType.calculated
                                           ? 'Calculated'
                                           : 'Flat Rate'),
                                     ))
@@ -172,22 +162,22 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 300),
                             child: controller.selectedPriceType ==
-                                ShippingOptionPriceType.flatRate
+                                    ShippingOptionPriceType.flatRate
                                 ? LabeledTextField(
-                              label: 'Price',
-                              includeSpace: false,
-                              keyboardType: TextInputType.number,
-                              decoration: decoration,
-                              inputFormatters: inputFormatter,
-                              controller: controller.priceCtrl,
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Field is required';
-                                }
+                                    label: 'Price',
+                                    includeSpace: false,
+                                    keyboardType: TextInputType.number,
+                                    decoration: decoration,
+                                    inputFormatters: inputFormatter,
+                                    controller: controller.priceCtrl,
+                                    validator: (val) {
+                                      if (val == null || val.isEmpty) {
+                                        return 'Field is required';
+                                      }
 
-                                return null;
-                              },
-                            )
+                                      return null;
+                                    },
+                                  )
                                 : const SizedBox.shrink(),
                           ),
                           if (!controller.updateMode)
@@ -319,14 +309,14 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                                           },
                                         )
                                       : const Skeletonizer(
-                                      enabled: true,
-                                      child: TextField(
-                                        readOnly: true,
-                                        decoration: InputDecoration(
-                                          hintText:
-                                          'Choose a fulfillment method',
-                                        ),
-                                      )),
+                                          enabled: true,
+                                          child: TextField(
+                                            readOnly: true,
+                                            decoration: InputDecoration(
+                                              hintText:
+                                                  'Choose a fulfillment method',
+                                            ),
+                                          )),
                                 ),
                               ],
                             ),
@@ -355,13 +345,13 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                             decoration: decoration,
                             keyboardType: TextInputType.number,
                             inputFormatters: inputFormatter,
-                            validator: (val){
+                            validator: (val) {
                               // When creating a new shipping option, minSubtotal is optional
-                              if(!controller.updateMode){
+                              if (!controller.updateMode) {
                                 return null;
                               }
                               // when updating a shipping option, minSubtotal is required
-                              if(val?.isEmpty ?? true){
+                              if (val?.isEmpty ?? true) {
                                 return 'Field is required';
                               }
                               return null;
@@ -374,13 +364,13 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                             decoration: decoration,
                             inputFormatters: inputFormatter,
                             keyboardType: TextInputType.number,
-                            validator: (val){
+                            validator: (val) {
                               // When creating a new shipping option, maxSubtotal is optional
-                              if(!controller.updateMode){
+                              if (!controller.updateMode) {
                                 return null;
                               }
                               // when updating a shipping option, maxSubtotal is required
-                              if(val?.isEmpty ?? true){
+                              if (val?.isEmpty ?? true) {
                                 return 'Field is required';
                               }
                               return null;

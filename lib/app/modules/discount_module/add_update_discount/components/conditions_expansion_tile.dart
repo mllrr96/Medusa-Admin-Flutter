@@ -7,8 +7,8 @@ import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'dart:io';
-import '../../../../data/models/store/discount_condition.dart';
 import '../../../components/adaptive_button.dart';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
@@ -31,7 +31,8 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
             maintainState: true,
             onExpansionChanged: (expanded) async {
               if (expanded) {
-                await controller.conditionsKey.currentContext.ensureVisibility();
+                await controller.conditionsKey.currentContext
+                    .ensureVisibility();
               }
             },
             initiallyExpanded: controller.updateMode,
@@ -75,17 +76,15 @@ class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
                           controller.discountConditions.add(DiscountCondition(
                             type: result.conditionType,
                             operator: result.operator,
-                            products: result.products?.map((e) => e.id!).toList(),
-                            productTags:
-                            result.productTags?.map((e) => e.id!).toList(),
-                            productCollections: result.productCollections
-                                ?.map((e) => e.id!)
-                                .toList(),
-                            productTypes:
-                            result.productTypes?.map((e) => e.id!).toList(),
+                            products: result.products,
+                            productTags: result.productTags,
+                            productCollections: result.productCollections,
+                            productTypes: result.productTypes,
+                            discountRuleId: null,
                           ));
                           controller.update([3]);
-                          await controller.conditionsKey.currentContext.ensureVisibility();
+                          await controller.conditionsKey.currentContext
+                              .ensureVisibility();
                         }
                       },
                       child: Row(

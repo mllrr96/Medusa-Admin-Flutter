@@ -1,5 +1,4 @@
-
-import '../../../../data/models/store/country.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 const List<Country> countries = [
   Country(id: 001, iso2: 'af', numCode: 4, name: 'AFGHANISTAN', iso3: 'afg', displayName: 'Afghanistan'),

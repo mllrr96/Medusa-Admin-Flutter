@@ -2,18 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/repository/shipping_options/shipping_options_repo.dart';
+import 'package:medusa_admin/domain/use_case/region_details_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/settings_module/store_settings/regions_module/regions/controllers/regions_controller.dart';
-import '../../../../../../data/models/store/region.dart';
-import '../../../../../../data/models/store/shipping_option.dart';
-import '../../../../../../data/repository/regions/regions_repo.dart';
 
 class RegionDetailsController extends GetxController with StateMixin<Region> {
-  RegionDetailsController({required this.regionsRepo, required this.shippingOptionsRepo, required this.regionId});
+  RegionDetailsController({required this.regionDetailsUseCase, required this.regionId});
   static RegionDetailsController get instance => Get.find<RegionDetailsController>();
-  final RegionsRepo regionsRepo;
-  final ShippingOptionsRepo shippingOptionsRepo;
+  final RegionDetailsUseCase regionDetailsUseCase;
   final String regionId;
   RxString regionName = 'Region'.obs;
 
@@ -25,16 +22,16 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
 
   Future<void> loadRegion() async {
     change(null, status: RxStatus.loading());
-    final result = await regionsRepo.retrieve(
-      id: regionId,
-      queryParams: {
+    final result = await regionDetailsUseCase.fetchRegion(
+      regionId,
+      queryParameters: {
         'expand': 'countries,tax_rates,payment_providers,fulfillment_providers',
       },
     );
     result.when(
-      (success) {
-        change(success.region!, status: RxStatus.success());
-        regionName.value = success.region!.name!;
+      (region) {
+        change(region, status: RxStatus.success());
+        regionName.value = region.name!;
       },
       (error) => change(null, status: RxStatus.error(error.message)),
     );
@@ -42,7 +39,7 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
 
   Future<void> deleteShippingOption(String id, {bool returnShippingOption = false}) async {
     loading();
-    final result = await shippingOptionsRepo.delete(id: id);
+    final result = await regionDetailsUseCase.deleteShippingOption(id);
     await result.when((success) async {
       if (success.deleted ?? false) {
         dismissLoading();
@@ -62,7 +59,7 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
 
   Future<void> deleteRegion(BuildContext context) async {
     change(null, status: RxStatus.loading());
-    final result = await regionsRepo.delete(id: regionId);
+    final result = await regionDetailsUseCase.deleteRegion(regionId);
     result.when(
       (success) {
         if (success.deleted) {
@@ -80,8 +77,8 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
   }
 
   Future<List<ShippingOption>?> retrieveShippingOptions({bool isReturn = false}) async {
-    final result = await shippingOptionsRepo.retrieveAll(
-      queryParams: {
+    final result = await regionDetailsUseCase.fetchShippingOptions(
+      queryParameters: {
         'region_id': regionId,
         'is_return': isReturn,
       },

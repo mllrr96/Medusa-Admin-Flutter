@@ -5,10 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/product_tag/product_tag_repo.dart';
-import 'package:medusa_admin/app/data/repository/regions/regions_repo.dart';
-import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
 import 'package:medusa_admin/app/modules/collections_module/collections/components/collection_list_tile.dart';
 import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/components/customer_list_tile.dart';
@@ -19,16 +15,9 @@ import 'package:medusa_admin/app/modules/products_module/products/components/ind
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/domain/use_case/search_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../core/utils/enums.dart';
-import '../../../data/repository/collection/collection_repo.dart';
-import '../../../data/repository/customer/customer_repo.dart';
-import '../../../data/repository/customer_group/customer_group_repo.dart';
-import '../../../data/repository/discount/discount_repo.dart';
-import '../../../data/repository/draft_order/draft_order_repo.dart';
-import '../../../data/repository/gift_card/gift_card_repo.dart';
-import '../../../data/repository/order/orders_repo.dart';
-import '../../../data/repository/price_list/price_list_repo.dart';
-import '../../../data/repository/product/products_repo.dart';
 import '../../../data/service/storage_service.dart';
 import '../../orders_module/orders/components/order_card.dart';
 import '../components/index.dart';
@@ -46,24 +35,12 @@ class MedusaSearchView extends StatelessWidget {
       onTap: () => context.unfocus(),
       child: GetBuilder<MedusaSearchController>(
         init: MedusaSearchController(
-          productsRepo: ProductsRepo(),
-          ordersRepo: OrdersRepo(),
-          giftCardRepo: GiftCardRepo(),
-          draftOrderRepo: DraftOrderRepo(),
-          collectionRepo: CollectionRepo(),
-          customerRepo: CustomerRepo(),
-          customerGroupRepo: CustomerGroupRepo(),
-          discountRepo: DiscountRepo(),
-          priceListRepo: PriceListRepo(),
-          productTagRepo: ProductTagRepo(),
-          regionsRepo: RegionsRepo(),
-          salesChannelRepo: SalesChannelRepo(),
+          searchUseCase: SearchUseCase.instance,
           searchCategory: searchCategory,
         ),
         builder: (controller) {
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: context.theme.appBarTheme.systemOverlayStyle!.copyWith(
-                statusBarColor: context.theme.scaffoldBackgroundColor),
+            value: context.systemUiOverlayNoAppBarStyle,
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: SearchAppBar(controller: controller),

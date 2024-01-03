@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -11,7 +11,7 @@ class OrderDetailsLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final order = Order(
+    const order = Order(
         displayId: 123,
         customerId: '',
         email: 'Medusa@js.com',
@@ -22,37 +22,37 @@ class OrderDetailsLoadingPage extends StatelessWidget {
     ]
     );
     const space = Gap(12);
-    return Skeletonizer(
+    return const Skeletonizer(
         enabled: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
               horizontal: 8.0, vertical: 10.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 OrderOverview(order: order),
                 space,
-                const HeaderCard(
+                HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Summery'),
                 ),
                 space,
-                const HeaderCard(
+                HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Payment'),
                 ),
                 space,
-                const HeaderCard(
+                HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Fulfillment'),
                 ),
                 space,
-                const HeaderCard(
+                HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Customer'),
                 ),
                 space,
-                const HeaderCard(
+                HeaderCard(
                   leading: Icon(Icons.info_outline),
                   title: Text('Timeline'),
                 ),

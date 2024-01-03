@@ -4,33 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/helper/image_picker_helper.dart';
-import 'package:medusa_admin/app/data/models/req/user_post_product_req.dart';
-import 'package:medusa_admin/app/data/models/store/index.dart';
-import 'package:medusa_admin/app/data/repository/collection/collection_repo.dart';
-import 'package:medusa_admin/app/data/repository/product/products_repo.dart';
-import 'package:medusa_admin/app/data/repository/product_type/product_type_repo.dart';
-import 'package:medusa_admin/app/data/repository/sales_channel/sales_channel_repo.dart';
-import 'package:medusa_admin/app/data/repository/upload/upload_repo.dart';
+import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/countries/components/countries.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
 class AddUpdateProductController extends GetxController {
   AddUpdateProductController(
-      {required this.productsRepo,
-      required this.productTypeRepo,
-      required this.collectionRepo,
-      required this.uploadRepo,
-      required this.salesChannelRepo,
+      {required this.updateProductUseCase,
       this.updateProductReq});
-  final ProductsRepo productsRepo;
-  final ProductTypeRepo productTypeRepo;
-  final CollectionRepo collectionRepo;
-  final UploadRepo uploadRepo;
-  final SalesChannelRepo salesChannelRepo;
+  final UpdateProductUseCase updateProductUseCase;
   final titleCtrl = TextEditingController();
   final subtitleCtrl = TextEditingController();
   final handleCtrl = TextEditingController();
@@ -106,7 +94,7 @@ class AddUpdateProductController extends GetxController {
   }
 
   Future<List<SalesChannel>?> fetchSalesChannels() async {
-    final result = await salesChannelRepo.retrieveAll();
+    final result = await updateProductUseCase.retrieveSalesChannels();
     return result.when((success) {
       if (success.salesChannels != null) {
         salesChannels = success.salesChannels;
@@ -121,7 +109,7 @@ class AddUpdateProductController extends GetxController {
   }
 
   Future<void> fetchOrganize() async {
-    final result = await productTypeRepo.retrieveProductTypes();
+    final result = await updateProductUseCase.retrieveProductTypes();
     result.when((success) {
       productTypes = success.productTypes;
       if (updateProductReq != null) {
@@ -130,7 +118,7 @@ class AddUpdateProductController extends GetxController {
         selectedProductType = (q?.isNotEmpty ?? false) ? q?.first : null;
       }
     }, (error) => null);
-    final result2 = await collectionRepo.retrieveAll();
+    final result2 = await updateProductUseCase.retrieveCollections();
     result2.when((success) {
       collections = success.collections;
       if (updateProductReq != null) {
@@ -172,8 +160,8 @@ class AddUpdateProductController extends GetxController {
               .toList());
     }
     loading();
-    final result = await productsRepo.add(
-        userPostProductReq: UserPostProductReq(product: product));
+    final result = await updateProductUseCase.addProduct(
+         UserPostProductReq(product: product));
     result.when((success) async {
       EasyLoading.showSuccess('New product Added');
       await _uploadImages(id: success.id!, images: images, context: context)
@@ -202,7 +190,7 @@ class AddUpdateProductController extends GetxController {
         product.salesChannels?.map((e) => e.id).toList(),
         selectedSalesChannels);
 
-    final result = await productsRepo.update(
+    final result = await updateProductUseCase.updateProduct(
       id: product.id!,
       userPostUpdateProductReq: UserPostUpdateProductReq(
         title: product.title == titleCtrl.text ? null : titleCtrl.text,
@@ -243,22 +231,22 @@ class AddUpdateProductController extends GetxController {
       ),
     );
     result.when(
-      (success) async {
+      (product) async {
         EasyLoading.showSuccess('Product Updated');
         await _uploadImages(
-          id: success.product!.id!,
+          id: product.id!,
           context: context,
           images: images,
           imagesToKeep: imagesToKeep.map((e) => e.url!).toList(),
         ).then((value) async {
           await _uploadThumbnail(
-            id: success.product!.id!,
+            id: product.id!,
             context: context,
             thumbnail: thumbnailImage,
           ).then((value) async {
             if (imagesToDelete.isNotEmpty) {
               for (var element in imagesToDelete) {
-                await uploadRepo.deleteFile(fileKey: element.id!);
+                await updateProductUseCase.deleteFile(fileKey: element.id!);
               }
               if (context.mounted) {
                 context.popRoute(true);
@@ -284,15 +272,15 @@ class AddUpdateProductController extends GetxController {
       return;
     }
     loading(status: 'Uploading Thumbnail');
-    final imageResult = await uploadRepo.uploadFile(files: [thumbnail]);
-    await imageResult.when((thumbnailSuccess) async {
-      if (thumbnailSuccess.urls.isEmpty) {
+    final imageResult = await updateProductUseCase.uploadFile([thumbnail]);
+    await imageResult.when((urls) async {
+      if (urls.isEmpty) {
         return;
       }
 
-      final productResult = await productsRepo.update(
+      final productResult = await updateProductUseCase.updateProduct(
         userPostUpdateProductReq:
-            UserPostUpdateProductReq(thumbnail: thumbnailSuccess.urls.first),
+            UserPostUpdateProductReq(thumbnail: urls.first),
         id: id,
       );
       productResult.when((success) {
@@ -318,11 +306,11 @@ class AddUpdateProductController extends GetxController {
     loading(status: 'Uploading Images');
     List<File> filesToUpload = [];
     filesToUpload.addAll(images);
-    final imageResult = await uploadRepo.uploadFile(files: filesToUpload);
-    await imageResult.when((imageSuccess) async {
-      final productResult = await productsRepo.update(
+    final imageResult = await updateProductUseCase.uploadFile(filesToUpload);
+    await imageResult.when((urls) async {
+      final productResult = await updateProductUseCase.updateProduct(
         userPostUpdateProductReq: UserPostUpdateProductReq(
-            images: imageSuccess.urls + (imagesToKeep ?? [])),
+            images: urls + (imagesToKeep ?? [])),
         id: id,
       );
       productResult.when((success) {
