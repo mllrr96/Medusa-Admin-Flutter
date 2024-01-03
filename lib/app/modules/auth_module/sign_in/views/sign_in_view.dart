@@ -375,8 +375,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
+                      //  in case theres '/' in the end remove it before updating
+                      final url = textCtrl.text.endsWith('/') ? textCtrl.text.replaceAll(RegExp(r'.$'), "") : textCtrl.text;
                       await StorageService.instance
-                          .updateUrl(textCtrl.text)
+                          .updateUrl(url)
                           .then(
                         (result) {
                           context.popRoute();
@@ -406,8 +408,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                       Text(
                           '* Make sure to restart the app after updating baseurl',
                           style: context.bodyMedium),
-                      Text('* base url MUST end with /admin',
-                          style: context.bodyMedium),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -431,10 +431,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
 
                       if (!val.isURL) {
                         return 'Invalid url';
-                      }
-
-                      if (!val.contains('admin')) {
-                        return 'Url must end with /admin';
                       }
 
                       return null;

@@ -4,7 +4,7 @@ import 'package:multiple_result/multiple_result.dart';
 import '../../app/data/models/app/api_error_handler.dart';
 import '../../di/di.dart';
 
-@injectable
+@lazySingleton
 class AuthenticationUseCase {
   static AuthenticationUseCase get instance =>
       getIt<AuthenticationUseCase>();

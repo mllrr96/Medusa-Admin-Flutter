@@ -16,9 +16,13 @@ abstract class RegisterCoreDependencies {
   @preResolve
   Future<PackageInfo> get packageInfo => PackageInfo.fromPlatform();
 
-  MedusaAdmin getService(StorageService storageService) =>
+  MedusaAdmin getService(
+          StorageService storageService, SharedPreferences sharedPreferences) =>
       MedusaAdmin.initialize(
+        prefs: sharedPreferences,
         config: MedusaConfig(
-            baseUrl: StorageService.baseUrl, enableDebugging: true),
+          baseUrl: StorageService.baseUrl,
+          enableDebugging: true,
+        ),
       );
 }

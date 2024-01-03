@@ -4,12 +4,12 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class SalesChannelsUseCase {
   final SalesChannelRepository _salesChannelRepository =
       getIt<MedusaAdmin>().salesChannelRepository;
 
-  static SalesChannelsUseCase instance = getIt<SalesChannelsUseCase>();
+  static SalesChannelsUseCase get instance => getIt<SalesChannelsUseCase>();
 
   Future<Result<UserSalesChannelRetrieveAllRes, Failure>> call(
       {Map<String, dynamic>? queryParameters}) async {

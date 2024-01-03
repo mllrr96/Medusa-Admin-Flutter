@@ -15,13 +15,15 @@ class GiftCardsLoadingPage extends StatelessWidget {
       status: ProductStatus.published,
       isGiftCard: true,
     );
-    return Column(
-      children: List.generate(
-          20,
-          (index) => index.isEven
-              ? const Skeletonizer(
-                  enabled: true, child: GiftCardListTile(giftCard: product))
-              : const Divider(height: 0)),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            20,
+            (index) => index.isEven
+                ? const GiftCardListTile(giftCard: product)
+                : const Divider(height: 0)),
+      ),
     );
   }
 }

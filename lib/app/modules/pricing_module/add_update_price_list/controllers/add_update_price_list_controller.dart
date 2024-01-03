@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/app/modules/components/header_card.dart';
 import 'package:medusa_admin/app/modules/pricing_module/pricing/controllers/pricing_controller.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -17,10 +18,12 @@ class AddUpdatePriceListController extends GetxController {
   bool get updateMode => id != null;
   PriceList priceList =
       const PriceList(type: PriceListType.sale, status: PriceListStatus.active);
-  final formKey = GlobalKey<FormState>();
+  final configFormKey = GlobalKey<FormState>();
+  final generalFormKey = GlobalKey<FormState>();
   final priceListTypeKey = GlobalKey();
   final generalKey = GlobalKey();
   final generalController = HeaderCardController();
+  final configController = HeaderCardController();
   final configKey = GlobalKey();
   final pricesKey = GlobalKey();
   bool specifyCustomers = false;
@@ -46,11 +49,15 @@ class AddUpdatePriceListController extends GetxController {
   }
 
   Future<void> create(BuildContext context) async {
-    if (!formKey.currentState!.validate()) {
+    if (!generalFormKey.currentState!.validate()) {
       generalController.expand();
       return;
     }
-
+    if (!configFormKey.currentState!.validate()) {
+      configController.expand();
+      return;
+    }
+    context.unfocus();
     loading();
     final result = await updatePriceListUseCase.create(
       UserCreatePriceListReq(
@@ -84,10 +91,10 @@ class AddUpdatePriceListController extends GetxController {
   }
 
   Future<void> updatePriceList(BuildContext context) async {
-    if (!formKey.currentState!.validate()) {
+    if (!generalFormKey.currentState!.validate()) {
       return;
     }
-
+    context.unfocus();
     loading();
 
     final result = await updatePriceListUseCase.update(

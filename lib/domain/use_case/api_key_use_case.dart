@@ -3,11 +3,11 @@ import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
-@injectable
+@lazySingleton
 class ApiKeyUseCase {
   final PublishableApiKeyRepository _apiKeyRepository = getIt<MedusaAdmin>().publishableApiKeyRepository;
 
-  static ApiKeyUseCase instance = getIt<ApiKeyUseCase>();
+  static ApiKeyUseCase get instance => getIt<ApiKeyUseCase>();
 
   Future<Result<PublishableApiKey, Failure>> create(String title) async {
     try {

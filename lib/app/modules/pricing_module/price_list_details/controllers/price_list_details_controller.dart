@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/price_list_details_use_case.dart';
@@ -11,7 +10,8 @@ import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 
 class PriceListDetailsController extends GetxController
     with StateMixin<PriceList> {
-  PriceListDetailsController({required this.priceListDetailsUseCase, required this.id});
+  PriceListDetailsController(
+      {required this.priceListDetailsUseCase, required this.id});
   final PriceListDetailsUseCase priceListDetailsUseCase;
   final String id;
   final pagingController = PagingController<int, Product>(
@@ -30,28 +30,27 @@ class PriceListDetailsController extends GetxController
     loading();
     final result = await priceListDetailsUseCase.delete(id: id);
 
-    result.when(
-      (success) {
-        if (success.deleted) {
-          EasyLoading.showSuccess('Price list deleted');
-          PricingController.instance.pagingController.refresh();
-          context.popRoute();
-        } else {
-          Get.snackbar('Error deleting price list', 'Unknown error',
-              snackPosition: SnackPosition.BOTTOM);
-        }
-      },
-      (error) => Get.snackbar(
-          'Error deleting price list ${error.code ?? ''}', error.message,
-          snackPosition: SnackPosition.BOTTOM),
-    );
+    result.when((success) {
+      if (success.deleted) {
+        dismissLoading();
+        context.showSnackBar('Price list deleted');
+        PricingController.instance.pagingController.refresh();
+        context.popRoute();
+      } else {
+        context.showSnackBar('Error deleting price list, Unknown error');
+      }
+    },
+        (error) {
+          dismissLoading();
+          context.showSnackBar(
+            'Error deleting price list, ${error.toSnackBarString()}');
+        });
   }
 
   Future<void> fetchPriceList() async {
     change(null, status: RxStatus.loading());
     final result = await priceListDetailsUseCase.fetch(id: id);
-    result.when(
-        (priceList) => change(priceList, status: RxStatus.success()),
+    result.when((priceList) => change(priceList, status: RxStatus.success()),
         (error) => change(null, status: RxStatus.error(error.message)));
   }
 
@@ -81,18 +80,19 @@ class PriceListDetailsController extends GetxController
 
   Future<void> deleteProduct(BuildContext context, Product product) async {
     loading();
-    final result =
-        await priceListDetailsUseCase.deleteProductPrices(id: id, productId: product.id!);
+    final result = await priceListDetailsUseCase.deleteProductPrices(
+        id: id, productId: product.id!);
     result.when((success) {
+      dismissLoading();
       success.deleted
-          ? EasyLoading.showSuccess('Product deleted')
+          ? context.showSnackBar('Product deleted')
           : context.showSnackBar('Error deleting product, Unknown error');
     }, (error) {
       dismissLoading();
       context
           .showSnackBar('Error deleting product, ${error.toSnackBarString()}');
-      pagingController.refresh();
     });
+    pagingController.refresh();
   }
 
   Future<void> updatePrices(
@@ -118,7 +118,7 @@ class PriceListDetailsController extends GetxController
     });
   }
 
- Future<void> addPrices(BuildContext context, List<MoneyAmount> prices) async{
+  Future<void> addPrices(BuildContext context, List<MoneyAmount> prices) async {
     loading();
     final result = await priceListDetailsUseCase.updatePrices(
         id: id,

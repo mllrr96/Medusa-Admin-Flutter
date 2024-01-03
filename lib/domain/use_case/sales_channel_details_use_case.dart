@@ -4,14 +4,14 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class SalesChannelDetailsUseCase {
   final ProductsRepository _productsRepository =
       getIt<MedusaAdmin>().productsRepository;
   final SalesChannelRepository _salesChannelRepository =
       getIt<MedusaAdmin>().salesChannelRepository;
 
-  static SalesChannelDetailsUseCase instance =
+  static SalesChannelDetailsUseCase get instance =>
       getIt<SalesChannelDetailsUseCase>();
 
   Future<Result<UserProductsListRes, Failure>> fetchProducts({

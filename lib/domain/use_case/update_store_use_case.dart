@@ -4,11 +4,11 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class UpdateStoreUseCase {
   final StoreRepository _storeRepository = getIt<MedusaAdmin>().storeRepository;
 
-  static UpdateStoreUseCase instance = getIt<UpdateStoreUseCase>();
+  static UpdateStoreUseCase get instance => getIt<UpdateStoreUseCase>();
 
   Future<Result<Store, Failure>> call(StorePostReq storePostReq) async {
     try {

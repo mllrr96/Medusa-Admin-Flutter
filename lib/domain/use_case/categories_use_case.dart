@@ -4,12 +4,12 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class CategoriesUseCase {
   final ProductCategoryRepository _categoryRepository =
       getIt<MedusaAdmin>().productCategoryRepository;
 
-  static CategoriesUseCase instance = getIt<CategoriesUseCase>();
+  static CategoriesUseCase get instance => getIt<CategoriesUseCase>();
 
   Future<Result<UserRetrieveProductCategoriesRes, Failure>> call({
     Map<String, dynamic>? queryParameters,

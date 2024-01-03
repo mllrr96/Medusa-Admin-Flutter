@@ -13,13 +13,15 @@ class PriceListsLoadingPage extends StatelessWidget {
         description: 'Medusa Js Price List',
         type: PriceListType.sale,
         status: PriceListStatus.active);
-    return Column(
-      children: List.generate(
-          14,
-          (index) => index.isEven
-              ? const Skeletonizer(
-                  enabled: true, child: PriceListTile(priceList))
-              : const Divider(height: 0, indent: 16.0)),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            14,
+            (index) => index.isEven
+                ? const PriceListTile(priceList)
+                : const Divider(height: 0, indent: 16.0)),
+      ),
     );
   }
 }

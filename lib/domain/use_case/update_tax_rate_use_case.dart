@@ -4,11 +4,11 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class UpdateTaxRateUseCase {
   final TaxRateRepository _taxRateRepository =
       getIt<MedusaAdmin>().taxRateRepository;
-  static UpdateTaxRateUseCase instance = getIt<UpdateTaxRateUseCase>();
+  static UpdateTaxRateUseCase get instance => getIt<UpdateTaxRateUseCase>();
 
   Future<Result<TaxRate, Failure>> create(
       UserCreateTaxRateReq userCreateTaxRateReq) async {

@@ -19,11 +19,11 @@ class RegionsLoadingPage extends StatelessWidget {
       Country(id: 005, iso2: 'ad', numCode: 20, name: 'ANDORRA', iso3: 'and', displayName: 'Andorra'),
     ]
     );
-    return Column(
-      children: List.generate(10, (index) =>index.isEven ? const Skeletonizer(
-        enabled: true,
-        child: RegionCard(region: region),
-      ) : const Gap(6.0),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(10, (index) =>index.isEven ? const RegionCard(region: region) : const Gap(6.0),
+        ),
       ),
     );
   }

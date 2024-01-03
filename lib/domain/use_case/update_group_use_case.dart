@@ -4,9 +4,9 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../app/data/models/app/api_error_handler.dart';
 
-@injectable
+@lazySingleton
 class UpdateGroupUseCase {
-  static final UpdateGroupUseCase instance = getIt<UpdateGroupUseCase>();
+  static UpdateGroupUseCase get instance => getIt<UpdateGroupUseCase>();
   final CustomerGroupRepository _customerGroupRepository =
       getIt<MedusaAdmin>().customerGroupRepository;
 

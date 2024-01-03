@@ -4,13 +4,13 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class UpdateRegionUseCase {
   final StoreRepository _storeRepository = getIt<MedusaAdmin>().storeRepository;
   final RegionsRepository _regionsRepository =
       getIt<MedusaAdmin>().regionsRepository;
 
-  static UpdateRegionUseCase instance = getIt<UpdateRegionUseCase>();
+  static UpdateRegionUseCase get instance => getIt<UpdateRegionUseCase>();
 
   Future<Result<List<PaymentProvider>, Failure>> fetchPaymentProviders() async {
     try {

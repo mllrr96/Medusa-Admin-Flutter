@@ -10,12 +10,15 @@ class SalesChannelsLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const salesChannel = SalesChannel(
         name: 'Default Sales Channel', description: 'Created by Medusa');
-    return Column(
-      children: List.generate(
-        14,
-        (index) => index.isEven
-            ? const Skeletonizer(enabled: true, child: SalesChannelTile(salesChannel))
-            : const Divider(height: 0, indent: 16.0),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+          14,
+          (index) => index.isEven
+              ? const SalesChannelTile(salesChannel)
+              : const Divider(height: 0, indent: 16.0),
+        ),
       ),
     );
   }

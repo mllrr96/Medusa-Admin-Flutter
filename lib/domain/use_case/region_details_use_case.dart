@@ -4,14 +4,14 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class RegionDetailsUseCase {
   final RegionsRepository _regionsRepository =
       getIt<MedusaAdmin>().regionsRepository;
   final ShippingOptionsRepository _shippingOptionsRepository =
       getIt<MedusaAdmin>().shippingOptionsRepository;
 
-  static RegionDetailsUseCase instance = getIt<RegionDetailsUseCase>();
+  static RegionDetailsUseCase get instance => getIt<RegionDetailsUseCase>();
 
   Future<Result<Region, Failure>> fetchRegion(String id, {
     Map<String, dynamic>? queryParameters,

@@ -10,13 +10,15 @@ class ProductsLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const product =
         Product(title: 'Medusa Js Product', status: ProductStatus.published);
-    return Column(
-      children: List.generate(
-        20,
-        (index) => index.isEven
-            ? const Skeletonizer(
-                enabled: true, child: ProductListTile(product: product))
-            : const Divider(height: 0, indent: 16),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+          20,
+          (index) => index.isEven
+              ? const ProductListTile(product: product)
+              : const Divider(height: 0, indent: 16),
+        ),
       ),
     );
   }

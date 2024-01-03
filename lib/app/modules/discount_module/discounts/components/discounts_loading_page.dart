@@ -16,11 +16,14 @@ class DiscountsLoadingPage extends StatelessWidget {
           type: DiscountRuleType.fixed,
           value: 12000,
         ), isDynamic: null);
-    return Column(
-      children: List.generate(
-          10,
-          (index) =>
-              index.isEven? const Skeletonizer(enabled: true, child: DiscountCard(discount)): const Gap(12.0),),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            10,
+            (index) =>
+                index.isEven? const DiscountCard(discount): const Gap(12.0),),
+      ),
     );
   }
 }

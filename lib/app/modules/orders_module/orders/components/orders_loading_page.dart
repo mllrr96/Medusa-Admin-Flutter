@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../data/service/storage_service.dart';
 import 'order_card.dart';
 
@@ -26,11 +27,14 @@ class OrdersLoadingPage extends StatelessWidget {
         ? AlternativeOrderCard(order, shimmer: true)
         : OrderCard(order, shimmer: true);
 
-    return Column(
-        children: List.generate(
-            20,
-            (index) => index.isEven
-                ? widget
-                : const Gap(8.0)));
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+          children: List.generate(
+              20,
+              (index) => index.isEven
+                  ? widget
+                  : const Gap(8.0))),
+    );
   }
 }

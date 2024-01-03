@@ -17,12 +17,15 @@ class CustomGiftCardsLoadingPage extends StatelessWidget {
       orderId: '12345678',
       createdAt: DateTime(2021, 10, 10, 10, 10, 10),
     );
-    return Column(
-      children: List.generate(
-          19,
-          (index) => index.isEven
-              ? Skeletonizer(enabled: true, child: CustomGiftCardTile(giftCard))
-              : const Divider(height: 0)),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            19,
+            (index) => index.isEven
+                ? CustomGiftCardTile(giftCard)
+                : const Divider(height: 0)),
+      ),
     );
   }
 }

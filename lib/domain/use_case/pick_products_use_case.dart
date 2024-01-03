@@ -4,10 +4,10 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class PickProductsUseCase {
   static PickProductsUseCase get instance => getIt<PickProductsUseCase>();
-  final ProductsRepository _productsRepository = getIt<ProductsRepository>();
+  final ProductsRepository _productsRepository = getIt<MedusaAdmin>().productsRepository;
   Future<Result<UserProductsListRes, Failure>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {

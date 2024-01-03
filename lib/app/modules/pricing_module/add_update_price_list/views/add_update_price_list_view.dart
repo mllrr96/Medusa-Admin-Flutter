@@ -150,6 +150,7 @@ class AddUpdatePriceListView extends StatelessWidget {
         builder: (controller) {
           return HeaderCard(
               key: controller.configKey,
+              controller: controller.configController,
               maintainState: true,
               onExpansionChanged: (expanded) async {
                 if (expanded) {
@@ -227,7 +228,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                     onChanged: (val) async {
                       if (val) {
                         controller.priceList = controller.priceList.copyWith
-                            .endsAt(DateTime.now().add(const Duration(days: 7)));
+                            .endsAt(
+                                DateTime.now().add(const Duration(days: 7)));
                         controller.update([2]);
                         await controller.configKey.currentContext
                             .ensureVisibility();
@@ -520,8 +522,8 @@ class AddUpdatePriceListView extends StatelessWidget {
     }
 
     return GetBuilder<AddUpdatePriceListController>(
-      init:
-          AddUpdatePriceListController(updatePriceListUseCase: UpdatePriceListUseCase.instance, id: id),
+      init: AddUpdatePriceListController(
+          updatePriceListUseCase: UpdatePriceListUseCase.instance, id: id),
       builder: (controller) {
         return GestureDetector(
           onTap: () => context.unfocus(),
@@ -544,33 +546,30 @@ class AddUpdatePriceListView extends StatelessWidget {
               ],
             ),
             body: SafeArea(
-              child: Form(
-                key: controller.formKey,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 10.0),
-                  children: [
-                    SwitchListTile.adaptive(
-                      contentPadding: EdgeInsets.zero,
-                      value: controller.saveAsDraft,
-                      onChanged: (val) {
-                        controller.saveAsDraft = val;
-                        controller.update();
-                      },
-                      title: controller.updateMode
-                          ? const Text('Unpublish')
-                          : const Text('Save as draft'),
-                    ),
-                    const Divider(),
-                    buildPriceListType(),
-                    space,
-                    buildGeneral(),
-                    space,
-                    buildConfig(),
-                    space,
-                    buildPrices(),
-                  ],
-                ),
+              child: ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+                children: [
+                  SwitchListTile.adaptive(
+                    contentPadding: EdgeInsets.zero,
+                    value: controller.saveAsDraft,
+                    onChanged: (val) {
+                      controller.saveAsDraft = val;
+                      controller.update();
+                    },
+                    title: controller.updateMode
+                        ? const Text('Unpublish')
+                        : const Text('Save as draft'),
+                  ),
+                  const Divider(),
+                  buildPriceListType(),
+                  space,
+                  Form(key: controller.generalFormKey, child: buildGeneral()),
+                  space,
+                  Form(key: controller.configFormKey, child: buildConfig()),
+                  space,
+                  buildPrices(),
+                ],
               ),
             ),
           ),

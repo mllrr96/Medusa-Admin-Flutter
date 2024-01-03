@@ -54,7 +54,8 @@ class DiscountsView extends StatelessWidget {
                   label: 'New Discount',
                   icon: const Icon(Icons.add),
                   onPressed: () async {
-                    final result = await context.pushRoute(AddUpdateDiscountRoute());
+                    final result =
+                        await context.pushRoute(AddUpdateDiscountRoute());
                     if (result is bool && result == true) {
                       controller.pagingController.refresh();
                     }
@@ -88,10 +89,10 @@ class DiscountsView extends StatelessWidget {
                       builderDelegate: PagedChildBuilderDelegate<Discount>(
                         itemBuilder: (context, discount, index) => DiscountCard(
                             discount,
-                            onDelete: () async =>
-                                await controller.deleteDiscount(id: discount.id!),
-                            onToggle: () async => await controller.toggleDiscount(
-                                discount: discount)),
+                            onDelete: () async => await controller
+                                .deleteDiscount(id: discount.id!),
+                            onToggle: () async => await controller
+                                .toggleDiscount(discount: discount)),
                         firstPageProgressIndicatorBuilder: (context) =>
                             const DiscountsLoadingPage(),
                         noItemsFoundIndicatorBuilder: (_) => Center(

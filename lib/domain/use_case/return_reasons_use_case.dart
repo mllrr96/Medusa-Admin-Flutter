@@ -4,12 +4,12 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class ReturnReasonsUseCase {
   final ReturnReasonRepository _returnReasonRepository =
       getIt<MedusaAdmin>().returnReasonRepository;
 
-  static ReturnReasonsUseCase instance = getIt<ReturnReasonsUseCase>();
+  static ReturnReasonsUseCase get instance => getIt<ReturnReasonsUseCase>();
 
   Future<Result<UserRetrieveAllReturnReasonRes, Failure>> fetchReturnReasons(
       {Map<String, dynamic>? queryParameters}) async {

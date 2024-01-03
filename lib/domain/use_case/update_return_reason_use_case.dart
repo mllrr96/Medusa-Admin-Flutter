@@ -4,12 +4,12 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class UpdateReturnReasonUseCase {
   final ReturnReasonRepository _returnReasonRepository =
       getIt<MedusaAdmin>().returnReasonRepository;
 
-  static UpdateReturnReasonUseCase instance =
+  static UpdateReturnReasonUseCase get instance =>
       getIt<UpdateReturnReasonUseCase>();
 
   Future<Result<ReturnReason, Failure>> create(

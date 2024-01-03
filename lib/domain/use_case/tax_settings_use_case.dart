@@ -4,7 +4,7 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class TaxSettingsUseCase {
   final RegionsRepository _regionsRepository =
       getIt<MedusaAdmin>().regionsRepository;
@@ -12,7 +12,7 @@ class TaxSettingsUseCase {
       getIt<MedusaAdmin>().taxRateRepository;
   final StoreRepository _storeRepository = getIt<MedusaAdmin>().storeRepository;
 
-  static TaxSettingsUseCase instance = getIt<TaxSettingsUseCase>();
+  static TaxSettingsUseCase get instance => getIt<TaxSettingsUseCase>();
 
   Future<Result<UserRegionsRes, Failure>> fetchRegions({
     Map<String, dynamic>? queryParameters,

@@ -10,12 +10,13 @@ class GroupsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const group = CustomerGroup(name: 'Medusa', customers: [], id: '1');
-    return Column(
-      children: List.generate(
-          10,
-          (index) => Skeletonizer(
-              enabled: true,
-              child: GroupCard(customerGroup: group, index: index))),
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: List.generate(
+            10,
+            (index) => GroupCard(customerGroup: group, index: index)),
+      ),
     );
   }
 }

@@ -4,12 +4,12 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-@injectable
+@lazySingleton
 class UpdateSalesChannelUseCase {
   final SalesChannelRepository _salesChannelRepository =
       getIt<MedusaAdmin>().salesChannelRepository;
 
-  static UpdateSalesChannelUseCase instance =
+  static UpdateSalesChannelUseCase get instance =>
       getIt<UpdateSalesChannelUseCase>();
 
   Future<Result<SalesChannel, Failure>> create(
