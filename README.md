@@ -11,11 +11,33 @@ Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim t
 ##  Installation
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
 
-Open this project folder with Terminal/CMD and run flutter packages get
+Open this project folder with Terminal/CMD and run the following command
+```
+flutter packages get
+```
+then 
+```
+flutter pub run build_runner build
+```
+then change the baseUrl (found in "lib/core/utils/strings.dart" ) to your backend URL
 
-Change the baseUrl (found in "lib/core/utils/strings.dart" ) to your backend URL
+- To run the app on Android just run the following command in the root directory of the project:
+```
+flutter run
+```
+- or to build apk 
+```
+flutter build apk
+```
 
-Run flutter run to build and run the debug app on your emulator/phone
+- To run the app on iOS just run the following command in the root directory of the project: (macOS only)
+```
+flutter run
+```
+- or to build apk 
+```
+flutter build ipa
+```
 
 ## Features
 - [x] View and update store settings ( Regions, Return reasons, sales channels etc)
@@ -23,9 +45,9 @@ Run flutter run to build and run the debug app on your emulator/phone
 - [x] View, add and update collection groups
 - [x] View, add and update customers and customer groups
 - [x] View, add and update discounts
-- [ ] View and add/update pricing list
+- [x] View and add/update pricing list
 - [x] View and add/update gift cards
-- [ ] Update order items
+- [x] Update order items
 - [x] Add and update draft order
 - [x] App settings
 - [x] Support for light/dark mode
