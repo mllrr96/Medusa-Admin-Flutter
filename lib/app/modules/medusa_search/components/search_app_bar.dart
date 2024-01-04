@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
-import 'package:medusa_admin/app/modules/components/search_bar.dart';
 import 'package:medusa_admin/app/modules/components/search_text_field.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/pick_search_category.dart';
 import 'package:medusa_admin/app/modules/medusa_search/components/search_chip.dart';
