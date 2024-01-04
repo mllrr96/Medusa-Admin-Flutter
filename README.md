@@ -34,7 +34,7 @@ flutter build apk
 ```
 flutter run
 ```
-- or to build apk 
+- or to build ipa
 ```
 flutter build ipa
 ```
