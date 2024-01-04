@@ -26,6 +26,7 @@ class OrderDetailsView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
             title: Hero(tag: 'order', child: Text(tr.orderTableOrder)),
             actions: [
               if (controller.state?.status != OrderStatus.canceled)
@@ -125,15 +126,15 @@ class OrderDetailsView extends StatelessWidget {
                           },
                         ),
                         space,
-                        // OrderTimeline(
-                        //   order,
-                        //   onExpansionChanged: (expanded) async {
-                        //     if (expanded) {
-                        //       await controller.timelineKey.currentContext
-                        //           .ensureVisibility();
-                        //     }
-                        //   },
-                        // ),
+                        OrderTimeline(
+                          order,
+                          onExpansionChanged: (expanded) async {
+                            if (expanded) {
+                              await controller.timelineKey.currentContext
+                                  .ensureVisibility();
+                            }
+                          },
+                        ),
                         const SizedBox(height: 25.0),
                       ],
                     ),

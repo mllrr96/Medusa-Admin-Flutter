@@ -180,6 +180,7 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: AddUpdateProductRoute.page),
       AutoRoute(page: ProductDetailsRoute.page, fullscreenDialog: true),
       AutoRoute(page: ImagePreviewRoute.page),
+      AutoRoute(page: ProductAddVariantRoute.page),
 
       // Store settings
       AutoRoute(page: RegionsRoute.page),

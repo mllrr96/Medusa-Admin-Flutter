@@ -1,9 +1,9 @@
 name: medusa_admin
-version: 1.0.0+1
+version: 1.0.2
 publish_to: none
 description: A medusa store manager for mobile !.
 environment: 
-  sdk: '>=3.0.0 <3.10.2'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies: 
   cupertino_icons: ^1.0.5

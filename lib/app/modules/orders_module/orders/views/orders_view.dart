@@ -102,7 +102,6 @@ class OrdersView extends StatelessWidget {
                         });
                       })
                     ],
-                    pinned: true,
                   ),
                   SliverPadding(
                     padding: EdgeInsets.only(

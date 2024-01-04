@@ -26,7 +26,7 @@ class ProductAddVariantView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    final manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -42,13 +42,10 @@ class ProductAddVariantView extends StatelessWidget {
           return WillPopScope(
             onWillPop: () async {
               if (controller.updateMode) {
-                context.popRoute();
-                return false;
+                return true;
               }
-
               if (!controller.shouldShowWarning()) {
-                context.popRoute();
-                return false;
+                return true;
               }
               final result = await showOkCancelAlertDialog(
                   context: context,
@@ -98,7 +95,7 @@ class ProductAddVariantView extends StatelessWidget {
                                     Text(
                                         'Configure the general information for this variant.',
                                         style: smallTextStyle?.copyWith(
-                                            color: lightWhite)),
+                                            color: manatee)),
                                     space,
                                     LabeledTextField(
                                       label: 'Custom title',
@@ -212,7 +209,7 @@ class ProductAddVariantView extends StatelessWidget {
                                     Text(
                                         'Configure the pricing for this variant.',
                                         style: smallTextStyle?.copyWith(
-                                            color: lightWhite)),
+                                            color: manatee)),
                                     space,
                                     ListView.builder(
                                         shrinkWrap: true,
@@ -264,7 +261,7 @@ class ProductAddVariantView extends StatelessWidget {
                                                                   style: mediumTextStyle
                                                                       ?.copyWith(
                                                                           color:
-                                                                              lightWhite)))
+                                                                              manatee)))
                                                         ],
                                                       ),
                                                     ),
@@ -298,7 +295,7 @@ class ProductAddVariantView extends StatelessWidget {
                                                                   style: mediumTextStyle
                                                                       ?.copyWith(
                                                                           color:
-                                                                              lightWhite))),
+                                                                              manatee))),
                                                           prefixIconConstraints:
                                                               const BoxConstraints(
                                                                   minWidth: 0,
@@ -342,7 +339,7 @@ class ProductAddVariantView extends StatelessWidget {
                                     Text(
                                         'Configure the inventory and stock for this variant.',
                                         style: smallTextStyle?.copyWith(
-                                            color: lightWhite)),
+                                            color: manatee)),
                                     space,
                                     Obx(() {
                                       return SwitchListTile.adaptive(
@@ -352,7 +349,7 @@ class ProductAddVariantView extends StatelessWidget {
                                         subtitle: Text(
                                             'When checked Medusa will regulate the inventory when orders and returns are made.',
                                             style: smallTextStyle?.copyWith(
-                                                color: lightWhite)),
+                                                color: manatee)),
                                         value: controller.manageInventory.value,
                                         onChanged: (val) => controller
                                             .manageInventory.value = val,
@@ -370,7 +367,7 @@ class ProductAddVariantView extends StatelessWidget {
                                         subtitle: Text(
                                             'When checked the product will be available for purchase despite the product being sold out',
                                             style: smallTextStyle?.copyWith(
-                                                color: lightWhite)),
+                                                color: manatee)),
                                         value: controller.allowBackorder.value,
                                         onChanged: (val) => controller
                                             .allowBackorder.value = val,
@@ -425,7 +422,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 Text(
                                     'Shipping information can be required depending on your shipping provider, and whether or not you are shipping internationally.',
                                     style: smallTextStyle?.copyWith(
-                                        color: lightWhite)),
+                                        color: manatee)),
                                 space,
                                 Row(
                                   children: [
@@ -436,7 +433,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 Text(
                                     'Configure to calculate the most accurate shipping rates.',
                                     style: smallTextStyle?.copyWith(
-                                        color: lightWhite)),
+                                        color: manatee)),
                                 space,
                                 Row(
                                   mainAxisAlignment:
@@ -485,7 +482,7 @@ class ProductAddVariantView extends StatelessWidget {
                                 Text(
                                     'Configure if you are shipping internationally.',
                                     style: smallTextStyle?.copyWith(
-                                        color: lightWhite)),
+                                        color: manatee)),
                                 space,
                                 LabeledTextField(
                                   label: 'MID Code',
@@ -705,7 +702,7 @@ class ProductAddVariantController extends GetxController {
       ));
     });
 
-    context.popRoute(
+    context.router.popForced(
       ProductVariant(
         prices: prices,
         title: variantTitle,

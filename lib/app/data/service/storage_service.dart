@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
@@ -7,10 +8,10 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/utils/extensions/flex_scheme_extension.dart';
 import '../../../core/utils/strings.dart';
 import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import '../models/app/settings.dart';
+
 @singleton
 class StorageService {
   StorageService(SharedPreferences prefs) : _prefs = prefs;
@@ -46,7 +47,7 @@ class StorageService {
         _appSettings = AppSettings.fromJson(jsonDecode(appSettingsCoded));
       } else {
         _appSettings = AppSettings.defaultSettings()
-            .copyWith(colorScheme: RandomFlexScheme.random());
+            .copyWith(colorScheme: FlexScheme.indigo);
         updateAppSettings(_appSettings);
       }
 

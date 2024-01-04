@@ -28,7 +28,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   @override
   Future<void> onInit() async {
     await fetchOrderDetails();
-    // timeLineFuture = fetchTimeLine();
+    timeLineFuture = fetchTimeLine();
     super.onInit();
   }
 
