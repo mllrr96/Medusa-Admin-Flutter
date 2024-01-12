@@ -32,12 +32,17 @@ class _SignInViewState extends State<SignInView> {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   late bool? rememberMe;
+  late bool showAuthenticateButton;
   @override
   void initState() {
     rememberMe = StorageService.appSettings.rememberMe;
     if (rememberMe == true) {
       emailCtrl.text = StorageService.email ?? '';
     }
+    if (rememberMe == true && (StorageService.email?.isNotEmpty ?? false)) {
+      showAuthenticateButton = true;
+    }
+
     super.initState();
   }
 
@@ -48,28 +53,26 @@ class _SignInViewState extends State<SignInView> {
     super.dispose();
   }
 
+  Future<void> _onCtrlInit(SignInController? ctrl) async {
+    if (StorageService.appSettings.rememberMe == true) {
+      final result = await StorageService.instance.loadLoginData();
+      result.when((success) async {
+        await ctrl
+            ?.login(success.$1, success.$2, rememberMe: true)
+            .then((value) {
+          if (value) {
+            context.router.replaceAll([const DashboardRoute()]);
+          }
+        });
+      }, (error) => context.showSnackBar(error));
+    }
+  }
+
   @override
   Widget build(context) {
     return GetBuilder<SignInController>(
         init: SignInController(AuthenticationUseCase.instance),
-        initState: (_) async {
-          if (StorageService.appSettings.rememberMe == true) {
-            final loginData = await StorageService.instance.loadLoginData();
-            if (loginData != null) {
-              await _.controller
-                  ?.login(loginData.$1, loginData.$2)
-                  .then((value) {
-                if (value) {
-                  context.router.replaceAll([const DashboardRoute()]);
-                }
-              });
-            } else {
-              if (context.mounted) {
-                context.showSnackBar('Something went wrong, please login again');
-              }
-            }
-          }
-        },
+        initState: (_) async => _onCtrlInit(_.controller),
         builder: (controller) {
           final tr = context.tr;
           final bool isRTL = context.isRTL;
@@ -141,25 +144,6 @@ class _SignInViewState extends State<SignInView> {
                               ),
                             ],
                           ),
-                          // Obx(() {
-                          //   return GestureDetector(
-                          //     onTap: () {
-                          //       controller.animate.value =
-                          //           !controller.animate.value;
-                          //     },
-                          //     child: Hero(
-                          //       tag: 'medusa',
-                          //       child: Image.asset(
-                          //         'assets/images/medusa.png',
-                          //         scale: 5,
-                          //       ).animate(
-                          //         effects: [const RotateEffect()],
-                          //         // target: controller.animate.value ? 1 : 0,
-                          //         autoPlay: true,
-                          //       ),
-                          //     ),
-                          //   );
-                          // }),
                           GestureDetector(
                             onTap: () {
                               controller.animate.value =
@@ -233,30 +217,29 @@ class _SignInViewState extends State<SignInView> {
                               ],
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0, vertical: 4.0),
-                                  width: context.width / 2,
-                                  child: CheckboxListTile(
-                                    value: rememberMe ?? false,
-                                    onChanged: (val) {
-                                      setState(() => rememberMe = val);
+                          space,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton.icon(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (rememberMe == null) {
+                                          rememberMe = true;
+                                        } else {
+                                          rememberMe = !rememberMe!;
+                                        }
+                                      });
                                     },
-                                    contentPadding: EdgeInsets.zero,
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    title: Text(
-                                      'Remember me',
-                                      style: context.bodySmall,
-                                    ),
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: TextButton(
+                                    icon: rememberMe == true
+                                        ? const Icon(Icons.check_box)
+                                        : const Icon(
+                                            Icons.check_box_outline_blank),
+                                    label: const Text('Remember me')),
+                                TextButton(
                                   child: Text(
                                     tr.loginCardForgotYourPassword,
                                     style: context.bodySmall,
@@ -266,61 +249,82 @@ class _SignInViewState extends State<SignInView> {
                                         .errorMessage.value.isNotEmpty) {
                                       controller.errorMessage.value = '';
                                     }
-                                    // Get.toNamed(Routes.RESET_PASSWORD);
                                     context
                                         .pushRoute(const ResetPasswordRoute());
                                   },
                                 ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Hero(
-                              tag: 'continue',
-                              child: SignInButton(
-                                onPressed: () async {
-                                  if (StorageService.baseUrl.isEmpty) {
-                                    controller.errorMessage.value =
-                                        'Please set your backend url first';
-                                    return;
-                                  }
-                                  if (!formKey.currentState!.validate()) {
-                                    return;
-                                  }
-                                  if (!await InternetConnection()
-                                      .hasInternetAccess) {
-                                    await Fluttertoast.showToast(
-                                        msg: 'No internet connection!');
-                                    if (context.mounted) {
-                                      context.unfocus();
-                                    }
-                                    return;
-                                  }
-                                  if (context.mounted) {
-                                    context.unfocus();
-                                  }
-                                  await controller
-                                      .login(emailCtrl.text, passwordCtrl.text,
-                                          rememberMe: rememberMe ?? false)
-                                      .then((value) {
-                                    if (value) {
-                                      context.router
-                                          .replaceAll([const DashboardRoute()]);
-                                    }
-                                  });
-                                },
-                                label: tr.analyticsPreferencesContinue,
-                                buttonWidth: double.maxFinite,
-                              ),
+                              ],
                             ),
                           ),
                           space,
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: TextButton(
+                            child: SizedBox(
+                              width: double.maxFinite,
+                              child: Hero(
+                                tag: 'continue',
+                                child: FilledButton.icon(
+                                    onPressed: () async {
+                                      if (StorageService.baseUrl.isEmpty) {
+                                        controller.errorMessage.value =
+                                            'Please set your backend URL first';
+                                        return;
+                                      }
+                                      if (!formKey.currentState!.validate()) {
+                                        return;
+                                      }
+                                      if (!await InternetConnection()
+                                          .hasInternetAccess) {
+                                        await Fluttertoast.showToast(
+                                            msg:
+                                                'Check your internet connection and try again.');
+                                        if (context.mounted) {
+                                          context.unfocus();
+                                        }
+                                        return;
+                                      }
+                                      if (context.mounted) {
+                                        context.unfocus();
+                                      }
+                                      await controller
+                                          .login(
+                                              emailCtrl.text, passwordCtrl.text,
+                                              rememberMe: rememberMe ?? false)
+                                          .then((value) {
+                                        if (value) {
+                                          context.router.replaceAll(
+                                              [const DashboardRoute()]);
+                                        }
+                                      });
+                                    },
+                                    icon: const Icon(Icons.login),
+                                    label:
+                                        Text(tr.analyticsPreferencesContinue)),
+                              ),
+                            ),
+                          ),
+                          space,
+                          if (showAuthenticateButton)
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: ElevatedButton.icon(
+                                    onPressed: () async =>
+                                        await _onCtrlInit(controller),
+                                    icon: const Icon(Icons.fingerprint),
+                                    label: const Text('Authenticate'),
+                                  ),
+                                ),
+                                space,
+                              ],
+                            ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: ElevatedButton.icon(
                               onPressed: () async {
                                 await showBarModalBottomSheet(
                                     context: context,
@@ -330,7 +334,8 @@ class _SignInViewState extends State<SignInView> {
                                       return const UrlUpdateView();
                                     });
                               },
-                              child: const Text('Change url'),
+                              label: const Text('Update URL'),
+                              icon: const Icon(Icons.link),
                             ),
                           ),
                         ],
@@ -372,6 +377,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
     final smallTextStyle = context.bodySmall;
     final bottomPadding =
         context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
+    final baseUrl = StorageService.baseUrl;
 
     return Container(
       color: context.theme.scaffoldBackgroundColor,
@@ -381,7 +387,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppBar(
-              title: const Text('Update url'),
+              title: const Text('Update URL'),
               actions: [
                 TextButton(
                     onLongPress: () async => await StorageService.instance
@@ -391,13 +397,18 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                             context.popRoute();
                             if (result) {
                               context
-                                  .showSnackBar('Url updated, restart the app');
+                                  .showSnackBar('URL updated, restart the app');
                             } else {
-                              context.showSnackBar('Could not update url');
+                              context.showSnackBar('Could not update URL');
                             }
                           },
                         ),
                     onPressed: () async {
+                      if (baseUrl == textCtrl.text) {
+                        context.popRoute();
+                        return;
+                      }
+
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
@@ -410,9 +421,9 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                           context.popRoute();
                           if (result) {
                             context
-                                .showSnackBar('Url updated, restart the app');
+                                .showSnackBar('URL updated, restart the app');
                           } else {
-                            context.showSnackBar('Could not update url');
+                            context.showSnackBar('Could not update URL');
                           }
                         },
                       );
@@ -429,27 +440,27 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          '* Tip: to skip url verification, press and hold Save button',
+                          '* Tip: to skip URL verification, press and hold Save button',
                           style: context.bodyMedium),
                       Text(
-                          '* Make sure to restart the app after updating baseurl',
+                          '* Make sure to restart the app after updating the URL',
                           style: context.bodyMedium),
                     ],
                   ),
                   const SizedBox(height: 20),
                   InkWell(
                     onTap: () async {
-                      textCtrl.text = StorageService.baseUrl;
+                      textCtrl.text = baseUrl;
                     },
-                    child: Text('Current url : ${StorageService.baseUrl}',
-                        style: smallTextStyle),
+                    child:
+                        Text('Current URL : $baseUrl', style: smallTextStyle),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: textCtrl,
                     style: smallTextStyle,
-                    decoration: const InputDecoration(
-                        hintText: 'https://medusajs.com/admin'),
+                    decoration:
+                        const InputDecoration(hintText: 'https://medusajs.com'),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Field is required';

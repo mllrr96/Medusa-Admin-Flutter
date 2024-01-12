@@ -42,14 +42,16 @@ class SignInController extends GetxController {
   }
 
   Future<bool> login(String email, String password,
-      {bool rememberMe = false}) async {
+      {required bool rememberMe}) async {
     loading();
     try {
       await authenticationUseCase.login(email: email, password: password);
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
-      if (rememberMe) {
+      if (rememberMe == true) {
         await StorageService.instance.saveLoginData(email, password);
+      } else if (rememberMe == false) {
+        await StorageService.instance.clearLoginData();
       }
       dismissLoading();
       return true;

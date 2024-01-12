@@ -52,7 +52,7 @@ class _AppDrawerState extends State<AppDrawer> {
             final result = await getIt<MedusaAdmin>().authRepository.signOut();
             if (result) {
               await Get.delete(force: true);
-              await StorageService.instance.clearSavedLoginInfo();
+              await StorageService.instance.clearLoginData();
               await StorageService.instance.clearCookie().then(
                   (value) => context.router.replaceAll([const SplashRoute()]));
               dismissLoading();

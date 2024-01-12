@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/app/data/service/theme_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
@@ -108,20 +109,26 @@ class StorageService {
     }
   }
 
-  Future<(String, String)?> loadLoginData() async {
+  Future<Result<(String, String), String>> loadLoginData() async {
     try {
       final LocalAuthentication auth = LocalAuthentication();
+      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+      final bool canAuthenticate =
+          canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+      if(!canAuthenticate) {
+        return const Error('Device does not support biometric authentication');
+      }
       final bool didAuthenticate = await auth.authenticate(
           localizedReason: 'Please authenticate to sign in to Medusa Admin');
       if(didAuthenticate){
-        return (_prefs.getString(AppConstants.emailKey) ?? '', _prefs.getString(AppConstants.passwordKey) ?? '');
+        return Success((_prefs.getString(AppConstants.emailKey) ?? '', _prefs.getString(AppConstants.passwordKey) ?? ''));
       } else {
-        return null;
+        return const Error('Biometric authentication failed');
       }
     } catch (error , stack) {
       log(error.toString());
       log(stack.toString());
-      return null;
+      return Error(error.toString());
     }
   }
 
@@ -212,7 +219,7 @@ class StorageService {
       debugPrint(e.toString());
     }
   }
-  Future<void> clearSavedLoginInfo() async {
+  Future<void> clearLoginData() async {
     try {
       await _prefs.remove(AppConstants.emailKey);
       await _prefs.remove(AppConstants.passwordKey);
