@@ -93,6 +93,7 @@ dependencies:
     git:
       url: https://github.com/mllrr96/Medusa_Admin_API_Flutter.git
       ref: main
+  local_auth: ^2.1.8
 
 
 

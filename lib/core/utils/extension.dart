@@ -220,11 +220,11 @@ extension FormatPrice on num? {
 
 extension FormatDate on DateTime? {
   String formatDate() {
-    final format = StorageService.appSettings.dateFormatOptions;
+    final formatOption = StorageService.appSettings.dateFormatOptions;
     if (this == null) {
       return '';
     }
-    return DateFormat(format.format()).format(this!);
+    return DateFormat(formatOption.toPattern()).format(this!);
   }
 
   String formatTime() {

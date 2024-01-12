@@ -20,6 +20,11 @@ class SignInController extends GetxController {
     super.onInit();
   }
 
+  @override
+  Future<void> onReady() async {
+    super.onReady();
+  }
+
   Future<void> changeThemeMode() async {
     switch (themeMode.value) {
       case ThemeMode.system:
@@ -36,12 +41,16 @@ class SignInController extends GetxController {
     update();
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String email, String password,
+      {bool rememberMe = false}) async {
     loading();
-
     try {
       await authenticationUseCase.login(email: email, password: password);
-      await Get.putAsync(() => StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
+      await Get.putAsync(() =>
+          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
+      if (rememberMe) {
+        await StorageService.instance.saveLoginData(email, password);
+      }
       dismissLoading();
       return true;
     } catch (error) {

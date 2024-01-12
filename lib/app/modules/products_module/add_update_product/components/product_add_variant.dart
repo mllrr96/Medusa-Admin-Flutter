@@ -592,7 +592,7 @@ class ProductAddVariantController extends GetxController {
   RxBool manageInventory = true.obs;
   RxBool allowBackorder = false.obs;
   final formKey = GlobalKey<FormState>();
-  final List<Currency> currencies = StoreService.store.currencies ?? [];
+  final List<Currency> currencies = StoreService.store?.currencies ?? [];
   Map<Currency, TextEditingController> currencyCtrlMap =
       <Currency, TextEditingController>{};
   Map<ProductOption, TextEditingController> productOptionCtrlMap =

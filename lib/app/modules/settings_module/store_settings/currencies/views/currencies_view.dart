@@ -67,7 +67,7 @@ class CurrenciesView extends StatelessWidget {
                         if (controller.currencies.isNotEmpty &&
                             controller.currencies.length > 1)
                           DropdownButtonFormField<String>(
-                            value: controller.defaultStoreCurrency.code,
+                            value: controller.defaultStoreCurrency?.code,
                             style: context.bodyMedium,
                             items: controller.currencies
                                 .map((currency) => DropdownMenuItem(

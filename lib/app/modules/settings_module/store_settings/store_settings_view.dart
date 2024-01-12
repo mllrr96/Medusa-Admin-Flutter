@@ -5,7 +5,6 @@ import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
-import '../../../../core/utils/colors.dart';
 
 @RoutePage()
 class StoreSettingsView extends StatelessWidget {
@@ -27,62 +26,61 @@ class StoreSettingsView extends StatelessWidget {
             title: const Text('Manage the settings for your Medusa store'),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                leading: Icon(Icons.location_on, color: ColorManager.primary),
+                leading: const Icon(Icons.location_on),
                 title: const Text('Regions'),
                 onPressed: (context) => context.pushRoute(const RegionsRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.store, color: ColorManager.primary),
+                leading: const Icon(Icons.store),
                 title: const Text('Store Details'),
                 onPressed: (_) => context.pushRoute(const StoreDetailsRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.attach_money, color: ColorManager.primary),
+                leading: const Icon(Icons.attach_money),
                 title: const Text('Return Reasons'),
                 onPressed: (_) => context.pushRoute(const ReturnReasonsRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.face, color: ColorManager.primary),
+                leading: const Icon(Icons.face),
                 title: const Text('Personal Information'),
                 onPressed: (_) =>
                     context.pushRoute(const PersonalInformationRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.percent, color: ColorManager.primary),
+                leading: const Icon(Icons.percent),
                 title: const Text('Tax Settings'),
                 onPressed: (_) =>
                     context.pushRoute(const TaxSettingsSelectRegionRoute()),
               ),
               SettingsTile.navigation(
                 leading:
-                    Icon(Icons.currency_exchange, color: ColorManager.primary),
+                    const Icon(Icons.currency_exchange),
                 title: const Text('Currencies'),
                 onPressed: (_) => context.pushRoute(const CurrenciesRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.local_shipping_outlined,
-                    color: ColorManager.primary),
+                leading: const Icon(Icons.local_shipping_outlined),
                 title: const Text('Shipping'),
                 onPressed: (_) {},
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.call_split, color: ColorManager.primary),
+                leading: const Icon(Icons.call_split),
                 title: const Text('Sales channels'),
                 onPressed: (_) => context.pushRoute(const SalesChannelsRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.key, color: ColorManager.primary),
+                leading: const Icon(Icons.key),
                 title: const Text('API key management'),
                 onPressed: (_) =>
                     context.pushRoute(const ApiKeyManagementRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.group, color: ColorManager.primary),
+                leading: const Icon(Icons.group),
                 title: const Text('The Team'),
                 onPressed: (_) => context.pushRoute(const TeamRoute()),
               ),
               SettingsTile.navigation(
-                leading: Icon(Icons.mail, color: ColorManager.primary),
+                leading: const Icon(Icons.mail),
                 title: const Text('Support'),
               ),
             ],

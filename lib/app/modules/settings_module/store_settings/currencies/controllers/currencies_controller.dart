@@ -12,17 +12,17 @@ class CurrenciesController extends GetxController {
   // final CurrencyRepo currencyRepo;
   final UpdateStoreUseCase updateStoreUseCase;
   List<Currency> currencies = [];
-  Currency defaultStoreCurrency = const Currency();
+  Currency? defaultStoreCurrency = const Currency();
 
   @override
   Future<void> onInit() async {
-    if (StoreService.store.currencies == null || StoreService.store.defaultCurrency == null) {
+    if (StoreService.store?.currencies == null || StoreService.store?.defaultCurrency == null) {
       loading(status: 'Loading Store Info');
       await StoreService.instance.loadStore();
       dismissLoading();
     }
-    currencies = StoreService.store.currencies ?? [];
-    defaultStoreCurrency = StoreService.store.defaultCurrency!;
+    currencies = StoreService.store?.currencies ?? [];
+    defaultStoreCurrency = StoreService.store?.defaultCurrency ?? const Currency();
     update();
     super.onInit();
   }
@@ -33,14 +33,14 @@ class CurrenciesController extends GetxController {
       currenciesIsoCode.add(currency.code!);
     }
 
-    if (currencies == StoreService.store.currencies && defaultStoreCurrency == StoreService.store.defaultCurrency) {
+    if (currencies == StoreService.store?.currencies && defaultStoreCurrency == StoreService.store?.defaultCurrency) {
       context.popRoute();
       return;
     }
 
     loading();
     final result = await updateStoreUseCase(
-        StorePostReq(defaultCurrencyCode: defaultStoreCurrency.code!, currencies: currenciesIsoCode));
+        StorePostReq(defaultCurrencyCode: defaultStoreCurrency?.code, currencies: currenciesIsoCode));
     result.when((success) async {
       await StoreService.instance.loadStore();
       EasyLoading.showSuccess('Currencies updated').then((value) => context.popRoute());

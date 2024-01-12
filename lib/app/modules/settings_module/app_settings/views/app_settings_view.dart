@@ -196,7 +196,7 @@ class AppSettingsView extends StatelessWidget {
                                   actions: DateFormatOptions.values
                                       .map((e) =>
                                           AlertDialogAction<DateFormatOptions>(
-                                            label: DateFormat(e.format())
+                                            label: DateFormat(e.toPattern())
                                                 .format(DateTime.now()),
                                             key: e,
                                           ))

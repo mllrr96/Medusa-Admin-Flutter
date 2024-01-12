@@ -141,8 +141,8 @@ class AddRegionController extends GetxController {
 
   void loadRegion() {
     titleCtrl.text = region!.name ?? '';
-    selectedCurrency = StoreService.store.currencies!
-        .where((element) => element.code == region!.currencyCode)
+    selectedCurrency = StoreService.store?.currencies
+        ?.where((element) => element.code == region!.currencyCode)
         .first;
     selectedCountries = region!.countries ?? [];
     selectedPaymentProviders =

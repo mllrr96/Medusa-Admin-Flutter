@@ -26,7 +26,10 @@ class CreateGiftCardView extends StatelessWidget {
               leading: const CloseButton(),
               title: const Text('Create Gift Card'),
               actions: [
-                TextButton(onPressed: () async => await controller.createGiftCard(context), child: const Text('Create'))
+                TextButton(
+                    onPressed: () async =>
+                        await controller.createGiftCard(context),
+                    child: const Text('Create'))
               ],
             ),
             body: Form(
@@ -34,11 +37,14 @@ class CreateGiftCardView extends StatelessWidget {
               child: ListView(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 12.0),
                     decoration: BoxDecoration(
                       color: context.theme.appBarTheme.backgroundColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,13 +73,15 @@ class CreateGiftCardView extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
                     margin: const EdgeInsets.symmetric(
                       horizontal: 12.0,
                     ),
                     decoration: BoxDecoration(
                       color: context.theme.appBarTheme.backgroundColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +105,11 @@ class CreateGiftCardView extends StatelessWidget {
                         Center(
                           child: TextButton(
                             onPressed: () {
-                              controller.denominations.add((null, null, controller.denominations.length));
+                              controller.denominations.add((
+                                null,
+                                null,
+                                controller.denominations.length
+                              ));
                               controller.update();
                             },
                             child: const Row(
@@ -137,9 +149,11 @@ class _DenominationWidgetState extends State<DenominationWidget> {
     super.dispose();
   }
 
-  List<Currency> get currencies => StoreService.store.currencies!;
+  List<Currency> get currencies => StoreService.store?.currencies ?? [];
   Currency? selectedCurrency =
-      StoreService.store.currencies!.isNotEmpty ? StoreService.store.currencies!.first : const Currency(code: 'usd');
+      (StoreService.store?.currencies?.isNotEmpty ?? false)
+          ? StoreService.store?.currencies?.first
+          : const Currency(code: 'usd');
   var textCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -156,7 +170,8 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 onChanged: (currency) {
                   setState(() {
                     selectedCurrency = currency;
-                    controller.denominations[widget.index] = (currency, textCtrl.text, widget.index);
+                    controller.denominations[widget.index] =
+                        (currency, textCtrl.text, widget.index);
                   });
                 },
                 validator: (currency) {
@@ -165,7 +180,10 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                   }
                   return null;
                 },
-                items: currencies.map((e) => DropdownMenuItem<Currency>(value: e, child: Text(e.name ?? ''))).toList(),
+                items: currencies
+                    .map((e) => DropdownMenuItem<Currency>(
+                        value: e, child: Text(e.name ?? '')))
+                    .toList(),
                 decoration: const InputDecoration(hintText: 'Currency'),
               ),
             ),
@@ -181,7 +199,8 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                           });
                           // controller.denominations.removeWhere((element) => element.$3 == widget.index);
                         },
-                        icon: const Icon(Icons.delete_forever, color: Colors.red)))),
+                        icon: const Icon(Icons.delete_forever,
+                            color: Colors.red)))),
           ],
         ),
         const SizedBox(height: 6.0),
@@ -190,11 +209,16 @@ class _DenominationWidgetState extends State<DenominationWidget> {
           hintText: 'Amount',
           controller: textCtrl,
           onChanged: (val) {
-            controller.denominations[widget.index] = (selectedCurrency, val, widget.index);
+            controller.denominations[widget.index] =
+                (selectedCurrency, val, widget.index);
           },
-          prefixText: '    ${NumberFormat.simpleCurrency(name:selectedCurrency?.code?.toUpperCase()).currencySymbol} | ',
+          prefixText:
+              '    ${NumberFormat.simpleCurrency(name: selectedCurrency?.code?.toUpperCase()).currencySymbol} | ',
           noEndSpace: true,
-          inputFormatters: [if (selectedCurrency != null) CurrencyTextInputFormatter(name: selectedCurrency!.code)],
+          inputFormatters: [
+            if (selectedCurrency != null)
+              CurrencyTextInputFormatter(name: selectedCurrency!.code)
+          ],
           validator: (val) {
             if (val == null || val.isEmpty) {
               return 'Field is required';

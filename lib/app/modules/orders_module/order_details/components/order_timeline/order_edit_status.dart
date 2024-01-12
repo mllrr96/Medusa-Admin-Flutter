@@ -89,24 +89,31 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
                 const Icon(Icons.error_outline, color: Colors.transparent),
                 const SizedBox(width: 12.0),
                 Expanded(
-                  child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: buttonShape,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              shape: buttonShape,
+                            ),
+                            onPressed: () {},
+                            child: const Text('Copy Payment Link', overflow: TextOverflow.ellipsis)),
                       ),
-                      onPressed: () {},
-                      child: const Text('Copy Payment Link', overflow: TextOverflow.ellipsis)),
-                ),
-                const SizedBox(width: 6.0),
-                Expanded(
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      shape: buttonShape,
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      'Mark As Paid',
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: buttonShape,
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            'Mark As Paid',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

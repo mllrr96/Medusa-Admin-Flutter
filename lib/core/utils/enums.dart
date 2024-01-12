@@ -78,7 +78,7 @@ enum DateFormatOptions {
   seventh,
   eighth;
 
-  String format() {
+  String toPattern() {
     switch (index) {
       case 0:
         return 'EEEE, MMM d, yyyy';

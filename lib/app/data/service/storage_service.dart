@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:local_auth/local_auth.dart';
 import '../../../core/utils/strings.dart';
 import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import '../models/app/settings.dart';
@@ -18,6 +20,7 @@ class StorageService {
   static StorageService get instance => getIt<StorageService>();
   static String get baseUrl => instance._baseUrl;
   static String get language => instance._language;
+  static String? get email => instance._email;
   static String? get cookie => instance._cookie;
   static PackageInfo get packageInfo => instance._packageInfo;
   static List<SearchHistory> get searchHistory => instance._searchHistory;
@@ -28,6 +31,7 @@ class StorageService {
   late String _baseUrl;
   late PackageInfo _packageInfo;
   late String _language;
+  late String? _email;
   late String? _cookie;
   late List<SearchHistory> _searchHistory;
   late AppSettings _appSettings;
@@ -41,6 +45,7 @@ class StorageService {
           'en';
       _baseUrl =
           _prefs.getString(AppConstants.baseUrlKey) ?? AppConstants.baseUrl;
+      _email = _prefs.getString(AppConstants.emailKey);
       _packageInfo = getIt<PackageInfo>();
       final appSettingsCoded = _prefs.getString(AppConstants.appSettingsKey);
       if (appSettingsCoded != null) {
@@ -52,7 +57,7 @@ class StorageService {
       }
 
       final orderSettingsCoded =
-      _prefs.getString(AppConstants.orderSettingsKey);
+          _prefs.getString(AppConstants.orderSettingsKey);
       if (orderSettingsCoded != null) {
         _orderSettings = OrderSettings.fromJson(jsonDecode(orderSettingsCoded));
       } else {
@@ -60,7 +65,7 @@ class StorageService {
       }
 
       final String? searchHistoryString =
-      _prefs.getString(AppConstants.searchHistoryKey);
+          _prefs.getString(AppConstants.searchHistoryKey);
       if (searchHistoryString != null && searchHistoryString.isNotEmpty) {
         _searchHistory = SearchHistory.decode(searchHistoryString);
       } else {
@@ -70,7 +75,8 @@ class StorageService {
       debugPrint(e.toString());
       _cookie = null;
       _language = 'en';
-      _appSettings = AppSettings.defaultSettings();
+      _appSettings = AppSettings.defaultSettings()
+          .copyWith(colorScheme: FlexScheme.indigo);
       _orderSettings = OrderSettings.defaultSettings();
       _searchHistory = [];
       _baseUrl = AppConstants.baseUrl;
@@ -88,6 +94,34 @@ class StorageService {
     } catch (e) {
       debugPrint(e.toString());
       return false;
+    }
+  }
+
+  Future<bool> saveLoginData(String email, String password) async {
+    try {
+      await _prefs.setString(AppConstants.emailKey, email);
+      await _prefs.setString(AppConstants.passwordKey, password);
+      await updateAppSettings(appSettings.copyWith(rememberMe: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<(String, String)?> loadLoginData() async {
+    try {
+      final LocalAuthentication auth = LocalAuthentication();
+      final bool didAuthenticate = await auth.authenticate(
+          localizedReason: 'Please authenticate to sign in to Medusa Admin');
+      if(didAuthenticate){
+        return (_prefs.getString(AppConstants.emailKey) ?? '', _prefs.getString(AppConstants.passwordKey) ?? '');
+      } else {
+        return null;
+      }
+    } catch (error , stack) {
+      log(error.toString());
+      log(stack.toString());
+      return null;
     }
   }
 
@@ -173,6 +207,16 @@ class StorageService {
     try {
       _cookie = null;
       await _prefs.remove(AppConstants.cookieKey);
+    } catch (e) {
+      _cookie = null;
+      debugPrint(e.toString());
+    }
+  }
+  Future<void> clearSavedLoginInfo() async {
+    try {
+      await _prefs.remove(AppConstants.emailKey);
+      await _prefs.remove(AppConstants.passwordKey);
+      await updateAppSettings(appSettings.copyWith(rememberMe: false));
     } catch (e) {
       _cookie = null;
       debugPrint(e.toString());

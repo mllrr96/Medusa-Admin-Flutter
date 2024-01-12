@@ -22,12 +22,15 @@ class _AddUpdateVariantsPriceViewState extends State<AddUpdateVariantsPriceView>
   @override
   void initState() {
     widget.product.variants?.forEach((variant) {
-      for (Currency currency in StoreService.store.currencies!) {
-        priceListVariants.add(PriceListVariant(
-            textCtrl: TextEditingController(),
-            variant: variant,
-            currency: currency));
+      if(StoreService.store?.currencies != null){
+        for (Currency currency in StoreService.store!.currencies!) {
+          priceListVariants.add(PriceListVariant(
+              textCtrl: TextEditingController(),
+              variant: variant,
+              currency: currency));
+        }
       }
+
     });
     if (widget.prices?.isNotEmpty ?? false) {
       for (var element in widget.prices!) {

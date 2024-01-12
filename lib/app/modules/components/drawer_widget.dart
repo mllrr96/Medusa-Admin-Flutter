@@ -52,6 +52,7 @@ class _AppDrawerState extends State<AppDrawer> {
             final result = await getIt<MedusaAdmin>().authRepository.signOut();
             if (result) {
               await Get.delete(force: true);
+              await StorageService.instance.clearSavedLoginInfo();
               await StorageService.instance.clearCookie().then(
                   (value) => context.router.replaceAll([const SplashRoute()]));
               dismissLoading();
@@ -62,7 +63,6 @@ class _AppDrawerState extends State<AppDrawer> {
         },
       );
     }
-
 
     List<Widget> items = const [
       NavigationDrawerDestination(
@@ -128,7 +128,6 @@ class _AppDrawerState extends State<AppDrawer> {
       ),
     ];
 
-
     return NavigationDrawer(
         key: const PageStorageKey<String>('navigationDrawer'),
         selectedIndex: context.tabsRouter.activeIndex,
@@ -139,10 +138,9 @@ class _AppDrawerState extends State<AppDrawer> {
           }
           if (index == 13) {
             await await showBarModalBottomSheet(
-                overlayStyle: FlexColorScheme.themedSystemNavigationBar(
-                    context,
-                    systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground
-                ),
+                overlayStyle: FlexColorScheme.themedSystemNavigationBar(context,
+                    systemNavBarStyle:
+                        FlexSystemNavBarStyle.scaffoldBackground),
                 context: context,
                 builder: (context) => const SignInView());
             return;
@@ -163,11 +161,13 @@ class _AppDrawerState extends State<AppDrawer> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  padding: const EdgeInsets.all(16.0),
-                  onPressed: () => context.closeDrawer(),
-                  icon: const Icon(Icons.menu_open)
-                ),
-                Flexible(child: Text(store.name ?? '', style: context.bodyLarge, overflow: TextOverflow.ellipsis)),
+                    padding: const EdgeInsets.all(16.0),
+                    onPressed: () => context.closeDrawer(),
+                    icon: const Icon(Icons.menu_open)),
+                Flexible(
+                    child: Text(store?.name ?? '',
+                        style: context.bodyLarge,
+                        overflow: TextOverflow.ellipsis)),
                 IconButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
@@ -508,8 +508,6 @@ class _AppDrawerState extends State<AppDrawer> {
     //         )),
     //   );
     // }
-
-
   }
 
   IconData themeIcon(ThemeMode themeMode) {

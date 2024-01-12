@@ -5,6 +5,7 @@ import '../../../../core/utils/enums.dart';
 class AppSettings {
   final bool useAndroidPicker;
   final bool useMaterial3;
+  final bool? rememberMe;
   final DateFormatOptions dateFormatOptions;
   final TimeFormatOptions timeFormatOptions;
   final FlexScheme colorScheme;
@@ -12,6 +13,7 @@ class AppSettings {
   AppSettings({
     required this.useAndroidPicker,
     required this.useMaterial3,
+    required this.rememberMe,
     required this.dateFormatOptions,
     required this.timeFormatOptions,
     required this.colorScheme,
@@ -19,6 +21,7 @@ class AppSettings {
   AppSettings.defaultSettings({
     this.useAndroidPicker = false,
     this.useMaterial3 = true,
+    this.rememberMe,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
     this.colorScheme = FlexScheme.hippieBlue,
@@ -27,6 +30,7 @@ class AppSettings {
   AppSettings copyWith({
     bool? useAndroidPicker,
     bool? useMaterial3,
+    bool? rememberMe,
     DateFormatOptions? dateFormatOptions,
     TimeFormatOptions? timeFormatOptions,
     FlexScheme? colorScheme,
@@ -34,6 +38,7 @@ class AppSettings {
       AppSettings(
         useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker,
         useMaterial3: useMaterial3 ?? this.useMaterial3,
+        rememberMe: rememberMe ?? this.rememberMe,
         timeFormatOptions: timeFormatOptions ?? this.timeFormatOptions,
         dateFormatOptions: dateFormatOptions ?? this.dateFormatOptions,
         colorScheme: colorScheme ?? this.colorScheme,
@@ -42,6 +47,7 @@ class AppSettings {
   Map<String, dynamic> toJson() => {
         'useAndroidPicker': useAndroidPicker,
         'useMaterial3': useMaterial3,
+        'rememberMe': rememberMe,
         'timeFormatOptions': timeFormatOptions.index,
         'dateFormatOptions': dateFormatOptions.index,
         'colorScheme': colorScheme.name,
@@ -51,6 +57,7 @@ class AppSettings {
     return AppSettings(
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
         useMaterial3: json?['useMaterial3'] ?? true,
+        rememberMe: json?['rememberMe'],
         timeFormatOptions:
             TimeFormatOptions.fromInt(json?['timeFormatOptions']),
         dateFormatOptions:

@@ -108,8 +108,8 @@ class AddRegionView extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              items: StoreService.store.currencies!
-                                  .map((e) => DropdownMenuItem(
+                              items: StoreService.store?.currencies
+                                  ?.map((e) => DropdownMenuItem(
                                       value: e, child: Text(e.name!)))
                                   .toList(),
                               hint: const Text('Choose currency'),

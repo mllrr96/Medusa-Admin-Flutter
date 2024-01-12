@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
@@ -55,16 +55,12 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: FlexColorScheme.themedSystemNavigationBar(
-        context,
-        noAppBar: true,
-        systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
-      ),
+      value: context.systemUiOverlayNoAppBarStyle,
       child: Scaffold(
         body: Container(
           height: double.maxFinite,
           width: double.maxFinite,
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: context.theme.scaffoldBackgroundColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,32 +70,10 @@ class _SplashViewState extends State<SplashView> {
                   child: Image.asset('assets/images/medusa.png', scale: 5)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text.rich(
-                  TextSpan(
-                    style: GoogleFonts.cabin(
-                      fontSize: 42,
-                      letterSpacing: 2.0,
-                    ),
-                    children: const [
-                      TextSpan(
-                        text: 'Medusa',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' Admin',
-                        style: TextStyle(
-                          color: Color(0xFFFE9879),
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: Text('Medusa Admin', style: context.headlineLarge),
               ),
               const SizedBox(height: 15),
-              const CircularProgressIndicator.adaptive(),
+              LoadingAnimationWidget.staggeredDotsWave(color: context.theme.primaryColor, size: 40),
             ],
           ),
         ),

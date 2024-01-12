@@ -5,9 +5,9 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 class StoreService extends GetxService {
   StoreService({required this.storeRepo});
   static StoreService get instance => Get.find<StoreService>();
-  static Store get store => instance._store;
+  static Store? get store => instance._store;
   StoreRepository storeRepo;
-  late Store _store;
+  late Store? _store;
 
   Future<StoreService> init() async {
     await loadStore();
@@ -16,8 +16,9 @@ class StoreService extends GetxService {
 
   Future<void> loadStore() async {
     try {
-      final store = await storeRepo.retrieve(queryParameters: {'expand': 'currencies,default_sales_channel'});
-      if(store != null){
+      final store = await storeRepo.retrieve(
+          queryParameters: {'expand': 'currencies,default_sales_channel'});
+      if (store != null) {
         _store = store;
       }
     } catch (e) {
@@ -33,6 +34,4 @@ class StoreService extends GetxService {
       debugPrint(e.toString());
     }
   }
-
-
 }

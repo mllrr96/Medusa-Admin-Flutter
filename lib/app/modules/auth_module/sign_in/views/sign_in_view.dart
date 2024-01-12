@@ -31,10 +31,13 @@ class _SignInViewState extends State<SignInView> {
   final formKey = GlobalKey<FormState>();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
+  late bool? rememberMe;
   @override
   void initState() {
-    emailCtrl.text = 'admin@medusa-test.com';
-    passwordCtrl.text = 'supersecret';
+    rememberMe = StorageService.appSettings.rememberMe;
+    if (rememberMe == true) {
+      emailCtrl.text = StorageService.email ?? '';
+    }
     super.initState();
   }
 
@@ -49,6 +52,24 @@ class _SignInViewState extends State<SignInView> {
   Widget build(context) {
     return GetBuilder<SignInController>(
         init: SignInController(AuthenticationUseCase.instance),
+        initState: (_) async {
+          if (StorageService.appSettings.rememberMe == true) {
+            final loginData = await StorageService.instance.loadLoginData();
+            if (loginData != null) {
+              await _.controller
+                  ?.login(loginData.$1, loginData.$2)
+                  .then((value) {
+                if (value) {
+                  context.router.replaceAll([const DashboardRoute()]);
+                }
+              });
+            } else {
+              if (context.mounted) {
+                context.showSnackBar('Something went wrong, please login again');
+              }
+            }
+          }
+        },
         builder: (controller) {
           final tr = context.tr;
           final bool isRTL = context.isRTL;
@@ -215,21 +236,23 @@ class _SignInViewState extends State<SignInView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // Container(
-                              //     padding: const EdgeInsets.symmetric(
-                              //         horizontal: 12.0, vertical: 4.0),
-                              //     width: context.width / 2,
-                              //     child: CheckboxListTile(
-                              //       value: false,
-                              //       onChanged: (val) {},
-                              //       contentPadding: EdgeInsets.zero,
-                              //       controlAffinity:
-                              //           ListTileControlAffinity.leading,
-                              //       title: Text(
-                              //         'Remember me',
-                              //         style: smallTextStyle,
-                              //       ),
-                              //     )),
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0, vertical: 4.0),
+                                  width: context.width / 2,
+                                  child: CheckboxListTile(
+                                    value: rememberMe ?? false,
+                                    onChanged: (val) {
+                                      setState(() => rememberMe = val);
+                                    },
+                                    contentPadding: EdgeInsets.zero,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    title: Text(
+                                      'Remember me',
+                                      style: context.bodySmall,
+                                    ),
+                                  )),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12.0),
@@ -258,6 +281,11 @@ class _SignInViewState extends State<SignInView> {
                               tag: 'continue',
                               child: SignInButton(
                                 onPressed: () async {
+                                  if (StorageService.baseUrl.isEmpty) {
+                                    controller.errorMessage.value =
+                                        'Please set your backend url first';
+                                    return;
+                                  }
                                   if (!formKey.currentState!.validate()) {
                                     return;
                                   }
@@ -265,13 +293,17 @@ class _SignInViewState extends State<SignInView> {
                                       .hasInternetAccess) {
                                     await Fluttertoast.showToast(
                                         msg: 'No internet connection!');
+                                    if (context.mounted) {
+                                      context.unfocus();
+                                    }
                                     return;
                                   }
                                   if (context.mounted) {
                                     context.unfocus();
                                   }
                                   await controller
-                                      .login(emailCtrl.text, passwordCtrl.text)
+                                      .login(emailCtrl.text, passwordCtrl.text,
+                                          rememberMe: rememberMe ?? false)
                                       .then((value) {
                                     if (value) {
                                       context.router
@@ -370,10 +402,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                         return;
                       }
                       //  in case theres '/' in the end remove it before updating
-                      final url = textCtrl.text.endsWith('/') ? textCtrl.text.replaceAll(RegExp(r'.$'), "") : textCtrl.text;
-                      await StorageService.instance
-                          .updateUrl(url)
-                          .then(
+                      final url = textCtrl.text.endsWith('/')
+                          ? textCtrl.text.replaceAll(RegExp(r'.$'), "")
+                          : textCtrl.text;
+                      await StorageService.instance.updateUrl(url).then(
                         (result) {
                           context.popRoute();
                           if (result) {

@@ -11,7 +11,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 class StoreDetailsController extends GetxController {
   StoreDetailsController({required this.updateStoreUseCase});
   UpdateStoreUseCase updateStoreUseCase;
-  late Store store;
+  late Store? store;
   final storeCtrl = TextEditingController();
   final swapLinkCtrl = TextEditingController();
   final draftOrderCtrl = TextEditingController();
@@ -21,9 +21,9 @@ class StoreDetailsController extends GetxController {
   @override
   void onInit() {
     store = StoreService.store;
-    storeCtrl.text = store.name ?? '';
-    swapLinkCtrl.text = store.swapLinkTemplate ?? '';
-    inviteLinkCtrl.text = store.inviteLinkTemplate ?? '';
+    storeCtrl.text = store?.name ?? '';
+    swapLinkCtrl.text = store?.swapLinkTemplate ?? '';
+    inviteLinkCtrl.text = store?.inviteLinkTemplate ?? '';
     super.onInit();
   }
 
@@ -37,10 +37,10 @@ class StoreDetailsController extends GetxController {
   }
 
   Future<void> save(BuildContext context) async {
-    if (storeCtrl.text == store.name &&
-        (swapLinkCtrl.text == store.swapLinkTemplate ||
+    if (storeCtrl.text == store?.name &&
+        (swapLinkCtrl.text == store?.swapLinkTemplate ||
             swapLinkCtrl.text.isEmpty) &&
-        (inviteLinkCtrl.text == store.inviteLinkTemplate ||
+        (inviteLinkCtrl.text == store?.inviteLinkTemplate ||
             inviteLinkCtrl.text.isEmpty)) {
       context.popRoute();
       return;
