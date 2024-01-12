@@ -5,7 +5,6 @@
     <application
         android:label="Medusa Admin"
         android:name="${applicationName}"
-        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
