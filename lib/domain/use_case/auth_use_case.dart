@@ -8,7 +8,7 @@ import '../../di/di.dart';
 class AuthenticationUseCase {
   static AuthenticationUseCase get instance =>
       getIt<AuthenticationUseCase>();
-  final AuthRepository _authRepository =
+  AuthRepository get _authRepository =>
       getIt<MedusaAdmin>().authRepository;
   Future<Result<User, Failure>> login(
       {required String email, required String password}) async {

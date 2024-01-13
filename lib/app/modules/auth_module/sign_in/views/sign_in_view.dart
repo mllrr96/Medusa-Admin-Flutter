@@ -12,9 +12,12 @@ import 'package:medusa_admin/app/modules/components/error_widget.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../components/language_selection/language_selection_view.dart';
 import '../components/sign_in_components.dart';
 import '../controllers/sign_in_controller.dart';
@@ -41,6 +44,8 @@ class _SignInViewState extends State<SignInView> {
     }
     if (rememberMe == true && (StorageService.email?.isNotEmpty ?? false)) {
       showAuthenticateButton = true;
+    } else {
+      showAuthenticateButton = false;
     }
 
     super.initState();
@@ -77,12 +82,52 @@ class _SignInViewState extends State<SignInView> {
           final tr = context.tr;
           final bool isRTL = context.isRTL;
           const space = Gap(12);
+          String baseUrl = StorageService.baseUrl;
           // Since there no app bar, annotated region is used to apply theme ui overlay
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.systemUiOverlayNoAppBarStyle,
             child: GestureDetector(
               onTap: () => context.unfocus(),
               child: Scaffold(
+                persistentFooterAlignment: AlignmentDirectional.center,
+                persistentFooterButtons: [
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      await showBarModalBottomSheet(
+                          context: context,
+                          overlayStyle:
+                              context.theme.appBarTheme.systemOverlayStyle,
+                          builder: (context) {
+                            return const UrlUpdateView();
+                          });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: baseUrl.isEmpty ? Colors.red : null,
+                    ),
+                    label: baseUrl.isEmpty
+                        ? Text('Set URL',
+                            style: baseUrl.isEmpty
+                                ? context.bodySmall
+                                    ?.copyWith(color: Colors.white)
+                                : null)
+                        : const Text('Update URL'),
+                    icon: Icon(
+                      Icons.link,
+                      color: baseUrl.isEmpty ? Colors.white : null,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () async => await showBarModalBottomSheet(
+                      backgroundColor: context.theme.scaffoldBackgroundColor,
+                      overlayStyle:
+                          context.theme.appBarTheme.systemOverlayStyle,
+                      context: context,
+                      builder: (context) => const LanguageSelectionView(),
+                    ),
+                    icon: const Icon(Icons.language),
+                    label: Text(LanguageService.languageModel.nativeName),
+                  ),
+                ],
                 body: SafeArea(
                   child: SingleChildScrollView(
                     child: Form(
@@ -95,52 +140,28 @@ class _SignInViewState extends State<SignInView> {
                             children: [
                               Obx(
                                 () {
-                                  return Align(
-                                    alignment: isRTL
-                                        ? Alignment.topRight
-                                        : Alignment.topLeft,
-                                    child: Hero(
-                                      tag: 'closeReset',
-                                      child: IconButton(
-                                        padding: const EdgeInsets.all(16.0),
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0),
+                                    child: Align(
+                                      alignment: isRTL
+                                          ? Alignment.topRight
+                                          : Alignment.topLeft,
+                                      child: ElevatedButton.icon(
+                                        label: Text(controller.themeMode.value
+                                                .name.capitalize ??
+                                            controller.themeMode.value.name),
                                         onPressed: () async =>
                                             await controller.changeThemeMode(),
-                                        icon: Icon(themeIcon(
-                                            controller.themeMode.value)),
+                                        icon: Hero(
+                                          tag: 'closeReset',
+                                          child: Icon(themeIcon(
+                                              controller.themeMode.value)),
+                                        ),
                                       ),
                                     ),
                                   );
                                 },
-                              ),
-                              Align(
-                                alignment: isRTL
-                                    ? Alignment.topLeft
-                                    : Alignment.topRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
-                                  child: TextButton(
-                                    onPressed: () async =>
-                                        await showBarModalBottomSheet(
-                                      backgroundColor:
-                                          context.theme.scaffoldBackgroundColor,
-                                      overlayStyle: context
-                                          .theme.appBarTheme.systemOverlayStyle,
-                                      context: context,
-                                      builder: (context) =>
-                                          const LanguageSelectionView(),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(Icons.language),
-                                        const SizedBox(width: 4.0),
-                                        Text(LanguageService
-                                            .languageModel.nativeName),
-                                      ],
-                                    ),
-                                  ),
-                                ),
                               ),
                             ],
                           ),
@@ -225,7 +246,59 @@ class _SignInViewState extends State<SignInView> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton.icon(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      // first time user toggled remember me
+                                      // show information how it works
+                                      if (rememberMe == null) {
+                                        final result =
+                                            await showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) => Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        AppBar(
+                                                          title: const Text(
+                                                              'Remember me'),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      12.0,
+                                                                  vertical:
+                                                                      8.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                  'This will save your email and password in the device storage, '
+                                                                  'for security reasons the app will ask you for biometric authentication (if available) before retrieving your credentials from the storage.',
+                                                                  style: context
+                                                                      .bodyMedium,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .justify),
+                                                              const Gap(12),
+                                                              SizedBox(
+                                                                  width: double
+                                                                      .maxFinite,
+                                                                  child: FilledButton(
+                                                                      onPressed: () =>
+                                                                          context.popRoute(
+                                                                              true),
+                                                                      child: const Text(
+                                                                          'Got it!'))),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ));
+                                        if (result != true) {
+                                          return;
+                                        }
+                                      }
+
                                       setState(() {
                                         if (rememberMe == null) {
                                           rememberMe = true;
@@ -249,6 +322,11 @@ class _SignInViewState extends State<SignInView> {
                                         .errorMessage.value.isNotEmpty) {
                                       controller.errorMessage.value = '';
                                     }
+                                    if (StorageService.baseUrl.isEmpty) {
+                                      controller.errorMessage.value =
+                                          'Please set your backend URL first';
+                                      return;
+                                    }
                                     context
                                         .pushRoute(const ResetPasswordRoute());
                                   },
@@ -260,48 +338,49 @@ class _SignInViewState extends State<SignInView> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: SizedBox(
-                              width: double.maxFinite,
-                              child: Hero(
-                                tag: 'continue',
-                                child: FilledButton.icon(
-                                    onPressed: () async {
-                                      if (StorageService.baseUrl.isEmpty) {
-                                        controller.errorMessage.value =
-                                            'Please set your backend URL first';
-                                        return;
-                                      }
-                                      if (!formKey.currentState!.validate()) {
-                                        return;
-                                      }
-                                      if (!await InternetConnection()
-                                          .hasInternetAccess) {
-                                        await Fluttertoast.showToast(
-                                            msg:
-                                                'Check your internet connection and try again.');
-                                        if (context.mounted) {
-                                          context.unfocus();
-                                        }
-                                        return;
-                                      }
+                            child: Hero(
+                              tag: 'continue',
+                              child: FilledButton.icon(
+                                style: FilledButton.styleFrom(
+                                  minimumSize: Size(context.width/2,
+                                      48.0),
+                                ),
+                                  onPressed: () async {
+                                    if (StorageService.baseUrl.isEmpty) {
+                                      controller.errorMessage.value =
+                                          'Please set your backend URL first';
+                                      return;
+                                    }
+                                    if (!formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    if (!await InternetConnection()
+                                        .hasInternetAccess) {
+                                      await Fluttertoast.showToast(
+                                          msg:
+                                              'Check your internet connection and try again.');
                                       if (context.mounted) {
                                         context.unfocus();
                                       }
-                                      await controller
-                                          .login(
-                                              emailCtrl.text, passwordCtrl.text,
-                                              rememberMe: rememberMe ?? false)
-                                          .then((value) {
-                                        if (value) {
-                                          context.router.replaceAll(
-                                              [const DashboardRoute()]);
-                                        }
-                                      });
-                                    },
-                                    icon: const Icon(Icons.login),
-                                    label:
-                                        Text(tr.analyticsPreferencesContinue)),
-                              ),
+                                      return;
+                                    }
+                                    if (context.mounted) {
+                                      context.unfocus();
+                                    }
+                                    await controller
+                                        .login(
+                                            emailCtrl.text, passwordCtrl.text,
+                                            rememberMe: rememberMe ?? false)
+                                        .then((value) {
+                                      if (value) {
+                                        context.router.replaceAll(
+                                            [const DashboardRoute()]);
+                                      }
+                                    });
+                                  },
+                                  icon: const Icon(Icons.login),
+                                  label:
+                                      Text(tr.analyticsPreferencesContinue)),
                             ),
                           ),
                           space,
@@ -321,23 +400,6 @@ class _SignInViewState extends State<SignInView> {
                                 space,
                               ],
                             ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: ElevatedButton.icon(
-                              onPressed: () async {
-                                await showBarModalBottomSheet(
-                                    context: context,
-                                    overlayStyle: context
-                                        .theme.appBarTheme.systemOverlayStyle,
-                                    builder: (context) {
-                                      return const UrlUpdateView();
-                                    });
-                              },
-                              label: const Text('Update URL'),
-                              icon: const Icon(Icons.link),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -371,6 +433,17 @@ class UrlUpdateView extends StatefulWidget {
 class _UrlUpdateViewState extends State<UrlUpdateView> {
   final formKey = GlobalKey<FormState>();
   final textCtrl = TextEditingController();
+  late bool setupUrl;
+
+  @override
+  void initState() {
+    if (StorageService.baseUrl.isEmpty) {
+      setupUrl = true;
+    } else {
+      setupUrl = false;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -387,22 +460,10 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppBar(
-              title: const Text('Update URL'),
+              title:
+                  setupUrl ? const Text('Set URL') : const Text('Update URL'),
               actions: [
                 TextButton(
-                    onLongPress: () async => await StorageService.instance
-                            .updateUrl(textCtrl.text)
-                            .then(
-                          (result) {
-                            context.popRoute();
-                            if (result) {
-                              context
-                                  .showSnackBar('URL updated, restart the app');
-                            } else {
-                              context.showSnackBar('Could not update URL');
-                            }
-                          },
-                        ),
                     onPressed: () async {
                       if (baseUrl == textCtrl.text) {
                         context.popRoute();
@@ -416,14 +477,32 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                       final url = textCtrl.text.endsWith('/')
                           ? textCtrl.text.replaceAll(RegExp(r'.$'), "")
                           : textCtrl.text;
+
+                      // First time settings the base url, register a new singleton
+                      if (setupUrl && !getIt.isRegistered<MedusaAdmin>()) {
+                        getIt.registerLazySingleton<MedusaAdmin>(
+                            () => MedusaAdmin.initialize(
+                                  prefs: getIt<SharedPreferences>(),
+                                  config: MedusaConfig(
+                                    baseUrl: url,
+                                    enableDebugging: false,
+                                  ),
+                                ));
+                        // reset the singleton
+                      } else {
+                        getIt.resetLazySingleton<MedusaAdmin>();
+                      }
+
                       await StorageService.instance.updateUrl(url).then(
                         (result) {
                           context.popRoute();
                           if (result) {
-                            context
-                                .showSnackBar('URL updated, restart the app');
+                            context.showSnackBar(
+                                setupUrl ? 'URL set' : 'URL updated');
                           } else {
-                            context.showSnackBar('Could not update URL');
+                            context.showSnackBar(setupUrl
+                                ? 'Could not set URL, try again'
+                                : 'Could not update URL, try again');
                           }
                         },
                       );
@@ -436,18 +515,8 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                   12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
               child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          '* Tip: to skip URL verification, press and hold Save button',
-                          style: context.bodyMedium),
-                      Text(
-                          '* Make sure to restart the app after updating the URL',
-                          style: context.bodyMedium),
-                    ],
-                  ),
                   const SizedBox(height: 20),
+                  if(!setupUrl)
                   InkWell(
                     onTap: () async {
                       textCtrl.text = baseUrl;
@@ -466,7 +535,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
                         return 'Field is required';
                       }
 
-                      if (!val.isURL) {
+                      if (!val.isURL && !val.contains('localhost')) {
                         return 'Invalid url';
                       }
 

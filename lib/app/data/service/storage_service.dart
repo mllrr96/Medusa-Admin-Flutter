@@ -101,6 +101,7 @@ class StorageService {
   Future<bool> saveLoginData(String email, String password) async {
     try {
       await _prefs.setString(AppConstants.emailKey, email);
+      _email = email;
       await _prefs.setString(AppConstants.passwordKey, password);
       await updateAppSettings(appSettings.copyWith(rememberMe: true));
       return true;
@@ -115,17 +116,20 @@ class StorageService {
       final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
       final bool canAuthenticate =
           canAuthenticateWithBiometrics || await auth.isDeviceSupported();
-      if(!canAuthenticate) {
+      if (!canAuthenticate) {
         return const Error('Device does not support biometric authentication');
       }
       final bool didAuthenticate = await auth.authenticate(
           localizedReason: 'Please authenticate to sign in to Medusa Admin');
-      if(didAuthenticate){
-        return Success((_prefs.getString(AppConstants.emailKey) ?? '', _prefs.getString(AppConstants.passwordKey) ?? ''));
+      if (didAuthenticate) {
+        return Success((
+          _prefs.getString(AppConstants.emailKey) ?? '',
+          _prefs.getString(AppConstants.passwordKey) ?? ''
+        ));
       } else {
         return const Error('Biometric authentication failed');
       }
-    } catch (error , stack) {
+    } catch (error, stack) {
       log(error.toString());
       log(stack.toString());
       return Error(error.toString());
@@ -203,6 +207,7 @@ class StorageService {
 
   Future<bool> updateUrl(String value) async {
     try {
+      _baseUrl = value;
       return await _prefs.setString(AppConstants.baseUrlKey, value);
     } catch (e) {
       debugPrint(e.toString());
@@ -219,6 +224,7 @@ class StorageService {
       debugPrint(e.toString());
     }
   }
+
   Future<void> clearLoginData() async {
     try {
       await _prefs.remove(AppConstants.emailKey);

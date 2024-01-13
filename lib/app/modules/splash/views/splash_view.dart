@@ -8,6 +8,7 @@ import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/service/storage_service.dart';
 import '../../../data/service/store_service.dart';
 
@@ -27,6 +28,22 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future load() async {
+    if(StorageService.baseUrl.isEmpty){
+      context.router.replaceAll([const SignInRoute()]);
+      return;
+    }
+
+    if (StorageService.baseUrl.isNotEmpty &&
+        !getIt.isRegistered<MedusaAdmin>()) {
+      getIt.registerLazySingleton<MedusaAdmin>(() => MedusaAdmin.initialize(
+            prefs: getIt<SharedPreferences>(),
+            config: MedusaConfig(
+              baseUrl: StorageService.baseUrl,
+              enableDebugging: false,
+            ),
+          ));
+    }
+
     String? cookie = StorageService.cookie;
     if (cookie == null) {
       context.router.replaceAll([const SignInRoute()]);
@@ -73,7 +90,8 @@ class _SplashViewState extends State<SplashView> {
                 child: Text('Medusa Admin', style: context.headlineLarge),
               ),
               const SizedBox(height: 15),
-              LoadingAnimationWidget.staggeredDotsWave(color: context.theme.primaryColor, size: 40),
+              LoadingAnimationWidget.staggeredDotsWave(
+                  color: context.theme.primaryColor, size: 40),
             ],
           ),
         ),
