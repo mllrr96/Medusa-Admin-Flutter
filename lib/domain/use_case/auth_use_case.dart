@@ -15,7 +15,6 @@ class AuthenticationUseCase {
     try {
       final result = await _authRepository.signIn(
           req: UserPostAuthReq(email: email, password: password));
-
       if (result == null) {
         return Error(Failure.from(result));
       } else {

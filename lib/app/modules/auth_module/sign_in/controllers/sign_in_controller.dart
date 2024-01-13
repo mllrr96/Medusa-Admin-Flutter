@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import '../../../../data/service/storage_service.dart';
-import '../../../components/easy_loading.dart';
 
 class SignInController extends GetxController {
   SignInController(this.authenticationUseCase);
   RxString errorMessage = ''.obs;
   Rx<ThemeMode> themeMode = ThemeMode.system.obs;
-  RxBool animate = false.obs;
+  RxBool loading = false.obs;
   final AuthenticationUseCase authenticationUseCase;
   @override
   void onInit() {
@@ -43,9 +41,11 @@ class SignInController extends GetxController {
 
   Future<bool> login(String email, String password,
       {required bool rememberMe}) async {
-    loading();
-    try {
-      await authenticationUseCase.login(email: email, password: password);
+    loading.value = true;
+
+    final result =
+        await authenticationUseCase.login(email: email, password: password);
+    return result.when((success) async {
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
       if (rememberMe == true) {
@@ -53,17 +53,15 @@ class SignInController extends GetxController {
       } else if (rememberMe == false) {
         await StorageService.instance.clearLoginData();
       }
-      dismissLoading();
       return true;
-    } catch (error) {
-      final failure = Failure.from(error);
-      if (failure.code == 401) {
+    }, (error) {
+      loading.value = false;
+      if (error.code == 401) {
         errorMessage.value = 'Email or password is incorrect';
       } else {
-        errorMessage.value = failure.message;
+        errorMessage.value = error.message;
       }
-      dismissLoading();
       return false;
-    }
+    });
   }
 }
