@@ -79,6 +79,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                   );
                                   await showBarModalBottomSheet(
                                       context: context,
+                                      backgroundColor: context.theme.scaffoldBackgroundColor,
                                       overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                       builder: (context) => PickRegionsView(pickRegionsReq: regionReq)).then((result) {
                                     if (result is PickRegionsRes) {

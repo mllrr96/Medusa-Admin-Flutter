@@ -39,6 +39,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
               final result =
                   await showBarModalBottomSheet(context: context,
                       overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                      backgroundColor: context.theme.scaffoldBackgroundColor,
                       builder: (context) => OrderCreateRefund(order));
               if (result is UserCreateRefundOrdersReq) {
                 await controller.createRefund(result);

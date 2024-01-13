@@ -95,8 +95,7 @@ class _SignInViewState extends State<SignInView> {
                     onPressed: () async {
                       await showBarModalBottomSheet(
                           context: context,
-                          overlayStyle:
-                              context.theme.appBarTheme.systemOverlayStyle,
+                          backgroundColor: context.theme.scaffoldBackgroundColor,
                           builder: (context) {
                             return const UrlUpdateView();
                           });
@@ -165,10 +164,10 @@ class _SignInViewState extends State<SignInView> {
                               ),
                             ],
                           ),
-                          GestureDetector(
+                          Obx(()=> GestureDetector(
                             onTap: () {
                               controller.animate.value =
-                                  !controller.animate.value;
+                              !controller.animate.value;
                             },
                             child: Hero(
                               tag: 'medusa',
@@ -181,7 +180,7 @@ class _SignInViewState extends State<SignInView> {
                                 autoPlay: false,
                               ),
                             ),
-                          ),
+                          )),
                           Text(
                             tr.loginCardLogInToMedusa,
                             style: context.headlineMedium,
@@ -452,102 +451,99 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
         context.bottomViewPadding == 0 ? 20.0 : context.bottomViewPadding;
     final baseUrl = StorageService.baseUrl;
 
-    return Container(
-      color: context.theme.scaffoldBackgroundColor,
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppBar(
-              title:
-                  setupUrl ? const Text('Set URL') : const Text('Update URL'),
-              actions: [
-                TextButton(
-                    onPressed: () async {
-                      if (baseUrl == textCtrl.text) {
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppBar(
+            title:
+                setupUrl ? const Text('Set URL') : const Text('Update URL'),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    if (baseUrl == textCtrl.text) {
+                      context.popRoute();
+                      return;
+                    }
+
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
+                    //  in case theres '/' in the end remove it before updating
+                    final url = textCtrl.text.endsWith('/')
+                        ? textCtrl.text.replaceAll(RegExp(r'.$'), "")
+                        : textCtrl.text;
+
+                    // First time settings the base url, register a new singleton
+                    if (setupUrl && !getIt.isRegistered<MedusaAdmin>()) {
+                      getIt.registerLazySingleton<MedusaAdmin>(
+                          () => MedusaAdmin.initialize(
+                                prefs: getIt<SharedPreferences>(),
+                                config: MedusaConfig(
+                                  baseUrl: url,
+                                  enableDebugging: false,
+                                ),
+                              ));
+                      // reset the singleton
+                    } else {
+                      getIt.resetLazySingleton<MedusaAdmin>();
+                    }
+
+                    await StorageService.instance.updateUrl(url).then(
+                      (result) {
                         context.popRoute();
-                        return;
-                      }
+                        if (result) {
+                          context.showSnackBar(
+                              setupUrl ? 'URL set' : 'URL updated');
+                        } else {
+                          context.showSnackBar(setupUrl
+                              ? 'Could not set URL, try again'
+                              : 'Could not update URL, try again');
+                        }
+                      },
+                    );
+                  },
+                  child: const Text('Save'))
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                if(!setupUrl)
+                InkWell(
+                  onTap: () async {
+                    textCtrl.text = baseUrl;
+                  },
+                  child:
+                      Text('Current URL : $baseUrl', style: smallTextStyle),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: textCtrl,
+                  style: smallTextStyle,
+                  decoration:
+                      const InputDecoration(hintText: 'https://medusajs.com'),
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Field is required';
+                    }
 
-                      if (!formKey.currentState!.validate()) {
-                        return;
-                      }
-                      //  in case theres '/' in the end remove it before updating
-                      final url = textCtrl.text.endsWith('/')
-                          ? textCtrl.text.replaceAll(RegExp(r'.$'), "")
-                          : textCtrl.text;
+                    if (!val.isURL && !val.contains('localhost')) {
+                      return 'Invalid url';
+                    }
 
-                      // First time settings the base url, register a new singleton
-                      if (setupUrl && !getIt.isRegistered<MedusaAdmin>()) {
-                        getIt.registerLazySingleton<MedusaAdmin>(
-                            () => MedusaAdmin.initialize(
-                                  prefs: getIt<SharedPreferences>(),
-                                  config: MedusaConfig(
-                                    baseUrl: url,
-                                    enableDebugging: false,
-                                  ),
-                                ));
-                        // reset the singleton
-                      } else {
-                        getIt.resetLazySingleton<MedusaAdmin>();
-                      }
-
-                      await StorageService.instance.updateUrl(url).then(
-                        (result) {
-                          context.popRoute();
-                          if (result) {
-                            context.showSnackBar(
-                                setupUrl ? 'URL set' : 'URL updated');
-                          } else {
-                            context.showSnackBar(setupUrl
-                                ? 'Could not set URL, try again'
-                                : 'Could not update URL, try again');
-                          }
-                        },
-                      );
-                    },
-                    child: const Text('Save'))
+                    return null;
+                  },
+                ),
+                SizedBox(height: bottomPadding),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  if(!setupUrl)
-                  InkWell(
-                    onTap: () async {
-                      textCtrl.text = baseUrl;
-                    },
-                    child:
-                        Text('Current URL : $baseUrl', style: smallTextStyle),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: textCtrl,
-                    style: smallTextStyle,
-                    decoration:
-                        const InputDecoration(hintText: 'https://medusajs.com'),
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Field is required';
-                      }
-
-                      if (!val.isURL && !val.contains('localhost')) {
-                        return 'Invalid url';
-                      }
-
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: bottomPadding),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

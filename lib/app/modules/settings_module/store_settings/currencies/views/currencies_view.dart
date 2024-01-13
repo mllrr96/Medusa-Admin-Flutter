@@ -132,8 +132,8 @@ class CurrenciesView extends StatelessWidget {
                                     context: context,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) => AllCurrenciesView(
+                                        backgroundColor: context.theme.scaffoldBackgroundColor,
+                                        builder: (context) => AllCurrenciesView(
                                         storeCurrencies: controller.currencies),
                                   );
                                   if (result != null) {

@@ -39,6 +39,7 @@ class GiftCardsView extends StatelessWidget {
               icon: const Icon(Icons.add),
               onPressed: () async => await showBarModalBottomSheet(
                   overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                  backgroundColor: context.theme.scaffoldBackgroundColor,
                   context: context,
                   builder: (context) => const CreateGiftCardView()),
             ),
@@ -133,6 +134,7 @@ class GiftCardsView extends StatelessWidget {
                                     onPressed: () async {
                                       await showBarModalBottomSheet(
                                           context: context,
+                                          backgroundColor: context.theme.scaffoldBackgroundColor,
                                           overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                           builder: (context) =>
                                               const CreateGiftCardView());

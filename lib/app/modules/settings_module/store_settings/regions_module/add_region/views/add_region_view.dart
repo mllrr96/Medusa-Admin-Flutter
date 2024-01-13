@@ -177,6 +177,7 @@ class AddRegionView extends StatelessWidget {
                                     context: context,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
+                                    backgroundColor: context.theme.scaffoldBackgroundColor,
                                     builder: (context) => SelectCountryView(
                                             selectCountryReq: SelectCountryReq(
                                           disabledCountriesIso2: controller

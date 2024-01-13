@@ -81,6 +81,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                                       await showBarModalBottomSheet<
                                               ProductFilter>(
                                           context: context,
+                                          backgroundColor: context.theme.scaffoldBackgroundColor,
                                           overlayStyle: context.theme
                                               .appBarTheme.systemOverlayStyle,
                                           builder: (context) =>
@@ -171,6 +172,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                             context: context,
                             overlayStyle:
                                 context.theme.appBarTheme.systemOverlayStyle,
+                            backgroundColor: context.theme.scaffoldBackgroundColor,
                             builder: (context) => PickProductsView(
                               pickProductsReq: PickProductsReq(
                                 disabledProducts:
@@ -229,6 +231,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                                 context: context,
                                 overlayStyle: context
                                     .theme.appBarTheme.systemOverlayStyle,
+                                backgroundColor: context.theme.scaffoldBackgroundColor,
                                 builder: (context) => PickProductsView(
                                         pickProductsReq: PickProductsReq(
                                       disabledProducts:

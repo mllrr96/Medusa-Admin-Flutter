@@ -28,6 +28,7 @@ class PriceListDetailsView extends StatelessWidget {
         addProducts() async {
           await showBarModalBottomSheet(
             context: context,
+            backgroundColor: context.theme.scaffoldBackgroundColor,
             overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
             builder: (context) => PickProductsView(
               pickProductsReq: PickProductsReq(
@@ -39,6 +40,7 @@ class PriceListDetailsView extends StatelessWidget {
             if (result is PickProductsRes) {
               final prices = await showBarModalBottomSheet(
                 context: context,
+                backgroundColor: context.theme.scaffoldBackgroundColor,
                 enableDrag: false,
                 overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                 builder: (context) =>

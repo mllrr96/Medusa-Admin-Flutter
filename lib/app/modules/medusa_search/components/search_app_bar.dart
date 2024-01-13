@@ -160,6 +160,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               onTap: () async {
                                 await showBarModalBottomSheet(
                                     context: context,
+                                    backgroundColor: context.theme.scaffoldBackgroundColor,
                                     overlayStyle:
                                         context.theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) {
@@ -253,6 +254,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     case SearchCategory.products:
                                       await showBarModalBottomSheet<ProductFilter>(
                                           context: context,
+                                          backgroundColor: context.theme.scaffoldBackgroundColor,
                                           enableDrag: false,
                                           overlayStyle: context
                                               .theme.appBarTheme.systemOverlayStyle,
@@ -277,6 +279,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     case SearchCategory.orders:
                                       await showBarModalBottomSheet<OrderFilter>(
                                           context: context,
+                                          backgroundColor: context.theme.scaffoldBackgroundColor,
                                           enableDrag: false,
                                           overlayStyle: context
                                               .theme.appBarTheme.systemOverlayStyle,

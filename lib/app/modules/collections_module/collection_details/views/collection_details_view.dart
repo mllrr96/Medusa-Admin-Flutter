@@ -108,6 +108,7 @@ class CollectionDetailsView extends StatelessWidget {
                                 final result = await showBarModalBottomSheet(
                                     context: context,
                                     overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                    backgroundColor: context.theme.scaffoldBackgroundColor,
                                     builder: (context) => PickProductsView(
                                             pickProductsReq: PickProductsReq(
                                           selectedProducts: collection.products,
@@ -156,6 +157,7 @@ class CollectionDetailsView extends StatelessWidget {
                               final result = await showBarModalBottomSheet(
                                   context: context,
                                   overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                                  backgroundColor: context.theme.scaffoldBackgroundColor,
                                   builder: (context) => PickProductsView(
                                           pickProductsReq: PickProductsReq(
                                         selectedProducts: collection.products,

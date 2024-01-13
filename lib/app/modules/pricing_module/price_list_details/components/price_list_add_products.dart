@@ -74,8 +74,7 @@ class _PriceListAddProductsState extends State<PriceListAddProducts> {
                       case 0:
                         final result =
                         await showBarModalBottomSheet(
-                          backgroundColor: Theme.of(context)
-                              .scaffoldBackgroundColor,
+                          backgroundColor: context.theme.scaffoldBackgroundColor,
                           overlayStyle: context
                               .theme.appBarTheme.systemOverlayStyle,
                           context: context,

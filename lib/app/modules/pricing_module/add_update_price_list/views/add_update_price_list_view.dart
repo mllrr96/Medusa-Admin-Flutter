@@ -302,6 +302,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                               onTap: () async {
                                 final result = await showBarModalBottomSheet(
                                     context: context,
+                                    backgroundColor: context.theme.scaffoldBackgroundColor,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) => PickGroupsView(
@@ -408,9 +409,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                                   case 0:
                                     final result =
                                         await showBarModalBottomSheet(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      overlayStyle: context
+                                          backgroundColor: context.theme.scaffoldBackgroundColor,
+                                          overlayStyle: context
                                           .theme.appBarTheme.systemOverlayStyle,
                                       context: context,
                                       builder: (context) =>

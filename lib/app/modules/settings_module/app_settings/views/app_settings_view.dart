@@ -141,8 +141,7 @@ class AppSettingsView extends StatelessWidget {
                       ),
                       leading: const Icon(Icons.language),
                       onPressed: (_) async => await showBarModalBottomSheet(
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
+                        backgroundColor: context.theme.scaffoldBackgroundColor,
                         overlayStyle:
                             context.theme.appBarTheme.systemOverlayStyle,
                         context: context,

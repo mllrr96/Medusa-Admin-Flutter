@@ -500,6 +500,7 @@ class ProductAddVariantView extends StatelessWidget {
                                     final result =
                                         await showBarModalBottomSheet(
                                             context: context,
+                                            backgroundColor: context.theme.scaffoldBackgroundColor,
                                             overlayStyle: context.theme
                                                 .appBarTheme.systemOverlayStyle,
                                             builder: (context) =>

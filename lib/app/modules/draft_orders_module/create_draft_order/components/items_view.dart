@@ -323,6 +323,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                   final result =
                                   await showBarModalBottomSheet(
                                       context: context,
+                                      backgroundColor: context.theme.scaffoldBackgroundColor,
                                       overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                                       builder: (context) {
                                         return AddCustomItemView(

@@ -59,6 +59,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 2:
                   final result = await showBarModalBottomSheet(
                     context: context,
+                    backgroundColor: context.theme.scaffoldBackgroundColor,
                     overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                     builder: (context) => EditAddress(
                       shippingAddress: order.shippingAddress!,
@@ -74,6 +75,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 3:
                   final result = await showBarModalBottomSheet(
                     context: context,
+                    backgroundColor: context.theme.scaffoldBackgroundColor,
                     overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                     builder: (context) => EditAddress(
                       shippingAddress: order.billingAddress!,
@@ -89,6 +91,7 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                 case 4:
                   final result = await showBarModalBottomSheet(
                       context: context,
+                      backgroundColor: context.theme.scaffoldBackgroundColor,
                       overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
                       builder: (context) {
                         return EmailUpdateView(currentEmail: order.email);

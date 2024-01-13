@@ -24,6 +24,7 @@ class CustomGiftCardTile extends StatelessWidget {
       onTap: () {
         showBarModalBottomSheet(
           context: context,
+          backgroundColor: context.theme.scaffoldBackgroundColor,
           overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
           builder: (context) => CustomGiftCardView(giftCard),
         );
