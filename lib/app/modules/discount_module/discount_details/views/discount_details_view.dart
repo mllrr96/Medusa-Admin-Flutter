@@ -25,6 +25,7 @@ class DiscountDetailsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
+              systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               title: const Text('Discount Details'),
             ),
             floatingActionButton: const DiscountDetailsFab(),

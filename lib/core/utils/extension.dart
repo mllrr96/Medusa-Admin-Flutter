@@ -120,6 +120,15 @@ extension BuildContextEntension<T> on BuildContext {
         noAppBar: true,
         systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
       );
+  // ===================================================================//
+
+  // Color
+  // ===================================================================//
+  Color getAlphaBlend(Color color) {
+    final surfaceTint = Theme.of(this).colorScheme.surfaceTint;
+    final isLight = Theme.of(this).brightness == Brightness.light;
+    return Color.alphaBlend(surfaceTint.withAlpha(isLight ? 10 : 16), color);
+  }
 }
 
 extension HexColor on Color {

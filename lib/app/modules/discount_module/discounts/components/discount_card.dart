@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medusa_admin/app/modules/discount_module/discounts/controllers/discounts_controller.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -40,7 +41,7 @@ class DiscountCard extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          color: Theme.of(context).appBarTheme.backgroundColor,
+          color: context.getAlphaBlend(context.theme.cardColor),
         ),
         child: Stack(
           alignment: Alignment.topRight,

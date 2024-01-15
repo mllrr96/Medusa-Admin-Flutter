@@ -36,11 +36,10 @@ class OrderPayment extends GetView<OrderDetailsController> {
         case PaymentStatus.captured:
           return TextButton(
             onPressed: () async {
-              final result =
-                  await showBarModalBottomSheet(context: context,
-                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                      backgroundColor: context.theme.scaffoldBackgroundColor,
-                      builder: (context) => OrderCreateRefund(order));
+              final result = await showBarModalBottomSheet(
+                  context: context,
+                  backgroundColor: context.theme.scaffoldBackgroundColor,
+                  builder: (context) => OrderCreateRefund(order));
               if (result is UserCreateRefundOrdersReq) {
                 await controller.createRefund(result);
               }
@@ -68,7 +67,10 @@ class OrderPayment extends GetView<OrderDetailsController> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(alignment: Alignment.centerRight, child: PaymentStatusLabel(paymentStatus: order.paymentStatus)),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child:
+                      PaymentStatusLabel(paymentStatus: order.paymentStatus)),
               space,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,14 +84,19 @@ class OrderPayment extends GetView<OrderDetailsController> {
                           style: mediumTextStyle,
                         ),
                         halfSpace,
-                        if ((order.payments?.isNotEmpty ?? false) && order.payments?.first.capturedAt != null)
+                        if ((order.payments?.isNotEmpty ?? false) &&
+                            order.payments?.first.capturedAt != null)
                           Text(
                               'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
                               style: mediumTextStyle!.copyWith(color: manatee)),
                       ],
                     ),
                   ),
-                  Text(order.payments?.first.amount.formatAsPrice(order.currencyCode) ?? '', style: largeTextStyle),
+                  Text(
+                      order.payments?.first.amount
+                              .formatAsPrice(order.currencyCode) ??
+                          '',
+                      style: largeTextStyle),
                 ],
               ),
               space,
@@ -107,7 +114,9 @@ class OrderPayment extends GetView<OrderDetailsController> {
                         ),
                       ],
                     ),
-                    Text('- ${order.refundedTotal.formatAsPrice(order.currencyCode)}', style: mediumTextStyle),
+                    Text(
+                        '- ${order.refundedTotal.formatAsPrice(order.currencyCode)}',
+                        style: mediumTextStyle),
                   ],
                 ),
             ],
@@ -117,7 +126,11 @@ class OrderPayment extends GetView<OrderDetailsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(tr.detailsTotalPaid, style: largeTextStyle),
-              Text((refunded ? order.refundableAmount : order.payments?.first.amount).formatAsPrice(order.currencyCode),
+              Text(
+                  (refunded
+                          ? order.refundableAmount
+                          : order.payments?.first.amount)
+                      .formatAsPrice(order.currencyCode),
                   style: largeTextStyle),
             ],
           ),

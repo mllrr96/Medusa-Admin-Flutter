@@ -40,7 +40,7 @@ class _SignInMedusaLogoState extends State<SignInMedusaLogo>
       if (widget.rotate) {
         _controller.repeat();
       } else {
-        _controller.value = 0;
+        // _controller.value = 0;
         _controller.forward();
       }
     }

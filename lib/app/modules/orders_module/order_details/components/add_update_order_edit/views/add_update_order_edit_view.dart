@@ -234,47 +234,39 @@ class EditOrderItems extends GetView<AddUpdateOrderEditController> {
                             icon: const Icon(Icons.more_horiz))
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 4.0),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).appBarTheme.backgroundColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(12.0))),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: item.quantity! > 1
-                                ? () async {
-                                    final canRemove = item.quantity! > 1;
-                                    if (canRemove) {
-                                      await controller.updateLineItem(
-                                          orderEditId: orderEdit.id!,
-                                          itemId: item.id!,
-                                          quantity: item.quantity! - 1);
-                                    }
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: item.quantity! > 1
+                              ? () async {
+                                  final canRemove = item.quantity! > 1;
+                                  if (canRemove) {
+                                    await controller.updateLineItem(
+                                        orderEditId: orderEdit.id!,
+                                        itemId: item.id!,
+                                        quantity: item.quantity! - 1);
                                   }
-                                : null,
-                            icon: const Icon(CupertinoIcons.minus),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(((item.quantity ?? 0) +
-                                    (addedItems[item.id] ?? 0))
-                                .toString()),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              await controller.updateLineItem(
-                                  orderEditId: orderEdit.id!,
-                                  itemId: item.id!,
-                                  quantity: item.quantity! + 1);
-                            },
-                            icon: const Icon(CupertinoIcons.add),
-                          )
-                        ],
-                      ),
+                                }
+                              : null,
+                          icon: const Icon(CupertinoIcons.minus),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(((item.quantity ?? 0) +
+                                  (addedItems[item.id] ?? 0))
+                              .toString()),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await controller.updateLineItem(
+                                orderEditId: orderEdit.id!,
+                                itemId: item.id!,
+                                quantity: item.quantity! + 1);
+                          },
+                          icon: const Icon(CupertinoIcons.add),
+                        )
+                      ],
                     )
                   ],
                 ),

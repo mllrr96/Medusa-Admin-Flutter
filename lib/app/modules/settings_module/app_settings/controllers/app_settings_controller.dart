@@ -23,8 +23,10 @@ class AppSettingsController extends GetxController {
   // }
 
   Future<void> changeThemeMode(ThemeMode themeMode) async {
-    await StorageService.instance.saveThemeMode(themeMode);
     this.themeMode = themeMode;
     update();
+    Future.delayed(const Duration(milliseconds: 250), () {
+      StorageService.instance.saveThemeMode(themeMode);
+    });
   }
 }

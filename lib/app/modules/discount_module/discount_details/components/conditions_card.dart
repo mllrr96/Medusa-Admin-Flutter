@@ -27,7 +27,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: context.theme.cardColor,
+        color: context.getAlphaBlend(context.theme.cardColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

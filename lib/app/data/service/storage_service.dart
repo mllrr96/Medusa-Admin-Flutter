@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
 import '../../../core/utils/strings.dart';
@@ -40,7 +42,7 @@ class StorageService {
   @PostConstruct()
   void init() {
     try {
-      _cookie = _prefs.getString('medusa_admin_cookie');
+      _cookie = _prefs.getString(AppConstants.cookieKey);
       _language = _prefs.getString(AppConstants.languageKey) ??
           Get.deviceLocale?.languageCode ??
           'en';
@@ -221,6 +223,15 @@ class StorageService {
       await _prefs.remove(AppConstants.cookieKey);
     } catch (e) {
       _cookie = null;
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> clearExportFiles() async {
+    try {
+      Directory dir = await getApplicationDocumentsDirectory();
+      await Directory('${dir.path}/exports').delete(recursive: true);
+    } catch (e) {
       debugPrint(e.toString());
     }
   }

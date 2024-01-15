@@ -27,10 +27,6 @@ class OrderCard extends StatelessWidget {
     final tr = context.tr;
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     final customerName = order.customerName;
-    final Color cardColor = Color.alphaBlend(
-        context.theme.colorScheme.surfaceTint
-            .withAlpha(context.isLight ? 10 : 16),
-        context.theme.cardColor);
 
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
@@ -39,7 +35,7 @@ class OrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
         decoration: BoxDecoration(
-            color: cardColor,
+            color: context.getAlphaBlend(context.theme.cardColor),
             borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [
@@ -166,6 +162,7 @@ class AlternativeOrderCard extends StatelessWidget {
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     final customerName = order.customerName;
+
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       onTap: onTap ??
@@ -173,7 +170,7 @@ class AlternativeOrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
-            color: context.theme.cardColor,
+            color: context.getAlphaBlend(context.theme.cardColor),
             borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [

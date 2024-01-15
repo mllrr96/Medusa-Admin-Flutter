@@ -90,12 +90,14 @@ class EmailTextField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.textInputAction = TextInputAction.next, this.validator,
+    this.enabled = true,
   });
   final TextEditingController controller;
   final void Function(String)? onChanged;
   final void Function(String)? onSubmitted;
   final TextInputAction textInputAction;
   final String? Function(String?)? validator;
+  final bool enabled;
   @override
   Widget build(BuildContext context) {
     final manatee = ColorManager.manatee;
@@ -106,6 +108,7 @@ class EmailTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       onChanged: onChanged,
+      enabled: enabled,
       onFieldSubmitted: onSubmitted,
       keyboardType: TextInputType.emailAddress,
       textInputAction: textInputAction,

@@ -63,7 +63,7 @@ dependencies:
 
   # Network packages
   # -------------------
-  dio: ^5.1.2
+  dio: ^5.4.0
   internet_connection_checker_plus: ^2.1.0
   # -------------------
 
@@ -78,6 +78,7 @@ dependencies:
   package_info_plus: ^5.0.1
   copy_with_extension: ^5.0.3
   multi_dropdown: ^2.1.2
+  local_auth: ^2.1.8
   flutter:
     sdk: flutter
 
@@ -89,11 +90,13 @@ dependencies:
       url: https://github.com/mllrr96/flex_expansion_tile.git
       ref: main
 
+#  medusa_admin_flutter:
+#    git:
+#      url: https://github.com/mllrr96/Medusa_Admin_API_Flutter.git
+#      ref: main
   medusa_admin_flutter:
-    git:
-      url: https://github.com/mllrr96/Medusa_Admin_API_Flutter.git
-      ref: main
-  local_auth: ^2.1.8
+    path: ../Medusa_Admin_API_Flutter
+  share_plus: ^7.2.1
 
 
 

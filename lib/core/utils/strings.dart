@@ -4,7 +4,7 @@ class AppConstants {
   static const String firstRun = 'firstRun';
   static const String appSettingsKey = 'appSettings';
   static const String orderSettingsKey = 'orderSettings';
-  static const String cookieKey = 'Cookie';
+  static const String cookieKey = 'medusa_admin_cookie';
   static const String emailKey = 'email';
   static const String passwordKey = 'password';
   static const String themeModeKey = 'theme';

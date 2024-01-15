@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:medusa_admin/app/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/di/di.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
@@ -56,6 +57,7 @@ class _SplashViewState extends State<SplashView> {
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
               .init()).then((value) {
+        Get.put(ActivityController());
         context.router.replaceAll([const DashboardRoute()]);
       });
     }, (error) async {

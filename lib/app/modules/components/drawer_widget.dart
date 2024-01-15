@@ -52,6 +52,7 @@ class _AppDrawerState extends State<AppDrawer> {
             if (result) {
               await Get.delete(force: true);
               await StorageService.instance.clearLoginData();
+              await StorageService.instance.clearExportFiles();
               await StorageService.instance.clearCookie().then(
                   (value) => context.router.replaceAll([const SplashRoute()]));
               dismissLoading();
@@ -149,91 +150,100 @@ class _AppDrawerState extends State<AppDrawer> {
         children: [
           Container(
             margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-            // padding: const EdgeInsets.only(left: 16.0),
             height: 56,
             decoration: ShapeDecoration(
               shape: const StadiumBorder(),
-              color: context.theme.colorScheme.surface,
+              color:
+                  context.getAlphaBlend(context.theme.scaffoldBackgroundColor),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                    padding: const EdgeInsets.all(16.0),
-                    onPressed: () => context.closeDrawer(),
-                    icon: const Icon(Icons.menu_open)),
+                  padding: const EdgeInsets.all(16.0),
+                  onPressed: () async {
+                    switch (themeMode) {
+                      case ThemeMode.system:
+                        setState(() => themeMode = ThemeMode.light);
+
+                        Future.delayed(const Duration(milliseconds: 250)).then(
+                            (value) async => await StorageService.instance
+                                .saveThemeMode(ThemeMode.light));
+                        break;
+                      case ThemeMode.light:
+                        setState(() => themeMode = ThemeMode.dark);
+
+                        Future.delayed(const Duration(milliseconds: 250)).then(
+                            (value) async => await StorageService.instance
+                                .saveThemeMode(ThemeMode.dark));
+                        break;
+                      case ThemeMode.dark:
+                        setState(() => themeMode = ThemeMode.system);
+                        Future.delayed(const Duration(milliseconds: 250)).then(
+                            (value) async => await StorageService.instance
+                                .saveThemeMode(ThemeMode.system));
+                        break;
+                    }
+                  },
+                  icon: Icon(themeIcon(themeMode)),
+                ),
                 Flexible(
                     child: Text(store?.name ?? '',
                         style: context.bodyLarge,
                         overflow: TextOverflow.ellipsis)),
                 IconButton(
-                  padding: const EdgeInsets.all(16.0),
-                  onPressed: () async {
-                    switch (StorageService.instance.loadThemeMode()) {
-                      case ThemeMode.system:
-                        await StorageService.instance
-                            .saveThemeMode(ThemeMode.light);
-                        break;
-                      case ThemeMode.light:
-                        await StorageService.instance
-                            .saveThemeMode(ThemeMode.dark);
-                        break;
-                      case ThemeMode.dark:
-                        await StorageService.instance
-                            .saveThemeMode(ThemeMode.system);
-                        break;
-                    }
-                    themeMode = StorageService.instance.loadThemeMode();
-                    setState(() {});
-                  },
-                  icon: Icon(themeIcon(themeMode)),
-                ),
+                    padding: const EdgeInsets.all(16.0),
+                    onPressed: () => context.pushRoute(const ActivityRoute()),
+                    icon: const Badge(
+                        smallSize: 8,
+                        backgroundColor: Colors.red,
+                        alignment: Alignment.bottomRight,
+                        child: Icon(Icons.notifications_outlined))),
               ],
             ),
           ),
-          // const Divider(indent: 28, endIndent: 28),
           const Gap(5),
           ...items,
-          Container(
-            margin: const EdgeInsets.fromLTRB(12, 20, 12, 20),
-            padding: const EdgeInsets.only(left: 16.0),
-            height: 56,
-            decoration: ShapeDecoration(
-              shape: const StadiumBorder(),
-              color: context.theme.colorScheme.surface,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+            child: InkWell(
+              customBorder: const StadiumBorder(),
+              onTap: () => _showAppAboutDialog(context),
+              child: Ink(
+                height: 56,
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                decoration: ShapeDecoration(
+                  shape: const StadiumBorder(),
+                  color:
+                  context.getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Hero(
-                      tag: 'medusa',
-                      child: Image.asset(
-                        'assets/images/medusa.png',
-                        // height: 32,
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Row(
                       children: [
-                        Text(appName,
-                            style: smallTextStyle?.copyWith(color: manatee)),
-                        Text('Version $version+$code',
-                            style: smallTextStyle?.copyWith(color: manatee)),
+                        Hero(
+                          tag: 'medusa',
+                          child: Image.asset(
+                            'assets/images/medusa.png',
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(appName,
+                                style: smallTextStyle?.copyWith(color: manatee)),
+                            Text('Version $version+$code',
+                                style: smallTextStyle?.copyWith(color: manatee)),
+                          ],
+                        ),
                       ],
                     ),
+                    Icon(Icons.info_outline, color: ColorManager.manatee),
                   ],
                 ),
-                IconButton(
-                  padding: const EdgeInsets.all(16.0),
-                  onPressed: () {
-                    _showAppAboutDialog(context);
-                  },
-                  icon: Icon(Icons.info_outline, color: ColorManager.manatee),
-                ),
-              ],
+              ),
             ),
           ),
         ]);

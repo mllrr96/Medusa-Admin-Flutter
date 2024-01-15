@@ -6,7 +6,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/components/bottom_nav_bar_button.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 
-import 'sign_in/components/sign_in_components.dart';
+import 'sign_in/components/index.dart';
 
 @RoutePage()
 class ReAuthenticateView extends StatefulWidget {

@@ -40,10 +40,16 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
     String reason = 'Discount';
     const space = Gap(12);
     const halfSpace = Gap(6);
+    final currencyCode = widget.order.currencyCode;
     return GestureDetector(
       onTap: () => context.unfocus(),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
+          systemOverlayStyle: context.defaultSystemUiOverlayStyle.copyWith(
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.dark,
+          ),
           title: const Text('Create a refund'),
           actions: [
             TextButton(
@@ -84,7 +90,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                         Flexible(
                           child: LabeledTextField(
                             label: 'Currency',
-                            controller: TextEditingController(text: widget.order.currencyCode?.toUpperCase() ?? ''),
+                            controller: TextEditingController(text: currencyCode?.toUpperCase() ?? ''),
                             readOnly: true,
                           ),
                         ),
@@ -99,7 +105,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                             controller: amountCtrl,
                             inputFormatters: [
                               CurrencyTextInputFormatter(
-                                name: widget.order.currencyCode,
+                                name: currencyCode,
                               )
                             ],
                             onPlusPressed: () {
@@ -108,7 +114,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                               var val = int.tryParse(text);
                               val ??= 0;
                               amountCtrl.text =
-                                  (val + 1).formatAsPrice(widget.order.currencyCode, includeSymbol: false);
+                                  (val + 1).formatAsPrice(currencyCode, includeSymbol: false);
                             },
                             onMinusPressed: () {
                               var text = amountCtrl.text;
@@ -119,7 +125,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                                 return;
                               }
                               amountCtrl.text =
-                                  (val - 1).formatAsPrice(widget.order.currencyCode, includeSymbol: false);                            },
+                                  (val - 1).formatAsPrice(currencyCode, includeSymbol: false);                            },
                             validator: (val) {
                               if (val == null || val.isEmpty) {
                                 return 'Field is required';

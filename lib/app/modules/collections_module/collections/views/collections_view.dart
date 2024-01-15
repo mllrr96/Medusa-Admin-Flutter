@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -36,12 +35,12 @@ class CollectionsView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
+             const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SearchFloatingActionButton(
+                  SearchFloatingActionButton(
                       searchCategory: SearchCategory.collections),
-                  const Gap(4.0),
+                  Gap(4.0),
                 ],
               ),
               const Gap(6.0),

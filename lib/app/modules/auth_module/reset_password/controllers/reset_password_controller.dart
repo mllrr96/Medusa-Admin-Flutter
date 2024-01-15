@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
-
-import '../../../components/easy_loading.dart';
+import 'package:medusa_admin/domain/use_case/reset_password_use_case.dart';
 
 class ResetPasswordController extends GetxController {
-  ResetPasswordController({required this.userRepo});
-  final UserRepository userRepo;
+  ResetPasswordController({required this.resetPasswordUseCase});
+  final ResetPasswordUseCase resetPasswordUseCase;
   final emailCtrl = TextEditingController();
   RxString errorMessage = ''.obs;
+  bool rotate = false;
 
   @override
   void onClose() {
@@ -21,18 +19,23 @@ class ResetPasswordController extends GetxController {
     if (!_validate()) {
       return false;
     }
-
     errorMessage.value = '';
-    loading();
-    final result = await userRepo.requestPasswordReset(email: emailCtrl.text);
-    if (result == true) {
-      EasyLoading.showSuccess('Reset instructions sent');
-      return true;
-    } else {
-      dismissLoading();
-      // errorMessage.value = error.message;
-      return false;
-    }
+    rotate = true;
+    update();
+    final result = await resetPasswordUseCase(emailCtrl.text);
+    return result.when(
+      (success) {
+        rotate = false;
+        update();
+        return true;
+      },
+      (error) {
+        rotate = false;
+        update();
+        errorMessage.value = error.message;
+        return false;
+      },
+    );
   }
 
   bool _validate() {

@@ -20,7 +20,7 @@ class DiscountsLoadingPage extends StatelessWidget {
       enabled: true,
       child: Column(
         children: List.generate(
-            10,
+            12,
             (index) =>
                 index.isEven? const DiscountCard(discount): const Gap(12.0),),
       ),

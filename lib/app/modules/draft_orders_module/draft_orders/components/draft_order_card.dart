@@ -27,7 +27,8 @@ class DraftOrderCard extends StatelessWidget {
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
         decoration: BoxDecoration(
-            color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(5.0))),
+            color: context.getAlphaBlend(context.theme.cardColor),
+            borderRadius: const BorderRadius.all(Radius.circular(5.0))),
         child: Column(
           children: [
             Row(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:medusa_admin/app/modules/activity_module/activity_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/auth_module/reauthenticate.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
@@ -123,6 +124,7 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: SelectCountryRoute.page),
       AutoRoute(page: PickGroupsRoute.page),
       AutoRoute(page: PickRegionsRoute.page),
+      AutoRoute(page: ActivityRoute.page),
 
       // ReAuthenticate
       AutoRoute(page: ReAuthenticateRoute.page),

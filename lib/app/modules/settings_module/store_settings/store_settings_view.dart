@@ -38,7 +38,7 @@ class StoreSettingsView extends StatelessWidget {
               SettingsTile.navigation(
                 leading: const Icon(Icons.attach_money),
                 title: const Text('Return Reasons'),
-                onPressed: (_) => context.pushRoute(const ReturnReasonsRoute()),
+                onPressed: (_) => context.pushRoute(ReturnReasonsRoute()),
               ),
               SettingsTile.navigation(
                 leading: const Icon(Icons.face),
