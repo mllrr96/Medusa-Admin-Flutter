@@ -10,6 +10,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ActivityController extends GetxController {
+  static ActivityController get instance => Get.find<ActivityController>();
+  static void get reload => instance.pagingController.refresh();
   final pagingController = PagingController<int, BatchJob>(
       firstPageKey: 0, invisibleItemsThreshold: 6);
   final int _pageSize = 20;

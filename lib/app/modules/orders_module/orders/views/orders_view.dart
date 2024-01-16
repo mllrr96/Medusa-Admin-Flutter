@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
-import 'package:medusa_admin/domain/use_case/export_use_case.dart';
+import 'package:medusa_admin/domain/use_case/create_batch_job_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/components/drawer_widget.dart';
@@ -76,7 +76,7 @@ class OrdersView extends StatelessWidget {
                       cancelLabel: 'Cancel',
                     ).then((value) async {
                       if (value == OkCancelResult.ok) {
-                        final result = await ExportUseCase.instance(BatchJobType.orderExport);
+                        final result = await CreateBatchJobUseCase.instance(BatchJobType.orderExport);
                         result.when((success) {
                           context.showSnackBar('Export started');
                         }, (error) {

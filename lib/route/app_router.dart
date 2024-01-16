@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medusa_admin/app/data/service/storage_service.dart';
 import 'package:medusa_admin/app/modules/activity_module/activity_view.dart';
+import 'package:medusa_admin/app/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/app/modules/auth_module/reauthenticate.dart';
 import 'package:medusa_admin/app/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/app/modules/pricing_module/add_update_price_list/components/index.dart';
 import 'package:medusa_admin/app/modules/products_module/add_update_product/components/image_card.dart';
@@ -98,9 +100,21 @@ import '../core/utils/enums.dart';
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
-class AppRouter extends _$AppRouter {
+class AppRouter extends _$AppRouter implements AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    if (StorageService.instance.isAuthenticated() ||
+        resolver.route.name == SignInRoute.name ||
+        resolver.route.name == SplashRoute.name) {
+      resolver.next();
+    } else {
+      Fluttertoast.showToast(msg: 'Session expired, please login again');
+      resolver.redirect(
+          SignInRoute(onResult: (didLogin) => resolver.next(didLogin)));
+    }
+  }
 
-  List<AutoRoute> dashboardChildren =[
+  List<AutoRoute> dashboardChildren = [
     AutoRoute(page: OrdersRoute.page),
     AutoRoute(page: DraftOrdersRoute.page),
     AutoRoute(page: ProductsRoute.page),
@@ -125,9 +139,6 @@ class AppRouter extends _$AppRouter {
       AutoRoute(page: PickGroupsRoute.page),
       AutoRoute(page: PickRegionsRoute.page),
       AutoRoute(page: ActivityRoute.page),
-
-      // ReAuthenticate
-      AutoRoute(page: ReAuthenticateRoute.page),
 
       // collections module
       AutoRoute(page: CollectionDetailsRoute.page),
@@ -214,6 +225,7 @@ class AppRouter extends _$AppRouter {
 
       // App Settings
       AutoRoute(page: OrderSettingsRoute.page),
+      AutoRoute(page: AppDevSettingsRoute.page),
     ];
   }
 }

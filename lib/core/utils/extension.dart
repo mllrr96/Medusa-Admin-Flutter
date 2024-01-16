@@ -89,6 +89,12 @@ extension BuildContextEntension<T> on BuildContext {
   double get drawerEdgeDragWidth => MediaQuery.of(this).size.width / 2;
   // ===================================================================//
 
+  // copy to clipboard
+  // ===================================================================//
+  Future<void> copyToClipboard(String data) async =>
+      await Clipboard.setData(ClipboardData(text: data));
+  // ===================================================================//
+
   // settings list theme
   // ===================================================================//
   SettingsThemeData get settingsListLightTheme => SettingsThemeData(

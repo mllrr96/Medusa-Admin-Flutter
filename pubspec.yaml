@@ -97,6 +97,7 @@ dependencies:
   medusa_admin_flutter:
     path: ../Medusa_Admin_API_Flutter
   share_plus: ^7.2.1
+  file_picker: ^6.1.1
 
 
 
@@ -114,6 +115,7 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/product-import-template.csv
   uses-material-design: true
   fonts:
     - family: MedusaIcons

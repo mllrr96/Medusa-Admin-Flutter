@@ -22,8 +22,8 @@ import '../controllers/sign_in_controller.dart';
 
 @RoutePage()
 class SignInView extends StatefulWidget {
-  const SignInView({super.key});
-
+  const SignInView({super.key, this.onResult});
+  final void Function(bool)? onResult;
   @override
   State<SignInView> createState() => _SignInViewState();
 }
@@ -34,20 +34,28 @@ class _SignInViewState extends State<SignInView> {
   final passwordCtrl = TextEditingController();
   late bool? rememberMe;
   late bool showAuthenticateButton;
+  bool get reAuthenticate => widget.onResult != null;
   @override
   void initState() {
+    _onInit();
+    super.initState();
+  }
+
+  void _onInit(){
     rememberMe = StorageService.appSettings.rememberMe;
     if (rememberMe == true) {
       emailCtrl.text = StorageService.email ?? '';
+    } else {
+      emailCtrl.clear();
+      passwordCtrl.clear();
     }
     if (rememberMe == true && (StorageService.email?.isNotEmpty ?? false)) {
       showAuthenticateButton = true;
     } else {
       showAuthenticateButton = false;
     }
-
-    super.initState();
   }
+
 
   @override
   void dispose() {
@@ -66,7 +74,11 @@ class _SignInViewState extends State<SignInView> {
             .login(success.$1, success.$2, rememberMe: true, context: context)
             .then((value) {
           if (value) {
-            context.router.replaceAll([const DashboardRoute()]);
+            if (widget.onResult == null) {
+              context.router.replaceAll([const DashboardRoute()]);
+            } else {
+              widget.onResult?.call(true);
+            }
           } else {
             ctrl.loading = false;
             ctrl.update();
@@ -100,278 +112,300 @@ class _SignInViewState extends State<SignInView> {
 
   @override
   Widget build(context) {
-    return GetBuilder<SignInController>(
-        init: SignInController(AuthenticationUseCase.instance),
-        builder: (controller) {
-          final tr = context.tr;
-          final bool isRTL = context.isRTL;
-          const space = Gap(12);
-          String baseUrl = StorageService.baseUrl;
-          // Since there no app bar, annotated region is used to apply theme ui overlay
-          return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: context.systemUiOverlayNoAppBarStyle,
-            child: GestureDetector(
-              onTap: () => context.unfocus(),
-              child: Scaffold(
-                persistentFooterAlignment: AlignmentDirectional.center,
-                persistentFooterButtons: [
-                  ElevatedButton.icon(
-                    onPressed: controller.loading
-                        ? null
-                        : () async {
-                            await showBarModalBottomSheet(
-                                context: context,
-                                backgroundColor:
-                                    context.theme.scaffoldBackgroundColor,
-                                builder: (context) {
-                                  return const UrlUpdateView();
-                                });
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: baseUrl.isEmpty ? Colors.red : null,
-                    ),
-                    label: baseUrl.isEmpty
-                        ? Text('Set URL',
-                            style: baseUrl.isEmpty
-                                ? context.bodySmall
-                                    ?.copyWith(color: Colors.white)
-                                : null)
-                        : const Text('Update URL'),
-                    icon: Icon(
-                      Icons.link,
-                      color: baseUrl.isEmpty ? Colors.white : null,
-                    ),
-                  )
-                ],
-                body: SafeArea(
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Align(
-                                  alignment: isRTL
-                                      ? Alignment.topRight
-                                      : Alignment.topLeft,
-                                  child: ElevatedButton.icon(
-                                    label: Text(
-                                        controller.themeMode.name.capitalize ??
-                                            controller.themeMode.name),
-                                    onPressed: () async =>
-                                        await controller.changeThemeMode(),
-                                    icon: Icon(themeIcon(controller.themeMode)),
-                                  ),
-                                ),
-                                ElevatedButton.icon(
-                                  onPressed: () async =>
-                                      await showBarModalBottomSheet(
-                                    backgroundColor:
-                                        context.theme.scaffoldBackgroundColor,
-                                    overlayStyle: context
-                                        .theme.appBarTheme.systemOverlayStyle,
-                                    context: context,
-                                    builder: (context) =>
-                                        const LanguageSelectionView(),
-                                  ),
-                                  icon: const Icon(Icons.language),
-                                  label: Text(
-                                      LanguageService.languageModel.nativeName),
-                                ),
-                              ],
+    return PopScope(
+      canPop: !reAuthenticate,
+      child: GetBuilder<SignInController>(
+          init: SignInController(AuthenticationUseCase.instance),
+          builder: (controller) {
+            final tr = context.tr;
+            final bool isRTL = context.isRTL;
+            const space = Gap(12);
+            String baseUrl = StorageService.baseUrl;
+            // Since there no app bar, annotated region is used to apply theme ui overlay
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: context.systemUiOverlayNoAppBarStyle,
+              child: GestureDetector(
+                onTap: () => context.unfocus(),
+                child: Scaffold(
+                  persistentFooterAlignment: AlignmentDirectional.center,
+                  persistentFooterButtons: reAuthenticate
+                      ? [
+                    FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          minimumSize: Size(context.width / 2, 48.0),
+                        ),
+                        onPressed: () => context.router.replaceAll([SignInRoute()]),
+                        icon: const Icon(Icons.refresh_outlined),
+                        label: const Text('Go to Sign In'))
+                  ]
+                      : [
+                          ElevatedButton.icon(
+                            onPressed: controller.loading
+                                ? null
+                                : () async {
+                                    final result = await showBarModalBottomSheet(
+                                        context: context,
+                                        backgroundColor:
+                                            context.theme.scaffoldBackgroundColor,
+                                        builder: (context) =>
+                                            const UrlUpdateView());
+                                    if(result == true){
+                                      _onInit();
+                                      setState(() {});
+                                    }
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  baseUrl.isEmpty ? Colors.red : null,
                             ),
-                          ),
-                          Hero(
-                              tag: 'medusa',
-                              child:
-                                  SignInMedusaLogo(rotate: controller.loading)),
-                          Text(
-                            tr.loginCardLogInToMedusa,
-                            style: context.headlineMedium,
-                          ),
-                          // space,
-                          // GestureDetector(
-                          //   onTap: () => controller.errorMessage.value = '',
-                          //   child: errorMessage(
-                          //     errorMessage: controller.errorMessage,
-                          //     context: context,
-                          //     horizontalPadding: 12.0,
-                          //   ),
-                          // ),
-                          space,
-                          space,
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Column(
-                              children: [
-                                Hero(
-                                    tag: 'email',
-                                    child: EmailTextField(
-                                      controller: emailCtrl,
-                                      validator: (val) {
-                                        if (val?.isEmpty ?? true) {
-                                          return 'Email is required';
-                                        }
+                            label: baseUrl.isEmpty
+                                ? Text('Set URL',
+                                    style: baseUrl.isEmpty
+                                        ? context.bodySmall
+                                            ?.copyWith(color: Colors.white)
+                                        : null)
+                                : const Text('Update URL'),
+                            icon: Icon(
+                              Icons.link,
+                              color: baseUrl.isEmpty ? Colors.white : null,
+                            ),
+                          )
+                        ],
+                  body: SafeArea(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Align(
+                                    alignment: isRTL
+                                        ? Alignment.topRight
+                                        : Alignment.topLeft,
+                                    child: ElevatedButton.icon(
+                                      label: Text(
+                                          controller.themeMode.name.capitalize ??
+                                              controller.themeMode.name),
+                                      onPressed: () async =>
+                                          await controller.changeThemeMode(),
+                                      icon: Icon(themeIcon(controller.themeMode)),
+                                    ),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () async =>
+                                        await showBarModalBottomSheet(
+                                      backgroundColor:
+                                          context.theme.scaffoldBackgroundColor,
+                                      overlayStyle: context
+                                          .theme.appBarTheme.systemOverlayStyle,
+                                      context: context,
+                                      builder: (context) =>
+                                          const LanguageSelectionView(),
+                                    ),
+                                    icon: const Icon(Icons.language),
+                                    label: Text(
+                                        LanguageService.languageModel.nativeName),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Hero(
+                                tag: 'medusa',
+                                child:
+                                    SignInMedusaLogo(rotate: controller.loading)),
+                            Text(
+                             reAuthenticate? 'Re-authenticate to Medusa': tr.loginCardLogInToMedusa,
+                              style: context.headlineMedium,
+                            ),
+                            // space,
+                            // GestureDetector(
+                            //   onTap: () => controller.errorMessage.value = '',
+                            //   child: errorMessage(
+                            //     errorMessage: controller.errorMessage,
+                            //     context: context,
+                            //     horizontalPadding: 12.0,
+                            //   ),
+                            // ),
+                            space,
+                            space,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Column(
+                                children: [
+                                  Hero(
+                                      tag: 'email',
+                                      child: EmailTextField(
+                                        controller: emailCtrl,
+                                        validator: (val) {
+                                          if (val?.isEmpty ?? true) {
+                                            return 'Email is required';
+                                          }
 
-                                        if (!val!.isEmail) {
-                                          return 'Invalid Email';
+                                          if (!val!.isEmail) {
+                                            return 'Invalid Email';
+                                          }
+
+                                          return null;
+                                        },
+                                      )),
+                                  const SizedBox(height: 12.0),
+                                  Hero(
+                                    tag: 'password',
+                                    child: PasswordTextField(
+                                      controller: passwordCtrl,
+                                      validator: (val) {
+                                        if (val != null && val.isEmpty) {
+                                          return 'Password is required';
+                                        }
+                                        if (val!.length < 8) {
+                                          return 'Password should be at least 8 characters long';
                                         }
 
                                         return null;
                                       },
-                                    )),
-                                const SizedBox(height: 12.0),
-                                Hero(
-                                  tag: 'password',
-                                  child: PasswordTextField(
-                                    controller: passwordCtrl,
-                                    validator: (val) {
-                                      if (val != null && val.isEmpty) {
-                                        return 'Password is required';
-                                      }
-                                      if (val!.length < 8) {
-                                        return 'Password should be at least 8 characters long';
-                                      }
-
-                                      return null;
-                                    },
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          space,
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton.icon(
-                                    onPressed: controller.loading
-                                        ? null
-                                        : () async {
-                                            // first time user toggled remember me
-                                            // show information how it works
-                                            if (rememberMe == null) {
-                                              final result =
-                                                  await showModalBottomSheet(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          const RememberMeInfo());
-                                              if (result != true) {
-                                                return;
-                                              }
-                                            }
-
-                                            setState(() {
-                                              if (rememberMe == null) {
-                                                rememberMe = true;
-                                              } else {
-                                                rememberMe = !rememberMe!;
-                                              }
-                                            });
-                                          },
-                                    icon: rememberMe == true
-                                        ? const Icon(Icons.check_box)
-                                        : const Icon(
-                                            Icons.check_box_outline_blank),
-                                    label: const Text('Remember me')),
-                                TextButton(
-                                  onPressed: controller.loading
-                                      ? null
-                                      : () {
-                                          if (StorageService.baseUrl.isEmpty) {
-                                            context.showSignInErrorSnackBar(
-                                                'Please set your backend URL first');
-                                            return;
-                                          }
-                                          context.pushRoute(
-                                              const ResetPasswordRoute());
-                                        },
-                                  child: Text(
-                                    tr.loginCardForgotYourPassword,
-                                    style: context.bodySmall,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          space,
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Hero(
-                              tag: 'continue',
-                              child: FilledButton.icon(
-                                  style: FilledButton.styleFrom(
-                                    minimumSize: Size(context.width / 2, 48.0),
-                                  ),
-                                  onPressed: controller.loading
-                                      ? null
-                                      : () async {
-                                          controller.loading = true;
-                                          controller.update();
-                                          await _validate().then((valid) async {
-                                            if (!valid) {
-                                              controller.loading = false;
-                                              controller.update();
-                                              return;
-                                            }
-                                            await controller
-                                                .login(emailCtrl.text,
-                                                    passwordCtrl.text,
-                                                    rememberMe:
-                                                        rememberMe ?? false,
-                                                    context: context)
-                                                .then((value) {
-                                              if (value) {
-                                                context.router.replaceAll(
-                                                    [const DashboardRoute()]);
-                                              }
-                                            });
-                                          });
-                                        },
-                                  icon: const Icon(Icons.login),
-                                  label: Text(tr.analyticsPreferencesContinue)),
-                            ),
-                          ),
-                          space,
-                          if (showAuthenticateButton)
+                            space,
+                            if(!reAuthenticate)
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                  minimumSize: Size(context.width / 2, 48.0),
-                                  side: BorderSide(
-                                      color: context.theme.primaryColor),
-                                ),
-                                onPressed: controller.loading
-                                    ? null
-                                    : () async =>
-                                        await _biometricAuthentication(
-                                            controller),
-                                icon: const Icon(Icons.fingerprint),
-                                label: const Text('Authenticate'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextButton.icon(
+                                      onPressed: controller.loading
+                                          ? null
+                                          : () async {
+                                              // first time user toggled remember me
+                                              // show information how it works
+                                              if (rememberMe == null) {
+                                                final result =
+                                                    await showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            const RememberMeInfo());
+                                                if (result != true) {
+                                                  return;
+                                                }
+                                              }
+
+                                              setState(() {
+                                                if (rememberMe == null) {
+                                                  rememberMe = true;
+                                                } else {
+                                                  rememberMe = !rememberMe!;
+                                                }
+                                              });
+                                            },
+                                      icon: rememberMe == true
+                                          ? const Icon(Icons.check_box)
+                                          : const Icon(
+                                              Icons.check_box_outline_blank),
+                                      label: const Text('Remember me')),
+                                  TextButton(
+                                    onPressed: controller.loading
+                                        ? null
+                                        : () {
+                                            if (StorageService.baseUrl.isEmpty) {
+                                              context.showSignInErrorSnackBar(
+                                                  'Please set your backend URL first');
+                                              return;
+                                            }
+                                            context.pushRoute(
+                                                const ResetPasswordRoute());
+                                          },
+                                    child: Text(
+                                      tr.loginCardForgotYourPassword,
+                                      style: context.bodySmall,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                        ],
+                            space,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Hero(
+                                tag: 'continue',
+                                child: FilledButton.icon(
+                                    style: FilledButton.styleFrom(
+                                      minimumSize: Size(context.width / 2, 48.0),
+                                    ),
+                                    onPressed: controller.loading
+                                        ? null
+                                        : () async {
+                                            controller.loading = true;
+                                            controller.update();
+                                            await _validate().then((valid) async {
+                                              if (!valid) {
+                                                controller.loading = false;
+                                                controller.update();
+                                                return;
+                                              }
+                                              await controller
+                                                  .login(emailCtrl.text,
+                                                      passwordCtrl.text,
+                                                      rememberMe:
+                                                          rememberMe ?? false,
+                                                      context: context)
+                                                  .then((value) {
+                                                if (value) {
+                                                  if (!reAuthenticate) {
+                                                    context.router.replaceAll(
+                                                        [const DashboardRoute()]);
+                                                  } else {
+                                                    widget.onResult?.call(true);
+                                                  }
+                                                }
+                                              });
+                                            });
+                                          },
+                                    icon: const Icon(Icons.login),
+                                    label: Text(tr.analyticsPreferencesContinue)),
+                              ),
+                            ),
+                            space,
+                            if (showAuthenticateButton)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12.0),
+                                child: OutlinedButton.icon(
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: Size(context.width / 2, 48.0),
+                                    side: BorderSide(
+                                        color: context.theme.primaryColor),
+                                  ),
+                                  onPressed: controller.loading
+                                      ? null
+                                      : () async =>
+                                          await _biometricAuthentication(
+                                              controller),
+                                  icon: const Icon(Icons.fingerprint),
+                                  label: const Text('Authenticate'),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
   IconData themeIcon(ThemeMode themeMode) {
@@ -423,7 +457,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
     }
   }
 
-  Future<void> _save({bool skipValidation = false}) async  {
+  Future<void> _save({bool skipValidation = false}) async {
     if (StorageService.baseUrl == textCtrl.text && !setupUrl) {
       context.popRoute();
       return;
@@ -441,19 +475,18 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
     _handleMedusaSingleton(url);
 
     await StorageService.instance.updateUrl(url).then(
-          (result) {
-        context.popRoute();
+      (result) {
         if (result) {
           if (StorageService.appSettings.rememberMe == true) {
             StorageService.instance.updateAppSettings(
-                StorageService.appSettings
-                    .copyWith(rememberMe: false));
+                StorageService.appSettings.copyWith(rememberMe: false));
             StorageService.instance.clearLoginData();
           }
           StorageService.instance.clearCookie();
-          context.showSnackBar(
-              setupUrl ? 'URL set' : 'URL updated');
+          context.popRoute(true);
+          context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
         } else {
+          context.popRoute(false);
           context.showSnackBar(setupUrl
               ? 'Could not set URL, try again'
               : 'Could not update URL, try again');

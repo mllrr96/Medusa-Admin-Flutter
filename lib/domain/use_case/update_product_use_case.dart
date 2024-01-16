@@ -68,7 +68,7 @@ class UpdateProductUseCase {
 
   Future<Result<List<String>, Failure>> uploadFile(List<File> files) async {
     try {
-      final result = await _uploadRepository.uploadFile(files: files);
+      final result = await _uploadRepository.uploadFile(files: files, customHeaders: {'Content-Type': 'image/jpeg'});
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));

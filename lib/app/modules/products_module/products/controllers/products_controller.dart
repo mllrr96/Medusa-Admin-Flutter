@@ -61,7 +61,7 @@ class ProductsController extends GetxController {
       }
       refreshController.refreshCompleted();
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
   }

@@ -28,10 +28,11 @@ class _DashboardViewState extends State<DashboardView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // if (state == AppLifecycleState.resumed) {
-    //   // Check for authentication, if not logged in, redirect to login page
-    //   authenticate();
-    // }
+    if (state == AppLifecycleState.paused) {
+    }
+
+    if (state == AppLifecycleState.resumed) {
+    }
   }
 
   @override
@@ -50,7 +51,7 @@ class _DashboardViewState extends State<DashboardView>
       StoreSettingsRoute(),
       AppSettingsRoute(),
     ];
-    return  AnnotatedRegion<SystemUiOverlayStyle>(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
       value: FlexColorScheme.themedSystemNavigationBar(
         context,
         systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,

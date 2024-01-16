@@ -100,6 +100,14 @@ class StorageService {
     }
   }
 
+  bool isAuthenticated() {
+    try {
+      return _prefs.getString(AppConstants.cookieKey) != null ? true : false;
+    } catch (_) {
+      return _cookie != null ? true : false;
+    }
+  }
+
   Future<bool> saveLoginData(String email, String password) async {
     try {
       await _prefs.setString(AppConstants.emailKey, email);
@@ -199,7 +207,7 @@ class StorageService {
     return firstCall;
   }
 
-  Future<void> resetFirstCall() async {
+  Future<void> resetFirstRun() async {
     try {
       await _prefs.remove(AppConstants.firstRun);
     } catch (e) {

@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
+import 'package:medusa_admin/route/app_router.dart';
 
 class PaginationErrorPage extends StatefulWidget {
   const PaginationErrorPage({super.key, required this.pagingController});
@@ -13,6 +15,15 @@ class PaginationErrorPage extends StatefulWidget {
 }
 
 class _PaginationErrorPageState extends State<PaginationErrorPage> {
+
+  @override
+  void initState() {
+    if(widget.pagingController.error is Failure && (widget.pagingController.error as Failure).code == 401){
+        context.replaceRoute(const DashboardRoute());
+    }
+    super.initState();
+  }
+
   bool showError = false;
   @override
   Widget build(BuildContext context) {

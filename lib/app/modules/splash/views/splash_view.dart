@@ -30,7 +30,7 @@ class _SplashViewState extends State<SplashView> {
 
   Future load() async {
     if(StorageService.baseUrl.isEmpty){
-      context.router.replaceAll([const SignInRoute()]);
+      context.router.replaceAll([SignInRoute()]);
       return;
     }
 
@@ -47,7 +47,7 @@ class _SplashViewState extends State<SplashView> {
 
     String? cookie = StorageService.cookie;
     if (cookie == null) {
-      context.router.replaceAll([const SignInRoute()]);
+      context.router.replaceAll([SignInRoute()]);
       return;
     }
 
@@ -63,10 +63,10 @@ class _SplashViewState extends State<SplashView> {
     }, (error) async {
       if (error.code == 401 || error.code == 404) {
         await StorageService.instance.clearCookie().then((_) {
-          context.router.replaceAll([const SignInRoute()]);
+          context.router.replaceAll([SignInRoute()]);
         });
       } else {
-        context.router.replaceAll([const SignInRoute()]);
+        context.router.replaceAll([SignInRoute()]);
       }
     });
   }

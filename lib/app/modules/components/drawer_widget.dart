@@ -2,20 +2,17 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin/core/utils/extensions/snack_bar_extension.dart';
+import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
 import 'package:medusa_admin/app/data/service/store_service.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/route/app_router.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../core/utils/colors.dart';
 import '../../../core/utils/medusa_icons_icons.dart';
 import '../../../core/utils/strings.dart';
 import '../../data/service/storage_service.dart';
-import '../auth_module/sign_in/views/sign_in_view.dart';
 import 'easy_loading.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -48,17 +45,21 @@ class _AppDrawerState extends State<AppDrawer> {
         (value) async {
           if (value == OkCancelResult.ok) {
             loading();
-            final result = await getIt<MedusaAdmin>().authRepository.signOut();
-            if (result) {
+            final result = await SignOutUseCase.instance();
+            await result.when((success) async {
               await Get.delete(force: true);
               await StorageService.instance.clearLoginData();
               await StorageService.instance.clearExportFiles();
               await StorageService.instance.clearCookie().then(
                   (value) => context.router.replaceAll([const SplashRoute()]));
               dismissLoading();
-            } else {
-              EasyLoading.showError('Error signing out');
-            }
+            }, (error) {
+              if (error.code == 401) {
+                context.router.replaceAll([SignInRoute()]);
+              } else {
+                context.showSnackBar(error.toSnackBarString());
+              }
+            });
           }
         },
       );
@@ -121,11 +122,6 @@ class _AppDrawerState extends State<AppDrawer> {
         icon: Icon(Icons.logout, color: Colors.red),
         label: Text('Sign Out'),
       ),
-      Divider(indent: 28, endIndent: 28),
-      NavigationDrawerDestination(
-        icon: Icon(Icons.login),
-        label: Text('Re-Authenticate'),
-      ),
     ];
 
     return NavigationDrawer(
@@ -134,14 +130,6 @@ class _AppDrawerState extends State<AppDrawer> {
         onDestinationSelected: (index) async {
           if (index == 12) {
             await signOut();
-            return;
-          }
-          if (index == 13) {
-            await await showBarModalBottomSheet(
-                overlayStyle: context.defaultSystemUiOverlayStyle,
-                backgroundColor: context.theme.scaffoldBackgroundColor,
-                context: context,
-                builder: (context) => const SignInView());
             return;
           }
           context.closeDrawer();
@@ -209,13 +197,14 @@ class _AppDrawerState extends State<AppDrawer> {
             child: InkWell(
               customBorder: const StadiumBorder(),
               onTap: () => _showAppAboutDialog(context),
+              onLongPress: () => context.pushRoute(const AppDevSettingsRoute()),
               child: Ink(
                 height: 56,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 decoration: ShapeDecoration(
                   shape: const StadiumBorder(),
-                  color:
-                  context.getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                  color: context
+                      .getAlphaBlend(context.theme.scaffoldBackgroundColor),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,9 +222,11 @@ class _AppDrawerState extends State<AppDrawer> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(appName,
-                                style: smallTextStyle?.copyWith(color: manatee)),
+                                style:
+                                    smallTextStyle?.copyWith(color: manatee)),
                             Text('Version $version+$code',
-                                style: smallTextStyle?.copyWith(color: manatee)),
+                                style:
+                                    smallTextStyle?.copyWith(color: manatee)),
                           ],
                         ),
                       ],
