@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/colors.dart';
 import 'package:medusa_admin/domain/use_case/pick_products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -85,7 +86,10 @@ class PickProductsView extends StatelessWidget {
                   );
                 },
                 firstPageProgressIndicatorBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator.adaptive())),
+                    const Center(child: CircularProgressIndicator.adaptive()),
+              firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                  pagingController: controller.pagingController),
+            ),
           )),
         );
       },

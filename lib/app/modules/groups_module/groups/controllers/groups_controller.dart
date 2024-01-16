@@ -51,8 +51,7 @@ class GroupsController extends GetxController {
       }
       refreshController.refreshCompleted();
     }, (error) {
-      pagingController.error =
-          'Error loading customer groups \n ${error.message}';
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
   }
@@ -81,8 +80,7 @@ _refreshingData = true;
       }
       refreshController.refreshCompleted();
     }, (error) {
-      pagingController.error =
-          'Error loading customer groups \n ${error.message}';
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
     _refreshingData = false;

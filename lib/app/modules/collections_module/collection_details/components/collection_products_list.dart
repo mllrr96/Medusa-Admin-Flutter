@@ -5,13 +5,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-
 
 class CollectionProductsList extends StatelessWidget {
   const CollectionProductsList({super.key});
@@ -41,48 +41,50 @@ class CollectionProductsList extends StatelessWidget {
               child: PagedListView(
             pagingController: controller.pagingController,
             builderDelegate: PagedChildBuilderDelegate<Product>(
-                itemBuilder: (context, product, index) {
-                  return CheckboxListTile(
-                    title: Text(product.title!),
-                    subtitle: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _getStatusIcon(product.status),
-                        const SizedBox(width: 4.0),
-                        Text(
-                            product.status.name.capitalize ??
-                                product.status.name,
-                            style: context.bodySmall),
-                      ],
-                    ),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    secondary: product.thumbnail != null
-                        ? SizedBox(
-                            width: 45,
-                            child: CachedNetworkImage(
-                              key: ValueKey(product.thumbnail!),
-                              imageUrl: product.thumbnail!,
-                              placeholder: (context, text) => const Center(
-                                  child: CircularProgressIndicator.adaptive()),
-                              errorWidget: (context, string, error) =>
-                                  const Icon(Icons.warning_rounded,
-                                      color: Colors.redAccent),
-                            ))
-                        : null,
-                    value: controller.productsIds.contains(product.id),
-                    selected: product.collectionId == controller.collectionId,
-                    onChanged: (value) {
-                      if (value != null && value) {
-                        controller.productsIds.add(product.id!);
-                      } else if (value != null && !value) {
-                        controller.productsIds.remove(product.id!);
-                      }
-                      controller.update();
-                    },
-                  );
-                },
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator.adaptive())),
+              itemBuilder: (context, product, index) {
+                return CheckboxListTile(
+                  title: Text(product.title!),
+                  subtitle: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _getStatusIcon(product.status),
+                      const SizedBox(width: 4.0),
+                      Text(
+                          product.status.name.capitalize ?? product.status.name,
+                          style: context.bodySmall),
+                    ],
+                  ),
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  secondary: product.thumbnail != null
+                      ? SizedBox(
+                          width: 45,
+                          child: CachedNetworkImage(
+                            key: ValueKey(product.thumbnail!),
+                            imageUrl: product.thumbnail!,
+                            placeholder: (context, text) => const Center(
+                                child: CircularProgressIndicator.adaptive()),
+                            errorWidget: (context, string, error) => const Icon(
+                                Icons.warning_rounded,
+                                color: Colors.redAccent),
+                          ))
+                      : null,
+                  value: controller.productsIds.contains(product.id),
+                  selected: product.collectionId == controller.collectionId,
+                  onChanged: (value) {
+                    if (value != null && value) {
+                      controller.productsIds.add(product.id!);
+                    } else if (value != null && !value) {
+                      controller.productsIds.remove(product.id!);
+                    }
+                    controller.update();
+                  },
+                );
+              },
+              firstPageProgressIndicatorBuilder: (context) =>
+                  const Center(child: CircularProgressIndicator.adaptive()),
+              firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                  pagingController: controller.pagingController),
+            ),
           )),
         );
       },
@@ -149,7 +151,7 @@ class CollectionProductsController extends GetxController {
         final nextPageKey = pageKey + success.products!.length;
         pagingController.appendPage(success.products!, nextPageKey);
       }
-    }, (error) => pagingController.error = error.message);
+    }, (error) => pagingController.error = error);
   }
 
   Future<void> save(BuildContext context) async {

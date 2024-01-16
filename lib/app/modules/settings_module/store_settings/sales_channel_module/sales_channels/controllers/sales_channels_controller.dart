@@ -41,7 +41,7 @@ class SalesChannelsController extends GetxController {
         pagingController.appendPage(success.salesChannels!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
   }

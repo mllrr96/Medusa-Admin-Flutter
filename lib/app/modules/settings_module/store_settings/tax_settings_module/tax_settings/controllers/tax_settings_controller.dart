@@ -52,7 +52,7 @@ class TaxSettingsController extends GetxController {
         pagingController.appendPage(success.taxRates!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
     });
   }
 

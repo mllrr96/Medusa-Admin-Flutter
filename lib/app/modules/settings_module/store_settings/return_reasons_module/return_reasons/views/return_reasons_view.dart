@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/return_reasons_use_case.dart';
 import 'package:medusa_admin/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -58,7 +59,10 @@ class ReturnReasonsView extends GetView<ReturnReasonsController> {
                         itemBuilder: (context, returnReason, index) =>
                             ReturnReasonCard(returnReason, listTiltStyle: true),
                         firstPageProgressIndicatorBuilder: (_) => const Center(
-                            child: CircularProgressIndicator.adaptive())),
+                            child: CircularProgressIndicator.adaptive()),
+                      firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                          pagingController: controller.pagingController),
+                    ),
                   ),
                 ),
               ),

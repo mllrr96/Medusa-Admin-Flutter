@@ -74,7 +74,7 @@ class PriceListDetailsController extends GetxController
         pagingController.appendPage(success.products!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
     });
   }
 

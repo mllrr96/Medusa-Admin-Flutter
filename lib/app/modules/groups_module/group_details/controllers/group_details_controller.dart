@@ -53,8 +53,7 @@ class GroupDetailsController extends GetxController {
         pagingController.appendPage(success.customers!, nextPageKey);
       }
     }, (error) {
-      pagingController.error =
-          'Error loading customer groups \n ${error.message}';
+      pagingController.error = error;
     });
   }
 

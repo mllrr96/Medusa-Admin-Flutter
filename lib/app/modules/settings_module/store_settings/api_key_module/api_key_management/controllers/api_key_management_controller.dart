@@ -46,7 +46,7 @@ class ApiKeyManagementController extends GetxController {
       }
       refreshController.refreshCompleted();
     }, (error) {
-      pagingController.error = 'Error loading Api keys';
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
   }

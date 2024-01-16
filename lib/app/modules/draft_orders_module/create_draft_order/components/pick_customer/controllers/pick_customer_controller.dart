@@ -49,7 +49,7 @@ class PickCustomerController extends GetxController with StateMixin<List<Custome
         final nextPageKey = pageKey + success.customers!.length;
         pagingController.appendPage(success.customers!, nextPageKey);
       }
-    }, (error) => pagingController.error = error.message);
+    }, (error) => pagingController.error = error);
   }
 }
 

@@ -44,7 +44,7 @@ class PickProductVariantsController extends GetxController {
         final nextPageKey = pageKey + success.variants!.length;
         pagingController.appendPage(success.variants!, nextPageKey);
       }
-    }, (error) => pagingController.error = error.message);
+    }, (error) => pagingController.error = error);
   }
 }
 

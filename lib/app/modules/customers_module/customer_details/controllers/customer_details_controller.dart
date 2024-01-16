@@ -54,7 +54,7 @@ class CustomerDetailsController extends GetxController
         pagingController.appendPage(success.orders!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = 'Error loading orders';
+      pagingController.error = error;
     });
   }
 

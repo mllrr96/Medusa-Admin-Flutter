@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
 import 'package:medusa_admin/app/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/app/modules/orders_module/orders/components/order_card.dart';
@@ -62,6 +63,8 @@ class CustomerDetailsView extends StatelessWidget {
                                     })),
                         noItemsFoundIndicatorBuilder: (_) =>
                             const Center(child: Text('No orders yet')),
+                        firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                            pagingController: controller.pagingController),
                         firstPageProgressIndicatorBuilder: (context) =>
                             const Center(
                                 child: CircularProgressIndicator.adaptive()),

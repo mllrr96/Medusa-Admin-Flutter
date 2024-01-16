@@ -44,7 +44,7 @@ class TaxSettingsSelectRegionController extends GetxController {
         pagingController.appendPage(success.regions!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
   }

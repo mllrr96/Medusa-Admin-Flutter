@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/currencies_use_case.dart';
 import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -172,6 +173,7 @@ class CurrenciesView extends StatelessWidget {
                                 );
                               },
                               separatorBuilder: (_, __) => const Divider(),
+
                               itemCount: controller.currencies.length),
                         const SizedBox(height: 6.0),
                       ],
@@ -243,7 +245,10 @@ class AllCurrenciesView extends StatelessWidget {
                           ),
                       firstPageProgressIndicatorBuilder: (context) =>
                           const Center(
-                              child: CircularProgressIndicator.adaptive())),
+                              child: CircularProgressIndicator.adaptive()),
+                    firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                        pagingController: controller.pagingController),
+                  ),
                   separatorBuilder: (_, __) => const Divider(height: 0),
                 ),
               ),
@@ -289,6 +294,6 @@ class AllCurrenciesController extends GetxController {
         final nextPageKey = pageKey + success.currencies!.length;
         pagingController.appendPage(success.currencies!, nextPageKey);
       }
-    }, (error) => pagingController.error = 'Error loading orders');
+    }, (error) => pagingController.error = error);
   }
 }

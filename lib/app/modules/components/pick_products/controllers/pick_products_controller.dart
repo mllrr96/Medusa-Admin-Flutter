@@ -47,7 +47,7 @@ class PickProductsController extends GetxController {
         final nextPageKey = pageKey + success.products!.length;
         pagingController.appendPage(success.products!, nextPageKey);
       }
-    }, (error) => pagingController.error = error.message);
+    }, (error) => pagingController.error = error);
   }
 
   Future<void> save(BuildContext context) async {

@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/price_list_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
@@ -137,6 +138,8 @@ class PriceListDetailsView extends StatelessWidget {
                               ),
                               firstPageProgressIndicatorBuilder: (context) =>
                                   const PriceListProductsLoadingPage(),
+                              firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                                  pagingController: controller.pagingController),
                               noItemsFoundIndicatorBuilder: (context) {
                                 return Center(
                                     child: Column(

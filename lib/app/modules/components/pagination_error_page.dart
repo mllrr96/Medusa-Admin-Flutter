@@ -15,11 +15,11 @@ class PaginationErrorPage extends StatefulWidget {
 }
 
 class _PaginationErrorPageState extends State<PaginationErrorPage> {
-
   @override
   void initState() {
-    if(widget.pagingController.error is Failure && (widget.pagingController.error as Failure).code == 401){
-        context.replaceRoute(const DashboardRoute());
+    if (widget.pagingController.error is Failure &&
+        (widget.pagingController.error as Failure).code == 401) {
+      context.replaceRoute(const DashboardRoute());
     }
     super.initState();
   }
@@ -27,7 +27,7 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
   bool showError = false;
   @override
   Widget build(BuildContext context) {
-    // assert(widget.pagingController.error is Failure);
+    assert(widget.pagingController.error is Failure);
     final failure = widget.pagingController.error as Failure;
     final type = failure.type;
     final message = failure.message;
@@ -38,28 +38,33 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
         Text('Error retrieving data', style: context.bodyLarge),
         const Gap(10.0),
         FilledButton(
-            onPressed: () => widget.pagingController.refresh(),
+            onPressed: () {
+              // When session expires navigate to dashboard to trigger auth guard,
+              // unfortunately this is the only way to do it
+              // since auth guard won't get triggered when navigating between drawer items
+              if (code == 401) {
+                context.replaceRoute(const DashboardRoute());
+              }
+              widget.pagingController.refresh();
+            },
             child: const Text('   Retry   ')),
         const Gap(10.0),
-        if (widget.pagingController.error is! Failure)
-          Text(widget.pagingController.error.toString()),
-        if (widget.pagingController.error is Failure)
-          Column(
-            children: [
-              if (!showError)
-                TextButton(
-                    onPressed: () => setState(() => showError = !showError),
-                    child: const Text('Error details')),
-              if (showError)
-                Column(
-                  children: <Widget>[
-                    if (type.isNotEmpty) Text('type: $type'),
-                    if (message.isNotEmpty) Text('message : $message'),
-                    if (code != null) Text('code : $code'),
-                  ],
-                ),
-            ],
-          )
+        Column(
+          children: [
+            if (!showError)
+              TextButton(
+                  onPressed: () => setState(() => showError = !showError),
+                  child: const Text('Error details')),
+            if (showError)
+              Column(
+                children: <Widget>[
+                  if (type.isNotEmpty) Text('type: $type'),
+                  if (message.isNotEmpty) Text('message : $message'),
+                  if (code != null) Text('code : $code'),
+                ],
+              ),
+          ],
+        )
       ],
     );
   }

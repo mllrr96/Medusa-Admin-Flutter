@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/app/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
@@ -131,6 +132,8 @@ class ConditionProductView extends StatelessWidget {
                       firstPageProgressIndicatorBuilder: (context) =>
                           const Center(
                               child: CircularProgressIndicator.adaptive()),
+                      firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                          pagingController: controller.pagingController),
                       noItemsFoundIndicatorBuilder: (context) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,7 +214,7 @@ class ConditionProductController extends GetxController {
         pagingController.appendPage(success.products!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
     });
   }
 }

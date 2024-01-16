@@ -54,7 +54,7 @@ class SalesChannelDetailsController extends GetxController {
       }
       update();
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
     });
   }
   void resetFilter() {

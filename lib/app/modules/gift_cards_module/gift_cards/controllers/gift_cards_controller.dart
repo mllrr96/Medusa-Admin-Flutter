@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/data/models/app/api_error_handler.dart';
 
 import 'package:medusa_admin/app/modules/components/easy_loading.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
@@ -49,7 +50,7 @@ class GiftCardsController extends GetxController {
     result.when((success) {
       if (success.products == null) {
         pagingController.error =
-            'Error loading gift cards, received null value';
+            Failure(message: 'Error loading gift cards, received null value', type: 'null_value');
         return;
       }
       final isLastPage = success.products!.length < _pageSize;
@@ -78,7 +79,7 @@ class GiftCardsController extends GetxController {
     await result.when((success) async {
       if (success.products == null) {
         pagingController.error =
-            'Error loading gift cards, received null value';
+            Failure(message: 'Error loading gift cards, received null value', type: 'null_value');
         return;
       }
       final isLastPage = success.products!.length < _pageSize;

@@ -38,7 +38,7 @@ class ReturnReasonsController extends GetxController {
         pagingController.appendPage(success.returnReasons!, nextPageKey);
       }
     }, (error) {
-      pagingController.error = error.message;
+      pagingController.error = error;
       refreshController.refreshFailed();
     });
   }

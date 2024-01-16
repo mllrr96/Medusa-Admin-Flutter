@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
 import 'package:medusa_admin/domain/use_case/sales_channel_details_use_case.dart';
@@ -213,6 +214,8 @@ class SalesChannelDetailsView extends StatelessWidget {
                       ProductCheckboxListTile(product),
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator.adaptive()),
+                  firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                      pagingController: controller.pagingController),
                   noItemsFoundIndicatorBuilder: (_) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

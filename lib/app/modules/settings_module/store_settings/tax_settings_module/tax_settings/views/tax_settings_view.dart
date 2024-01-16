@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -268,6 +269,8 @@ class TaxSettingsView extends StatelessWidget {
                             shimmer: true),
                       ],
                     ),
+                    firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                        pagingController: controller.pagingController),
                     noItemsFoundIndicatorBuilder: (_) => const Column(
                       children: [
                         TaxRateCard(

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/app/modules/components/pagination_error_page.dart';
 import 'package:medusa_admin/app/modules/components/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/app/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/core/utils/extension.dart';
@@ -154,6 +155,8 @@ class GroupDetailsView extends StatelessWidget {
                         firstPageProgressIndicatorBuilder: (context) =>
                             const Center(
                                 child: CircularProgressIndicator.adaptive()),
+                        firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                            pagingController: controller.pagingController),
                         noItemsFoundIndicatorBuilder: (context) => const Center(
                             child: Text('No customers in this group yet'))),
                   ),
