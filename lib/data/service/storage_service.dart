@@ -16,7 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
 import '../../../core/constant/strings.dart';
-import '../models/app/settings.dart';
+import '../models/settings.dart';
 
 @singleton
 class StorageService {

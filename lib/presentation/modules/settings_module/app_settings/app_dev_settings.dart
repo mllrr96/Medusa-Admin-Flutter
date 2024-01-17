@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/data/models/app/settings.dart';
+import 'package:medusa_admin/data/models/settings.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/extension.dart';
@@ -31,7 +31,7 @@ class AppDevSettingsView extends StatelessWidget {
             actions: const [
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Icon(Icons.settings),
+                child: Icon(Icons.settings, size: 28.0),
               )
             ],
           ),
@@ -150,6 +150,32 @@ class AppDevSettingsView extends StatelessWidget {
                     context.showSnackBar('Logged out');
                   }, (error) {
                     context.showSnackBar(error.toSnackBarString());
+                  });
+                },
+              ),
+              divider,
+              ListTile(
+                leading: const Icon(Icons.settings_applications),
+                title: const Text('Reset app settings'),
+                onTap: () async {
+                  await showModalBottomSheet(
+                      context: context,
+                      backgroundColor: context.theme.scaffoldBackgroundColor,
+                      builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 12.0),
+                          child: Text(appSettings.toJson().toString(),
+                              style: context.bodyLarge,
+                              textAlign: TextAlign.center),
+                        );
+                      });
+                },
+                onLongPress: () async {
+                  await storageService
+                      .updateAppSettings(AppSettings.defaultSettings())
+                      .then((_) {
+                    context.showSnackBar('App settings reset');
                   });
                 },
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/data/models/app/api_error_handler.dart';
+import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/shipping_option_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';

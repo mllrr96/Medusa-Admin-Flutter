@@ -1,6 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
-import '../../../../core/utils/enums.dart';
+import '../../../core/utils/enums.dart';
 
 class AppSettings {
   final bool useAndroidPicker;
@@ -24,7 +24,7 @@ class AppSettings {
     this.useBiometric,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
-    this.colorScheme = FlexScheme.hippieBlue,
+    this.colorScheme = FlexScheme.indigo,
   });
 
   AppSettings copyWith({

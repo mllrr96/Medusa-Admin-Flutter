@@ -7,7 +7,7 @@ import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart' hide GetStringUtils;
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/data/models/app/settings.dart';
+import 'package:medusa_admin/data/models/settings.dart';
 import 'package:medusa_admin/data/service/language_service.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/data/service/theme_service.dart';

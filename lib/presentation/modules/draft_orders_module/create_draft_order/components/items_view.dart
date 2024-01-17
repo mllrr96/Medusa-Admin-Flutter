@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:medusa_admin/data/models/app/api_error_handler.dart';
+import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

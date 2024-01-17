@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/data/models/app/settings.dart';
+import 'package:medusa_admin/data/models/settings.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
