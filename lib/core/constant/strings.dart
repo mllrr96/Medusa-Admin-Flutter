@@ -13,12 +13,12 @@ class AppConstants {
   static const String languageKey = 'language';
   static const String useAndroidPickerKey = 'useAndroidPicker';
   static const String searchHistoryKey = 'searchHistory';
-  static const String flutterVersion = 'stable 3.16.5';
+  static const String flutterVersion = 'stable 3.16.8';
   static const String copyright = '© 2022 - 2024';
   static const String author = 'Mohammed Ragheb';
   static const String license = 'MIT License';
 
   // Change this to your backend url
-  // This is optional since you can easily change that from the app
+  // This is optional since you can easily change it from the app
   static const String baseUrl = '';
 }

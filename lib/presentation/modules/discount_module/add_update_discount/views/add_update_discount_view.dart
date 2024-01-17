@@ -20,19 +20,21 @@ class AddUpdateDiscountView extends StatelessWidget {
       init: AddUpdateDiscountController(
           updateDiscountUseCase: UpdateDiscountUseCase.instance, discount: discount),
       builder: (controller) {
-        return WillPopScope(
-          onWillPop: () async {
-            if (controller.updateMode && !controller.sameDiscount()) {
-              return await showOkCancelAlertDialog(
-                context: context,
-                title: 'Discard changes',
-                message: 'Are you sure you want to discard changes?',
-                okLabel: 'Discard',
-                isDestructiveAction: true,
-              ).then((result) => result == OkCancelResult.ok ? true : false);
-            } else {
-              return true;
-            }
+        return PopScope(
+          canPop: !controller.updateMode && controller.sameDiscount(),
+          onPopInvoked: (val) async {
+            if (val) return;
+            await showOkCancelAlertDialog(
+              context: context,
+              title: 'Discard changes',
+              message: 'Are you sure you want to discard changes?',
+              okLabel: 'Discard',
+              isDestructiveAction: true,
+            ).then((result) {
+              if (result == OkCancelResult.ok) {
+                context.router.popForced();
+              }
+            });
           },
           child: GestureDetector(
             onTap: () => context.unfocus(),

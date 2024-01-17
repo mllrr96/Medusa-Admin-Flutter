@@ -40,25 +40,21 @@ class ProductAddVariantView extends StatelessWidget {
         builder: (controller) {
           final options = controller.product.options;
 
-          return WillPopScope(
-            onWillPop: () async {
-              if (controller.updateMode) {
-                return true;
-              }
-              if (!controller.shouldShowWarning()) {
-                return true;
-              }
-              final result = await showOkCancelAlertDialog(
-                  context: context,
-                  title: 'Discard changes?',
-                  message: 'Are you sure you want to discard changes?',
-                  isDestructiveAction: true);
-              switch (result) {
-                case OkCancelResult.ok:
-                  return true;
-                case OkCancelResult.cancel:
-                  return false;
-              }
+          return PopScope(
+            canPop: controller.updateMode || !controller.shouldShowWarning(),
+            onPopInvoked: (val) async {
+              if (val) return;
+              await showOkCancelAlertDialog(
+                context: context,
+                title: 'Discard changes',
+                message: 'Are you sure you want to discard changes?',
+                okLabel: 'Discard',
+                isDestructiveAction: true,
+              ).then((result) {
+                if (result == OkCancelResult.ok) {
+                  context.router.popForced();
+                }
+              });
             },
             child: GestureDetector(
               onTap: () => context.unfocus(),
@@ -501,7 +497,8 @@ class ProductAddVariantView extends StatelessWidget {
                                     final result =
                                         await showBarModalBottomSheet(
                                             context: context,
-                                            backgroundColor: context.theme.scaffoldBackgroundColor,
+                                            backgroundColor: context
+                                                .theme.scaffoldBackgroundColor,
                                             overlayStyle: context.theme
                                                 .appBarTheme.systemOverlayStyle,
                                             builder: (context) =>

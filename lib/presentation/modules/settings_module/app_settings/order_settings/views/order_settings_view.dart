@@ -25,20 +25,22 @@ class OrderSettingsView extends StatelessWidget {
         builder: (controller) {
           final switchColor = GetPlatform.isIOS ? ColorManager.primary : null;
           final smallTextStyle = context.bodySmall;
-          return WillPopScope(
-            onWillPop: () async {
-              if (!mapEquals(controller.orderSettings.toJson(),
-                  StorageService.orderSettings.toJson())) {
-                return await showOkCancelAlertDialog(
-                  context: context,
-                  title: 'Discard changes',
-                  message: 'Are you sure you want to discard changes?',
-                  okLabel: 'Discard',
-                  isDestructiveAction: true,
-                ).then((result) => result == OkCancelResult.ok ? true : false);
-              } else {
-                return true;
-              }
+          return PopScope(
+            canPop: mapEquals(controller.orderSettings.toJson(),
+                StorageService.orderSettings.toJson()),
+            onPopInvoked: (val) async {
+              if (val) return;
+              await showOkCancelAlertDialog(
+                context: context,
+                title: 'Discard changes',
+                message: 'Are you sure you want to discard changes?',
+                okLabel: 'Discard',
+                isDestructiveAction: true,
+              ).then((result) {
+                if (result == OkCancelResult.ok) {
+                  context.router.popForced();
+                }
+              });
             },
             child: Scaffold(
               body: NestedScrollView(

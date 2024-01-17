@@ -99,6 +99,7 @@ dependencies:
   share_plus: ^7.2.1
   file_picker: ^6.1.1
   flutter_secure_storage: ^9.0.0
+  flutter_octicons: ^0.42.0
 
 
 

@@ -24,8 +24,8 @@ class AddUpdateProductView extends StatelessWidget {
           updateProductUseCase: UpdateProductUseCase.instance,
           updateProductReq: updateProductReq),
       builder: (controller) {
-        return WillPopScope(
-          onWillPop: () async {
+        return PopScope(
+          onPopInvoked: (val) async {
             try {
               final images = List<File>.from(controller.images);
               controller.images.clear();
@@ -42,12 +42,12 @@ class AddUpdateProductView extends StatelessWidget {
             } catch (e) {
               debugPrint(e.toString());
             }
-            return true;
           },
           child: GestureDetector(
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
+                systemOverlayStyle: context.defaultSystemUiOverlayStyle,
                 leading: const CloseButton(),
                 title: controller.updateMode
                     ? const Text('Update Product')

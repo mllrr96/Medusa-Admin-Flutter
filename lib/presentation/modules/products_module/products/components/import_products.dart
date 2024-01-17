@@ -67,14 +67,14 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                       .uploadProtected([File(file.path!)]);
                   uploadResult.when((success) async {
                     final uploadUrl = success.first;
-                    print('Upload URL: $uploadUrl');
+                    // print('Upload URL: $uploadUrl');
                    final batchJobResult = await CreateBatchJobUseCase.instance(
                         BatchJobType.productImport,
                         dryRun: true,
                         context: {'fileKey': uploadUrl.split('\\').last});
 
                     batchJobResult.when((success) {
-                      print(success.toJson());
+                      // print(success.toJson());
                     }, (error) {
                       log(error.toString());
                     });

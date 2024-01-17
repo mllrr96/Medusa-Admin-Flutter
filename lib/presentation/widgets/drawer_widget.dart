@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -196,47 +197,64 @@ class _AppDrawerState extends State<AppDrawer> {
           ...items,
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
-            child: InkWell(
-              customBorder: const StadiumBorder(),
-              onTap: () => _showAppAboutDialog(context),
-              onLongPress: () => context.pushRoute(const AppDevSettingsRoute()),
-              child: Ink(
-                height: 56,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                decoration: ShapeDecoration(
-                  shape: const StadiumBorder(),
-                  color: context
-                      .getAlphaBlend(context.theme.scaffoldBackgroundColor),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Hero(
-                          tag: 'medusa',
-                          child: Image.asset(
-                            'assets/images/medusa.png',
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    customBorder: const StadiumBorder(),
+                    onTap: () => _showAppAboutDialog(context),
+                    onLongPress: () =>
+                        context.pushRoute(const AppDevSettingsRoute()),
+                    child: Ink(
+                      height: 56,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      decoration: ShapeDecoration(
+                        shape: const StadiumBorder(),
+                        color: context.getAlphaBlend(
+                            context.theme.scaffoldBackgroundColor),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Hero(
+                                tag: 'medusa',
+                                child: Image.asset(
+                                  'assets/images/medusa.png',
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(appName,
+                                      style: smallTextStyle?.copyWith(
+                                          color: manatee)),
+                                  Text('Version $version',
+                                      style: smallTextStyle?.copyWith(
+                                          color: manatee)),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(appName,
-                                style:
-                                    smallTextStyle?.copyWith(color: manatee)),
-                            Text('Version $version',
-                                style:
-                                    smallTextStyle?.copyWith(color: manatee)),
-                          ],
-                        ),
-                      ],
+                          Icon(Icons.info_outline, color: ColorManager.manatee),
+                        ],
+                      ),
                     ),
-                    Icon(Icons.info_outline, color: ColorManager.manatee),
-                  ],
+                  ),
                 ),
-              ),
+                const Gap(5.0),
+                IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: context
+                        .getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                  ),
+                  padding: const EdgeInsets.all(16.0),
+                  onPressed: () {},
+                  icon: const Icon(OctIcons.mark_github_16),
+                )
+              ],
             ),
           ),
         ]);
@@ -536,7 +554,8 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
     applicationVersion: StorageService.packageInfo.version,
     useRootNavigator: useRootNavigator,
     applicationIcon: Image.asset('assets/images/medusa.png', scale: 12),
-    applicationLegalese: '© 2020 - 2023 \nMohammed Ragheb \nMIT License',
+    applicationLegalese:
+        '${AppConstants.copyright}  \n${AppConstants.author} \n${AppConstants.license}',
     children: <Widget>[
       Padding(
         padding: const EdgeInsets.only(top: 24),
@@ -545,7 +564,7 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
             children: <TextSpan>[
               TextSpan(
                 style: footerStyle,
-                text: 'Built with Flutter 3.16.5 stable, '
+                text: 'Built with Flutter ${AppConstants.flutterVersion}, '
                     '\nMedia size (w:${width.toStringAsFixed(0)}, '
                     'h:${height.toStringAsFixed(0)})',
               ),
