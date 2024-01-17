@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/app/data/service/language_service.dart';
-import 'package:medusa_admin/core/utils/strings.dart';
-import 'package:medusa_admin/route/app_router.dart';
-import 'app/data/service/storage_service.dart';
-import 'app/data/service/theme_service.dart';
-import 'core/theme/flex_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'di/di.dart';
+
+import 'data/service/language_service.dart';
+import 'core/constant/strings.dart';
+import 'core/route/app_router.dart';
+import 'data/service/storage_service.dart';
+import 'core/theme/flex_theme.dart';
+import 'data/service/theme_service.dart';
+import 'core/di/di.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //* inject dependencies
   await configureInjection();
-  // await StorageService.instance.init();
+  //* initialize getx services
   await initServices();
   runApp(const MedusaAdminApp());
 }
@@ -48,7 +49,6 @@ class MedusaAdminApp extends StatelessWidget {
 
 Future<void> initServices() async {
   debugPrint('starting services ...');
-  // await Get.putAsync(() => StorageService().init());
   Get.put(LanguageService().init());
   Get.put(ThemeController());
   debugPrint('All services started...');

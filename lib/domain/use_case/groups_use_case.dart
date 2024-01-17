@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/di/di.dart';
+import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../app/data/models/app/api_error_handler.dart';
+import 'package:medusa_admin/data/models/app/api_error_handler.dart';
 
 @lazySingleton
 class GroupsUseCase {

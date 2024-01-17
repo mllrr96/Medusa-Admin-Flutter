@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/data/models/app/api_error_handler.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../app/data/models/app/api_error_handler.dart';
-import '../../di/di.dart';
+import '../../core/di/di.dart';
 
 @lazySingleton
 class AuthenticationUseCase {
@@ -25,12 +25,16 @@ class AuthenticationUseCase {
     }
   }
 
-  Future<bool> logoutCustomer() async {
+  Future<Result<bool, Failure>> logoutCustomer() async {
     try {
       final result = await _authRepository.signOut();
-      return result;
+      if(result != null){
+        return Success(result);
+      } else {
+        return Error(Failure(message: 'Error logging out', type:''));
+      }
     } on Exception catch (_) {
-      return false;
+      return Error(Failure.from(_));
     }
   }
 

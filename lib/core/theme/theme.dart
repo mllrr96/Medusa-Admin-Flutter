@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medusa_admin/core/utils/extension.dart';
-import '../utils/colors.dart';
+import 'package:medusa_admin/core/extension/extension.dart';
+import '../constant/colors.dart';
 
 class AppTheme {
   static final light = ThemeData(

@@ -6,7 +6,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies: 
-  cupertino_icons: ^1.0.5
+  cupertino_icons: ^1.0.6
   # State management packages
   # -------------------
   get: ^4.6.5
@@ -98,6 +98,7 @@ dependencies:
     path: ../Medusa_Admin_API_Flutter
   share_plus: ^7.2.1
   file_picker: ^6.1.1
+  flutter_secure_storage: ^9.0.0
 
 
 
