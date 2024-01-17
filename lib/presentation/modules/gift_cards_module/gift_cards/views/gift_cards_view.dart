@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/extension.dart';
@@ -59,101 +60,82 @@ class GiftCardsView extends StatelessWidget {
                 onTap: () => context.pushRoute(const CustomGiftCardsRoute()),
               ),
             ),
-            body: SmartRefresher(
-              controller: controller.refreshController,
-              onRefresh: () async {
-                await controller.refreshData();
-              },
-              header: const MaterialClassicHeader(offset: 100),
-              child: CustomScrollView(
-                controller: controller.scrollController,
-                slivers: [
-                  SliverAppBar(
-                    floating: true,
-                    snap: true,
-                    title: Obx(() => Text(
-                        controller.giftCardsCount.value != 0
-                            ? 'Gift Cards (${controller.giftCardsCount.value})'
-                            : 'Gift Cards',
-                        overflow: TextOverflow.ellipsis)),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    sliver: SliverToBoxAdapter(
-                      child: Text(
-                        'Manage the Gift Cards of your Medusa store',
-                        style: smallTextStyle?.copyWith(color: manatee),
-                      ),
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(bottom: 80),
-                    sliver: PagedSliverList.separated(
-                      pagingController: controller.pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Product>(
-                        itemBuilder: (context, product, index) {
-                          final published =
-                              product.status == ProductStatus.published;
-                          final listTile = GiftCardListTile(
-                            giftCard: product,
-                            onToggle: () async {
-                              await controller.toggleProduct(product);
-                            },
-                            onDelete: () async {
-                              await controller.deleteProduct(product.id!);
-                            },
-                          );
-                          const disabledDot = Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child:
-                                Icon(Icons.circle, color: Colors.red, size: 8),
-                          );
-                          if (published) {
-                            return listTile;
-                          } else {
-                            return Stack(
-                              alignment: AlignmentDirectional.topEnd,
-                              children: [listTile, disabledDot],
-                            );
-                          }
+            body: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  title: Obx(() => Text(
+                      controller.giftCardsCount.value != 0
+                          ? 'Gift Cards (${controller.giftCardsCount.value})'
+                          : 'Gift Cards',
+                      overflow: TextOverflow.ellipsis)),
+                ),
+              ],
+              body: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () async => await controller.refreshData(),
+                child: PagedListView.separated(
+                  pagingController: controller.pagingController,
+                  padding: const EdgeInsets.only(bottom: 80),
+                  builderDelegate: PagedChildBuilderDelegate<Product>(
+                    itemBuilder: (context, product, index) {
+                      final published =
+                          product.status == ProductStatus.published;
+                      final listTile = GiftCardListTile(
+                        giftCard: product,
+                        onToggle: () async {
+                          await controller.toggleProduct(product);
                         },
-                        noItemsFoundIndicatorBuilder: (_) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                  'Are you ready to sell your first Gift Card?'),
-                              Text(
-                                'No Gift Card has been added yet.',
-                                style: smallTextStyle?.copyWith(color: manatee),
-                              ),
-                              TextButton(
-                                  onPressed: () async {
-                                    await showBarModalBottomSheet(
-                                        context: context,
-                                        backgroundColor: context
-                                            .theme.scaffoldBackgroundColor,
-                                        overlayStyle: context.theme.appBarTheme
-                                            .systemOverlayStyle,
-                                        builder: (context) =>
-                                            const CreateGiftCardView());
-                                  },
-                                  child: const Text('Create Gift Card'))
-                            ],
-                          );
+                        onDelete: () async {
+                          await controller.deleteProduct(product.id!);
                         },
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            const GiftCardsLoadingPage(),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            PaginationErrorPage(
-                                pagingController: controller.pagingController),
-                      ),
-                      separatorBuilder: (_, __) => const Divider(height: 0),
-                    ),
+                      );
+                      const disabledDot = Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.circle, color: Colors.red, size: 8),
+                      );
+                      if (published) {
+                        return listTile;
+                      } else {
+                        return Stack(
+                          alignment: AlignmentDirectional.topEnd,
+                          children: [listTile, disabledDot],
+                        );
+                      }
+                    },
+                    noItemsFoundIndicatorBuilder: (_) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                              'Are you ready to sell your first Gift Card?'),
+                          Text(
+                            'No Gift Card has been added yet.',
+                            style: smallTextStyle?.copyWith(color: manatee),
+                          ),
+                          TextButton(
+                              onPressed: () async {
+                                await showBarModalBottomSheet(
+                                    context: context,
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
+                                    builder: (context) =>
+                                        const CreateGiftCardView());
+                              },
+                              child: const Text('Create Gift Card'))
+                        ],
+                      );
+                    },
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const GiftCardsLoadingPage(),
+                    firstPageErrorIndicatorBuilder: (context) =>
+                        PaginationErrorPage(
+                            pagingController: controller.pagingController),
                   ),
-                ],
+                  separatorBuilder: (_, __) => const Divider(height: 0),
+                ),
               ),
             ),
           );

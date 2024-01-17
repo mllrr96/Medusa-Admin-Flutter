@@ -55,6 +55,10 @@ class SignInController extends GetxController {
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
       Get.put(ActivityController());
+      if (ActivityController.instance.pagingController.itemList?.isNotEmpty ??
+          false) {
+        ActivityController.instance.pagingController.refresh();
+      }
       StorageService.instance.setEmail(email);
       return true;
     }, (error) {

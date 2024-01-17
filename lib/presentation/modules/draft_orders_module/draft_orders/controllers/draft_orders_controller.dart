@@ -18,7 +18,7 @@ class DraftOrdersController extends GetxController {
   bool _refreshingData = false;
   RefreshController refreshController = RefreshController();
   final PagingController<int, DraftOrder> pagingController =
-      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   final scrollController = ScrollController();
   @override
   void onInit() {

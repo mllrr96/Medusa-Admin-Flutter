@@ -1,12 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/create_batch_job_use_case.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_loading_page.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -69,14 +71,17 @@ class OrdersView extends StatelessWidget {
                   label: 'Export Orders',
                   icon: const Icon(MedusaIcons.arrow_up_tray),
                   onPressed: () async {
-                    await showOkCancelAlertDialog(context: context,
-                    title: 'Export Orders',
-                      message: 'Are you sure you want to initialize export all orders?',
+                    await showOkCancelAlertDialog(
+                      context: context,
+                      title: 'Export Orders',
+                      message:
+                          'Are you sure you want to initialize export all orders?',
                       okLabel: 'Export',
                       cancelLabel: 'Cancel',
                     ).then((value) async {
                       if (value == OkCancelResult.ok) {
-                        final result = await CreateBatchJobUseCase.instance(BatchJobType.orderExport);
+                        final result = await CreateBatchJobUseCase.instance(
+                            BatchJobType.orderExport);
                         result.when((success) {
                           context.showSnackBar('Export started');
                         }, (error) {
@@ -88,84 +93,79 @@ class OrdersView extends StatelessWidget {
                 ),
               ],
             ),
-            body: SmartRefresher(
-              controller: controller.refreshController,
-              onRefresh: () async => await controller.refreshData(),
-              header: const MaterialClassicHeader(offset: 100),
-              child: CustomScrollView(
-                controller: controller.scrollController,
-                slivers: [
-                  SliverAppBar(
-                    title: Obx(
-                      () => Text(
-                          controller.ordersCount.value != 0
-                              ? 'Orders (${controller.ordersCount.value})'
-                              : 'Orders',
-                          overflow: TextOverflow.ellipsis),
-                    ),
-                    floating: true,
-                    snap: true,
-                    actions: [
-                      Builder(builder: (context) {
-                        return GetBuilder<OrdersController>(
-                            builder: (controller) {
-                          final iconColor =
-                              (controller.orderFilter?.count() ?? -1) > 0
-                                  ? Colors.red
-                                  : null;
-                          return IconButton(
-                              onPressed: () {
-                                context.openEndDrawer();
-                              },
-                              icon: Icon(Icons.sort, color: iconColor));
-                        });
-                      })
-                    ],
+            body: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  title: Obx(
+                    () => Text(
+                        controller.ordersCount.value != 0
+                            ? 'Orders (${controller.ordersCount.value})'
+                            : 'Orders',
+                        overflow: TextOverflow.ellipsis),
                   ),
-                  SliverPadding(
-                    padding: EdgeInsets.only(
-                        bottom: 120,
-                        top: orderSettings.padding,
-                        left: orderSettings.padding,
-                        right: orderSettings.padding),
-                    sliver: PagedSliverList.separated(
-                      separatorBuilder: (_, __) => const Gap(8.0),
-                      pagingController: controller.pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Order>(
-                        itemBuilder: (context, order, index) {
-                          if (orderSettings.alternativeCard) {
-                            return AlternativeOrderCard(order);
-                          }
-                          return OrderCard(order);
-                        },
-                        noItemsFoundIndicatorBuilder: (_) {
-                          if ((controller.orderFilter?.count() ?? -1) > 0) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text('No Orders found'),
-                                TextButton(
-                                    onPressed: () => controller.resetFilter(),
-                                    child: const Text('Clear filters'))
-                              ],
-                            );
-                          }
+                  actions: [
+                    Builder(builder: (context) {
+                      return GetBuilder<OrdersController>(
+                          builder: (controller) {
+                        final iconColor =
+                            (controller.orderFilter?.count() ?? -1) > 0
+                                ? Colors.red
+                                : null;
+                        return IconButton(
+                            onPressed: () {
+                              context.openEndDrawer();
+                            },
+                            icon: Icon(Icons.sort, color: iconColor));
+                      });
+                    })
+                  ],
+                ),
+              ],
+              body: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () async => await controller.refreshData(),
+                child: PagedListView.separated(
+                  padding: EdgeInsets.only(
+                      bottom: 120,
+                      top: orderSettings.padding,
+                      left: orderSettings.padding,
+                      right: orderSettings.padding),
+                  separatorBuilder: (_, __) => const Gap(8.0),
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Order>(
+                    itemBuilder: (context, order, index) {
+                      if (orderSettings.alternativeCard) {
+                        return AlternativeOrderCard(order)
+                            .animate()
+                            .fadeIn(duration: 500.ms);
+                      }
+                      return OrderCard(order);
+                    },
+                    noItemsFoundIndicatorBuilder: (_) {
+                      if ((controller.orderFilter?.count() ?? -1) > 0) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('No Orders found'),
+                            TextButton(
+                                onPressed: () => controller.resetFilter(),
+                                child: const Text('Clear filters'))
+                          ],
+                        );
+                      }
 
-                          return const Center(child: Text('No orders yet!'));
-                        },
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            const OrdersLoadingPage(),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            PaginationErrorPage(
-                                pagingController: controller.pagingController),
-                      ),
-                    ),
+                      return const Center(child: Text('No orders yet!'));
+                    },
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const OrdersLoadingPage(),
+                    firstPageErrorIndicatorBuilder: (context) =>
+                        PaginationErrorPage(
+                            pagingController: controller.pagingController),
                   ),
-                ],
+                ),
               ),
             ),
           );
         });
   }
 }
-

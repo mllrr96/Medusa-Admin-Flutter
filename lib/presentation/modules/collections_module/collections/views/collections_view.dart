@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/collections_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -35,7 +36,7 @@ class CollectionsView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-             const Row(
+              const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SearchFloatingActionButton(
@@ -53,42 +54,35 @@ class CollectionsView extends StatelessWidget {
               ),
             ],
           ),
-          body: SmartRefresher(
-            controller: controller.refreshController,
-            onRefresh: () async => await controller.refreshData(),
-            header: const MaterialClassicHeader(offset: 100),
-            child: CustomScrollView(
-              controller: controller.scrollController,
-              slivers: [
-                SliverAppBar(
-                  floating: true,
-                  snap: true,
-                  title: Obx(() => Text(
-                      controller.collectionCount.value != 0
-                          ? 'Collections (${controller.collectionCount.value})'
-                          : 'Collections',
-                      overflow: TextOverflow.ellipsis)),
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              MedusaSliverAppBar(
+                title: Obx(() => Text(
+                    controller.collectionCount.value != 0
+                        ? 'Collections (${controller.collectionCount.value})'
+                        : 'Collections',
+                    overflow: TextOverflow.ellipsis)),
+              ),
+            ],
+            body: SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: () async => await controller.refreshData(),
+              child: PagedListView(
+                pagingController: controller.pagingController,
+                padding: const EdgeInsets.only(bottom: kToolbarHeight),
+                builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
+                  itemBuilder: (context, collection, index) =>
+                      CollectionListTile(collection,
+                          tileColor: index.isOdd
+                              ? context.theme.appBarTheme.backgroundColor
+                              : null),
+                  firstPageProgressIndicatorBuilder: (context) =>
+                      const CollectionsLoadingPage(),
+                  firstPageErrorIndicatorBuilder: (context) =>
+                      PaginationErrorPage(
+                          pagingController: controller.pagingController),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(bottom: kToolbarHeight),
-                  sliver: PagedSliverList(
-                    pagingController: controller.pagingController,
-                    builderDelegate:
-                        PagedChildBuilderDelegate<ProductCollection>(
-                      itemBuilder: (context, collection, index) =>
-                          CollectionListTile(collection,
-                              tileColor: index.isOdd
-                                  ? context.theme.appBarTheme.backgroundColor
-                                  : null),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const CollectionsLoadingPage(),
-                      firstPageErrorIndicatorBuilder: (context) =>
-                          PaginationErrorPage(
-                              pagingController: controller.pagingController),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         );

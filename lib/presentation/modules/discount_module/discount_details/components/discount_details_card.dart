@@ -67,128 +67,130 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
       return regions;
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        color: context.getAlphaBlend(context.theme.cardColor),
-      ),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(discount.code ?? '', style: context.headlineMedium),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: expired ? 12.0 : 0.0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                          ),
-                          onPressed: () async {
-                            await showOkCancelAlertDialog(
-                                    context: context,
-                                    title: disabled ? 'Enable' : 'Disable',
-                                    message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
-                                    okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
-                                    isDestructiveAction: true)
-                                .then((value) async {
-                              if (value == OkCancelResult.ok) {
-                                await controller.toggleDiscount(discount, context);
-                              }
-                            });
-                          },
-                          child: DiscountStatusDot(disabled: disabled)),
-                    ),
-                  ],
-                ),
-                if (discount.rule?.description?.isNotEmpty ?? false)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      space,
-                      Text(discount.rule?.description ?? '', style: mediumTextStyle?.copyWith(color: manatee)),
-                    ],
-                  ),
-                space,
-                IntrinsicHeight(
-                  child: Row(
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        ),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
-                        flex: 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            discountValueText(),
-                            Text('Discount Amount', style: mediumTextStyle?.copyWith(color: manatee))
-                          ],
-                        ),
+                        child: Text(discount.code ?? '', style: context.headlineMedium),
                       ),
-                      const VerticalDivider(width: 0),
-                      Flexible(
-                        child: InfoPopupWidget(
-                          arrowTheme: InfoPopupArrowTheme(
-                            arrowDirection: ArrowDirection.up,
-                            color: ColorManager.primary,
+                      Padding(
+                        padding: EdgeInsets.only(right: expired ? 12.0 : 0.0),
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                            ),
+                            onPressed: () async {
+                              await showOkCancelAlertDialog(
+                                      context: context,
+                                      title: disabled ? 'Enable' : 'Disable',
+                                      message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
+                                      okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
+                                      isDestructiveAction: true)
+                                  .then((value) async {
+                                if (value == OkCancelResult.ok) {
+                                  await controller.toggleDiscount(discount, context);
+                                }
+                              });
+                            },
+                            child: DiscountStatusDot(disabled: disabled)),
+                      ),
+                    ],
+                  ),
+                  if (discount.rule?.description?.isNotEmpty ?? false)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        space,
+                        Text(discount.rule?.description ?? '', style: mediumTextStyle?.copyWith(color: manatee)),
+                      ],
+                    ),
+                  space,
+                  IntrinsicHeight(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              discountValueText(),
+                              Text('Discount Amount', style: mediumTextStyle?.copyWith(color: manatee))
+                            ],
                           ),
-                          contentTheme: InfoPopupContentTheme(
-                            infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
-                            infoTextStyle: mediumTextStyle!,
-                            contentPadding: const EdgeInsets.all(8),
-                            contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
-                            infoTextAlign: TextAlign.start,
+                        ),
+                        const VerticalDivider(width: 0),
+                        Flexible(
+                          child: InfoPopupWidget(
+                            arrowTheme: InfoPopupArrowTheme(
+                              arrowDirection: ArrowDirection.up,
+                              color: ColorManager.primary,
+                            ),
+                            contentTheme: InfoPopupContentTheme(
+                              infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+                              infoTextStyle: mediumTextStyle!,
+                              contentPadding: const EdgeInsets.all(8),
+                              contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                              infoTextAlign: TextAlign.start,
+                            ),
+                            contentTitle: regionsName(discount),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(discount.regions?.length.toString() ?? '',
+                                    style: Theme.of(context).textTheme.bodyLarge),
+                                Text('Valid Regions', style: mediumTextStyle.copyWith(color: manatee))
+                              ],
+                            ),
                           ),
-                          contentTitle: regionsName(discount),
+                        ),
+                        const VerticalDivider(width: 0),
+                        Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(discount.regions?.length.toString() ?? '',
-                                  style: Theme.of(context).textTheme.bodyLarge),
-                              Text('Valid Regions', style: mediumTextStyle.copyWith(color: manatee))
+                              Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
+                              Text('Total Redemptions',
+                                  style: mediumTextStyle.copyWith(color: manatee),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis)
                             ],
                           ),
                         ),
-                      ),
-                      const VerticalDivider(width: 0),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
-                            Text('Total Redemptions',
-                                style: mediumTextStyle.copyWith(color: manatee),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          if (expired)
-            CornerBanner(
-              bannerColor: Colors.red,
-              bannerPosition: CornerBannerPosition.topRight,
-              child: Text(
-                'Expired',
-                style: mediumTextStyle.copyWith(color: Colors.white, fontSize: 12),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-        ],
+            if (expired)
+              CornerBanner(
+                bannerColor: Colors.red,
+                bannerPosition: CornerBannerPosition.topRight,
+                child: Text(
+                  'Expired',
+                  style: mediumTextStyle.copyWith(color: Colors.white, fontSize: 12),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

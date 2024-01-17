@@ -9,6 +9,7 @@ class AppSettings {
   final DateFormatOptions dateFormatOptions;
   final TimeFormatOptions timeFormatOptions;
   final FlexScheme colorScheme;
+  final AppBarStyle appBarStyle;
 
   AppSettings({
     required this.useAndroidPicker,
@@ -17,11 +18,13 @@ class AppSettings {
     required this.dateFormatOptions,
     required this.timeFormatOptions,
     required this.colorScheme,
+    required this.appBarStyle,
   });
   AppSettings.defaultSettings({
     this.useAndroidPicker = false,
     this.useMaterial3 = true,
     this.useBiometric,
+    this.appBarStyle = AppBarStyle.normal,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
     this.colorScheme = FlexScheme.indigo,
@@ -35,10 +38,12 @@ class AppSettings {
     DateFormatOptions? dateFormatOptions,
     TimeFormatOptions? timeFormatOptions,
     FlexScheme? colorScheme,
+    AppBarStyle? appBarStyle,
   }) =>
       AppSettings(
         useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker,
         useMaterial3: useMaterial3 ?? this.useMaterial3,
+        appBarStyle: appBarStyle ?? this.appBarStyle,
         useBiometric: resetBiometric ? null : useBiometric ?? this.useBiometric,
         timeFormatOptions: timeFormatOptions ?? this.timeFormatOptions,
         dateFormatOptions: dateFormatOptions ?? this.dateFormatOptions,
@@ -49,6 +54,7 @@ class AppSettings {
         'useAndroidPicker': useAndroidPicker,
         'useMaterial3': useMaterial3,
         'useBiometric': useBiometric,
+        'appBarStyle': appBarStyle.toInt(),
         'timeFormatOptions': timeFormatOptions.index,
         'dateFormatOptions': dateFormatOptions.index,
         'colorScheme': colorScheme.name,
@@ -59,6 +65,7 @@ class AppSettings {
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
         useMaterial3: json?['useMaterial3'] ?? true,
         useBiometric: json?['useBiometric'],
+        appBarStyle: AppBarStyle.fromJson(json?['appBarStyle']),
         timeFormatOptions:
             TimeFormatOptions.fromInt(json?['timeFormatOptions']),
         dateFormatOptions:

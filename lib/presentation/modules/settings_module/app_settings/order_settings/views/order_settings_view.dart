@@ -10,6 +10,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/controllers/orders_controller.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 
 import '../controllers/order_settings_controller.dart';
 
@@ -22,132 +23,162 @@ class OrderSettingsView extends StatelessWidget {
     return GetBuilder<OrderSettingsController>(
         init: OrderSettingsController(),
         builder: (controller) {
-      final switchColor = GetPlatform.isIOS ? ColorManager.primary : null;
-      final smallTextStyle = context.bodySmall;
-      return WillPopScope(
-        onWillPop: () async {
-          if (!mapEquals(controller.orderSettings.toJson(), StorageService.orderSettings.toJson())) {
-            return await showOkCancelAlertDialog(
-              context: context,
-              title: 'Discard changes',
-              message: 'Are you sure you want to discard changes?',
-              okLabel: 'Discard',
-              isDestructiveAction: true,
-            ).then((result) => result == OkCancelResult.ok ? true : false);
-          } else {
-            return true;
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Order Settings'),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    StorageService.instance.updateOrderSettings(controller.orderSettings);
-                    OrdersController.instance.update();
-                    context.popRoute();
-                  },
-                  child: const Text('Save'))
-            ],
-          ),
-          body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 6.0),
-                if (controller.orderSettings.alternativeCard)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: controller.orderSettings.padding),
-                    child: AlternativeOrderCard(controller.order, onTap: () {}, orderSettings: controller.orderSettings),
+          final switchColor = GetPlatform.isIOS ? ColorManager.primary : null;
+          final smallTextStyle = context.bodySmall;
+          return WillPopScope(
+            onWillPop: () async {
+              if (!mapEquals(controller.orderSettings.toJson(),
+                  StorageService.orderSettings.toJson())) {
+                return await showOkCancelAlertDialog(
+                  context: context,
+                  title: 'Discard changes',
+                  message: 'Are you sure you want to discard changes?',
+                  okLabel: 'Discard',
+                  isDestructiveAction: true,
+                ).then((result) => result == OkCancelResult.ok ? true : false);
+              } else {
+                return true;
+              }
+            },
+            child: Scaffold(
+              body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  MedusaSliverAppBar(
+                    title: const Text('Order Settings'),
+                    systemOverlayStyle: context.defaultSystemUiOverlayStyle,
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            StorageService.instance
+                                .updateOrderSettings(controller.orderSettings);
+                            OrdersController.instance.update();
+                            context.popRoute();
+                          },
+                          child: const Text('Save'))
+                    ],
                   ),
-                if (!controller.orderSettings.alternativeCard)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: controller.orderSettings.padding),
-                    child: OrderCard(controller.order, onTap: () {}, orderSettings: controller.orderSettings,),
-                  ),
-                const SizedBox(height: 6.0),
-                SettingsList(
-                  shrinkWrap: true,
-                  contentPadding: EdgeInsets.zero,
-                  lightTheme: context.settingsListLightTheme,
-                  darkTheme: context.settingsListDarkTheme,
-                  sections: [
-                    SettingsSection(tiles: [
-                      SettingsTile.switchTile(
-                        activeSwitchColor: switchColor,
-                        title: const Text('Show detailed payment status'),
-                        onPressed: (_) {},
-                        initialValue: controller.orderSettings.paymentStatusDot,
-                        onToggle: (value) {
-                          controller.orderSettings = controller.orderSettings.copyWith(paymentStatusDot: value);
-                          // storageService.updateOrderSettings(orderSettings.copyWith(paymentStatusDot: value));
-                          controller.update();
-                        },
+                ],
+                body: ListView(
+                  children: [
+                    // const SizedBox(height: 6.0),
+                    if (controller.orderSettings.alternativeCard)
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: controller.orderSettings.padding),
+                        child: AlternativeOrderCard(controller.order,
+                            onTap: () {},
+                            orderSettings: controller.orderSettings),
                       ),
-                      SettingsTile.switchTile(
-                        activeSwitchColor: switchColor,
-                        title: const Text('Hide flag'),
-                        onPressed: (_) {},
-                        initialValue: controller.orderSettings.hideFlag,
-                        onToggle: (value) {
-                          controller.orderSettings = controller.orderSettings.copyWith(hideFlag: value);
-                          controller.update();
-                        },
+                    if (!controller.orderSettings.alternativeCard)
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: controller.orderSettings.padding),
+                        child: OrderCard(
+                          controller.order,
+                          onTap: () {},
+                          orderSettings: controller.orderSettings,
+                        ),
                       ),
-                      SettingsTile.switchTile(
-                        activeSwitchColor: switchColor,
-                        title: const Text('Include email with name'),
-                        onPressed: (_) {},
-                        initialValue: controller.orderSettings.includeEmail,
-                        onToggle: (value) {
-                          controller.orderSettings = controller.orderSettings.copyWith(includeEmail: value);
-                          controller.update();
-                        },
-                      ),
-                      SettingsTile.switchTile(
-                        activeSwitchColor: switchColor,
-                        title: const Text('Alternative card'),
-                        onPressed: (_) {},
-                        initialValue: controller.orderSettings.alternativeCard,
-                        onToggle: (value) {
-                          controller.orderSettings = controller.orderSettings.copyWith(alternativeCard: value);
-                          controller.update();
-                        },
-                      ),
-                    ]),
-                    CustomSettingsSection(
-                        child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Padding', style: smallTextStyle),
-                              Text(controller.orderSettings.padding.toStringAsFixed(2), style: smallTextStyle),
-                            ],
-                          ),
-                          Slider.adaptive(
-                            value: controller.orderSettings.padding,
-                            divisions: 16,
-                            onChanged: (val) {
-                              controller.orderSettings = controller.orderSettings.copyWith(padding: val);
+                    const SizedBox(height: 6.0),
+                    SettingsList(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      contentPadding: EdgeInsets.zero,
+                      lightTheme: context.settingsListLightTheme,
+                      darkTheme: context.settingsListDarkTheme,
+                      sections: [
+                        SettingsSection(tiles: [
+                          SettingsTile.switchTile(
+                            activeSwitchColor: switchColor,
+                            title: const Text('Show detailed payment status'),
+                            onPressed: (_) {},
+                            initialValue:
+                                controller.orderSettings.paymentStatusDot,
+                            onToggle: (value) {
+                              controller.orderSettings = controller
+                                  .orderSettings
+                                  .copyWith(paymentStatusDot: value);
+                              // storageService.updateOrderSettings(orderSettings.copyWith(paymentStatusDot: value));
                               controller.update();
                             },
-                            min: 0.0,
-                            max: 16.0,
                           ),
-                        ],
-                      ),
-                    )),
+                          SettingsTile.switchTile(
+                            activeSwitchColor: switchColor,
+                            title: const Text('Hide flag'),
+                            onPressed: (_) {},
+                            initialValue: controller.orderSettings.hideFlag,
+                            onToggle: (value) {
+                              controller.orderSettings = controller
+                                  .orderSettings
+                                  .copyWith(hideFlag: value);
+                              controller.update();
+                            },
+                          ),
+                          SettingsTile.switchTile(
+                            activeSwitchColor: switchColor,
+                            title: const Text('Include email with name'),
+                            onPressed: (_) {},
+                            initialValue: controller.orderSettings.includeEmail,
+                            onToggle: (value) {
+                              controller.orderSettings = controller
+                                  .orderSettings
+                                  .copyWith(includeEmail: value);
+                              controller.update();
+                            },
+                          ),
+                          SettingsTile.switchTile(
+                            activeSwitchColor: switchColor,
+                            title: const Text('Alternative card'),
+                            onPressed: (_) {},
+                            initialValue:
+                                controller.orderSettings.alternativeCard,
+                            onToggle: (value) {
+                              controller.orderSettings = controller
+                                  .orderSettings
+                                  .copyWith(alternativeCard: value);
+                              controller.update();
+                            },
+                          ),
+                        ]),
+                        CustomSettingsSection(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Padding', style: smallTextStyle),
+                                  Text(
+                                      controller.orderSettings.padding
+                                          .toStringAsFixed(2),
+                                      style: smallTextStyle),
+                                ],
+                              ),
+                              Slider.adaptive(
+                                value: controller.orderSettings.padding,
+                                divisions: 16,
+                                onChanged: (val) {
+                                  controller.orderSettings = controller
+                                      .orderSettings
+                                      .copyWith(padding: val);
+                                  controller.update();
+                                },
+                                min: 0.0,
+                                max: 16.0,
+                              ),
+                            ],
+                          ),
+                        )),
+                      ],
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      );
-    });
+          );
+        });
   }
 }

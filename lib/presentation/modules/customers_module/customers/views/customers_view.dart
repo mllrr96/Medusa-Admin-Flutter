@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/domain/use_case/customer_use_case.dart';
@@ -61,48 +62,44 @@ class CustomersView extends StatelessWidget {
                 ],
               ),
               body: SlidableAutoCloseBehavior(
-                child: SmartRefresher(
-                  controller: controller.refreshController,
-                  onRefresh: () async => await controller.refreshData(),
-                  header: const MaterialClassicHeader(),
-                  child: CustomScrollView(
-                    controller: controller.scrollController,
-                    slivers: [
-                      SliverAppBar(
-                        floating: true,
-                        snap: true,
-                        title: Obx(() => Text(
-                            controller.customersCount.value != 0
-                                ? 'Customers (${controller.customersCount.value})'
-                                : 'Customers',
-                            overflow: TextOverflow.ellipsis)),
-                      ),
-                      SliverPadding(
-                        padding:
-                        const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
-                        sliver: PagedSliverList(
-                          pagingController: controller.pagingController,
-                          builderDelegate: PagedChildBuilderDelegate<Customer>(
-                            itemBuilder: (context, customer, index) =>
-                                CustomerListTile(
-                              customer,
-                              index: index,
-                              onEditTap: (_) async {
-                                final result = await context.pushRoute(AddUpdateCustomerRoute(customer: customer));
-                                if (result is bool) {
-                                  controller.pagingController.refresh();
-                                }
-                              },
-                            ),
-                            firstPageProgressIndicatorBuilder: (_) => const CustomersLoadingPage(),
-                            firstPageErrorIndicatorBuilder: (context) =>
-                                PaginationErrorPage(
-                                    pagingController: controller.pagingController),
-                          ),
-                          // separatorBuilder: (_, __) => const Divider(height: 0),
+                child: NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                    MedusaSliverAppBar(
+                      title: Obx(() => Text(
+                          controller.customersCount.value != 0
+                              ? 'Customers (${controller.customersCount.value})'
+                              : 'Customers',
+                          overflow: TextOverflow.ellipsis)),
+                    ),
+                  ],
+                  body: SmartRefresher(
+                    controller: controller.refreshController,
+                    onRefresh: () async => await controller.refreshData(),
+                    child: PagedListView(
+                      pagingController: controller.pagingController,
+                      padding:
+                          const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+                      builderDelegate: PagedChildBuilderDelegate<Customer>(
+                        itemBuilder: (context, customer, index) =>
+                            CustomerListTile(
+                          customer,
+                          index: index,
+                          onEditTap: (_) async {
+                            final result = await context.pushRoute(
+                                AddUpdateCustomerRoute(customer: customer));
+                            if (result is bool) {
+                              controller.pagingController.refresh();
+                            }
+                          },
                         ),
+                        firstPageProgressIndicatorBuilder: (_) =>
+                            const CustomersLoadingPage(),
+                        firstPageErrorIndicatorBuilder: (context) =>
+                            PaginationErrorPage(
+                                pagingController: controller.pagingController),
                       ),
-                    ],
+                      // separatorBuilder: (_, __) => const Divider(height: 0),
+                    ),
                   ),
                 ),
               ),

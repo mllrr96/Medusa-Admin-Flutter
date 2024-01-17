@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
+import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/components/index.dart';
@@ -227,6 +228,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
       // App Settings
       AutoRoute(page: OrderSettingsRoute.page),
       AutoRoute(page: AppDevSettingsRoute.page),
+      AutoRoute(page: AppBarStyleRoute.page),
     ];
   }
 }

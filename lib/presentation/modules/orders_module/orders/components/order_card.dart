@@ -165,170 +165,173 @@ class AlternativeOrderCard extends StatelessWidget {
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     final customerName = order.customerName;
 
-    return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-      onTap: onTap ??
-          () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
-      child: Ink(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-        decoration: BoxDecoration(
-            color: context.getAlphaBlend(context.theme.cardColor),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('#${order.displayId}', style: mediumTextStyle),
-                Text(order.total.formatAsPrice(order.currencyCode),
-                    style: mediumTextStyle),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Row(
+    return Card(
+      // color: context.getAlphaBlend(context.theme.cardColor),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      child: InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        onTap: onTap ??
+            () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          child: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    order.cart?.createdAt != null
-                        ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
-                        : '',
-                    style: smallTextStyle?.copyWith(color: manatee),
-                  ),
-                  Row(
-                    children: [
-                      if (order.currencyCode != null)
-                        Text(
-                          order.currencyCode!.toUpperCase(),
-                          style: lightMediumTextStyle,
-                          overflow: TextOverflow.ellipsis,
+                  Text('#${order.displayId}', style: mediumTextStyle),
+                  Text(order.total.formatAsPrice(order.currencyCode),
+                      style: mediumTextStyle),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      order.cart?.createdAt != null
+                          ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
+                          : '',
+                      style: smallTextStyle?.copyWith(color: manatee),
+                    ),
+                    Row(
+                      children: [
+                        if (order.currencyCode != null)
+                          Text(
+                            order.currencyCode!.toUpperCase(),
+                            style: lightMediumTextStyle,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        if (order.shippingAddress?.countryCode != null &&
+                            !orderSettingsModel.hideFlag)
+                          Flag.fromString(order.shippingAddress!.countryCode!,
+                              height: 15, width: 30),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 32,
+                          width: 32,
+                          decoration: ShapeDecoration(
+                            shape: const CircleBorder(),
+                            color:shimmer? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(
+                                order.customer?.email),
+                          ),
+                          alignment: Alignment.center,
+                          child:shimmer? null: Text(
+                              customerName?[0] ?? order.customer?.email[0] ?? '',
+                              style: const TextStyle(color: Colors.white)),
                         ),
-                      if (order.shippingAddress?.countryCode != null &&
-                          !orderSettingsModel.hideFlag)
-                        Flag.fromString(order.shippingAddress!.countryCode!,
-                            height: 15, width: 30),
-                    ],
+                        const SizedBox(width: 6.0),
+                        if (customerName!= null)
+                          Flexible(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(customerName, style: smallTextStyle),
+                              if (orderSettingsModel.includeEmail)
+                                Text(order.email ?? '',
+                                    style:
+                                        smallTextStyle?.copyWith(color: manatee)),
+                            ],
+                          )),
+                        if (customerName == null)
+                          Flexible(
+                              child: Text(order.customer?.email ?? '',
+                                  style: mediumTextStyle,
+                                  overflow: TextOverflow.ellipsis)),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: PaymentStatusLabel(
+                        paymentStatus: order.paymentStatus,
+                        dotOnly: !orderSettingsModel.paymentStatusDot),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 32,
-                        width: 32,
-                        decoration: ShapeDecoration(
-                          shape: const CircleBorder(),
-                          color:shimmer? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(
-                              order.customer?.email),
-                        ),
-                        alignment: Alignment.center,
-                        child:shimmer? null: Text(
-                            customerName?[0] ?? order.customer?.email[0] ?? '',
-                            style: const TextStyle(color: Colors.white)),
-                      ),
-                      const SizedBox(width: 6.0),
-                      if (customerName!= null)
-                        Flexible(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(customerName, style: smallTextStyle),
-                            if (orderSettingsModel.includeEmail)
-                              Text(order.email ?? '',
-                                  style:
-                                      smallTextStyle?.copyWith(color: manatee)),
-                          ],
-                        )),
-                      if (customerName == null)
-                        Flexible(
-                            child: Text(order.customer?.email ?? '',
-                                style: mediumTextStyle,
-                                overflow: TextOverflow.ellipsis)),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: PaymentStatusLabel(
-                      paymentStatus: order.paymentStatus,
-                      dotOnly: !orderSettingsModel.paymentStatusDot),
-                ),
-              ],
-            ),
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Text(
-            //           'Payment Status',
-            //           style: smallTextStyle!.copyWith(color: manatee),
-            //         ),
-            //         Text(
-            //           'Customer',
-            //           style: smallTextStyle.copyWith(color: manatee),
-            //         ),
-            //       ],
-            //     ),
-            //     const SizedBox(height: 6.0),
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Flexible(
-            //           child: PaymentStatusLabel(paymentStatus: order.paymentStatus),
-            //         ),
-            //         Flexible(
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.end,
-            //             children: [
-            //               CircleAvatar(
-            //                 radius: 16,
-            //                 child: Text(getName()?[0] ?? order.customer!.email[0]),
-            //               ),
-            //               const SizedBox(width: 6.0),
-            //               if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
-            //               if (getName() == null)
-            //                 Flexible(
-            //                     child: Text(order.customer!.email,
-            //                         style: mediumTextStyle, overflow: TextOverflow.ellipsis)),
-            //             ],
-            //           ),
-            //         )
-            //       ],
-            //     )
-            //     // Opacity(
-            //     //   opacity: order.status != OrderStatus.pending ? 1 : 0,
-            //     //   child: InkWell(
-            //     //     onTap: order.status != OrderStatus.pending ? () {} : null,
-            //     //     child: Container(
-            //     //       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
-            //     //       decoration: BoxDecoration(
-            //     //           border: Border.all(
-            //     //             color: ColorManager.primary,
-            //     //             width: 2,
-            //     //           ),
-            //     //           borderRadius: const BorderRadius.all(Radius.circular(4))),
-            //     //       child: Row(
-            //     //         children: [
-            //     //           Icon(Icons.refresh, color: ColorManager.primary),
-            //     //           Text(
-            //     //             'Reorder',
-            //     //             style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary),
-            //     //           ),
-            //     //         ],
-            //     //       ),
-            //     //     ),
-            //     //   ),
-            //     // ),
-            //   ],
-            // ),
-          ],
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(
+              //           'Payment Status',
+              //           style: smallTextStyle!.copyWith(color: manatee),
+              //         ),
+              //         Text(
+              //           'Customer',
+              //           style: smallTextStyle.copyWith(color: manatee),
+              //         ),
+              //       ],
+              //     ),
+              //     const SizedBox(height: 6.0),
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Flexible(
+              //           child: PaymentStatusLabel(paymentStatus: order.paymentStatus),
+              //         ),
+              //         Flexible(
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.end,
+              //             children: [
+              //               CircleAvatar(
+              //                 radius: 16,
+              //                 child: Text(getName()?[0] ?? order.customer!.email[0]),
+              //               ),
+              //               const SizedBox(width: 6.0),
+              //               if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
+              //               if (getName() == null)
+              //                 Flexible(
+              //                     child: Text(order.customer!.email,
+              //                         style: mediumTextStyle, overflow: TextOverflow.ellipsis)),
+              //             ],
+              //           ),
+              //         )
+              //       ],
+              //     )
+              //     // Opacity(
+              //     //   opacity: order.status != OrderStatus.pending ? 1 : 0,
+              //     //   child: InkWell(
+              //     //     onTap: order.status != OrderStatus.pending ? () {} : null,
+              //     //     child: Container(
+              //     //       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+              //     //       decoration: BoxDecoration(
+              //     //           border: Border.all(
+              //     //             color: ColorManager.primary,
+              //     //             width: 2,
+              //     //           ),
+              //     //           borderRadius: const BorderRadius.all(Radius.circular(4))),
+              //     //       child: Row(
+              //     //         children: [
+              //     //           Icon(Icons.refresh, color: ColorManager.primary),
+              //     //           Text(
+              //     //             'Reorder',
+              //     //             style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary),
+              //     //           ),
+              //     //         ],
+              //     //       ),
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //   ],
+              // ),
+            ],
+          ),
         ),
       ),
     );

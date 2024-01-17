@@ -40,7 +40,6 @@ enum ProductComponents {
   editMedia,
 }
 
-
 enum DateType { day, month }
 
 enum DateFilterType {
@@ -101,7 +100,7 @@ enum DateFormatOptions {
     }
   }
 
- static DateFormatOptions fromInt(int? val) {
+  static DateFormatOptions fromInt(int? val) {
     switch (val) {
       case null:
         return DateFormatOptions.fifth;
@@ -193,6 +192,38 @@ enum SearchCategory {
 
       default:
         return SearchCategory.orders;
+    }
+  }
+}
+
+enum AppBarStyle {
+  normal,
+  medium,
+  large;
+
+  factory AppBarStyle.fromJson(int? val) {
+    switch (val) {
+      case null:
+        return AppBarStyle.normal;
+      case 0:
+        return AppBarStyle.normal;
+      case 1:
+        return AppBarStyle.medium;
+      case 2:
+        return AppBarStyle.large;
+      default:
+        return AppBarStyle.normal;
+    }
+  }
+
+  int toInt() {
+    switch (this) {
+      case AppBarStyle.normal:
+        return 0;
+      case AppBarStyle.medium:
+        return 1;
+      case AppBarStyle.large:
+        return 2;
     }
   }
 }

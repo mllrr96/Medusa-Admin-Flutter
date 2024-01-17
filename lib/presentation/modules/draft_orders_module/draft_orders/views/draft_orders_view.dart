@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/drafts_use_case.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -51,47 +53,40 @@ class DraftOrdersView extends StatelessWidget {
                     heroTag: 'Draft Order'),
               ],
             ),
-            body: SmartRefresher(
+            body: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  title: Obx(() => Text(
+                      controller.draftOrdersCount.value != 0
+                          ? 'Drafts (${controller.draftOrdersCount.value})'
+                          : 'Drafts',
+                      overflow: TextOverflow.ellipsis)),
+                ),
+              ],
+              body: SmartRefresher(
                 controller: controller.refreshController,
-                onRefresh: () async {
-                  await controller.refreshData();
-                },
-                header: const MaterialClassicHeader(offset: 100),
-                child: CustomScrollView(
-                  controller: controller.scrollController,
-                  slivers: [
-                    SliverAppBar(
-                      floating: true,
-                      snap: true,
-                      title: Obx(() => Text(
-                          controller.draftOrdersCount.value != 0
-                              ? 'Drafts (${controller.draftOrdersCount.value})'
-                              : 'Drafts',
-                          overflow: TextOverflow.ellipsis)),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                          12.0, 12.0, 12.0, kToolbarHeight * 2),
-                      sliver: PagedSliverList.separated(
-                        pagingController: controller.pagingController,
-                        builderDelegate:
-                            PagedChildBuilderDelegate<DraftOrder>(
-                                itemBuilder: (context, draftOrder, index) =>
-                                    DraftOrderCard(draftOrder),
-                                noItemsFoundIndicatorBuilder: (_) =>
-                                    const Center(
-                                        child: Text('No draft orders yet!')),
-                                firstPageProgressIndicatorBuilder:
-                                    (context) => const DraftsLoadingPage(),
-                              firstPageErrorIndicatorBuilder: (context) =>
-                                  PaginationErrorPage(
-                                      pagingController: controller.pagingController),
-                            ),
-                        separatorBuilder: (_, __) => const Gap(12.0),
-                      ),
-                    ),
-                  ],
-                )),
+                onRefresh: () async => await controller.refreshData(),
+                child: PagedListView.separated(
+                  pagingController: controller.pagingController,
+                  padding: const EdgeInsets.only(
+                      bottom: 120, top: 8.0, left: 8.0, right: 8.0),
+                  builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
+                    itemBuilder: (context, draftOrder, index) =>
+                        DraftOrderCard(draftOrder)
+                            .animate()
+                            .fadeIn(duration: 500.ms),
+                    noItemsFoundIndicatorBuilder: (_) =>
+                        const Center(child: Text('No draft orders yet!')),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const DraftsLoadingPage(),
+                    firstPageErrorIndicatorBuilder: (context) =>
+                        PaginationErrorPage(
+                            pagingController: controller.pagingController),
+                  ),
+                  separatorBuilder: (_, __) => const Gap(8.0),
+                ),
+              ),
+            ),
           );
         });
   }

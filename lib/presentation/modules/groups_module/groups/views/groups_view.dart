@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/domain/use_case/groups_use_case.dart';
@@ -60,43 +61,35 @@ class GroupsView extends StatelessWidget {
               ],
             ),
             body: SlidableAutoCloseBehavior(
-              child: SmartRefresher(
-                controller: controller.refreshController,
-                onRefresh: () async => await controller.refreshData(),
-                header: const MaterialClassicHeader(offset: 100),
-                child: CustomScrollView(
-                  controller: controller.scrollController,
-                  slivers: [
-                    SliverAppBar(
-                      floating: true,
-                      snap: true,
-                      title: Obx(() => Text(
-                          controller.customerGroupsCount.value != 0
-                              ? 'Groups (${controller.customerGroupsCount.value})'
-                              : 'Groups',
-                          overflow: TextOverflow.ellipsis)),
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  MedusaSliverAppBar(
+                    title: Obx(() => Text(
+                        controller.customerGroupsCount.value != 0
+                            ? 'Groups (${controller.customerGroupsCount.value})'
+                            : 'Groups',
+                        overflow: TextOverflow.ellipsis)),
+                  ),
+                ],
+                body: SmartRefresher(
+                  controller: controller.refreshController,
+                  onRefresh: () async => await controller.refreshData(),
+                  child: PagedListView.separated(
+                    separatorBuilder: (_, __) => Divider(
+                        height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
+                    padding:
+                        const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
+                    pagingController: controller.pagingController,
+                    builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
+                      itemBuilder: (context, customerGroup, index) =>
+                          GroupCard(customerGroup: customerGroup, index: index),
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const GroupsLoadingPage(),
+                      firstPageErrorIndicatorBuilder: (context) =>
+                          PaginationErrorPage(
+                              pagingController: controller.pagingController),
                     ),
-                    SliverPadding(
-                      padding:
-                          const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
-                      sliver: PagedSliverList.separated(
-                        separatorBuilder: (_, __) => Divider(
-                            height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
-                        pagingController: controller.pagingController,
-                        builderDelegate:
-                            PagedChildBuilderDelegate<CustomerGroup>(
-                          itemBuilder: (context, customerGroup, index) =>
-                              GroupCard(
-                                  customerGroup: customerGroup, index: index),
-                          firstPageProgressIndicatorBuilder: (context) =>
-                              const GroupsLoadingPage(),
-                              firstPageErrorIndicatorBuilder: (context) =>
-                                  PaginationErrorPage(
-                                      pagingController: controller.pagingController),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

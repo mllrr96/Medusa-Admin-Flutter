@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/price_lists_use_case.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -32,40 +33,35 @@ class PricingView extends StatelessWidget {
               icon: const Icon(Icons.add),
               onPressed: () => context.pushRoute(AddUpdatePriceListRoute()),
             ),
-            body: SmartRefresher(
-              controller: controller.refreshController,
-              onRefresh: () async => await controller.refreshData(),
-              header: const MaterialClassicHeader(offset: 100),
-              child: CustomScrollView(
-                controller: controller.scrollController,
-                slivers: [
-                  SliverAppBar(
-                    floating: true,
-                    snap: true,
-                    title: Obx(() => Text(
-                        controller.priceListsCount.value != 0
-                            ? 'Pricing Lists (${controller.priceListsCount.value})'
-                            : 'Pricing Lists',
-                        overflow: TextOverflow.ellipsis)),
-                  ),
-                  PagedSliverList.separated(
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 0, indent: 16.0),
-                    pagingController: controller.pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<PriceList>(
-                      itemBuilder: (context, priceList, index) =>
-                          PriceListTile(priceList),
-                      firstPageProgressIndicatorBuilder: (_) =>
-                          const PriceListsLoadingPage(),
-                      firstPageErrorIndicatorBuilder: (_) =>
-                          PaginationErrorPage(
-                              pagingController: controller.pagingController),
-                      noItemsFoundIndicatorBuilder: (_) => const Center(
-                        child: Text('No Price Lists Found'),
-                      ),
+            body: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  title: Obx(() => Text(
+                      controller.priceListsCount.value != 0
+                          ? 'Pricing Lists (${controller.priceListsCount.value})'
+                          : 'Pricing Lists',
+                      overflow: TextOverflow.ellipsis)),
+                ),
+              ],
+              body: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () async => await controller.refreshData(),
+                child: PagedListView.separated(
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16.0),
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<PriceList>(
+                    itemBuilder: (context, priceList, index) =>
+                        PriceListTile(priceList),
+                    firstPageProgressIndicatorBuilder: (_) =>
+                        const PriceListsLoadingPage(),
+                    firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                        pagingController: controller.pagingController),
+                    noItemsFoundIndicatorBuilder: (_) => const Center(
+                      child: Text('No Price Lists Found'),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           );

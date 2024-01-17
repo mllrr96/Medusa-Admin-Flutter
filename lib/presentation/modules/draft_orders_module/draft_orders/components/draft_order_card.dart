@@ -21,61 +21,64 @@ class DraftOrderCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final customerName = draftOrder.order?.customerName;
-    return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-      onTap: onTap ?? () => context.pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id!)),
-      child: Ink(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-        decoration: BoxDecoration(
-            color: context.getAlphaBlend(context.theme.cardColor),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('#${draftOrder.displayId}', style: mediumTextStyle),
-                if (draftOrder.order?.displayId != null)
-                  Text('Order #${draftOrder.order!.displayId}', style: mediumTextStyle),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Row(
+    return Card(
+      // color: context.getAlphaBlend(context.theme.cardColor),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      child: InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        onTap: onTap ?? () => context.pushRoute(DraftOrderDetailsRoute(draftId: draftOrder.id!)),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          child: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    draftOrder.cart!.createdAt != null
-                        ? '${draftOrder.cart!.createdAt.formatDate()} at ${draftOrder.cart!.createdAt.formatTime()}'
-                        : '',
-                    style: mediumTextStyle!.copyWith(color: lightWhite),
-                  ),
+                  Text('#${draftOrder.displayId}', style: mediumTextStyle),
+                  if (draftOrder.order?.displayId != null)
+                    Text('Order #${draftOrder.order!.displayId}', style: mediumTextStyle),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(
-                    children: [
-
-                      CircleAvatar(
-                        backgroundColor:shimmer ? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(draftOrder.cart?.email),
-                        radius: 16,
-                        child:shimmer ? null: Text(customerName?[0].capitalize ?? draftOrder.cart?.email?[0].capitalize ?? '', style: largeTextStyle?.copyWith(color: Colors.white)),
-                      ),
-                      const SizedBox(width: 6.0),
-                      if (customerName!= null) Flexible(child: Text(customerName, style: smallTextStyle)),
-                      if (customerName == null)
-                        Flexible(child: Text(draftOrder.cart?.email ?? '', style: mediumTextStyle)),
-                    ],
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      draftOrder.cart!.createdAt != null
+                          ? '${draftOrder.cart!.createdAt.formatDate()} at ${draftOrder.cart!.createdAt.formatTime()}'
+                          : '',
+                      style: mediumTextStyle!.copyWith(color: lightWhite),
+                    ),
+                  ],
                 ),
-                DraftOrderStatusLabel(draftOrder.status!),
-              ],
-            ),
-          ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+
+                        CircleAvatar(
+                          backgroundColor:shimmer ? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(draftOrder.cart?.email),
+                          radius: 16,
+                          child:shimmer ? null: Text(customerName?[0].capitalize ?? draftOrder.cart?.email?[0].capitalize ?? '', style: largeTextStyle?.copyWith(color: Colors.white)),
+                        ),
+                        const SizedBox(width: 6.0),
+                        if (customerName!= null) Flexible(child: Text(customerName, style: smallTextStyle)),
+                        if (customerName == null)
+                          Flexible(child: Text(draftOrder.cart?.email ?? '', style: mediumTextStyle)),
+                      ],
+                    ),
+                  ),
+                  DraftOrderStatusLabel(draftOrder.status!),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

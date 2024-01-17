@@ -9,6 +9,7 @@ import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../auth_module/sign_in/components/update_url_view.dart';
@@ -23,20 +24,22 @@ class AppDevSettingsView extends StatelessWidget {
     final manatee = ColorManager.manatee;
     const divider = Divider(height: 0);
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-            title: const Text('App Dev Settings'),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Icon(Icons.settings, size: 28.0),
-              )
-            ],
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
+      body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  systemOverlayStyle: context.defaultSystemUiOverlayStyle,
+                  title: const Text('App Dev Settings'),
+                  actions: const [
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Icon(Icons.settings, size: 28.0),
+                    )
+                  ],
+                ),
+              ],
+          body: ListView(
+            padding: EdgeInsets.zero,
+            children: [
               ListTile(
                 leading: const Icon(Icons.cookie_outlined),
                 title: const Text('Clear Cookie'),
@@ -190,10 +193,8 @@ class AppDevSettingsView extends StatelessWidget {
                   ThemeController.instance.update();
                 },
               ),
-            ]),
-          ),
-        ],
-      ),
+            ],
+          )),
     );
   }
 }
