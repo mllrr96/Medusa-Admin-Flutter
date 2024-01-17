@@ -3,11 +3,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
 
 import '../components/index.dart';
 import '../controllers/add_update_product_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class AddUpdateProductView extends StatelessWidget {

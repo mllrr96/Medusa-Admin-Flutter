@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/team_use_case.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/team/controllers/team_controller.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../components/index.dart';
 import '../controllers/invite_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class TeamView extends StatelessWidget {
   const TeamView({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import '../constant/colors.dart';
 
 class AppTheme {

@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class CollectionProductsList extends StatelessWidget {
   const CollectionProductsList({super.key});

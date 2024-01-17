@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 import '../../../data/service/language_service.dart';
 import 'language_locale.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class LanguageSelectionView extends StatelessWidget {
   const LanguageSelectionView({super.key});

@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_chip_input_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import '../../../../../core/constant/colors.dart';
 import '../controllers/add_update_product_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';

@@ -8,7 +8,6 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/domain/use_case/sales_channel_details_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_products_view.dart';
@@ -17,6 +16,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../controllers/sales_channel_details_controller.dart';
 
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
 class SalesChannelDetailsView extends StatelessWidget {

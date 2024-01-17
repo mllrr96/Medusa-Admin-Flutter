@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class ChooseRegionView extends StatelessWidget {
   const ChooseRegionView({
     super.key,

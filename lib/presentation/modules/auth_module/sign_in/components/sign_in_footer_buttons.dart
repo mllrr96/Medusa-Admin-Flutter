@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class SignInFooterButtons extends StatelessWidget {
   const SignInFooterButtons(this.reAuthenticate,

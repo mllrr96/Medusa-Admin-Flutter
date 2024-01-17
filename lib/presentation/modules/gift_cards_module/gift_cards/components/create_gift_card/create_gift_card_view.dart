@@ -7,9 +7,9 @@ import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'create_gift_card_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class CreateGiftCardView extends StatelessWidget {
   const CreateGiftCardView({super.key});
 

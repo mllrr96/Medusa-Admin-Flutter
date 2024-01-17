@@ -2,9 +2,10 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
-
 import 'shipping_option_label.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
+
 
 class ShippingOptionCard extends StatelessWidget {
   const ShippingOptionCard(

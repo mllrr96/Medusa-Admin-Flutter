@@ -3,13 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/update_gift_card_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';
-
+import 'package:medusa_admin/core/extension/num_extension.dart';
 class CreateUpdateCustomGiftCardController extends GetxController {
   CreateUpdateCustomGiftCardController(
       {required this.updateGiftCardUseCase, required this.giftCard});

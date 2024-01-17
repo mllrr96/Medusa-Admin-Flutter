@@ -2,11 +2,13 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 import 'package:flutter/services.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
 class CustomGiftCardView extends GetView<CustomGiftCardsController> {
   const CustomGiftCardView(this.giftCard, {super.key});

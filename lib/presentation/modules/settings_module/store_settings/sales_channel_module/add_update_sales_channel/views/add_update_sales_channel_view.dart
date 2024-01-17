@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_sales_channel_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 import '../controllers/add_update_sales_channel_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';

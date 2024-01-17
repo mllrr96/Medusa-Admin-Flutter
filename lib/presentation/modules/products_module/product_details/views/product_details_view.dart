@@ -3,12 +3,13 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/domain/use_case/product_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../components/index.dart';
 import '../controllers/product_details_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class ProductDetailsView extends StatelessWidget {

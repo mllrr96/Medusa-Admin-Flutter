@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'products_filter_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ProductsFilterView extends StatefulWidget {
   const ProductsFilterView({

@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/modules/auth_module/sign_in/components/sign_in_text_fields.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/constant/colors.dart';
 import '../controllers/order_details_controller.dart';
 import 'edit_shipping_address.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-
+import 'package:medusa_admin/core/extension/context_extension.dart';
 class OrderCustomer extends GetView<OrderDetailsController> {
   const OrderCustomer(this.order, {super.key, this.onExpansionChanged});
   final Order order;

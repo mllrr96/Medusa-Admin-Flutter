@@ -8,11 +8,11 @@ import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart'
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../components/index.dart';
 import '../controllers/pricing_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class PricingView extends StatelessWidget {

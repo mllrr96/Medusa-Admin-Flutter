@@ -8,7 +8,7 @@ import 'package:medusa_admin/domain/use_case/update_tax_rate_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import '../controllers/add_update_tax_rate_controller.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class AddUpdateTaxRateView extends StatelessWidget {

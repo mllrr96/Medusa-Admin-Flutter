@@ -8,9 +8,10 @@ import 'package:medusa_admin/domain/use_case/update_shipping_option_use_case.dar
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
 class AddUpdateShippingOptionView extends StatelessWidget {

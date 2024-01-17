@@ -6,7 +6,7 @@ import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/domain/use_case/products_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
@@ -15,7 +15,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../components/index.dart';
 import '../controllers/gift_cards_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class GiftCardsView extends StatelessWidget {
   const GiftCardsView({super.key});

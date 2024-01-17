@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/core/extension/color_extension.dart';
 
 
 class ConfigurationsCard extends StatelessWidget {

@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'dart:io';
 import '../../discount_conditions/components/condition_card.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';
 import '../controllers/add_update_discount_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ConditionExpansionTile extends GetView<AddUpdateDiscountController> {
   const ConditionExpansionTile({super.key});

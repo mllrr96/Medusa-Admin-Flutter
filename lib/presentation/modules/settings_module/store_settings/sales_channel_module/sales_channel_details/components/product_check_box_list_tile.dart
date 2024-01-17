@@ -3,12 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../controllers/sales_channel_details_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class ProductCheckboxListTile extends GetView<SalesChannelDetailsController> {
   const ProductCheckboxListTile(this.product, {super.key});
   final Product product;

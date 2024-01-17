@@ -6,7 +6,7 @@ import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class StoreDetailsController extends GetxController {
   StoreDetailsController({required this.updateStoreUseCase});

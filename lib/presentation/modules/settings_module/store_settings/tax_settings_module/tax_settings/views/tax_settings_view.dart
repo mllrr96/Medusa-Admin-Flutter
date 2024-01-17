@@ -6,13 +6,13 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/constant/colors.dart';
 import '../../add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
 import '../components/tax_rate_card.dart';
 import '../controllers/tax_settings_controller.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
 class TaxSettingsView extends StatelessWidget {

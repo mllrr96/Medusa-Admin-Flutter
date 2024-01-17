@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 
@@ -10,6 +10,7 @@ import '../../../../widgets/adaptive_date_picker.dart';
 
 import '../controllers/add_update_discount_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
   const ConfigurationExpansionTile({super.key});

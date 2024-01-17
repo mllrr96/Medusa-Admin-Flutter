@@ -9,14 +9,13 @@ import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/domain/use_case/region_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/constant/colors.dart';
 import '../../add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import '../components/index.dart';
 import '../controllers/region_details_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class RegionDetailsView extends StatelessWidget {
   const RegionDetailsView(this.regionId, {super.key});

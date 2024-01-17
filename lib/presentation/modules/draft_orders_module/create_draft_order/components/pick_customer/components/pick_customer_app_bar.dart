@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class PickCustomerAppBar extends StatefulWidget {
   const PickCustomerAppBar({super.key, required this.searchCtrl, this.onChanged, this.searchFocusNode});

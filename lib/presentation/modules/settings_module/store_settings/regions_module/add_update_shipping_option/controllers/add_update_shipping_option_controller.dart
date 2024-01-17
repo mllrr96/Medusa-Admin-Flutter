@@ -6,8 +6,9 @@ import 'package:medusa_admin/domain/use_case/update_shipping_option_use_case.dar
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
 
 class AddUpdateShippingOptionController extends GetxController {
   AddUpdateShippingOptionController(

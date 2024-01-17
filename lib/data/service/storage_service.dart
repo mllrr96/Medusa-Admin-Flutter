@@ -7,7 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/data/service/theme_service.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/presentation/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -224,7 +223,7 @@ class StorageService {
 
   Future<void> saveThemeMode(ThemeMode themeMode) async {
     try {
-      await _prefs.setInt(AppConstants.themeModeKey, themeMode.value());
+      await _prefs.setInt(AppConstants.themeModeKey, themeMode.index);
       ThemeController.instance.update();
     } catch (e) {
       debugPrint(e.toString());

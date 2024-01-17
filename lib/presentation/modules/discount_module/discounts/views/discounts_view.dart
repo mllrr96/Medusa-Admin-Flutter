@@ -7,7 +7,7 @@ import 'package:medusa_admin/presentation/modules/discount_module/discounts/comp
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/domain/use_case/discounts_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
@@ -17,7 +17,7 @@ import '../../../../../core/utils/enums.dart';
 import '../../../../../core/route/app_router.dart';
 import '../components/discount_card.dart';
 import '../controllers/discounts_controller.dart';
-
+import 'package:medusa_admin/core/extension/context_extension.dart';
 @RoutePage()
 class DiscountsView extends StatelessWidget {
   const DiscountsView({super.key});

@@ -6,7 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/modules/gift_cards_module/custom_gift_cards/components/custom_gift_cards_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/domain/use_case/gift_cards_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
@@ -16,7 +16,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 import '../../../../../core/utils/enums.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class CustomGiftCardsView extends StatelessWidget {
   const CustomGiftCardsView({super.key});

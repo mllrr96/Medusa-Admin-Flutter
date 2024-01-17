@@ -3,11 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import '../../../../../core/constant/colors.dart';
 import '../controllers/create_draft_order_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
 class CreateDraftOrderOverViewView extends StatelessWidget {

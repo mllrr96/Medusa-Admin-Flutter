@@ -7,7 +7,7 @@ import 'package:medusa_admin/presentation/modules/products_module/add_update_pro
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import '../controllers/product_details_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';

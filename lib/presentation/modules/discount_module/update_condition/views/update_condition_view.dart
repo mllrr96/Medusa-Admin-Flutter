@@ -3,7 +3,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/domain/use_case/update_condition_use_case.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -12,6 +12,7 @@ import '../../discount_conditions/components/condition_customer_group_list_tile.
 import '../../discount_conditions/components/condition_tag_list_tile.dart';
 import '../../discount_conditions/components/condition_type_list_tile.dart';
 import '../controllers/update_condition_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class UpdateConditionView extends StatelessWidget {

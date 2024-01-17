@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import '../controller/country_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class SelectCountryView extends StatelessWidget {
   const SelectCountryView({super.key, this.selectCountryReq});

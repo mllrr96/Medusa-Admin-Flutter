@@ -9,7 +9,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/data/service/language_service.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -17,9 +17,9 @@ import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import '../components/index.dart';
 import '../controllers/sign_in_controller.dart';
-
 
 @RoutePage()
 class SignInView extends StatefulWidget {
@@ -111,7 +111,10 @@ class _SignInViewState extends State<SignInView> {
             await getIt<LocalAuthentication>().isDeviceSupported();
     if (useBiometric == null && context.mounted && canUseBiometric) {
       final result = await showModalBottomSheet<bool?>(
-          context: context, builder: (context) => const UseBiometricReminder());
+          isDismissible: false,
+          enableDrag: false,
+          context: context,
+          builder: (context) => const UseBiometricReminder());
       if (result == true) {
         await StorageService.instance
             .saveLoginData(emailCtrl.text, passwordCtrl.text);

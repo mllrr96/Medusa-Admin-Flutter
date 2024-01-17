@@ -6,10 +6,10 @@ import 'package:medusa_admin/domain/use_case/categories_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/categories_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class CategoriesView extends StatelessWidget {

@@ -5,13 +5,13 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/draft_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 
 import '../components/draft_order_summery.dart';
 import '../components/index.dart';
 import '../controllers/draft_order_details_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class DraftOrderDetailsView extends StatelessWidget {
   const DraftOrderDetailsView(this.draftId, {super.key});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class ShippingOptionLabel extends StatelessWidget {
   const ShippingOptionLabel({super.key, required this.adminOnly});
   final bool adminOnly;

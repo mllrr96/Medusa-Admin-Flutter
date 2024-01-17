@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class OrderDetailsErrorPage extends StatelessWidget {
   const OrderDetailsErrorPage(this.message,{super.key, this.onRetryTap, });

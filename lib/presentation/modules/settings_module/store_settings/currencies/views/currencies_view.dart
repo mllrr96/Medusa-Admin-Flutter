@@ -8,12 +8,12 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/currencies_use_case.dart';
 import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../../../../core/constant/colors.dart';
 import '../controllers/currencies_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class CurrenciesView extends StatelessWidget {
   const CurrenciesView({super.key});

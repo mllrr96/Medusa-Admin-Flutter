@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -15,7 +15,7 @@ import '../../products_module/products/components/products_filter_view.dart';
 import '../controllers/medusa_search_controller.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
-
+import 'package:medusa_admin/core/extension/context_extension.dart';
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar({super.key, required this.controller});
   final MedusaSearchController controller;

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 
 import 'pick_customer/controllers/pick_customer_controller.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class ChooseCustomerView extends StatelessWidget {
   const ChooseCustomerView({super.key, this.onCustomerChanged});

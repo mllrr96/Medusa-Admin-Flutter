@@ -5,10 +5,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 
 import '../controllers/return_reasons_controller.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class ReturnReasonCard extends GetView<ReturnReasonsController> {
   const ReturnReasonCard(this.returnReason,

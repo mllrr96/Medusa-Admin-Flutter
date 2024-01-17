@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 
 import '../../../../../../core/constant/colors.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class InviteStatusLabel extends StatelessWidget {
   const InviteStatusLabel({super.key, required this.accepted});
   final bool? accepted;

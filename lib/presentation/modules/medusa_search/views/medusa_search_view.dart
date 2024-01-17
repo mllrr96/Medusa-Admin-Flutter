@@ -14,7 +14,7 @@ import 'package:medusa_admin/presentation/modules/groups_module/groups/component
 import 'package:medusa_admin/presentation/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/domain/use_case/search_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -22,6 +22,7 @@ import '../../../../core/utils/enums.dart';
 import '../../orders_module/orders/components/order_card.dart';
 import '../components/index.dart';
 import '../controllers/medusa_search_controller.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class MedusaSearchView extends StatelessWidget {

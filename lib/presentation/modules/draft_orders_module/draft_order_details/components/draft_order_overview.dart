@@ -3,10 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:medusa_admin/presentation/modules/draft_orders_module/draft_orders/components/index.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
-
 import '../../../../../core/constant/colors.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
+import 'package:medusa_admin/core/extension/date_time_extension.dart';
 class DraftOrderOverview extends StatelessWidget {
   const DraftOrderOverview(this.draftOrder, {super.key});
   final DraftOrder draftOrder;

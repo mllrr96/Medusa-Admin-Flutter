@@ -6,14 +6,13 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../controllers/add_update_product_controller.dart';
 import 'image_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 import 'product_media.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class ProductThumbnail extends StatelessWidget {
   const ProductThumbnail({super.key, this.onExpansionChanged});
   final void Function(bool)? onExpansionChanged;

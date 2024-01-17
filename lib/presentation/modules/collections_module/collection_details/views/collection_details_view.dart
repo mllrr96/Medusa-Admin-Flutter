@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -16,6 +16,7 @@ import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_produ
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../controllers/collection_details_controller.dart';
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
 class CollectionDetailsView extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/domain/use_case/create_draft_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_stepper.dart';
 import '../components/index.dart';

@@ -4,11 +4,11 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 
 import '../controllers/store_details_controller.dart';
-
+import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
 class StoreDetailsView extends StatelessWidget {
   const StoreDetailsView({super.key});
