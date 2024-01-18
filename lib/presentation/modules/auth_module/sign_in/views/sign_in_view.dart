@@ -158,13 +158,14 @@ class _SignInViewState extends State<SignInView> {
     final result = await AuthenticationUseCase.instance.getCurrentUser();
 
     result.when((success) {
+      AuthPreferenceService.instance.setIsAuthenticated(true);
       context.router.replaceAll([const DashboardRoute()]);
     }, (error) {
       controller.loading = false;
       controller.update();
       if (error.code == 401) {
         context.showSignInErrorSnackBar(
-            'Invalid token, Make sure you have set your API Token correctly, and try again.');
+            'Invalid token, Make sure you have set your API Token correctly');
       } else {
         context.showSignInErrorSnackBar(error.toSnackBarString());
       }

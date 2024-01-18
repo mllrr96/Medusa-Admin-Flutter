@@ -27,36 +27,15 @@ class AuthPreferenceService {
   static AuthenticationType get authType => instance._authPreference.authType;
   static AuthPreference get authPreference => instance._authPreference;
   static String? get email => instance._email;
-
   static bool get isAuthenticated => instance._isAuthenticated;
-  // static List<SearchHistory> get searchHistory => instance._searchHistory;
 
   late bool _isAuthenticated;
   late String? _baseUrl;
   late String? _email;
   late AuthPreference _authPreference;
-  // late List<SearchHistory> _searchHistory;
 
   @PostConstruct()
   Future<void> init() async {
-    try {
-      _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ??
-          (AppConstants.baseUrl.isEmpty ? null : AppConstants.baseUrl);
-      _email = _prefs.getString(AppConstants.emailKey);
-      _isAuthenticated = await _isKeyStored();
-      // final String? searchHistoryString =
-      //     _prefs.getString(AppConstants.searchHistoryKey);
-      // if (searchHistoryString != null && searchHistoryString.isNotEmpty) {
-      //   _searchHistory = SearchHistory.decode(searchHistoryString);
-      // } else {
-      //   _searchHistory = [];
-      // }
-    } catch (e) {
-      debugPrint(e.toString());
-      _baseUrl = AppConstants.baseUrl.isEmpty ? null : AppConstants.baseUrl;
-      _isAuthenticated = false;
-    }
-
     try {
       final authPreferenceCoded =
           _prefs.getString(AppConstants.authPreferenceKey);
@@ -69,6 +48,17 @@ class AuthPreferenceService {
       }
     } catch (e) {
       _authPreference = AuthPreference.defaultSettings();
+    }
+
+    try {
+      _baseUrl = _prefs.getString(AppConstants.baseUrlKey) ??
+          (AppConstants.baseUrl.isEmpty ? null : AppConstants.baseUrl);
+      _email = _prefs.getString(AppConstants.emailKey);
+      _isAuthenticated = await _isKeyStored();
+    } catch (e) {
+      debugPrint(e.toString());
+      _baseUrl = AppConstants.baseUrl.isEmpty ? null : AppConstants.baseUrl;
+      _isAuthenticated = false;
     }
   }
 
@@ -276,7 +266,7 @@ class AuthPreferenceService {
     }
   }
 
-  void setAuthToFalse() {
-    _isAuthenticated = false;
+  void setIsAuthenticated(bool val) {
+    _isAuthenticated = val;
   }
 }

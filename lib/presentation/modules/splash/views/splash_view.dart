@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
@@ -39,6 +41,9 @@ class _SplashViewState extends State<SplashView> {
     await MedusaAdminDi.registerMedusaAdminSingleton();
 
     bool shouldLogin = !AuthPreferenceService.isAuthenticated;
+    final result2 = await getIt<FlutterSecureStorage>().containsKey(key: AppConstants.jwtKey);
+    print(result2);
+    print(shouldLogin);
     if (shouldLogin && mounted) {
       context.router.replaceAll([SignInRoute()]);
       return;

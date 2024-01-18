@@ -57,7 +57,7 @@ abstract class MedusaAdminDi {
       }
       final secureStorage = getIt<FlutterSecureStorage>();
       try {
-        AuthPreferenceService.instance.setAuthToFalse();
+        AuthPreferenceService.instance.setIsAuthenticated(false);
         await secureStorage.delete(key: AppConstants.cookieKey);
         await secureStorage.delete(key: AppConstants.jwtKey);
         await secureStorage.delete(key: AppConstants.tokenKey);

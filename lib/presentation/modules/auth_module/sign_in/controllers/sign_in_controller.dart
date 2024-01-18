@@ -60,6 +60,7 @@ class SignInController extends GetxController {
       return result.when((success) async {
         await getIt<FlutterSecureStorage>()
             .write(key: AppConstants.cookieKey, value: success);
+        AuthPreferenceService.instance.setIsAuthenticated(true);
         await Get.putAsync(() =>
             StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
                 .init());
@@ -90,6 +91,7 @@ class SignInController extends GetxController {
     return result.when((jwt) async {
       await getIt<FlutterSecureStorage>()
           .write(key: AppConstants.jwtKey, value: jwt);
+      AuthPreferenceService.instance.setIsAuthenticated(true);
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
       Get.put(ActivityController());
