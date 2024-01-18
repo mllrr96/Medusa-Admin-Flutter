@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/collections/components/collection_list_tile.dart';
 import 'package:medusa_admin/presentation/modules/customers_module/customers/components/customer_list_tile.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discounts/components/discount_card.dart';
@@ -190,7 +190,7 @@ class SearchHistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final searchHistory = StorageService.searchHistory;
+    final searchHistory = PreferenceService.searchHistory;
     if (controller.searchTerm.removeAllWhitespace.isEmpty &&
         searchHistory.isNotEmpty) {
       return SingleChildScrollView(
@@ -216,7 +216,7 @@ class SearchHistoryView extends StatelessWidget {
                         controller.pagingController.refresh();
                       },
                       onDeleteTap: () async {
-                        await StorageService.instance
+                        await PreferenceService.instance
                             .updateSearchHistory(e, delete: true);
                         controller.update();
                       },

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'di.dart';
@@ -8,7 +8,7 @@ import 'di.dart';
 abstract class MedusaAdminDi {
   static final Interceptor _interceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
-      final authType = StorageService.appSettings.authType;
+      final authType = AuthPreferenceService.authType;
       FlutterSecureStorage secureStorage = getIt<FlutterSecureStorage>();
       switch (authType) {
         case AuthenticationType.cookie:
@@ -55,28 +55,19 @@ abstract class MedusaAdminDi {
       if (e.response?.statusCode != 401) {
         return handler.next(e);
       }
-      FlutterSecureStorage secureStorage = getIt<FlutterSecureStorage>();
-      final authType = StorageService.appSettings.authType;
-      switch (authType) {
-        case AuthenticationType.cookie:
-          try {
-            await secureStorage.delete(key: AppConstants.cookieKey);
-          } catch (_) {}
-          return handler.next(e);
-        case AuthenticationType.token:
-          return handler.next(e);
-        case AuthenticationType.jwt:
-          try {
-            await secureStorage.delete(key: AppConstants.jwtKey);
-          } catch (_) {}
-          return handler.next(e);
-      }
+      final secureStorage = getIt<FlutterSecureStorage>();
+      try {
+        AuthPreferenceService.instance.setAuthToFalse();
+        await secureStorage.delete(key: AppConstants.cookieKey);
+        await secureStorage.delete(key: AppConstants.jwtKey);
+        await secureStorage.delete(key: AppConstants.tokenKey);
+      } catch (_) {}
     },
   );
 
   static Future<void> registerMedusaAdminSingleton() async {
-    final url = StorageService.baseUrl!;
-    final authType = StorageService.authType;
+    final url = AuthPreferenceService.baseUrl!;
+    final authType = AuthPreferenceService.authType;
     final apiToken = authType == AuthenticationType.token
         ? await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey)
         : null;

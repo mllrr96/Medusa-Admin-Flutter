@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 
 class SignInController extends GetxController {
@@ -17,7 +18,7 @@ class SignInController extends GetxController {
   final AuthenticationUseCase authenticationUseCase;
   @override
   void onInit() {
-    themeMode = StorageService.instance.loadThemeMode();
+    themeMode = PreferenceService.instance.loadThemeMode();
     super.onInit();
   }
 
@@ -32,26 +33,26 @@ class SignInController extends GetxController {
         themeMode = ThemeMode.light;
         update();
         Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
-            await StorageService.instance.saveThemeMode(ThemeMode.light));
+            await PreferenceService.instance.saveThemeMode(ThemeMode.light));
         break;
       case ThemeMode.light:
         themeMode = ThemeMode.dark;
         update();
         Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
-            await StorageService.instance.saveThemeMode(ThemeMode.dark));
+            await PreferenceService.instance.saveThemeMode(ThemeMode.dark));
         break;
       case ThemeMode.dark:
         themeMode = ThemeMode.system;
         update();
         Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
-            await StorageService.instance.saveThemeMode(ThemeMode.system));
+            await PreferenceService.instance.saveThemeMode(ThemeMode.system));
         break;
     }
   }
 
   Future<bool> login(String email, String password,
       {required BuildContext context}) async {
-    if (StorageService.appSettings.authType == AuthenticationType.jwt) {
+    if (AuthPreferenceService.authPreference.authType == AuthenticationType.jwt) {
       return await _loginJWT(email, password, context: context);
     } else {
       final result = await authenticationUseCase.loginCookie(
@@ -67,7 +68,7 @@ class SignInController extends GetxController {
             false) {
           ActivityController.instance.pagingController.refresh();
         }
-        StorageService.instance.setEmail(email);
+        AuthPreferenceService.instance.setEmail(email);
         return true;
       }, (error) {
         loading = false;
@@ -96,7 +97,7 @@ class SignInController extends GetxController {
           false) {
         ActivityController.instance.pagingController.refresh();
       }
-      StorageService.instance.setEmail(email);
+      AuthPreferenceService.instance.setEmail(email);
       return true;
     }, (error) {
       loading = false;

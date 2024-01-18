@@ -6,9 +6,9 @@ import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/settings_list_tile_extension.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/controllers/orders_controller.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -27,8 +27,8 @@ class OrderSettingsView extends StatelessWidget {
           final switchColor = GetPlatform.isIOS ? ColorManager.primary : null;
           final smallTextStyle = context.bodySmall;
           return PopScope(
-            canPop: mapEquals(controller.orderSettings.toJson(),
-                StorageService.orderSettings.toJson()),
+            canPop: mapEquals(controller.orderPreference.toJson(),
+                PreferenceService.orderPreference.toJson()),
             onPopInvoked: (val) async {
               if (val) return;
               await showOkCancelAlertDialog(
@@ -52,8 +52,8 @@ class OrderSettingsView extends StatelessWidget {
                     actions: [
                       TextButton(
                           onPressed: () {
-                            StorageService.instance
-                                .updateOrderSettings(controller.orderSettings);
+                            PreferenceService.instance
+                                .updateOrderSettings(controller.orderPreference);
                             OrdersController.instance.update();
                             context.popRoute();
                           },
@@ -64,22 +64,22 @@ class OrderSettingsView extends StatelessWidget {
                 body: ListView(
                   children: [
                     // const SizedBox(height: 6.0),
-                    if (controller.orderSettings.alternativeCard)
+                    if (controller.orderPreference.alternativeCard)
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: controller.orderSettings.padding),
+                            horizontal: controller.orderPreference.padding),
                         child: AlternativeOrderCard(controller.order,
                             onTap: () {},
-                            orderSettings: controller.orderSettings),
+                            orderPreference: controller.orderPreference),
                       ),
-                    if (!controller.orderSettings.alternativeCard)
+                    if (!controller.orderPreference.alternativeCard)
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: controller.orderSettings.padding),
+                            horizontal: controller.orderPreference.padding),
                         child: OrderCard(
                           controller.order,
                           onTap: () {},
-                          orderSettings: controller.orderSettings,
+                          orderPreference: controller.orderPreference,
                         ),
                       ),
                     const SizedBox(height: 6.0),
@@ -96,10 +96,10 @@ class OrderSettingsView extends StatelessWidget {
                             title: const Text('Show detailed payment status'),
                             onPressed: (_) {},
                             initialValue:
-                                controller.orderSettings.paymentStatusDot,
+                                controller.orderPreference.paymentStatusDot,
                             onToggle: (value) {
-                              controller.orderSettings = controller
-                                  .orderSettings
+                              controller.orderPreference = controller
+                                  .orderPreference
                                   .copyWith(paymentStatusDot: value);
                               // storageService.updateOrderSettings(orderSettings.copyWith(paymentStatusDot: value));
                               controller.update();
@@ -109,10 +109,10 @@ class OrderSettingsView extends StatelessWidget {
                             activeSwitchColor: switchColor,
                             title: const Text('Hide flag'),
                             onPressed: (_) {},
-                            initialValue: controller.orderSettings.hideFlag,
+                            initialValue: controller.orderPreference.hideFlag,
                             onToggle: (value) {
-                              controller.orderSettings = controller
-                                  .orderSettings
+                              controller.orderPreference = controller
+                                  .orderPreference
                                   .copyWith(hideFlag: value);
                               controller.update();
                             },
@@ -121,10 +121,10 @@ class OrderSettingsView extends StatelessWidget {
                             activeSwitchColor: switchColor,
                             title: const Text('Include email with name'),
                             onPressed: (_) {},
-                            initialValue: controller.orderSettings.includeEmail,
+                            initialValue: controller.orderPreference.includeEmail,
                             onToggle: (value) {
-                              controller.orderSettings = controller
-                                  .orderSettings
+                              controller.orderPreference = controller
+                                  .orderPreference
                                   .copyWith(includeEmail: value);
                               controller.update();
                             },
@@ -134,10 +134,10 @@ class OrderSettingsView extends StatelessWidget {
                             title: const Text('Alternative card'),
                             onPressed: (_) {},
                             initialValue:
-                                controller.orderSettings.alternativeCard,
+                                controller.orderPreference.alternativeCard,
                             onToggle: (value) {
-                              controller.orderSettings = controller
-                                  .orderSettings
+                              controller.orderPreference = controller
+                                  .orderPreference
                                   .copyWith(alternativeCard: value);
                               controller.update();
                             },
@@ -155,17 +155,17 @@ class OrderSettingsView extends StatelessWidget {
                                 children: [
                                   Text('Padding', style: smallTextStyle),
                                   Text(
-                                      controller.orderSettings.padding
+                                      controller.orderPreference.padding
                                           .toStringAsFixed(2),
                                       style: smallTextStyle),
                                 ],
                               ),
                               Slider.adaptive(
-                                value: controller.orderSettings.padding,
+                                value: controller.orderPreference.padding,
                                 divisions: 16,
                                 onChanged: (val) {
-                                  controller.orderSettings = controller
-                                      .orderSettings
+                                  controller.orderPreference = controller
+                                      .orderPreference
                                       .copyWith(padding: val);
                                   controller.update();
                                 },

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
@@ -103,11 +103,11 @@ part 'app_router.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
 class AppRouter extends _$AppRouter implements AutoRouteGuard {
   @override
-  Future<void> onNavigation(NavigationResolver resolver, StackRouter router) async {
-    if (await StorageService.instance.isAuthenticated() ||
-        resolver.route.name == SignInRoute.name ||
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    if (resolver.route.name == SignInRoute.name ||
         resolver.route.name == SplashRoute.name ||
-        resolver.route.name == ResetPasswordRoute.name) {
+        resolver.route.name == ResetPasswordRoute.name ||
+        AuthPreferenceService.isAuthenticated) {
       resolver.next();
     } else {
       Fluttertoast.showToast(msg: 'Session expired, please login again');

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 
 class AppSettingsController extends GetxController {
   late ThemeMode themeMode;
@@ -11,7 +10,7 @@ class AppSettingsController extends GetxController {
   LocalAuthentication localAuthentication = getIt<LocalAuthentication>();
   @override
   void onInit() async {
-    themeMode = StorageService.instance.loadThemeMode();
+    themeMode = PreferenceService.instance.loadThemeMode();
     super.onInit();
   }
 
@@ -26,7 +25,7 @@ class AppSettingsController extends GetxController {
     this.themeMode = themeMode;
     update();
     Future.delayed(const Duration(milliseconds: 250), () {
-      StorageService.instance.saveThemeMode(themeMode);
+      PreferenceService.instance.saveThemeMode(themeMode);
     });
   }
 }

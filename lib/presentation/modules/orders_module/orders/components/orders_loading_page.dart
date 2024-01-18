@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'order_card.dart';
@@ -21,9 +21,9 @@ class OrdersLoadingPage extends StatelessWidget {
         customer: const Customer(
             firstName: 'Medusa', lastName: 'Admin', email: 'Medusa Js'),
         cart: Cart(createdAt: DateTime.now()));
-    final orderSettings = StorageService.orderSettings;
+    final orderPreference = PreferenceService.orderPreference;
 
-    final widget = orderSettings.alternativeCard
+    final widget = orderPreference.alternativeCard
         ? AlternativeOrderCard(order, shimmer: true)
         : OrderCard(order, shimmer: true);
 

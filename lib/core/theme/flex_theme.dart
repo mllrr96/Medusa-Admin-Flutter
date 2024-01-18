@@ -3,12 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 
 
 class FlexTheme {
-  static bool get _useMaterial3 => StorageService.appSettings.useMaterial3;
-  static  FlexScheme get _colorScheme => StorageService.appSettings.colorScheme;
+  static bool get _useMaterial3 => PreferenceService.appSettings.useMaterial3;
+  static  FlexScheme get _colorScheme => PreferenceService.appSettings.colorScheme;
   static ThemeData get light => FlexThemeData.light(
     useMaterial3: _useMaterial3,
     scheme: _colorScheme,

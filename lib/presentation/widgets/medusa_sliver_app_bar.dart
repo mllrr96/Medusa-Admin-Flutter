@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 
 class MedusaSliverAppBar extends StatelessWidget {
   const MedusaSliverAppBar({
@@ -22,7 +22,7 @@ class MedusaSliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appBarStyle =
-        this.appBarStyle ?? StorageService.appSettings.appBarStyle;
+        this.appBarStyle ?? PreferenceService.appSettings.appBarStyle;
     switch (appBarStyle) {
       case AppBarStyle.normal:
         return SliverAppBar(

@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
-
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -16,6 +15,7 @@ import '../controllers/medusa_search_controller.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar({super.key, required this.controller});
   final MedusaSearchController controller;
@@ -65,7 +65,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     productFilterCount > 0)
             ? ColorManager.primary
             : Colors.transparent;
-    final useMaterial3 = StorageService.appSettings.useMaterial3;
+    final useMaterial3 = PreferenceService.appSettings.useMaterial3;
     return Material(
       color: context.theme.scaffoldBackgroundColor,
       child: Padding(
@@ -73,72 +73,72 @@ class _SearchAppBarState extends State<SearchAppBar> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if(useMaterial3)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: SearchBar(
-                controller: controller.searchCtrl,
-                onSubmitted: (val) async {
-                  if (val.removeAllWhitespace.isNotEmpty) {
-                    controller.searchTerm = val;
-                    controller.pagingController.refresh();
-                    await StorageService.instance.updateSearchHistory(
-                        SearchHistory(
-                            text: val,
-                            searchableFields: controller.searchCategory));
-                  }
-                },
-                hintText: getHintText(controller.searchCategory),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.zero),
-                leading: IconButton(
-                  padding: const EdgeInsets.all(16),
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    context.popRoute();
+            if (useMaterial3)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: SearchBar(
+                  controller: controller.searchCtrl,
+                  onSubmitted: (val) async {
+                    if (val.removeAllWhitespace.isNotEmpty) {
+                      controller.searchTerm = val;
+                      controller.pagingController.refresh();
+                      await PreferenceService.instance.updateSearchHistory(
+                          SearchHistory(
+                              text: val,
+                              searchableFields: controller.searchCategory));
+                    }
                   },
+                  hintText: getHintText(controller.searchCategory),
+                  padding:
+                      MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+                  leading: IconButton(
+                    padding: const EdgeInsets.all(16),
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      context.popRoute();
+                    },
+                  ),
+                  trailing: [
+                    IconButton(
+                        padding: const EdgeInsets.all(16),
+                        onPressed: () {
+                          controller.searchCtrl.clear();
+                          controller.searchTerm = '';
+                          controller.pagingController.refresh();
+                        },
+                        icon: const Icon(Icons.clear))
+                  ],
                 ),
-
-                trailing: [
-                  IconButton(
-                      padding: const EdgeInsets.all(16),
-                      onPressed: (){
+              ),
+            if (!useMaterial3)
+              Row(
+                children: [
+                  const BackButton(),
+                  Flexible(
+                    child: SearchTextField(
+                      controller: controller.searchCtrl,
+                      onSubmitted: (val) async {
+                        if (val.removeAllWhitespace.isNotEmpty) {
+                          controller.searchTerm = val;
+                          controller.pagingController.refresh();
+                          await PreferenceService.instance.updateSearchHistory(
+                              SearchHistory(
+                                  text: val,
+                                  searchableFields: controller.searchCategory));
+                        }
+                      },
+                      hintText: getHintText(controller.searchCategory),
+                      autoFocus: true,
+                      onSuffixTap: () {
                         controller.searchCtrl.clear();
                         controller.searchTerm = '';
                         controller.pagingController.refresh();
-                      }, icon: const Icon(Icons.clear))
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12.0)
                 ],
               ),
-            ),
-            if(!useMaterial3)
-            Row(
-              children: [
-                const BackButton(),
-                Flexible(
-                  child: SearchTextField(
-                    controller: controller.searchCtrl,
-                    onSubmitted: (val) async {
-                      if (val.removeAllWhitespace.isNotEmpty) {
-                        controller.searchTerm = val;
-                        controller.pagingController.refresh();
-                        await StorageService.instance.updateSearchHistory(
-                            SearchHistory(
-                                text: val,
-                                searchableFields: controller.searchCategory));
-                      }
-                    },
-                    hintText: getHintText(controller.searchCategory),
-                    autoFocus: true,
-                    onSuffixTap: () {
-                      controller.searchCtrl.clear();
-                      controller.searchTerm = '';
-                      controller.pagingController.refresh();
-                    },
-                  ),
-                ),
-                const SizedBox(width: 12.0)
-              ],
-            ),
             Column(
               children: [
                 Container(
@@ -161,9 +161,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               onTap: () async {
                                 await showBarModalBottomSheet(
                                     context: context,
-                                    backgroundColor: context.theme.scaffoldBackgroundColor,
-                                    overlayStyle:
-                                        context.theme.appBarTheme.systemOverlayStyle,
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) {
                                       return PickSearchCategory(
                                           selectedSearchCategory:
@@ -172,7 +173,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                   if (result is SearchCategory) {
                                     // Groups can only be sorted to date NOT to name
                                     if (result == SearchCategory.groups) {
-                                      controller.sortOptions = SortOptions.dateRecent;
+                                      controller.sortOptions =
+                                          SortOptions.dateRecent;
                                     }
                                     controller.orderFilter = null;
                                     controller.productFilter = null;
@@ -216,8 +218,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 4.0),
                                   decoration: BoxDecoration(
-                                      color:
-                                          context.theme.appBarTheme.backgroundColor,
+                                      color: context
+                                          .theme.appBarTheme.backgroundColor,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(4.0))),
                                   child: Row(
@@ -242,7 +244,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               InkWell(
                                 borderRadius: BorderRadius.circular(4.0),
                                 onLongPress: () {
-                                  if (searchCategory == SearchCategory.products) {
+                                  if (searchCategory ==
+                                      SearchCategory.products) {
                                     controller.productFilter = null;
                                   } else if (searchCategory ==
                                       SearchCategory.orders) {
@@ -253,15 +256,19 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                 onTap: () async {
                                   switch (searchCategory) {
                                     case SearchCategory.products:
-                                      await showBarModalBottomSheet<ProductFilter>(
+                                      await showBarModalBottomSheet<
+                                              ProductFilter>(
                                           context: context,
-                                          backgroundColor: context.theme.scaffoldBackgroundColor,
+                                          backgroundColor: context
+                                              .theme.scaffoldBackgroundColor,
                                           enableDrag: false,
-                                          overlayStyle: context
-                                              .theme.appBarTheme.systemOverlayStyle,
-                                          builder: (context) => ProductsFilterView(
+                                          overlayStyle: context.theme
+                                              .appBarTheme.systemOverlayStyle,
+                                          builder: (context) =>
+                                              ProductsFilterView(
                                                 onResetPressed: () {
-                                                  controller.productFilter = null;
+                                                  controller.productFilter =
+                                                      null;
                                                   controller.update();
                                                   controller.pagingController
                                                       .refresh();
@@ -278,14 +285,18 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                       });
 
                                     case SearchCategory.orders:
-                                      await showBarModalBottomSheet<OrderFilter>(
+                                      await showBarModalBottomSheet<
+                                              OrderFilter>(
                                           context: context,
-                                          backgroundColor: context.theme.scaffoldBackgroundColor,
+                                          backgroundColor: context
+                                              .theme.scaffoldBackgroundColor,
                                           enableDrag: false,
-                                          overlayStyle: context
-                                              .theme.appBarTheme.systemOverlayStyle,
-                                          builder: (context) => OrdersFilterView(
-                                                orderFilter: controller.orderFilter,
+                                          overlayStyle: context.theme
+                                              .appBarTheme.systemOverlayStyle,
+                                          builder: (context) =>
+                                              OrdersFilterView(
+                                                orderFilter:
+                                                    controller.orderFilter,
                                                 onResetTap: () {
                                                   controller.orderFilter = null;
                                                   controller.update();
@@ -313,21 +324,24 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 4.0),
                                   decoration: BoxDecoration(
-                                      color:
-                                          context.theme.appBarTheme.backgroundColor,
+                                      color: context
+                                          .theme.appBarTheme.backgroundColor,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(4.0)),
-                                      border: Border.all(color: filterBorderColor)),
+                                      border:
+                                          Border.all(color: filterBorderColor)),
                                   child: Row(
                                     children: [
                                       const SizedBox(width: 8.0),
                                       Text('Filters ', style: smallTextStyle),
                                       if (productFilterCount != 0 &&
-                                          searchCategory == SearchCategory.products)
+                                          searchCategory ==
+                                              SearchCategory.products)
                                         Text(productFilterCount.toString(),
                                             style: smallTextStyle),
                                       if (orderFilterCount != 0 &&
-                                          searchCategory == SearchCategory.orders)
+                                          searchCategory ==
+                                              SearchCategory.orders)
                                         Text(orderFilterCount.toString(),
                                             style: smallTextStyle),
                                       const SizedBox(width: 4.0),

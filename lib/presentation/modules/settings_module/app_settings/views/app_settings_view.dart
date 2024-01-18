@@ -8,9 +8,11 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart' hide GetStringUtils;
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/extension/settings_list_tile_extension.dart';
-import 'package:medusa_admin/data/models/settings.dart';
+import 'package:medusa_admin/data/models/auth_preference.dart';
+import 'package:medusa_admin/data/models/app_preference.dart';
 import 'package:medusa_admin/data/service/language_service.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/presentation/widgets/adaptive_date_picker.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -32,8 +34,10 @@ import 'package:medusa_admin/core/extension/date_time_extension.dart';
 class AppSettingsView extends StatelessWidget {
   const AppSettingsView({super.key});
 
-  AppSettings get appSettings => StorageService.appSettings;
-  StorageService get storageService => StorageService.instance;
+  AppPreference get appSettings => PreferenceService.appSettings;
+  PreferenceService get preferenceService => PreferenceService.instance;
+  AuthPreference get authPreference => AuthPreferenceService.authPreference;
+  AuthPreferenceService get authPrefService => AuthPreferenceService.instance;
   ThemeController get themeController => ThemeController.instance;
   @override
   Widget build(BuildContext context) {
@@ -58,10 +62,10 @@ class AppSettingsView extends StatelessWidget {
                   SettingsTile.switchTile(
                     title: const Text('Biometric Auth'),
                     leading: Icon(Icons.fingerprint,
-                        color: appSettings.useBiometric == true
+                        color: authPreference.useBiometric == true
                             ? context.theme.primaryColor
                             : null),
-                    initialValue: (appSettings.useBiometric ?? false) &&
+                    initialValue: (authPreference.useBiometric ?? false) &&
                         controller.canCheckBiometrics != null,
                     onToggle: controller.canCheckBiometrics == null
                         ? null
@@ -88,11 +92,11 @@ class AppSettingsView extends StatelessWidget {
                                 final result = await SignOutUseCase.instance();
                                 await result.when((success) async {
                                   await Get.delete(force: true);
-                                  await StorageService.instance
+                                  await AuthPreferenceService.instance
                                       .clearLoginData();
-                                  await StorageService.instance
+                                  await AuthPreferenceService.instance
                                       .clearExportFiles();
-                                  await StorageService.instance
+                                  await AuthPreferenceService.instance
                                       .clearLoginKey()
                                       .then((value) => context.router
                                           .replaceAll([const SplashRoute()]));
@@ -107,7 +111,7 @@ class AppSettingsView extends StatelessWidget {
                                 });
                               }
                             } else {
-                              await storageService.disableBiometricAuth();
+                              await authPrefService.disableBiometricAuth();
                             }
                             controller.update();
                           },
@@ -152,7 +156,7 @@ class AppSettingsView extends StatelessWidget {
                               .then((result) async {
                         if (result == null) return;
                         if (result == appSettings.colorScheme) return;
-                        await storageService.updateAppSettings(
+                        await preferenceService.updateAppSettings(
                             appSettings.copyWith(colorScheme: result));
                         controller.update();
                         await Future.delayed(const Duration(milliseconds: 150));
@@ -224,7 +228,7 @@ class AppSettingsView extends StatelessWidget {
                                 'Use Android date picker instead of iOS picker, Click here for demo')),
                         leading: const Icon(CupertinoIcons.calendar),
                         onPressed: (_) async {
-                          await storageService.updateAppSettings(
+                          await preferenceService.updateAppSettings(
                               appSettings.copyWith(
                                   useAndroidPicker:
                                       !appSettings.useAndroidPicker));
@@ -232,7 +236,7 @@ class AppSettingsView extends StatelessWidget {
                         },
                         initialValue: appSettings.useAndroidPicker,
                         onToggle: (bool value) async {
-                          await storageService.updateAppSettings(
+                          await preferenceService.updateAppSettings(
                               appSettings.copyWith(useAndroidPicker: value));
                           controller.update();
                         },
@@ -258,7 +262,7 @@ class AppSettingsView extends StatelessWidget {
                               .then((result) {
                         if (result == null) return;
                         if (result == appSettings.dateFormatOptions) return;
-                        storageService.updateAppSettings(
+                        preferenceService.updateAppSettings(
                             appSettings.copyWith(dateFormatOptions: result));
                         controller.update();
                       }),
@@ -281,7 +285,7 @@ class AppSettingsView extends StatelessWidget {
                           .then((result) {
                         if (result == null) return;
                         if (result == appSettings.timeFormatOptions) return;
-                        storageService.updateAppSettings(
+                        preferenceService.updateAppSettings(
                             appSettings.copyWith(timeFormatOptions: result));
                         controller.update();
                       }),

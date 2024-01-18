@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class SignInFooterButtons extends StatelessWidget {
@@ -13,7 +13,7 @@ class SignInFooterButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? baseUrl = StorageService.baseUrl;
+    String? baseUrl = AuthPreferenceService.baseUrl;
     bool isUrlSet = baseUrl != null;
     if (reAuthenticate) {
       return FilledButton.icon(

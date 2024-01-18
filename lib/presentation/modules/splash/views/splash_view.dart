@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -30,7 +30,7 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future load() async {
-    final baseUrl = StorageService.baseUrl;
+    final baseUrl = AuthPreferenceService.baseUrl;
     if (baseUrl == null) {
       context.router.replaceAll([SignInRoute()]);
       return;
@@ -38,7 +38,7 @@ class _SplashViewState extends State<SplashView> {
     // register medusa admin singleton
     await MedusaAdminDi.registerMedusaAdminSingleton();
 
-    bool shouldLogin = !await StorageService.instance.isAuthenticated();
+    bool shouldLogin = !AuthPreferenceService.isAuthenticated;
     if (shouldLogin && mounted) {
       context.router.replaceAll([SignInRoute()]);
       return;
@@ -55,7 +55,7 @@ class _SplashViewState extends State<SplashView> {
       });
     }, (error) async {
       if (error.code == 401) {
-        await StorageService.instance.clearLoginKey().then((_) {
+        await AuthPreferenceService.instance.clearLoginKey().then((_) {
           context.router.replaceAll([SignInRoute()]);
         });
       } else {

@@ -1,15 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/data/models/settings.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:medusa_admin/core/constant/strings.dart';
+import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/data/models/app_preference.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import '../../auth_module/sign_in/components/update_url_view.dart';
@@ -17,12 +23,33 @@ import '../../auth_module/sign_in/components/update_url_view.dart';
 @RoutePage()
 class AppDevSettingsView extends StatelessWidget {
   const AppDevSettingsView({super.key});
-  StorageService get storageService => StorageService.instance;
-  AppSettings get appSettings => StorageService.appSettings;
+  AuthenticationType get authType => AuthPreferenceService.authType;
+  PreferenceService get storageService => PreferenceService.instance;
+  AuthPreferenceService get authPrefService => AuthPreferenceService.instance;
+  AppPreference get appSettings => PreferenceService.appSettings;
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     const divider = Divider(height: 0);
+
+    Future<bool> authenticate() async {
+      final localAuth = getIt<LocalAuthentication>();
+      final canCheckBiometric = await localAuth.canCheckBiometrics &&
+          await localAuth.isDeviceSupported();
+      if (!canCheckBiometric) {
+        return false;
+      }
+      return await localAuth
+          .authenticate(localizedReason: 'Please authenticate')
+          .then((authenticated) async {
+        if (!authenticated) {
+          return false;
+        }
+        return true;
+      });
+    }
+
     return Scaffold(
       body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -41,23 +68,49 @@ class AppDevSettingsView extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: [
               ListTile(
+                leading: const Icon(Icons.security),
+                title: const Text('Authentication Type'),
+                subtitle: Text(
+                    '${authType.toString()} Authentication',
+                    style: const TextStyle(color: manatee)),
+              ),
+              divider,
+              ListTile(
                 leading: const Icon(Icons.cookie_outlined),
-                title: const Text('Clear Cookie'),
-                subtitle: const Text('Clears the cookie used for authentication',
-                    style: TextStyle(color: manatee)),
+                title: Text('Clear ${authType.toString()}'),
+                subtitle: Text(
+                    'Clears ${authType.toString()} used for authentication',
+                    style: const TextStyle(color: manatee)),
                 onTap: () async {
-                  // context.showSnackBar(
-                  //     await StorageService.instance.cookie ?? 'No cookie found',
-                  //     action: SnackBarAction(
-                  //         label: 'Copy',
-                  //         onPressed: () async {
-                  //           context.copyToClipboard(
-                  //               await StorageService.instance.cookie ?? '');
-                  //         }));
+                  await authenticate().then((authenticated) async {
+                    if (!authenticated) {
+                      return;
+                    }
+                    final key = switch (authType) {
+                      AuthenticationType.cookie => AppConstants.cookieKey,
+                      AuthenticationType.token => AppConstants.tokenKey,
+                      AuthenticationType.jwt => AppConstants.jwtKey,
+                    };
+                    final value =
+                        await getIt<FlutterSecureStorage>().read(key: key);
+                    if (context.mounted) {
+                      context.showSnackBar(value ?? 'No ',
+                          action: SnackBarAction(
+                              label: 'Copy',
+                              onPressed: () async {
+                                context.copyToClipboard(value ?? '');
+                              }));
+                    }
+                  });
                 },
                 onLongPress: () async {
-                  await storageService.clearLoginKey();
-                  Fluttertoast.showToast(msg: 'Cookie cleared');
+                  await authenticate().then((authenticated) async {
+                    if (!authenticated) {
+                      return;
+                    }
+                    await authPrefService.clearLoginKey();
+                    Fluttertoast.showToast(msg: 'Cookie cleared');
+                  });
                 },
               ),
               divider,
@@ -86,7 +139,7 @@ class AppDevSettingsView extends StatelessWidget {
                 subtitle: const Text('Loads saved data credential',
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
-                  final result = await storageService.loadLoginData();
+                  final result = await authPrefService.loadLoginData();
                   result.when((success) {
                     context.showSnackBar(
                         'Email: ${success.$1}\nPassword: ${success.$2}');
@@ -102,7 +155,7 @@ class AppDevSettingsView extends StatelessWidget {
                 subtitle: const Text('Clears the login data',
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
-                  await storageService.clearLoginData();
+                  await authPrefService.clearLoginData();
                   Fluttertoast.showToast(msg: 'Login data cleared');
                 },
               ),
@@ -113,7 +166,7 @@ class AppDevSettingsView extends StatelessWidget {
                 subtitle: const Text('Deletes exports files',
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
-                  await storageService.clearExportFiles();
+                  await authPrefService.clearExportFiles();
                   Fluttertoast.showToast(msg: 'Exports files cleared');
                 },
               ),
@@ -121,16 +174,16 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.link),
                 title: const Text('Set URL'),
-                subtitle:
-                    const Text('Change base url', style: TextStyle(color: manatee)),
+                subtitle: const Text('Change base url',
+                    style: TextStyle(color: manatee)),
                 onTap: () {
-                  context.showSnackBar(StorageService.baseUrl ?? 'No URL found',
+                  context.showSnackBar(AuthPreferenceService.baseUrl ?? 'No URL found',
                       action: SnackBarAction(
                           label: 'Copy',
                           onPressed: () {
-                            if (StorageService.baseUrl == null) return;
+                            if (AuthPreferenceService.baseUrl == null) return;
                             context
-                                .copyToClipboard(StorageService.baseUrl ?? '');
+                                .copyToClipboard(AuthPreferenceService.baseUrl ?? '');
                           }));
                 },
                 onLongPress: () async {
@@ -176,7 +229,7 @@ class AppDevSettingsView extends StatelessWidget {
                 },
                 onLongPress: () async {
                   await storageService
-                      .updateAppSettings(AppSettings.defaultSettings())
+                      .updateAppSettings(AppPreference.defaultSettings())
                       .then((_) {
                     context.showSnackBar('App settings reset');
                   });

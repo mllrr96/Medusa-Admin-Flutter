@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/data/models/settings.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/models/order_preference.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class OrderSettingsController extends GetxController {
-  late OrderSettings orderSettings;
+  late OrderPreference orderPreference;
   @override
   void onInit() {
     super.onInit();
-   orderSettings =  StorageService.orderSettings.copyWith();
+    orderPreference = PreferenceService.orderPreference.copyWith();
   }
 
   Order order = Order(
@@ -16,7 +16,8 @@ class OrderSettingsController extends GetxController {
     email: 'Medusa@js.com',
     regionId: '',
     currencyCode: 'usd',
-    customer: const Customer(email: 'Medusa@js.com', firstName: 'Medusa', lastName: 'Js'),
+    customer: const Customer(
+        email: 'Medusa@js.com', firstName: 'Medusa', lastName: 'Js'),
     total: 12345,
     shippingAddress: const Address(countryCode: 'us'),
     cart: Cart(
@@ -32,7 +33,4 @@ class OrderSettingsController extends GetxController {
     paymentStatus: PaymentStatus.captured,
     displayId: 69,
   );
-
-
-
 }

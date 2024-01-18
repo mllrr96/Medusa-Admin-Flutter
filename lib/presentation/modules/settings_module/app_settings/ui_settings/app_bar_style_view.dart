@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin/data/models/settings.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/models/app_preference.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 
 @RoutePage()
@@ -18,9 +18,9 @@ class AppBarStyleView extends StatefulWidget {
 }
 
 class _AppBarStyleViewState extends State<AppBarStyleView> {
-  StorageService get storageService => StorageService.instance;
-  AppSettings get appSettings => StorageService.appSettings;
-  AppBarStyle get appBarStyle => StorageService.appSettings.appBarStyle;
+  PreferenceService get preferenceService => PreferenceService.instance;
+  AppPreference get appSettings => PreferenceService.appSettings;
+  AppBarStyle get appBarStyle => PreferenceService.appSettings.appBarStyle;
   late AppBarStyle selectedStyle;
 
   @override
@@ -40,7 +40,7 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
           actions: [
             TextButton(
                 onPressed: () async {
-                  await storageService
+                  await preferenceService
                       .updateAppSettings(
                           appSettings.copyWith(appBarStyle: selectedStyle))
                       .then((_) => context.popRoute());

@@ -6,8 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'data/service/language_service.dart';
 import 'core/constant/strings.dart';
 import 'core/route/app_router.dart';
-import 'data/service/storage_service.dart';
 import 'core/theme/flex_theme.dart';
+import 'data/service/preference_service.dart';
 import 'data/service/theme_service.dart';
 import 'core/di/di.dart';
 
@@ -29,8 +29,8 @@ class MedusaAdminApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ThemeController>(builder: (controller) {
-      final themeMode = StorageService.instance.loadThemeMode();
-      final locale = StorageService.instance.loadLocale();
+      final themeMode = PreferenceService.instance.loadThemeMode();
+      final locale = PreferenceService.instance.loadLocale();
       return MaterialApp.router(
         title: AppConstants.appName,
         locale: locale,

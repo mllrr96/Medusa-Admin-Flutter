@@ -2,7 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -12,7 +11,8 @@ import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -22,6 +22,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:simple_icons/simple_icons.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -31,19 +32,19 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  ThemeMode themeMode = StorageService.instance.loadThemeMode();
+  ThemeMode themeMode = PreferenceService.instance.loadThemeMode();
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final store = StoreService.store;
-    final packageInfo = StorageService.packageInfo;
+    final packageInfo = PreferenceService.packageInfo;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
     // String code = packageInfo.buildNumber;
 
     signOut() async {
-      final usingToken = StorageService.authType == AuthenticationType.token;
+      final usingToken = AuthPreferenceService.authType == AuthenticationType.token;
       final message = usingToken
           ? 'Signing out will delete api token from device and set auth method to JWT, Are you sure you want to continue?'
           : 'Are you sure you want to sign out?';
@@ -60,11 +61,11 @@ class _AppDrawerState extends State<AppDrawer> {
             final result = await SignOutUseCase.instance();
             await result.when((success) async {
               await Get.delete(force: true);
-              await StorageService.instance.clearLoginData();
-              await StorageService.instance.clearExportFiles();
-              await StorageService.instance.clearLoginKey();
+              await AuthPreferenceService.instance.clearLoginData();
+              await AuthPreferenceService.instance.clearExportFiles();
+              await AuthPreferenceService.instance.clearLoginKey();
               if (usingToken) {
-                await StorageService.instance.updateAppSettings(StorageService
+                await PreferenceService.instance.updateAppSettings(PreferenceService
                     .appSettings
                     .copyWith(authType: AuthenticationType.jwt));
                 await MedusaAdminDi.resetMedusaAdminSingleton();
@@ -180,7 +181,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
                                 Future.delayed(
                                         const Duration(milliseconds: 250))
-                                    .then((value) async => await StorageService
+                                    .then((value) async => await PreferenceService
                                         .instance
                                         .saveThemeMode(ThemeMode.light));
                                 break;
@@ -189,7 +190,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
                                 Future.delayed(
                                         const Duration(milliseconds: 250))
-                                    .then((value) async => await StorageService
+                                    .then((value) async => await PreferenceService
                                         .instance
                                         .saveThemeMode(ThemeMode.dark));
                                 break;
@@ -197,7 +198,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                 setState(() => themeMode = ThemeMode.system);
                                 Future.delayed(
                                         const Duration(milliseconds: 250))
-                                    .then((value) async => await StorageService
+                                    .then((value) async => await PreferenceService
                                         .instance
                                         .saveThemeMode(ThemeMode.system));
                                 break;
@@ -297,7 +298,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     final Uri url = Uri.parse(AppConstants.githubLink);
                     await launchUrl(url);
                   },
-                  icon: const Icon(OctIcons.mark_github_16),
+                  icon: const Icon(SimpleIcons.github),
                 )
               ],
             ),
@@ -596,7 +597,7 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
   showAboutDialog(
     context: context,
     applicationName: AppConstants.appName,
-    applicationVersion: StorageService.packageInfo.version,
+    applicationVersion: PreferenceService.packageInfo.version,
     useRootNavigator: useRootNavigator,
     applicationIcon: Image.asset('assets/images/medusa.png', scale: 12),
     applicationLegalese:

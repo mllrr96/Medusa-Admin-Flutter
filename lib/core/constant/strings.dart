@@ -3,7 +3,8 @@ class AppConstants {
   static const String appName = 'Medusa Admin';
   static const String firstRun = 'firstRun';
   static const String firstSignIn = 'firstSignIn';
-  static const String appSettingsKey = 'appSettings';
+  static const String appPreferenceKey = 'appPreference';
+  static const String authPreferenceKey = 'authPreference';
   static const String orderSettingsKey = 'orderSettings';
   static const String cookieKey = 'cookie';
   static const String jwtKey = 'jwt';

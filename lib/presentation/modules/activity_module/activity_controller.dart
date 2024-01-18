@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/domain/use_case/retrieve_exported_orders_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:path_provider/path_provider.dart';
@@ -69,7 +69,7 @@ class ActivityController extends GetxController {
     String savePath = '${dir.path}/exports/$fileName';
     return await dio
         .download(
-      '${StorageService.baseUrl}/$uri',
+      '${AuthPreferenceService.baseUrl}/$uri',
       savePath,
       options: Options(
           responseType: ResponseType.bytes,

@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/domain/use_case/create_batch_job_use_case.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_loading_page.dart';
@@ -12,7 +13,6 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
@@ -32,7 +32,7 @@ class OrdersView extends StatelessWidget {
     return GetBuilder<OrdersController>(
         init: OrdersController(ordersUseCase: OrdersUseCase.instance),
         builder: (controller) {
-          final orderSettings = StorageService.orderSettings;
+          final orderPreference = PreferenceService.orderPreference;
           return Scaffold(
             drawerEdgeDragWidth: context.drawerEdgeDragWidth,
             drawer: const AppDrawer(),
@@ -126,14 +126,14 @@ class OrdersView extends StatelessWidget {
                 child: PagedListView.separated(
                   padding: EdgeInsets.only(
                       bottom: 120,
-                      top: orderSettings.padding,
-                      left: orderSettings.padding,
-                      right: orderSettings.padding),
+                      top: orderPreference.padding,
+                      left: orderPreference.padding,
+                      right: orderPreference.padding),
                   separatorBuilder: (_, __) => const Gap(8.0),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Order>(
                     itemBuilder: (context, order, index) {
-                      if (orderSettings.alternativeCard) {
+                      if (orderPreference.alternativeCard) {
                         return AlternativeOrderCard(order)
                             .animate()
                             .fadeIn(duration: 500.ms);

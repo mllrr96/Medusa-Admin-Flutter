@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -42,12 +42,12 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
   }
 
   void _loadInit() async {
-    authType = StorageService.authType;
+    authType = AuthPreferenceService.authType;
     if (authType != AuthenticationType.jwt) {
       advancedOption = true;
     }
 
-    if (StorageService.baseUrl == null) {
+    if (AuthPreferenceService.baseUrl == null) {
       setupUrl = true;
     } else {
       setupUrl = false;
@@ -80,11 +80,11 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
         ? textCtrl.text.substring(0, textCtrl.text.length - 1)
         : textCtrl.text;
 
-    await StorageService.instance.updateUrl(url).then(
+    await AuthPreferenceService.instance.updateUrl(url).then(
       (result) async {
         if (result) {
-          await StorageService.instance.clearLoginData();
-          await StorageService.instance.clearEmail();
+          await AuthPreferenceService.instance.clearLoginData();
+          await AuthPreferenceService.instance.clearEmail();
           await _handleMedusaSingleton().then((_) {
             context.popRoute(true);
             context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
@@ -110,8 +110,8 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
           .write(key: AppConstants.tokenKey, value: tokenTextCtrl.text);
     }
     try {
-      await StorageService.instance.updateAppSettings(
-          StorageService.appSettings.copyWith(authType: authType));
+      await AuthPreferenceService.instance.updateAuthPreference(
+          AuthPreferenceService.authPreference.copyWith(authType: authType));
       switch (authType) {
         case AuthenticationType.cookie:
           await getIt<FlutterSecureStorage>()
@@ -140,7 +140,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final baseUrl = StorageService.baseUrl;
+    final baseUrl = AuthPreferenceService.baseUrl;
     String infoText = switch (authType) {
       AuthenticationType.cookie =>
         'Use a cookie session to send authenticated requests.',

@@ -1,10 +1,10 @@
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart' hide TextDirection;
 
 extension FormatDate on DateTime? {
   String formatDate() {
-    final formatOption = StorageService.appSettings.dateFormatOptions;
+    final formatOption = PreferenceService.appSettings.dateFormatOptions;
     if (this == null) {
       return '';
     }
@@ -12,7 +12,7 @@ extension FormatDate on DateTime? {
   }
 
   String formatTime() {
-    final format = StorageService.appSettings.timeFormatOptions;
+    final format = PreferenceService.appSettings.timeFormatOptions;
     if (this == null) {
       return '';
     }

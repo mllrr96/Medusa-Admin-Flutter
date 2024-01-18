@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 Future<DateTime?> adaptiveDateTimePicker(
@@ -12,7 +12,7 @@ Future<DateTime?> adaptiveDateTimePicker(
     bool? forceAndroidPicker}) async {
   DateTime? selectedDate;
   final useAndroidPicker =
-      forceAndroidPicker ?? StorageService.appSettings.useAndroidPicker;
+      forceAndroidPicker ?? PreferenceService.appSettings.useAndroidPicker;
   if (Platform.isIOS && !useAndroidPicker) {
     return await showCupertinoModalBottomSheet(
         context: context,

@@ -8,9 +8,9 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/data/models/settings.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import 'fulfillment_label.dart';
@@ -20,10 +20,10 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
 class OrderCard extends StatelessWidget {
-  const OrderCard(this.order, {super.key, this.onTap, this.orderSettings, this.shimmer = false});
+  const OrderCard(this.order, {super.key, this.onTap, this.orderPreference, this.shimmer = false});
   final Order order;
   final void Function()? onTap;
-  final OrderSettings? orderSettings;
+  final OrderPreference? orderPreference;
   final bool shimmer;
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class OrderCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
-    final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
+    final orderSettingsModel = orderPreference ?? PreferenceService.orderPreference;
     final customerName = order.customerName;
 
     return InkWell(
@@ -154,10 +154,10 @@ class OrderCard extends StatelessWidget {
 
 class AlternativeOrderCard extends StatelessWidget {
   const AlternativeOrderCard(this.order,
-      {super.key, this.onTap, this.orderSettings, this.shimmer = false});
+      {super.key, this.onTap, this.orderPreference, this.shimmer = false});
   final Order order;
   final void Function()? onTap;
-  final OrderSettings? orderSettings;
+  final OrderPreference? orderPreference;
   final bool shimmer;
 
   @override
@@ -166,7 +166,7 @@ class AlternativeOrderCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const manatee = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
-    final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
+    final orderPreference = this.orderPreference ?? PreferenceService.orderPreference;
     final customerName = order.customerName;
 
     return Card(
@@ -210,7 +210,7 @@ class AlternativeOrderCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         if (order.shippingAddress?.countryCode != null &&
-                            !orderSettingsModel.hideFlag)
+                            !orderPreference.hideFlag)
                           Flag.fromString(order.shippingAddress!.countryCode!,
                               height: 15, width: 30),
                       ],
@@ -244,7 +244,7 @@ class AlternativeOrderCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(customerName, style: smallTextStyle),
-                              if (orderSettingsModel.includeEmail)
+                              if (orderPreference.includeEmail)
                                 Text(order.email ?? '',
                                     style:
                                         smallTextStyle?.copyWith(color: manatee)),
@@ -261,7 +261,7 @@ class AlternativeOrderCard extends StatelessWidget {
                   Flexible(
                     child: PaymentStatusLabel(
                         paymentStatus: order.paymentStatus,
-                        dotOnly: !orderSettingsModel.paymentStatusDot),
+                        dotOnly: !orderPreference.paymentStatusDot),
                   ),
                 ],
               ),

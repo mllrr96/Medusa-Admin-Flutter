@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/data/service/language_service.dart';
-import 'package:medusa_admin/data/service/storage_service.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -44,9 +44,9 @@ class _SignInViewState extends State<SignInView> {
   }
 
   void _onInit() {
-    useBiometric = StorageService.appSettings.useBiometric;
-    emailCtrl.text = StorageService.email ?? '';
-    if (useBiometric == true && (StorageService.email?.isNotEmpty ?? false)) {
+    useBiometric = AuthPreferenceService.authPreference.useBiometric;
+    emailCtrl.text = AuthPreferenceService.email ?? '';
+    if (useBiometric == true && (AuthPreferenceService.email?.isNotEmpty ?? false)) {
       showAuthenticateButton = true;
     } else {
       showAuthenticateButton = false;
@@ -61,8 +61,8 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> _biometricAuthentication(SignInController ctrl) async {
-    if (StorageService.appSettings.useBiometric == true) {
-      final result = await StorageService.instance.loadLoginData();
+    if (AuthPreferenceService.authPreference.useBiometric == true) {
+      final result = await AuthPreferenceService.instance.loadLoginData();
       result.when((success) async {
         ctrl.loading = true;
         ctrl.update();
@@ -85,7 +85,7 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<bool> _validate() async {
-    if (StorageService.baseUrl == null) {
+    if (AuthPreferenceService.baseUrl == null) {
       context.showSignInErrorSnackBar('Please set your backend URL first');
       return false;
     }
@@ -117,7 +117,7 @@ class _SignInViewState extends State<SignInView> {
           context: context,
           builder: (context) => const UseBiometricReminder());
       if (result == true) {
-        await StorageService.instance
+        await AuthPreferenceService.instance
             .saveLoginData(emailCtrl.text, passwordCtrl.text);
       }
       // wait for the modal to close
@@ -139,7 +139,7 @@ class _SignInViewState extends State<SignInView> {
         .then((value) async {
       if (value) {
         // show enable biometric dialog
-        if (StorageService.authType != AuthenticationType.token) {
+        if (AuthPreferenceService.authType != AuthenticationType.token) {
           await _showBiometricDialog();
         }
 
@@ -180,7 +180,7 @@ class _SignInViewState extends State<SignInView> {
           builder: (controller) {
             final tr = context.tr;
             final useToken =
-                StorageService.authType == AuthenticationType.token;
+                AuthPreferenceService.authType == AuthenticationType.token;
             const space = Gap(12);
 
             // Since there no app bar, annotated region is used to apply theme ui overlay
@@ -274,7 +274,7 @@ class _SignInViewState extends State<SignInView> {
                                         tag: 'email',
                                         child: EmailTextField(
                                           readOnly: showAuthenticateButton &&
-                                              (StorageService
+                                              (AuthPreferenceService
                                                       .email?.isNotEmpty ??
                                                   false),
                                           controller: emailCtrl,
@@ -322,7 +322,7 @@ class _SignInViewState extends State<SignInView> {
                                       onPressed: controller.loading
                                           ? null
                                           : () {
-                                              if (StorageService.baseUrl ==
+                                              if (AuthPreferenceService.baseUrl ==
                                                   null) {
                                                 context.showSignInErrorSnackBar(
                                                     'Please set your backend URL first');
