@@ -20,7 +20,7 @@ class _OrderPlacedWidgetState extends State<OrderPlacedWidget> {
   @override
   Widget build(BuildContext context) {
     final durationDiff = DateTime.now().difference(widget.order.createdAt ?? DateTime.now());
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final total = widget.order.total.formatAsPrice(widget.order.currencyCode);
     return InkWell(

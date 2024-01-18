@@ -15,7 +15,7 @@ class RegionCard extends StatelessWidget {
   final bool showProviders;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     return InkWell(
@@ -36,7 +36,7 @@ class RegionCard extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 Expanded(
                     child: Text(getCountries(),
-                        style: mediumTextStyle!.copyWith(color: lightWhite),
+                        style: mediumTextStyle!.copyWith(color: manatee),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2)),
               ],
@@ -46,20 +46,20 @@ class RegionCard extends StatelessWidget {
               Row(
                 children: [
                   Text('Payment Providers: ',
-                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                      style: smallTextStyle?.copyWith(color: manatee)),
                   Expanded(
                       child: Text(getPaymentProviders(),
-                          style: smallTextStyle?.copyWith(color: lightWhite))),
+                          style: smallTextStyle?.copyWith(color: manatee))),
                 ],
               ),
             if (showProviders)
               Row(
                 children: [
                   Text('Fulfillment Providers: ',
-                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                      style: smallTextStyle?.copyWith(color: manatee)),
                   Expanded(
                       child: Text(getFulfilmentProviders(),
-                          style: smallTextStyle?.copyWith(color: lightWhite))),
+                          style: smallTextStyle?.copyWith(color: manatee))),
                 ],
               ),
           ],

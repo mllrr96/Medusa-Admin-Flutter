@@ -20,7 +20,7 @@ class ProductMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     return GetBuilder<AddUpdateProductController>(
@@ -32,7 +32,7 @@ class ProductMedia extends StatelessWidget {
           onExpansionChanged: onExpansionChanged,
           child: Column(
             children: [
-              Text('Add images to your product.', style: smallTextStyle?.copyWith(color: lightWhite)),
+              Text('Add images to your product.', style: smallTextStyle?.copyWith(color: manatee)),
               space,
               if (controller.updateMode && (controller.product.images?.isNotEmpty ?? false))
                 Column(

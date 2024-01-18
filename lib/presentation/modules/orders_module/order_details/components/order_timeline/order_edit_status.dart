@@ -16,7 +16,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final canceledDurationDiff = DateTime.now().difference(orderEdit.canceledAt ?? DateTime.now());
     final declinedDurationDiff = DateTime.now().difference(orderEdit.declinedAt ?? DateTime.now());
@@ -69,7 +69,7 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
           children: [
             Row(
               children: [
-                Icon(Icons.error_outline, color: ColorManager.primary),
+                const Icon(Icons.error_outline, color: ColorManager.primary),
                 const SizedBox(width: 12.0),
                 Text('Customer payment required', style: smallTextStyle)
               ],

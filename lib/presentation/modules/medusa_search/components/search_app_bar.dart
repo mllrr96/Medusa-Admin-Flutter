@@ -30,7 +30,7 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final controller = widget.controller;
     final searchCategory = controller.searchCategory;

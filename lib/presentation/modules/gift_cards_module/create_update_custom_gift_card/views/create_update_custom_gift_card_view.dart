@@ -26,7 +26,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
   final GiftCard? giftCard ;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -153,7 +153,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                 },
                                 title: const Text('Gift Card has an expiry date?'),
                                 subtitle: Text('Schedule the Gift Card to deactivate in the future.',
-                                    style: smallTextStyle?.copyWith(color: lightWhite)),
+                                    style: smallTextStyle?.copyWith(color: manatee)),
                               ),
                               if (controller.hasExpiryDate)
                                 DateTimeCard(

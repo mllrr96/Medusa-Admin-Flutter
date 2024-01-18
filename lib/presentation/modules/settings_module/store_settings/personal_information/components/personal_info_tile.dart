@@ -9,7 +9,7 @@ class PersonalInfoTile extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     return GestureDetector(
@@ -33,7 +33,7 @@ class PersonalInfoTile extends StatelessWidget {
                 const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text('Manage your Medusa profile',
                     style: smallTextStyle!
-                        .copyWith(color: lightWhite)),
+                        .copyWith(color: manatee)),
               ),
               const Divider(),
               Row(

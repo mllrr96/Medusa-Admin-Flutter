@@ -15,7 +15,7 @@ class TaxRateCard extends StatelessWidget {
   final bool shimmer;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -63,7 +63,7 @@ class TaxRateCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Code: ${taxRate.code ?? ''}', style: smallTextStyle?.copyWith(color: lightWhite)),
+                Text('Code: ${taxRate.code ?? ''}', style: smallTextStyle?.copyWith(color: manatee)),
                 Text('${taxRate.rate?.toString() ?? ''} %', style: smallTextStyle),
               ],
             ),

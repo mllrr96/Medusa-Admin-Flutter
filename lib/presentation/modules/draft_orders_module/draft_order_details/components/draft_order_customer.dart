@@ -15,7 +15,7 @@ class DraftOrderCustomer extends StatelessWidget {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final email = draftOrder.cart?.email;
@@ -75,7 +75,7 @@ class DraftOrderCustomer extends StatelessWidget {
                         children: [
                           Text(name, style: mediumTextStyle),
                           Text('${draftOrder.cart?.shippingAddress?.city ?? ''}, ${getCountry()}',
-                              style: mediumTextStyle?.copyWith(color: lightWhite))
+                              style: mediumTextStyle?.copyWith(color: manatee))
                         ],
                       ),
                     ),
@@ -105,7 +105,7 @@ class DraftOrderCustomer extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Shipping', style: mediumTextStyle!.copyWith(color: lightWhite)),
+                    Text('Shipping', style: mediumTextStyle!.copyWith(color: manatee)),
                     const SizedBox(height: 5.0),
                     Text(
                         '${draftOrder.cart?.shippingAddress?.address1 ?? ''} ${draftOrder.cart?.shippingAddress?.address2 ?? ''}',
@@ -120,7 +120,7 @@ class DraftOrderCustomer extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Billing', style: mediumTextStyle.copyWith(color: lightWhite)),
+                    Text('Billing', style: mediumTextStyle.copyWith(color: manatee)),
                     const SizedBox(height: 5.0),
                     Text(
                       '${draftOrder.cart?.billingAddress?.address1 ?? ''} ${draftOrder.cart?.billingAddress?.address2 ?? ''}',

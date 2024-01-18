@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/service/storage_service.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
@@ -12,7 +13,6 @@ import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class SplashView extends StatefulWidget {
@@ -30,29 +30,21 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future load() async {
-    if (StorageService.baseUrl == null) {
+    final baseUrl = StorageService.baseUrl;
+    if (baseUrl == null) {
+      context.router.replaceAll([SignInRoute()]);
+      return;
+    }
+    // register medusa admin singleton
+    await MedusaAdminDi.registerMedusaAdminSingleton();
+
+    bool shouldLogin = !await StorageService.instance.isAuthenticated();
+    if (shouldLogin && mounted) {
       context.router.replaceAll([SignInRoute()]);
       return;
     }
 
-    if (StorageService.baseUrl != null &&
-        !getIt.isRegistered<MedusaAdmin>()) {
-      getIt.registerLazySingleton<MedusaAdmin>(() => MedusaAdmin.initialize(
-            prefs: getIt<SharedPreferences>(),
-            config: MedusaConfig(
-              baseUrl: StorageService.baseUrl!,
-              enableDebugging: false,
-            ),
-          ));
-    }
-
-    String? cookie = StorageService.instance.cookie;
-    if (cookie == null) {
-      context.router.replaceAll([SignInRoute()]);
-      return;
-    }
-
-    final result = await AuthenticationUseCase.instance.getSession();
+    final result = await AuthenticationUseCase.instance.getCurrentUser();
 
     result.when((user) async {
       await Get.putAsync(() =>
@@ -62,8 +54,8 @@ class _SplashViewState extends State<SplashView> {
         context.router.replaceAll([const DashboardRoute()]);
       });
     }, (error) async {
-      if (error.code == 401 || error.code == 404) {
-        await StorageService.instance.clearCookie().then((_) {
+      if (error.code == 401) {
+        await StorageService.instance.clearLoginKey().then((_) {
           context.router.replaceAll([SignInRoute()]);
         });
       } else {

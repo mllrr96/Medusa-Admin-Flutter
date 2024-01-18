@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/presentation/modules/medusa_search/controllers/medusa_search_controller.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,18 +20,14 @@ import '../models/settings.dart';
 
 @singleton
 class StorageService {
-  StorageService(SharedPreferences prefs) : _prefs = prefs;
+  StorageService(SharedPreferences prefs, FlutterSecureStorage securePrefs)
+      : _prefs = prefs,
+        _securePrefs = securePrefs;
   static StorageService get instance => getIt<StorageService>();
   static String? get baseUrl => instance._baseUrl;
   static String get language => instance._language;
+  static AuthenticationType get authType => instance._appSettings.authType;
   static String? get email => instance._email;
-  String? get cookie {
-    try {
-      return _prefs.getString(AppConstants.cookieKey);
-    } catch (_) {
-      return null;
-    }
-  }
 
   static PackageInfo get packageInfo => instance._packageInfo;
   static List<SearchHistory> get searchHistory => instance._searchHistory;
@@ -38,6 +35,7 @@ class StorageService {
   static AppSettings get appSettings => instance._appSettings;
   static OrderSettings get orderSettings => instance._orderSettings;
   final SharedPreferences _prefs;
+  final FlutterSecureStorage _securePrefs;
   late String? _baseUrl;
   late PackageInfo _packageInfo;
   late String _language;
@@ -104,9 +102,16 @@ class StorageService {
     }
   }
 
-  bool isAuthenticated() {
+  Future<bool> isAuthenticated() async {
     try {
-      return _prefs.getString(AppConstants.cookieKey) != null ? true : false;
+      switch (_appSettings.authType) {
+        case AuthenticationType.cookie:
+          return await _securePrefs.containsKey(key: AppConstants.cookieKey);
+        case AuthenticationType.jwt:
+          return await _securePrefs.containsKey(key: AppConstants.jwtKey);
+        case AuthenticationType.token:
+          return await _securePrefs.containsKey(key: AppConstants.tokenKey);
+      }
     } catch (_) {
       return false;
     }
@@ -249,9 +254,21 @@ class StorageService {
     }
   }
 
-  Future<void> clearCookie() async {
+  Future<void> clearLoginKey({bool excludeToken = false}) async {
     try {
-      await _prefs.remove(AppConstants.cookieKey);
+      switch (_appSettings.authType) {
+        case AuthenticationType.cookie:
+          await _securePrefs.delete(key: AppConstants.cookieKey);
+          break;
+        case AuthenticationType.jwt:
+          await _securePrefs.delete(key: AppConstants.jwtKey);
+          break;
+        case AuthenticationType.token:
+          if (!excludeToken) {
+            await _securePrefs.delete(key: AppConstants.tokenKey);
+          }
+          break;
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -261,14 +278,6 @@ class StorageService {
     try {
       Directory dir = await getApplicationDocumentsDirectory();
       await Directory('${dir.path}/exports').delete(recursive: true);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<void> saveCookie(String cookie) async {
-    try {
-      await _prefs.setString(AppConstants.cookieKey, cookie);
     } catch (e) {
       debugPrint(e.toString());
     }

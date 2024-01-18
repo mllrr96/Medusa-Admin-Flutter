@@ -100,6 +100,7 @@ dependencies:
   file_picker: ^6.1.1
   flutter_secure_storage: ^9.0.0
   flutter_octicons: ^0.42.0
+  url_launcher: ^6.2.3
 
 
 

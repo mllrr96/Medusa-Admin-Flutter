@@ -13,7 +13,7 @@ class ProductListTileWithVariantCount extends StatelessWidget {
   final void Function(bool?)? onChanged;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     return CheckboxListTile(

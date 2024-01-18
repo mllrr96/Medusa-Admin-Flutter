@@ -20,7 +20,7 @@ class CurrenciesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -45,7 +45,7 @@ class CurrenciesView extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 children: [
                   Text('Manage the markets that you will operate within.',
-                      style: mediumTextStyle!.copyWith(color: lightWhite)),
+                      style: mediumTextStyle!.copyWith(color: manatee)),
                   space,
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -60,7 +60,7 @@ class CurrenciesView extends StatelessWidget {
                       children: [
                         Text('Default store currency', style: largeTextStyle),
                         Text('This is the currency your prices are shown in.',
-                            style: mediumTextStyle.copyWith(color: lightWhite)),
+                            style: mediumTextStyle.copyWith(color: manatee)),
                         space,
                         if (controller.currencies.isNotEmpty &&
                             controller.currencies.length == 1)
@@ -121,7 +121,7 @@ class CurrenciesView extends StatelessWidget {
                                   Text(
                                       'All the currencies available in your store.',
                                       style: mediumTextStyle.copyWith(
-                                          color: lightWhite)),
+                                          color: manatee)),
                                 ],
                               ),
                             ),

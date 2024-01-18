@@ -12,7 +12,7 @@ class DraftOrderOverview extends StatelessWidget {
   final DraftOrder draftOrder;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final email = draftOrder.cart?.email;
@@ -60,7 +60,7 @@ class DraftOrderOverview extends StatelessWidget {
                       Text(email ?? 'Email: N/A', style: mediumTextStyle),
                       const SizedBox(height: 6.0),
                       Text(billingAddress?.phone?.toString() ?? 'Phone: N/A',
-                          style: smallTextStyle?.copyWith(color: lightWhite)),
+                          style: smallTextStyle?.copyWith(color: manatee)),
                     ],
                   ),
                 ),
@@ -75,7 +75,7 @@ class DraftOrderOverview extends StatelessWidget {
                     const SizedBox(height: 6.0),
                     Text(
                       'Amount (${currencyCode?.toUpperCase()})',
-                      style: smallTextStyle?.copyWith(color: lightWhite),
+                      style: smallTextStyle?.copyWith(color: manatee),
                     )
                   ],
                 ),

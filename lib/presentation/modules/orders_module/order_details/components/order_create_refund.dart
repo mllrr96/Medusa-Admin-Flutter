@@ -195,7 +195,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                       controlAffinity: ListTileControlAffinity.leading,
                       contentPadding: EdgeInsets.zero,
                       secondary: InfoPopupWidget(
-                        arrowTheme: InfoPopupArrowTheme(
+                        arrowTheme: const InfoPopupArrowTheme(
                           arrowDirection: ArrowDirection.up,
                           color: ColorManager.primary,
                         ),

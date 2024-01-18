@@ -20,7 +20,7 @@ class ProductAttributes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -34,7 +34,7 @@ class ProductAttributes extends StatelessWidget {
           title: const Text('Attributes'),
           child: Column(
             children: [
-              Text('Used for shipping and customs purposes.', style: smallTextStyle!.copyWith(color: lightWhite)),
+              Text('Used for shipping and customs purposes.', style: smallTextStyle!.copyWith(color: manatee)),
               space,
               Row(
                 children: [

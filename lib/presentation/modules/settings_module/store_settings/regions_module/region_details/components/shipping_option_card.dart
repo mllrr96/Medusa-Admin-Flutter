@@ -18,7 +18,7 @@ class ShippingOptionCard extends StatelessWidget {
   final void Function()? onDeleteTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const halfSpace = SizedBox(height: 6.0);
@@ -109,7 +109,7 @@ class ShippingOptionCard extends StatelessWidget {
                   Flexible(
                     child: Text(
                         'Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
-                        style: smallTextStyle?.copyWith(color: lightWhite)),
+                        style: smallTextStyle?.copyWith(color: manatee)),
                   ),
                   ShippingOptionLabel(
                       adminOnly: shippingOption.adminOnly)
@@ -117,7 +117,7 @@ class ShippingOptionCard extends StatelessWidget {
               ),
               halfSpace,
               Text('${getMinText()} - ${getMaxText()}',
-                  style: smallTextStyle?.copyWith(color: lightWhite)),
+                  style: smallTextStyle?.copyWith(color: manatee)),
               halfSpace,
             ],
           ),

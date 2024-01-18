@@ -12,7 +12,7 @@ class OrderOverview extends StatelessWidget {
   final Order order;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final tr = context.tr;
 

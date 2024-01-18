@@ -70,7 +70,7 @@ class ImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fileSize = (image.readAsBytesSync().lengthInBytes) / 1000000;
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(4.0)),
@@ -103,7 +103,7 @@ class ImageCard extends StatelessWidget {
                         Text(
                           image.path.split(Platform.pathSeparator).last,
                           style: smallTextStyle?.copyWith(
-                              color: lightWhite, fontSize: 12),
+                              color: manatee, fontSize: 12),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
@@ -111,7 +111,7 @@ class ImageCard extends StatelessWidget {
                         Text(
                           '${fileSize.toStringAsFixed(2)} MB',
                           style: smallTextStyle?.copyWith(
-                              color: fileSize > 10 ? Colors.red : lightWhite,
+                              color: fileSize > 10 ? Colors.red : manatee,
                               fontSize: 12),
                         ),
                       ],

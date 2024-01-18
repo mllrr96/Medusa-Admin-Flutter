@@ -6,10 +6,8 @@ import '../../core/di/di.dart';
 
 @lazySingleton
 class AuthenticationUseCase {
-  static AuthenticationUseCase get instance =>
-      getIt<AuthenticationUseCase>();
-  AuthRepository get _authRepository =>
-      getIt<MedusaAdmin>().authRepository;
+  static AuthenticationUseCase get instance => getIt<AuthenticationUseCase>();
+  AuthRepository get _authRepository => getIt<MedusaAdmin>().authRepository;
   Future<Result<User, Failure>> login(
       {required String email, required String password}) async {
     try {
@@ -24,23 +22,52 @@ class AuthenticationUseCase {
       return Error(Failure.from(e));
     }
   }
+  Future<Result<String, Failure>> loginCookie(
+      {required String email, required String password}) async {
+    try {
+      final result = await _authRepository.signInCookie(
+          req: UserPostAuthReq(email: email, password: password));
+      if (result == null) {
+        return Error(Failure.from(result));
+      } else {
+        return Success(result);
+      }
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
+  Future<Result<String, Failure>> loginJWT(
+      {required String email, required String password}) async {
+    try {
+      final result = await _authRepository.signInJWT(
+          req: UserPostAuthReq(email: email, password: password));
+      if (result == null) {
+        return Error(Failure.from(result));
+      } else {
+        return Success(result);
+      }
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
 
   Future<Result<bool, Failure>> logoutCustomer() async {
     try {
       final result = await _authRepository.signOut();
-      if(result != null){
+      if (result != null) {
         return Success(result);
       } else {
-        return Error(Failure(message: 'Error logging out', type:''));
+        return Error(Failure(message: 'Error logging out', type: ''));
       }
     } on Exception catch (_) {
       return Error(Failure.from(_));
     }
   }
 
-  Future<Result<User, Failure>> getSession() async {
+  Future<Result<User, Failure>> getCurrentUser() async {
     try {
-      final result = await _authRepository.getSession();
+      final result = await _authRepository.getCurrentUser();
       if (result == null) {
         return Error(Failure.from(result));
       } else {

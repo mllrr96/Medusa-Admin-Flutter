@@ -12,7 +12,7 @@ class CollectionListTile extends StatelessWidget {
   final Color? tileColor;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     return ListTile(

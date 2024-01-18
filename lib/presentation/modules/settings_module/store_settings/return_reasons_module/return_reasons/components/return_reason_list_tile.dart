@@ -20,7 +20,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
 
@@ -70,7 +70,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
           ),
           subtitle: returnReason.description != null
               ? Text(returnReason.description!,
-                  style: mediumTextStyle!.copyWith(color: lightWhite))
+                  style: mediumTextStyle!.copyWith(color: manatee))
               : null,
         ),
       );
@@ -104,7 +104,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
                   ),
                   if (returnReason.description != null)
                     Text(returnReason.description!,
-                        style: mediumTextStyle!.copyWith(color: lightWhite))
+                        style: mediumTextStyle!.copyWith(color: manatee))
                 ],
               ),
             ),

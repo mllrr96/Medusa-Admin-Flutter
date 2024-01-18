@@ -25,7 +25,7 @@ class SalesChannelDetailsView extends StatelessWidget {
   final SalesChannel salesChannel;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
 
     return GetBuilder<SalesChannelDetailsController>(
@@ -128,7 +128,7 @@ class SalesChannelDetailsView extends StatelessWidget {
                                 children: [
                                   Text('Filters',
                                       style: context.bodySmall
-                                          ?.copyWith(color: lightWhite)),
+                                          ?.copyWith(color: manatee)),
                                   if (controller.productFilter?.count() != null)
                                     Text(
                                         ' ${controller.productFilter?.count() ?? ''}',

@@ -16,6 +16,7 @@ import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import '../components/index.dart';
@@ -127,26 +128,46 @@ class _SignInViewState extends State<SignInView> {
   Future<void> _signIn(SignInController controller) async {
     controller.loading = true;
     controller.update();
-    await _validate().then((valid) async {
-      if (!valid) {
-        controller.loading = false;
-        controller.update();
-        return;
-      }
-      await controller
-          .login(emailCtrl.text, passwordCtrl.text, context: context)
-          .then((value) async {
-        if (value) {
-          // show enable biometric dialog
+    if (!await _validate()) {
+      controller.loading = false;
+      controller.update();
+      return;
+    }
+    if (!mounted) return;
+    await controller
+        .login(emailCtrl.text, passwordCtrl.text, context: context)
+        .then((value) async {
+      if (value) {
+        // show enable biometric dialog
+        if (StorageService.authType != AuthenticationType.token) {
           await _showBiometricDialog();
-
-          if (!reAuthenticate && mounted) {
-            context.router.replaceAll([const DashboardRoute()]);
-          } else if (reAuthenticate) {
-            widget.onResult?.call(true);
-          }
         }
-      });
+
+        if (!reAuthenticate && mounted) {
+          context.router.replaceAll([const DashboardRoute()]);
+        } else if (reAuthenticate) {
+          widget.onResult?.call(true);
+        }
+      }
+    });
+  }
+
+  Future<void> _signInWithToken(SignInController controller) async {
+    controller.loading = true;
+    controller.update();
+    final result = await AuthenticationUseCase.instance.getCurrentUser();
+
+    result.when((success) {
+      context.router.replaceAll([const DashboardRoute()]);
+    }, (error) {
+      controller.loading = false;
+      controller.update();
+      if (error.code == 401) {
+        context.showSignInErrorSnackBar(
+            'Invalid token, Make sure you have set your API Token correctly, and try again.');
+      } else {
+        context.showSignInErrorSnackBar(error.toSnackBarString());
+      }
     });
   }
 
@@ -158,7 +179,8 @@ class _SignInViewState extends State<SignInView> {
           init: SignInController(AuthenticationUseCase.instance),
           builder: (controller) {
             final tr = context.tr;
-            final bool isRTL = context.isRTL;
+            final useToken =
+                StorageService.authType == AuthenticationType.token;
             const space = Gap(12);
 
             // Since there no app bar, annotated region is used to apply theme ui overlay
@@ -204,18 +226,13 @@ class _SignInViewState extends State<SignInView> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Align(
-                                    alignment: isRTL
-                                        ? Alignment.topRight
-                                        : Alignment.topLeft,
-                                    child: ElevatedButton.icon(
-                                      label: Text(controller
-                                              .themeMode.name.capitalize ??
-                                          controller.themeMode.name),
-                                      onPressed: () async =>
-                                          await controller.changeThemeMode(),
-                                      icon: Icon(controller.themeMode.icon),
-                                    ),
+                                  ElevatedButton.icon(
+                                    label: Text(
+                                        controller.themeMode.name.capitalize ??
+                                            controller.themeMode.name),
+                                    onPressed: () async =>
+                                        await controller.changeThemeMode(),
+                                    icon: Icon(controller.themeMode.icon),
                                   ),
                                   ElevatedButton.icon(
                                     onPressed: () async =>
@@ -247,52 +264,54 @@ class _SignInViewState extends State<SignInView> {
                             ),
                             space,
                             space,
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Column(
-                                children: [
-                                  Hero(
-                                      tag: 'email',
-                                      child: EmailTextField(
-                                        readOnly: showAuthenticateButton &&
-                                            (StorageService.email?.isNotEmpty ??
-                                                false),
-                                        controller: emailCtrl,
-                                        validator: (val) {
-                                          if (val?.isEmpty ?? true) {
-                                            return 'Email is required';
-                                          }
+                            if (!useToken)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                child: Column(
+                                  children: [
+                                    Hero(
+                                        tag: 'email',
+                                        child: EmailTextField(
+                                          readOnly: showAuthenticateButton &&
+                                              (StorageService
+                                                      .email?.isNotEmpty ??
+                                                  false),
+                                          controller: emailCtrl,
+                                          validator: (val) {
+                                            if (val?.isEmpty ?? true) {
+                                              return 'Email is required';
+                                            }
 
-                                          if (!val!.isEmail) {
-                                            return 'Invalid Email';
+                                            if (!val!.isEmail) {
+                                              return 'Invalid Email';
+                                            }
+
+                                            return null;
+                                          },
+                                        )),
+                                    const SizedBox(height: 12.0),
+                                    Hero(
+                                      tag: 'password',
+                                      child: PasswordTextField(
+                                        controller: passwordCtrl,
+                                        validator: (val) {
+                                          if (val != null && val.isEmpty) {
+                                            return 'Password is required';
+                                          }
+                                          if (val!.length < 8) {
+                                            return 'Password should be at least 8 characters long';
                                           }
 
                                           return null;
                                         },
-                                      )),
-                                  const SizedBox(height: 12.0),
-                                  Hero(
-                                    tag: 'password',
-                                    child: PasswordTextField(
-                                      controller: passwordCtrl,
-                                      validator: (val) {
-                                        if (val != null && val.isEmpty) {
-                                          return 'Password is required';
-                                        }
-                                        if (val!.length < 8) {
-                                          return 'Password should be at least 8 characters long';
-                                        }
-
-                                        return null;
-                                      },
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
                             space,
-                            if (!reAuthenticate)
+                            if (!reAuthenticate && !useToken)
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12.0),
@@ -331,24 +350,26 @@ class _SignInViewState extends State<SignInView> {
                                     ),
                                     onPressed: controller.loading
                                         ? null
-                                        : () async => await _signIn(controller),
+                                        : () async => useToken
+                                            ? await _signInWithToken(controller)
+                                            : await _signIn(controller),
                                     icon: const Icon(Icons.login),
                                     label:
                                         Text(tr.analyticsPreferencesContinue)),
                               ),
                             ),
                             space,
-                            if (showAuthenticateButton)
+                            if (showAuthenticateButton && !useToken)
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12.0),
                                 child: Column(
                                   children: [
-                                    Row(
+                                    const Row(
                                       children: [
-                                        const Expanded(child: Divider()),
+                                        Expanded(child: Divider()),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
+                                          padding: EdgeInsets.symmetric(
                                               horizontal: 8.0),
                                           child: Text(
                                             'Or',
@@ -356,7 +377,7 @@ class _SignInViewState extends State<SignInView> {
                                                 color: ColorManager.manatee),
                                           ),
                                         ),
-                                        const Expanded(child: Divider()),
+                                        Expanded(child: Divider()),
                                       ],
                                     ),
                                     space,

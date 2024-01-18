@@ -18,7 +18,7 @@ class OrderNoteWidget extends StatelessWidget {
     final email = user?.email;
     final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
     final durationDiff = DateTime.now().difference(note.createdAt ?? DateTime.now());
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(
       children: [

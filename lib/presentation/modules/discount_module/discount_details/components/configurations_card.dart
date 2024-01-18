@@ -13,7 +13,7 @@ class ConfigurationsCard extends StatelessWidget {
   final Discount discount;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     const halfSpace = Gap(6);

@@ -147,7 +147,7 @@ class LabeledChipTextFieldState extends State<LabeledChipTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const halfSpace = Gap(6);

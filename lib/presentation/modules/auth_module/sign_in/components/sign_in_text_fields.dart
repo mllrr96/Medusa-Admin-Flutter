@@ -26,7 +26,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   bool obscureText = true;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
     const border = OutlineInputBorder(
@@ -64,12 +64,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                         child: FadeTransition(opacity: anim, child: child),
                       ),
                   child: obscureText
-                      ? Icon(Icons.lock,
-                          key: const ValueKey('icon1'), color: manatee)
-                      : Icon(
+                      ? const Icon(Icons.lock,
+                          key: ValueKey('icon1'), color: manatee)
+                      : const Icon(
                           Icons.lock_open,
                           color: manatee,
-                          key: const ValueKey('icon2'),
+                          key: ValueKey('icon2'),
                         )),
               const SizedBox(width: 12.0),
               const VerticalDivider(indent: 10, endIndent: 10),
@@ -112,7 +112,7 @@ class EmailTextField extends StatelessWidget {
   final bool readOnly;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
     const border = OutlineInputBorder(
@@ -135,15 +135,15 @@ class EmailTextField extends StatelessWidget {
           enabledBorder: border,
           hintText: tr.loginCardEmail,
           contentPadding: EdgeInsets.zero,
-          prefixIcon: IntrinsicHeight(
+          prefixIcon: const IntrinsicHeight(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(width: 16.0),
+                SizedBox(width: 16.0),
                 Icon(Icons.mail, color: manatee),
-                const SizedBox(width: 12.0),
-                const VerticalDivider(indent: 10, endIndent: 10),
-                const SizedBox(width: 12.0),
+                SizedBox(width: 12.0),
+                VerticalDivider(indent: 10, endIndent: 10),
+                SizedBox(width: 12.0),
               ],
             ),
           )),

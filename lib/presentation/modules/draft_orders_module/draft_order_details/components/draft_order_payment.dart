@@ -17,7 +17,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
   Widget build(BuildContext context) {
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -62,7 +62,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
                             '',
                         style: mediumTextStyle),
                     // Text(' ${draftOrder.currencyCode?.toUpperCase() ?? ''}',
-                    //     style: mediumTextStyle?.copyWith(color: lightWhite)),
+                    //     style: mediumTextStyle?.copyWith(color: manatee)),
                   ],
                 ),
               ],
@@ -110,7 +110,7 @@ class DraftOrderPayment extends GetView<DraftOrderDetailsController> {
           ),
           space,
           Text('Payment link : Configure payment link in store settings',
-              style: smallTextStyle?.copyWith(color: lightWhite)),
+              style: smallTextStyle?.copyWith(color: manatee)),
         ],
       ),
     );

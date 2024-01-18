@@ -17,7 +17,7 @@ class CustomGiftCardTile extends StatelessWidget {
   final void Function()? onToggle;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final isDisabled = giftCard.isDisabled;
 

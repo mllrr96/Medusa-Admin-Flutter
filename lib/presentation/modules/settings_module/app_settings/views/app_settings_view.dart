@@ -93,7 +93,7 @@ class AppSettingsView extends StatelessWidget {
                                   await StorageService.instance
                                       .clearExportFiles();
                                   await StorageService.instance
-                                      .clearCookie()
+                                      .clearLoginKey()
                                       .then((value) => context.router
                                           .replaceAll([const SplashRoute()]));
                                   dismissLoading();

@@ -20,7 +20,7 @@ class PickProductsView extends StatelessWidget {
     return GetBuilder<PickProductsController>(
       init: PickProductsController(pickProductsUseCase: PickProductsUseCase.instance, pickProductsReq: pickProductsReq),
       builder: (controller) {
-        final manatee = ColorManager.manatee;
+        const manatee = ColorManager.manatee;
         final smallTextStyle = context.bodySmall;
 
         return Scaffold(

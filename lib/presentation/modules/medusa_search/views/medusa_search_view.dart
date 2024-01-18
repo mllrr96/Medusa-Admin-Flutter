@@ -30,7 +30,7 @@ class MedusaSearchView extends StatelessWidget {
   final SearchCategory searchCategory;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GestureDetector(
       onTap: () => context.unfocus(),
@@ -188,7 +188,7 @@ class SearchHistoryView extends StatelessWidget {
   final MedusaSearchController controller;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final searchHistory = StorageService.searchHistory;
     if (controller.searchTerm.removeAllWhitespace.isEmpty &&

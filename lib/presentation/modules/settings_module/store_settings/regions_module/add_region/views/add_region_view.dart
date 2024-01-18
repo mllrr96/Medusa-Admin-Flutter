@@ -25,7 +25,7 @@ class AddRegionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color lightWhite = ColorManager.manatee;
+    Color manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -75,7 +75,7 @@ class AddRegionView extends StatelessWidget {
                                 Expanded(
                                     child: Text('Add the region details.',
                                         style: smallTextStyle!
-                                            .copyWith(color: lightWhite))),
+                                            .copyWith(color: manatee))),
                               ],
                             ),
                             space,
@@ -261,7 +261,7 @@ class AddRegionView extends StatelessWidget {
                                     child: Text(
                                         'Add which fulfillment and payment providers should be available in this region.',
                                         style: smallTextStyle.copyWith(
-                                            color: lightWhite))),
+                                            color: manatee))),
                               ],
                             ),
                             space,

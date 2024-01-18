@@ -13,7 +13,7 @@ class PersonalInfoUseCase {
 
   Future<Result<User, Failure>> currentUser() async {
     try {
-      final result = await _authRepository.getSession();
+      final result = await _authRepository.getCurrentUser();
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));

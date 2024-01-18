@@ -15,7 +15,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
   final GiftCard giftCard;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     final isDisabled = giftCard.isDisabled;
@@ -74,14 +74,14 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Original amount', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text('Original amount', style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(giftCard.value.formatAsPrice(giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Balance', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text('Balance', style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(giftCard.balance.formatAsPrice(giftCard.region?.currencyCode), style: mediumTextStyle),
                       ],
                     ),
@@ -94,14 +94,14 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Region', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text('Region', style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(giftCard.region?.name?.toUpperCase() ?? '', style: mediumTextStyle),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Created', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text('Created', style: mediumTextStyle?.copyWith(color: manatee)),
                         Text(giftCard.createdAt.formatDate(), style: mediumTextStyle),
                       ],
                     ),
@@ -128,7 +128,7 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Status', style: mediumTextStyle?.copyWith(color: lightWhite)),
+                        Text('Status', style: mediumTextStyle?.copyWith(color: manatee)),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

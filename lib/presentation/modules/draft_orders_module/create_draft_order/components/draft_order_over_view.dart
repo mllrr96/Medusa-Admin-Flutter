@@ -16,7 +16,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
   final CreateDraftOrderController controller;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
 
@@ -121,7 +121,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Address',
-                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                      style: smallTextStyle?.copyWith(color: manatee)),
                   Text(
                       '${shippingAddress.address1}${shippingAddress.address2 != null ? ',' : ''} ${shippingAddress.address2 ?? ''}',
                       style: smallTextStyle),
@@ -135,7 +135,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Shipping method',
-                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                      style: smallTextStyle?.copyWith(color: manatee)),
                   Text(
                       '${shippingOption?.name ?? ''} - (${shippingOption?.amount.formatAsPrice(shippingOption.region?.currencyCode)})',
                       style: smallTextStyle),
@@ -163,7 +163,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Address',
-                      style: smallTextStyle?.copyWith(color: lightWhite)),
+                      style: smallTextStyle?.copyWith(color: manatee)),
                   Text(
                       '${billingAddress.address1}${billingAddress.address2 != null ? ',' : ''} ${billingAddress.address2 ?? ''}',
                       style: smallTextStyle),
@@ -192,7 +192,7 @@ class OverViewListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant ??
@@ -246,7 +246,7 @@ class OverViewListTile extends StatelessWidget {
                       ),
                     if (productVariant.title != null)
                       Text(productVariant.title ?? '',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                   ],

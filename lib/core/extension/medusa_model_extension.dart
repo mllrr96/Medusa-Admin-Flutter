@@ -32,3 +32,18 @@ extension CustomerName on Customer {
     return '${firstName ?? ''} ${lastName ?? ''}';
   }
 }
+
+extension AuthTypeExtension on String? {
+  AuthenticationType authType() {
+    switch (this) {
+      case 'JWT':
+        return AuthenticationType.jwt;
+      case 'Cookie':
+        return AuthenticationType.cookie;
+      case 'Api Token':
+        return AuthenticationType.token;
+      default:
+        return AuthenticationType.jwt;
+    }
+  }
+}

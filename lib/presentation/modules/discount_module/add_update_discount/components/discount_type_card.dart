@@ -18,7 +18,7 @@ class DiscountTypeCard extends StatelessWidget {
   final bool disabled;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final ThemeData theme = context.theme;

@@ -23,7 +23,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         scrimColor: Colors.black45,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
         foregroundColor: Colors.white,
       ),
@@ -35,10 +35,10 @@ class AppTheme {
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // splashColor: Colors.transparent,
       highlightColor: ColorManager.primary.withOpacity(0.6),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: CupertinoColors.white,
         selectedItemColor: ColorManager.primary,
-        unselectedItemColor: const Color(0xFF7D7E7D),
+        unselectedItemColor: Color(0xFF7D7E7D),
       ),
       appBarTheme: const AppBarTheme(
         // elevation: 0.0,
@@ -52,7 +52,7 @@ class AppTheme {
           systemNavigationBarColor: Color(0xFFF2F2F7),
         ),
       ),
-      cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+      cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
           primaryColor: ColorManager.primary,
         ),
@@ -114,14 +114,14 @@ class AppTheme {
       checkboxTheme: const CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
         foregroundColor: Colors.white,
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: const Color(0xff242527),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Color(0xff242527),
         selectedItemColor: ColorManager.primary,
-        unselectedItemColor: const Color(0xFF7D7E7D),
+        unselectedItemColor: Color(0xFF7D7E7D),
       ),
       cardColor: const Color(0xff242527),
       appBarTheme: const AppBarTheme(
@@ -136,12 +136,12 @@ class AppTheme {
           systemNavigationBarColor: Color(0xFF18191A),
         ),
       ),
-      cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+      cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
         textTheme: CupertinoTextThemeData(
           primaryColor: ColorManager.primary,
         ),
         brightness: Brightness.dark,
-        barBackgroundColor: const Color(0xff242527),
+        barBackgroundColor: Color(0xff242527),
         primaryColor: ColorManager.primary,
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,

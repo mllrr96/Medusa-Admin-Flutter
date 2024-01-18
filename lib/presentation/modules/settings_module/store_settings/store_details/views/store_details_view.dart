@@ -15,7 +15,7 @@ class StoreDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -39,7 +39,7 @@ class StoreDetailsView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text('Manage your business details',
-                          style: mediumTextStyle!.copyWith(color: lightWhite)),
+                          style: mediumTextStyle!.copyWith(color: manatee)),
                     ),
                     Form(
                       key: controller.keyFrom,

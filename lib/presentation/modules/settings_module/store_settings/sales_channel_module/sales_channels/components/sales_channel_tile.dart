@@ -10,7 +10,7 @@ class SalesChannelTile extends StatelessWidget {
   final SalesChannel salesChannel;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -21,7 +21,7 @@ class SalesChannelTile extends StatelessWidget {
       tileColor: context.theme.appBarTheme.backgroundColor,
       title: Text(salesChannel.name ?? '', style: largeTextStyle),
       subtitle: Text(salesChannel.description ?? '',
-          style: smallTextStyle?.copyWith(color: lightWhite)),
+          style: smallTextStyle?.copyWith(color: manatee)),
       trailing: isDisabled
           ? Container(
               padding:

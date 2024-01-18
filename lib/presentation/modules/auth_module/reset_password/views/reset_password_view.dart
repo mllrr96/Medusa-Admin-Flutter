@@ -17,7 +17,7 @@ class ResetPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final tr = context.tr;
     return GetBuilder<ResetPasswordController>(
       init: ResetPasswordController(

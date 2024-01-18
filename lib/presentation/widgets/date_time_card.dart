@@ -24,7 +24,7 @@ class DateTimeCard extends StatelessWidget {
   final String? Function(DateTime?)? validator;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const halfSpace = Gap(6);
@@ -115,7 +115,7 @@ class DateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final largeTextStyle = context.bodyLarge;
     return FormField<DateTime>(
       validator: validator,

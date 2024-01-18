@@ -19,7 +19,7 @@ class GiftCardListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final published = giftCard.status == ProductStatus.published;
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
         tileColor: context.theme.appBarTheme.backgroundColor,

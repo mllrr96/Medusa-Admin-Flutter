@@ -22,7 +22,7 @@ class GiftCardsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final bottomPadding = context.mediaQueryViewPadding.bottom == 0
         ? 12.0

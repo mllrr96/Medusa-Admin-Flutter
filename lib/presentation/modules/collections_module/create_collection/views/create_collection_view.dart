@@ -15,7 +15,7 @@ class CreateCollectionView extends StatelessWidget {
   final UpdateCollectionReq? updateCollectionReq;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -70,7 +70,7 @@ class CreateCollectionView extends StatelessWidget {
                           if (!controller.updateCollection)
                             Text(tr.collectionModalDescription,
                                 style: smallTextStyle!
-                                    .copyWith(color: lightWhite)),
+                                    .copyWith(color: manatee)),
                           space,
                           LabeledTextField(
                             label: tr.collectionModalTitleLabel,

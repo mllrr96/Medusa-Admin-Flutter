@@ -19,7 +19,7 @@ class ProductThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
 
@@ -103,7 +103,7 @@ class ProductThumbnail extends StatelessWidget {
           child: Column(
             children: [
               Text('Used to represent your product during checkout, social sharing and more.',
-                  style: smallTextStyle?.copyWith(color: lightWhite)),
+                  style: smallTextStyle?.copyWith(color: manatee)),
               getThumbnail(controller),
               TextButton(
                   onPressed: () async {

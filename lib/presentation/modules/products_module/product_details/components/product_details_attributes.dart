@@ -25,7 +25,7 @@ class ProductDetailsAttributes extends GetView<ProductDetailsController> {
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     return FlexExpansionTile(
       key: expansionKey,

@@ -19,7 +19,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
   Widget build(BuildContext context) {
     final disabled = discount.isDisabled ?? true;
     final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     Widget discountValueText() {
@@ -138,7 +138,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                         const VerticalDivider(width: 0),
                         Flexible(
                           child: InfoPopupWidget(
-                            arrowTheme: InfoPopupArrowTheme(
+                            arrowTheme: const InfoPopupArrowTheme(
                               arrowDirection: ArrowDirection.up,
                               color: ColorManager.primary,
                             ),

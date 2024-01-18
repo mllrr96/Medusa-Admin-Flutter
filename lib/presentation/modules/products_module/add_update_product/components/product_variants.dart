@@ -17,7 +17,7 @@ class ProductVariants extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -34,7 +34,7 @@ class ProductVariants extends StatelessWidget {
             children: [
               Text(
                   'Add variations of this product.\nOffer your customers different options for color, format, size, shape, etc.',
-                  style: smallTextStyle!.copyWith(color: lightWhite)),
+                  style: smallTextStyle!.copyWith(color: manatee)),
               space,
               Row(
                 children: [
@@ -181,7 +181,7 @@ class ProductOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     return Container(
@@ -200,7 +200,7 @@ class ProductOptionCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Option title', style: smallTextStyle!.copyWith(color: lightWhite)),
+                    Text('Option title', style: smallTextStyle!.copyWith(color: manatee)),
                     Text(productOption.title ?? '', style: smallTextStyle),
                   ],
                 ),
@@ -209,7 +209,7 @@ class ProductOptionCard extends StatelessWidget {
             ],
           ),
           space,
-          Text('Variations', style: smallTextStyle.copyWith(color: lightWhite)),
+          Text('Variations', style: smallTextStyle.copyWith(color: manatee)),
           if (productOption.values != null)
             Wrap(
               runSpacing: 5.0,

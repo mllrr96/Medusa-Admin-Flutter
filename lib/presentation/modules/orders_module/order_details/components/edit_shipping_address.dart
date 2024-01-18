@@ -74,7 +74,7 @@ class _EditAddressState extends State<EditAddress> {
   Widget build(BuildContext context) {
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 

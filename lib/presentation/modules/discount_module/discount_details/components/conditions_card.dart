@@ -20,7 +20,7 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
   final Discount discount;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     const space = Gap(12);
     const halfSpace = Gap(6);
 
@@ -55,8 +55,8 @@ class ConditionsCard extends GetView<DiscountDetailsController> {
                     }
                   },
                   icon: Platform.isIOS
-                      ? Icon(CupertinoIcons.add, color: ColorManager.primary)
-                      : Icon(Icons.add, color: ColorManager.primary)),
+                      ? const Icon(CupertinoIcons.add, color: ColorManager.primary)
+                      : const Icon(Icons.add, color: ColorManager.primary)),
             ],
           ),
           space,

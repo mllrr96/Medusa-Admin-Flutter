@@ -46,7 +46,7 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const constraints = BoxConstraints(minWidth: 30.0, minHeight: 40);
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const border = OutlineInputBorder(
       borderSide: BorderSide(color: Colors.transparent),

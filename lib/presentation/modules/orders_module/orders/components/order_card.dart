@@ -27,7 +27,7 @@ class OrderCard extends StatelessWidget {
   final bool shimmer;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
@@ -164,7 +164,7 @@ class AlternativeOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
     final orderSettingsModel = orderSettings ?? StorageService.orderSettings;
     final customerName = order.customerName;
@@ -418,7 +418,7 @@ class CustomerOrderCard extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final cardDefaultColor = index.isEven
         ? Theme.of(context).appBarTheme.backgroundColor

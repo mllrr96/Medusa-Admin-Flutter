@@ -16,7 +16,7 @@ class DiscountCard extends StatelessWidget {
   final void Function()? onDelete;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     bool expired = discount.endsAt?.isBefore(DateTime.now()) ?? false;
     Color? iconColor;
     switch (discount.rule?.type) {

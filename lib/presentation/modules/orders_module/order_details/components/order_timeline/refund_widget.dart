@@ -14,7 +14,7 @@ class RefundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final durationDiff = DateTime.now().difference(refund.createdAt ?? DateTime.now());
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(
       children: [

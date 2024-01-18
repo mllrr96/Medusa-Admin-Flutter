@@ -11,7 +11,7 @@ class PriceListLoadingPage extends StatelessWidget {
   final PriceList priceList;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     return  Column(

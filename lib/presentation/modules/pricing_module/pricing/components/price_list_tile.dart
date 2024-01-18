@@ -30,7 +30,7 @@ class PriceListTile extends StatelessWidget {
         ],
       );
     }
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return ListTile(
       onTap: () => context.pushRoute(PriceListDetailsRoute(priceList: priceList)),

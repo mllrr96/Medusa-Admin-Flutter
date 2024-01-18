@@ -29,7 +29,7 @@ class AddUpdatePriceListView extends StatelessWidget {
   static const kDuration = Duration(milliseconds: 300);
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -172,7 +172,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Price overrides has a start date?'),
-                    subtitle: Text(
+                    subtitle: const Text(
                         'Schedule the price overrides to activate in the future.',
                         style: TextStyle(color: manatee)),
                     value: controller.priceList.startsAt != null,
@@ -220,7 +220,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Price overrides has a expiry date?'),
-                    subtitle: Text(
+                    subtitle: const Text(
                         'Schedule the price overrides to deactivate in the future.',
                         style: TextStyle(color: manatee)),
                     value: controller.priceList.endsAt != null,
@@ -268,7 +268,7 @@ class AddUpdatePriceListView extends StatelessWidget {
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Customer availability'),
-                    subtitle: Text(
+                    subtitle: const Text(
                         'Specify which customer groups the price overrides should apply for.',
                         style: TextStyle(color: manatee)),
                     value: controller.specifyCustomers,

@@ -85,7 +85,7 @@ class _CreateDraftOrderAddressViewState
     const space = Gap(12);
     const halfSpace = Gap(6);
     final countries = controller.selectedRegion?.countries;
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
 
@@ -151,7 +151,7 @@ class _CreateDraftOrderAddressViewState
           label: 'Email',
           style: controller.customCustomer
               ? null
-              : smallTextStyle?.copyWith(color: lightWhite),
+              : smallTextStyle?.copyWith(color: manatee),
           onChanged: (val) {
             if (!controller.customCustomer &&
                 controller.selectedCustomer == null) {
@@ -179,7 +179,7 @@ class _CreateDraftOrderAddressViewState
           decoration: InputDecoration(
               prefixIcon: controller.customCustomer
                   ? null
-                  : Icon(CupertinoIcons.lock_fill, color: lightWhite)),
+                  : const Icon(CupertinoIcons.lock_fill, color: manatee)),
         ),
         space,
         const Text('Shipping Details'),

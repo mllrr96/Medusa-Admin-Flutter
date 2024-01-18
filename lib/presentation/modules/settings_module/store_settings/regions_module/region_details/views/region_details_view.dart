@@ -22,7 +22,7 @@ class RegionDetailsView extends StatelessWidget {
   final String regionId;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -185,7 +185,7 @@ class RegionDetailsView extends StatelessWidget {
                           children: [
                             Text('Currency',
                                 style: mediumTextStyle!
-                                    .copyWith(color: lightWhite)),
+                                    .copyWith(color: manatee)),
                             Text(
                                 '${region?.currencyCode?.toUpperCase() ?? '-'} ${NumberFormat.simpleCurrency(name: region?.currencyCode?.toUpperCase()).currencySymbol}',
                                 style: mediumTextStyle),
@@ -193,7 +193,7 @@ class RegionDetailsView extends StatelessWidget {
                         ),
                         halfSpace,
                         InfoPopupWidget(
-                          arrowTheme: InfoPopupArrowTheme(
+                          arrowTheme: const InfoPopupArrowTheme(
                             arrowDirection: ArrowDirection.up,
                             color: ColorManager.primary,
                           ),
@@ -213,7 +213,7 @@ class RegionDetailsView extends StatelessWidget {
                               Flexible(
                                   child: Text('Countries',
                                       style: mediumTextStyle.copyWith(
-                                          color: lightWhite))),
+                                          color: manatee))),
                               Expanded(
                                   flex: 2,
                                   child: Text(getCountriesText(region),
@@ -228,7 +228,7 @@ class RegionDetailsView extends StatelessWidget {
                           children: [
                             Text('Payment providers',
                                 style: mediumTextStyle.copyWith(
-                                    color: lightWhite)),
+                                    color: manatee)),
                             Text(getPaymentProviders(region),
                                 style: mediumTextStyle),
                           ],
@@ -239,7 +239,7 @@ class RegionDetailsView extends StatelessWidget {
                           children: [
                             Text('Fulfillment providers',
                                 style: mediumTextStyle.copyWith(
-                                    color: lightWhite)),
+                                    color: manatee)),
                             Text(getFulfilmentProviders(region),
                                 style: mediumTextStyle),
                           ],
@@ -268,7 +268,7 @@ class RegionDetailsView extends StatelessWidget {
                             Text(
                                 'Enter specifics about available regional shipment methods.',
                                 style: mediumTextStyle.copyWith(
-                                    color: lightWhite)),
+                                    color: manatee)),
                             space,
                             // AnimatedSwitcher(
                             //   duration: const Duration(milliseconds: 300),
@@ -413,7 +413,7 @@ class RegionDetailsView extends StatelessWidget {
                             Text(
                                 'Enter specifics about available regional shipment methods.',
                                 style: mediumTextStyle.copyWith(
-                                    color: lightWhite)),
+                                    color: manatee)),
                             space,
                             GetBuilder<RegionDetailsController>(
                                 id: 1,

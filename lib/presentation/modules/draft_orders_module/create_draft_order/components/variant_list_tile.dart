@@ -24,7 +24,7 @@ class VariantListTile extends StatelessWidget {
   final Region? selectedRegion;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant!;
@@ -86,11 +86,11 @@ class VariantListTile extends StatelessWidget {
                         style: mediumTextStyle,
                       ),
                       Text(productVariant.title ?? '',
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                       Text(moneyAmount.amount.formatAsPrice(moneyAmount.currencyCode),
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                     ],
@@ -137,7 +137,7 @@ class CustomVariantListTile extends StatelessWidget {
   final void Function()? onRemoveTap;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -177,7 +177,7 @@ class CustomVariantListTile extends StatelessWidget {
                         style: mediumTextStyle,
                       ),
                       Text(lineItem.unitPrice.formatAsPrice(currencyCode),
-                          style: smallTextStyle?.copyWith(color: lightWhite),
+                          style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                     ],

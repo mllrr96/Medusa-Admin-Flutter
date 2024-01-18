@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
+import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
@@ -16,9 +17,12 @@ import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
 
@@ -30,7 +34,7 @@ class _AppDrawerState extends State<AppDrawer> {
   ThemeMode themeMode = StorageService.instance.loadThemeMode();
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final store = StoreService.store;
     final packageInfo = StorageService.packageInfo;
@@ -39,10 +43,14 @@ class _AppDrawerState extends State<AppDrawer> {
     // String code = packageInfo.buildNumber;
 
     signOut() async {
+      final usingToken = StorageService.authType == AuthenticationType.token;
+      final message = usingToken
+          ? 'Signing out will delete api token from device and set auth method to JWT, Are you sure you want to continue?'
+          : 'Are you sure you want to sign out?';
       await showOkCancelAlertDialog(
               context: context,
               title: 'Sign out',
-              message: 'Are you sure you want to sign out?',
+              message: message,
               okLabel: 'Sign Out',
               isDestructiveAction: true)
           .then(
@@ -54,8 +62,16 @@ class _AppDrawerState extends State<AppDrawer> {
               await Get.delete(force: true);
               await StorageService.instance.clearLoginData();
               await StorageService.instance.clearExportFiles();
-              await StorageService.instance.clearCookie().then(
-                  (value) => context.router.replaceAll([const SplashRoute()]));
+              await StorageService.instance.clearLoginKey();
+              if (usingToken) {
+                await StorageService.instance.updateAppSettings(StorageService
+                    .appSettings
+                    .copyWith(authType: AuthenticationType.jwt));
+                await MedusaAdminDi.resetMedusaAdminSingleton();
+              }
+              if (mounted) {
+                context.router.replaceAll([const SplashRoute()]);
+              }
               dismissLoading();
             }, (error) {
               if (error.code == 401) {
@@ -140,50 +156,74 @@ class _AppDrawerState extends State<AppDrawer> {
           context.tabsRouter.setActiveIndex(index);
         },
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12.0),
-            height: 56,
-            decoration: ShapeDecoration(
-              shape: const StadiumBorder(),
-              color:
-                  context.getAlphaBlend(context.theme.scaffoldBackgroundColor),
-            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  padding: const EdgeInsets.all(16.0),
-                  onPressed: () async {
-                    switch (themeMode) {
-                      case ThemeMode.system:
-                        setState(() => themeMode = ThemeMode.light);
+                Expanded(
+                  child: Container(
+                    height: 56,
+                    decoration: ShapeDecoration(
+                      shape: const StadiumBorder(),
+                      color: context
+                          .getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(16.0),
+                          onPressed: () async {
+                            switch (themeMode) {
+                              case ThemeMode.system:
+                                setState(() => themeMode = ThemeMode.light);
 
-                        Future.delayed(const Duration(milliseconds: 250)).then(
-                            (value) async => await StorageService.instance
-                                .saveThemeMode(ThemeMode.light));
-                        break;
-                      case ThemeMode.light:
-                        setState(() => themeMode = ThemeMode.dark);
+                                Future.delayed(
+                                        const Duration(milliseconds: 250))
+                                    .then((value) async => await StorageService
+                                        .instance
+                                        .saveThemeMode(ThemeMode.light));
+                                break;
+                              case ThemeMode.light:
+                                setState(() => themeMode = ThemeMode.dark);
 
-                        Future.delayed(const Duration(milliseconds: 250)).then(
-                            (value) async => await StorageService.instance
-                                .saveThemeMode(ThemeMode.dark));
-                        break;
-                      case ThemeMode.dark:
-                        setState(() => themeMode = ThemeMode.system);
-                        Future.delayed(const Duration(milliseconds: 250)).then(
-                            (value) async => await StorageService.instance
-                                .saveThemeMode(ThemeMode.system));
-                        break;
-                    }
-                  },
-                  icon: Icon(themeMode.icon),
+                                Future.delayed(
+                                        const Duration(milliseconds: 250))
+                                    .then((value) async => await StorageService
+                                        .instance
+                                        .saveThemeMode(ThemeMode.dark));
+                                break;
+                              case ThemeMode.dark:
+                                setState(() => themeMode = ThemeMode.system);
+                                Future.delayed(
+                                        const Duration(milliseconds: 250))
+                                    .then((value) async => await StorageService
+                                        .instance
+                                        .saveThemeMode(ThemeMode.system));
+                                break;
+                            }
+                          },
+                          icon: Icon(themeMode.icon),
+                        ),
+                        Flexible(
+                          child: Text(store?.name ?? '',
+                              style: context.bodyLarge,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: SizedBox(),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Flexible(
-                    child: Text(store?.name ?? '',
-                        style: context.bodyLarge,
-                        overflow: TextOverflow.ellipsis)),
+                const Gap(5.0),
                 IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: context
+                          .getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                    ),
                     padding: const EdgeInsets.all(16.0),
                     onPressed: () => context.pushRoute(const ActivityRoute()),
                     icon: const Badge(
@@ -239,7 +279,8 @@ class _AppDrawerState extends State<AppDrawer> {
                               ),
                             ],
                           ),
-                          Icon(Icons.info_outline, color: ColorManager.manatee),
+                          const Icon(Icons.info_outline,
+                              color: ColorManager.manatee),
                         ],
                       ),
                     ),
@@ -252,7 +293,10 @@ class _AppDrawerState extends State<AppDrawer> {
                         .getAlphaBlend(context.theme.scaffoldBackgroundColor),
                   ),
                   padding: const EdgeInsets.all(16.0),
-                  onPressed: () {},
+                  onPressed: () async {
+                    final Uri url = Uri.parse(AppConstants.githubLink);
+                    await launchUrl(url);
+                  },
                   icon: const Icon(OctIcons.mark_github_16),
                 )
               ],

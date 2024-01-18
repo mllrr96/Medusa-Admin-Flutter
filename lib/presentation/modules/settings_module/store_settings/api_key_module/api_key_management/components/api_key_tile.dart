@@ -10,7 +10,7 @@ class ApiKeyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final revoked = apiKey.revokedAt != null;
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 8.0, 12.0, 8.0),
@@ -40,7 +40,7 @@ class ApiKeyTile extends StatelessWidget {
                       Text(apiKey.title ?? ''),
                       Text(apiKey.id ?? '',
                           style: smallTextStyle?.copyWith(
-                              color: lightWhite)),
+                              color: manatee)),
                     ],
                   ),
                 ),

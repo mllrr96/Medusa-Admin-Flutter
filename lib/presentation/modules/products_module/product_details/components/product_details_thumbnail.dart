@@ -23,7 +23,7 @@ class ProductDetailsThumbnail extends GetView<ProductDetailsController> {
   final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     final buttonText = product.thumbnail == null ? 'Add' : 'Edit';

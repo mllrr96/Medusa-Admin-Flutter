@@ -18,7 +18,7 @@ class DraftOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
@@ -52,7 +52,7 @@ class DraftOrderCard extends StatelessWidget {
                       draftOrder.cart!.createdAt != null
                           ? '${draftOrder.cart!.createdAt.formatDate()} at ${draftOrder.cart!.createdAt.formatTime()}'
                           : '',
-                      style: mediumTextStyle!.copyWith(color: lightWhite),
+                      style: mediumTextStyle!.copyWith(color: manatee),
                     ),
                   ],
                 ),

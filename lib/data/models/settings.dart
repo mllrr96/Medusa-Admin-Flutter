@@ -1,4 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
+import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../core/utils/enums.dart';
 
@@ -10,6 +12,7 @@ class AppSettings {
   final TimeFormatOptions timeFormatOptions;
   final FlexScheme colorScheme;
   final AppBarStyle appBarStyle;
+  final AuthenticationType authType;
 
   AppSettings({
     required this.useAndroidPicker,
@@ -19,11 +22,13 @@ class AppSettings {
     required this.timeFormatOptions,
     required this.colorScheme,
     required this.appBarStyle,
+    required this.authType,
   });
   AppSettings.defaultSettings({
     this.useAndroidPicker = false,
     this.useMaterial3 = true,
     this.useBiometric,
+    this.authType = AuthenticationType.jwt,
     this.appBarStyle = AppBarStyle.normal,
     this.dateFormatOptions = DateFormatOptions.fifth,
     this.timeFormatOptions = TimeFormatOptions.amPm,
@@ -36,6 +41,7 @@ class AppSettings {
     bool? useBiometric,
     bool resetBiometric = false,
     DateFormatOptions? dateFormatOptions,
+    AuthenticationType? authType,
     TimeFormatOptions? timeFormatOptions,
     FlexScheme? colorScheme,
     AppBarStyle? appBarStyle,
@@ -44,6 +50,7 @@ class AppSettings {
         useAndroidPicker: useAndroidPicker ?? this.useAndroidPicker,
         useMaterial3: useMaterial3 ?? this.useMaterial3,
         appBarStyle: appBarStyle ?? this.appBarStyle,
+        authType: authType ?? this.authType,
         useBiometric: resetBiometric ? null : useBiometric ?? this.useBiometric,
         timeFormatOptions: timeFormatOptions ?? this.timeFormatOptions,
         dateFormatOptions: dateFormatOptions ?? this.dateFormatOptions,
@@ -54,6 +61,7 @@ class AppSettings {
         'useAndroidPicker': useAndroidPicker,
         'useMaterial3': useMaterial3,
         'useBiometric': useBiometric,
+        'authType': authType.toString(),
         'appBarStyle': appBarStyle.toInt(),
         'timeFormatOptions': timeFormatOptions.index,
         'dateFormatOptions': dateFormatOptions.index,
@@ -65,6 +73,7 @@ class AppSettings {
         useAndroidPicker: json?['useAndroidPicker'] ?? false,
         useMaterial3: json?['useMaterial3'] ?? true,
         useBiometric: json?['useBiometric'],
+        authType: (json?['authType'] as String?).authType(),
         appBarStyle: AppBarStyle.fromJson(json?['appBarStyle']),
         timeFormatOptions:
             TimeFormatOptions.fromInt(json?['timeFormatOptions']),

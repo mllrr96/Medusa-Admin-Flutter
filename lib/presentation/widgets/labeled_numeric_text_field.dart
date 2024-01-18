@@ -38,7 +38,7 @@ class LabeledNumericTextField extends StatelessWidget {
 final bool noEndSpace;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);

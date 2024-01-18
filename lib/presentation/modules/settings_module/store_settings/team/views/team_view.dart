@@ -20,7 +20,7 @@ class TeamView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const kDuration = Duration(milliseconds: 200);
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     return GetBuilder<TeamController>(
         init: TeamController(teamUseCase: TeamUseCase.instance),
         builder: (teamController) {
@@ -224,11 +224,11 @@ class TeamView extends StatelessWidget {
                               ],
                             ),
                           ),
-                          onEmpty: SliverToBoxAdapter(
+                          onEmpty: const SliverToBoxAdapter(
                             child: Center(
                               child: Text(
                                 'No invites',
-                                style: TextStyle(color: lightWhite),
+                                style: TextStyle(color: manatee),
                               ),
                             ),
                           ),
@@ -250,7 +250,7 @@ class PersistentHeader extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     return Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -258,7 +258,7 @@ class PersistentHeader extends SliverPersistentHeaderDelegate {
         height: kToolbarHeight,
         child: Text(
           text,
-          style: TextStyle(color: lightWhite),
+          style: const TextStyle(color: manatee),
         ));
   }
 

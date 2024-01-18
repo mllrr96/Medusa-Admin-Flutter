@@ -18,7 +18,7 @@ class SalesChannelsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GetBuilder<SalesChannelsController>(
         init: SalesChannelsController(salesChannelsUseCase: SalesChannelsUseCase.instance),
@@ -41,7 +41,7 @@ class SalesChannelsView extends StatelessWidget {
                                 child: Text(
                                     'Control which products are available in which channels',
                                     style: smallTextStyle?.copyWith(
-                                        color: lightWhite)))),
+                                        color: manatee)))),
                         const Divider(height: 0),
                       ],
                     ),

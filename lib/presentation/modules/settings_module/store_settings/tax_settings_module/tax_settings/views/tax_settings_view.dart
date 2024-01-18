@@ -21,7 +21,7 @@ class TaxSettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -82,7 +82,7 @@ class TaxSettingsView extends StatelessWidget {
                       Text('Tax Calculation Settings', style: largeTextStyle),
                       space,
                       Text('Tax Provider',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
+                          style: mediumTextStyle?.copyWith(color: manatee)),
                       halfSpace,
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 300),
@@ -156,7 +156,7 @@ class TaxSettingsView extends StatelessWidget {
                                     title: Text(
                                       'When checked Medusa will automatically apply tax calculations to Carts in this Region. When unchecked you will have to manually compute taxes at checkout. Manual taxes are recommended if using a 3rd party tax provider to avoid performing too many requests',
                                       style: context.bodySmall
-                                          ?.copyWith(color: lightWhite),
+                                          ?.copyWith(color: manatee),
                                       textAlign: TextAlign.justify,
                                     ),
                                   ),
@@ -203,7 +203,7 @@ class TaxSettingsView extends StatelessWidget {
                                 title: Text(
                                   'When checked taxes will be applied to gift cards on checkout. In some countries tax regulations require that taxes are applied to gift cards on purchase.',
                                   style: context.bodySmall
-                                      ?.copyWith(color: lightWhite),
+                                      ?.copyWith(color: manatee),
                                   textAlign: TextAlign.justify,
                                 ),
                               )
@@ -229,7 +229,7 @@ class TaxSettingsView extends StatelessWidget {
                       Text('Details', style: context.headlineMedium),
                       halfSpace,
                       Text('Tax rates: ',
-                          style: mediumTextStyle?.copyWith(color: lightWhite)),
+                          style: mediumTextStyle?.copyWith(color: manatee)),
                     ],
                   ),
                 ),

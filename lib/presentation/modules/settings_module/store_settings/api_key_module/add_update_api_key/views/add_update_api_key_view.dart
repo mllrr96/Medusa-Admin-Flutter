@@ -18,7 +18,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     return GetBuilder<AddUpdateApiKeyController>(
@@ -53,7 +53,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
                          children: [
                            Text(
                              'Create and manage API keys. Right now this is only related to sales channels.',
-                             style: smallTextStyle?.copyWith(color: lightWhite),
+                             style: smallTextStyle?.copyWith(color: manatee),
                            ),
                            space,
                            LabeledTextField(
@@ -80,7 +80,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
                         children: [
                           Text(
                             'Connect as many sales channels to your API key as you need.',
-                            style: smallTextStyle?.copyWith(color: lightWhite),
+                            style: smallTextStyle?.copyWith(color: manatee),
                           ),
                           space,
                         ],

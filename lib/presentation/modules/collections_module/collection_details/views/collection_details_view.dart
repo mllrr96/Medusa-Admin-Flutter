@@ -24,7 +24,7 @@ class CollectionDetailsView extends StatelessWidget {
   final String collectionId;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     final tr = context.tr;
@@ -100,7 +100,7 @@ class CollectionDetailsView extends StatelessWidget {
                             // const SizedBox(height: 6.0),
                             Text('/${collection.handle ?? ''}',
                                 style: smallTextStyle!
-                                    .copyWith(color: lightWhite)),
+                                    .copyWith(color: manatee)),
                           ],
                         ),
                         if (collection.products != null &&

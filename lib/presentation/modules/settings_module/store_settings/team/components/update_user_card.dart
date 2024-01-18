@@ -5,7 +5,6 @@ import 'package:medusa_admin/presentation/modules/settings_module/store_settings
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-
 class UpdateUserCard extends StatefulWidget {
   const UpdateUserCard({super.key, required this.user});
   final User user;
@@ -17,6 +16,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
   final emailCtrl = TextEditingController();
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
+  final tokenCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -24,6 +24,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
     emailCtrl.text = widget.user.email ?? '';
     firstNameCtrl.text = widget.user.firstName ?? '';
     lastNameCtrl.text = widget.user.lastName ?? '';
+    tokenCtrl.text = widget.user.apiToken ?? '';
     super.initState();
   }
 
@@ -32,6 +33,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
     emailCtrl.dispose();
     firstNameCtrl.dispose();
     lastNameCtrl.dispose();
+    tokenCtrl.dispose();
     super.dispose();
   }
 
@@ -40,7 +42,8 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
     final user = widget.user;
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewPadding.bottom + MediaQuery.of(context).viewInsets.bottom,
+        bottom: MediaQuery.of(context).viewPadding.bottom +
+            MediaQuery.of(context).viewInsets.bottom,
         left: 12.0,
         right: 12.0,
         top: 8.0,
@@ -55,24 +58,31 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () => context.popRoute(),
+                      child: const Text('Cancel')),
                   TextButton(
                       onPressed: () async {
                         if (!formKey.currentState!.validate()) {
                           return;
                         }
 
-                        if (user.firstName == firstNameCtrl.text && user.lastName == lastNameCtrl.text) {
+                        if (user.firstName == firstNameCtrl.text &&
+                            user.lastName == lastNameCtrl.text &&
+                            user.apiToken == tokenCtrl.text) {
                           context.popRoute();
                           return;
                         }
 
-                       await TeamController.instance.updateUser(
+                        await TeamController.instance.updateUser(
                           id: user.id!,
                           context: context,
                           userUpdateUserReq: UserUpdateUserReq(
                             firstName: firstNameCtrl.text,
                             lastName: lastNameCtrl.text,
+                            apiToken: tokenCtrl.text.isNotEmpty
+                                ? tokenCtrl.text
+                                : null,
                           ),
                         );
                       },
@@ -113,6 +123,11 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                 readOnly: true,
                 controller: emailCtrl,
                 hintText: 'Lebron@james.com',
+              ),
+              const SizedBox(height: 12.0),
+              LabeledTextField(
+                label: 'Api Token',
+                controller: tokenCtrl,
               ),
             ],
           ),

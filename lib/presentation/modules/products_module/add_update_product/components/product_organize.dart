@@ -14,7 +14,7 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -140,9 +140,9 @@ class ProductOrganize extends GetView<AddUpdateProductController> {
                 contentPadding: EdgeInsets.zero,
                 title: Text('Sales channels', style: largeTextStyle),
 
-                subtitle: Text(
+                subtitle: const Text(
                   'This product will only be available in the default sales channel if left untouched.',
-                  style: TextStyle(color: lightWhite),
+                  style: TextStyle(color: manatee),
                 ),
                 value: controller.enableSalesChannels,
                 onChanged:controller.updateMode ? null : (val) async {

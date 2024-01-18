@@ -21,7 +21,7 @@ class AppDevSettingsView extends StatelessWidget {
   AppSettings get appSettings => StorageService.appSettings;
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     const divider = Divider(height: 0);
     return Scaffold(
       body: NestedScrollView(
@@ -43,20 +43,20 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.cookie_outlined),
                 title: const Text('Clear Cookie'),
-                subtitle: Text('Clears the cookie used for authentication',
+                subtitle: const Text('Clears the cookie used for authentication',
                     style: TextStyle(color: manatee)),
-                onTap: () {
-                  context.showSnackBar(
-                      StorageService.instance.cookie ?? 'No cookie found',
-                      action: SnackBarAction(
-                          label: 'Copy',
-                          onPressed: () {
-                            context.copyToClipboard(
-                                StorageService.instance.cookie ?? '');
-                          }));
+                onTap: () async {
+                  // context.showSnackBar(
+                  //     await StorageService.instance.cookie ?? 'No cookie found',
+                  //     action: SnackBarAction(
+                  //         label: 'Copy',
+                  //         onPressed: () async {
+                  //           context.copyToClipboard(
+                  //               await StorageService.instance.cookie ?? '');
+                  //         }));
                 },
                 onLongPress: () async {
-                  await storageService.clearCookie();
+                  await storageService.clearLoginKey();
                   Fluttertoast.showToast(msg: 'Cookie cleared');
                 },
               ),
@@ -64,7 +64,7 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.settings_backup_restore_outlined),
                 title: const Text('Reset First Run'),
-                subtitle: Text('Resets the first run flag',
+                subtitle: const Text('Resets the first run flag',
                     style: TextStyle(color: manatee)),
                 onTap: () async {
                   final isFirstRun = await storageService.isFirstRun();
@@ -83,7 +83,7 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.password),
                 title: const Text('Load login data'),
-                subtitle: Text('Loads saved data credential',
+                subtitle: const Text('Loads saved data credential',
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
                   final result = await storageService.loadLoginData();
@@ -99,7 +99,7 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.save_outlined),
                 title: const Text('Clear login data'),
-                subtitle: Text('Clears the login data',
+                subtitle: const Text('Clears the login data',
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
                   await storageService.clearLoginData();
@@ -110,7 +110,7 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.file_copy_outlined),
                 title: const Text('Clear exports files'),
-                subtitle: Text('Deletes exports files',
+                subtitle: const Text('Deletes exports files',
                     style: TextStyle(color: manatee)),
                 onLongPress: () async {
                   await storageService.clearExportFiles();
@@ -122,7 +122,7 @@ class AppDevSettingsView extends StatelessWidget {
                 leading: const Icon(Icons.link),
                 title: const Text('Set URL'),
                 subtitle:
-                    Text('Change base url', style: TextStyle(color: manatee)),
+                    const Text('Change base url', style: TextStyle(color: manatee)),
                 onTap: () {
                   context.showSnackBar(StorageService.baseUrl ?? 'No URL found',
                       action: SnackBarAction(
@@ -144,7 +144,7 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text('Sign out'),
-                subtitle: Text('Sends a logout request to the server',
+                subtitle: const Text('Sends a logout request to the server',
                     style: TextStyle(color: manatee)),
                 onTap: () {},
                 onLongPress: () async {

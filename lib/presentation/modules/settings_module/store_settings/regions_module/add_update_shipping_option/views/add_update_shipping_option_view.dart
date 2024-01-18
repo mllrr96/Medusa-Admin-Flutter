@@ -23,7 +23,7 @@ class AddUpdateShippingOptionView extends StatelessWidget {
   Widget build(BuildContext context) {
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final headlineMediumTextStyle = context.headlineMedium;
@@ -45,7 +45,7 @@ class AddUpdateShippingOptionView extends StatelessWidget {
               const BoxConstraints(minHeight: 0, minWidth: 0),
           prefixIcon: Text(
               '   ${NumberFormat.simpleCurrency(name: controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase()).currencySymbol}   ',
-              style: smallTextStyle?.copyWith(color: lightWhite)),
+              style: smallTextStyle?.copyWith(color: manatee)),
         );
         return GestureDetector(
           onTap: () => context.unfocus(),
@@ -74,9 +74,9 @@ class AddUpdateShippingOptionView extends StatelessWidget {
                     SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
                       title: const Text('Visible in store'),
-                      subtitle: Text(
+                      subtitle: const Text(
                         'Enable or disable the shipping option visibility in store.',
-                        style: TextStyle(color: lightWhite),
+                        style: TextStyle(color: manatee),
                       ),
                       value: controller.visibleInStore,
                       onChanged: (val) {

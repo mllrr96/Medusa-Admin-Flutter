@@ -18,7 +18,7 @@ class TaxSettingsSelectRegionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return GetBuilder<TaxSettingsSelectRegionController>(
         init: TaxSettingsSelectRegionController(taxSettingsUseCase: TaxSettingsUseCase.instance),

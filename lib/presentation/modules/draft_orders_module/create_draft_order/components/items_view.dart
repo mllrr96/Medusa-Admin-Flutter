@@ -101,7 +101,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
 
@@ -211,7 +211,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                           ),
                         if (lineItems.isNotEmpty || customLineItems.isNotEmpty)
                           Text('Slide left to delete a variant',
-                              style: smallTextStyle?.copyWith(color: lightWhite)),
+                              style: smallTextStyle?.copyWith(color: manatee)),
                         if (lineItems.isNotEmpty)
                           ListView.builder(
                               itemCount: lineItems.length,
@@ -264,7 +264,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                 const Divider(),
                                 Text('Custom Items',
                                     style: smallTextStyle?.copyWith(
-                                        color: lightWhite)),
+                                        color: manatee)),
                               ],
                             ),
                           ),

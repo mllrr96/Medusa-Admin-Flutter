@@ -25,7 +25,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
     const halfSpace = Gap(6);
     final tr = context.tr;
     final mediumTextStyle = context.bodyMedium;
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final largeTextStyle = context.bodyLarge;
     Widget? getButton() {
       switch (order.paymentStatus) {

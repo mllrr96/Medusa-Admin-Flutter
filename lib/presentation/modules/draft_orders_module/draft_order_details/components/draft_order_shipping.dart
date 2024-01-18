@@ -12,7 +12,7 @@ class DraftOrderShipping extends StatelessWidget {
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -26,7 +26,7 @@ class DraftOrderShipping extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Shipping method',
-              style: smallTextStyle?.copyWith(color: lightWhite)),
+              style: smallTextStyle?.copyWith(color: manatee)),
           halfSpace,
           if (draftOrder.cart?.shippingMethods != null)
             ListView.builder(

@@ -103,8 +103,8 @@ part 'app_router.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
 class AppRouter extends _$AppRouter implements AutoRouteGuard {
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (StorageService.instance.isAuthenticated() ||
+  Future<void> onNavigation(NavigationResolver resolver, StackRouter router) async {
+    if (await StorageService.instance.isAuthenticated() ||
         resolver.route.name == SignInRoute.name ||
         resolver.route.name == SplashRoute.name ||
         resolver.route.name == ResetPasswordRoute.name) {

@@ -17,7 +17,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     const halfSpace = Gap(6);
@@ -68,7 +68,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                             }
                           },
                           title: const Text('Start date'),
-                          subtitle: Text(
+                          subtitle: const Text(
                               'Schedule the discount to activate in the future.',
                               style: TextStyle(color: manatee)),
                         ),
@@ -106,7 +106,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Discount has an expiry date?'),
-                  subtitle: Text(
+                  subtitle: const Text(
                       'Schedule the discount to deactivate in the future.',
                       style: TextStyle(color: manatee)),
                   onChanged: (val) async {
@@ -151,7 +151,7 @@ class ConfigurationExpansionTile extends GetView<AddUpdateDiscountController> {
                 SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Limit the number of redemptions?'),
-                  subtitle: Text(
+                  subtitle: const Text(
                       'Limit applies across all customers, not per customer.',
                       style: TextStyle(color: manatee)),
                   value: controller.hasLimit,

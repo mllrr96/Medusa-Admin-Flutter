@@ -74,7 +74,7 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
                   onChanged: (val) {},
                   title: const Text('Hide app bar when scrolling'),
                 ),
-              Text('Restart the app to see the changes',
+              const Text('Restart the app to see the changes',
                   style: TextStyle(color: ColorManager.manatee))
             ]),
           ),

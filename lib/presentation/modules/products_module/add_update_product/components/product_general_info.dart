@@ -19,7 +19,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
 
   @override
   Widget build(BuildContext context) {
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
@@ -34,7 +34,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
           child: Column(
             children: [
               Text('To start selling, all you need is a name and a price.',
-                  style: smallTextStyle!.copyWith(color: lightWhite)),
+                  style: smallTextStyle!.copyWith(color: manatee)),
               space,
               Form(
                 key: controller.keyForm,
@@ -54,7 +54,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
               LabeledTextField(label: 'Subtitle', hintText: 'Warm and cozy...', controller: controller.subtitleCtrl),
               Text(
                   'Give your product a short and clear title.\n50-60 characters is the recommended length for search engines.',
-                  style: smallTextStyle.copyWith(color: lightWhite)),
+                  style: smallTextStyle.copyWith(color: manatee)),
               space,
               LabeledTextField(label: 'Handle', hintText: '/winter-jacket', controller: controller.handleCtrl),
               LabeledTextField(label: 'Material', hintText: '100% cotton', controller: controller.materialCtrl),
@@ -68,7 +68,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
               ),
               Text(
                   'Give your product a short and clear description.\n120-160 characters is the recommended length for search engines.',
-                  style: smallTextStyle.copyWith(color: lightWhite)),
+                  style: smallTextStyle.copyWith(color: manatee)),
               space,
               SwitchListTile.adaptive(
                 value: controller.discountable,
@@ -80,7 +80,7 @@ class ProductGeneralInformation extends GetView<AddUpdateProductController> {
                 contentPadding: EdgeInsets.zero,
                 title: Text('Discountable', style: largeTextStyle),
                 subtitle: Text('When unchecked discounts will not be applied to this product.',
-                    style: smallTextStyle.copyWith(color: lightWhite)),
+                    style: smallTextStyle.copyWith(color: manatee)),
               ),
             ],
           ),

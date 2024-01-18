@@ -24,7 +24,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
 
   @override
   Widget build(BuildContext context) {
-    final manatee = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -244,7 +244,7 @@ class GeneralExpansionTile extends GetView<AddUpdateDiscountController> {
                                 !controller.showTemplateDiscountInfo;
                             controller.update([1]);
                           },
-                          icon: Icon(Icons.info_outline, color: manatee))
+                          icon: const Icon(Icons.info_outline, color: manatee))
                     ],
                   ),
                   subtitle: AnimatedSwitcher(

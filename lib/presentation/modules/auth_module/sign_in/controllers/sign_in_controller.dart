@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -49,9 +51,44 @@ class SignInController extends GetxController {
 
   Future<bool> login(String email, String password,
       {required BuildContext context}) async {
+    if (StorageService.appSettings.authType == AuthenticationType.jwt) {
+      return await _loginJWT(email, password, context: context);
+    } else {
+      final result = await authenticationUseCase.loginCookie(
+          email: email, password: password);
+      return result.when((success) async {
+        await getIt<FlutterSecureStorage>()
+            .write(key: AppConstants.cookieKey, value: success);
+        await Get.putAsync(() =>
+            StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
+                .init());
+        Get.put(ActivityController());
+        if (ActivityController.instance.pagingController.itemList?.isNotEmpty ??
+            false) {
+          ActivityController.instance.pagingController.refresh();
+        }
+        StorageService.instance.setEmail(email);
+        return true;
+      }, (error) {
+        loading = false;
+        update();
+        if (error.code == 401) {
+          context.showSignInErrorSnackBar('Email or password is incorrect');
+        } else {
+          context.showSignInErrorSnackBar(error.message);
+        }
+        return false;
+      });
+    }
+  }
+
+  Future<bool> _loginJWT(String email, String password,
+      {required BuildContext context}) async {
     final result =
-        await authenticationUseCase.login(email: email, password: password);
-    return result.when((success) async {
+        await authenticationUseCase.loginJWT(email: email, password: password);
+    return result.when((jwt) async {
+      await getIt<FlutterSecureStorage>()
+          .write(key: AppConstants.jwtKey, value: jwt);
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
       Get.put(ActivityController());

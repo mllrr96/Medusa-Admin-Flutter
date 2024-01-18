@@ -26,7 +26,7 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
-    final lightWhite = ColorManager.manatee;
+    const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final buttonText =
         product.images == null || (product.images?.isEmpty ?? false)
@@ -71,7 +71,7 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
                     .toList()),
           if (product.images == null || (product.images?.isEmpty ?? false))
             Text('No images added',
-                style: smallTextStyle?.copyWith(color: lightWhite)),
+                style: smallTextStyle?.copyWith(color: manatee)),
           space,
         ],
       ),
