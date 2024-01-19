@@ -1,12 +1,43 @@
 # Medusa Admin Mobile
 Manage your [MedusaJs](https://medusajs.com/) ecommerce store from your mobile phone.
 
-![Alt text](/screenshots/Medusa-Admin-Mobile-Screenshot.png?raw=true)
-
 
 ## Getting Started
 Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim to ease managing ecommerce store that are built using [MedusaJs](https://medusajs.com/), it's available for iOS and Android, it's still in beta so expect to see some bugs/unimplemented features.
 
+## Screenshots
+<div style="text-align: center">
+    <table>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/0.png" width="220"/>
+            </td>            
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/0%20(2).png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/1.png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/1%20(2).png" width="220"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/2.png" width="220"/>
+            </td>            
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/2%20(2).png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/3.png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/3%20(2).png" width="220"/>
+            </td>
+        </tr>
+    </table>
+</div>
 
 ##  Installation
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
