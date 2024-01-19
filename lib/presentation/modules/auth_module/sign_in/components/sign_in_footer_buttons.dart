@@ -4,10 +4,11 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class SignInFooterButtons extends StatelessWidget {
   const SignInFooterButtons(this.reAuthenticate,
-      {super.key, this.onGoToSignInPressed, this.onUrlPressed});
+      {super.key, this.onGoToSignInPressed, this.onUrlPressed, this.onUrlLongPressed});
   final bool reAuthenticate;
   final void Function()? onGoToSignInPressed;
   final void Function()? onUrlPressed;
+  final void Function()? onUrlLongPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class SignInFooterButtons extends StatelessWidget {
     }
     return ElevatedButton.icon(
       onPressed: onUrlPressed,
+      onLongPress: onUrlLongPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: isUrlSet ? null : Colors.red,
         minimumSize: const Size(110, 48.0),

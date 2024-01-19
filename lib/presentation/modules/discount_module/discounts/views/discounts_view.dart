@@ -81,7 +81,7 @@ class DiscountsView extends StatelessWidget {
                     itemBuilder: (context, discount, index) => DiscountCard(
                         discount,
                         onDelete: () async =>
-                            await controller.deleteDiscount(id: discount.id!),
+                            await controller.deleteDiscount(id: discount.id!, context: context),
                         onToggle: () async => await controller.toggleDiscount(
                             discount: discount)),
                     firstPageProgressIndicatorBuilder: (context) =>

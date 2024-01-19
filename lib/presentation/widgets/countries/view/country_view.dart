@@ -48,6 +48,7 @@ class SelectCountryView extends StatelessWidget {
                             hintText: 'Search for country name, code, iso2, and iso3',
                             focusNode: controller.searchFocusNode,
                             controller: controller.searchCtrl,
+                                fillColor: context.theme.scaffoldBackgroundColor,
                           )),
                           AnimatedCrossFade(
                               firstChild: TextButton(

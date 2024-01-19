@@ -21,7 +21,7 @@ class AddUpdateDiscountView extends StatelessWidget {
           updateDiscountUseCase: UpdateDiscountUseCase.instance, discount: discount),
       builder: (controller) {
         return PopScope(
-          canPop: !controller.updateMode && controller.sameDiscount(),
+          canPop: !controller.updateMode || (controller.updateMode && controller.sameDiscount()),
           onPopInvoked: (val) async {
             if (val) return;
             await showOkCancelAlertDialog(
@@ -40,6 +40,7 @@ class AddUpdateDiscountView extends StatelessWidget {
             onTap: () => context.unfocus(),
             child: Scaffold(
               appBar: AppBar(
+                systemOverlayStyle: context.defaultSystemUiOverlayStyle,
                 leading: const CloseButton(),
                 title: controller.updateMode
                     ? const Text('Update discount')

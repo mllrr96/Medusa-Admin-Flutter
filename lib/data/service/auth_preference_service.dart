@@ -35,7 +35,7 @@ class AuthPreferenceService {
   late AuthPreference _authPreference;
   bool? _isSignedInBefore;
 
-  @PostConstruct()
+  @PostConstruct(preResolve: true)
   Future<void> init() async {
     try {
       final authPreferenceCoded =
@@ -59,13 +59,14 @@ class AuthPreferenceService {
     } catch (e) {
       debugPrint(e.toString());
       _baseUrl = AppConstants.baseUrl.isEmpty ? null : AppConstants.baseUrl;
+      _email = null;
       _isAuthenticated = false;
     }
   }
 
   Future<bool> updateAuthPreference(AuthPreference authPreference) async {
     try {
-      _prefs.setString(
+      await _prefs.setString(
           AppConstants.authPreferenceKey, jsonEncode(authPreference.toJson()));
       _authPreference = authPreference;
       return true;

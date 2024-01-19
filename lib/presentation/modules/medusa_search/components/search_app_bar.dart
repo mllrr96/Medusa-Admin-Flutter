@@ -384,7 +384,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
       case SearchCategory.discounts:
         return 'Search for discount code';
       case SearchCategory.priceLists:
-        return 'search for price lists\' description, name, and customer group\'s name';
+        return 'Search for price lists\' description, name, and customer group\'s name';
     }
   }
 }

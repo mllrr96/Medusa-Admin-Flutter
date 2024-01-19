@@ -130,6 +130,7 @@ class AppSettingsView extends StatelessWidget {
                   ),
                   SettingsTile.navigation(
                     title: const Text('AppBar Style'),
+                    leading: const Icon(Icons.style),
                     onPressed: (_) =>
                         context.pushRoute(const AppBarStyleRoute()),
                   ),

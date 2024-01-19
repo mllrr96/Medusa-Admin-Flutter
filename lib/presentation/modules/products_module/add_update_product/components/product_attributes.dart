@@ -1,7 +1,9 @@
+import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/countries/controller/country_controller.dart';
@@ -90,8 +92,9 @@ class ProductAttributes extends StatelessWidget {
                 onTap: () async {
                   final result = await showBarModalBottomSheet(
                       context: context,
-                      backgroundColor: context.theme.scaffoldBackgroundColor,
-                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
+                      // backgroundColor: Colors.transparent,
+                      overlayStyle: context.defaultSystemUiOverlayStyle,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
                       builder: (context) => SelectCountryView(
                         selectCountryReq: SelectCountryReq(selectedCountries: [
                           countries.firstWhere(
@@ -112,6 +115,8 @@ class ProductAttributes extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.grey),
                   ),
                   hintText: 'Choose a country',
+                  prefix: controller.product.originCountry != null
+                      ? Flag.fromString(controller.product.originCountry!,height: 16,width: 35): null,
                   suffixIcon: controller.countryCtrl.text.isEmpty
                       ? const Icon(Icons.keyboard_arrow_down_outlined)
                       : IconButton(

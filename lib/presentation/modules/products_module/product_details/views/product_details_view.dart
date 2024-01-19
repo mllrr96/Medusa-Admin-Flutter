@@ -24,6 +24,7 @@ class ProductDetailsView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
+              systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               title: const Text('Product Details'),
               actions: [
                 controller.obx(

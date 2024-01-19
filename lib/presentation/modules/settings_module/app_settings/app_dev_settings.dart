@@ -18,7 +18,7 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import '../../auth_module/sign_in/components/update_url_view.dart';
+import '../../auth_module/sign_in/components/url_configure_view.dart';
 
 @RoutePage()
 class AppDevSettingsView extends StatelessWidget {
@@ -190,7 +190,7 @@ class AppDevSettingsView extends StatelessWidget {
                   await showBarModalBottomSheet(
                       context: context,
                       backgroundColor: context.theme.scaffoldBackgroundColor,
-                      builder: (context) => const UrlUpdateView());
+                      builder: (context) => const UrlConfigureView());
                 },
               ),
               divider,

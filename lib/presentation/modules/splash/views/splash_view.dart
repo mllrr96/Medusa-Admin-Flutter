@@ -30,14 +30,14 @@ class _SplashViewState extends State<SplashView> {
   bool takingTooLong = false;
   @override
   void initState() {
+    load();
     timer = Timer(15.seconds, () {
       setState(() => takingTooLong = true);
     });
-    load();
     super.initState();
   }
 
-  Future load() async {
+  Future<void> load() async {
     final baseUrl = AuthPreferenceService.baseUrl;
     if (baseUrl == null) {
       context.router.replaceAll([SignInRoute()]);
@@ -52,14 +52,19 @@ class _SplashViewState extends State<SplashView> {
 
     final result = await AuthenticationUseCase.instance.getCurrentUser();
     result.when((user) async {
-      await Get.putAsync(() =>
-          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
-              .init()).then((value) {
-        Get.put(ActivityController());
-        context.router.replaceAll([const DashboardRoute()]);
-      });
+      if (mounted) {
+        await Get.putAsync(() =>
+            StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
+                .init()).then((value) {
+          Get.put(ActivityController());
+
+          context.router.replaceAll([const DashboardRoute()]);
+        });
+      }
     }, (error) async {
-      context.router.replaceAll([SignInRoute()]);
+      if (mounted) {
+        context.router.replaceAll([SignInRoute()]);
+      }
     });
   }
 

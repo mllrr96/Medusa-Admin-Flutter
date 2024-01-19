@@ -213,12 +213,22 @@ class _SignInViewState extends State<SignInView> {
                     onUrlPressed: controller.loading
                         ? null
                         : () async {
+                            final result = await context
+                                .pushRoute(const UrlConfigureRoute());
+                            if (result == true) {
+                              _onInit();
+                              setState(() {});
+                            }
+                          },
+                    onUrlLongPressed: controller.loading
+                        ? null
+                        : () async {
                             final result = await showBarModalBottomSheet(
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 context: context,
                                 overlayStyle:
                                     context.systemUiOverlayNoAppBarStyle,
-                                builder: (context) => const UrlUpdateView());
+                                builder: (context) => const UrlConfigureView());
                             if (result == true) {
                               _onInit();
                               setState(() {});

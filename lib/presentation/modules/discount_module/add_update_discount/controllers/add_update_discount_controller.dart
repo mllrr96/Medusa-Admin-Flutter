@@ -206,14 +206,14 @@ class AddUpdateDiscountController extends GetxController {
     final value = discountRuleType == DiscountRuleType.percentage
         ? int.tryParse(percentageCtrl.text)
         : int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), ''));
-    final a = _loadedDiscount!;
+    final a = _loadedDiscount;
     final b = Discount(
       startsAt: startDate,
       endsAt: endDate,
       usageLimit: int.tryParse(limitCtrl.text),
       code: codeCtrl.text,
       rule: DiscountRule(
-        id: _loadedDiscount!.ruleId,
+        id: _loadedDiscount?.ruleId,
         description: descriptionCtrl.text,
         value: discountRuleType == DiscountRuleType.freeShipping ? 0 : value,
         type: null,
@@ -221,18 +221,18 @@ class AddUpdateDiscountController extends GetxController {
       regions: selectedRegions.map((e) => e).toList(),
       isDynamic: null,
     );
-    if (a.startsAt == b.startsAt &&
-        a.endsAt == b.endsAt &&
-        (a.regions
+    if (a?.startsAt == b.startsAt &&
+        a?.endsAt == b.endsAt &&
+        (a?.regions
                 ?.map((e) => e.id!)
                 .toList()
                 .listEquals(b.regions?.map((e) => e.id!).toList() ?? []) ??
             false) &&
-        a.usageLimit == b.usageLimit &&
-        a.code == b.code &&
-        a.rule?.id == b.rule?.id &&
-        a.rule?.description == b.rule?.description &&
-        a.rule?.value == b.rule?.value) {
+        a?.usageLimit == b.usageLimit &&
+        a?.code == b.code &&
+        a?.rule?.id == b.rule?.id &&
+        a?.rule?.description == b.rule?.description &&
+        a?.rule?.value == b.rule?.value) {
       return true;
     }
     return false;

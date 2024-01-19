@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/domain/use_case/discounts_use_case.dart';
@@ -107,17 +108,14 @@ class DiscountsController extends GetxController {
     dismissLoading();
   }
 
-  Future<void> deleteDiscount({required String id}) async {
+  Future<void> deleteDiscount({required String id, required BuildContext context}) async {
     loading();
     final result = await discountsUseCase.deleteDiscount(id: id);
     result.when((success) {
-      Get.snackbar('Success', 'Promotion deleted successfully',
-          snackPosition: SnackPosition.BOTTOM);
+      context.showSnackBar('Promotion deleted successfully');
       pagingController.refresh();
     },
-        (error) => Get.snackbar(
-            'Error deleting promotion ${error.code ?? ''}', error.message,
-            snackPosition: SnackPosition.BOTTOM));
+        (error) => context.showSnackBar('Error deleting promotion ${error.code ?? ''}, error.message'));
     dismissLoading();
   }
 }

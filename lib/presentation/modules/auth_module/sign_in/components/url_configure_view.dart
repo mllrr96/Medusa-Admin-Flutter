@@ -13,14 +13,15 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
-class UrlUpdateView extends StatefulWidget {
-  const UrlUpdateView({super.key});
+@RoutePage()
+class UrlConfigureView extends StatefulWidget {
+  const UrlConfigureView({super.key});
 
   @override
-  State<UrlUpdateView> createState() => _UrlUpdateViewState();
+  State<UrlConfigureView> createState() => _UrlConfigureViewState();
 }
 
-class _UrlUpdateViewState extends State<UrlUpdateView> {
+class _UrlConfigureViewState extends State<UrlConfigureView> {
   final formKey = GlobalKey<FormState>();
   final tokenFormKey = GlobalKey<FormState>();
   final textCtrl = TextEditingController();
@@ -171,6 +172,7 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          systemOverlayStyle: context.defaultSystemUiOverlayStyle,
           title: setupUrl ? const Text('Set URL') : const Text('Update URL'),
           actions: [
             TextButton(
