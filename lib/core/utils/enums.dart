@@ -227,3 +227,21 @@ enum AppBarStyle {
     }
   }
 }
+
+enum AuthenticationType {
+  cookie,
+  token,
+  jwt;
+
+  @override
+  String toString() {
+    switch (this) {
+      case AuthenticationType.cookie:
+        return 'Cookie';
+      case AuthenticationType.token:
+        return 'Api Token';
+      case AuthenticationType.jwt:
+        return 'JWT';
+    }
+  }
+}

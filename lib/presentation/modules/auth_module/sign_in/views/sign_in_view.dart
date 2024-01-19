@@ -13,14 +13,17 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import '../components/index.dart';
 import '../controllers/sign_in_controller.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 
 @RoutePage()
 class SignInView extends StatefulWidget {
@@ -36,7 +39,8 @@ class _SignInViewState extends State<SignInView> {
   final passwordCtrl = TextEditingController();
   late bool? useBiometric;
   late bool showAuthenticateButton;
-  bool get reAuthenticate => widget.onResult != null;
+  bool get isSessionExpired => widget.onResult != null;
+
   @override
   void initState() {
     _onInit();
@@ -46,7 +50,8 @@ class _SignInViewState extends State<SignInView> {
   void _onInit() {
     useBiometric = AuthPreferenceService.authPreference.useBiometric;
     emailCtrl.text = AuthPreferenceService.email ?? '';
-    if (useBiometric == true && (AuthPreferenceService.email?.isNotEmpty ?? false)) {
+    if (useBiometric == true &&
+        (AuthPreferenceService.email?.isNotEmpty ?? false)) {
       showAuthenticateButton = true;
     } else {
       showAuthenticateButton = false;
@@ -143,9 +148,9 @@ class _SignInViewState extends State<SignInView> {
           await _showBiometricDialog();
         }
 
-        if (!reAuthenticate && mounted) {
+        if (!isSessionExpired && mounted) {
           context.router.replaceAll([const DashboardRoute()]);
-        } else if (reAuthenticate) {
+        } else if (isSessionExpired) {
           widget.onResult?.call(true);
         }
       }
@@ -157,9 +162,18 @@ class _SignInViewState extends State<SignInView> {
     controller.update();
     final result = await AuthenticationUseCase.instance.getCurrentUser();
 
-    result.when((success) {
+    await result.when((success) async {
       AuthPreferenceService.instance.setIsAuthenticated(true);
-      context.router.replaceAll([const DashboardRoute()]);
+      await Get.putAsync(() =>
+          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
+      Get.put(ActivityController());
+      if (ActivityController.instance.pagingController.itemList?.isNotEmpty ??
+          false) {
+        ActivityController.instance.pagingController.refresh();
+      }
+      if (mounted) {
+        context.router.replaceAll([const DashboardRoute()]);
+      }
     }, (error) {
       controller.loading = false;
       controller.update();
@@ -175,239 +189,237 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(context) {
     return PopScope(
-      canPop: !reAuthenticate,
+      canPop: !isSessionExpired,
       child: GetBuilder<SignInController>(
-          init: SignInController(AuthenticationUseCase.instance),
-          builder: (controller) {
-            final tr = context.tr;
-            final useToken =
-                AuthPreferenceService.authType == AuthenticationType.token;
-            const space = Gap(12);
-
-            // Since there no app bar, annotated region is used to apply theme ui overlay
-            return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: context.systemUiOverlayNoAppBarStyle,
-              child: GestureDetector(
-                onTap: () => context.unfocus(),
-                child: Scaffold(
-                  persistentFooterAlignment: AlignmentDirectional.center,
-                  persistentFooterButtons: [
-                    SignInFooterButtons(
-                      reAuthenticate,
-                      onGoToSignInPressed: controller.loading
-                          ? null
-                          : () => context.router.replaceAll([SignInRoute()]),
-                      onUrlPressed: controller.loading
-                          ? null
-                          : () async {
-                              final result = await showBarModalBottomSheet(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  context: context,
-                                  overlayStyle:
-                                      context.systemUiOverlayNoAppBarStyle,
-                                  builder: (context) => const UrlUpdateView());
-                              if (result == true) {
-                                _onInit();
-                                setState(() {});
-                              }
-                            },
-                    )
-                  ],
-                  body: SafeArea(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+        init: SignInController(AuthenticationUseCase.instance),
+        builder: (controller) {
+          final tr = context.tr;
+          final useToken =
+              AuthPreferenceService.authType == AuthenticationType.token;
+          const space = Gap(12);
+          // Since there no app bar, annotated region is used to apply theme ui overlay
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: context.systemUiOverlayNoAppBarStyle,
+            child: GestureDetector(
+              onTap: () => context.unfocus(),
+              child: Scaffold(
+                persistentFooterAlignment: AlignmentDirectional.center,
+                persistentFooterButtons: [
+                  SignInFooterButtons(
+                    isSessionExpired,
+                    onGoToSignInPressed: controller.loading
+                        ? null
+                        : () => context.router.replaceAll([SignInRoute()]),
+                    onUrlPressed: controller.loading
+                        ? null
+                        : () async {
+                            final result = await showBarModalBottomSheet(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                context: context,
+                                overlayStyle:
+                                    context.systemUiOverlayNoAppBarStyle,
+                                builder: (context) => const UrlUpdateView());
+                            if (result == true) {
+                              _onInit();
+                              setState(() {});
+                            }
+                          },
+                  )
+                ],
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ElevatedButton.icon(
+                                  label: Text(
+                                      controller.themeMode.name.capitalize ??
+                                          controller.themeMode.name),
+                                  onPressed: () async =>
+                                      await controller.changeThemeMode(),
+                                  icon: Icon(controller.themeMode.icon),
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () async =>
+                                      await showBarModalBottomSheet(
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
+                                    overlayStyle: context
+                                        .theme.appBarTheme.systemOverlayStyle,
+                                    context: context,
+                                    builder: (context) =>
+                                        const LanguageSelectionView(),
+                                  ),
+                                  icon: const Icon(Icons.language),
+                                  label: Text(
+                                      LanguageService.languageModel.nativeName),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Hero(
+                              tag: 'medusa',
+                              child:
+                                  SignInMedusaLogo(rotate: controller.loading)),
+                          Text(
+                            isSessionExpired
+                                ? 'Re-authenticate to Medusa'
+                                : tr.loginCardLogInToMedusa,
+                            style: context.headlineMedium,
+                          ),
+                          space,
+                          space,
+                          if (!useToken)
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              child: Column(
                                 children: [
-                                  ElevatedButton.icon(
-                                    label: Text(
-                                        controller.themeMode.name.capitalize ??
-                                            controller.themeMode.name),
-                                    onPressed: () async =>
-                                        await controller.changeThemeMode(),
-                                    icon: Icon(controller.themeMode.icon),
-                                  ),
-                                  ElevatedButton.icon(
-                                    onPressed: () async =>
-                                        await showBarModalBottomSheet(
-                                      backgroundColor:
-                                          context.theme.scaffoldBackgroundColor,
-                                      overlayStyle: context
-                                          .theme.appBarTheme.systemOverlayStyle,
-                                      context: context,
-                                      builder: (context) =>
-                                          const LanguageSelectionView(),
-                                    ),
-                                    icon: const Icon(Icons.language),
-                                    label: Text(LanguageService
-                                        .languageModel.nativeName),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Hero(
-                                tag: 'medusa',
-                                child: SignInMedusaLogo(
-                                    rotate: controller.loading)),
-                            Text(
-                              reAuthenticate
-                                  ? 'Re-authenticate to Medusa'
-                                  : tr.loginCardLogInToMedusa,
-                              style: context.headlineMedium,
-                            ),
-                            space,
-                            space,
-                            if (!useToken)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: Column(
-                                  children: [
-                                    Hero(
-                                        tag: 'email',
-                                        child: EmailTextField(
-                                          readOnly: showAuthenticateButton &&
-                                              (AuthPreferenceService
-                                                      .email?.isNotEmpty ??
-                                                  false),
-                                          controller: emailCtrl,
-                                          validator: (val) {
-                                            if (val?.isEmpty ?? true) {
-                                              return 'Email is required';
-                                            }
-
-                                            if (!val!.isEmail) {
-                                              return 'Invalid Email';
-                                            }
-
-                                            return null;
-                                          },
-                                        )),
-                                    const SizedBox(height: 12.0),
-                                    Hero(
-                                      tag: 'password',
-                                      child: PasswordTextField(
-                                        controller: passwordCtrl,
+                                  Hero(
+                                      tag: 'email',
+                                      child: EmailTextField(
+                                        readOnly: showAuthenticateButton &&
+                                            (AuthPreferenceService
+                                                    .email?.isNotEmpty ??
+                                                false),
+                                        controller: emailCtrl,
                                         validator: (val) {
-                                          if (val != null && val.isEmpty) {
-                                            return 'Password is required';
+                                          if (val?.isEmpty ?? true) {
+                                            return 'Email is required';
                                           }
-                                          if (val!.length < 8) {
-                                            return 'Password should be at least 8 characters long';
+
+                                          if (!val!.isEmail) {
+                                            return 'Invalid Email';
                                           }
 
                                           return null;
                                         },
-                                      ),
+                                      )),
+                                  const SizedBox(height: 12.0),
+                                  Hero(
+                                    tag: 'password',
+                                    child: PasswordTextField(
+                                      controller: passwordCtrl,
+                                      validator: (val) {
+                                        if (val != null && val.isEmpty) {
+                                          return 'Password is required';
+                                        }
+                                        if (val!.length < 8) {
+                                          return 'Password should be at least 8 characters long';
+                                        }
+
+                                        return null;
+                                      },
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            space,
-                            if (!reAuthenticate && !useToken)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    TextButton(
-                                      onPressed: controller.loading
-                                          ? null
-                                          : () {
-                                              if (AuthPreferenceService.baseUrl ==
-                                                  null) {
-                                                context.showSignInErrorSnackBar(
-                                                    'Please set your backend URL first');
-                                                return;
-                                              }
-                                              context.pushRoute(
-                                                  const ResetPasswordRoute());
-                                            },
-                                      child: Text(
-                                        tr.loginCardForgotYourPassword,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            space,
+                            ),
+                          space,
+                          if (!isSessionExpired && !useToken)
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Hero(
-                                tag: 'continue',
-                                child: FilledButton.icon(
-                                    style: FilledButton.styleFrom(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: controller.loading
+                                        ? null
+                                        : () {
+                                            if (AuthPreferenceService.baseUrl ==
+                                                null) {
+                                              context.showSignInErrorSnackBar(
+                                                  'Please set your backend URL first');
+                                              return;
+                                            }
+                                            context.pushRoute(
+                                                const ResetPasswordRoute());
+                                          },
+                                    child: Text(
+                                      tr.loginCardForgotYourPassword,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          space,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Hero(
+                              tag: 'continue',
+                              child: FilledButton.icon(
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(220, 48.0),
+                                  ),
+                                  onPressed: controller.loading
+                                      ? null
+                                      : () async => useToken
+                                          ? await _signInWithToken(controller)
+                                          : await _signIn(controller),
+                                  icon: const Icon(Icons.login),
+                                  label: Text(tr.analyticsPreferencesContinue)),
+                            ),
+                          ),
+                          space,
+                          if (showAuthenticateButton && !useToken)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Column(
+                                children: [
+                                  const Row(
+                                    children: [
+                                      Expanded(child: Divider()),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text(
+                                          'Or',
+                                          style: TextStyle(
+                                              color: ColorManager.manatee),
+                                        ),
+                                      ),
+                                      Expanded(child: Divider()),
+                                    ],
+                                  ),
+                                  space,
+                                  OutlinedButton.icon(
+                                    style: OutlinedButton.styleFrom(
                                       minimumSize: const Size(220, 48.0),
+                                      side: BorderSide(
+                                          color: context.theme.primaryColor),
                                     ),
                                     onPressed: controller.loading
                                         ? null
-                                        : () async => useToken
-                                            ? await _signInWithToken(controller)
-                                            : await _signIn(controller),
-                                    icon: const Icon(Icons.login),
-                                    label:
-                                        Text(tr.analyticsPreferencesContinue)),
+                                        : () async =>
+                                            await _biometricAuthentication(
+                                                controller),
+                                    icon: const Icon(Icons.fingerprint),
+                                    label: const Text('Authenticate'),
+                                  ),
+                                ],
                               ),
                             ),
-                            space,
-                            if (showAuthenticateButton && !useToken)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: Column(
-                                  children: [
-                                    const Row(
-                                      children: [
-                                        Expanded(child: Divider()),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: Text(
-                                            'Or',
-                                            style: TextStyle(
-                                                color: ColorManager.manatee),
-                                          ),
-                                        ),
-                                        Expanded(child: Divider()),
-                                      ],
-                                    ),
-                                    space,
-                                    OutlinedButton.icon(
-                                      style: OutlinedButton.styleFrom(
-                                        minimumSize: const Size(220, 48.0),
-                                        side: BorderSide(
-                                            color: context.theme.primaryColor),
-                                      ),
-                                      onPressed: controller.loading
-                                          ? null
-                                          : () async =>
-                                              await _biometricAuthentication(
-                                                  controller),
-                                      icon: const Icon(Icons.fingerprint),
-                                      label: const Text('Authenticate'),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 }

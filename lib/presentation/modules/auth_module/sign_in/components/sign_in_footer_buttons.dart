@@ -4,9 +4,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class SignInFooterButtons extends StatelessWidget {
   const SignInFooterButtons(this.reAuthenticate,
-      {super.key,
-       this.onGoToSignInPressed,
-       this.onUrlPressed});
+      {super.key, this.onGoToSignInPressed, this.onUrlPressed});
   final bool reAuthenticate;
   final void Function()? onGoToSignInPressed;
   final void Function()? onUrlPressed;
@@ -30,12 +28,10 @@ class SignInFooterButtons extends StatelessWidget {
         backgroundColor: isUrlSet ? null : Colors.red,
         minimumSize: const Size(110, 48.0),
       ),
-      label: isUrlSet
-          ? const Text('Update URL')
-          : Text('Set URL',
-              style: isUrlSet
-                  ? null
-                  : context.bodySmall?.copyWith(color: Colors.white)),
+      label: Text('Configure URL',
+          style: isUrlSet
+              ? null
+              : context.bodySmall?.copyWith(color: Colors.white)),
       icon: Icon(
         Icons.link,
         color: isUrlSet ? null : Colors.white,

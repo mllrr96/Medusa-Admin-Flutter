@@ -22,6 +22,7 @@ class AuthenticationUseCase {
       return Error(Failure.from(e));
     }
   }
+
   Future<Result<String, Failure>> loginCookie(
       {required String email, required String password}) async {
     try {

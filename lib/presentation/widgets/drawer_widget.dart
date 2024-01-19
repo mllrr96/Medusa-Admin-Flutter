@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
-import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
@@ -17,7 +16,6 @@ import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -43,15 +41,15 @@ class _AppDrawerState extends State<AppDrawer> {
     String version = packageInfo.version;
     // String code = packageInfo.buildNumber;
 
-    signOut() async {
-      final usingToken = AuthPreferenceService.authType == AuthenticationType.token;
-      final message = usingToken
-          ? 'Signing out will delete api token from device and set auth method to JWT, Are you sure you want to continue?'
-          : 'Are you sure you want to sign out?';
+    Future<void> signOut() async {
+      // final usingToken = AuthPreferenceService.authType == AuthenticationType.token;
+      // final message = usingToken
+      //     ? 'Signing out will delete api token from device and set auth method to JWT, Are you sure you want to continue?'
+      //     : 'Are you sure you want to sign out?';
       await showOkCancelAlertDialog(
               context: context,
               title: 'Sign out',
-              message: message,
+              message: 'Are you sure you want to sign out?',
               okLabel: 'Sign Out',
               isDestructiveAction: true)
           .then(
@@ -64,12 +62,12 @@ class _AppDrawerState extends State<AppDrawer> {
               await AuthPreferenceService.instance.clearLoginData();
               await AuthPreferenceService.instance.clearExportFiles();
               await AuthPreferenceService.instance.clearLoginKey();
-              if (usingToken) {
-                await PreferenceService.instance.updateAppSettings(PreferenceService
-                    .appSettings
-                    .copyWith(authType: AuthenticationType.jwt));
-                await MedusaAdminDi.resetMedusaAdminSingleton();
-              }
+              // if (usingToken) {
+              //   await PreferenceService.instance.updateAppSettings(PreferenceService
+              //       .appSettings
+              //       .copyWith(authType: AuthenticationType.jwt));
+              //   await MedusaAdminDi.resetMedusaAdminSingleton();
+              // }
               if (mounted) {
                 context.router.replaceAll([const SplashRoute()]);
               }

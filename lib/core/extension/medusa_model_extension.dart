@@ -1,3 +1,4 @@
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 extension Name on Order {

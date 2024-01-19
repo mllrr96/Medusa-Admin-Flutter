@@ -10,7 +10,7 @@ import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class UrlUpdateView extends StatefulWidget {
@@ -51,8 +51,9 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
       setupUrl = true;
     } else {
       setupUrl = false;
+      textCtrl.text = AuthPreferenceService.baseUrl ?? '';
     }
-    if (authType != AuthenticationType.token) {
+    if (authType == AuthenticationType.token) {
       tokenTextCtrl.text = await getIt<FlutterSecureStorage>()
               .read(key: AppConstants.tokenKey) ??
           '';
@@ -68,6 +69,21 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
   }
 
   Future<void> _save({bool skipValidation = false}) async {
+    final savedBaseUrl = AuthPreferenceService.baseUrl;
+    final savedAuthType = AuthPreferenceService.authType;
+    final savedToken =
+        await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey);
+    // if nothing changed just pop the route
+    if (textCtrl.text == savedBaseUrl &&
+        savedAuthType == authType &&
+        (savedAuthType == AuthenticationType.token
+            ? tokenTextCtrl.text == savedToken
+            : true) &&
+        mounted) {
+      context.popRoute();
+      return;
+    }
+
     if (!formKey.currentState!.validate() && !skipValidation) {
       return;
     }
@@ -108,10 +124,12 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
       }
       await getIt<FlutterSecureStorage>()
           .write(key: AppConstants.tokenKey, value: tokenTextCtrl.text);
+      AuthPreferenceService.instance.setIsAuthenticated(true);
     }
     try {
       await AuthPreferenceService.instance.updateAuthPreference(
           AuthPreferenceService.authPreference.copyWith(authType: authType));
+
       switch (authType) {
         case AuthenticationType.cookie:
           await getIt<FlutterSecureStorage>()
@@ -140,7 +158,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    final baseUrl = AuthPreferenceService.baseUrl;
     String infoText = switch (authType) {
       AuthenticationType.cookie =>
         'Use a cookie session to send authenticated requests.',
@@ -167,14 +184,6 @@ class _UrlUpdateViewState extends State<UrlUpdateView> {
               12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              if (!setupUrl)
-                InkWell(
-                  onTap: () async {
-                    textCtrl.text = baseUrl ?? '';
-                  },
-                  child: Text('Current URL : $baseUrl', style: smallTextStyle),
-                ),
               const SizedBox(height: 20),
               Form(
                 key: formKey,

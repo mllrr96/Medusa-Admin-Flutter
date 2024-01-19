@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
@@ -25,8 +26,13 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  late Timer timer;
+  bool takingTooLong = false;
   @override
   void initState() {
+    timer = Timer(15.seconds, () {
+      setState(() => takingTooLong = true);
+    });
     load();
     super.initState();
   }
@@ -37,20 +43,14 @@ class _SplashViewState extends State<SplashView> {
       context.router.replaceAll([SignInRoute()]);
       return;
     }
-    // register medusa admin singleton
     await MedusaAdminDi.registerMedusaAdminSingleton();
-
     bool shouldLogin = !AuthPreferenceService.isAuthenticated;
-    final result2 = await getIt<FlutterSecureStorage>().containsKey(key: AppConstants.jwtKey);
-    print(result2);
-    print(shouldLogin);
     if (shouldLogin && mounted) {
       context.router.replaceAll([SignInRoute()]);
       return;
     }
 
     final result = await AuthenticationUseCase.instance.getCurrentUser();
-
     result.when((user) async {
       await Get.putAsync(() =>
           StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
@@ -59,14 +59,14 @@ class _SplashViewState extends State<SplashView> {
         context.router.replaceAll([const DashboardRoute()]);
       });
     }, (error) async {
-      if (error.code == 401) {
-        await AuthPreferenceService.instance.clearLoginKey().then((_) {
-          context.router.replaceAll([SignInRoute()]);
-        });
-      } else {
-        context.router.replaceAll([SignInRoute()]);
-      }
+      context.router.replaceAll([SignInRoute()]);
     });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -89,9 +89,20 @@ class _SplashViewState extends State<SplashView> {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text('Medusa Admin', style: context.headlineLarge),
               ),
-              const SizedBox(height: 15),
+              const Gap(15),
               LoadingAnimationWidget.staggeredDotsWave(
                   color: context.theme.primaryColor, size: 40),
+              const Gap(15),
+              if (takingTooLong)
+                Column(
+                  children: [
+                    const Text('Taking too long to load?'),
+                    TextButton(
+                        onPressed: () =>
+                            context.router.replaceAll([SignInRoute()]),
+                        child: const Text('Go to login'))
+                  ],
+                ),
             ],
           ),
         ),

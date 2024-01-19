@@ -1,5 +1,4 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../core/utils/enums.dart';
 

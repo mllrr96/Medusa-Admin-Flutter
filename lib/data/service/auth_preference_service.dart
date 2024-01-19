@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/auth_preference.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +33,7 @@ class AuthPreferenceService {
   late String? _baseUrl;
   late String? _email;
   late AuthPreference _authPreference;
+  bool? _isSignedInBefore;
 
   @PostConstruct()
   Future<void> init() async {
@@ -207,39 +208,6 @@ class AuthPreferenceService {
       debugPrint(e.toString());
     }
   }
-
-  // Future<void> updateSearchHistory(SearchHistory searchHistory,
-  //     {bool delete = false}) async {
-  //   try {
-  //     if (!delete &&
-  //         _searchHistory
-  //             .where((element) =>
-  //                 element.text == searchHistory.text &&
-  //                 element.searchableFields == searchHistory.searchableFields)
-  //             .isNotEmpty) {
-  //       return;
-  //     }
-  //
-  //     if (delete) {
-  //       _searchHistory.removeWhere((element) =>
-  //           element.text == searchHistory.text &&
-  //           element.searchableFields.index ==
-  //               searchHistory.searchableFields.index);
-  //     } else {
-  //       // Limiting search history to 7 items only
-  //       if (_searchHistory.length > 7) {
-  //         _searchHistory.removeAt(0);
-  //       }
-  //       _searchHistory.add(searchHistory);
-  //     }
-  //     await _prefs.setString(
-  //         AppConstants.searchHistoryKey, SearchHistory.encode(_searchHistory));
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
-
-  bool? _isSignedInBefore;
 
   Future<bool> isSignedInBefore() async {
     if (_isSignedInBefore != null) {
