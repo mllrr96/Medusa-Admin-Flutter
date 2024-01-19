@@ -50,7 +50,7 @@ then
 ```
 flutter pub run build_runner build
 ```
-then change the baseUrl (found in "lib/core/utils/strings.dart" ) to your backend URL
+Optional: change the baseUrl (found in "lib/core/constant/strings.dart") to your backend URL, you can change baseUrl from inside the app
 
 - To run the app on Android just run the following command in the root directory of the project:
 ```
