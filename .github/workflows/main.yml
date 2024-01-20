@@ -14,10 +14,10 @@ jobs:
         with:
           channel: "stable"
           architecture: x64
-      - run: flutter doctor -v
       - uses: actions/setup-java@v2
         with:
           java-version: '12.x'
+        run: flutter doctor -v
       - name: Run pub get and build runner
         uses: actions/checkout@v3
         run: |
