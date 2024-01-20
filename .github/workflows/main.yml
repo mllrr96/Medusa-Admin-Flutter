@@ -20,7 +20,6 @@ jobs:
       - name: Run flutter doctor
         run: flutter doctor -v
       - name: Run pub get and build runner
-        uses: actions/checkout@v3
         run: |
           flutter pub get
           flutter packages pub run build_runner build --delete-conflicting-outputs
