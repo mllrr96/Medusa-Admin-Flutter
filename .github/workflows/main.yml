@@ -41,6 +41,7 @@ jobs:
         uses: ncipollo/release-action@v1.10.0
         with:
           artifacts: "build/app/outputs/apk/release/*.apk"
+          allowUpdates: true
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
