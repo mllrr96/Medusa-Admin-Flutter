@@ -10,30 +10,68 @@ Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim t
     <table>
         <tr>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/0.png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/sign-in-1.png" width="220"/>
             </td>            
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/0%20(2).png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/sign-in-2.png" width="220"/>
             </td>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/1.png" width="220"/>
-            </td>
-            <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/1%20(2).png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/sign-in-3.png" width="220"/>
             </td>
         </tr>
         <tr>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/2.png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/order-1.png" width="220"/>
             </td>            
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/2%20(2).png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/order-2.png" width="220"/>
             </td>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/3.png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/search-1.png" width="220"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/product-1.png" width="220"/>
+            </td>            
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/product-2.png" width="220"/>
             </td>
             <td style="text-align: center">
-                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/3%20(2).png" width="220"/>
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/product-3.png" width="220"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/region-1.png" width="220"/>
+            </td>            
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/region-2.png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/region-3.png" width="220"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/discount-1.png" width="220"/>
+            </td>            
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/discount-2.png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/discount-3.png" width="220"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/search-2.png" width="220"/>
+            </td>            
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/search-3.png" width="220"/>
+            </td>
+            <td style="text-align: center">
+                <img src="https://github.com/mllrr96/Medusa-Admin-Flutter/blob/main/screenshots/draft-order-2.png" width="220"/>
             </td>
         </tr>
     </table>
