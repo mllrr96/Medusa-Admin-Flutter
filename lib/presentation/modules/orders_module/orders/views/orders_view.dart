@@ -93,6 +93,7 @@ class OrdersView extends StatelessWidget {
               ],
             ),
             body: NestedScrollView(
+              controller: controller.scrollController,
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 MedusaSliverAppBar(
                   title: Obx(

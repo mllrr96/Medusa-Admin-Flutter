@@ -25,7 +25,7 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
     final result = await regionDetailsUseCase.fetchRegion(
       regionId,
       queryParameters: {
-        'expand': 'countries,tax_rates,payment_providers,fulfillment_providers',
+        'expand': 'countries,payment_providers,fulfillment_providers',
       },
     );
     result.when(

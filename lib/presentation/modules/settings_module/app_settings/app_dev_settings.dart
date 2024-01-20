@@ -54,7 +54,6 @@ class AppDevSettingsView extends StatelessWidget {
       body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 MedusaSliverAppBar(
-                  systemOverlayStyle: context.defaultSystemUiOverlayStyle,
                   title: const Text('App Dev Settings'),
                   actions: const [
                     Padding(

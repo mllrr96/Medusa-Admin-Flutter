@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import '../../../../core/route/app_router.dart';
 
 @RoutePage()
@@ -52,10 +52,7 @@ class _DashboardViewState extends State<DashboardView>
       AppSettingsRoute(),
     ];
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: FlexColorScheme.themedSystemNavigationBar(
-        context,
-        systemNavBarStyle: FlexSystemNavBarStyle.scaffoldBackground,
-      ),
+      value: context.systemUiOverlayNoAppBarStyle,
       child: AutoTabsRouter(
         homeIndex: 0,
         routes: routes,

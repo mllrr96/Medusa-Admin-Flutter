@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/draft_details_use_case.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -27,40 +28,42 @@ class DraftOrderDetailsView extends StatelessWidget {
           draftDetailsUseCase: DraftDetailsUseCase.instance, draftId: draftId),
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Draft Order Details'),
-            actions: [
-              if (controller.state?.status == DraftOrderStatus.completed)
-                TextButton(
-                  onPressed: () => context.pushRoute(
-                      OrderDetailsRoute(orderId: controller.state!.orderId!)),
-                  child: const Text('Go to order'),
-                ),
-              if (controller.state?.status == DraftOrderStatus.open)
-                TextButton(
-                  onPressed: () async {
-                    await showOkCancelAlertDialog(
-                      context: context,
-                      title: 'Cancel Draft Order',
-                      message:
-                          'Are you sure you want to cancel this draft order?',
-                      okLabel: 'Yes, Cancel',
-                      isDestructiveAction: true,
-                    ).then((result) async {
-                      if (result == OkCancelResult.ok) {
-                        await controller.cancelDraftOrder(context);
-                      }
-                    });
-                  },
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: Colors.red),
-                  ),
+          body: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  title: const Text('Draft Order Details'),
+                  actions: [
+                    if (controller.state?.status == DraftOrderStatus.completed)
+                      TextButton(
+                        onPressed: () => context.pushRoute(
+                            OrderDetailsRoute(orderId: controller.state!.orderId!)),
+                        child: const Text('Go to order'),
+                      ),
+                    if (controller.state?.status == DraftOrderStatus.open)
+                      TextButton(
+                        onPressed: () async {
+                          await showOkCancelAlertDialog(
+                            context: context,
+                            title: 'Cancel Draft Order',
+                            message:
+                            'Are you sure you want to cancel this draft order?',
+                            okLabel: 'Yes, Cancel',
+                            isDestructiveAction: true,
+                          ).then((result) async {
+                            if (result == OkCancelResult.ok) {
+                              await controller.cancelDraftOrder(context);
+                            }
+                          });
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                  ],
                 ),
             ],
-          ),
-          body: SafeArea(
-            child: controller.obx(
+            body: controller.obx(
               (draftOrder) => SingleChildScrollView(
                 controller: controller.scrollController,
                 child: Padding(

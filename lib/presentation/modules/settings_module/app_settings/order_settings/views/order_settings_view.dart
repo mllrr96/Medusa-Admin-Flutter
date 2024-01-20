@@ -7,7 +7,6 @@ import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/settings_list_tile_extension.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/controllers/orders_controller.dart';
@@ -48,7 +47,6 @@ class OrderSettingsView extends StatelessWidget {
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   MedusaSliverAppBar(
                     title: const Text('Order Settings'),
-                    systemOverlayStyle: context.defaultSystemUiOverlayStyle,
                     actions: [
                       TextButton(
                           onPressed: () {

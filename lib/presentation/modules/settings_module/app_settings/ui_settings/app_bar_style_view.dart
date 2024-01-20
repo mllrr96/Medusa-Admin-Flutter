@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/app_preference.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
@@ -36,7 +35,6 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
       slivers: [
         MedusaSliverAppBar(
           title: Text('${selectedStyle.name.capitalize} AppBar'),
-          systemOverlayStyle: context.defaultSystemUiOverlayStyle,
           actions: [
             TextButton(
                 onPressed: () async {

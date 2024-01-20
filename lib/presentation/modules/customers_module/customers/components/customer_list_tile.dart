@@ -44,41 +44,44 @@ class CustomerListTile extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-        horizontalTitleGap: 8,
-        tileColor:
-            index.isOdd ? context.theme.appBarTheme.backgroundColor : null,
-        leading: CircleAvatar(
-          backgroundColor:shimmer ? context.theme.scaffoldBackgroundColor: ColorManager.getAvatarColor(customer.email),
-          maxRadius: 18,
-          child:shimmer ? null: Text(
-              customer.firstName == null
-                  ? customer.email[0].capitalize ?? customer.email[0]
-                  : customer.firstName![0],
-              style: largeTextStyle!.copyWith(color: Colors.white)),
+      child: Material(
+        color: Colors.transparent,
+        child: ListTile(
+          horizontalTitleGap: 8,
+          tileColor:
+              index.isOdd ? context.theme.appBarTheme.backgroundColor : null,
+          leading: CircleAvatar(
+            backgroundColor:shimmer ? context.theme.scaffoldBackgroundColor: ColorManager.getAvatarColor(customer.email),
+            maxRadius: 18,
+            child:shimmer ? null: Text(
+                customer.firstName == null
+                    ? customer.email[0].capitalize ?? customer.email[0]
+                    : customer.firstName![0],
+                style: largeTextStyle!.copyWith(color: Colors.white)),
+          ),
+          title: customer.firstName != null
+              ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}',
+                  style: mediumTextStyle)
+              : Text(customer.email, style: mediumTextStyle),
+          subtitle: customer.firstName != null
+              ? Text(customer.email, style: mediumTextStyle)
+              : null,
+          trailing: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (customer.createdAt != null)
+                Text(
+                  customer.createdAt.formatDate(),
+                  style: smallTextStyle,
+                ),
+              if (customer.orders != null)
+                Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
+            ],
+          ),
+          onTap: () =>
+              context.pushRoute(CustomerDetailsRoute(customerId: customer.id!)),
         ),
-        title: customer.firstName != null
-            ? Text('${customer.firstName ?? ''} ${customer.lastName ?? ''}',
-                style: mediumTextStyle)
-            : Text(customer.email, style: mediumTextStyle),
-        subtitle: customer.firstName != null
-            ? Text(customer.email, style: mediumTextStyle)
-            : null,
-        trailing: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (customer.createdAt != null)
-              Text(
-                customer.createdAt.formatDate(),
-                style: smallTextStyle,
-              ),
-            if (customer.orders != null)
-              Text('Orders: ${customer.orders!.length}', style: smallTextStyle),
-          ],
-        ),
-        onTap: () =>
-            context.pushRoute(CustomerDetailsRoute(customerId: customer.id!)),
       ),
     );
   }

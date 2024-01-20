@@ -17,7 +17,7 @@ class DiscountRuleTypeLabel extends StatelessWidget {
       case DiscountRuleType.fixed:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text = discount.rule?.value.formatAsPrice(discount.regions?.first.currencyCode) ?? '';
+        text = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode) ?? '';
         break;
       case DiscountRuleType.percentage:
         containerColor = Colors.blueAccent.withOpacity(0.17);

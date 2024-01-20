@@ -15,19 +15,22 @@ class CollectionListTile extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final largeTextStyle = context.bodyLarge;
-    return ListTile(
-      tileColor: tileColor ?? Theme.of(context).listTileTheme.tileColor,
-      onTap: () => context.pushRoute(CollectionDetailsRoute(collectionId: collection.id!)),
-      title: Text(collection.title ?? '', style: largeTextStyle),
-      subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle!.copyWith(color: manatee)),
-      trailing: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (collection.updatedAt != null) Text(collection.updatedAt.formatDate(), style: smallTextStyle),
-          if (collection.products != null)
-            Text('Products: ${collection.products?.length ?? ''}', style: smallTextStyle),
-        ],
+    return Material(
+      color: Colors.transparent,
+      child: ListTile(
+        tileColor: tileColor ?? Theme.of(context).listTileTheme.tileColor,
+        onTap: () => context.pushRoute(CollectionDetailsRoute(collectionId: collection.id!)),
+        title: Text(collection.title ?? '', style: largeTextStyle),
+        subtitle: Text('/${collection.handle ?? ''}', style: smallTextStyle!.copyWith(color: manatee)),
+        trailing: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (collection.updatedAt != null) Text(collection.updatedAt.formatDate(), style: smallTextStyle),
+            if (collection.products != null)
+              Text('Products: ${collection.products?.length ?? ''}', style: smallTextStyle),
+          ],
+        ),
       ),
     );
   }

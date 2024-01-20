@@ -4,9 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/modules/gift_cards_module/custom_gift_cards/components/custom_gift_cards_loading_page.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/domain/use_case/gift_cards_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
@@ -16,15 +15,13 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';
 import '../controllers/custom_gift_cards_controller.dart';
 import '../../../../../core/utils/enums.dart';
-import 'package:medusa_admin/core/extension/text_style_extension.dart';
+
 @RoutePage()
 class CustomGiftCardsView extends StatelessWidget {
   const CustomGiftCardsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const manatee = ColorManager.manatee;
-    final smallTextStyle = context.bodySmall;
 
     return GetBuilder<CustomGiftCardsController>(
         init: CustomGiftCardsController(
@@ -54,82 +51,66 @@ class CustomGiftCardsView extends StatelessWidget {
                 ),
               ],
             ),
-            body: SmartRefresher(
-              controller: controller.refreshController,
-              onRefresh: () async => await controller.refreshData(),
-              header: const MaterialClassicHeader(offset: 100),
-              child: CustomScrollView(
-                controller: controller.scrollController,
-                slivers: [
-                  SliverAppBar(
-                    systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-                    floating: true,
-                    snap: true,
-                    title: Obx(() => Text(
-                        controller.giftCardsCount.value != 0
-                            ? 'Gift Cards History (${controller.giftCardsCount.value})'
-                            : 'Gift Cards History',
-                        overflow: TextOverflow.ellipsis)),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    sliver: SliverToBoxAdapter(
-                      child: Text(
-                        'See the history of purchased Gift Cards',
-                        style: smallTextStyle?.copyWith(color: manatee),
-                      ),
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(bottom: 80),
-                    sliver: PagedSliverList.separated(
-                        pagingController: controller.pagingController,
-                        builderDelegate: PagedChildBuilderDelegate<GiftCard>(
-                          itemBuilder: (context, giftCard, index) {
-                            final isDisabled = giftCard.isDisabled;
+            body: NestedScrollView(
+              controller: controller.scrollController,
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MedusaSliverAppBar(
+                  title: Obx(() => Text(
+                      controller.giftCardsCount.value != 0
+                          ? 'Gift Cards History (${controller.giftCardsCount.value})'
+                          : 'Gift Cards History',
+                      overflow: TextOverflow.ellipsis)),
+                ),
+              ],
+              body: SmartRefresher(
+                controller: controller.refreshController,
+                onRefresh: () async => await controller.refreshData(),
+                child: PagedListView.separated(
+                    pagingController: controller.pagingController,
+                    padding: const EdgeInsets.only(bottom: 80, top: 8),
+                    builderDelegate: PagedChildBuilderDelegate<GiftCard>(
+                      itemBuilder: (context, giftCard, index) {
+                        final isDisabled = giftCard.isDisabled;
 
-                            final listTile = CustomGiftCardTile(
-                              giftCard,
-                              onToggle: () async {
-                                await controller.updateCustomGiftCard(
-                                  context: context,
-                                  id: giftCard.id!,
-                                  userUpdateGiftCardReq: UserUpdateGiftCardReq(
-                                      isDisabled: !isDisabled),
-                                  getBack: false,
-                                );
-                              },
+                        final listTile = CustomGiftCardTile(
+                          giftCard,
+                          onToggle: () async {
+                            await controller.updateCustomGiftCard(
+                              context: context,
+                              id: giftCard.id!,
+                              userUpdateGiftCardReq: UserUpdateGiftCardReq(
+                                  isDisabled: !isDisabled),
+                              getBack: false,
                             );
-                            const disabledDot = Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.circle,
-                                  color: Colors.red, size: 10),
-                            );
-                            if (isDisabled) {
-                              return Stack(
-                                alignment: AlignmentDirectional.topEnd,
-                                children: [
-                                  listTile,
-                                  disabledDot,
-                                ],
-                              );
-                            } else {
-                              return listTile;
-                            }
                           },
-                          noItemsFoundIndicatorBuilder: (_) =>
-                              const Center(child: Text('No Gift cards')),
-                          firstPageProgressIndicatorBuilder: (context) =>
-                              const CustomGiftCardsLoadingPage(),
-                          firstPageErrorIndicatorBuilder: (context) =>
-                              PaginationErrorPage(
-                                  pagingController:
-                                      controller.pagingController),
-                        ),
-                        separatorBuilder: (_, __) => const Divider(height: 0)),
-                  ),
-                ],
+                        );
+                        const disabledDot = Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(Icons.circle,
+                              color: Colors.red, size: 10),
+                        );
+                        if (isDisabled) {
+                          return Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              listTile,
+                              disabledDot,
+                            ],
+                          );
+                        } else {
+                          return listTile;
+                        }
+                      },
+                      noItemsFoundIndicatorBuilder: (_) =>
+                      const Center(child: Text('No Gift cards')),
+                      firstPageProgressIndicatorBuilder: (context) =>
+                      const CustomGiftCardsLoadingPage(),
+                      firstPageErrorIndicatorBuilder: (context) =>
+                          PaginationErrorPage(
+                              pagingController:
+                              controller.pagingController),
+                    ),
+                    separatorBuilder: (_, __) => const Divider(height: 0)),
               ),
             ),
           );

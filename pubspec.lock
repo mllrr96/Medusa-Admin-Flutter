@@ -985,9 +985,11 @@ packages:
   medusa_admin_flutter:
     dependency: "direct main"
     description:
-      path: "../Medusa_Admin_API_Flutter"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: fb81eada6d4acbca0556a23a0f5446076ded2737
+      url: "https://github.com/mllrr96/Medusa_Admin_API_Flutter.git"
+    source: git
     version: "0.0.4"
   meta:
     dependency: transitive

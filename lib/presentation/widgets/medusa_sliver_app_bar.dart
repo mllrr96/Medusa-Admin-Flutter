@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 
@@ -21,6 +24,11 @@ class MedusaSliverAppBar extends StatelessWidget {
   final SystemUiOverlayStyle? systemOverlayStyle;
   @override
   Widget build(BuildContext context) {
+    final isDashboardRoute = context.router.current.name == DashboardRoute.name;
+    final overLayStyle = systemOverlayStyle ??
+        (isDashboardRoute
+            ? context.systemUiOverlayNoAppBarStyle
+            : context.defaultSystemUiOverlayStyle);
     final appBarStyle =
         this.appBarStyle ?? PreferenceService.appSettings.appBarStyle;
     switch (appBarStyle) {
@@ -30,19 +38,19 @@ class MedusaSliverAppBar extends StatelessWidget {
           actions: actions,
           floating: floating ?? true,
           snap: snap ?? true,
-          systemOverlayStyle: systemOverlayStyle,
+          systemOverlayStyle: overLayStyle,
         );
       case AppBarStyle.medium:
         return SliverAppBar.medium(
           title: title,
           actions: actions,
-          systemOverlayStyle: systemOverlayStyle,
+          systemOverlayStyle: overLayStyle,
         );
       case AppBarStyle.large:
         return SliverAppBar.large(
           title: title,
           actions: actions,
-          systemOverlayStyle: systemOverlayStyle,
+          systemOverlayStyle: overLayStyle,
         );
     }
   }

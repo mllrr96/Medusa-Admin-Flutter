@@ -18,51 +18,55 @@ class RegionCard extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    return InkWell(
-      onTap: onTap ??
-          () => context.pushRoute(RegionDetailsRoute(regionId: region.id!)),
-      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-      child: Ink(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        decoration: BoxDecoration(
-            color: Theme.of(context).appBarTheme.backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(12.0))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(region.name!, overflow: TextOverflow.ellipsis),
-                const SizedBox(width: 8.0),
-                Expanded(
-                    child: Text(getCountries(),
-                        style: mediumTextStyle!.copyWith(color: manatee),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2)),
-              ],
-            ),
-            if (showProviders) const SizedBox(height: 6.0),
-            if (showProviders)
+    return Material(
+        color: Theme.of(context).appBarTheme.backgroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      child: InkWell(
+        onTap: onTap ??
+            () => context.pushRoute(RegionDetailsRoute(regionId: region.id!)),
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          decoration: BoxDecoration(
+              color: Theme.of(context).appBarTheme.backgroundColor,
+              borderRadius: const BorderRadius.all(Radius.circular(12.0))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Row(
                 children: [
-                  Text('Payment Providers: ',
-                      style: smallTextStyle?.copyWith(color: manatee)),
+                  Text(region.name!, overflow: TextOverflow.ellipsis),
+                  const SizedBox(width: 8.0),
                   Expanded(
-                      child: Text(getPaymentProviders(),
-                          style: smallTextStyle?.copyWith(color: manatee))),
+                      child: Text(getCountries(),
+                          style: mediumTextStyle!.copyWith(color: manatee),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2)),
                 ],
               ),
-            if (showProviders)
-              Row(
-                children: [
-                  Text('Fulfillment Providers: ',
-                      style: smallTextStyle?.copyWith(color: manatee)),
-                  Expanded(
-                      child: Text(getFulfilmentProviders(),
-                          style: smallTextStyle?.copyWith(color: manatee))),
-                ],
-              ),
-          ],
+              if (showProviders) const SizedBox(height: 6.0),
+              if (showProviders)
+                Row(
+                  children: [
+                    Text('Payment Providers: ',
+                        style: smallTextStyle?.copyWith(color: manatee)),
+                    Expanded(
+                        child: Text(getPaymentProviders(),
+                            style: smallTextStyle?.copyWith(color: manatee))),
+                  ],
+                ),
+              if (showProviders)
+                Row(
+                  children: [
+                    Text('Fulfillment Providers: ',
+                        style: smallTextStyle?.copyWith(color: manatee)),
+                    Expanded(
+                        child: Text(getFulfilmentProviders(),
+                            style: smallTextStyle?.copyWith(color: manatee))),
+                  ],
+                ),
+            ],
+          ),
         ),
       ),
     );

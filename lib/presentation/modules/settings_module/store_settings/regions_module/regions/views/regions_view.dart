@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
+import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -24,9 +25,6 @@ class RegionsView extends StatelessWidget {
         init: RegionsController(RegionsUseCase.instance),
         builder: (controller) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Regions'),
-            ),
             floatingActionButton: ScrollingExpandableFab(
               controller: controller.scrollController,
               label: 'New Region',
@@ -38,28 +36,34 @@ class RegionsView extends StatelessWidget {
                 }
               },
             ),
-            body: SafeArea(
-                child: SmartRefresher(
-              scrollController: controller.scrollController,
-              controller: controller.refreshController,
-              onRefresh: () => controller.pagingController.refresh(),
-              header: const MaterialClassicHeader(),
-              child: PagedListView.separated(
-                separatorBuilder: (_, __) => const Gap(6.0),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-                pagingController: controller.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Region>(
-                  itemBuilder: (context, region, index) =>
-                      RegionCard(region: region),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const RegionsLoadingPage(),
-                  firstPageErrorIndicatorBuilder: (context) =>
-                      PaginationErrorPage(
-                          pagingController: controller.pagingController),
+            body: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                const MedusaSliverAppBar(
+                  title: Text('Regions'),
+                ),
+              ],
+              body: SmartRefresher(
+                // scrollController: controller.scrollController,
+                controller: controller.refreshController,
+                onRefresh: () => controller.pagingController.refresh(),
+                header: const MaterialClassicHeader(),
+                child: PagedListView.separated(
+                  separatorBuilder: (_, __) => const Gap(6.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 6.0),
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Region>(
+                    itemBuilder: (context, region, index) =>
+                        RegionCard(region: region),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const RegionsLoadingPage(),
+                    firstPageErrorIndicatorBuilder: (context) =>
+                        PaginationErrorPage(
+                            pagingController: controller.pagingController),
+                  ),
                 ),
               ),
-            )),
+            ),
           );
         });
   }
