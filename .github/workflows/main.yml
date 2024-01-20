@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: '12.x'
+      - name: Run flutter doctor
         run: flutter doctor -v
       - name: Run pub get and build runner
         uses: actions/checkout@v3
