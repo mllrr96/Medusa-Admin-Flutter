@@ -194,6 +194,16 @@ class AppDevSettingsView extends StatelessWidget {
               ),
               divider,
               ListTile(
+                leading: const Icon(Icons.error_outline),
+                title: const Text('Throw exception'),
+                subtitle: const Text('Throws an exception',
+                    style: TextStyle(color: manatee)),
+                onLongPress: () {
+                  throw Exception('This is a test exception');
+                }
+              ),
+              divider,
+              ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text('Sign out'),
                 subtitle: const Text('Sends a logout request to the server',
