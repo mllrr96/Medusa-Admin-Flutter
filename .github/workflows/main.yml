@@ -25,16 +25,14 @@ jobs:
         run: flutter doctor -v
       - name: Run pub get and build runner
         run: |
-          echo $GITHUB_REF
           flutter pub get
-          flutter packages pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
         run: | 
-          flutter build apk --split-per-abi --release
           flutter build apk --release
-          cd build/app/outputs/flutter-apk
-          for f in app*.apk; do mv "$f" "Medusa-Admin-${GITHUB_REF#refs/*/}-$f"; done
+          cd build/app/outputs/apk/release
+          mv *.apk Medusa-Admin-${GITHUB_REF#refs/*/}.apk
           ls
 
       - name: Build iPA
@@ -49,6 +47,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
         with:
-          artifacts: "build/app/outputs/flutter-apk/*.apk,build/ios/iphoneos/*.ipa"
+          artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/*.ipa"
           allowUpdates: true
           tag: ${{ github.ref }}
