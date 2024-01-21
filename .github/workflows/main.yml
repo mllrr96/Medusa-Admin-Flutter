@@ -17,10 +17,12 @@ jobs:
         with:
           channel: "stable"
           architecture: x64
+          cache: true
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '12.x'
+          cache: 'gradle'
       - name: Run flutter doctor
         run: flutter doctor -v
       - name: Run pub get and build runner
@@ -33,8 +35,6 @@ jobs:
           flutter build apk --release
           cd build/app/outputs/apk/release
           mv *.apk Medusa-Admin-${GITHUB_REF#refs/*/}.apk
-          ls
-
       - name: Build iPA
         run: |
           flutter build ios --release --no-codesign
@@ -49,4 +49,3 @@ jobs:
         with:
           artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/*.ipa"
           allowUpdates: true
-          tag: ${{ github.ref }}
