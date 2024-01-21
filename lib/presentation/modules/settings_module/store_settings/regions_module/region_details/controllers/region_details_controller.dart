@@ -8,15 +8,21 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 
 class RegionDetailsController extends GetxController with StateMixin<Region> {
-  RegionDetailsController({required this.regionDetailsUseCase, required this.regionId});
-  static RegionDetailsController get instance => Get.find<RegionDetailsController>();
+  RegionDetailsController(
+      {required this.regionDetailsUseCase, required this.regionId});
+  static RegionDetailsController get instance =>
+      Get.find<RegionDetailsController>();
   final RegionDetailsUseCase regionDetailsUseCase;
   final String regionId;
   RxString regionName = 'Region'.obs;
+  late Future<List<ShippingOption>?> shippingOptionsFuture;
+  late Future<List<ShippingOption>?> returnShippingOptionsFuture;
 
   @override
   Future<void> onInit() async {
     await loadRegion();
+    updateOptions();
+    updateReturnOptions();
     super.onInit();
   }
 
@@ -37,7 +43,8 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
     );
   }
 
-  Future<void> deleteShippingOption(String id, {bool returnShippingOption = false}) async {
+  Future<void> deleteShippingOption(String id,
+      {bool returnShippingOption = false}) async {
     loading();
     final result = await regionDetailsUseCase.deleteShippingOption(id);
     await result.when((success) async {
@@ -76,7 +83,8 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
     );
   }
 
-  Future<List<ShippingOption>?> retrieveShippingOptions({bool isReturn = false}) async {
+  Future<List<ShippingOption>?> retrieveShippingOptions(
+      {bool isReturn = false}) async {
     final result = await regionDetailsUseCase.fetchShippingOptions(
       queryParameters: {
         'region_id': regionId,
@@ -96,10 +104,10 @@ class RegionDetailsController extends GetxController with StateMixin<Region> {
   }
 
   void updateReturnOptions() {
-    update([1]);
+    returnShippingOptionsFuture = retrieveShippingOptions(isReturn: true);
   }
 
   void updateOptions() {
-    update([0]);
+    shippingOptionsFuture = retrieveShippingOptions();
   }
 }

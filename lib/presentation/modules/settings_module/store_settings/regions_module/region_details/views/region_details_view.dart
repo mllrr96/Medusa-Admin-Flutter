@@ -11,7 +11,6 @@ import 'package:medusa_admin/domain/use_case/region_details_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../../core/constant/colors.dart';
 import '../../add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import '../components/index.dart';
@@ -274,115 +273,7 @@ class RegionDetailsView extends StatelessWidget {
                                   style:
                                       mediumTextStyle.copyWith(color: manatee)),
                               space,
-                              // AnimatedSwitcher(
-                              //   duration: const Duration(milliseconds: 300),
-                              //   child: controller.shippingOptions == null
-                              //       ? const Center(child: CircularProgressIndicator.adaptive())
-                              //       : ListView.separated(
-                              //           separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                              //           shrinkWrap: true,
-                              //           physics: const NeverScrollableScrollPhysics(),
-                              //           itemCount: controller.shippingOptions!.length,
-                              //           itemBuilder: (context, index) => ShippingOptionCard(
-                              //             shippingOption: controller.shippingOptions![index],
-                              //             onDeleteTap: () async =>
-                              //                 await controller.deleteShippingOption(controller.shippingOptions![index].id!),
-                              //             onEditTap: () => Get.toNamed(
-                              //               Routes.ADD_UPDATE_SHIPPING_OPTION,
-                              //               arguments: AddUpdateShippingOptionReq(
-                              //                 region: region,
-                              //                 shippingOption: controller.shippingOptions![index],
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              // ),
-                              GetBuilder<RegionDetailsController>(
-                                  id: 0,
-                                  builder: (controller) {
-                                    return FutureBuilder<List<ShippingOption>?>(
-                                        future: controller
-                                            .retrieveShippingOptions(),
-                                        builder: (context, snapshot) {
-                                          switch (snapshot.connectionState) {
-                                            case ConnectionState.none:
-                                            case ConnectionState.waiting:
-                                              return Skeletonizer(
-                                                child: ShippingOptionCard(
-                                                  shippingOption: ShippingOption(
-                                                      name: 'Shipping option',
-                                                      regionId: '',
-                                                      profileId: '',
-                                                      providerId: '',
-                                                      priceType:
-                                                          ShippingOptionPriceType
-                                                              .calculated,
-                                                      amount: 1200,
-                                                      region: const Region(
-                                                          name: 'Test',
-                                                          currencyCode: 'USD',
-                                                          taxRate: 1000),
-                                                      requirements: [
-                                                        ShippingOptionRequirement(
-                                                          type: RequirementType
-                                                              .minSubtotal,
-                                                          amount: 1200,
-                                                          shippingOptionId:
-                                                              null,
-                                                        ),
-                                                        ShippingOptionRequirement(
-                                                          type: RequirementType
-                                                              .maxSubtotal,
-                                                          amount: 2200,
-                                                          shippingOptionId:
-                                                              null,
-                                                        ),
-                                                      ]),
-                                                ),
-                                              );
-                                            case ConnectionState.active:
-                                            case ConnectionState.done:
-                                              if (snapshot.hasData) {
-                                                return ListView.separated(
-                                                  padding: EdgeInsets.zero,
-                                                  separatorBuilder: (_, __) =>
-                                                      const SizedBox(
-                                                          height: 6.0),
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                  itemCount:
-                                                      snapshot.data!.length,
-                                                  itemBuilder:
-                                                      (context, index) =>
-                                                          ShippingOptionCard(
-                                                    shippingOption:
-                                                        snapshot.data![index],
-                                                    onDeleteTap: () async =>
-                                                        await controller
-                                                            .deleteShippingOption(
-                                                                snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .id!),
-                                                    onEditTap: () =>
-                                                        context.pushRoute(
-                                                            AddUpdateShippingOptionRoute(
-                                                      addUpdateShippingOptionReq:
-                                                          AddUpdateShippingOptionReq(
-                                                        region: region,
-                                                        shippingOption: snapshot
-                                                            .data![index],
-                                                      ),
-                                                    )),
-                                                  ),
-                                                );
-                                              } else {
-                                                return const SizedBox.shrink();
-                                              }
-                                          }
-                                        });
-                                  }),
+                              ShippingOptionsList(region),
                               Center(
                                 child: TextButton(
                                   onPressed: () => context
@@ -425,97 +316,7 @@ class RegionDetailsView extends StatelessWidget {
                                   style:
                                       mediumTextStyle.copyWith(color: manatee)),
                               space,
-                              GetBuilder<RegionDetailsController>(
-                                  id: 1,
-                                  builder: (controller) {
-                                    return FutureBuilder<List<ShippingOption>?>(
-                                        future:
-                                            controller.retrieveShippingOptions(
-                                                isReturn: true),
-                                        builder: (context, snapshot) {
-                                          switch (snapshot.connectionState) {
-                                            case ConnectionState.none:
-                                            case ConnectionState.waiting:
-                                              return Skeletonizer(
-                                                child: ShippingOptionCard(
-                                                  shippingOption: ShippingOption(
-                                                      name: 'Shipping option',
-                                                      regionId: '',
-                                                      profileId: '',
-                                                      providerId: '',
-                                                      priceType:
-                                                          ShippingOptionPriceType
-                                                              .calculated,
-                                                      amount: 1200,
-                                                      region: const Region(
-                                                          name: 'Test',
-                                                          currencyCode: 'USD',
-                                                          taxRate: 1000),
-                                                      requirements: [
-                                                        ShippingOptionRequirement(
-                                                          type: RequirementType
-                                                              .minSubtotal,
-                                                          amount: 1200,
-                                                          shippingOptionId:
-                                                              null,
-                                                        ),
-                                                        ShippingOptionRequirement(
-                                                          type: RequirementType
-                                                              .maxSubtotal,
-                                                          amount: 2200,
-                                                          shippingOptionId:
-                                                              null,
-                                                        ),
-                                                      ]),
-                                                ),
-                                              );
-                                            case ConnectionState.active:
-                                            case ConnectionState.done:
-                                              if (snapshot.hasData) {
-                                                return ListView.separated(
-                                                  padding: EdgeInsets.zero,
-                                                  separatorBuilder: (_, __) =>
-                                                      const SizedBox(
-                                                          height: 6.0),
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                  itemCount:
-                                                      snapshot.data!.length,
-                                                  itemBuilder: (context,
-                                                          index) =>
-                                                      ShippingOptionCard(
-                                                          shippingOption:
-                                                              snapshot
-                                                                  .data![index],
-                                                          onDeleteTap: () async =>
-                                                              await controller
-                                                                  .deleteShippingOption(
-                                                                      snapshot
-                                                                          .data![
-                                                                              index]
-                                                                          .id!,
-                                                                      returnShippingOption:
-                                                                          true),
-                                                          onEditTap: () =>
-                                                              context.pushRoute(
-                                                                  AddUpdateShippingOptionRoute(
-                                                                addUpdateShippingOptionReq:
-                                                                    AddUpdateShippingOptionReq(
-                                                                  region:
-                                                                      region,
-                                                                  shippingOption:
-                                                                      snapshot.data![
-                                                                          index],
-                                                                ),
-                                                              ))),
-                                                );
-                                              } else {
-                                                return const SizedBox.shrink();
-                                              }
-                                          }
-                                        });
-                                  }),
+                              ReturnShippingOptionsList(region),
                               Center(
                                 child: TextButton(
                                   onPressed: () => context
