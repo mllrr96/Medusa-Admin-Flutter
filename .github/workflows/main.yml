@@ -21,12 +21,6 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '12.x'
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
       - name: Run flutter doctor
         run: flutter doctor -v
       - name: Run pub get and build runner
@@ -39,8 +33,8 @@ jobs:
           flutter build apk --split-per-abi --release
           flutter build apk --release
           cd build/app/outputs/flutter-apk
-          for f in app*.apk; do mv "$f" "Medusa-Admin-$RELEASE_VERSION-$f"; done
-          echo ls
+          for f in app*.apk; do mv "$f" "Medusa-Admin-${GITHUB_REF#refs/*/}-$f"; done
+          ls
 
       - name: Build iPA
         run: |
@@ -50,7 +44,7 @@ jobs:
           cd Payload
           ln -s ../Runner.app
           cd ..
-          zip -r Medusa-Admin.ipa Payload
+          zip -r Medusa-Admin-${GITHUB_REF#refs/*/}.ipa Payload
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
         with:
