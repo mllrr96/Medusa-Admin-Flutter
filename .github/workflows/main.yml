@@ -3,8 +3,6 @@ name: Build Flutter APK's and iPA files
 on:
   workflow_dispatch:
   push:
-    branches:
-      - "workflow"
     tags:
     - '*'
 
