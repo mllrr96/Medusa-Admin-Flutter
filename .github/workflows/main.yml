@@ -25,6 +25,7 @@ jobs:
         run: flutter doctor -v
       - name: Run pub get and build runner
         run: |
+          echo $GITHUB_REF
           flutter pub get
           flutter packages pub run build_runner build --delete-conflicting-outputs
 
@@ -48,11 +49,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
         with:
-          artifacts: "build/app/outputs/flutter-apk/*.apk,build/ios/iphoneos/Medusa-Admin.ipa"
+          artifacts: "build/app/outputs/flutter-apk/*.apk,build/ios/iphoneos/*.ipa"
           allowUpdates: true
-#
-#      - name: Upload a Build Artifact
-#        uses: actions/upload-artifact@v3.1.0
-#        with:
-#          name: release-apk
-#          path: build/app/outputs/apk/
+          tag: ${{ github.ref }}
