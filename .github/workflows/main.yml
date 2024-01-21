@@ -3,6 +3,8 @@ name: Build Flutter APK's and iPA files
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "workflow"
     tags:
     - '*'
 
@@ -52,7 +54,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
         with:
-          artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/Medusa-Admin.ipa"
+          artifacts: "build/app/outputs/flutter-apk/*.apk,build/ios/iphoneos/Medusa-Admin.ipa"
           allowUpdates: true
 #
 #      - name: Upload a Build Artifact
