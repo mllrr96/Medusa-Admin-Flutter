@@ -1,6 +1,7 @@
-name: Build Flutter APK's and App bundle
+name: Build Flutter APK's and iPA files
 
 on:
+  workflow_dispatch:
   push:
     tags:
     - '*'
@@ -18,6 +19,12 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '12.x'
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       - name: Run flutter doctor
         run: flutter doctor -v
       - name: Run pub get and build runner
@@ -26,7 +33,12 @@ jobs:
           flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
-        run: flutter build apk --split-per-abi --release
+        run: | 
+          flutter build apk --split-per-abi --release
+          flutter build apk --release
+          cd build/app/outputs/flutter-apk
+          for f in app*.apk; do mv "$f" "Medusa-Admin-$RELEASE_VERSION-$f"; done
+          echo ls
 
       - name: Build iPA
         run: |
