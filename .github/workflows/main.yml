@@ -1,7 +1,10 @@
-name: Build Flutter APK's and App bundle
+name: Build Flutter APK's and iPA files
 
 on:
+  workflow_dispatch:
   push:
+    branches:
+      - "workflow"
     tags:
     - '*'
 
@@ -14,20 +17,24 @@ jobs:
         with:
           channel: "stable"
           architecture: x64
+          cache: true
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '12.x'
+          cache: 'gradle'
       - name: Run flutter doctor
         run: flutter doctor -v
       - name: Run pub get and build runner
         run: |
           flutter pub get
-          flutter packages pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
-        run: flutter build apk --split-per-abi --release
-
+        run: | 
+          flutter build apk --release
+          cd build/app/outputs/apk/release
+          mv *.apk Medusa-Admin-${GITHUB_REF#refs/*/}.apk
       - name: Build iPA
         run: |
           flutter build ios --release --no-codesign
@@ -36,15 +43,9 @@ jobs:
           cd Payload
           ln -s ../Runner.app
           cd ..
-          zip -r Medusa-Admin.ipa Payload
+          zip -r Medusa-Admin-${GITHUB_REF#refs/*/}.ipa Payload
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
         with:
-          artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/Medusa-Admin.ipa"
+          artifacts: "build/app/outputs/apk/release/*.apk,build/ios/iphoneos/*.ipa"
           allowUpdates: true
-#
-#      - name: Upload a Build Artifact
-#        uses: actions/upload-artifact@v3.1.0
-#        with:
-#          name: release-apk
-#          path: build/app/outputs/apk/
