@@ -49,11 +49,12 @@ class OrderSettingsView extends StatelessWidget {
                     title: const Text('Order Settings'),
                     actions: [
                       TextButton(
-                          onPressed: () {
+                          onPressed: mapEquals(controller.orderPreference.toJson(),
+                              PreferenceService.orderPreference.toJson()) ? null : () {
                             PreferenceService.instance
                                 .updateOrderSettings(controller.orderPreference);
                             OrdersController.instance.update();
-                            context.popRoute();
+                            context.router.popForced();
                           },
                           child: const Text('Save'))
                     ],

@@ -28,34 +28,31 @@ class _DashboardViewState extends State<DashboardView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-    }
+    if (state == AppLifecycleState.paused) {}
 
-    if (state == AppLifecycleState.resumed) {
-    }
+    if (state == AppLifecycleState.resumed) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    const routes = [
-      OrdersRoute(),
-      DraftOrdersRoute(),
-      ProductsRoute(),
-      CollectionsRoute(),
-      CategoriesRoute(),
-      CustomersRoute(),
-      GroupsRoute(),
-      DiscountsRoute(),
-      GiftCardsRoute(),
-      PricingRoute(),
-      StoreSettingsRoute(),
-      AppSettingsRoute(),
-    ];
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: context.systemUiOverlayNoAppBarStyle,
       child: AutoTabsRouter(
         homeIndex: 0,
-        routes: routes,
+        routes: const [
+          OrdersRoute(),
+          DraftOrdersRoute(),
+          ProductsRoute(),
+          CollectionsRoute(),
+          CategoriesRoute(),
+          CustomersRoute(),
+          GroupsRoute(),
+          DiscountsRoute(),
+          GiftCardsRoute(),
+          PricingRoute(),
+          StoreSettingsRoute(),
+          AppSettingsRoute(),
+        ],
         transitionBuilder: (context, child, animation) => child,
         builder: (context, child) => child,
       ),
