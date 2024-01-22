@@ -5,7 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/products_filter_view.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

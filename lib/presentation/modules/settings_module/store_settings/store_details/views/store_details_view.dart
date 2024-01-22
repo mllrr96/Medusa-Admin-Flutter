@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
+import 'package:medusa_admin/domain/use_case/store/update_store_use_case.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';

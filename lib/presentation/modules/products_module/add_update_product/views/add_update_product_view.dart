@@ -3,7 +3,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/update_product_use_case.dart';
 
 import '../components/index.dart';
 import '../controllers/add_update_product_controller.dart';

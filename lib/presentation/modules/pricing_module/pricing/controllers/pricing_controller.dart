@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/domain/use_case/price_lists_use_case.dart';
+import 'package:medusa_admin/domain/use_case/price_list/price_lists_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 

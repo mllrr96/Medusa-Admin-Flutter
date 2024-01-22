@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/products_filter_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_filter_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/domain/use_case/reset_password_use_case.dart';
+import 'package:medusa_admin/domain/use_case/auth/reset_password_use_case.dart';
 import 'package:medusa_admin/presentation/modules/auth_module/sign_in/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/error_widget.dart';
 

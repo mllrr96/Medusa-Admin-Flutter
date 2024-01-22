@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
+import 'package:medusa_admin/domain/use_case/order/orders_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class TransferOrderController extends GetxController {

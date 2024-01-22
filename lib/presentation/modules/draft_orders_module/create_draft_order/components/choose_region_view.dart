@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/regions_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/regions_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';

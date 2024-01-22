@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/domain/use_case/update_shipping_option_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/update_shipping_option_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

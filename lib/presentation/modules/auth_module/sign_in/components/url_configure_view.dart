@@ -65,6 +65,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
     if (setupUrl) {
       await MedusaAdminDi.registerMedusaAdminSingleton();
     } else {
+      print('RESETTINGS MEDUSA');
       await MedusaAdminDi.resetMedusaAdminSingleton();
     }
   }

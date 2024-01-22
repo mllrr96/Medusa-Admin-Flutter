@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/domain/use_case/orders_filter_use_case.dart';
-import 'package:medusa_admin/domain/use_case/products_filter_use_case.dart';
+import 'package:medusa_admin/domain/use_case/order/orders_filter_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_filter_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_controller.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/products_filter_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
+import 'package:medusa_admin/domain/use_case/order/orders_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

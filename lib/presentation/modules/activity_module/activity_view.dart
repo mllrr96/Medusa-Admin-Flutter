@@ -31,8 +31,7 @@ class ActivityView extends GetView<ActivityController> {
               batchJob,
               onDelete: () {},
               onShare: () async => controller.shareFile(
-                  batchJob.result?.fileKey ?? '',
-                  batchJob.result?.fileKey?.split('\\').last ?? ''),
+                  batchJob.result?.fileKey),
             ),
           ),
         ),

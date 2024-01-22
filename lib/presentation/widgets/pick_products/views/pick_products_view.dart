@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/list_extension.dart';
-import 'package:medusa_admin/domain/use_case/pick_products_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/pick_products_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../controllers/pick_products_controller.dart';

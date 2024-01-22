@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
-import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';

@@ -3,7 +3,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin/domain/use_case/shipping_option_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/shipping_option_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';

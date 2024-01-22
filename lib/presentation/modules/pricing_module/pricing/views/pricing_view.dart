@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/domain/use_case/price_lists_use_case.dart';
+import 'package:medusa_admin/domain/use_case/price_list/price_lists_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

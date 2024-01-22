@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_store_use_case.dart';
+import 'package:medusa_admin/domain/use_case/store/update_store_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';

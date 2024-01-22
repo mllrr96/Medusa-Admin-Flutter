@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/domain/use_case/discount_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/discount/discount_details_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/index.dart';

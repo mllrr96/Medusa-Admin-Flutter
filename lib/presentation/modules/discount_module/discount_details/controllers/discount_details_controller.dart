@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/discount_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/discount/discount_details_use_case.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discounts/controllers/discounts_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

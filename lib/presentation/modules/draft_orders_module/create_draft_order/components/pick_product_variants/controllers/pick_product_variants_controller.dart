@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:medusa_admin/domain/use_case/product_variants_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/product_variants_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class PickProductVariantsController extends GetxController {

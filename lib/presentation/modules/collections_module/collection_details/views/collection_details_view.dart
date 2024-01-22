@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/domain/use_case/collection_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/collection/collection_details_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';

@@ -4,7 +4,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/team_use_case.dart';
+import 'package:medusa_admin/domain/use_case/team/team_use_case.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/team/controllers/team_controller.dart';

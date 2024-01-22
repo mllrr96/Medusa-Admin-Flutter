@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_return_reason_use_case.dart';
+import 'package:medusa_admin/domain/use_case/return_reason/update_return_reason_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

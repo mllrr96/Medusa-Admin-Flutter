@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_shipping_option_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/update_shipping_option_use_case.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';

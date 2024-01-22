@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/data/helper/image_picker_helper.dart';
-import 'package:medusa_admin/domain/use_case/update_product_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/update_product_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';

@@ -12,8 +12,8 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/domain/use_case/create_batch_job_use_case.dart';
-import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin/domain/use_case/batch_job/create_batch_job_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -145,10 +145,11 @@ class ProductsView extends StatelessWidget {
                         child: const Icon(MedusaIcons.arrow_down_tray),
                         label: 'Import Products',
                         labelStyle: smallTextStyle,
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => const ImportProductsView());
+                        onTap: () async {
+                          await context.pushRoute(const ImportProductsRoute());
+                          // showModalBottomSheet(
+                          //     context: context,
+                          //     builder: (context) => const ImportProductsView());
                         },
                         onLongPress: () {},
                       ),

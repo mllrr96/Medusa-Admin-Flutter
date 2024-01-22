@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/domain/use_case/groups_use_case.dart';
+import 'package:medusa_admin/domain/use_case/group/groups_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

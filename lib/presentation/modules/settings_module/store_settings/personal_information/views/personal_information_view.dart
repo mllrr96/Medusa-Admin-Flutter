@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/domain/use_case/personal_info_use_case.dart';
+import 'package:medusa_admin/domain/use_case/personal_info/personal_info_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';

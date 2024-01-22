@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/domain/use_case/gift_cards_use_case.dart';
+import 'package:medusa_admin/domain/use_case/gift_card/gift_cards_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 

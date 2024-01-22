@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
-import 'package:medusa_admin/domain/use_case/update_region_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/update_region_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

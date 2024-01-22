@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/domain/use_case/api_key_use_case.dart';
+import 'package:medusa_admin/domain/use_case/api_key/api_key_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../api_key_management/controllers/api_key_management_controller.dart';

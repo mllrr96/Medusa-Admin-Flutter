@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../controllers/gift_cards_controller.dart';
 

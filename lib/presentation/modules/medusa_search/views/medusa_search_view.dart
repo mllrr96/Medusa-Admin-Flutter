@@ -16,7 +16,7 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/domain/use_case/search_use_case.dart';
+import 'package:medusa_admin/domain/use_case/search/search_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../core/utils/enums.dart';
 import '../../orders_module/orders/components/order_card.dart';

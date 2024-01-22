@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/domain/use_case/update_customer_use_case.dart';
+import 'package:medusa_admin/domain/use_case/customer/update_customer_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/domain/use_case/price_list_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/price_list/price_list_details_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_products_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

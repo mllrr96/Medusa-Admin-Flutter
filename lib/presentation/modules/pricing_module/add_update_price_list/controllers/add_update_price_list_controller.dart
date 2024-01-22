@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
+import 'package:medusa_admin/domain/use_case/price_list/update_price_list_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

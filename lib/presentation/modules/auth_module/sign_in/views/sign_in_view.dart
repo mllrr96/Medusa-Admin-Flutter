@@ -14,7 +14,7 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
-import 'package:medusa_admin/domain/use_case/auth_use_case.dart';
+import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';

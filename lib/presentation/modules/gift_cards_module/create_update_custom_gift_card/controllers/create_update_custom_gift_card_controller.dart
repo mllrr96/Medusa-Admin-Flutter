@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/domain/use_case/update_gift_card_use_case.dart';
+import 'package:medusa_admin/domain/use_case/gift_card/update_gift_card_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';

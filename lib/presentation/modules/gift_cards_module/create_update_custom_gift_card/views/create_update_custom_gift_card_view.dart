@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/domain/use_case/update_gift_card_use_case.dart';
+import 'package:medusa_admin/domain/use_case/gift_card/update_gift_card_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';

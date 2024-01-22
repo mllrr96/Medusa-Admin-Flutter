@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/domain/use_case/product_variants_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/product_variants_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/product_variant_list_tile.dart';
 import '../controllers/pick_product_variants_controller.dart';

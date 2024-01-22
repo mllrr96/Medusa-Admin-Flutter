@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_tax_rate_use_case.dart';
+import 'package:medusa_admin/domain/use_case/tax_rate/update_tax_rate_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import '../controllers/add_update_tax_rate_controller.dart';

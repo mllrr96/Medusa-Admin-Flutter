@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:medusa_admin/domain/use_case/update_condition_use_case.dart';
+import 'package:medusa_admin/domain/use_case/discount/update_condition_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../discount_conditions/controllers/discount_conditions_controller.dart';

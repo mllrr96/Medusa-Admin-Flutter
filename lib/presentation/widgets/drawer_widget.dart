@@ -12,7 +12,7 @@ import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
+import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';

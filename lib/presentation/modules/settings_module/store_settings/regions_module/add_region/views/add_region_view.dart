@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
-import 'package:medusa_admin/domain/use_case/update_region_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/update_region_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/countries/controller/country_controller.dart';
 import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';

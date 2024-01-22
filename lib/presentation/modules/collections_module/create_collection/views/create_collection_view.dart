@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/domain/use_case/collection_use_case.dart';
+import 'package:medusa_admin/domain/use_case/collection/collection_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import '../controllers/create_collection_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';

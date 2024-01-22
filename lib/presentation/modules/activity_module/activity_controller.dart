@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/data/service/auth_preference_service.dart';
-import 'package:medusa_admin/domain/use_case/retrieve_exported_orders_use_case.dart';
+import 'package:medusa_admin/domain/use_case/file/get_file_url_use_case.dart';
+import 'package:medusa_admin/domain/use_case/order/retrieve_exported_orders_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -30,9 +30,6 @@ class ActivityController extends GetxController {
         await RetrieveExportedOrdersUseCase.instance(queryParameters: {
       'offset': pagingController.itemList?.length ?? 0,
       'limit': _pageSize,
-      // // type[] is used due to an issue with dio and query parameters
-      // // for more check https://github.com/cfug/dio/issues/315#issuecomment-1284983273
-      // 'type[]': ['order-export']
     });
     result.when((batchJobs) {
       final isLastPage = batchJobs.length < _pageSize;
@@ -49,45 +46,52 @@ class ActivityController extends GetxController {
     });
   }
 
-  Future<void> shareFile(String uri, String fileName) async {
+  Future<void> shareFile(String? fileKey) async {
+    if (fileKey == null) {
+      return;
+    }
+    final fileName = fileKey.split('\\').last;
     Directory dir = await getApplicationDocumentsDirectory();
     String savePath = '${dir.path}/exports/$fileName';
+
     final exist = await File(savePath).exists();
     if (exist) {
       await Share.shareXFiles([XFile(savePath)]);
     } else {
-      await _downloadFile(uri, fileName).then((downloaded) async {
-        if (downloaded) {
-          await Share.shareXFiles([XFile(savePath)]);
+      final result = await GetFileUrlUseCase.instance(fileKey);
+      await result.when((uri) async {
+        final file = await _downloadFile(uri, fileName);
+        if (file != null) {
+          await Share.shareXFiles([XFile(file.path)]);
         }
-      });
+      }, (error) => null);
     }
   }
 
-  Future<bool> _downloadFile(String uri, String fileName) async {
-    Directory dir = await getApplicationDocumentsDirectory();
-    String savePath = '${dir.path}/exports/$fileName';
-    return await dio
-        .download(
-      '${AuthPreferenceService.baseUrl}/$uri',
-      savePath,
-      options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-          validateStatus: (status) {
-            if (status != null) {
-              return status < 500;
-            } else {
-              return false;
-            }
-          }),
-      deleteOnError: true,
-    )
-        .then((_) async {
+  Future<File?> _downloadFile(String uri, String fileName) async {
+    try {
       Directory dir = await getApplicationDocumentsDirectory();
       String savePath = '${dir.path}/exports/$fileName';
-      final exist = await File(savePath).exists();
-      return exist;
-    });
+      final response = await dio.get(
+        uri,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              if (status != null) {
+                return status < 500;
+              } else {
+                return false;
+              }
+            }),
+      );
+      File file = File(savePath);
+      RandomAccessFile raf = file.openSync(mode: FileMode.write);
+      await raf.writeFrom(response.data);
+      await raf.close();
+      return file;
+    } catch (e) {
+      return null;
+    }
   }
 }

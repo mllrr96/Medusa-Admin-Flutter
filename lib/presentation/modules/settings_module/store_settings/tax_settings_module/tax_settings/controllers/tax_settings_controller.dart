@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/domain/use_case/tax_settings_use_case.dart';
+import 'package:medusa_admin/domain/use_case/tax_rate/tax_settings_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';

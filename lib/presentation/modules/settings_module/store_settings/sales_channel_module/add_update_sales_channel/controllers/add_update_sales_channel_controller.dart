@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/update_sales_channel_use_case.dart';
+import 'package:medusa_admin/domain/use_case/sales_channel/update_sales_channel_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';

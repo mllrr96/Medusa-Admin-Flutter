@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
-import 'package:medusa_admin/domain/use_case/orders_use_case.dart';
+import 'package:medusa_admin/domain/use_case/order/orders_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/fulfillment_label.dart';

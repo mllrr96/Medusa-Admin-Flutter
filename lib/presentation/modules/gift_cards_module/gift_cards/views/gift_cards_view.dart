@@ -7,7 +7,7 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/domain/use_case/products_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

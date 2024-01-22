@@ -72,11 +72,10 @@ abstract class MedusaAdminDi {
   );
   static MedusaAdminDi get instance => getIt<MedusaAdminDi>();
   static Future<void> registerMedusaAdminSingleton() async {
-    String url = AuthPreferenceService.baseUrl!;
     if (!getIt.isRegistered<MedusaAdmin>()) {
       getIt.registerLazySingleton<MedusaAdmin>(
         () => MedusaAdmin.initialize(
-          baseUrl: url,
+          baseUrl: AuthPreferenceService.baseUrl!,
           interceptors: [_interceptor],
         ),
       );

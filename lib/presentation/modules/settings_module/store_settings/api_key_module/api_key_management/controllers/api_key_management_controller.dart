@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/domain/use_case/api_key_use_case.dart';
+import 'package:medusa_admin/domain/use_case/api_key/api_key_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 

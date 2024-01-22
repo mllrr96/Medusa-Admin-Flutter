@@ -7,7 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/domain/use_case/region_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/region/region_details_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';

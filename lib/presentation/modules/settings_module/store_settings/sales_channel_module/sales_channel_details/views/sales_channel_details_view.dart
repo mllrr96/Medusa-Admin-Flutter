@@ -8,7 +8,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/index.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/domain/use_case/sales_channel_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/sales_channel/sales_channel_details_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_products_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

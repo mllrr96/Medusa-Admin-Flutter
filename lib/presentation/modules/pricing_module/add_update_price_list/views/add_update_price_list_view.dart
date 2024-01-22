@@ -7,7 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/domain/use_case/update_price_list_use_case.dart';
+import 'package:medusa_admin/domain/use_case/price_list/update_price_list_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/adaptive_date_picker.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';

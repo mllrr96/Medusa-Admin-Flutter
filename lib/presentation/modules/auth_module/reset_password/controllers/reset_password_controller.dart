@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/reset_password_use_case.dart';
+import 'package:medusa_admin/domain/use_case/auth/reset_password_use_case.dart';
 
 class ResetPasswordController extends GetxController {
   ResetPasswordController({required this.resetPasswordUseCase});

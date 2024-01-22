@@ -21,7 +21,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
-import 'package:medusa_admin/domain/use_case/sign_out_use_case.dart';
+import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
