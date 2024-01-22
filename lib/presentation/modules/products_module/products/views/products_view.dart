@@ -19,7 +19,6 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../add_update_product/controllers/add_update_product_controller.dart';
-import '../components/import_products.dart';
 import '../components/index.dart';
 import '../controllers/products_controller.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

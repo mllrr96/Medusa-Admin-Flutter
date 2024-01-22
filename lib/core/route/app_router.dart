@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_view.dart';
 import 'package:medusa_admin/presentation/modules/auth_module/sign_in/components/index.dart';
-import 'package:medusa_admin/presentation/modules/products_module/products/components/import_products.dart';
+import 'package:medusa_admin/presentation/modules/products_module/import_products/import_products.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

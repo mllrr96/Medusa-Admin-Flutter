@@ -5,18 +5,17 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class GetFileUrlUseCase {
-  UploadRepository get _uploadRepository =>
-      getIt<MedusaAdmin>().uploadRepository;
+class ConfirmBatchJobUseCase {
+  BatchJobsRepository get _batchRepository =>
+      getIt<MedusaAdmin>().batchJobsRepository;
 
-  static GetFileUrlUseCase get instance => getIt<GetFileUrlUseCase>();
+  static ConfirmBatchJobUseCase get instance => getIt<ConfirmBatchJobUseCase>();
 
-  Future<Result<String, Failure>> call(String fileKey,
+  Future<Result<BatchJob, Failure>> call(String id,
       {Map<String, dynamic>? context, bool dryRun = false}) async {
     try {
-      final result = await _uploadRepository.getFileUrl(fileKey: fileKey);
-
-      return Success(result);
+      final result = await _batchRepository.confirmBatchJob(id);
+      return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
     }

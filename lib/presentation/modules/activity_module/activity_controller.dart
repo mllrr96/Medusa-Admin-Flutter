@@ -50,7 +50,7 @@ class ActivityController extends GetxController {
     if (fileKey == null) {
       return;
     }
-    final fileName = fileKey.split('\\').last;
+    final fileName = fileKey.split('/').last;
     Directory dir = await getApplicationDocumentsDirectory();
     String savePath = '${dir.path}/exports/$fileName';
 
@@ -72,8 +72,10 @@ class ActivityController extends GetxController {
     try {
       Directory dir = await getApplicationDocumentsDirectory();
       String savePath = '${dir.path}/exports/$fileName';
-      final response = await dio.get(
+
+      await dio.download(
         uri,
+        savePath,
         options: Options(
             responseType: ResponseType.bytes,
             followRedirects: false,
@@ -85,10 +87,9 @@ class ActivityController extends GetxController {
               }
             }),
       );
+
       File file = File(savePath);
-      RandomAccessFile raf = file.openSync(mode: FileMode.write);
-      await raf.writeFrom(response.data);
-      await raf.close();
+
       return file;
     } catch (e) {
       return null;
