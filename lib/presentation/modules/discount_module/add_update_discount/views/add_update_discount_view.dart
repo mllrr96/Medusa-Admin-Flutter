@@ -57,7 +57,6 @@ class AddUpdateDiscountView extends StatelessWidget {
               ),
               body: SafeArea(
                 child: SingleChildScrollView(
-                  controller: controller.scrollController,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 10.0),

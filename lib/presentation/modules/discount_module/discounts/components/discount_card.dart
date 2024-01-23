@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discounts/controllers/discounts_controller.dart';
@@ -17,7 +18,6 @@ class DiscountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
-    bool expired = discount.endsAt?.isBefore(DateTime.now()) ?? false;
     Color? iconColor;
     switch (discount.rule?.type) {
       case DiscountRuleType.fixed:
@@ -47,7 +47,7 @@ class DiscountCard extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topRight,
             children: [
-              if (expired)
+              if (discount.isExpired)
                 CornerBanner(
                   bannerColor: Colors.red,
                   bannerPosition: CornerBannerPosition.topRight,

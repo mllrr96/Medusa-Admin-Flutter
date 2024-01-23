@@ -48,3 +48,7 @@ extension AuthTypeExtension on String? {
     }
   }
 }
+
+extension DiscountExtension on Discount {
+  bool get isExpired => endsAt?.isBefore(DateTime.now()) ?? false;
+}

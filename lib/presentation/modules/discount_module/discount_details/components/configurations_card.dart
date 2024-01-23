@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -17,7 +18,6 @@ class ConfigurationsCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -58,7 +58,7 @@ class ConfigurationsCard extends StatelessWidget {
               },
               dateTime: discount.endsAt,
               dateText: 'Expiry',
-              dateTimeTextStyle: mediumTextStyle?.copyWith(color: expired ? Colors.redAccent : null),
+              dateTimeTextStyle: mediumTextStyle?.copyWith(color: discount.isExpired ? Colors.redAccent : null),
               dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
               borderColor: Colors.transparent,
             ),

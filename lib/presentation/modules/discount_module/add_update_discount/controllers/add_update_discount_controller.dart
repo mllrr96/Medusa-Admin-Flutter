@@ -37,7 +37,6 @@ class AddUpdateDiscountController extends GetxController {
   final configFormKey = GlobalKey<FormState>();
   Discount? _loadedDiscount;
   List<Region> selectedRegions = <Region>[];
-  late ScrollController scrollController;
   final discountKey = GlobalKey();
   final generalKey = GlobalKey();
   final configKey = GlobalKey();
@@ -49,13 +48,11 @@ class AddUpdateDiscountController extends GetxController {
     if (discount != null) {
       _loadDiscount();
     }
-    scrollController = ScrollController();
     super.onInit();
   }
 
   @override
   void onClose() {
-    scrollController.dispose();
     codeCtrl.dispose();
     amountCtrl.dispose();
     percentageCtrl.dispose();

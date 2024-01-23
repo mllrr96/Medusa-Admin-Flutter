@@ -39,7 +39,7 @@ class DiscountDetailsView extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(
                         12.0, 8.0, 12.0, kToolbarHeight * 2),
                     children: [
-                      DiscountDetailsCard(discount!),
+                      DiscountDetailsCard(discount!, toggle: () async => await controller.toggleDiscount(discount, context)),
                       space,
                       ConfigurationsCard(discount),
                       space,

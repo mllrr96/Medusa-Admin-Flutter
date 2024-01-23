@@ -1,24 +1,22 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discounts/components/discount_rule_type_label.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:super_banners/super_banners.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 
-import '../controllers/discount_details_controller.dart';
-
-class DiscountDetailsCard extends GetView<DiscountDetailsController> {
-  const DiscountDetailsCard(this.discount, {super.key});
+class DiscountDetailsCard extends StatelessWidget {
+  const DiscountDetailsCard(this.discount, {super.key, this.toggle});
   final Discount discount;
+  final void Function()? toggle;
   @override
   Widget build(BuildContext context) {
     final disabled = discount.isDisabled ?? true;
-    final expired = discount.endsAt != null && discount.endsAt!.isBefore(DateTime.now());
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
@@ -89,7 +87,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                         child: Text(discount.code ?? '', style: context.headlineMedium),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: expired ? 12.0 : 0.0),
+                        padding: EdgeInsets.only(right: discount.isExpired ? 12.0 : 0.0),
                         child: TextButton(
                             style: TextButton.styleFrom(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -103,7 +101,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                                       isDestructiveAction: true)
                                   .then((value) async {
                                 if (value == OkCancelResult.ok) {
-                                  await controller.toggleDiscount(discount, context);
+                                  toggle?.call();
                                 }
                               });
                             },
@@ -181,7 +179,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
                 ],
               ),
             ),
-            if (expired)
+            if (discount.isExpired)
               CornerBanner(
                 bannerColor: Colors.red,
                 bannerPosition: CornerBannerPosition.topRight,
