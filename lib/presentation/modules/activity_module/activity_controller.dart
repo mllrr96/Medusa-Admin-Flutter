@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/domain/use_case/file/get_file_url_use_case.dart';
 import 'package:medusa_admin/domain/use_case/order/retrieve_exported_orders_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -21,7 +22,7 @@ class ActivityController extends GetxController {
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
-    dio = Dio();
+    dio = getIt<Dio>();
     super.onInit();
   }
 

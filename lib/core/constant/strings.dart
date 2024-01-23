@@ -21,6 +21,7 @@ class AppConstants {
   static const String author = 'Mohammed Ragheb';
   static const String license = 'MIT License';
   static const String githubLink = 'https://github.com/mllrr96/Medusa-Admin-Flutter';
+  static const String githubReleasesLink = 'https://api.github.com/repos/mllrr96/Medusa-Admin-Flutter/releases';
 
   // Change this to your backend url
   // This is optional since you can easily change it from the app

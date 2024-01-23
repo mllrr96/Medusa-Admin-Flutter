@@ -12,6 +12,7 @@ import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/domain/repositories/app_updater_repo.dart';
 import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
@@ -38,6 +39,7 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> load() async {
+    unawaited(AppUpdaterRepo.instance.loadLatestRelease());
     final baseUrl = AuthPreferenceService.baseUrl;
     if (baseUrl == null) {
       context.router.replaceAll([SignInRoute()]);

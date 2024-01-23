@@ -16,6 +16,7 @@ import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -37,15 +38,11 @@ class _AppDrawerState extends State<AppDrawer> {
     final smallTextStyle = context.bodySmall;
     final store = StoreService.store;
     final packageInfo = PreferenceService.packageInfo;
+    const divider = Divider(indent: 28, endIndent: 28);
     String appName = packageInfo.appName;
     String version = packageInfo.version;
-    // String code = packageInfo.buildNumber;
 
     Future<void> signOut() async {
-      // final usingToken = AuthPreferenceService.authType == AuthenticationType.token;
-      // final message = usingToken
-      //     ? 'Signing out will delete api token from device and set auth method to JWT, Are you sure you want to continue?'
-      //     : 'Are you sure you want to sign out?';
       await showOkCancelAlertDialog(
               context: context,
               title: 'Sign out',
@@ -93,7 +90,7 @@ class _AppDrawerState extends State<AppDrawer> {
         icon: Icon(CupertinoIcons.cart_badge_plus),
         label: Text('Draft Orders'),
       ),
-      Divider(indent: 28, endIndent: 28),
+      divider,
       NavigationDrawerDestination(
         icon: Icon(MedusaIcons.tag),
         label: Text('Products'),
@@ -106,7 +103,7 @@ class _AppDrawerState extends State<AppDrawer> {
         icon: Icon(MedusaIcons.tag),
         label: Text('Categories'),
       ),
-      Divider(indent: 28, endIndent: 28),
+      divider,
       NavigationDrawerDestination(
         icon: Icon(Icons.person),
         label: Text('Customers'),
@@ -115,7 +112,7 @@ class _AppDrawerState extends State<AppDrawer> {
         icon: Icon(Icons.groups),
         label: Text('Customer Groups'),
       ),
-      Divider(indent: 28, endIndent: 28),
+      divider,
       NavigationDrawerDestination(
         icon: Icon(Icons.discount_outlined),
         label: Text('Discounts'),
@@ -128,7 +125,7 @@ class _AppDrawerState extends State<AppDrawer> {
         icon: Icon(MedusaIcons.currency_dollar),
         label: Text('Pricing'),
       ),
-      Divider(indent: 28, endIndent: 28),
+      divider,
       NavigationDrawerDestination(
         icon: Icon(Icons.settings_applications),
         label: Text('Store Settings'),
@@ -232,6 +229,52 @@ class _AppDrawerState extends State<AppDrawer> {
                         child: Icon(Icons.notifications_outlined))),
               ],
             ),
+          ),
+          if(PreferenceService.updateAvailable)
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
+                child: InkWell(
+                  customBorder: const StadiumBorder(),
+                  onTap: () async {
+                    await showModalBottomSheet(context: context,
+                        isScrollControlled: true,
+                        builder: (context) => const AppUpdateView());
+                  },
+                  child: Ink(
+                    height: 56,
+                    decoration: const ShapeDecoration(
+                      shape: StadiumBorder(),
+                      gradient:  LinearGradient(
+                        colors: [Colors.blue, Colors.green],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16, 16, 10, 16),
+                          child: Icon(Icons.update, color: Colors.white),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('New Update Available', style: TextStyle(color: Colors.white)),
+                            Text(PreferenceService.appUpdate?.tagName ?? '',
+                                style: smallTextStyle?.copyWith(
+                                    color: Colors.white)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              divider,
+            ],
           ),
           const Gap(5),
           ...items,
