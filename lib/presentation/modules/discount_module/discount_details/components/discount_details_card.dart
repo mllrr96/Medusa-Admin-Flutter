@@ -28,9 +28,9 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
       String detail = '';
       switch (discount.rule!.type!) {
         case DiscountRuleType.fixed:
-          valueText = discount.rule?.value.formatAsPrice(discount.regions?.first.currencyCode, includeSymbol: false) ?? '';
+          valueText = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode, includeSymbol: false) ?? '';
           valueColor = Colors.orangeAccent;
-          detail = ' ${discount.regions?.first.currency?.code ?? ''}';
+          detail = ' ${discount.regions?.firstOrNull?.currency?.code ?? ''}';
           break;
         case DiscountRuleType.percentage:
           valueText = discount.rule!.value!.toString();
@@ -47,7 +47,7 @@ class DiscountDetailsCard extends GetView<DiscountDetailsController> {
         children: [
           if (discount.rule?.type == DiscountRuleType.fixed)
             Flexible(
-                child: Text('${discount.regions?.first.currency?.symbolNative ?? ''} ',
+                child: Text('${discount.regions?.firstOrNull?.currency?.symbolNative ?? ''} ',
                     style: context.bodyLarge?.copyWith(color: valueColor))),
           Text(valueText, style: context.headlineSmall?.copyWith(color: valueColor)),
           if (detail.isNotEmpty) Text(detail.toUpperCase(), style: mediumTextStyle?.copyWith(color: manatee)),
