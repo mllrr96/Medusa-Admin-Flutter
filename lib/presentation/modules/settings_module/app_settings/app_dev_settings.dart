@@ -171,6 +171,17 @@ class AppDevSettingsView extends StatelessWidget {
               ),
               divider,
               ListTile(
+                leading: const Icon(Icons.file_copy_outlined),
+                title: const Text('Clear update files'),
+                subtitle: const Text('Deletes update files',
+                    style: TextStyle(color: manatee)),
+                onLongPress: () async {
+                  await authPrefService.clearUpdateFiles();
+                  Fluttertoast.showToast(msg: 'Update files cleared');
+                },
+              ),
+              divider,
+              ListTile(
                 leading: const Icon(Icons.link),
                 title: const Text('Set URL'),
                 subtitle: const Text('Change base url',

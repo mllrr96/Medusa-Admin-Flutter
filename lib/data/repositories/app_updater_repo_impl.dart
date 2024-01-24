@@ -22,7 +22,6 @@ class AppUpdaterRepositoryImpl extends AppUpdaterRepo{
         return null;
       }
     } catch(error){
-      print('error: $error');
       return null;
     }
   }

@@ -70,7 +70,6 @@ abstract class MedusaAdminDi {
       handler.next(e);
     },
   );
-  static MedusaAdminDi get instance => getIt<MedusaAdminDi>();
   static Future<void> registerMedusaAdminSingleton() async {
     if (!getIt.isRegistered<MedusaAdmin>()) {
       getIt.registerLazySingleton<MedusaAdmin>(

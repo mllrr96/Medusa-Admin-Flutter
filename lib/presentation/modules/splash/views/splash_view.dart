@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide GetNumUtils;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -81,37 +82,45 @@ class _SplashViewState extends State<SplashView> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: context.systemUiOverlayNoAppBarStyle,
       child: Scaffold(
-        body: Container(
-          height: double.maxFinite,
-          width: double.maxFinite,
-          color: context.theme.scaffoldBackgroundColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Hero(
-                  tag: 'medusa',
-                  child: Image.asset('assets/images/medusa.png', scale: 5)),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text('Medusa Admin', style: context.headlineLarge),
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              height: context.height,
+              width: context.width,
+              color: context.theme.scaffoldBackgroundColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Hero(
+                      tag: 'medusa',
+                      child: Image.asset('assets/images/medusa.png', scale: 5)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text('Medusa Admin', style: context.headlineLarge),
+                  ),
+                  const Gap(15),
+                  LoadingAnimationWidget.staggeredDotsWave(
+                      color: context.theme.primaryColor, size: 40),
+                  const Gap(15),
+                ],
               ),
-              const Gap(15),
-              LoadingAnimationWidget.staggeredDotsWave(
-                  color: context.theme.primaryColor, size: 40),
-              const Gap(15),
-              if (takingTooLong)
-                Column(
-                  children: [
-                    const Text('Taking too long to load?'),
-                    TextButton(
-                        onPressed: () =>
-                            context.router.replaceAll([SignInRoute()]),
-                        child: const Text('Go to login'))
-                  ],
-                ),
-            ],
-          ),
+            ),
+            if(takingTooLong)
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Taking too long to load?'),
+                const Gap(10),
+                OutlinedButton(
+                    onPressed: () =>
+                        context.router.replaceAll([SignInRoute()]),
+                    child: const Text('Go to login')),
+                const Gap(10),
+              ],
+            ).animate().fadeIn(duration: 200.ms).move(begin: const Offset(0, 10), curve: Curves.easeOutQuad)
+          ],
         ),
       ),
     );

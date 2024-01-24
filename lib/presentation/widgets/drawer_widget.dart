@@ -16,12 +16,11 @@ import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
-
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:simple_icons/simple_icons.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -32,113 +31,113 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   ThemeMode themeMode = PreferenceService.instance.loadThemeMode();
+  Future<void> signOut() async {
+    await showOkCancelAlertDialog(
+            context: context,
+            title: 'Sign out',
+            message: 'Are you sure you want to sign out?',
+            okLabel: 'Sign Out',
+            isDestructiveAction: true)
+        .then(
+      (value) async {
+        if (value == OkCancelResult.ok) {
+          loading();
+          final result = await SignOutUseCase.instance();
+          await result.when((success) async {
+            await Get.delete(force: true);
+            await AuthPreferenceService.instance.clearLoginData();
+            await AuthPreferenceService.instance.clearExportFiles();
+            await AuthPreferenceService.instance.clearLoginKey();
+            // if (usingToken) {
+            //   await PreferenceService.instance.updateAppSettings(PreferenceService
+            //       .appSettings
+            //       .copyWith(authType: AuthenticationType.jwt));
+            //   await MedusaAdminDi.resetMedusaAdminSingleton();
+            // }
+            if (mounted) {
+              context.router.replaceAll([const SplashRoute()]);
+            }
+            dismissLoading();
+          }, (error) {
+            if (error.code == 401) {
+              context.router.replaceAll([SignInRoute()]);
+            } else {
+              context.showSnackBar(error.toSnackBarString());
+            }
+          });
+        }
+      },
+    );
+  }
+
+  static const divider = Divider(indent: 28, endIndent: 28);
+  List<Widget> items = const [
+    NavigationDrawerDestination(
+      icon: Icon(CupertinoIcons.cart),
+      label: Text('Orders'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(CupertinoIcons.cart_badge_plus),
+      label: Text('Draft Orders'),
+    ),
+    divider,
+    NavigationDrawerDestination(
+      icon: Icon(MedusaIcons.tag),
+      label: Text('Products'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(Icons.collections_bookmark),
+      label: Text('Collections'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(MedusaIcons.tag),
+      label: Text('Categories'),
+    ),
+    divider,
+    NavigationDrawerDestination(
+      icon: Icon(Icons.person),
+      label: Text('Customers'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(Icons.groups),
+      label: Text('Customer Groups'),
+    ),
+    divider,
+    NavigationDrawerDestination(
+      icon: Icon(Icons.discount_outlined),
+      label: Text('Discounts'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(CupertinoIcons.gift),
+      label: Text('Gift Cards'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(MedusaIcons.currency_dollar),
+      label: Text('Pricing'),
+    ),
+    divider,
+    NavigationDrawerDestination(
+      icon: Icon(Icons.settings_applications),
+      label: Text('Store Settings'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(CupertinoIcons.settings),
+      label: Text('App Settings'),
+    ),
+    NavigationDrawerDestination(
+      icon: Icon(Icons.logout, color: Colors.red),
+      label: Text('Sign Out'),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final store = StoreService.store;
     final packageInfo = PreferenceService.packageInfo;
-    const divider = Divider(indent: 28, endIndent: 28);
     String appName = packageInfo.appName;
     String version = packageInfo.version;
-
-    Future<void> signOut() async {
-      await showOkCancelAlertDialog(
-              context: context,
-              title: 'Sign out',
-              message: 'Are you sure you want to sign out?',
-              okLabel: 'Sign Out',
-              isDestructiveAction: true)
-          .then(
-        (value) async {
-          if (value == OkCancelResult.ok) {
-            loading();
-            final result = await SignOutUseCase.instance();
-            await result.when((success) async {
-              await Get.delete(force: true);
-              await AuthPreferenceService.instance.clearLoginData();
-              await AuthPreferenceService.instance.clearExportFiles();
-              await AuthPreferenceService.instance.clearLoginKey();
-              // if (usingToken) {
-              //   await PreferenceService.instance.updateAppSettings(PreferenceService
-              //       .appSettings
-              //       .copyWith(authType: AuthenticationType.jwt));
-              //   await MedusaAdminDi.resetMedusaAdminSingleton();
-              // }
-              if (mounted) {
-                context.router.replaceAll([const SplashRoute()]);
-              }
-              dismissLoading();
-            }, (error) {
-              if (error.code == 401) {
-                context.router.replaceAll([SignInRoute()]);
-              } else {
-                context.showSnackBar(error.toSnackBarString());
-              }
-            });
-          }
-        },
-      );
-    }
-
-    List<Widget> items = const [
-      NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.cart),
-        label: Text('Orders'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.cart_badge_plus),
-        label: Text('Draft Orders'),
-      ),
-      divider,
-      NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Products'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(Icons.collections_bookmark),
-        label: Text('Collections'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Categories'),
-      ),
-      divider,
-      NavigationDrawerDestination(
-        icon: Icon(Icons.person),
-        label: Text('Customers'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(Icons.groups),
-        label: Text('Customer Groups'),
-      ),
-      divider,
-      NavigationDrawerDestination(
-        icon: Icon(Icons.discount_outlined),
-        label: Text('Discounts'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.gift),
-        label: Text('Gift Cards'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.currency_dollar),
-        label: Text('Pricing'),
-      ),
-      divider,
-      NavigationDrawerDestination(
-        icon: Icon(Icons.settings_applications),
-        label: Text('Store Settings'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.settings),
-        label: Text('App Settings'),
-      ),
-      NavigationDrawerDestination(
-        icon: Icon(Icons.logout, color: Colors.red),
-        label: Text('Sign Out'),
-      ),
-    ];
 
     return NavigationDrawer(
         key: const PageStorageKey<String>('navigationDrawer'),
@@ -176,26 +175,26 @@ class _AppDrawerState extends State<AppDrawer> {
 
                                 Future.delayed(
                                         const Duration(milliseconds: 250))
-                                    .then((value) async => await PreferenceService
-                                        .instance
-                                        .saveThemeMode(ThemeMode.light));
+                                    .then((value) async =>
+                                        await PreferenceService.instance
+                                            .saveThemeMode(ThemeMode.light));
                                 break;
                               case ThemeMode.light:
                                 setState(() => themeMode = ThemeMode.dark);
 
                                 Future.delayed(
                                         const Duration(milliseconds: 250))
-                                    .then((value) async => await PreferenceService
-                                        .instance
-                                        .saveThemeMode(ThemeMode.dark));
+                                    .then((value) async =>
+                                        await PreferenceService.instance
+                                            .saveThemeMode(ThemeMode.dark));
                                 break;
                               case ThemeMode.dark:
                                 setState(() => themeMode = ThemeMode.system);
                                 Future.delayed(
                                         const Duration(milliseconds: 250))
-                                    .then((value) async => await PreferenceService
-                                        .instance
-                                        .saveThemeMode(ThemeMode.system));
+                                    .then((value) async =>
+                                        await PreferenceService.instance
+                                            .saveThemeMode(ThemeMode.system));
                                 break;
                             }
                           },
@@ -230,52 +229,72 @@ class _AppDrawerState extends State<AppDrawer> {
               ],
             ),
           ),
-          if(PreferenceService.updateAvailable)
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
-                child: InkWell(
-                  customBorder: const StadiumBorder(),
-                  onTap: () async {
-                    await showModalBottomSheet(context: context,
-                        isScrollControlled: true,
-                        builder: (context) => const AppUpdateView());
-                  },
-                  child: Ink(
-                    height: 56,
-                    decoration: const ShapeDecoration(
-                      shape: StadiumBorder(),
-                      gradient:  LinearGradient(
-                        colors: [Colors.blue, Colors.green],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+          // if (PreferenceService.updateAvailable)
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 56,
+                        width: double.infinity,
+                        decoration: const ShapeDecoration(
+                          shape: StadiumBorder(),
+                          color: Colors.blue,
+                        ),
+                      )
+                          .animate(
+                              autoPlay: true,
+                              onPlay: (controller) =>
+                                  controller.repeat(reverse: true))
+                          .shimmer(
+                              duration: const Duration(seconds: 5),
+                              blendMode: BlendMode.srcIn,
+                              colors: [Colors.blue, Colors.green, Colors.teal]),
+                      Material(
+                        color: Colors.transparent,
+                        shape: const StadiumBorder(),
+                        child: InkWell(
+                          customBorder: const StadiumBorder(),
+                          onTap: () =>
+                              context.pushRoute(const AppUpdateRoute()),
+                          child: Ink(
+                            height: 56,
+                            decoration: const ShapeDecoration(
+                              shape: StadiumBorder(),
+                            ),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(16, 16, 10, 16),
+                                  child:
+                                      Icon(Icons.update, color: Colors.white),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        'New Update Available ${PreferenceService.appUpdate?.tagName ?? ''}',
+                                        style: const TextStyle(
+                                            color: Colors.white)),
+                                    Text('Tap to install',
+                                        style: smallTextStyle?.copyWith(
+                                            color: Colors.white)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(16, 16, 10, 16),
-                          child: Icon(Icons.update, color: Colors.white),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('New Update Available', style: TextStyle(color: Colors.white)),
-                            Text(PreferenceService.appUpdate?.tagName ?? '',
-                                style: smallTextStyle?.copyWith(
-                                    color: Colors.white)),
-                          ],
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
-              ),
-              divider,
-            ],
-          ),
+                divider,
+              ],
+            ),
           const Gap(5),
           ...items,
           Padding(
