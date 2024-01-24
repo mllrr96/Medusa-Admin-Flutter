@@ -77,7 +77,15 @@ Medusa Admin Mobile is built with [Flutter](https://flutter.dev/) with the aim t
     </table>
 </div>
 
-##  Installation
+## Installation
+
+### Android
+Download the latest apk file from [releases](https://github.com/mllrr96/Medusa-Admin-Flutter/releases) and install it on your phone.
+
+### iOS
+You need to sideload the latest ipa file found in [releases](https://github.com/mllrr96/Medusa-Admin-Flutter/releases) to your iPhone, checkout [Sideloadly](https://sideloadly.io/) or [AltStore](https://altstore.io/) for more info about sideloading.
+
+##  Build it yourself
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
 
 Open this project folder with Terminal/CMD and run the following command
