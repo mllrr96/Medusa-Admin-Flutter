@@ -18,6 +18,7 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 @RoutePage()
 class AppUpdateView extends StatefulWidget {
@@ -148,10 +149,12 @@ class _AppUpdateViewState extends State<AppUpdateView> {
             ],
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             sliver: SliverList(
                 delegate: SliverChildListDelegate([
               ListTile(
+                contentPadding: EdgeInsets.zero,
                 title: Text('Current Version:', style: context.bodyMedium),
                 trailing: Text(
                   'v${PreferenceService.packageInfo.version}',
@@ -159,6 +162,7 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                 ),
               ),
               ListTile(
+                contentPadding: EdgeInsets.zero,
                 title: Text('Latest Version:', style: context.bodyMedium),
                 trailing: Text(
                   PreferenceService.appUpdate?.tagName ?? '',
@@ -174,10 +178,27 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                         colors: [Colors.blue, Colors.green, Colors.teal]),
               ),
               const Divider(),
-              Text('Changelog ${PreferenceService.appUpdate?.tagName ?? ''}',
-                  style: context.headlineMedium),
-              Text(PreferenceService.appUpdate?.body ?? '',
-                  style: context.bodySmall?.copyWith(color: manatee)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text('Release Notes', style: context.bodyLarge),
+              ),
+              Markdown(
+                styleSheet: MarkdownStyleSheet(
+                  a: context.bodyLarge,
+                  p: context.bodyMedium,
+                  h2: context.bodyMedium,
+                  h3: context.bodyMedium,
+                  h4: context.bodyMedium,
+                  h5: context.bodyMedium,
+                  h6: context.bodyMedium,
+                  blockquote: context.bodyMedium,
+                  code: context.bodyMedium,
+                ),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(10.0),
+                data: PreferenceService.appUpdate?.body ?? '',
+              ),
             ])),
           ),
         ]),
