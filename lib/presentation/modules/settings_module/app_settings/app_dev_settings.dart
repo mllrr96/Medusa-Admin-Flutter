@@ -21,11 +21,20 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import '../../auth_module/sign_in/components/url_configure_view.dart';
 
 @RoutePage()
-class AppDevSettingsView extends StatelessWidget {
+class AppDevSettingsView extends StatefulWidget {
   const AppDevSettingsView({super.key});
+
+  @override
+  State<AppDevSettingsView> createState() => _AppDevSettingsViewState();
+}
+
+class _AppDevSettingsViewState extends State<AppDevSettingsView> {
   AuthenticationType get authType => AuthPreferenceService.authType;
+
   PreferenceService get storageService => PreferenceService.instance;
+
   AuthPreferenceService get authPrefService => AuthPreferenceService.instance;
+
   AppPreference get appSettings => PreferenceService.appSettings;
 
   @override
@@ -69,8 +78,7 @@ class AppDevSettingsView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.security),
                 title: const Text('Authentication Type'),
-                subtitle: Text(
-                    '${authType.toString()} Authentication',
+                subtitle: Text('${authType.toString()} Authentication',
                     style: const TextStyle(color: manatee)),
               ),
               divider,
@@ -187,13 +195,14 @@ class AppDevSettingsView extends StatelessWidget {
                 subtitle: const Text('Change base url',
                     style: TextStyle(color: manatee)),
                 onTap: () {
-                  context.showSnackBar(AuthPreferenceService.baseUrl ?? 'No URL found',
+                  context.showSnackBar(
+                      AuthPreferenceService.baseUrl ?? 'No URL found',
                       action: SnackBarAction(
                           label: 'Copy',
                           onPressed: () {
                             if (AuthPreferenceService.baseUrl == null) return;
-                            context
-                                .copyToClipboard(AuthPreferenceService.baseUrl ?? '');
+                            context.copyToClipboard(
+                                AuthPreferenceService.baseUrl ?? '');
                           }));
                 },
                 onLongPress: () async {
@@ -205,14 +214,13 @@ class AppDevSettingsView extends StatelessWidget {
               ),
               divider,
               ListTile(
-                leading: const Icon(Icons.error_outline),
-                title: const Text('Throw exception'),
-                subtitle: const Text('Throws an exception',
-                    style: TextStyle(color: manatee)),
-                onLongPress: () {
-                  throw Exception('This is a test exception');
-                }
-              ),
+                  leading: const Icon(Icons.error_outline),
+                  title: const Text('Throw exception'),
+                  subtitle: const Text('Throws an exception',
+                      style: TextStyle(color: manatee)),
+                  onLongPress: () {
+                    throw Exception('This is a test exception');
+                  }),
               divider,
               ListTile(
                 leading: const Icon(Icons.logout),
@@ -264,6 +272,18 @@ class AppDevSettingsView extends StatelessWidget {
                   await storageService.updateAppSettings(appSettings.copyWith(
                       useMaterial3: !appSettings.useMaterial3));
                   ThemeController.instance.update();
+                  setState(() {});
+                },
+              ),
+              divider,
+              SwitchListTile(
+                secondary: const Icon(Icons.account_tree),
+                title: const Text('Install Beta Updates'),
+                value: appSettings.downloadBeta,
+                onChanged: (val) async {
+                  await storageService.updateAppSettings(appSettings.copyWith(
+                      downloadBeta: !appSettings.downloadBeta));
+                  setState(() {});
                 },
               ),
             ],

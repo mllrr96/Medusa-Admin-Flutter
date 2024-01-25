@@ -48,27 +48,16 @@ class _SignInViewState extends State<SignInView> {
   late Timer timer;
   @override
   void initState() {
-    timer = Timer(2.seconds, () {
+    _onInit();
+    timer = Timer(3.seconds, () {
       if (mounted) {
-        setState(() {
-          showUpdateButton = PreferenceService.updateAvailable;
-        });
+        setState(() => showUpdateButton = PreferenceService.updateAvailable);
       }
     });
-    _onInit();
     super.initState();
   }
 
-  void _onInit() {
-    useBiometric = AuthPreferenceService.authPreference.useBiometric;
-    emailCtrl.text = AuthPreferenceService.email ?? '';
-    if (useBiometric == true &&
-        (AuthPreferenceService.email?.isNotEmpty ?? false)) {
-      showAuthenticateButton = true;
-    } else {
-      showAuthenticateButton = false;
-    }
-  }
+
 
   @override
   void dispose() {
@@ -78,126 +67,6 @@ class _SignInViewState extends State<SignInView> {
     super.dispose();
   }
 
-  Future<void> _biometricAuthentication(SignInController ctrl) async {
-    if (AuthPreferenceService.authPreference.useBiometric == true) {
-      final result = await AuthPreferenceService.instance.loadLoginData();
-      result.when((success) async {
-        ctrl.loading = true;
-        ctrl.update();
-        await ctrl
-            .login(success.$1, success.$2, context: context)
-            .then((value) {
-          if (value) {
-            if (widget.onResult == null) {
-              context.router.replaceAll([const DashboardRoute()]);
-            } else {
-              widget.onResult?.call(true);
-            }
-          } else {
-            ctrl.loading = false;
-            ctrl.update();
-          }
-        });
-      }, (error) => context.showSignInErrorSnackBar(error));
-    }
-  }
-
-  Future<bool> _validate() async {
-    if (AuthPreferenceService.baseUrl == null) {
-      context.showSignInErrorSnackBar('Please set your backend URL first');
-      return false;
-    }
-    if (!formKey.currentState!.validate()) {
-      return false;
-    }
-    if (!await InternetConnection().hasInternetAccess) {
-      await Fluttertoast.showToast(
-          msg: 'Check your internet connection and try again.');
-      if (context.mounted) {
-        context.unfocus();
-      }
-      return false;
-    }
-    if (context.mounted) {
-      context.unfocus();
-    }
-    return true;
-  }
-
-  Future<void> _showBiometricDialog() async {
-    final canUseBiometric =
-        await getIt<LocalAuthentication>().canCheckBiometrics &&
-            await getIt<LocalAuthentication>().isDeviceSupported();
-    if (useBiometric == null && context.mounted && canUseBiometric) {
-      final result = await showModalBottomSheet<bool?>(
-          isDismissible: false,
-          enableDrag: false,
-          context: context,
-          builder: (context) => const UseBiometricReminder());
-      if (result == true) {
-        await AuthPreferenceService.instance
-            .saveLoginData(emailCtrl.text, passwordCtrl.text);
-      }
-      // wait for the modal to close
-      await Future.delayed(const Duration(milliseconds: 200));
-    }
-  }
-
-  Future<void> _signIn(SignInController controller) async {
-    controller.loading = true;
-    controller.update();
-    if (!await _validate()) {
-      controller.loading = false;
-      controller.update();
-      return;
-    }
-    if (!mounted) return;
-    await controller
-        .login(emailCtrl.text, passwordCtrl.text, context: context)
-        .then((value) async {
-      if (value) {
-        // show enable biometric dialog
-        if (AuthPreferenceService.authType != AuthenticationType.token) {
-          await _showBiometricDialog();
-        }
-
-        if (!isSessionExpired && mounted) {
-          context.router.replaceAll([const DashboardRoute()]);
-        } else if (isSessionExpired) {
-          widget.onResult?.call(true);
-        }
-      }
-    });
-  }
-
-  Future<void> _signInWithToken(SignInController controller) async {
-    controller.loading = true;
-    controller.update();
-    final result = await AuthenticationUseCase.instance.getCurrentUser();
-
-    await result.when((success) async {
-      AuthPreferenceService.instance.setIsAuthenticated(true);
-      await Get.putAsync(() =>
-          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
-      Get.put(ActivityController());
-      if (ActivityController.instance.pagingController.itemList?.isNotEmpty ??
-          false) {
-        ActivityController.instance.pagingController.refresh();
-      }
-      if (mounted) {
-        context.router.replaceAll([const DashboardRoute()]);
-      }
-    }, (error) {
-      controller.loading = false;
-      controller.update();
-      if (error.code == 401) {
-        context.showSignInErrorSnackBar(
-            'Invalid token, Make sure you have set your API Token correctly');
-      } else {
-        context.showSignInErrorSnackBar(error.toSnackBarString());
-      }
-    });
-  }
 
   @override
   Widget build(context) {
@@ -451,6 +320,138 @@ class _SignInViewState extends State<SignInView> {
         },
       ),
     );
+  }
+
+  void _onInit() {
+    useBiometric = AuthPreferenceService.authPreference.useBiometric;
+    emailCtrl.text = AuthPreferenceService.email ?? '';
+    if (useBiometric == true &&
+        (AuthPreferenceService.email?.isNotEmpty ?? false)) {
+      showAuthenticateButton = true;
+    } else {
+      showAuthenticateButton = false;
+    }
+  }
+
+  Future<void> _biometricAuthentication(SignInController ctrl) async {
+    if (AuthPreferenceService.authPreference.useBiometric == true) {
+      final result = await AuthPreferenceService.instance.loadLoginData();
+      result.when((success) async {
+        ctrl.loading = true;
+        ctrl.update();
+        await ctrl
+            .login(success.$1, success.$2, context: context)
+            .then((value) {
+          if (value) {
+            if (widget.onResult == null) {
+              context.router.replaceAll([const DashboardRoute()]);
+            } else {
+              widget.onResult?.call(true);
+            }
+          } else {
+            ctrl.loading = false;
+            ctrl.update();
+          }
+        });
+      }, (error) => context.showSignInErrorSnackBar(error));
+    }
+  }
+
+  Future<bool> _validate() async {
+    if (AuthPreferenceService.baseUrl == null) {
+      context.showSignInErrorSnackBar('Please set your backend URL first');
+      return false;
+    }
+    if (!formKey.currentState!.validate()) {
+      return false;
+    }
+    if (!await InternetConnection().hasInternetAccess) {
+      await Fluttertoast.showToast(
+          msg: 'Check your internet connection and try again.');
+      if (context.mounted) {
+        context.unfocus();
+      }
+      return false;
+    }
+    if (context.mounted) {
+      context.unfocus();
+    }
+    return true;
+  }
+
+  Future<void> _showBiometricDialog() async {
+    final canUseBiometric =
+        await getIt<LocalAuthentication>().canCheckBiometrics &&
+            await getIt<LocalAuthentication>().isDeviceSupported();
+    if (useBiometric == null && context.mounted && canUseBiometric) {
+      final result = await showModalBottomSheet<bool?>(
+          isDismissible: false,
+          enableDrag: false,
+          context: context,
+          builder: (context) => const UseBiometricReminder());
+      if (result == true) {
+        await AuthPreferenceService.instance
+            .saveLoginData(emailCtrl.text, passwordCtrl.text);
+      }
+      // wait for the modal to close
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
+  }
+
+  Future<void> _signIn(SignInController controller) async {
+    controller.loading = true;
+    controller.update();
+    if (!await _validate()) {
+      controller.loading = false;
+      controller.update();
+      return;
+    }
+    if (!mounted) return;
+    await controller
+        .login(emailCtrl.text, passwordCtrl.text, context: context)
+        .then((value) async {
+      if (value) {
+        // show enable biometric dialog
+        if (AuthPreferenceService.authType != AuthenticationType.token) {
+          await _showBiometricDialog();
+        }
+
+        if (!isSessionExpired && mounted) {
+          context.router.replaceAll([const DashboardRoute()]);
+        } else if (isSessionExpired) {
+          widget.onResult?.call(true);
+        }
+      }
+    });
+  }
+
+  Future<void> _signInWithToken(SignInController controller) async {
+    controller.loading = true;
+    controller.update();
+    final result = await AuthenticationUseCase.instance.getCurrentUser();
+
+    await result.when((success) async {
+      AuthPreferenceService.instance.setIsAuthenticated(true);
+      await Get.putAsync(() =>
+          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
+      Get.put(ActivityController());
+      if (ActivityController.instance.pagingController.itemList?.isNotEmpty ??
+          false) {
+        ActivityController.instance.pagingController.refresh();
+      }
+      if (mounted) {
+        context.router.replaceAll([const DashboardRoute()]);
+      }
+    }, (error) {
+      controller.loading = false;
+      controller.update();
+      if (error.code == 401) {
+        context.showSignInErrorSnackBar(
+            'Invalid token, Make sure you have set your API Token correctly');
+      } else {
+        context.showSignInErrorSnackBar(error.toSnackBarString());
+      }
+    });
   }
 
   Widget get updateButton => Padding(

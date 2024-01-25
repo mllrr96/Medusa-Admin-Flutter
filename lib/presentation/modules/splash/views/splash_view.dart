@@ -40,9 +40,9 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> load() async {
-    unawaited(AppUpdaterRepo.instance.loadLatestRelease());
+    await AppUpdaterRepo.instance.loadLatestRelease();
     final baseUrl = AuthPreferenceService.baseUrl;
-    if (baseUrl == null) {
+    if (baseUrl == null && mounted) {
       context.router.replaceAll([SignInRoute()]);
       return;
     }
