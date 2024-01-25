@@ -229,7 +229,7 @@ class _AppDrawerState extends State<AppDrawer> {
               ],
             ),
           ),
-          // if (PreferenceService.updateAvailable)
+          if (PreferenceService.updateAvailable)
             Column(
               children: [
                 Padding(

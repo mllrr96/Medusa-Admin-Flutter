@@ -111,6 +111,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         resolver.routeName == SplashRoute.name ||
         resolver.routeName == ResetPasswordRoute.name ||
         resolver.routeName == UrlConfigureRoute.name ||
+        resolver.routeName == AppUpdateRoute.name ||
         AuthPreferenceService.isAuthenticated) {
       resolver.next();
     } else {

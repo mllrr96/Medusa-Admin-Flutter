@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide GetNumUtils;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/data/service/language_service.dart';
@@ -13,6 +16,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -40,9 +44,17 @@ class _SignInViewState extends State<SignInView> {
   late bool? useBiometric;
   late bool showAuthenticateButton;
   bool get isSessionExpired => widget.onResult != null;
-
+  bool showUpdateButton = false;
+  late Timer timer;
   @override
   void initState() {
+    timer = Timer(2.seconds, () {
+      if (mounted) {
+        setState(() {
+          showUpdateButton = PreferenceService.updateAvailable;
+        });
+      }
+    });
     _onInit();
     super.initState();
   }
@@ -62,6 +74,7 @@ class _SignInViewState extends State<SignInView> {
   void dispose() {
     emailCtrl.dispose();
     passwordCtrl.dispose();
+    timer.cancel();
     super.dispose();
   }
 
@@ -203,6 +216,13 @@ class _SignInViewState extends State<SignInView> {
             child: GestureDetector(
               onTap: () => context.unfocus(),
               child: Scaffold(
+                bottomNavigationBar: AnimatedCrossFade(
+                    firstChild: const SizedBox.shrink(),
+                    secondChild: updateButton,
+                    crossFadeState: showUpdateButton && !controller.loading
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: 300.ms),
                 persistentFooterAlignment: AlignmentDirectional.center,
                 persistentFooterButtons: [
                   SignInFooterButtons(
@@ -432,4 +452,61 @@ class _SignInViewState extends State<SignInView> {
       ),
     );
   }
+
+  Widget get updateButton => Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
+        child: Stack(
+          children: [
+            Container(
+              height: 56,
+              width: double.infinity,
+              decoration: const ShapeDecoration(
+                shape: StadiumBorder(),
+                color: Colors.blue,
+              ),
+            )
+                .animate(
+                    autoPlay: true,
+                    onPlay: (controller) => controller.repeat(reverse: true))
+                .shimmer(
+                    duration: const Duration(seconds: 5),
+                    blendMode: BlendMode.srcIn,
+                    colors: [Colors.blue, Colors.green, Colors.teal]),
+            Material(
+              color: Colors.transparent,
+              shape: const StadiumBorder(),
+              child: InkWell(
+                customBorder: const StadiumBorder(),
+                onTap: () => context.pushRoute(const AppUpdateRoute()),
+                child: Ink(
+                  height: 56,
+                  decoration: const ShapeDecoration(
+                    shape: StadiumBorder(),
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(16, 16, 10, 16),
+                        child: Icon(Icons.update, color: Colors.white),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              'New Update Available ${PreferenceService.appUpdate?.tagName ?? ''}',
+                              style: const TextStyle(color: Colors.white)),
+                          Text('Tap to install',
+                              style: context.bodySmall
+                                  ?.copyWith(color: Colors.white)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }
