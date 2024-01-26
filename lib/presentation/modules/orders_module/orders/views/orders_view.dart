@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -135,9 +134,7 @@ class OrdersView extends StatelessWidget {
                   builderDelegate: PagedChildBuilderDelegate<Order>(
                     itemBuilder: (context, order, index) {
                       if (orderPreference.alternativeCard) {
-                        return AlternativeOrderCard(order)
-                            .animate()
-                            .fadeIn(duration: 500.ms);
+                        return AlternativeOrderCard(order);
                       }
                       return OrderCard(order);
                     },

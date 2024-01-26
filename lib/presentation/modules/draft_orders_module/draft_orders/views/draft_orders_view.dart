@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -72,9 +71,7 @@ class DraftOrdersView extends StatelessWidget {
                       bottom: 120, top: 8.0, left: 8.0, right: 8.0),
                   builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
                     itemBuilder: (context, draftOrder, index) =>
-                        DraftOrderCard(draftOrder)
-                            .animate()
-                            .fadeIn(duration: 500.ms),
+                        DraftOrderCard(draftOrder),
                     noItemsFoundIndicatorBuilder: (_) =>
                         const Center(child: Text('No draft orders yet!')),
                     firstPageProgressIndicatorBuilder: (context) =>

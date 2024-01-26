@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
@@ -12,6 +13,9 @@ abstract class RegisterCoreDependencies {
 
   @singleton
   final LocalAuthentication auth = LocalAuthentication();
+
+  @singleton
+  final Dio dio = Dio();
 
   @singleton
   final FlutterSecureStorage securePrefs =

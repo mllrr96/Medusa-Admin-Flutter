@@ -104,6 +104,9 @@ dependencies:
   simple_icons: ^10.1.3
   firebase_core: ^2.24.2
   firebase_crashlytics: ^3.4.9
+  apk_installer: ^0.0.4
+  sliver_tools: ^0.2.12
+  flutter_markdown: ^0.6.18+3
 
 
 

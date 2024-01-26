@@ -9,6 +9,7 @@ import 'package:medusa_admin/presentation/modules/auth_module/sign_in/components
 import 'package:medusa_admin/presentation/modules/products_module/import_products/import_products.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
+import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/components/index.dart';
@@ -110,6 +111,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         resolver.routeName == SplashRoute.name ||
         resolver.routeName == ResetPasswordRoute.name ||
         resolver.routeName == UrlConfigureRoute.name ||
+        resolver.routeName == AppUpdateRoute.name ||
         AuthPreferenceService.isAuthenticated) {
       resolver.next();
     } else {
@@ -144,6 +146,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
       AutoRoute(page: PickGroupsRoute.page),
       AutoRoute(page: PickRegionsRoute.page),
       AutoRoute(page: ActivityRoute.page),
+      AutoRoute(page: AppUpdateRoute.page),
 
       // collections module
       AutoRoute(page: CollectionDetailsRoute.page),

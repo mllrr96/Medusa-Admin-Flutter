@@ -209,6 +209,14 @@ class AuthPreferenceService {
       debugPrint(e.toString());
     }
   }
+  Future<void> clearUpdateFiles() async {
+    try {
+      Directory dir = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
+      await Directory(dir.path).delete(recursive: true);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   Future<bool> isSignedInBefore() async {
     if (_isSignedInBefore != null) {
