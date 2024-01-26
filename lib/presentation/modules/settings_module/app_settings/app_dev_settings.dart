@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -12,8 +13,8 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
+import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -36,7 +37,7 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
 
   AuthPreferenceService get authPrefService => AuthPreferenceService.instance;
 
-  AppPreference get appSettings => PreferenceService.appSettings;
+  AppPreference get appSettings => PreferenceService.appSettingsGetter;
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +202,9 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                       action: SnackBarAction(
                           label: 'Copy',
                           onPressed: () {
-                            if (AuthPreferenceService.baseUrlGetter == null) return;
+                            if (AuthPreferenceService.baseUrlGetter == null) {
+                              return;
+                            }
                             context.copyToClipboard(
                                 AuthPreferenceService.baseUrlGetter ?? '');
                           }));
@@ -260,20 +263,24 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                   await storageService
                       .updateAppSettings(AppPreference.defaultSettings())
                       .then((_) {
+                    context.read<ThemeCubit>().loadThemeState();
                     context.showSnackBar('App settings reset');
                   });
                 },
               ),
               divider,
-              SwitchListTile(
-                secondary: const Icon(Icons.color_lens_outlined),
-                title: const Text('Use Material 3'),
-                value: appSettings.useMaterial3,
-                onChanged: (val) async {
-                  await storageService.updateAppSettings(appSettings.copyWith(
-                      useMaterial3: !appSettings.useMaterial3));
-                  ThemeController.instance.update();
-                  setState(() {});
+              BlocBuilder<ThemeCubit, ThemeState>(
+                builder: (context, state) {
+                  return SwitchListTile(
+                    secondary: const Icon(Icons.color_lens_outlined),
+                    title: const Text('Use Material 3'),
+                    value: state.useMaterial3,
+                    onChanged: (val) async {
+                      context
+                          .read<ThemeCubit>()
+                          .updateThemeState(useMaterial3: !state.useMaterial3);
+                    },
+                  );
                 },
               ),
               divider,

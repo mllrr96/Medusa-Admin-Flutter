@@ -3,15 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/data/service/preference_service.dart';
 
 
 class FlexTheme {
-  static bool get _useMaterial3 => PreferenceService.appSettings.useMaterial3;
-  static  FlexScheme get _colorScheme => PreferenceService.appSettings.colorScheme;
-  static ThemeData get light => FlexThemeData.light(
-    useMaterial3: _useMaterial3,
-    scheme: _colorScheme,
+  static ThemeData  light (
+      FlexScheme colorScheme,
+      bool useMaterial3,
+      ) => FlexThemeData.light(
+    useMaterial3: useMaterial3,
+    scheme: colorScheme,
     subThemesData: const FlexSubThemesData(
       inputDecoratorBorderType: FlexInputBorderType.outline,
       inputDecoratorRadius: 4.0,
@@ -33,10 +33,13 @@ class FlexTheme {
   );
 
   // ========================================================================================== //
-  static ThemeData get dark => FlexThemeData.dark(
-    useMaterial3: _useMaterial3,
+  static ThemeData dark (
+      FlexScheme colorScheme,
+      bool useMaterial3,
+      ) => FlexThemeData.dark(
+    useMaterial3: useMaterial3,
     // colors: FlexColor.schemes[colorScheme]?.light,
-    scheme: _colorScheme,
+    scheme: colorScheme,
     subThemesData: const FlexSubThemesData(
       inputDecoratorBorderType: FlexInputBorderType.outline,
       inputDecoratorRadius: 4.0,

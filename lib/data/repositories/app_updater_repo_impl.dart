@@ -22,7 +22,7 @@ class AppUpdaterRepositoryImpl extends AppUpdaterRepo {
 
       if (response.statusCode == 200) {
         Map<String, dynamic>? appUpdateMap;
-        if (PreferenceService.appSettings.downloadBeta) {
+        if (PreferenceService.appSettingsGetter.downloadBeta) {
           appUpdateMap = response.data?.firstOrNull;
         } else {
           appUpdateMap = response.data

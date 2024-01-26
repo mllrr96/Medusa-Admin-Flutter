@@ -65,7 +65,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     productFilterCount > 0)
             ? ColorManager.primary
             : Colors.transparent;
-    final useMaterial3 = PreferenceService.appSettings.useMaterial3;
+    final useMaterial3 = PreferenceService.appSettingsGetter.useMaterial3;
     return Material(
       color: context.theme.scaffoldBackgroundColor,
       child: Padding(

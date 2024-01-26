@@ -33,7 +33,7 @@ class MedusaSliverAppBar extends StatelessWidget {
             ? context.systemUiOverlayNoAppBarStyle
             : context.defaultSystemUiOverlayStyle);
     final appBarStyle =
-        this.appBarStyle ?? PreferenceService.appSettings.appBarStyle;
+        this.appBarStyle ?? PreferenceService.appSettingsGetter.appBarStyle;
     switch (appBarStyle) {
       case AppBarStyle.normal:
         return SliverAppBar(

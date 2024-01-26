@@ -12,7 +12,7 @@ Future<DateTime?> adaptiveDateTimePicker(
     bool? forceAndroidPicker}) async {
   DateTime? selectedDate;
   final useAndroidPicker =
-      forceAndroidPicker ?? PreferenceService.appSettings.useAndroidPicker;
+      forceAndroidPicker ?? PreferenceService.appSettingsGetter.useAndroidPicker;
   if (Platform.isIOS && !useAndroidPicker) {
     return await showCupertinoModalBottomSheet(
         context: context,

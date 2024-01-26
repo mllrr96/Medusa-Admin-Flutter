@@ -17,6 +17,7 @@ import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_controller.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/products_filter_controller.dart';
@@ -34,7 +35,6 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  ThemeMode themeMode = PreferenceService.instance.loadThemeMode();
   Future<void> signOut() async {
     await showOkCancelAlertDialog(
             context: context,
@@ -45,7 +45,9 @@ class _AppDrawerState extends State<AppDrawer> {
         .then(
       (value) async {
         if (value == OkCancelResult.ok) {
-          context.read<AuthenticationBloc>().add(const AuthenticationEvent.logOut());
+          context
+              .read<AuthenticationBloc>()
+              .add(const AuthenticationEvent.logOut());
         }
       },
     );
@@ -171,39 +173,17 @@ class _AppDrawerState extends State<AppDrawer> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            padding: const EdgeInsets.all(16.0),
-                            onPressed: () async {
-                              switch (themeMode) {
-                                case ThemeMode.system:
-                                  setState(() => themeMode = ThemeMode.light);
-
-                                  Future.delayed(
-                                          const Duration(milliseconds: 250))
-                                      .then((value) async =>
-                                          await PreferenceService.instance
-                                              .saveThemeMode(ThemeMode.light));
-                                  break;
-                                case ThemeMode.light:
-                                  setState(() => themeMode = ThemeMode.dark);
-
-                                  Future.delayed(
-                                          const Duration(milliseconds: 250))
-                                      .then((value) async =>
-                                          await PreferenceService.instance
-                                              .saveThemeMode(ThemeMode.dark));
-                                  break;
-                                case ThemeMode.dark:
-                                  setState(() => themeMode = ThemeMode.system);
-                                  Future.delayed(
-                                          const Duration(milliseconds: 250))
-                                      .then((value) async =>
-                                          await PreferenceService.instance
-                                              .saveThemeMode(ThemeMode.system));
-                                  break;
-                              }
+                          BlocBuilder<ThemeCubit, ThemeState>(
+                            builder: (context, state) {
+                              return IconButton(
+                                padding: const EdgeInsets.all(16.0),
+                                onPressed: () => context
+                                    .read<ThemeCubit>()
+                                    .updateThemeState(
+                                        themeMode: state.themeMode.next),
+                                icon: Icon(state.themeMode.icon),
+                              );
                             },
-                            icon: Icon(themeMode.icon),
                           ),
                           Flexible(
                             child: Text(store?.name ?? '',

@@ -8,7 +8,7 @@ import 'package:medusa_admin/data/service/preference_service.dart';
 import '../../../core/utils/enums.dart';
 
 Future<void> loading({String? status}) async {
-  final color = FlexColor.schemes[PreferenceService.appSettings.colorScheme]!.light.primary;
+  final color = FlexColor.schemes[PreferenceService.appSettingsGetter.colorScheme]!.light.primary;
   await EasyLoading.show(
       status: status,
       maskType: EasyLoadingMaskType.black,

@@ -18,8 +18,8 @@ class AppBarStyleView extends StatefulWidget {
 
 class _AppBarStyleViewState extends State<AppBarStyleView> {
   PreferenceService get preferenceService => PreferenceService.instance;
-  AppPreference get appSettings => PreferenceService.appSettings;
-  AppBarStyle get appBarStyle => PreferenceService.appSettings.appBarStyle;
+  AppPreference get appSettings => PreferenceService.appSettingsGetter;
+  AppBarStyle get appBarStyle => PreferenceService.appSettingsGetter.appBarStyle;
   late AppBarStyle selectedStyle;
 
   @override

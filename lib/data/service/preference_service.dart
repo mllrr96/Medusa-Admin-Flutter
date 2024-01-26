@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/data/models/app_update.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
-import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/presentation/modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -24,7 +23,8 @@ class PreferenceService {
   static String get language => instance._language;
 
   static PackageInfo get packageInfo => instance._packageInfo;
-  static AppPreference get appSettings => instance._appSettings;
+  static AppPreference get appSettingsGetter => instance._appSettings;
+  AppPreference get appSettings => _appSettings;
   static OrderPreference get orderPreference => instance._orderPreference;
   static AppUpdate? get appUpdate => instance._appUpdate;
   static List<SearchHistory> get searchHistory => instance._searchHistory;
@@ -134,39 +134,10 @@ class PreferenceService {
     }
   }
 
-  ThemeMode loadThemeMode() {
-    try {
-      final themeMode = _prefs.getInt(AppConstants.themeModeKey);
-      switch (themeMode) {
-        case null:
-        case 0:
-          return ThemeMode.system;
-        case 1:
-          return ThemeMode.light;
-        case 2:
-          return ThemeMode.dark;
-        default:
-          return ThemeMode.system;
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      return ThemeMode.system;
-    }
-  }
-
-  Future<void> saveThemeMode(ThemeMode themeMode) async {
-    try {
-      await _prefs.setInt(AppConstants.themeModeKey, themeMode.index);
-      ThemeController.instance.update();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
 
   Future<void> saveLanguage(String language) async {
     try {
       await _prefs.setString(AppConstants.languageKey, language);
-      ThemeController.instance.update();
     } catch (e) {
       debugPrint(e.toString());
     }

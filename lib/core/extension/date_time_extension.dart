@@ -4,7 +4,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 
 extension FormatDate on DateTime? {
   String formatDate() {
-    final formatOption = PreferenceService.appSettings.dateFormatOptions;
+    final formatOption = PreferenceService.appSettingsGetter.dateFormatOptions;
     if (this == null) {
       return '';
     }
@@ -12,7 +12,7 @@ extension FormatDate on DateTime? {
   }
 
   String formatTime() {
-    final format = PreferenceService.appSettings.timeFormatOptions;
+    final format = PreferenceService.appSettingsGetter.timeFormatOptions;
     if (this == null) {
       return '';
     }

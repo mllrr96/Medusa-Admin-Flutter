@@ -20,6 +20,7 @@ import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
@@ -47,12 +48,10 @@ class _SignInViewState extends State<SignInView> {
   bool get isSessionExpired => widget.onResult != null;
   bool showUpdateButton = false;
   late Timer timer;
-  ThemeMode themeMode = ThemeMode.system;
 
   @override
   void initState() {
     _onInit();
-    themeMode = PreferenceService.instance.loadThemeMode();
     timer = Timer(3.seconds, () {
       if (mounted) {
         setState(() => showUpdateButton = PreferenceService.updateAvailable);
@@ -105,10 +104,9 @@ class _SignInViewState extends State<SignInView> {
               e.failure.code == 401) {
             context.showSignInErrorSnackBar(
                 'Invalid token, Make sure you have set your API Token correctly');
-          } else if ( e.failure.code == 401){
+          } else if (e.failure.code == 401) {
             context.showSignInErrorSnackBar(AppConstants.unauthorizedMessage);
-          }
-          else {
+          } else {
             context.showSignInErrorSnackBar(e.failure.toSnackBarString());
           }
         });
@@ -175,12 +173,19 @@ class _SignInViewState extends State<SignInView> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                ElevatedButton.icon(
-                                  label: Text(themeMode.name.capitalize ??
-                                      themeMode.name),
-                                  onPressed: () async =>
-                                      await changeThemeMode(),
-                                  icon: Icon(themeMode.icon),
+                                BlocBuilder<ThemeCubit, ThemeState>(
+                                  builder: (context, state) {
+                                    return ElevatedButton.icon(
+                                      label: Text(
+                                          state.themeMode.name.capitalize ??
+                                              state.themeMode.name),
+                                      onPressed: () => context
+                                          .read<ThemeCubit>()
+                                          .updateThemeState(
+                                              themeMode: state.themeMode.next),
+                                      icon: Icon(state.themeMode.icon),
+                                    );
+                                  },
                                 ),
                                 ElevatedButton.icon(
                                   onPressed: () async =>
@@ -386,26 +391,6 @@ class _SignInViewState extends State<SignInView> {
       showAuthenticateButton = true;
     } else {
       showAuthenticateButton = false;
-    }
-  }
-
-  Future<void> changeThemeMode() async {
-    switch (themeMode) {
-      case ThemeMode.system:
-        setState(() => themeMode = ThemeMode.light);
-        Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
-            await PreferenceService.instance.saveThemeMode(ThemeMode.light));
-        break;
-      case ThemeMode.light:
-        setState(() => themeMode = ThemeMode.dark);
-        Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
-            await PreferenceService.instance.saveThemeMode(ThemeMode.dark));
-        break;
-      case ThemeMode.dark:
-        setState(() => themeMode = ThemeMode.system);
-        Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
-            await PreferenceService.instance.saveThemeMode(ThemeMode.system));
-        break;
     }
   }
 
