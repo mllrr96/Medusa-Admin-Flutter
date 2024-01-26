@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'data/service/language_service.dart';
 import 'core/constant/strings.dart';
 import 'core/route/app_router.dart';
@@ -14,9 +16,13 @@ import 'data/service/theme_service.dart';
 import 'core/di/di.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //* observe bloc logs
+  Bloc.observer = MyBlocObserver();
 
   //* initialize firebase
   await Firebase.initializeApp(
@@ -45,22 +51,30 @@ class MedusaAdminApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ThemeController>(builder: (controller) {
-      final themeMode = PreferenceService.instance.loadThemeMode();
-      final locale = PreferenceService.instance.loadLocale();
-      return MaterialApp.router(
-        title: AppConstants.appName,
-        locale: locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        themeMode: themeMode,
-        theme: FlexTheme.light,
-        darkTheme: FlexTheme.dark,
-        builder: EasyLoading.init(),
-        routerConfig: _router.config(),
-      );
-    });
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (_) => AuthenticationBloc.instance,
+          lazy: false,
+        ),
+      ],
+      child: GetBuilder<ThemeController>(builder: (controller) {
+        final themeMode = PreferenceService.instance.loadThemeMode();
+        final locale = PreferenceService.instance.loadLocale();
+        return MaterialApp.router(
+          title: AppConstants.appName,
+          locale: locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          themeMode: themeMode,
+          theme: FlexTheme.light,
+          darkTheme: FlexTheme.dark,
+          builder: EasyLoading.init(),
+          routerConfig: _router.config(),
+        );
+      }),
+    );
   }
 }
 

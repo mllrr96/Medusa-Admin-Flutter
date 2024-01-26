@@ -12,7 +12,7 @@ class SignInFooterButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? baseUrl = AuthPreferenceService.baseUrl;
+    String? baseUrl = AuthPreferenceService.baseUrlGetter;
     bool isUrlSet = baseUrl != null;
     if (reAuthenticate) {
       return FilledButton.icon(

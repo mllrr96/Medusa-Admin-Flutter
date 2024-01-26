@@ -18,7 +18,8 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import '../../auth_module/sign_in/components/url_configure_view.dart';
+
+import '../../../views/auth/components/url_configure_view.dart';
 
 @RoutePage()
 class AppDevSettingsView extends StatefulWidget {
@@ -29,7 +30,7 @@ class AppDevSettingsView extends StatefulWidget {
 }
 
 class _AppDevSettingsViewState extends State<AppDevSettingsView> {
-  AuthenticationType get authType => AuthPreferenceService.authType;
+  AuthenticationType get authType => AuthPreferenceService.authTypeGetter;
 
   PreferenceService get storageService => PreferenceService.instance;
 
@@ -196,13 +197,13 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                     style: TextStyle(color: manatee)),
                 onTap: () {
                   context.showSnackBar(
-                      AuthPreferenceService.baseUrl ?? 'No URL found',
+                      AuthPreferenceService.baseUrlGetter ?? 'No URL found',
                       action: SnackBarAction(
                           label: 'Copy',
                           onPressed: () {
-                            if (AuthPreferenceService.baseUrl == null) return;
+                            if (AuthPreferenceService.baseUrlGetter == null) return;
                             context.copyToClipboard(
-                                AuthPreferenceService.baseUrl ?? '');
+                                AuthPreferenceService.baseUrlGetter ?? '');
                           }));
                 },
                 onLongPress: () async {

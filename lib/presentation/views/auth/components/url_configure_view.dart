@@ -43,16 +43,16 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   }
 
   void _loadInit() async {
-    authType = AuthPreferenceService.authType;
+    authType = AuthPreferenceService.authTypeGetter;
     if (authType != AuthenticationType.jwt) {
       advancedOption = true;
     }
 
-    if (AuthPreferenceService.baseUrl == null) {
+    if (AuthPreferenceService.baseUrlGetter == null) {
       setupUrl = true;
     } else {
       setupUrl = false;
-      textCtrl.text = AuthPreferenceService.baseUrl ?? '';
+      textCtrl.text = AuthPreferenceService.baseUrlGetter ?? '';
     }
     if (authType == AuthenticationType.token) {
       tokenTextCtrl.text = await getIt<FlutterSecureStorage>()
@@ -70,8 +70,8 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   }
 
   Future<void> _save({bool skipValidation = false}) async {
-    final savedBaseUrl = AuthPreferenceService.baseUrl;
-    final savedAuthType = AuthPreferenceService.authType;
+    final savedBaseUrl = AuthPreferenceService.baseUrlGetter;
+    final savedAuthType = AuthPreferenceService.authTypeGetter;
     final savedToken =
         await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey);
     // if nothing changed just pop the route

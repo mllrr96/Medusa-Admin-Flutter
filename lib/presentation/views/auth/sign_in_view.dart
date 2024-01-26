@@ -4,11 +4,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart' hide GetNumUtils;
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/data/service/language_service.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -18,16 +18,17 @@ import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/data/service/store_service.dart';
-import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
+import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import '../components/index.dart';
-import '../controllers/sign_in_controller.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+
+import 'components/index.dart';
 
 @RoutePage()
 class SignInView extends StatefulWidget {
@@ -46,9 +47,12 @@ class _SignInViewState extends State<SignInView> {
   bool get isSessionExpired => widget.onResult != null;
   bool showUpdateButton = false;
   late Timer timer;
+  ThemeMode themeMode = ThemeMode.system;
+
   @override
   void initState() {
     _onInit();
+    themeMode = PreferenceService.instance.loadThemeMode();
     timer = Timer(3.seconds, () {
       if (mounted) {
         setState(() => showUpdateButton = PreferenceService.updateAvailable);
@@ -56,8 +60,6 @@ class _SignInViewState extends State<SignInView> {
     });
     super.initState();
   }
-
-
 
   @override
   void dispose() {
@@ -67,20 +69,55 @@ class _SignInViewState extends State<SignInView> {
     super.dispose();
   }
 
-
   @override
   Widget build(context) {
-    return PopScope(
-      canPop: !isSessionExpired,
-      child: GetBuilder<SignInController>(
-        init: SignInController(AuthenticationUseCase.instance),
-        builder: (controller) {
-          final tr = context.tr;
-          final useToken =
-              AuthPreferenceService.authType == AuthenticationType.token;
-          const space = Gap(12);
-          // Since there no app bar, annotated region is used to apply theme ui overlay
-          return AnnotatedRegion<SystemUiOverlayStyle>(
+    final tr = context.tr;
+    final useToken =
+        AuthPreferenceService.authTypeGetter == AuthenticationType.token;
+    const space = Gap(12);
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        state.mapOrNull(loggedIn: (_) async {
+          // show biometric auth dialog
+          if (AuthPreferenceService.authTypeGetter !=
+              AuthenticationType.token) {
+            await _showBiometricDialog();
+          }
+          if (!isSessionExpired) {
+            await Get.putAsync(() =>
+                StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
+                    .init());
+            Get.put(ActivityController());
+            if (ActivityController
+                    .instance.pagingController.itemList?.isNotEmpty ??
+                false) {
+              ActivityController.instance.pagingController.refresh();
+            }
+            if (mounted) {
+              context.router.replaceAll([const DashboardRoute()]);
+            }
+          } else if (isSessionExpired) {
+            widget.onResult?.call(true);
+          }
+        }, error: (e) {
+          if (AuthPreferenceService.authTypeGetter ==
+                  AuthenticationType.token &&
+              e.failure.code == 401) {
+            context.showSignInErrorSnackBar(
+                'Invalid token, Make sure you have set your API Token correctly');
+          } else if ( e.failure.code == 401){
+            context.showSignInErrorSnackBar(AppConstants.unauthorizedMessage);
+          }
+          else {
+            context.showSignInErrorSnackBar(e.failure.toSnackBarString());
+          }
+        });
+      },
+      builder: (context, state) {
+        bool loading = state == const AuthenticationState.loading();
+        return PopScope(
+          canPop: !isSessionExpired,
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.systemUiOverlayNoAppBarStyle,
             child: GestureDetector(
               onTap: () => context.unfocus(),
@@ -88,7 +125,7 @@ class _SignInViewState extends State<SignInView> {
                 bottomNavigationBar: AnimatedCrossFade(
                     firstChild: const SizedBox.shrink(),
                     secondChild: updateButton,
-                    crossFadeState: showUpdateButton && !controller.loading
+                    crossFadeState: showUpdateButton && !loading
                         ? CrossFadeState.showSecond
                         : CrossFadeState.showFirst,
                     duration: 300.ms),
@@ -96,10 +133,10 @@ class _SignInViewState extends State<SignInView> {
                 persistentFooterButtons: [
                   SignInFooterButtons(
                     isSessionExpired,
-                    onGoToSignInPressed: controller.loading
+                    onGoToSignInPressed: loading
                         ? null
                         : () => context.router.replaceAll([SignInRoute()]),
-                    onUrlPressed: controller.loading
+                    onUrlPressed: loading
                         ? null
                         : () async {
                             final result = await context
@@ -109,7 +146,7 @@ class _SignInViewState extends State<SignInView> {
                               setState(() {});
                             }
                           },
-                    onUrlLongPressed: controller.loading
+                    onUrlLongPressed: loading
                         ? null
                         : () async {
                             final result = await showBarModalBottomSheet(
@@ -139,12 +176,11 @@ class _SignInViewState extends State<SignInView> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ElevatedButton.icon(
-                                  label: Text(
-                                      controller.themeMode.name.capitalize ??
-                                          controller.themeMode.name),
+                                  label: Text(themeMode.name.capitalize ??
+                                      themeMode.name),
                                   onPressed: () async =>
-                                      await controller.changeThemeMode(),
-                                  icon: Icon(controller.themeMode.icon),
+                                      await changeThemeMode(),
+                                  icon: Icon(themeMode.icon),
                                 ),
                                 ElevatedButton.icon(
                                   onPressed: () async =>
@@ -166,8 +202,7 @@ class _SignInViewState extends State<SignInView> {
                           ),
                           Hero(
                               tag: 'medusa',
-                              child:
-                                  SignInMedusaLogo(rotate: controller.loading)),
+                              child: SignInMedusaLogo(rotate: loading)),
                           Text(
                             isSessionExpired
                                 ? 'Re-authenticate to Medusa'
@@ -231,10 +266,11 @@ class _SignInViewState extends State<SignInView> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   TextButton(
-                                    onPressed: controller.loading
+                                    onPressed: loading
                                         ? null
                                         : () {
-                                            if (AuthPreferenceService.baseUrl ==
+                                            if (AuthPreferenceService
+                                                    .baseUrlGetter ==
                                                 null) {
                                               context.showSignInErrorSnackBar(
                                                   'Please set your backend URL first');
@@ -260,11 +296,14 @@ class _SignInViewState extends State<SignInView> {
                                   style: FilledButton.styleFrom(
                                     minimumSize: const Size(220, 48.0),
                                   ),
-                                  onPressed: controller.loading
+                                  onPressed: loading
                                       ? null
-                                      : () async => useToken
-                                          ? await _signInWithToken(controller)
-                                          : await _signIn(controller),
+                                      : () async {
+                                          if (!_validate()) {
+                                            return;
+                                          }
+                                          await _signIn();
+                                        },
                                   icon: const Icon(Icons.login),
                                   label: Text(tr.analyticsPreferencesContinue)),
                             ),
@@ -298,11 +337,10 @@ class _SignInViewState extends State<SignInView> {
                                       side: BorderSide(
                                           color: context.theme.primaryColor),
                                     ),
-                                    onPressed: controller.loading
+                                    onPressed: loading
                                         ? null
                                         : () async =>
-                                            await _biometricAuthentication(
-                                                controller),
+                                            await _biometricAuthentication(),
                                     icon: const Icon(Icons.fingerprint),
                                     label: const Text('Authenticate'),
                                   ),
@@ -316,10 +354,28 @@ class _SignInViewState extends State<SignInView> {
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
+  }
+
+  Future<void> _signIn() async {
+    switch (AuthPreferenceService.authTypeGetter) {
+      case AuthenticationType.cookie:
+        context.read<AuthenticationBloc>().add(
+            AuthenticationEvent.logInCookie(emailCtrl.text, passwordCtrl.text));
+        break;
+      case AuthenticationType.jwt:
+        context.read<AuthenticationBloc>().add(
+            AuthenticationEvent.logInJWT(emailCtrl.text, passwordCtrl.text));
+        break;
+      case AuthenticationType.token:
+        context
+            .read<AuthenticationBloc>()
+            .add(const AuthenticationEvent.logInToken());
+        break;
+    }
   }
 
   void _onInit() {
@@ -333,49 +389,46 @@ class _SignInViewState extends State<SignInView> {
     }
   }
 
-  Future<void> _biometricAuthentication(SignInController ctrl) async {
+  Future<void> changeThemeMode() async {
+    switch (themeMode) {
+      case ThemeMode.system:
+        setState(() => themeMode = ThemeMode.light);
+        Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
+            await PreferenceService.instance.saveThemeMode(ThemeMode.light));
+        break;
+      case ThemeMode.light:
+        setState(() => themeMode = ThemeMode.dark);
+        Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
+            await PreferenceService.instance.saveThemeMode(ThemeMode.dark));
+        break;
+      case ThemeMode.dark:
+        setState(() => themeMode = ThemeMode.system);
+        Future.delayed(const Duration(milliseconds: 250)).then((value) async =>
+            await PreferenceService.instance.saveThemeMode(ThemeMode.system));
+        break;
+    }
+  }
+
+  Future<void> _biometricAuthentication() async {
     if (AuthPreferenceService.authPreference.useBiometric == true) {
       final result = await AuthPreferenceService.instance.loadLoginData();
       result.when((success) async {
-        ctrl.loading = true;
-        ctrl.update();
-        await ctrl
-            .login(success.$1, success.$2, context: context)
-            .then((value) {
-          if (value) {
-            if (widget.onResult == null) {
-              context.router.replaceAll([const DashboardRoute()]);
-            } else {
-              widget.onResult?.call(true);
-            }
-          } else {
-            ctrl.loading = false;
-            ctrl.update();
-          }
-        });
+        // setLoading(true);
+        await _signIn();
       }, (error) => context.showSignInErrorSnackBar(error));
     }
   }
 
-  Future<bool> _validate() async {
-    if (AuthPreferenceService.baseUrl == null) {
+  bool _validate() {
+    if (AuthPreferenceService.baseUrlGetter == null) {
       context.showSignInErrorSnackBar('Please set your backend URL first');
       return false;
     }
     if (!formKey.currentState!.validate()) {
       return false;
     }
-    if (!await InternetConnection().hasInternetAccess) {
-      await Fluttertoast.showToast(
-          msg: 'Check your internet connection and try again.');
-      if (context.mounted) {
-        context.unfocus();
-      }
-      return false;
-    }
-    if (context.mounted) {
-      context.unfocus();
-    }
+    context.unfocus();
+
     return true;
   }
 
@@ -396,62 +449,6 @@ class _SignInViewState extends State<SignInView> {
       // wait for the modal to close
       await Future.delayed(const Duration(milliseconds: 200));
     }
-  }
-
-  Future<void> _signIn(SignInController controller) async {
-    controller.loading = true;
-    controller.update();
-    if (!await _validate()) {
-      controller.loading = false;
-      controller.update();
-      return;
-    }
-    if (!mounted) return;
-    await controller
-        .login(emailCtrl.text, passwordCtrl.text, context: context)
-        .then((value) async {
-      if (value) {
-        // show enable biometric dialog
-        if (AuthPreferenceService.authType != AuthenticationType.token) {
-          await _showBiometricDialog();
-        }
-
-        if (!isSessionExpired && mounted) {
-          context.router.replaceAll([const DashboardRoute()]);
-        } else if (isSessionExpired) {
-          widget.onResult?.call(true);
-        }
-      }
-    });
-  }
-
-  Future<void> _signInWithToken(SignInController controller) async {
-    controller.loading = true;
-    controller.update();
-    final result = await AuthenticationUseCase.instance.getCurrentUser();
-
-    await result.when((success) async {
-      AuthPreferenceService.instance.setIsAuthenticated(true);
-      await Get.putAsync(() =>
-          StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository).init());
-      Get.put(ActivityController());
-      if (ActivityController.instance.pagingController.itemList?.isNotEmpty ??
-          false) {
-        ActivityController.instance.pagingController.refresh();
-      }
-      if (mounted) {
-        context.router.replaceAll([const DashboardRoute()]);
-      }
-    }, (error) {
-      controller.loading = false;
-      controller.update();
-      if (error.code == 401) {
-        context.showSignInErrorSnackBar(
-            'Invalid token, Make sure you have set your API Token correctly');
-      } else {
-        context.showSignInErrorSnackBar(error.toSnackBarString());
-      }
-    });
   }
 
   Widget get updateButton => Padding(

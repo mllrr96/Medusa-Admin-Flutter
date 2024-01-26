@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_view.dart';
-import 'package:medusa_admin/presentation/modules/auth_module/sign_in/components/index.dart';
 import 'package:medusa_admin/presentation/modules/products_module/import_products/import_products.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
+import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/components/index.dart';
 import 'package:medusa_admin/presentation/modules/products_module/add_update_product/components/image_card.dart';
-import '../../presentation/modules/auth_module/reset_password/views/reset_password_view.dart';
-import '../../presentation/modules/auth_module/sign_in/views/sign_in_view.dart';
+import '../../presentation/views/auth/reset_password_view.dart';
+import '../../presentation/views/auth/sign_in_view.dart';
 import '../../presentation/modules/categories/views/categories_view.dart';
 import '../../presentation/modules/collections_module/collection_details/views/collection_details_view.dart';
 import '../../presentation/modules/collections_module/collections/views/collections_view.dart';
@@ -112,7 +112,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         resolver.routeName == ResetPasswordRoute.name ||
         resolver.routeName == UrlConfigureRoute.name ||
         resolver.routeName == AppUpdateRoute.name ||
-        AuthPreferenceService.isAuthenticated) {
+        AuthPreferenceService.isAuthenticatedGetter) {
       resolver.next();
     } else {
       Fluttertoast.showToast(msg: 'Session expired, please login again');

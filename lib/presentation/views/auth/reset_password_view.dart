@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/domain/use_case/auth/reset_password_use_case.dart';
-import 'package:medusa_admin/presentation/modules/auth_module/sign_in/components/index.dart';
+import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/error_widget.dart';
 
-import '../../../../../core/constant/colors.dart';
-import '../controllers/reset_password_controller.dart';
+import '../../../core/constant/colors.dart';
+import '../../modules/auth_module/reset_password/controllers/reset_password_controller.dart';
+import 'components/sign_in_medusa_logo.dart';
 
 @RoutePage()
 class ResetPasswordView extends StatelessWidget {

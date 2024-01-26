@@ -23,13 +23,15 @@ class AuthPreferenceService {
   final SharedPreferences _prefs;
   final FlutterSecureStorage _securePrefs;
 
-  static String? get baseUrl => instance._baseUrl;
-  static AuthenticationType get authType => instance._authPreference.authType;
+  static String? get baseUrlGetter => instance._baseUrl;
+  static AuthenticationType get authTypeGetter => instance._authPreference.authType;
   static AuthPreference get authPreference => instance._authPreference;
   static String? get email => instance._email;
-  static bool get isAuthenticated => instance._isAuthenticated;
+  static bool get isAuthenticatedGetter => instance._isAuthenticated;
+  bool get isAuthenticated => _isAuthenticated;
 
   late bool _isAuthenticated;
+  String? get baseUrl => _baseUrl;
   late String? _baseUrl;
   late String? _email;
   late AuthPreference _authPreference;
