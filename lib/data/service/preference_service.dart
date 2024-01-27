@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -19,7 +18,6 @@ class PreferenceService {
   static PreferenceService get instance => getIt<PreferenceService>();
   final SharedPreferences _prefs;
 
-  static String get language => instance._language;
 
   static PackageInfo get packageInfo => instance._packageInfo;
   static AppPreference get appSettingsGetter => instance._appSettings;
@@ -29,7 +27,6 @@ class PreferenceService {
   static bool get checkedForUpdate => instance._checkedForUpdate;
   bool _checkedForUpdate = false;
   late PackageInfo _packageInfo;
-  late String _language;
   late AppPreference _appSettings;
   late OrderPreference _orderPreference;
   late List<SearchHistory> _searchHistory;
@@ -38,14 +35,6 @@ class PreferenceService {
 
   @PostConstruct()
   void init() {
-    // Language
-    try {
-      _language = _prefs.getString(AppConstants.languageKey) ??
-          Get.deviceLocale?.languageCode ??
-          'en';
-    } catch (e) {
-      _language = 'en';
-    }
     try {
       final String? searchHistoryString =
           _prefs.getString(AppConstants.searchHistoryKey);
@@ -116,28 +105,6 @@ class PreferenceService {
     } catch (e) {
       debugPrint(e.toString());
       return false;
-    }
-  }
-
-
-  Future<void> saveLanguage(String language) async {
-    try {
-      await _prefs.setString(AppConstants.languageKey, language);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Locale loadLocale() {
-    try {
-      final locale = _prefs.getString(AppConstants.languageKey);
-      if (locale?.isNotEmpty ?? false) {
-        return Locale(locale!);
-      }
-      return Get.deviceLocale ?? const Locale('en', 'US');
-    } catch (e) {
-      debugPrint(e.toString());
-      return Get.deviceLocale ?? const Locale('en', 'US');
     }
   }
 

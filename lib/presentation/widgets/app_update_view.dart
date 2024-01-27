@@ -54,9 +54,6 @@ class _AppUpdateViewState extends State<AppUpdateView> {
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
-    return BlocBuilder<AppUpdateBloc, AppUpdateState>(
-  builder: (context, state) {
-    final appUpdate = state.mapOrNull(updateAvailable: (state) => state.appUpdate);
     return PopScope(
       canPop: !isDownloading,
       onPopInvoked: (val) async {
@@ -69,148 +66,155 @@ class _AppUpdateViewState extends State<AppUpdateView> {
           });
         }
       },
-      child: Scaffold(
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-          child: FilledButton(
-              style: FilledButton.styleFrom(
-                minimumSize: const Size(double.infinity, 48),
-              ),
-              onPressed: isDownloading
-                  ? () async {
-                      if (await shouldCancel && isDownloading) {
-                        cancelToken.cancel('Download Cancelled');
-                        cancelToken.whenCancel.then((_) {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          context.router.popForced();
-                        });
-                      }
-                    }
-                  : () async {
-                      setButtonTitle('Preparing ...');
-                      if (Platform.isIOS) {
-                        await launchUrl(Uri.parse(
-                            '${AppConstants.githubLink}/releases/tag/${appUpdate?.tagName}'));
-                        setButtonTitle('Install Update');
-                        return;
-                      } else if (Platform.isAndroid) {
-                        // Download the update
-                        final asset = appUpdate?.assets
-                            ?.where((asset) =>
-                                (asset.name?.endsWith('.apk') ?? false))
-                            .firstOrNull;
-                        if (asset?.browserDownloadUrl == null) {
-                          if (context.mounted) {
-                            context.showSnackBar('Failed to download update');
+      child: BlocBuilder<AppUpdateBloc, AppUpdateState>(
+        builder: (context, state) {
+          final appUpdate =
+              state.mapOrNull(updateAvailable: (state) => state.appUpdate);
+          return Scaffold(
+            bottomNavigationBar: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 48),
+                  ),
+                  onPressed: isDownloading
+                      ? () async {
+                          if (await shouldCancel && isDownloading) {
+                            cancelToken.cancel('Download Cancelled');
+                            cancelToken.whenCancel.then((_) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              context.router.popForced();
+                            });
+                          }
+                        }
+                      : () async {
+                          setButtonTitle('Preparing ...');
+                          if (Platform.isIOS) {
+                            await launchUrl(Uri.parse(
+                                '${AppConstants.githubLink}/releases/tag/${appUpdate?.tagName}'));
                             setButtonTitle('Install Update');
-                          }
-                          return;
-                        }
-                        final downloadsDirectory =
-                            await getDownloadsDirectory() ??
-                                await getApplicationDocumentsDirectory();
-                        final savePath =
-                            '${downloadsDirectory.path}/${asset!.name}';
-                        if (File(savePath).existsSync()) {
-                          setButtonTitle('Installing Update ...');
-                          await installApk(savePath);
-                          setButtonTitle('Install Update');
-                        } else {
-                          await downloadUpdate(
-                              asset.browserDownloadUrl!, savePath);
-                          setButtonTitle('Installing Update ...');
+                            return;
+                          } else if (Platform.isAndroid) {
+                            // Download the update
+                            final asset = appUpdate?.assets
+                                ?.where((asset) =>
+                                    (asset.name?.endsWith('.apk') ?? false))
+                                .firstOrNull;
+                            if (asset?.browserDownloadUrl == null) {
+                              if (context.mounted) {
+                                context
+                                    .showSnackBar('Failed to download update');
+                                setButtonTitle('Install Update');
+                              }
+                              return;
+                            }
+                            final downloadsDirectory =
+                                await getDownloadsDirectory() ??
+                                    await getApplicationDocumentsDirectory();
+                            final savePath =
+                                '${downloadsDirectory.path}/${asset!.name}';
+                            if (File(savePath).existsSync()) {
+                              setButtonTitle('Installing Update ...');
+                              await installApk(savePath);
+                              setButtonTitle('Install Update');
+                            } else {
+                              await downloadUpdate(
+                                  asset.browserDownloadUrl!, savePath);
+                              setButtonTitle('Installing Update ...');
 
-                          if (File(savePath).existsSync() && context.mounted) {
-                            await installApk(savePath);
+                              if (File(savePath).existsSync() &&
+                                  context.mounted) {
+                                await installApk(savePath);
+                              }
+                              setButtonTitle('Install Update');
+                            }
                           }
-                          setButtonTitle('Install Update');
-                        }
-                      }
-                    },
-              child: Text(buttonTitle)),
-        ),
-        body: CustomScrollView(slivers: [
-          SliverStack(
-            children: [
-              SliverToBoxAdapter(
-                  child: LinearProgressIndicator(
-                value: progress / 100,
-                minHeight: kToolbarHeight + context.viewPadding.top,
-                backgroundColor: context.theme.appBarTheme.backgroundColor,
-              )),
-              MedusaSliverAppBar(
-                backgroundColor: Colors.transparent,
-                leading: const CloseButton(),
-                appBarStyle: AppBarStyle.normal,
-                title: const Text('App Update'),
-                actions: [
-                  if (progress != 0.0)
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text('${progress.toStringAsFixed(0)}%'),
-                    ),
+                        },
+                  child: Text(buttonTitle)),
+            ),
+            body: CustomScrollView(slivers: [
+              SliverStack(
+                children: [
+                  SliverToBoxAdapter(
+                      child: LinearProgressIndicator(
+                    value: progress / 100,
+                    minHeight: kToolbarHeight + context.viewPadding.top,
+                    backgroundColor: context.theme.appBarTheme.backgroundColor,
+                  )),
+                  MedusaSliverAppBar(
+                    backgroundColor: Colors.transparent,
+                    leading: const CloseButton(),
+                    appBarStyle: AppBarStyle.normal,
+                    title: const Text('App Update'),
+                    actions: [
+                      if (progress != 0.0)
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text('${progress.toStringAsFixed(0)}%'),
+                        ),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
-          SliverPadding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            sliver: SliverList(
-                delegate: SliverChildListDelegate([
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text('Current Version:', style: context.bodyMedium),
-                trailing: Text(
-                  'v${PreferenceService.packageInfo.version}',
-                  style: context.bodyMedium?.copyWith(color: manatee),
-                ),
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text('Current Version:', style: context.bodyMedium),
+                    trailing: Text(
+                      'v${PreferenceService.packageInfo.version}',
+                      style: context.bodyMedium?.copyWith(color: manatee),
+                    ),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text('Latest Version:', style: context.bodyMedium),
+                    trailing: Text(
+                      appUpdate?.tagName ?? '',
+                      style: context.bodyMedium?.copyWith(color: manatee),
+                    )
+                        .animate(
+                            autoPlay: true,
+                            onPlay: (controller) =>
+                                controller.repeat(reverse: true))
+                        .shimmer(
+                            duration: const Duration(seconds: 5),
+                            blendMode: BlendMode.srcIn,
+                            colors: [Colors.blue, Colors.green, Colors.teal]),
+                  ),
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text('Release Notes', style: context.bodyLarge),
+                  ),
+                  Markdown(
+                    styleSheet: MarkdownStyleSheet(
+                      a: context.bodyLarge,
+                      p: context.bodyMedium,
+                      h2: context.bodyMedium,
+                      h3: context.bodyMedium,
+                      h4: context.bodyMedium,
+                      h5: context.bodyMedium,
+                      h6: context.bodyMedium,
+                      blockquote: context.bodyMedium,
+                      code: context.bodyMedium,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(10.0),
+                    data: appUpdate?.body ?? '',
+                  ),
+                ])),
               ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text('Latest Version:', style: context.bodyMedium),
-                trailing: Text(
-                  appUpdate?.tagName ?? '',
-                  style: context.bodyMedium?.copyWith(color: manatee),
-                )
-                    .animate(
-                        autoPlay: true,
-                        onPlay: (controller) =>
-                            controller.repeat(reverse: true))
-                    .shimmer(
-                        duration: const Duration(seconds: 5),
-                        blendMode: BlendMode.srcIn,
-                        colors: [Colors.blue, Colors.green, Colors.teal]),
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text('Release Notes', style: context.bodyLarge),
-              ),
-              Markdown(
-                styleSheet: MarkdownStyleSheet(
-                  a: context.bodyLarge,
-                  p: context.bodyMedium,
-                  h2: context.bodyMedium,
-                  h3: context.bodyMedium,
-                  h4: context.bodyMedium,
-                  h5: context.bodyMedium,
-                  h6: context.bodyMedium,
-                  blockquote: context.bodyMedium,
-                  code: context.bodyMedium,
-                ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(10.0),
-                data: appUpdate?.body ?? '',
-              ),
-            ])),
-          ),
-        ]),
+            ]),
+          );
+        },
       ),
     );
-  },
-);
   }
 
   Future<void> downloadUpdate(String url, String savePath) async {

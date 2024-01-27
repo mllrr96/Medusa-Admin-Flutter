@@ -9,7 +9,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart' hide GetNumUtils;
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
-import 'package:medusa_admin/data/service/language_service.dart';
+import 'package:medusa_admin/core/extension/locale_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -19,6 +19,7 @@ import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/language/language_cubit.dart';
 import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
@@ -195,7 +196,7 @@ class _SignInViewState extends State<SignInView> {
                                   ),
                                   icon: const Icon(Icons.language),
                                   label: Text(
-                                      LanguageService.languageModel.nativeName),
+                                      context.read<LanguageCubit>().state.locale.languageModel.nativeName),
                                 ),
                               ],
                             ),
