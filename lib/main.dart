@@ -16,6 +16,7 @@ import 'core/di/di.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'observer.dart';
+import 'presentation/blocs/store/store_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +67,9 @@ class MedusaAdminApp extends StatelessWidget {
           create: (_) => AppUpdateBloc.instance
             ..add(const AppUpdateEvent.checkForUpdate()),
           lazy: false,
+        ),
+        BlocProvider<StoreBloc>(
+          create: (_) => StoreBloc.instance,
         ),
       ],
       child: BlocBuilder<LanguageCubit, LanguageState>(

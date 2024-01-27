@@ -58,6 +58,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
         onTap: () => context.unfocus(),
         child: Scaffold(
           appBar: AppBar(
+            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
             title: const Text('Store Details'),
             actions: [
               TextButton(

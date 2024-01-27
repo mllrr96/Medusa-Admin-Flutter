@@ -47,6 +47,7 @@ class CurrenciesView extends StatelessWidget {
           onTap: () => context.unfocus(),
           child: Scaffold(
             appBar: AppBar(
+              systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               title: const Text('Currencies'),
               actions: [
                 TextButton(
