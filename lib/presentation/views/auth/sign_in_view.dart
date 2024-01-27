@@ -17,14 +17,12 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
@@ -83,9 +81,9 @@ class _SignInViewState extends State<SignInView> {
             await _showBiometricDialog();
           }
           if (!isSessionExpired) {
-            await Get.putAsync(() =>
-                StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
-                    .init());
+            // await Get.putAsync(() =>
+            //     StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
+            //         .init());
             Get.put(ActivityController());
             if (ActivityController
                     .instance.pagingController.itemList?.isNotEmpty ??

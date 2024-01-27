@@ -1,10 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/region/update_region_use_case.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/countries/controller/country_controller.dart';
 import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -34,12 +35,19 @@ class AddRegionView extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(4.0)),
       borderSide: BorderSide(color: Colors.grey),
     );
-
+    final currencies = context
+        .read<StoreBloc>()
+        .state
+        .mapOrNull(loaded: (_) => _.store.currencies);
     return GestureDetector(
       onTap: () => context.unfocus(),
       child: GetBuilder<AddRegionController>(
         init: AddRegionController(
-            updateRegionUseCase: UpdateRegionUseCase.instance, region: region),
+            updateRegionUseCase: UpdateRegionUseCase.instance,
+            region: region,
+            selectedCurrency: currencies
+                ?.where((element) => element.code == region!.currencyCode)
+                .first),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
@@ -109,7 +117,7 @@ class AddRegionView extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              items: StoreService.store?.currencies
+                              items: currencies
                                   ?.map((e) => DropdownMenuItem(
                                       value: e, child: Text(e.name!)))
                                   .toList(),
@@ -178,7 +186,8 @@ class AddRegionView extends StatelessWidget {
                                     context: context,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
-                                    backgroundColor: context.theme.scaffoldBackgroundColor,
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
                                     builder: (context) => SelectCountryView(
                                             selectCountryReq: SelectCountryReq(
                                           disabledCountriesIso2: controller

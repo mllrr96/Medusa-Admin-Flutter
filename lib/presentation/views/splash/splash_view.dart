@@ -9,13 +9,10 @@ import 'package:get/get.dart' hide GetNumUtils;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 @RoutePage()
 class SplashView extends StatefulWidget {
@@ -49,12 +46,13 @@ class _SplashViewState extends State<SplashView> {
       listener: (context, state) {
         state.mapOrNull(
           loggedIn: (loggedIn) async {
-            await Get.putAsync(() =>
-                StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
-                    .init()).then((value) {
-              Get.put(ActivityController());
-              context.router.replaceAll([const DashboardRoute()]);
-            });
+            // await Get.putAsync(() =>
+            //     StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
+            //         .init()).then((value) {
+            //
+            // });
+            Get.put(ActivityController());
+            context.router.replaceAll([const DashboardRoute()]);
           },
           loggedOut: (_) {
             context.router.replaceAll([SignInRoute()]);

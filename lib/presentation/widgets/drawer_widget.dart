@@ -13,10 +13,10 @@ import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_controller.dart';
@@ -117,7 +117,7 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final store = StoreService.store;
+    final storeName = context.read<StoreBloc>().state.mapOrNull(loaded: (_)=> _.store.name);
     final packageInfo = PreferenceService.packageInfo;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
@@ -129,7 +129,6 @@ class _AppDrawerState extends State<AppDrawer> {
           loading: (_) => loading(),
           loggedOut: (_) async {
             await Get.delete<ActivityController>(force: true);
-            await Get.delete<StoreService>(force: true);
             await Get.delete<ProductsFilterController>(force: true);
             await Get.delete<OrdersFilterController>(force: true);
             await AuthPreferenceService.instance.clearLoginData();
@@ -186,7 +185,7 @@ class _AppDrawerState extends State<AppDrawer> {
                             },
                           ),
                           Flexible(
-                            child: Text(store?.name ?? '',
+                            child: Text(storeName ?? '',
                                 style: context.bodyLarge,
                                 overflow: TextOverflow.ellipsis),
                           ),

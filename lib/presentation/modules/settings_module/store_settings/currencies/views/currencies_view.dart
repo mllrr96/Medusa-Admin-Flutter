@@ -1,19 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
+import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/currency/currencies_use_case.dart';
-import 'package:medusa_admin/domain/use_case/store/update_store_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../../../../core/constant/colors.dart';
-import '../controllers/currencies_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+
 @RoutePage()
 class CurrenciesView extends StatelessWidget {
   const CurrenciesView({super.key});
@@ -24,10 +27,22 @@ class CurrenciesView extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
-    return GetBuilder<CurrenciesController>(
-      init:
-          CurrenciesController(updateStoreUseCase: UpdateStoreUseCase.instance),
-      builder: (controller) {
+    return BlocConsumer<StoreBloc, StoreState>(
+      listener: (context, state) {
+        state.mapOrNull(
+          loading: (_) => loading(status: 'Loading Store Info'),
+          loaded: (_) {
+            dismissLoading();
+            context.popRoute();
+          },
+          error: (_) => context.showSnackBar(_.failure.toSnackBarString()),
+        );
+      },
+      builder: (context, state) {
+        List<Currency> currencies =
+            state.mapOrNull(loaded: (_) => _.store.currencies) ?? [];
+        Currency? defaultStoreCurrency =
+            state.mapOrNull(loaded: (_) => _.store.defaultCurrency);
         return GestureDetector(
           onTap: () => context.unfocus(),
           child: Scaffold(
@@ -35,8 +50,31 @@ class CurrenciesView extends StatelessWidget {
               title: const Text('Currencies'),
               actions: [
                 TextButton(
-                    onPressed: () async =>
-                        await controller.updateStore(context),
+                    onPressed: () async {
+                      final sameCurrencies = listEquals(
+                          currencies.map((e) => e.code).toList(),
+                          state
+                              .mapOrNull(loaded: (_) => _.store.currencies)
+                              ?.map((e) => e.code)
+                              .toList());
+                      if (sameCurrencies &&
+                          defaultStoreCurrency?.code ==
+                              state
+                                  .mapOrNull(
+                                      loaded: (_) => _.store.defaultCurrency)
+                                  ?.code) {
+                        context.popRoute();
+                        return;
+                      }
+                      List<String> currenciesIsoCode = [];
+                      for (var currency in currencies) {
+                        currenciesIsoCode.add(currency.code!);
+                      }
+                      context.read<StoreBloc>().add(StoreEvent.updateStore(
+                          StorePostReq(
+                              defaultCurrencyCode: defaultStoreCurrency?.code,
+                              currencies: currenciesIsoCode)));
+                    },
                     child: const Text('Save')),
               ],
             ),
@@ -62,15 +100,13 @@ class CurrenciesView extends StatelessWidget {
                         Text('This is the currency your prices are shown in.',
                             style: mediumTextStyle.copyWith(color: manatee)),
                         space,
-                        if (controller.currencies.isNotEmpty &&
-                            controller.currencies.length == 1)
-                          Text(controller.currencies.first.name ?? ''),
-                        if (controller.currencies.isNotEmpty &&
-                            controller.currencies.length > 1)
+                        if (currencies.length == 1)
+                          Text(currencies.first.name ?? ''),
+                        if (currencies.length > 1)
                           DropdownButtonFormField<String>(
-                            value: controller.defaultStoreCurrency?.code,
+                            value: defaultStoreCurrency?.code,
                             style: context.bodyMedium,
-                            items: controller.currencies
+                            items: currencies
                                 .map((currency) => DropdownMenuItem(
                                       value: currency.code,
                                       child: Text(currency.name ?? ''),
@@ -78,8 +114,7 @@ class CurrenciesView extends StatelessWidget {
                                 .toList(),
                             onChanged: (value) {
                               if (value != null) {
-                                controller.defaultStoreCurrency = controller
-                                    .currencies
+                                defaultStoreCurrency = currencies
                                     .where((element) => element.code == value)
                                     .first;
                               }
@@ -133,31 +168,30 @@ class CurrenciesView extends StatelessWidget {
                                     context: context,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
-                                        backgroundColor: context.theme.scaffoldBackgroundColor,
-                                        builder: (context) => AllCurrenciesView(
-                                        storeCurrencies: controller.currencies),
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
+                                    builder: (context) => AllCurrenciesView(
+                                        storeCurrencies: currencies),
                                   );
                                   if (result != null) {
-                                    controller.currencies = result;
-                                    if (!controller.currencies.any((element) =>
-                                        element ==
-                                        controller.defaultStoreCurrency)) {
-                                      controller.defaultStoreCurrency =
-                                          result.first;
+                                    currencies = result;
+                                    if (!currencies.any((element) =>
+                                        element == defaultStoreCurrency)) {
+                                      defaultStoreCurrency = result.first;
                                     }
-                                    controller.update();
+                                    // controller.update();
                                   }
                                 },
                                 child: const Text('Edit'))
                           ],
                         ),
                         space,
-                        if (controller.currencies.isNotEmpty)
+                        if (currencies.isNotEmpty)
                           ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                final currency = controller.currencies[index];
+                                final currency = currencies[index];
                                 return ListTile(
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -173,8 +207,7 @@ class CurrenciesView extends StatelessWidget {
                                 );
                               },
                               separatorBuilder: (_, __) => const Divider(),
-
-                              itemCount: controller.currencies.length),
+                              itemCount: currencies.length),
                         const SizedBox(height: 6.0),
                       ],
                     ),
@@ -218,34 +251,32 @@ class AllCurrenciesView extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   pagingController: controller.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Currency>(
-                      itemBuilder: (context, currency, index) =>
-                          CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            controlAffinity: ListTileControlAffinity.trailing,
-                            title: Text(currency.name ?? ''),
-                            secondary: Text(
-                                NumberFormat.simpleCurrency(
-                                        name: currency.code?.toUpperCase())
-                                    .currencySymbol,
-                                style: context.bodyMediumW600),
-                            onChanged: (bool? value) {
-                              var selectedCurrencies =
-                                  controller.selectedCurrencies;
-                              if (selectedCurrencies.any(
-                                  (element) => element.code == currency.code)) {
-                                selectedCurrencies.removeWhere(
-                                    (element) => element.code == currency.code);
-                              } else {
-                                selectedCurrencies.add(currency);
-                              }
-                              controller.update();
-                            },
-                            value: controller.selectedCurrencies.any(
-                                (element) => element.code == currency.code),
-                          ),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                              child: CircularProgressIndicator.adaptive()),
+                    itemBuilder: (context, currency, index) => CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      controlAffinity: ListTileControlAffinity.trailing,
+                      title: Text(currency.name ?? ''),
+                      secondary: Text(
+                          NumberFormat.simpleCurrency(
+                                  name: currency.code?.toUpperCase())
+                              .currencySymbol,
+                          style: context.bodyMediumW600),
+                      onChanged: (bool? value) {
+                        var selectedCurrencies = controller.selectedCurrencies;
+                        if (selectedCurrencies
+                            .any((element) => element.code == currency.code)) {
+                          selectedCurrencies.removeWhere(
+                              (element) => element.code == currency.code);
+                        } else {
+                          selectedCurrencies.add(currency);
+                        }
+                        controller.update();
+                      },
+                      value: controller.selectedCurrencies
+                          .any((element) => element.code == currency.code),
+                    ),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
                     firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
                         pagingController: controller.pagingController),
                   ),

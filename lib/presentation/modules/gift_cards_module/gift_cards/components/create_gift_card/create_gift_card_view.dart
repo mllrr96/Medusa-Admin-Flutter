@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
@@ -10,6 +11,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'create_gift_card_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+
 class CreateGiftCardView extends StatelessWidget {
   const CreateGiftCardView({super.key});
 
@@ -149,15 +151,17 @@ class _DenominationWidgetState extends State<DenominationWidget> {
     super.dispose();
   }
 
-  List<Currency> get currencies => StoreService.store?.currencies ?? [];
-  Currency? selectedCurrency =
-      (StoreService.store?.currencies?.isNotEmpty ?? false)
-          ? StoreService.store?.currencies?.first
-          : const Currency(code: 'usd');
   var textCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var controller = CreateGiftCardController.instance;
+    return BlocBuilder<StoreBloc, StoreState>(
+  builder: (context, state) {
+    List<Currency>? currencies = state.mapOrNull(loaded: (_) =>_.store.currencies);
+    Currency? selectedCurrency =
+    (currencies?.isNotEmpty ?? false)
+        ? currencies?.firstOrNull
+        : const Currency(code: 'usd');
     return Column(
       children: [
         Row(
@@ -181,7 +185,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                   return null;
                 },
                 items: currencies
-                    .map((e) => DropdownMenuItem<Currency>(
+                    ?.map((e) => DropdownMenuItem<Currency>(
                         value: e, child: Text(e.name ?? '')))
                     .toList(),
                 decoration: const InputDecoration(hintText: 'Currency'),
@@ -228,5 +232,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
         ),
       ],
     );
+  },
+);
   }
 }

@@ -32,7 +32,7 @@ import '../../presentation/modules/customers_module/add_update_customer/views/up
 import '../../presentation/modules/customers_module/customer_details/views/customer_details_view.dart';
 import '../../presentation/modules/customers_module/customers/views/customers_view.dart';
 import '../../presentation/modules/customers_module/transfer_order/views/transfer_order_view.dart';
-import '../../presentation/modules/dashboard/views/dashboard_view.dart';
+import '../../presentation/views/dashboard_view.dart';
 import '../../presentation/modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
 import '../../presentation/modules/discount_module/discount_conditions/components/condition_collection.dart';
 import '../../presentation/modules/discount_module/discount_conditions/components/condition_customer_group.dart';
@@ -99,7 +99,7 @@ import '../../presentation/modules/settings_module/store_settings/tax_settings_m
 import '../../presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_select_region_view.dart';
 import '../../presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
 import '../../presentation/modules/settings_module/store_settings/team/views/team_view.dart';
-import '../../presentation/modules/splash/views/splash_view.dart';
+import '../../presentation/views/splash/splash_view.dart';
 import '../utils/enums.dart';
 part 'app_router.gr.dart';
 

@@ -136,5 +136,4 @@ class AuthenticationBloc
   final AuthenticationUseCase authenticationUseCase;
   final FlutterSecureStorage flutterSecureStorage;
   static AuthenticationBloc get instance => getIt<AuthenticationBloc>();
-  static medusa.MedusaAdmin get medusaAdmin => getIt<medusa.MedusaAdmin>();
 }

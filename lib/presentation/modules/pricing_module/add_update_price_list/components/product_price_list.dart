@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
@@ -13,26 +14,32 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class AddUpdateVariantsPriceView extends StatefulWidget {
-  const AddUpdateVariantsPriceView({super.key, this.prices, required this.product});
+  const AddUpdateVariantsPriceView(
+      {super.key, this.prices, required this.product});
   final List<MoneyAmount>? prices;
   final Product product;
   @override
-  State<AddUpdateVariantsPriceView> createState() => _AddUpdateVariantsPriceViewState();
+  State<AddUpdateVariantsPriceView> createState() =>
+      _AddUpdateVariantsPriceViewState();
 }
 
-class _AddUpdateVariantsPriceViewState extends State<AddUpdateVariantsPriceView> {
+class _AddUpdateVariantsPriceViewState
+    extends State<AddUpdateVariantsPriceView> {
   @override
   void initState() {
+    final currencies = context
+        .read<StoreBloc>()
+        .state
+        .mapOrNull(loaded: (_) => _.store.currencies);
     widget.product.variants?.forEach((variant) {
-      if(StoreService.store?.currencies != null){
-        for (Currency currency in StoreService.store!.currencies!) {
+      if (currencies != null) {
+        for (Currency currency in currencies) {
           priceListVariants.add(PriceListVariant(
               textCtrl: TextEditingController(),
               variant: variant,
               currency: currency));
         }
       }
-
     });
     if (widget.prices?.isNotEmpty ?? false) {
       for (var element in widget.prices!) {

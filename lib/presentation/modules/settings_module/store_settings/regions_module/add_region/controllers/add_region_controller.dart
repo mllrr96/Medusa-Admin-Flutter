@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/domain/use_case/region/update_region_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
@@ -10,7 +9,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class AddRegionController extends GetxController {
   AddRegionController(
-      {required this.updateRegionUseCase, required this.region});
+      {required this.updateRegionUseCase, required this.region,required this.selectedCurrency, });
   final UpdateRegionUseCase updateRegionUseCase;
   final titleCtrl = TextEditingController();
   final defaultTaxRateCtrl = TextEditingController();
@@ -141,11 +140,10 @@ class AddRegionController extends GetxController {
 
   void loadRegion() {
     titleCtrl.text = region!.name ?? '';
-    selectedCurrency = StoreService.store?.currencies
-        ?.where((element) => element.code == region!.currencyCode)
-        .first;
     selectedCountries = region!.countries ?? [];
     selectedPaymentProviders =
         region!.paymentProviders?.map((e) => e.id!).toList() ?? [];
   }
+
+
 }
