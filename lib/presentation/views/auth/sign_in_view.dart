@@ -16,8 +16,8 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
@@ -52,7 +52,7 @@ class _SignInViewState extends State<SignInView> {
     _onInit();
     timer = Timer(3.seconds, () {
       if (mounted) {
-        setState(() => showUpdateButton = PreferenceService.updateAvailable);
+        setState(() => showUpdateButton = context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => true) ?? false);
       }
     });
     super.initState();
@@ -81,9 +81,6 @@ class _SignInViewState extends State<SignInView> {
             await _showBiometricDialog();
           }
           if (!isSessionExpired) {
-            // await Get.putAsync(() =>
-            //     StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
-            //         .init());
             Get.put(ActivityController());
             if (ActivityController
                     .instance.pagingController.itemList?.isNotEmpty ??
@@ -475,7 +472,7 @@ class _SignInViewState extends State<SignInView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              'New Update Available ${PreferenceService.appUpdate?.tagName ?? ''}',
+                              'New Update Available ${context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_)=> _.appUpdate)?.tagName ?? ''}',
                               style: const TextStyle(color: Colors.white)),
                           Text('Tap to install',
                               style: context.bodySmall

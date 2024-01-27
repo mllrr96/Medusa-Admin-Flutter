@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
 import 'data/service/language_service.dart';
@@ -59,6 +60,11 @@ class MedusaAdminApp extends StatelessWidget {
         ),
         BlocProvider<ThemeCubit>(
           create: (_) => ThemeCubit.instance..loadThemeState(),
+          lazy: false,
+        ),
+        BlocProvider<AppUpdateBloc>(
+          create: (_) => AppUpdateBloc.instance
+            ..add(const AppUpdateEvent.checkForUpdate()),
           lazy: false,
         ),
       ],

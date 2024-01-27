@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' hide GetNumUtils;
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
@@ -14,6 +15,7 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
+import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -52,6 +54,9 @@ class _AppUpdateViewState extends State<AppUpdateView> {
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
+    return BlocBuilder<AppUpdateBloc, AppUpdateState>(
+  builder: (context, state) {
+    final appUpdate = state.mapOrNull(updateAvailable: (state) => state.appUpdate);
     return PopScope(
       canPop: !isDownloading,
       onPopInvoked: (val) async {
@@ -85,12 +90,12 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                       setButtonTitle('Preparing ...');
                       if (Platform.isIOS) {
                         await launchUrl(Uri.parse(
-                            '${AppConstants.githubLink}/releases/tag/${PreferenceService.appUpdate?.tagName}'));
+                            '${AppConstants.githubLink}/releases/tag/${appUpdate?.tagName}'));
                         setButtonTitle('Install Update');
                         return;
                       } else if (Platform.isAndroid) {
                         // Download the update
-                        final asset = PreferenceService.appUpdate?.assets
+                        final asset = appUpdate?.assets
                             ?.where((asset) =>
                                 (asset.name?.endsWith('.apk') ?? false))
                             .firstOrNull;
@@ -165,7 +170,7 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                 contentPadding: EdgeInsets.zero,
                 title: Text('Latest Version:', style: context.bodyMedium),
                 trailing: Text(
-                  PreferenceService.appUpdate?.tagName ?? '',
+                  appUpdate?.tagName ?? '',
                   style: context.bodyMedium?.copyWith(color: manatee),
                 )
                     .animate(
@@ -197,13 +202,15 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(10.0),
-                data: PreferenceService.appUpdate?.body ?? '',
+                data: appUpdate?.body ?? '',
               ),
             ])),
           ),
         ]),
       ),
     );
+  },
+);
   }
 
   Future<void> downloadUpdate(String url, String savePath) async {

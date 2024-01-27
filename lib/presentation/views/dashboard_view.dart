@@ -14,6 +14,7 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => StoreBloc.instance,
+      lazy: false,
       // Adding a scaffold here to fix snack-bar hero animation exception since
       // nested scaffolds are used here, one downside to this solution is the snack-bar
       // will cover FAB

@@ -15,6 +15,7 @@ import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
@@ -117,7 +118,6 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final storeName = context.read<StoreBloc>().state.mapOrNull(loaded: (_)=> _.store.name);
     final packageInfo = PreferenceService.packageInfo;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
@@ -184,10 +184,16 @@ class _AppDrawerState extends State<AppDrawer> {
                               );
                             },
                           ),
-                          Flexible(
-                            child: Text(storeName ?? '',
-                                style: context.bodyLarge,
-                                overflow: TextOverflow.ellipsis),
+                          BlocBuilder<StoreBloc, StoreState>(
+                            builder: (context, state) {
+                              final storeName = state.mapOrNull(
+                                  loaded: (_) => _.store.name);
+                              return Flexible(
+                                child: Text(storeName ?? '',
+                                    style: context.bodyLarge,
+                                    overflow: TextOverflow.ellipsis),
+                              );
+                            },
                           ),
                           const Padding(
                             padding: EdgeInsets.all(16.0),
@@ -213,78 +219,86 @@ class _AppDrawerState extends State<AppDrawer> {
                 ],
               ),
             ),
-            if (PreferenceService.updateAvailable)
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 56,
-                          width: double.infinity,
-                          decoration: const ShapeDecoration(
-                            shape: StadiumBorder(),
-                            color: Colors.blue,
-                          ),
-                        )
-                            .animate(
-                                autoPlay: true,
-                                onPlay: (controller) =>
-                                    controller.repeat(reverse: true))
-                            .shimmer(
-                                duration: const Duration(seconds: 5),
-                                blendMode: BlendMode.srcIn,
-                                colors: [
-                              Colors.blue,
-                              Colors.green,
-                              Colors.teal
-                            ]),
-                        Material(
-                          color: Colors.transparent,
-                          shape: const StadiumBorder(),
-                          child: InkWell(
-                            customBorder: const StadiumBorder(),
-                            onTap: () =>
-                                context.pushRoute(const AppUpdateRoute()),
-                            child: Ink(
-                              height: 56,
-                              decoration: const ShapeDecoration(
-                                shape: StadiumBorder(),
-                              ),
-                              child: Row(
+            BlocBuilder<AppUpdateBloc, AppUpdateState>(
+              builder: (context, state) {
+                return state.maybeMap(
+                    updateAvailable: (_) => Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
+                              child: Stack(
                                 children: [
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(16, 16, 10, 16),
-                                    child:
-                                        Icon(Icons.update, color: Colors.white),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                          'New Update Available ${PreferenceService.appUpdate?.tagName ?? ''}',
-                                          style: const TextStyle(
-                                              color: Colors.white)),
-                                      Text('Tap to install',
-                                          style: smallTextStyle?.copyWith(
-                                              color: Colors.white)),
-                                    ],
+                                  Container(
+                                    height: 56,
+                                    width: double.infinity,
+                                    decoration: const ShapeDecoration(
+                                      shape: StadiumBorder(),
+                                      color: Colors.blue,
+                                    ),
+                                  )
+                                      .animate(
+                                          autoPlay: true,
+                                          onPlay: (controller) =>
+                                              controller.repeat(reverse: true))
+                                      .shimmer(
+                                          duration: const Duration(seconds: 5),
+                                          blendMode: BlendMode.srcIn,
+                                          colors: [
+                                        Colors.blue,
+                                        Colors.green,
+                                        Colors.teal
+                                      ]),
+                                  Material(
+                                    color: Colors.transparent,
+                                    shape: const StadiumBorder(),
+                                    child: InkWell(
+                                      customBorder: const StadiumBorder(),
+                                      onTap: () => context
+                                          .pushRoute(const AppUpdateRoute()),
+                                      child: Ink(
+                                        height: 56,
+                                        decoration: const ShapeDecoration(
+                                          shape: StadiumBorder(),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  16, 16, 10, 16),
+                                              child: Icon(Icons.update,
+                                                  color: Colors.white),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                    'New Update Available ${_.appUpdate.tagName ?? ''}',
+                                                    style: const TextStyle(
+                                                        color: Colors.white)),
+                                                Text('Tap to install',
+                                                    style: smallTextStyle
+                                                        ?.copyWith(
+                                                            color:
+                                                                Colors.white)),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
+                            divider,
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  divider,
-                ],
-              ),
+                    orElse: () => const SizedBox.shrink());
+              },
+            ),
             const Gap(5),
             ...items,
             Padding(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/data/models/app_update.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/presentation/modules/medusa_search/controllers/medusa_search_controller.dart';
@@ -26,20 +25,7 @@ class PreferenceService {
   static AppPreference get appSettingsGetter => instance._appSettings;
   AppPreference get appSettings => _appSettings;
   static OrderPreference get orderPreference => instance._orderPreference;
-  static AppUpdate? get appUpdate => instance._appUpdate;
   static List<SearchHistory> get searchHistory => instance._searchHistory;
-  static bool get updateAvailable {
-    if (appUpdate == null || appUpdate?.tagName == null) return false;
-
-    final currentVersionNumber =
-        int.tryParse(packageInfo.version.replaceAll(RegExp(r'[^0-9]'), ''));
-    final latestVersionNumber =
-        int.tryParse(appUpdate!.tagName!.replaceAll(RegExp(r'[^0-9]'), ''));
-    if (currentVersionNumber != null && latestVersionNumber != null) {
-      return latestVersionNumber > currentVersionNumber;
-    }
-    return false;
-  }
   static bool get checkedForUpdate => instance._checkedForUpdate;
   bool _checkedForUpdate = false;
   late PackageInfo _packageInfo;
@@ -47,7 +33,6 @@ class PreferenceService {
   late AppPreference _appSettings;
   late OrderPreference _orderPreference;
   late List<SearchHistory> _searchHistory;
-  AppUpdate? _appUpdate;
   bool? _isFirstRun;
   bool? _isSignedInBefore;
 
@@ -206,7 +191,6 @@ class PreferenceService {
     }
   }
 
-  void setAppUpdate(AppUpdate appUpdate) => _appUpdate = appUpdate;
   void setCheckedForUpdate(bool val) => _checkedForUpdate = val;
 
   Future<void> updateSearchHistory(SearchHistory searchHistory,
