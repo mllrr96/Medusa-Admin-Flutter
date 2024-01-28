@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/domain/use_case/search/search_use_case.dart';
-import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/products_filter_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin/data/models/orders_filter.dart';
 
 class MedusaSearchController extends GetxController {
   static MedusaSearchController get instance =>

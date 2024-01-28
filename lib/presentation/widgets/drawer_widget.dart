@@ -18,7 +18,7 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/orders/components/orders_filter_controller.dart';
 import 'package:medusa_admin/presentation/modules/products_module/products/components/products_filter_controller.dart';

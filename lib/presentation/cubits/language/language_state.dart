@@ -1,4 +1,4 @@
-part of 'language_cubit.dart';
+part of '../../cubits/language/language_cubit.dart';
 
 @freezed
 class LanguageState with _$LanguageState {

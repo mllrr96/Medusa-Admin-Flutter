@@ -66,7 +66,7 @@ import '../../presentation/modules/medusa_search/views/medusa_search_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/order_create_fulfillment.dart';
 import '../../presentation/modules/orders_module/order_details/views/order_details_view.dart';
-import '../../presentation/modules/orders_module/orders/views/orders_view.dart';
+import '../../presentation/views/orders/orders_view.dart';
 import '../../presentation/modules/pricing_module/add_update_price_list/views/add_update_price_list_view.dart';
 import '../../presentation/modules/pricing_module/price_list_details/views/price_list_details_view.dart';
 import '../../presentation/modules/pricing_module/pricing/views/pricing_view.dart';

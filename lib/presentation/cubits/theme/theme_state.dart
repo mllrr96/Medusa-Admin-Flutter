@@ -1,4 +1,4 @@
-part of 'theme_cubit.dart';
+part of '../../cubits/theme/theme_cubit.dart';
 
 @freezed
 class ThemeState with _$ThemeState {

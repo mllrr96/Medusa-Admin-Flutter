@@ -18,8 +18,29 @@ import '../../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
-class CurrenciesView extends StatelessWidget {
+class CurrenciesView extends StatefulWidget {
   const CurrenciesView({super.key});
+
+  @override
+  State<CurrenciesView> createState() => _CurrenciesViewState();
+}
+
+class _CurrenciesViewState extends State<CurrenciesView> {
+  late List<Currency> currencies;
+  late Currency? defaultStoreCurrency;
+  @override
+  void initState() {
+    currencies = List<Currency>.from(context
+            .read<StoreBloc>()
+            .state
+            .mapOrNull(loaded: (_) => _.store.currencies) ??
+        []);
+    defaultStoreCurrency = context
+        .read<StoreBloc>()
+        .state
+        .mapOrNull(loaded: (_) => _.store.defaultCurrency);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +56,13 @@ class CurrenciesView extends StatelessWidget {
             dismissLoading();
             context.popRoute();
           },
-          error: (_) => context.showSnackBar(_.failure.toSnackBarString()),
+          error: (_) {
+            dismissLoading();
+            context.showSnackBar(_.failure.toSnackBarString());
+          },
         );
       },
       builder: (context, state) {
-        List<Currency> currencies =
-            state.mapOrNull(loaded: (_) => _.store.currencies) ?? [];
-        Currency? defaultStoreCurrency =
-            state.mapOrNull(loaded: (_) => _.store.defaultCurrency);
         return GestureDetector(
           onTap: () => context.unfocus(),
           child: Scaffold(
@@ -180,7 +200,7 @@ class CurrenciesView extends StatelessWidget {
                                         element == defaultStoreCurrency)) {
                                       defaultStoreCurrency = result.first;
                                     }
-                                    // controller.update();
+                                    setState(() {});
                                   }
                                 },
                                 child: const Text('Edit'))

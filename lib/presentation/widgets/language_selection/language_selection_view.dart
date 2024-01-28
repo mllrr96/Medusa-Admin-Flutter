@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/presentation/blocs/language/language_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
 
 import 'language_locale.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';

@@ -6,8 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/presentation/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
 import 'package:medusa_admin/presentation/modules/customers_module/customers/controllers/customers_controller.dart';
-import 'package:medusa_admin/presentation/modules/orders_module/orders/components/order_card.dart';
-import 'package:medusa_admin/presentation/modules/orders_module/orders/controllers/orders_controller.dart';
+import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -58,9 +57,9 @@ class CustomerDetailsView extends StatelessWidget {
                                         CustomersController
                                             .instance.pagingController
                                             .refresh();
-                                        OrdersController
-                                            .instance.pagingController
-                                            .refresh();
+                                        // OrdersController
+                                        //     .instance.pagingController
+                                        //     .refresh();
                                       }
                                     })),
                         noItemsFoundIndicatorBuilder: (_) =>

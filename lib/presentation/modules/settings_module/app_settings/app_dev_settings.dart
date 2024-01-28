@@ -14,7 +14,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
-import 'package:medusa_admin/presentation/blocs/theme/theme_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

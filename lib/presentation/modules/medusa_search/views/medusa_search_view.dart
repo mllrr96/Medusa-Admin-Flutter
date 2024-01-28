@@ -19,7 +19,7 @@ import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/domain/use_case/search/search_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../core/utils/enums.dart';
-import '../../orders_module/orders/components/order_card.dart';
+import '../../../views/orders/components/order_card.dart';
 import '../components/index.dart';
 import '../controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

@@ -9,12 +9,13 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/enums.dart';
-import '../../orders_module/orders/components/orders_filter_view.dart';
+import '../../../views/orders_filter/orders_filter_view.dart';
 import '../../products_module/products/components/products_filter_view.dart';
 import '../controllers/medusa_search_controller.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/data/models/orders_filter.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar({super.key, required this.controller});
