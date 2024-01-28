@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../discount_module/discounts/components/discount_rule_type_label.dart';
+import '../../../../views/discounts/components/discount_rule_type_label.dart';
 
 class PriceListDetailsTile extends StatelessWidget {
   const PriceListDetailsTile(this.priceList, {super.key, this.shimmer = false});

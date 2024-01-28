@@ -37,9 +37,8 @@ class _OrdersViewState extends State<OrdersView> {
       PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 3);
   OrderFilter? orderFilter;
 
-  void _loadPage(int pageKey) {
-    context.read<OrdersBloc>().add(OrdersEvent.loadOrders(pageKey,
-        queryParameters: orderFilter?.toJson()));
+  void _loadPage(int _) {
+    context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: orderFilter?.toJson()));
   }
 
   @override
@@ -165,9 +164,7 @@ class _OrdersViewState extends State<OrdersView> {
           ],
           body: SmartRefresher(
             controller: smartRefresherCtrl,
-            onRefresh: () {
-              _loadPage(0);
-            },
+            onRefresh: () => _loadPage(0),
             child: PagedListView.separated(
               padding: EdgeInsets.only(
                   bottom: 120,

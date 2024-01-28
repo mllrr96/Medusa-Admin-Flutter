@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/draft_order/draft_details_use_case.dart';
-import 'package:medusa_admin/presentation/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -50,7 +49,7 @@ class DraftOrderDetailsController extends GetxController with StateMixin<DraftOr
     result.when((success) async {
       context.showSnackBar('Successfully marked as paid');
       await loadDraftOrder();
-      DraftOrdersController.instance.pagingController.refresh();
+      // DraftOrdersController.instance.pagingController.refresh();
     }, (error) {
       context.showSnackBar('Error marking as paid ${error.code ?? ''}');
     });

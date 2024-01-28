@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 
-import '../../../../../core/constant/colors.dart';
+import '../../../../core/constant/colors.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'draft_order_status_label.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';

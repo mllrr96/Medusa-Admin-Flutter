@@ -42,7 +42,7 @@ import '../../presentation/modules/discount_module/discount_conditions/component
 import '../../presentation/modules/discount_module/discount_conditions/controllers/discount_conditions_controller.dart';
 import '../../presentation/modules/discount_module/discount_conditions/views/discount_conditions_view.dart';
 import '../../presentation/modules/discount_module/discount_details/views/discount_details_view.dart';
-import '../../presentation/modules/discount_module/discounts/views/discounts_view.dart';
+import '../../presentation/views/discounts/discounts_view.dart';
 import '../../presentation/modules/discount_module/update_condition/controllers/update_condition_controller.dart';
 import '../../presentation/modules/discount_module/update_condition/views/update_condition_view.dart';
 import '../../presentation/modules/draft_orders_module/create_draft_order/components/address_view.dart';
@@ -55,7 +55,7 @@ import '../../presentation/modules/draft_orders_module/create_draft_order/compon
 import '../../presentation/modules/draft_orders_module/create_draft_order/controllers/create_draft_order_controller.dart';
 import '../../presentation/modules/draft_orders_module/create_draft_order/views/create_draft_order_view.dart';
 import '../../presentation/modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
-import '../../presentation/modules/draft_orders_module/draft_orders/views/draft_orders_view.dart';
+import '../../presentation/views/draft_orders/draft_orders_view.dart';
 import '../../presentation/modules/gift_cards_module/create_update_custom_gift_card/views/create_update_custom_gift_card_view.dart';
 import '../../presentation/modules/gift_cards_module/custom_gift_cards/views/custom_gift_cards_view.dart';
 import '../../presentation/modules/gift_cards_module/gift_cards/views/gift_cards_view.dart';

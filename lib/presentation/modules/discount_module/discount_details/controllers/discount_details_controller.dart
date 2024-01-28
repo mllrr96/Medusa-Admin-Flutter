@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/discount/discount_details_use_case.dart';
-import 'package:medusa_admin/presentation/modules/discount_module/discounts/controllers/discounts_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -45,7 +44,7 @@ class DiscountDetailsController extends GetxController
     result.when((success) {
       context.popRoute();
       context.showSnackBar('Promotion deleted');
-      DiscountsController.instance.pagingController.refresh();
+      // DiscountsController.instance.pagingController.refresh();
     }, (error) => context.showSnackBar(error.toSnackBarString()));
     dismissLoading();
   }

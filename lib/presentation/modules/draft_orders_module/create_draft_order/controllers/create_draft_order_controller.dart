@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/draft_order/create_draft_use_case.dart';
-import 'package:medusa_admin/presentation/modules/draft_orders_module/draft_orders/controllers/draft_orders_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -55,7 +54,7 @@ class CreateDraftOrderController extends GetxController
     result.when((success) {
       context.popRoute();
       EasyLoading.showSuccess('Draft order created');
-      DraftOrdersController.instance.pagingController.refresh();
+      // DraftOrdersController.instance.pagingController.refresh();
       return;
     },
         (error) => context.showSnackBar(

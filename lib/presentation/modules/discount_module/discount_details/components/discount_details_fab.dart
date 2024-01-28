@@ -8,7 +8,6 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import '../../../../../core/constant/colors.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
-import '../../discounts/controllers/discounts_controller.dart';
 import '../controllers/discount_details_controller.dart';
 
 class DiscountDetailsFab extends GetView<DiscountDetailsController> {
@@ -36,7 +35,7 @@ class DiscountDetailsFab extends GetView<DiscountDetailsController> {
       await context.pushRoute(AddUpdateDiscountRoute(discount: discount)).then((value) async {
         if (value is bool && value == true) {
           await controller.loadDiscount();
-          DiscountsController.instance.pagingController.refresh();
+          // DiscountsController.instance.pagingController.refresh();
         }
       });
     }

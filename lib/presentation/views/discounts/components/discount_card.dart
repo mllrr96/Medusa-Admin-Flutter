@@ -5,7 +5,6 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/modules/discount_module/discounts/controllers/discounts_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:super_banners/super_banners.dart';
 import 'discount_rule_type_label.dart';
@@ -106,9 +105,9 @@ class DiscountCard extends StatelessWidget {
                                             discount: discount))
                                         .then((value) {
                                       if (value is bool && value == true) {
-                                        DiscountsController
-                                            .instance.pagingController
-                                            .refresh();
+                                        // DiscountsController
+                                        //     .instance.pagingController
+                                        //     .refresh();
                                       }
                                     });
                                     break;
