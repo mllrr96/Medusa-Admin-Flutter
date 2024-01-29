@@ -29,8 +29,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     }
           ..addAll(_expandParameters)
           ..addAll(event.queryParameters ?? {}));
-    result.when((success) {
-      emit(_Orders(success.orders!));
+    result.when((ordersResponse) {
+      emit(_Orders(ordersResponse.orders!, ordersResponse.count ?? 0));
     }, (error) {
       emit(_Error(error));
     });

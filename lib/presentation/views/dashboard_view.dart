@@ -9,6 +9,8 @@ import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc
 import 'package:medusa_admin/presentation/blocs/update_discount/update_discount_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/discounts/discounts_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/draft_orders/draft_orders_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/products/products_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/products_filter/products_filter_cubit.dart';
 
 @RoutePage()
 class DashboardView extends StatelessWidget {
@@ -16,9 +18,7 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Adding a scaffold here to fix snack-bar hero animation exception since
-    // nested scaffolds are used here, one downside to this solution is the snack-bar
-    // will cover FAB
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -33,11 +33,19 @@ class DashboardView extends StatelessWidget {
         BlocProvider(
           create: (context) => DiscountsCubit.instance,
         ),
-                BlocProvider(
+        BlocProvider(
           create: (context) => UpdateDiscountBloc.instance,
         ),
-
+        BlocProvider(
+          create: (context) => ProductsCubit.instance,
+        ),
+        BlocProvider(
+          create: (context) => ProductsFilterCubit.instance,
+        ),
       ],
+      // Adding a scaffold here to fix snack-bar hero animation exception since
+      // nested scaffolds are used here, one downside to this solution is the snack-bar
+      // will cover FAB
       child: Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: context.systemUiOverlayNoAppBarStyle,

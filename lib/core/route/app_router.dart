@@ -74,7 +74,7 @@ import '../../presentation/modules/products_module/add_update_product/components
 import '../../presentation/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import '../../presentation/modules/products_module/add_update_product/views/add_update_product_view.dart';
 import '../../presentation/modules/products_module/product_details/views/product_details_view.dart';
-import '../../presentation/modules/products_module/products/views/products_view.dart';
+import '../../presentation/views/products/products_view.dart';
 import '../../presentation/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
 import '../../presentation/modules/settings_module/app_settings/views/app_settings_view.dart';
 import '../../presentation/modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';

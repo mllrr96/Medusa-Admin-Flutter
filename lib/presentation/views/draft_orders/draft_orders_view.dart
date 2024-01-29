@@ -103,7 +103,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               title: Builder(builder: (context) {
                 final ordersCount = context.select<DraftOrdersCubit, int?>(
                     (bloc) => bloc.state.mapOrNull(
-                        draftOrders: (state) => state.draftOrders.length));
+                        draftOrders: (state) => state.count > 0 ? state.count : null));
                 return Text(
                     ordersCount != null ? 'Drafts ($ordersCount)' : 'Drafts',
                     overflow: TextOverflow.ellipsis);

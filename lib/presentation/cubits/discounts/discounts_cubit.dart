@@ -22,7 +22,7 @@ class DiscountsCubit extends Cubit<DiscountsState> {
       'is_dynamic': false,
     }..addAll(queryParameters ?? {}));
     result.when((success) {
-      emit(_Discounts(success.discounts!));
+      emit(_Discounts(success.discounts!, success.count ?? 0));
     }, (error) {
       emit(_Error(error));
     });

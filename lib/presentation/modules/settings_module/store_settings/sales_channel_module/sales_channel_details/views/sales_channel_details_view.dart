@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/presentation/modules/products_module/products/components/index.dart';
+import 'package:medusa_admin/presentation/views/products/components/index.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/sales_channel/sales_channel_details_use_case.dart';

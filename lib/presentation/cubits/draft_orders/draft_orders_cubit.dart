@@ -21,7 +21,7 @@ class DraftOrdersCubit extends Cubit<DraftOrdersState> {
       'limit': pageSize,
     }..addAll(queryParameters ?? {}));
     result.when((success) {
-      emit(_DraftOrders(success.draftOrders!));
+      emit(_DraftOrders(success.draftOrders!, success.count ?? 0));
     }, (error) {
       emit(_Error(error));
     });

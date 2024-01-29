@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
 
 import 'presentation/blocs/app_update/app_update_bloc.dart';
 import 'presentation/blocs/authentication/authentication_bloc.dart';
@@ -32,6 +33,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       ),
       BlocProvider<StoreBloc>(
         create: (_) => StoreBloc.instance,
+      ),
+      BlocProvider<ResetPasswordCubit>(
+        create: (_) => ResetPasswordCubit.instance,
       ),
     ], child: child);
   }

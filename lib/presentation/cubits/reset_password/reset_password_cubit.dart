@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/auth/reset_password_use_case.dart';
 
@@ -18,4 +19,5 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   }
 
   final ResetPasswordUseCase resetPasswordUseCase;
+  static ResetPasswordCubit get instance => getIt<ResetPasswordCubit>();
 }

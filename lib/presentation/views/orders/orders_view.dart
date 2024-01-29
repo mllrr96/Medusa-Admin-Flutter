@@ -144,7 +144,7 @@ class _OrdersViewState extends State<OrdersView> {
               title: Builder(builder: (context) {
                 final ordersCount = context.select<OrdersBloc, int?>((bloc) =>
                     bloc.state
-                        .mapOrNull(orders: (state) => state.orders.length));
+                        .mapOrNull(orders: (state) => state.count > 0 ? state.count : null));
                 return Text(
                     ordersCount != null ? 'Orders ($ordersCount)' : 'Orders',
                     overflow: TextOverflow.ellipsis);

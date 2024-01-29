@@ -63,7 +63,7 @@ class _DiscountsViewState extends State<DiscountsView> {
               pagingController.value = PagingState(itemList: discounts);
               setState(() {
                 loadingDiscountId = '';
-                discountCount = discounts.length;
+                discountCount -= 1;
               });
             } else {
               List<Discount> discounts = [];
@@ -111,7 +111,7 @@ class _DiscountsViewState extends State<DiscountsView> {
                   pagingController.appendPage(state.discounts, nextPageKey);
                 }
                 setState(() =>
-                    discountCount = pagingController.itemList?.length ?? 0);
+                    discountCount = state.count);
                 smartRefresherCtrl.refreshCompleted();
               },
               loading: (_) {},
