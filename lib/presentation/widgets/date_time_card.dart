@@ -14,9 +14,10 @@ class DateTimeCard extends StatelessWidget {
       this.dateTimeTextStyle,
       this.dateTextStyle,
       this.borderColor,
-      this.validator});
+      this.validator, this.onSaved});
   final DateTime? dateTime;
   final void Function()? onTap;
+  final void Function(DateTime?)? onSaved;
   final String? dateText;
   final TextStyle? dateTimeTextStyle;
   final TextStyle? dateTextStyle;
@@ -30,6 +31,7 @@ class DateTimeCard extends StatelessWidget {
     const halfSpace = Gap(6);
     return FormField<DateTime>(
       initialValue: dateTime,
+      onSaved: onSaved,
       validator: validator,
       builder: (FormFieldState<DateTime> field) {
         final color = field.hasError ? Colors.red : manatee;

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/presentation/blocs/update_discount/update_discount_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/discounts/discounts_cubit.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discounts_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -49,37 +49,39 @@ class _DiscountsViewState extends State<DiscountsView> {
   @override
   Widget build(BuildContext context) {
     final largeTextStyle = context.bodyLarge;
-    return BlocConsumer<UpdateDiscountBloc, UpdateDiscountState>(
+    return BlocConsumer<DiscountCrudBloc, DiscountCrudState>(
       listener: (context, updateDiscountState) {
         updateDiscountState.mapOrNull(
-          loading: (_) => setState(() => loadingDiscountId = _.discountId),
-          success: (_) async {
-            if (_.discount == null) {
-              context.showSnackBar('Discount deleted successfully');
-              List<Discount> discounts = [];
-              discounts.addAll(pagingController.itemList ?? []);
-              discounts
-                  .removeWhere((element) => element.id == loadingDiscountId);
-              pagingController.value = PagingState(itemList: discounts);
-              setState(() {
-                loadingDiscountId = '';
-                discountCount -= 1;
-              });
-            } else {
+          loading: (_) => setState(() => loadingDiscountId = _.discountId ?? ''),
+          discount: (_) async {
               List<Discount> discounts = [];
               discounts.addAll(pagingController.itemList ?? []);
               final index = discounts
-                  .indexWhere((element) => element.id == _.discount?.id);
+                  .indexWhere((element) => element.id == _.discount.id);
+              // If for whatever reason we didn't find the discount in the list,
+              // we just reload discounts
               if (index == -1) {
                 context.showSnackBar('Discount updated successfully');
                 smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
                 return;
               }
-              discounts.replaceRange(index, index + 1, [_.discount!]);
+              discounts.replaceRange(index, index + 1, [_.discount]);
               pagingController.value = PagingState(itemList: discounts);
               setState(() => loadingDiscountId = '');
               context.showSnackBar('Discount updated successfully');
-            }
+
+          },
+          deleted: (_){
+            context.showSnackBar('Discount deleted successfully');
+            List<Discount> discounts = [];
+            discounts.addAll(pagingController.itemList ?? []);
+            discounts
+                .removeWhere((element) => element.id == loadingDiscountId);
+            pagingController.value = PagingState(itemList: discounts);
+            setState(() {
+              loadingDiscountId = '';
+              discountCount -= 1;
+            });
           },
           error: (state) {
             setState(() => loadingDiscountId = '');
@@ -87,7 +89,7 @@ class _DiscountsViewState extends State<DiscountsView> {
           },
         );
       },
-      builder: (BuildContext context, UpdateDiscountState updateDiscountState) {
+      builder: (BuildContext context, DiscountCrudState updateDiscountState) {
         final loading =
             updateDiscountState.mapOrNull(loading: (_) => true) ?? false;
         return BlocListener<DiscountsCubit, DiscountsState>(
@@ -110,8 +112,7 @@ class _DiscountsViewState extends State<DiscountsView> {
                       0 + state.discounts.length;
                   pagingController.appendPage(state.discounts, nextPageKey);
                 }
-                setState(() =>
-                    discountCount = state.count);
+                setState(() => discountCount = state.count);
                 smartRefresherCtrl.refreshCompleted();
               },
               loading: (_) {},
@@ -176,19 +177,25 @@ class _DiscountsViewState extends State<DiscountsView> {
                       enabled: loadingDiscountId == discount.id,
                       child: DiscountCard(
                         discount,
+                        onTap: ()async {
+                          final result = await context.pushRoute(DiscountDetailsRoute(discount: discount));
+                          // Discount deleted, reload discounts
+                          if(result == true) {
+                            smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
+                          }
+                        },
                         onDelete: loading
                             ? null
                             : () async {
-                                context.read<UpdateDiscountBloc>().add(
-                                    UpdateDiscountEvent.deleteDiscount(
-                                        discount.id!));
+                                context.read<DiscountCrudBloc>().add(
+                                    DiscountCrudEvent.delete(discount.id!));
                               },
                         onToggle: loading
                             ? null
                             : () async {
                                 context
-                                    .read<UpdateDiscountBloc>()
-                                    .add(UpdateDiscountEvent.updateDiscount(
+                                    .read<DiscountCrudBloc>()
+                                    .add(DiscountCrudEvent.update(
                                         discount.id!,
                                         UserUpdateDiscountReq(
                                           isDisabled:

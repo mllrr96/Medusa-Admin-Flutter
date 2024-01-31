@@ -30,7 +30,7 @@ class LabeledTextField extends StatelessWidget {
     this.decoration,
     this.isDense,
     this.inputFormatters,
-    this.includeSpace = true, this.style,
+    this.includeSpace = true, this.style, this.onSaved,
   });
 
   final bool required;
@@ -47,6 +47,7 @@ class LabeledTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
   final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
   final void Function()? onTap;
   final double? width;
   final bool lightLabelColor;
@@ -79,6 +80,7 @@ class LabeledTextField extends StatelessWidget {
           TextFormField(
             autofocus: autoFocus,
             readOnly: readOnly,
+            onSaved: onSaved,
             onTap: onTap,
             enabled: enabled,
             obscureText: obscureText,

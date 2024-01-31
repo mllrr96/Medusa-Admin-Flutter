@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
 import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/adaptive_date_picker.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -552,8 +551,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                       dateTimeTextStyle: smallTextStyle,
                                       onTap: () async {
                                         final result =
-                                            await adaptiveDateTimePicker(
-                                                context: context,
+                                            await context.adaptiveDateTimePicker(
                                                 date:
                                                     orderFilter
                                                         .orderDateFilter.date,

@@ -13,7 +13,9 @@ part 'theme_cubit.freezed.dart';
 @injectable
 class ThemeCubit extends Cubit<ThemeState> {
   static ThemeCubit get instance => getIt<ThemeCubit>();
-  ThemeCubit(this.preferenceService) : super(const ThemeState());
+  ThemeCubit(this.preferenceService) : super(const ThemeState()){
+    loadThemeState();
+  }
   void loadThemeState() {
     try {
       emit(ThemeState(

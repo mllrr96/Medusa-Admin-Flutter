@@ -15,6 +15,7 @@ class AppUpdateBloc extends Bloc<AppUpdateEvent, AppUpdateState> {
   AppUpdateBloc(this.checkUpdateUseCase) : super(const _Initial()) {
     on<_CheckForUpdate>(_checkForUpdate);
     on<_PerformUpdate>(_performUpdate);
+    add(const _CheckForUpdate());
   }
 
   Future<void> _checkForUpdate(

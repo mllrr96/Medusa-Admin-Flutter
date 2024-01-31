@@ -14,7 +14,6 @@ import 'package:medusa_admin/presentation/widgets/pick_regions/controllers/pick_
 import 'package:medusa_admin/presentation/widgets/pick_regions/views/pick_regions_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../widgets/adaptive_date_picker.dart';
 import '../controllers/create_update_custom_gift_card_controller.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -166,7 +165,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                   dateTime: controller.expiryDate,
                                   dateText: 'Expiry',
                                   onTap: () async {
-                                    await adaptiveDateTimePicker(date: controller.expiryDate, context: context)
+                                    await context.adaptiveDateTimePicker(date: controller.expiryDate)
                                         .then((result) {
                                       if (result != null) {
                                         controller.expiryDate = result;

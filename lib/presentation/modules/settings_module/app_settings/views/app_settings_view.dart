@@ -16,7 +16,6 @@ import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
-import 'package:medusa_admin/presentation/widgets/adaptive_date_picker.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -258,8 +257,7 @@ class AppSettingsView extends StatelessWidget {
                                 activeSwitchColor: ColorManager.primary,
                                 description: GestureDetector(
                                     onTap: () async =>
-                                        await adaptiveDateTimePicker(
-                                            context: context,
+                                        await context.adaptiveDateTimePicker(
                                             forceAndroidPicker: true),
                                     child: const Text(
                                         'Use Android date picker instead of iOS picker, Click here for demo')),

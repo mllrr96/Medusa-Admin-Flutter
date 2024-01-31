@@ -9,6 +9,7 @@ import 'package:medusa_admin/presentation/modules/products_module/import_product
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
 import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
+import 'package:medusa_admin/presentation/views/discount_details/discount_details_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
@@ -33,7 +34,7 @@ import '../../presentation/modules/customers_module/customer_details/views/custo
 import '../../presentation/modules/customers_module/customers/views/customers_view.dart';
 import '../../presentation/modules/customers_module/transfer_order/views/transfer_order_view.dart';
 import '../../presentation/views/dashboard_view.dart';
-import '../../presentation/modules/discount_module/add_update_discount/views/add_update_discount_view.dart';
+import '../../presentation/views/add_update_discount/add_update_discount_view.dart';
 import '../../presentation/modules/discount_module/discount_conditions/components/condition_collection.dart';
 import '../../presentation/modules/discount_module/discount_conditions/components/condition_customer_group.dart';
 import '../../presentation/modules/discount_module/discount_conditions/components/condition_product.dart';
@@ -41,7 +42,6 @@ import '../../presentation/modules/discount_module/discount_conditions/component
 import '../../presentation/modules/discount_module/discount_conditions/components/condition_type.dart';
 import '../../presentation/modules/discount_module/discount_conditions/controllers/discount_conditions_controller.dart';
 import '../../presentation/modules/discount_module/discount_conditions/views/discount_conditions_view.dart';
-import '../../presentation/modules/discount_module/discount_details/views/discount_details_view.dart';
 import '../../presentation/views/discounts/discounts_view.dart';
 import '../../presentation/modules/discount_module/update_condition/controllers/update_condition_controller.dart';
 import '../../presentation/modules/discount_module/update_condition/views/update_condition_view.dart';

@@ -35,6 +35,18 @@ class DiscountDetailsUseCase {
     }
   }
 
+  Future<Result<Discount, Failure>> createDiscount({
+    required UserCreateDiscountReq userCreateDiscountReq,
+  }) async {
+    try {
+      final result = await _discountRepository.createDiscount(
+          userCreateDiscountReq: userCreateDiscountReq);
+      return Success(result!);
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
   Future<Result<Discount, Failure>> updateDiscount({
     required String id,
     required UserUpdateDiscountReq userUpdateDiscountReq,
