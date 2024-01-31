@@ -2,10 +2,12 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
+import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/collections/components/collection_list_tile.dart';
 import 'package:medusa_admin/presentation/modules/customers_module/customers/components/customer_list_tile.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discount_card.dart';
@@ -18,33 +20,68 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/domain/use_case/search/search_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../../core/utils/enums.dart';
-import '../../../views/orders/components/order_card.dart';
-import '../components/index.dart';
-import '../controllers/medusa_search_controller.dart';
+import '../../../core/utils/enums.dart';
+import '../orders/components/order_card.dart';
+import 'components/index.dart';
+import '../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
-class MedusaSearchView extends StatelessWidget {
-  const MedusaSearchView({super.key, required this.searchCategory});
-  final SearchCategory searchCategory;
+class MedusaSearchView extends StatefulWidget {
+   const MedusaSearchView({super.key, required this.searchCategory});
+   final SearchCategory searchCategory;
+  @override
+  State<MedusaSearchView> createState() => _MedusaSearchViewState();
+}
+
+class _MedusaSearchViewState extends State<MedusaSearchView> {
+  late SearchCategory searchCategory;
+
+  final PagingController<int, Object> pagingController =
+  PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  
+  @override
+  void initState() {
+    searchCategory = widget.searchCategory;
+    super.initState();
+  }
+  
+  @override
+  void dispose() {
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    return GestureDetector(
+    return BlocListener<SearchBloc, SearchState>(
+  listener: (context, state) {
+    state.map(initial: (_){}, loading: (_){}, loaded: (_){
+      final isLastPage = _.items.length < SearchBloc.pageSize;
+      if (isLastPage) {
+        pagingController.appendLastPage(_.items);
+      } else {
+        final nextPageKey = pagingController.nextPageKey ?? 1 + _.items.length;
+        pagingController.appendPage(_.items, nextPageKey);
+      }
+    },
+
+        error: (_)=> pagingController.error = _.failure);
+  },
+  child: GestureDetector(
       onTap: () => context.unfocus(),
       child: GetBuilder<MedusaSearchController>(
         init: MedusaSearchController(
           searchUseCase: SearchUseCase.instance,
-          searchCategory: searchCategory,
+          searchCategory: widget.searchCategory,
         ),
         builder: (controller) {
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.systemUiOverlayNoAppBarStyle,
             child: Scaffold(
               resizeToAvoidBottomInset: false,
-              appBar: SearchAppBar(controller: controller),
+              appBar: SearchAppBar(controller: pagingController, searchCategory: widget.searchCategory),
               body: PagedListView.separated(
                 pagingController: controller.pagingController,
                 separatorBuilder: (context, index) {
@@ -151,8 +188,12 @@ class MedusaSearchView extends StatelessWidget {
           );
         },
       ),
-    );
+    ),
+);
   }
+
+
+  
 }
 
 class SearchHistoryListTile extends StatelessWidget {

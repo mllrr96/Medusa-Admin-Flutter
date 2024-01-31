@@ -62,7 +62,7 @@ import '../../presentation/modules/gift_cards_module/gift_cards/views/gift_cards
 import '../../presentation/modules/groups_module/create_update_group/views/create_update_group_view.dart';
 import '../../presentation/modules/groups_module/group_details/views/group_details_view.dart';
 import '../../presentation/modules/groups_module/groups/views/groups_view.dart';
-import '../../presentation/modules/medusa_search/views/medusa_search_view.dart';
+import '../../presentation/views/search/medusa_search_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/order_create_fulfillment.dart';
 import '../../presentation/modules/orders_module/order_details/views/order_details_view.dart';

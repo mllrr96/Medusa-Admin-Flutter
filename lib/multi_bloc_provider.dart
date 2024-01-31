@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/discount_details/discount_details_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
 
@@ -43,6 +44,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => DiscountDetailsCubit.instance,
+      ),
+      BlocProvider(
+        create: (context) => SearchBloc.instance,
       ),
     ], child: child);
   }

@@ -68,7 +68,7 @@ class DiscountTypeExpansionTile extends StatelessWidget {
                   //   controller.update([0, 1]);
                   // },
                 ),
-                space,
+                halfSpace,
               ],
             ),
           ),
@@ -82,12 +82,9 @@ class DiscountTypeExpansionTile extends StatelessWidget {
                         child: Row(
                           children: [
                             Text('Allocation',
-                                style: Theme.of(context).textTheme.bodyLarge),
+                                style: context.bodyLarge),
                             Text('*',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: Colors.redAccent)),
+                                style: context.bodyLarge?.copyWith(color: Colors.redAccent)),
                           ],
                         ),
                       ),

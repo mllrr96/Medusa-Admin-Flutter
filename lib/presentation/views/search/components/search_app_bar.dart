@@ -1,26 +1,30 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
+import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/enums.dart';
-import '../../../views/orders_filter/orders_filter_view.dart';
-import '../../../views/products_filter/products_filter_view.dart';
-import '../controllers/medusa_search_controller.dart';
+import '../../orders_filter/orders_filter_view.dart';
+import '../../products_filter/products_filter_view.dart';
+import '../../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const SearchAppBar({super.key, required this.controller});
-  final MedusaSearchController controller;
-
+  const SearchAppBar(
+      {super.key, required this.controller, required this.searchCategory});
+  final PagingController controller;
+  final SearchCategory searchCategory;
   @override
   State<SearchAppBar> createState() => _SearchAppBarState();
 
@@ -29,37 +33,38 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
+  TextEditingController searchCtrl = TextEditingController();
+  late SearchCategory searchCategory;
+  SortOptions sortOptions = SortOptions.dateRecent;
+  ProductFilter? productFilter;
+  OrderFilter? orderFilter;
+  PagingController get controller => widget.controller;
+  @override
+  void initState() {
+    searchCategory = widget.searchCategory;
+    widget.controller.addPageRequestListener((_)=> search());
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final controller = widget.controller;
-    final searchCategory = controller.searchCategory;
-    bool showOrderBy = switch (searchCategory) {
-      SearchCategory.orders ||
-      SearchCategory.products ||
-      SearchCategory.groups ||
-      SearchCategory.priceLists =>
-        true,
-      SearchCategory.draftOrders => false,
-      SearchCategory.collections => false,
-      SearchCategory.customers => false,
-      SearchCategory.giftCards => false,
-      SearchCategory.discounts => false,
-    };
+
 
     bool showFilterBy = searchCategory == SearchCategory.orders ||
         searchCategory == SearchCategory.products;
 
-    IconData sortIcon = switch (controller.sortOptions) {
+    IconData sortIcon = switch (sortOptions) {
       SortOptions.aZ => Icons.sort_by_alpha,
       SortOptions.zA => Icons.sort_by_alpha,
       SortOptions.dateRecent => CupertinoIcons.calendar_badge_plus,
       SortOptions.dateOld => CupertinoIcons.calendar_badge_minus,
     };
 
-    int orderFilterCount = controller.orderFilter?.count() ?? 0;
-    int productFilterCount = controller.productFilter?.count() ?? 0;
+    int orderFilterCount = orderFilter?.count() ?? 0;
+    int productFilterCount = productFilter?.count() ?? 0;
     Color filterBorderColor =
         (searchCategory == SearchCategory.orders && orderFilterCount > 0) ||
                 (searchCategory == SearchCategory.products &&
@@ -78,18 +83,16 @@ class _SearchAppBarState extends State<SearchAppBar> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: SearchBar(
-                  controller: controller.searchCtrl,
+                  controller: searchCtrl,
                   onSubmitted: (val) async {
                     if (val.removeAllWhitespace.isNotEmpty) {
-                      controller.searchTerm = val;
-                      controller.pagingController.refresh();
+                      controller.refresh();
                       await PreferenceService.instance.updateSearchHistory(
                           SearchHistory(
-                              text: val,
-                              searchableFields: controller.searchCategory));
+                              text: val, searchableFields: searchCategory));
                     }
                   },
-                  hintText: getHintText(controller.searchCategory),
+                  hintText: getHintText(searchCategory),
                   padding:
                       MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                   leading: IconButton(
@@ -103,9 +106,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     IconButton(
                         padding: const EdgeInsets.all(16),
                         onPressed: () {
-                          controller.searchCtrl.clear();
-                          controller.searchTerm = '';
-                          controller.pagingController.refresh();
+                          searchCtrl.clear();
+                          controller.itemList?.clear();
                         },
                         icon: const Icon(Icons.clear))
                   ],
@@ -117,23 +119,20 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   const BackButton(),
                   Flexible(
                     child: SearchTextField(
-                      controller: controller.searchCtrl,
+                      controller: searchCtrl,
                       onSubmitted: (val) async {
                         if (val.removeAllWhitespace.isNotEmpty) {
-                          controller.searchTerm = val;
-                          controller.pagingController.refresh();
+                          controller.refresh();
                           await PreferenceService.instance.updateSearchHistory(
                               SearchHistory(
-                                  text: val,
-                                  searchableFields: controller.searchCategory));
+                                  text: val, searchableFields: searchCategory));
                         }
                       },
-                      hintText: getHintText(controller.searchCategory),
+                      hintText: getHintText(searchCategory),
                       autoFocus: true,
                       onSuffixTap: () {
-                        controller.searchCtrl.clear();
-                        controller.searchTerm = '';
-                        controller.pagingController.refresh();
+                        searchCtrl.clear();
+                        controller.itemList?.clear();
                       },
                     ),
                   ),
@@ -158,7 +157,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               style: smallTextStyle?.copyWith(color: manatee),
                             ),
                             SearchChip(
-                              searchableField: controller.searchCategory,
+                              searchableField: searchCategory,
                               onTap: () async {
                                 await showBarModalBottomSheet(
                                     context: context,
@@ -169,22 +168,21 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     builder: (context) {
                                       return PickSearchCategory(
                                           selectedSearchCategory:
-                                              controller.searchCategory);
+                                              searchCategory);
                                     }).then((result) {
                                   if (result is SearchCategory) {
                                     // Groups can only be sorted to date NOT to name
                                     if (result == SearchCategory.groups) {
-                                      controller.sortOptions =
-                                          SortOptions.dateRecent;
+                                      sortOptions = SortOptions.dateRecent;
                                     }
-                                    controller.orderFilter = null;
-                                    controller.productFilter = null;
-                                    controller.pagingController.itemList = [];
-                                    controller.searchCategory = result;
-                                    controller.update();
-                                    if (controller.searchTerm.isNotEmpty) {
-                                      controller.pagingController.refresh();
-                                    }
+                                    orderFilter = null;
+                                    productFilter = null;
+                                    controller.itemList = [];
+                                    searchCategory = result;
+                                    setState(() {});
+                                    // if (controller.searchTerm.isNotEmpty) {
+                                    //   controller.pagingController.refresh();
+                                    // }
                                   }
                                 });
                               },
@@ -202,16 +200,15 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               InkWell(
                                 borderRadius: BorderRadius.circular(4.0),
                                 onTap: () async {
-                                  final sortOption = controller.sortOptions;
                                   final isGroupSelected =
                                       searchCategory == SearchCategory.groups;
                                   final result = await selectSortOptions(
-                                      context, sortOption,
+                                      context, sortOptions,
                                       disableAZ: isGroupSelected,
                                       disableZA: isGroupSelected);
                                   if (result is SortOptions) {
-                                    controller.sortOptions = result;
-                                    controller.pagingController.refresh();
+                                    sortOptions = result;
+                                    controller.refresh();
                                     setState(() {});
                                   }
                                 },
@@ -247,12 +244,12 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                 onLongPress: () {
                                   if (searchCategory ==
                                       SearchCategory.products) {
-                                    controller.productFilter = null;
+                                    productFilter = null;
                                   } else if (searchCategory ==
                                       SearchCategory.orders) {
-                                    controller.orderFilter = null;
+                                    orderFilter = null;
                                   }
-                                  controller.update();
+                                  setState(() {});
                                 },
                                 onTap: () async {
                                   switch (searchCategory) {
@@ -268,20 +265,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                           builder: (context) =>
                                               ProductsFilterView(
                                                 onResetPressed: () {
-                                                  controller.productFilter =
-                                                      null;
-                                                  controller.update();
-                                                  controller.pagingController
-                                                      .refresh();
+                                                  productFilter = null;
+                                                  controller.refresh();
+                                                  setState(() {});
                                                   context.popRoute();
                                                 },
-                                                productFilter:
-                                                    controller.productFilter,
+                                                productFilter: productFilter,
                                               )).then((result) {
                                         if (result is ProductFilter) {
-                                          controller.productFilter = result;
-                                          controller.update();
-                                          controller.pagingController.refresh();
+                                          productFilter = result;
+                                          setState(() {});
+                                          controller.refresh();
                                         }
                                       });
 
@@ -296,20 +290,18 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                               .appBarTheme.systemOverlayStyle,
                                           builder: (context) =>
                                               OrdersFilterView(
-                                                orderFilter:
-                                                    controller.orderFilter,
+                                                orderFilter: orderFilter,
                                                 onResetTap: () {
-                                                  controller.orderFilter = null;
-                                                  controller.update();
-                                                  controller.pagingController
-                                                      .refresh();
+                                                  orderFilter = null;
+                                                  setState(() {});
+                                                  controller.refresh();
                                                   context.popRoute();
                                                 },
                                               )).then((result) {
                                         if (result is OrderFilter) {
-                                          controller.orderFilter = result;
-                                          controller.update();
-                                          controller.pagingController.refresh();
+                                          orderFilter = result;
+                                          setState(() {});
+                                          controller.refresh();
                                         }
                                       });
                                     case SearchCategory.draftOrders:
@@ -366,6 +358,20 @@ class _SearchAppBarState extends State<SearchAppBar> {
     );
   }
 
+  bool get showOrderBy => switch (searchCategory) {
+    SearchCategory.orders ||
+    SearchCategory.products ||
+    SearchCategory.groups ||
+    SearchCategory.priceLists =>
+    true,
+    SearchCategory.draftOrders => false,
+    SearchCategory.collections => false,
+    SearchCategory.customers => false,
+    SearchCategory.giftCards => false,
+    SearchCategory.discounts => false,
+  };
+
+
   String getHintText(SearchCategory searchableField) {
     switch (searchableField) {
       case SearchCategory.orders:
@@ -386,6 +392,85 @@ class _SearchAppBarState extends State<SearchAppBar> {
         return 'Search for discount code';
       case SearchCategory.priceLists:
         return 'Search for price lists\' description, name, and customer group\'s name';
+    }
+  }
+
+  void search() {
+    Map<String, dynamic> queryParameters = {
+      'offset': widget.controller.itemList?.length ?? 0,
+      'limit': SearchBloc.pageSize,
+      'q': searchCtrl.text,
+    };
+
+    switch (searchCategory) {
+      // -----------------------------------------------------------
+      case SearchCategory.orders:
+        queryParameters.addAll({
+          'expand':
+              'items,cart,customer,shipping_address,sales_channel,currency',
+          'fields':
+              'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
+        });
+        if (orderFilter != null) {
+          queryParameters.addAll(orderFilter!.toJson());
+        }
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchOrders(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.draftOrders:
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchDrafts(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.products:
+        queryParameters.addAll({
+          'order': sortOptions.map(),
+        });
+        if (productFilter != null) {
+          queryParameters.addAll(productFilter!.toJson());
+        }
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchProducts(queryParameters: queryParameters));
+
+      // -----------------------------------------------------------
+      case SearchCategory.collections:
+        context.read<SearchBloc>().add(
+            SearchEvent.searchCollections(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.customers:
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchCustomers(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.groups:
+        if (sortOptions == SortOptions.dateRecent ||
+            sortOptions == SortOptions.dateOld) {
+          queryParameters.addAll({
+            'order': sortOptions.map(),
+          });
+        }
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchGroups(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.giftCards:
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchGiftCards(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.discounts:
+        context
+            .read<SearchBloc>()
+            .add(SearchEvent.searchDiscounts(queryParameters: queryParameters));
+      // -----------------------------------------------------------
+      case SearchCategory.priceLists:
+        queryParameters.addAll({
+          'order': sortOptions.map(),
+        });
+        context.read<SearchBloc>().add(
+            SearchEvent.searchPriceLists(queryParameters: queryParameters));
     }
   }
 }

@@ -30,6 +30,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   void initState() {
     productFilter = widget.productFilter ??
         ProductFilter(status: [], tags: [], collection: []);
+    context.read<ProductsFilterCubit>().loadData();
     super.initState();
   }
 
