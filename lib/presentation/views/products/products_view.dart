@@ -40,6 +40,8 @@ class _ProductsViewState extends State<ProductsView> {
     context.read<ProductsCubit>().loadProducts(
             queryParameters: {
           'order': sortOptions.map(),
+          'is_giftcard': false,
+          'offset': pagingController.itemList?.length ?? 0,
         }..addAll(productFilter?.toJson() ?? {}));
   }
 

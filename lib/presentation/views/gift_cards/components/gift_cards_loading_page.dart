@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin/presentation/modules/gift_cards_module/gift_cards/components/gift_card_list_tile.dart';
+import 'package:medusa_admin/presentation/views/gift_cards/components/gift_card_list_tile.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

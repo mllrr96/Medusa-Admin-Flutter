@@ -21,12 +21,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     emit(const _Loading());
-    int offset = state.mapOrNull(orders: (_) => _.orders.length) ?? 0;
     final result = await ordersUseCase.retrieveOrders(
-        queryParameters: {
-      'offset': offset,
-      'limit': pageSize,
-    }
+        queryParameters: {'limit': pageSize}
           ..addAll(_expandParameters)
           ..addAll(event.queryParameters ?? {}));
     result.when((ordersResponse) {

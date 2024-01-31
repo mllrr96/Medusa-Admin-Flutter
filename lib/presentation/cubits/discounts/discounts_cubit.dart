@@ -14,10 +14,8 @@ class DiscountsCubit extends Cubit<DiscountsState> {
   DiscountsCubit(this.discountsUseCase) : super(const _Initial());
   Future<void> loadDiscounts({Map<String, dynamic>? queryParameters}) async {
     emit(const _Loading());
-    int offset = state.mapOrNull(discounts: (_) => _.discounts.length) ?? 0;
     final result = await discountsUseCase.retrieveDiscounts(
         queryParameters: {
-      'offset': offset,
       'limit': pageSize,
       'is_dynamic': false,
     }..addAll(queryParameters ?? {}));

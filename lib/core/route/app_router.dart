@@ -58,7 +58,7 @@ import '../../presentation/modules/draft_orders_module/draft_order_details/views
 import '../../presentation/views/draft_orders/draft_orders_view.dart';
 import '../../presentation/modules/gift_cards_module/create_update_custom_gift_card/views/create_update_custom_gift_card_view.dart';
 import '../../presentation/modules/gift_cards_module/custom_gift_cards/views/custom_gift_cards_view.dart';
-import '../../presentation/modules/gift_cards_module/gift_cards/views/gift_cards_view.dart';
+import '../../presentation/views/gift_cards/gift_cards_view.dart';
 import '../../presentation/modules/groups_module/create_update_group/views/create_update_group_view.dart';
 import '../../presentation/modules/groups_module/group_details/views/group_details_view.dart';
 import '../../presentation/modules/groups_module/groups/views/groups_view.dart';

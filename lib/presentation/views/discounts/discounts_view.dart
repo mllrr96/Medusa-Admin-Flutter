@@ -37,7 +37,9 @@ class _DiscountsViewState extends State<DiscountsView> {
   int discountCount = 0;
 
   Future<void> _loadPage(int pageKey) async {
-    await context.read<DiscountsCubit>().loadDiscounts();
+    await context.read<DiscountsCubit>().loadDiscounts(queryParameters: {
+      'offset': pagingController.itemList?.length ?? 0,
+    });
   }
 
   @override

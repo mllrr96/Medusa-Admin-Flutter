@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/data/models/search_history.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
@@ -14,7 +15,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/enums.dart';
 import '../../orders_filter/orders_filter_view.dart';
 import '../../products_filter/products_filter_view.dart';
-import '../../../modules/medusa_search/controllers/medusa_search_controller.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -22,9 +22,10 @@ import 'package:medusa_admin/data/models/orders_filter.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar(
-      {super.key, required this.controller, required this.searchCategory});
-  final PagingController controller;
+      {super.key, required this.controller, required this.searchCategory, required this.searchCtrl});
+  final PagingController<int, Object> controller;
   final SearchCategory searchCategory;
+  final TextEditingController searchCtrl;
   @override
   State<SearchAppBar> createState() => _SearchAppBarState();
 
@@ -33,25 +34,22 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
-  TextEditingController searchCtrl = TextEditingController();
   late SearchCategory searchCategory;
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
   OrderFilter? orderFilter;
-  PagingController get controller => widget.controller;
+  PagingController<int, Object> get controller => widget.controller;
   @override
   void initState() {
     searchCategory = widget.searchCategory;
-    widget.controller.addPageRequestListener((_)=> search());
+    widget.controller.addPageRequestListener(_search);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-
 
     bool showFilterBy = searchCategory == SearchCategory.orders ||
         searchCategory == SearchCategory.products;
@@ -83,7 +81,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: SearchBar(
-                  controller: searchCtrl,
+                  controller: widget.searchCtrl,
                   onSubmitted: (val) async {
                     if (val.removeAllWhitespace.isNotEmpty) {
                       controller.refresh();
@@ -106,7 +104,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     IconButton(
                         padding: const EdgeInsets.all(16),
                         onPressed: () {
-                          searchCtrl.clear();
+                          widget.searchCtrl.clear();
                           controller.itemList?.clear();
                         },
                         icon: const Icon(Icons.clear))
@@ -119,7 +117,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   const BackButton(),
                   Flexible(
                     child: SearchTextField(
-                      controller: searchCtrl,
+                      controller: widget.searchCtrl,
                       onSubmitted: (val) async {
                         if (val.removeAllWhitespace.isNotEmpty) {
                           controller.refresh();
@@ -131,7 +129,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       hintText: getHintText(searchCategory),
                       autoFocus: true,
                       onSuffixTap: () {
-                        searchCtrl.clear();
+                        widget.searchCtrl.clear();
                         controller.itemList?.clear();
                       },
                     ),
@@ -359,18 +357,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
   }
 
   bool get showOrderBy => switch (searchCategory) {
-    SearchCategory.orders ||
-    SearchCategory.products ||
-    SearchCategory.groups ||
-    SearchCategory.priceLists =>
-    true,
-    SearchCategory.draftOrders => false,
-    SearchCategory.collections => false,
-    SearchCategory.customers => false,
-    SearchCategory.giftCards => false,
-    SearchCategory.discounts => false,
-  };
-
+        SearchCategory.orders ||
+        SearchCategory.products ||
+        SearchCategory.groups ||
+        SearchCategory.priceLists =>
+          true,
+        SearchCategory.draftOrders => false,
+        SearchCategory.collections => false,
+        SearchCategory.customers => false,
+        SearchCategory.giftCards => false,
+        SearchCategory.discounts => false,
+      };
 
   String getHintText(SearchCategory searchableField) {
     switch (searchableField) {
@@ -395,11 +392,11 @@ class _SearchAppBarState extends State<SearchAppBar> {
     }
   }
 
-  void search() {
+  void _search(int _) {
     Map<String, dynamic> queryParameters = {
       'offset': widget.controller.itemList?.length ?? 0,
       'limit': SearchBloc.pageSize,
-      'q': searchCtrl.text,
+      'q': widget.searchCtrl.text,
     };
 
     switch (searchCategory) {

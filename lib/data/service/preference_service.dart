@@ -5,7 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/presentation/modules/medusa_search/controllers/medusa_search_controller.dart';
+import 'package:medusa_admin/data/models/search_history.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constant/strings.dart';

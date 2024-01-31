@@ -30,7 +30,8 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
 
   Future<void> _loadPage(int pageKey) async {
-    await context.read<DraftOrdersCubit>().loadDraftOrders();
+    await context.read<DraftOrdersCubit>().loadDraftOrders(
+        queryParameters: {'offset': pagingController.itemList?.length ?? 0});
   }
 
   @override
@@ -103,7 +104,8 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               title: Builder(builder: (context) {
                 final ordersCount = context.select<DraftOrdersCubit, int?>(
                     (bloc) => bloc.state.mapOrNull(
-                        draftOrders: (state) => state.count > 0 ? state.count : null));
+                        draftOrders: (state) =>
+                            state.count > 0 ? state.count : null));
                 return Text(
                     ordersCount != null ? 'Drafts ($ordersCount)' : 'Drafts',
                     overflow: TextOverflow.ellipsis);
@@ -118,16 +120,15 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               padding: const EdgeInsets.only(
                   bottom: 120, top: 8.0, left: 8.0, right: 8.0),
               builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
-                itemBuilder: (context, draftOrder, index) =>
-                    DraftOrderCard(draftOrder),
-                noItemsFoundIndicatorBuilder: (_) =>
-                    const Center(child: Text('No draft orders yet!')),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const DraftsLoadingPage(),
-                firstPageErrorIndicatorBuilder: (context) =>
-                    PaginationErrorPage(pagingController: pagingController),
-                animateTransitions: true
-              ),
+                  itemBuilder: (context, draftOrder, index) =>
+                      DraftOrderCard(draftOrder),
+                  noItemsFoundIndicatorBuilder: (_) =>
+                      const Center(child: Text('No draft orders yet!')),
+                  firstPageProgressIndicatorBuilder: (context) =>
+                      const DraftsLoadingPage(),
+                  firstPageErrorIndicatorBuilder: (context) =>
+                      PaginationErrorPage(pagingController: pagingController),
+                  animateTransitions: true),
               separatorBuilder: (_, __) => const Gap(8.0),
             ),
           ),

@@ -38,7 +38,9 @@ class _OrdersViewState extends State<OrdersView> {
   OrderFilter? orderFilter;
 
   void _loadPage(int _) {
-    context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: orderFilter?.toJson()));
+    context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
+      'offset': pagingController.itemList?.length ?? 0,
+    }..addAll(orderFilter?.toJson() ?? {})));
   }
 
   @override
