@@ -18,14 +18,14 @@ import 'components/index.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
-class GiftCardsView extends StatefulWidget {
-  const GiftCardsView({super.key});
+class ProductGiftCardsView extends StatefulWidget {
+  const ProductGiftCardsView({super.key});
 
   @override
-  State<GiftCardsView> createState() => _GiftCardsViewState();
+  State<ProductGiftCardsView> createState() => _ProductGiftCardsViewState();
 }
 
-class _GiftCardsViewState extends State<GiftCardsView> {
+class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   final pagingController = PagingController<int, Product>(
       firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();

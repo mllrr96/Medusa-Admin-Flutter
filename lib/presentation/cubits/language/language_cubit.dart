@@ -12,7 +12,9 @@ part 'language_state.dart';
 part 'language_cubit.freezed.dart';
 @injectable
 class LanguageCubit extends Cubit<LanguageState> {
-  LanguageCubit(this.sharedPreferences) : super(const LanguageState.language(Locale('en')));
+  LanguageCubit(this.sharedPreferences) : super(const LanguageState.language(Locale('en'))) {
+    loadLanguage();
+  }
 
   void loadLanguage() {
     Locale locale;

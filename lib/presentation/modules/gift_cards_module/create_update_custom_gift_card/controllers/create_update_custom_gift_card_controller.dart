@@ -6,9 +6,8 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/gift_card/update_gift_card_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-
-import '../../custom_gift_cards/controllers/custom_gift_cards_controller.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
+
 class CreateUpdateCustomGiftCardController extends GetxController {
   CreateUpdateCustomGiftCardController(
       {required this.updateGiftCardUseCase, required this.giftCard});
@@ -82,7 +81,7 @@ class CreateUpdateCustomGiftCardController extends GetxController {
     result.when((success) {
       context.popRoute();
       EasyLoading.showSuccess('Updated');
-      CustomGiftCardsController.instance.pagingController.refresh();
+      // CustomGiftCardsController.instance.pagingController.refresh();
       return;
     },
         (error) => Get.snackbar(

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../controllers/gift_cards_controller.dart';
 
 class CreateGiftCardController extends GetxController {
   static CreateGiftCardController get instance => Get.find<CreateGiftCardController>();
@@ -62,7 +61,7 @@ class CreateGiftCardController extends GetxController {
     );
     result.when((success) {
       EasyLoading.showSuccess('Gift Card created');
-      GiftCardsController.instance.pagingController.refresh();
+      // GiftCardsController.instance.pagingController.refresh();
       context.popRoute();
     }, (error) {
       debugPrint(error.toString());

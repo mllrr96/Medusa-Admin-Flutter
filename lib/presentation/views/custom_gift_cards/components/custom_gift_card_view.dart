@@ -1,16 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../controllers/custom_gift_cards_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
-class CustomGiftCardView extends GetView<CustomGiftCardsController> {
+class CustomGiftCardView extends StatelessWidget {
   const CustomGiftCardView(this.giftCard, {super.key});
   final GiftCard giftCard;
   @override
@@ -46,8 +44,8 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                           // Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
                           break;
                         case 1:
-                          await controller.updateCustomGiftCard( context:context,
-                              id: giftCard.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled));
+                          // await controller.updateCustomGiftCard( context:context,
+                          //     id: giftCard.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled));
                           break;
                       }
                     });
@@ -118,8 +116,8 @@ class CustomGiftCardView extends GetView<CustomGiftCardsController> {
                             isDestructiveAction: true)
                         .then((result) async {
                       if (result == OkCancelResult.ok) {
-                        await controller.updateCustomGiftCard(context:context,
-                            id: giftCard.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled));
+                        // await controller.updateCustomGiftCard(context:context,
+                        //     id: giftCard.id!, userUpdateGiftCardReq: UserUpdateGiftCardReq(isDisabled: !isDisabled));
                       }
                     });
                   },

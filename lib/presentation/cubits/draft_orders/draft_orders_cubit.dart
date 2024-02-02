@@ -14,10 +14,7 @@ class DraftOrdersCubit extends Cubit<DraftOrdersState> {
   DraftOrdersCubit(this.draftsUseCase) : super(const _Initial());
   Future<void> loadDraftOrders({Map<String, dynamic>? queryParameters}) async {
     emit(const _Loading());
-    int offset = state.mapOrNull(draftOrders: (_) => _.draftOrders.length) ?? 0;
-
     final result = await draftsUseCase(queryParameters: {
-      'offset': offset,
       'limit': pageSize,
     }..addAll(queryParameters ?? {}));
     result.when((success) {

@@ -10,6 +10,7 @@ import 'package:medusa_admin/presentation/modules/settings_module/app_settings/a
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
 import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
 import 'package:medusa_admin/presentation/views/discount_details/discount_details_view.dart';
+import 'package:medusa_admin/presentation/views/product_gift_cards/product_gift_cards_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
@@ -57,8 +58,7 @@ import '../../presentation/modules/draft_orders_module/create_draft_order/views/
 import '../../presentation/modules/draft_orders_module/draft_order_details/views/draft_order_details_view.dart';
 import '../../presentation/views/draft_orders/draft_orders_view.dart';
 import '../../presentation/modules/gift_cards_module/create_update_custom_gift_card/views/create_update_custom_gift_card_view.dart';
-import '../../presentation/modules/gift_cards_module/custom_gift_cards/views/custom_gift_cards_view.dart';
-import '../../presentation/views/gift_cards/gift_cards_view.dart';
+import '../../presentation/views/custom_gift_cards/custom_gift_cards_view.dart';
 import '../../presentation/modules/groups_module/create_update_group/views/create_update_group_view.dart';
 import '../../presentation/modules/groups_module/group_details/views/group_details_view.dart';
 import '../../presentation/modules/groups_module/groups/views/groups_view.dart';
@@ -130,7 +130,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
     AutoRoute(page: CustomersRoute.page),
     AutoRoute(page: GroupsRoute.page),
     AutoRoute(page: DiscountsRoute.page),
-    AutoRoute(page: GiftCardsRoute.page),
+    AutoRoute(page: ProductGiftCardsRoute.page),
     AutoRoute(page: PricingRoute.page),
     AutoRoute(page: StoreSettingsRoute.page),
     AutoRoute(page: AppSettingsRoute.page),
