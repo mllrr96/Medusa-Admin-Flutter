@@ -25,10 +25,11 @@ class AuthPreferenceService {
 
   static String? get baseUrlGetter => instance._baseUrl;
   static AuthenticationType get authTypeGetter => instance._authPreference.authType;
-  static AuthPreference get authPreference => instance._authPreference;
+  static AuthPreference get authPreferenceGetter => instance._authPreference;
   static String? get email => instance._email;
   static bool get isAuthenticatedGetter => instance._isAuthenticated;
   bool get isAuthenticated => _isAuthenticated;
+  AuthPreference get authPreference => _authPreference;
 
   late bool _isAuthenticated;
   String? get baseUrl => _baseUrl;

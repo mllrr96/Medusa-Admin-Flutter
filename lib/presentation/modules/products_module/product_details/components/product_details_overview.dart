@@ -1,16 +1,17 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:medusa_admin/presentation/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import '../controllers/product_details_controller.dart';
 
-class ProductDetailsOverview extends GetView<ProductDetailsController> {
+class ProductDetailsOverview extends StatelessWidget {
   const ProductDetailsOverview({super.key, required this.product});
   final Product product;
   @override
@@ -52,20 +53,20 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                                       product: product, number: 0)))
                               .then((result) async {
                             if (result != null) {
-                              await controller.fetchProduct();
+                              context.read<ProductDetailsBloc>().add(ProductDetailsEvent.loadWithVariants(product.id!));
                             }
                           });
                           break;
-                          case 1:
-                            await context
-                                .pushRoute(AddUpdateProductRoute(
-                                updateProductReq: UpdateProductReq(
-                                    product: product, number: 1)))
-                                .then((result) async {
-                              if (result != null) {
-                                await controller.fetchProduct();
-                              }
-                            });
+                        case 1:
+                          await context
+                              .pushRoute(AddUpdateProductRoute(
+                                  updateProductReq: UpdateProductReq(
+                                      product: product, number: 1)))
+                              .then((result) async {
+                            if (result != null) {
+                               context.read<ProductDetailsBloc>().add(ProductDetailsEvent.loadWithVariants(product.id!));
+                            }
+                          });
                         case 2:
                           await showOkCancelAlertDialog(
                                   context: context,
@@ -75,7 +76,9 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                                   isDestructiveAction: true)
                               .then((result) async {
                             if (result == OkCancelResult.ok) {
-                              await controller.deleteProduct(product.id!, context);
+                              context
+                                  .read<ProductDetailsBloc>()
+                                  .add(ProductDetailsEvent.delete(product.id!));
                             }
                           });
 
@@ -195,19 +198,22 @@ class ProductDetailsOverview extends GetView<ProductDetailsController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Sales Channel', style: mediumTextStyle),
-                  if(product.salesChannels?.isEmpty ?? true)
-                  Text('-', style: mediumTextStyle),
+                  if (product.salesChannels?.isEmpty ?? true)
+                    Text('-', style: mediumTextStyle),
                 ],
               ),
               space,
               Wrap(
                 spacing: 12,
                 runSpacing: 12,
-                children: product.salesChannels?.map((e) => Chip(
-                    label: Text(
-                  e.name ?? '',
-                  style: smallTextStyle,
-                ))).toList() ?? [],
+                children: product.salesChannels
+                        ?.map((e) => Chip(
+                                label: Text(
+                              e.name ?? '',
+                              style: smallTextStyle,
+                            )))
+                        .toList() ??
+                    [],
               )
             ],
           )

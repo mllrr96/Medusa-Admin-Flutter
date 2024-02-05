@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -16,12 +17,8 @@ import '../controllers/product_details_controller.dart';
 class ProductDetailsImages extends GetView<ProductDetailsController> {
   const ProductDetailsImages(
       {super.key,
-      required this.product,
-      this.onExpansionChanged,
-      this.expansionKey});
+      required this.product});
   final Product product;
-  final void Function(bool)? onExpansionChanged;
-  final Key? expansionKey;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +30,12 @@ class ProductDetailsImages extends GetView<ProductDetailsController> {
             ? 'Add'
             : 'Edit';
     return FlexExpansionTile(
-      key: expansionKey,
       maintainState: true,
-      onExpansionChanged: onExpansionChanged,
+      onExpansionChanged: (expanded) async {
+        if (expanded && key is GlobalKey) {
+          await (key as GlobalKey).currentContext.ensureVisibility();
+        }
+      },
       controlAffinity: ListTileControlAffinity.leading,
       title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
       trailing: TextButton(

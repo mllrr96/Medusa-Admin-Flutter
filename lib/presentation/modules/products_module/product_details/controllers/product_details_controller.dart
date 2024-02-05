@@ -12,16 +12,10 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
       {required this.productDetailsUseCase, required this.productId});
   ProductDetailsUseCase productDetailsUseCase;
   final String productId;
-  late ScrollController scrollController;
   final GlobalKey variantsKey = GlobalKey();
   final GlobalKey attributesKey = GlobalKey();
   final GlobalKey thumbnailKey = GlobalKey();
   final GlobalKey imagesKey = GlobalKey();
-  @override
-  void onInit() {
-    scrollController = ScrollController();
-    super.onInit();
-  }
 
   @override
   Future<void> onReady() async {
@@ -29,11 +23,6 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     super.onReady();
   }
 
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
-  }
 
   Future<void> fetchProduct() async {
     change(null, status: RxStatus.loading());
@@ -76,7 +65,7 @@ class ProductDetailsController extends GetxController with StateMixin<Product> {
     final result = await productDetailsUseCase.deleteProduct(id: id);
     loading();
     result.when((success) {
-      if (success.deleted != null && success.deleted!) {
+      if (success.deleted == true) {
         // product deleted
         EasyLoading.showSuccess('Product Deleted');
         context.popRoute(true);

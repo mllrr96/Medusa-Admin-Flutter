@@ -1,32 +1,30 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:medusa_admin/presentation/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import '../controllers/product_details_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
-class ProductDetailsVariants extends GetView<ProductDetailsController> {
-  const ProductDetailsVariants(
-      {super.key,
-      required this.product,
-      this.onExpansionChanged,
-      this.expansionKey});
+class ProductDetailsVariants extends StatelessWidget {
+  const ProductDetailsVariants({super.key, required this.product});
   final Product product;
-  final void Function(bool)? onExpansionChanged;
-  final Key? expansionKey;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     return FlexExpansionTile(
-      key: expansionKey,
-      onExpansionChanged: onExpansionChanged,
+      onExpansionChanged: (expanded) async {
+        if (expanded && key is GlobalKey) {
+          await (key as GlobalKey).currentContext.ensureVisibility();
+        }
+      },
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Variants'),
       trailing: IconButton(
@@ -48,12 +46,18 @@ class ProductDetailsVariants extends GetView<ProductDetailsController> {
                       options.add(ProductOptionValue(
                           value: element.value,
                           optionId: element.optionId,
-                          option: element.option, variantId: null));
+                          option: element.option,
+                          variantId: null));
                     });
 
                     newVariant = newVariant.copyWith(options: options);
-                    await controller.updateProduct(
-                        Product(id: product.id!, variants: [newVariant]));
+                    if (context.mounted) {
+                      context.read<ProductDetailsBloc>().add(
+                          ProductDetailsEvent.update(
+                              product.id!,
+                              UserPostUpdateProductReq(
+                                  variants: [newVariant])));
+                    }
                   }
               }
             });

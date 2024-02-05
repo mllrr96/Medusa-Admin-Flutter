@@ -59,8 +59,10 @@ class MedusaAdminApp extends StatelessWidget {
                 supportedLocales: AppLocalizations.supportedLocales,
                 debugShowCheckedModeBanner: false,
                 themeMode: themeState.themeMode,
-                theme: FlexTheme.light(themeState.flexScheme, themeState.useMaterial3),
-                darkTheme: FlexTheme.dark(themeState.flexScheme, themeState.useMaterial3),
+                theme: FlexTheme.light(
+                    themeState.flexScheme, themeState.useMaterial3),
+                darkTheme: FlexTheme.dark(
+                    themeState.flexScheme, themeState.useMaterial3),
                 builder: EasyLoading.init(),
                 routerConfig: _router.config(),
               );

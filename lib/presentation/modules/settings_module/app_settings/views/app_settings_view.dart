@@ -37,7 +37,7 @@ class AppSettingsView extends StatelessWidget {
 
   AppPreference get appSettings => PreferenceService.appSettingsGetter;
   PreferenceService get preferenceService => PreferenceService.instance;
-  AuthPreference get authPreference => AuthPreferenceService.authPreference;
+  AuthPreference get authPreference => AuthPreferenceService.authPreferenceGetter;
   AuthPreferenceService get authPrefService => AuthPreferenceService.instance;
   @override
   Widget build(BuildContext context) {

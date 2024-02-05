@@ -26,6 +26,8 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   final tokenFormKey = GlobalKey<FormState>();
   final textCtrl = TextEditingController();
   final tokenTextCtrl = TextEditingController();
+  AuthPreferenceService get authPreferenceService =>
+      AuthPreferenceService.instance;
   late bool setupUrl;
   bool advancedOption = false;
   late AuthenticationType authType;
@@ -43,16 +45,16 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   }
 
   void _loadInit() async {
-    authType = AuthPreferenceService.authTypeGetter;
+    authType = authPreferenceService.authPreference.authType;
     if (authType != AuthenticationType.jwt) {
       advancedOption = true;
     }
 
-    if (AuthPreferenceService.baseUrlGetter == null) {
+    if (authPreferenceService.baseUrl == null) {
       setupUrl = true;
     } else {
       setupUrl = false;
-      textCtrl.text = AuthPreferenceService.baseUrlGetter ?? '';
+      textCtrl.text = authPreferenceService.baseUrl ?? '';
     }
     if (authType == AuthenticationType.token) {
       tokenTextCtrl.text = await getIt<FlutterSecureStorage>()
@@ -70,8 +72,8 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
   }
 
   Future<void> _save({bool skipValidation = false}) async {
-    final savedBaseUrl = AuthPreferenceService.baseUrlGetter;
-    final savedAuthType = AuthPreferenceService.authTypeGetter;
+    final savedBaseUrl = authPreferenceService.baseUrl;
+    final savedAuthType = authPreferenceService.authPreference.authType;
     final savedToken =
         await getIt<FlutterSecureStorage>().read(key: AppConstants.tokenKey);
     // if nothing changed just pop the route
@@ -97,11 +99,11 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
         ? textCtrl.text.substring(0, textCtrl.text.length - 1)
         : textCtrl.text;
 
-    await AuthPreferenceService.instance.updateUrl(url).then(
+    await authPreferenceService.updateUrl(url).then(
       (result) async {
         if (result) {
-          await AuthPreferenceService.instance.clearLoginData();
-          await AuthPreferenceService.instance.clearEmail();
+          await authPreferenceService.clearLoginData();
+          await authPreferenceService.clearEmail();
           await _handleMedusaSingleton().then((_) {
             context.popRoute(true);
             context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
@@ -125,11 +127,11 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       }
       await getIt<FlutterSecureStorage>()
           .write(key: AppConstants.tokenKey, value: tokenTextCtrl.text);
-      AuthPreferenceService.instance.setIsAuthenticated(true);
+      authPreferenceService.setIsAuthenticated(true);
     }
     try {
-      await AuthPreferenceService.instance.updateAuthPreference(
-          AuthPreferenceService.authPreference.copyWith(authType: authType));
+      await authPreferenceService.updateAuthPreference(
+          authPreferenceService.authPreference.copyWith(authType: authType));
 
       switch (authType) {
         case AuthenticationType.cookie:
@@ -201,10 +203,6 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
 
                     if (!val.isURL) {
                       return 'Invalid url';
-                    }
-
-                    if (val.endsWith('/store')) {
-                      return 'Please remove /store from the end of the url';
                     }
                     return null;
                   },

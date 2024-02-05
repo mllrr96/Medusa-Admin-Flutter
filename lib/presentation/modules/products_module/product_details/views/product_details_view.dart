@@ -1,139 +1,146 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/domain/use_case/product/product_details_use_case.dart';
+import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-
 import '../components/index.dart';
-import '../controllers/product_details_controller.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
-class ProductDetailsView extends StatelessWidget {
+class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView(this.productId, {super.key});
   final String productId;
+
+  @override
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends State<ProductDetailsView> {
+  @override
+  void initState() {
+    context
+        .read<ProductDetailsBloc>()
+        .add(ProductDetailsEvent.loadWithVariants(widget.productId));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
-    return GetBuilder<ProductDetailsController>(
-        init: ProductDetailsController(
-            productDetailsUseCase: ProductDetailsUseCase.instance, productId: productId),
-        builder: (controller) {
-          return Scaffold(
-            appBar: AppBar(
-              systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-              title: const Text('Product Details'),
-              actions: [
-                controller.obx(
-                    (product) => TextButton(
-                          onPressed: () async {
-                            await showOkCancelAlertDialog(
-                              context: context,
-                              title: product.status == ProductStatus.published
-                                  ? 'Unpublish product?'
-                                  : 'Publish product?',
-                              message:
-                                  'Are you sure you want to ${product.status == ProductStatus.published ? 'unpublish' : 'publish'} this product?',
-                              isDestructiveAction: true,
-                            ).then((result) async {
-                              if (result == OkCancelResult.ok) {
-                                await controller.publishProduct(product);
-                              }
-                            });
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _getStatusIcon(product!.status),
-                              const SizedBox(width: 4.0),
-                              Text(
-                                product.status.name.capitalize ??
-                                    product.status.name,
-                                style: context.bodySmall,
-                              ),
-                            ],
-                          ),
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: context.defaultSystemUiOverlayStyle,
+        title: const Text('Product Details'),
+        actions: [
+          BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+            builder: (context, state) {
+              return state.maybeMap(
+                product: (state) {
+                  final isPublished =
+                      state.product.status == ProductStatus.published;
+                  return TextButton(
+                    onPressed: () async {
+                      await showOkCancelAlertDialog(
+                        context: context,
+                        title: isPublished
+                            ? 'Unpublish product?'
+                            : 'Publish product?',
+                        message:
+                            'Are you sure you want to ${isPublished ? 'unpublish' : 'publish'} this product?',
+                        isDestructiveAction: true,
+                      ).then((result) async {
+                        if (result == OkCancelResult.ok) {
+                          context.read<ProductDetailsBloc>().add(
+                              ProductDetailsEvent.update(
+                                  widget.productId,
+                                  UserPostUpdateProductReq(
+                                      status: isPublished
+                                          ? ProductStatus.draft
+                                          : ProductStatus.published)));
+                        }
+                      });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _getStatusIcon(state.product.status),
+                        const SizedBox(width: 4.0),
+                        Text(
+                          state.product.status.name.capitalize ??
+                              state.product.status.name,
+                          style: context.bodySmall,
                         ),
-                    onLoading: const SizedBox.shrink(),
-                    onError: (e) => const SizedBox.shrink()),
-              ],
-            ),
-            body: SafeArea(
-              child: controller.obx(
-                (product) => SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 10.0),
-                  controller: controller.scrollController,
-                  child: Column(
-                    children: [
-                      ProductDetailsOverview(product: product!),
-                      space,
-                      ProductDetailsVariants(
-                        product: product,
-                        expansionKey: controller.variantsKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.variantsKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
+                      ],
+                    ),
+                  );
+                },
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: BlocConsumer<ProductDetailsBloc, ProductDetailsState>(
+          listener: (context, state) {
+            state.maybeWhen(
+              deleted: () {
+                context.popRoute();
+              },
+              updated: (product) {
+                context
+                    .read<ProductDetailsBloc>()
+                    .add(ProductDetailsEvent.loadWithVariants(product.id!));
+              },
+              orElse: () {},
+            );
+          },
+          builder: (context, state) {
+            return state.maybeMap(
+                product: (_) => SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 10.0),
+                      child: Column(
+                        children: [
+                          ProductDetailsOverview(product: _.product),
+                          space,
+                          ProductDetailsVariants(product: _.product),
+                          space,
+                          ProductDetailsAttributes(product: _.product),
+                          space,
+                          ProductDetailsThumbnail(product: _.product),
+                          space,
+                          ProductDetailsImages(product: _.product),
+                        ],
                       ),
-                      space,
-                      ProductDetailsAttributes(
-                        product: product,
-                        expansionKey: controller.attributesKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.attributesKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                        // onExpansionChanged: onExChanged,
+                    ),
+                loading: (_) => const ProductDetailsLoadingPage(),
+                error: (e) => Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Error loading product'),
+                          FilledButton(
+                              child: const Text('Retry'),
+                              onPressed: () {
+                                context.read<ProductDetailsBloc>().add(
+                                    ProductDetailsEvent.loadWithVariants(
+                                        widget.productId));
+                              }),
+                        ],
                       ),
-                      space,
-                      ProductDetailsThumbnail(
-                        product: product,
-                        expansionKey: controller.thumbnailKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.thumbnailKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                        // onExpansionChanged: onExChanged,
-                      ),
-                      space,
-                      ProductDetailsImages(
-                        product: product,
-                        expansionKey: controller.imagesKey,
-                        onExpansionChanged: (expanded) async {
-                          if (expanded) {
-                            await controller.imagesKey.currentContext
-                                .ensureVisibility();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                onError: (e) => Center(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('Error loading product'),
-                    FilledButton(
-                        child: const Text('Retry'),
-                        onPressed: () async => await controller.fetchProduct()),
-                  ],
-                )),
-                onLoading: const ProductDetailsLoadingPage(),
-              ),
-            ),
-          );
-        });
+                    ),
+                orElse: () {
+                  return const SizedBox.shrink();
+                });
+          },
+        ),
+      ),
+    );
   }
 
   Widget _getStatusIcon(ProductStatus status) {

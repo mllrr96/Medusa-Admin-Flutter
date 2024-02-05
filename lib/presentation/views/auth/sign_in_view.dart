@@ -380,7 +380,7 @@ class _SignInViewState extends State<SignInView> {
   }
 
   void _onInit() {
-    useBiometric = AuthPreferenceService.authPreference.useBiometric;
+    useBiometric = AuthPreferenceService.authPreferenceGetter.useBiometric;
     emailCtrl.text = AuthPreferenceService.email ?? '';
     if (useBiometric == true &&
         (AuthPreferenceService.email?.isNotEmpty ?? false)) {
@@ -391,7 +391,7 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> _biometricAuthentication() async {
-    if (AuthPreferenceService.authPreference.useBiometric == true) {
+    if (AuthPreferenceService.authPreferenceGetter.useBiometric == true) {
       final result = await AuthPreferenceService.instance.loadLoginData();
       result.when((success) async {
         // setLoading(true);
