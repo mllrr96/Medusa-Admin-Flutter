@@ -25,7 +25,13 @@ class ProductDetailsBloc
     Emitter<ProductDetailsState> emit,
   ) async {
     emit(const _Loading());
-    final result = await productDetailsUseCase.fetchProduct(event.id);
+    final result = await productDetailsUseCase.fetchProduct(
+      event.id,
+      queryParameters: {
+        'expand':
+            'images,options,variants,collection,tags,sales_channels,options.values'
+      },
+    );
     result.when((product) {
       emit(_Product(product));
     }, (error) {
@@ -38,7 +44,13 @@ class ProductDetailsBloc
     Emitter<ProductDetailsState> emit,
   ) async {
     emit(const _Loading());
-    final result = await productDetailsUseCase.fetchProduct(event.id);
+    final result = await productDetailsUseCase.fetchProduct(
+      event.id,
+      queryParameters: {
+        'expand':
+            'images,options,variants,collection,tags,sales_channels,options.values'
+      },
+    );
     await result.when((product) async {
       if (product.variants?.isEmpty ?? true) {
         emit(_Product(product));
@@ -53,7 +65,6 @@ class ProductDetailsBloc
           variants.addAll(v);
         }, (error) {});
       }
-
       emit(_Product(product.copyWith.variants(variants)));
     }, (error) {
       emit(_Error(error));

@@ -27,7 +27,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         .add(ProductDetailsEvent.loadWithVariants(widget.productId));
     super.initState();
   }
-
+  final GlobalKey variantsKey = GlobalKey();
+  final GlobalKey attributesKey = GlobalKey();
+  final GlobalKey thumbnailKey = GlobalKey();
+  final GlobalKey imagesKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     const space = Gap(12);
@@ -108,13 +111,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         children: [
                           ProductDetailsOverview(product: _.product),
                           space,
-                          ProductDetailsVariants(product: _.product),
+                          ProductDetailsVariants(product: _.product, key: variantsKey),
                           space,
-                          ProductDetailsAttributes(product: _.product),
+                          ProductDetailsAttributes(product: _.product, key: attributesKey),
                           space,
-                          ProductDetailsThumbnail(product: _.product),
+                          ProductDetailsThumbnail(product: _.product, key: thumbnailKey),
                           space,
-                          ProductDetailsImages(product: _.product),
+                          ProductDetailsImages(product: _.product, key: imagesKey),
                         ],
                       ),
                     ),

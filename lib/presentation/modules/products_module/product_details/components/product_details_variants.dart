@@ -41,7 +41,6 @@ class ProductDetailsVariants extends StatelessWidget {
                               ProductVariantReq(product: product)));
                   if (newVariant is ProductVariant) {
                     final options = <ProductOptionValue>[];
-
                     newVariant.options?.forEach((element) {
                       options.add(ProductOptionValue(
                           value: element.value,
@@ -73,22 +72,18 @@ class ProductDetailsVariants extends StatelessWidget {
                 itemCount: product.options!.length,
                 itemBuilder: (context, index) {
                   final option = product.options![index];
-                  final seen = <String>{};
-                  final List<ProductOptionValue> values =
-                      product.options![index].values!;
-                  final unique =
-                      values.where((str) => seen.add(str.value!)).toList();
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(option.title ?? '', style: mediumTextStyle),
                       Wrap(
                         spacing: 8.0,
-                        children: unique
-                            .map((e) => Chip(
-                                label:
-                                    Text(e.value ?? '', style: smallTextStyle)))
-                            .toList(),
+                        children: option.values
+                                ?.map((e) => Chip(
+                                    label: Text(e.value ?? '',
+                                        style: smallTextStyle)))
+                                .toList() ??
+                            [],
                       ),
                     ],
                   );

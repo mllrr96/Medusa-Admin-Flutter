@@ -17,26 +17,25 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
+        BlocProvider<OrdersBloc>(
           create: (_) => OrdersBloc.instance,
         ),
-        BlocProvider(
-          create: (context) => OrdersFilterBloc.instance,
+        BlocProvider<OrdersFilterBloc>(
+          create: (_) => OrdersFilterBloc.instance,
         ),
-        BlocProvider(
-          create: (context) => DraftOrdersCubit.instance,
+        BlocProvider<DraftOrdersCubit>(
+          create: (_) => DraftOrdersCubit.instance,
         ),
-        BlocProvider(
-          create: (context) => DiscountsCubit.instance,
+        BlocProvider<DiscountsCubit>(
+          create: (_) => DiscountsCubit.instance,
         ),
-        BlocProvider(
-          create: (context) => ProductsCubit.instance,
+        BlocProvider<ProductsCubit>(
+          create: (_) => ProductsCubit.instance,
         ),
-        BlocProvider(
-          create: (context) => ProductsFilterCubit.instance,
+        BlocProvider<ProductsFilterCubit>(
+          create: (_) => ProductsFilterCubit.instance,
         ),
       ],
       // Adding a scaffold here to fix snack-bar hero animation exception since

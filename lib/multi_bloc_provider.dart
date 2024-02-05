@@ -8,6 +8,7 @@ import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_c
 import 'presentation/blocs/app_update/app_update_bloc.dart';
 import 'presentation/blocs/authentication/authentication_bloc.dart';
 import 'presentation/blocs/discount_crud/discount_crud_bloc.dart';
+import 'presentation/blocs/product_details/product_details_bloc.dart';
 import 'presentation/blocs/store/store_bloc.dart';
 import 'presentation/cubits/language/language_cubit.dart';
 import 'presentation/cubits/theme/theme_cubit.dart';
@@ -51,6 +52,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       ),
       BlocProvider(
         create: (context) => SearchBloc.instance,
+      ),
+      BlocProvider<ProductDetailsBloc>(
+        create: (_) => ProductDetailsBloc.instance,
       ),
     ], child: child);
   }
