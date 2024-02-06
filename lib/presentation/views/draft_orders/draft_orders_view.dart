@@ -30,8 +30,9 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
 
   Future<void> _loadPage(int pageKey) async {
-    await context.read<DraftOrdersCubit>().loadDraftOrders(
-        queryParameters: {'offset': pagingController.itemList?.length ?? 0});
+    await context.read<DraftOrdersCubit>().loadDraftOrders(queryParameters: {
+      'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
+    });
   }
 
   @override

@@ -19,7 +19,7 @@ import 'package:medusa_admin/presentation/modules/products_module/add_update_pro
 import '../../presentation/views/auth/reset_password_view.dart';
 import '../../presentation/views/auth/sign_in_view.dart';
 import '../../presentation/modules/categories/views/categories_view.dart';
-import '../../presentation/modules/collections_module/collection_details/views/collection_details_view.dart';
+import '../../presentation/views/collection_details/collection_details_view.dart';
 import '../../presentation/modules/collections_module/collections/views/collections_view.dart';
 import '../../presentation/modules/collections_module/create_collection/views/create_collection_view.dart';
 import '../../presentation/widgets/countries/controller/country_controller.dart';
@@ -73,7 +73,7 @@ import '../../presentation/modules/pricing_module/pricing/views/pricing_view.dar
 import '../../presentation/modules/products_module/add_update_product/components/product_add_variant.dart';
 import '../../presentation/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import '../../presentation/modules/products_module/add_update_product/views/add_update_product_view.dart';
-import '../../presentation/modules/products_module/product_details/views/product_details_view.dart';
+import '../../presentation/views/product_details/product_details_view.dart';
 import '../../presentation/views/products/products_view.dart';
 import '../../presentation/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
 import '../../presentation/modules/settings_module/app_settings/views/app_settings_view.dart';

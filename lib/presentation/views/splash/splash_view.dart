@@ -102,7 +102,9 @@ class _SplashViewState extends State<SplashView> {
                         onPressed: () =>
                             context.router.replaceAll([SignInRoute()]),
                         child: const Text('Go to login')),
-                    const Gap(10),
+                    Gap(context.bottomViewPadding != 0
+                        ? context.bottomViewPadding
+                        : 10),
                   ],
                 )
                     .animate()

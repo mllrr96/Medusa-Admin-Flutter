@@ -41,7 +41,7 @@ class _ProductsViewState extends State<ProductsView> {
             queryParameters: {
           'order': sortOptions.map(),
           'is_giftcard': false,
-          'offset': pagingController.itemList?.length ?? 0,
+          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
         }..addAll(productFilter?.toJson() ?? {}));
   }
 
@@ -229,7 +229,7 @@ class _ProductsViewState extends State<ProductsView> {
           ],
           body: SmartRefresher(
             controller: refreshController,
-            onRefresh: () => pagingController.refresh(),
+            onRefresh: () => _loadPage(0),
             // onRefresh: () async => await controller.refreshData(),
             child: PagedListView.separated(
               separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),

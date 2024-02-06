@@ -10,7 +10,9 @@ part 'products_filter_state.dart';
 part 'products_filter_cubit.freezed.dart';
 @injectable
 class ProductsFilterCubit extends Cubit<ProductsFilterState> {
-  ProductsFilterCubit(this.productsFilterUseCase) : super(const _Initial());
+  ProductsFilterCubit(this.productsFilterUseCase) : super(const _Initial()){
+    loadData();
+  }
 
 
   Future<void> loadData() async {

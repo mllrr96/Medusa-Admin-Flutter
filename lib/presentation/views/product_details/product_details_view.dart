@@ -7,8 +7,9 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+
+import 'components/index.dart';
 
 @RoutePage()
 class ProductDetailsView extends StatefulWidget {

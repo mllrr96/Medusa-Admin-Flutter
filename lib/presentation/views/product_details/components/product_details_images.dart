@@ -5,37 +5,44 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
+import 'package:medusa_admin/presentation/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import '../../add_update_product/controllers/add_update_product_controller.dart';
+
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
-class ProductDetailsThumbnail extends StatelessWidget {
-  const ProductDetailsThumbnail({super.key, required this.product});
+class ProductDetailsImages extends StatelessWidget {
+  const ProductDetailsImages(
+      {super.key,
+      required this.product});
   final Product product;
+
   @override
   Widget build(BuildContext context) {
+    const space = Gap(12);
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    const space = Gap(12);
-    final buttonText = product.thumbnail == null ? 'Add' : 'Edit';
+    final buttonText =
+        product.images == null || (product.images?.isEmpty ?? false)
+            ? 'Add'
+            : 'Edit';
     return FlexExpansionTile(
+      maintainState: true,
       onExpansionChanged: (expanded) async {
         if (expanded && key is GlobalKey) {
           await (key as GlobalKey).currentContext.ensureVisibility();
         }
       },
-      maintainState: true,
       controlAffinity: ListTileControlAffinity.leading,
-      title: const Text('Thumbnail'),
+      title: Text('Images', style: Theme.of(context).textTheme.bodyLarge),
       trailing: TextButton(
           onPressed: () async {
             await context
                 .pushRoute(AddUpdateProductRoute(
                     updateProductReq:
-                        UpdateProductReq(product: product, number: 4)))
+                        UpdateProductReq(product: product, number: 5)))
                 .then((result) async {
               if (result != null) {
                 context
@@ -48,20 +55,23 @@ class ProductDetailsThumbnail extends StatelessWidget {
       childPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       child: Column(
         children: [
-          if (product.thumbnail != null)
-            GestureDetector(
-                onTap: () => context.pushRoute(ImagePreviewRoute(
-                      imageUrl: product.thumbnail!,
-                      heroTag: 'thumbnail',
-                    )),
-                child: SizedBox(
-                    height: 120,
-                    child: Hero(
-                        tag: 'thumbnail',
-                        child:
-                            CachedNetworkImage(imageUrl: product.thumbnail!)))),
-          if (product.thumbnail == null)
-            Text('No thumbnail added',
+          if (product.images != null)
+            Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                children: product.images!
+                    .map((e) => SizedBox(
+                        height: 120,
+                        width: 90,
+                        child: GestureDetector(
+                            onTap: () => context
+                                .pushRoute(ImagePreviewRoute(imageUrl: e.url)),
+                            child: Hero(
+                                tag: e.url!,
+                                child: CachedNetworkImage(imageUrl: e.url!)))))
+                    .toList()),
+          if (product.images == null || (product.images?.isEmpty ?? false))
+            Text('No images added',
                 style: smallTextStyle?.copyWith(color: manatee)),
           space,
         ],

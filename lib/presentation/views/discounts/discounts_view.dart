@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/discounts/discounts_cubit.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discounts_loading_page.dart';
@@ -16,8 +18,6 @@ import 'package:medusa_admin/presentation/widgets/search_floating_action_button.
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../core/utils/enums.dart';
-import '../../../core/route/app_router.dart';
 import 'components/discount_card.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
@@ -38,7 +38,7 @@ class _DiscountsViewState extends State<DiscountsView> {
 
   Future<void> _loadPage(int pageKey) async {
     await context.read<DiscountsCubit>().loadDiscounts(queryParameters: {
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
     });
   }
 
@@ -54,31 +54,30 @@ class _DiscountsViewState extends State<DiscountsView> {
     return BlocConsumer<DiscountCrudBloc, DiscountCrudState>(
       listener: (context, updateDiscountState) {
         updateDiscountState.mapOrNull(
-          loading: (_) => setState(() => loadingDiscountId = _.discountId ?? ''),
+          loading: (_) =>
+              setState(() => loadingDiscountId = _.discountId ?? ''),
           discount: (_) async {
-              List<Discount> discounts = [];
-              discounts.addAll(pagingController.itemList ?? []);
-              final index = discounts
-                  .indexWhere((element) => element.id == _.discount.id);
-              // If for whatever reason we didn't find the discount in the list,
-              // we just reload discounts
-              if (index == -1) {
-                context.showSnackBar('Discount updated successfully');
-                smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
-                return;
-              }
-              discounts.replaceRange(index, index + 1, [_.discount]);
-              pagingController.value = PagingState(itemList: discounts);
-              setState(() => loadingDiscountId = '');
+            List<Discount> discounts = [];
+            discounts.addAll(pagingController.itemList ?? []);
+            final index =
+                discounts.indexWhere((element) => element.id == _.discount.id);
+            // If for whatever reason we didn't find the discount in the list,
+            // we just reload discounts
+            if (index == -1) {
               context.showSnackBar('Discount updated successfully');
-
+              smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
+              return;
+            }
+            discounts.replaceRange(index, index + 1, [_.discount]);
+            pagingController.value = PagingState(itemList: discounts);
+            setState(() => loadingDiscountId = '');
+            context.showSnackBar('Discount updated successfully');
           },
-          deleted: (_){
+          deleted: (_) {
             context.showSnackBar('Discount deleted successfully');
             List<Discount> discounts = [];
             discounts.addAll(pagingController.itemList ?? []);
-            discounts
-                .removeWhere((element) => element.id == loadingDiscountId);
+            discounts.removeWhere((element) => element.id == loadingDiscountId);
             pagingController.value = PagingState(itemList: discounts);
             setState(() {
               loadingDiscountId = '';
@@ -179,11 +178,13 @@ class _DiscountsViewState extends State<DiscountsView> {
                       enabled: loadingDiscountId == discount.id,
                       child: DiscountCard(
                         discount,
-                        onTap: ()async {
-                          final result = await context.pushRoute(DiscountDetailsRoute(discount: discount));
+                        onTap: () async {
+                          final result = await context.pushRoute(
+                              DiscountDetailsRoute(discount: discount));
                           // Discount deleted, reload discounts
-                          if(result == true) {
-                            smartRefresherCtrl.headerMode?.value = RefreshStatus.refreshing;
+                          if (result == true) {
+                            smartRefresherCtrl.headerMode?.value =
+                                RefreshStatus.refreshing;
                           }
                         },
                         onDelete: loading

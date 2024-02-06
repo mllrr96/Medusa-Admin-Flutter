@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/domain/use_case/batch_job/create_batch_job_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
@@ -17,7 +18,6 @@ import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../core/utils/enums.dart';
 import 'components/order_card.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -39,7 +39,7 @@ class _OrdersViewState extends State<OrdersView> {
 
   void _loadPage(int _) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }..addAll(orderFilter?.toJson() ?? {})));
   }
 

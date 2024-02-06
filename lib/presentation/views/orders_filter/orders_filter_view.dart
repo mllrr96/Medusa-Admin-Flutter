@@ -93,7 +93,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
               title: const Text('Orders Filter'),
             ),
             bottomNavigationBar: Container(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.fromLTRB(12, 0, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
