@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/presentation/modules/customers_module/customer_details/controllers/customer_details_controller.dart';
-import 'package:medusa_admin/presentation/modules/customers_module/customers/controllers/customers_controller.dart';
 import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -53,10 +52,10 @@ class CustomerDetailsView extends StatelessWidget {
                                             TransferOrderRoute(order: order))
                                         .then((value) {
                                       if (value is bool) {
-                                        controller.pagingController.refresh();
-                                        CustomersController
-                                            .instance.pagingController
-                                            .refresh();
+                                        // controller.pagingController.refresh();
+                                        // CustomersController
+                                        //     .instance.pagingController
+                                        //     .refresh();
                                         // OrdersController
                                         //     .instance.pagingController
                                         //     .refresh();
@@ -168,8 +167,8 @@ class Delegate extends SliverPersistentHeaderDelegate {
                                 AddUpdateCustomerRoute(customer: customer));
                             if (result is bool) {
                               await controller.loadCustomer();
-                              CustomersController.instance.pagingController
-                                  .refresh();
+                              // CustomersController.instance.pagingController
+                              //     .refresh();
                             }
                             break;
                           case 1:

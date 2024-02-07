@@ -31,7 +31,7 @@ import '../../presentation/widgets/pick_regions/controllers/pick_regions_control
 import '../../presentation/widgets/pick_regions/views/pick_regions_view.dart';
 import '../../presentation/modules/customers_module/add_update_customer/views/update_customer_details_view.dart';
 import '../../presentation/modules/customers_module/customer_details/views/customer_details_view.dart';
-import '../../presentation/modules/customers_module/customers/views/customers_view.dart';
+import '../../presentation/views/customers/customers_view.dart';
 import '../../presentation/modules/customers_module/transfer_order/views/transfer_order_view.dart';
 import '../../presentation/views/dashboard_view.dart';
 import '../../presentation/views/add_update_discount/add_update_discount_view.dart';
