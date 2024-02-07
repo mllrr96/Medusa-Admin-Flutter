@@ -21,7 +21,7 @@ class CollectionProductsList extends StatelessWidget {
     return GetBuilder<CollectionProductsController>(
       init: CollectionProductsController(
           productsUseCase: ProductsUseCase.instance,
-          collectionDetailsUseCase: CollectionDetailsUseCase.instance),
+          collectionDetailsUseCase: CollectionCrudUseCase.instance),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -111,7 +111,7 @@ class CollectionProductsController extends GetxController {
   CollectionProductsController(
       {required this.productsUseCase, required this.collectionDetailsUseCase});
 
-  CollectionDetailsUseCase collectionDetailsUseCase;
+  CollectionCrudUseCase collectionDetailsUseCase;
   ProductsUseCase productsUseCase;
   final String collectionId = Get.arguments;
   final int _pageSize = 20;

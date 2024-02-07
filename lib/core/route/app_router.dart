@@ -13,15 +13,14 @@ import 'package:medusa_admin/presentation/views/discount_details/discount_detail
 import 'package:medusa_admin/presentation/views/product_gift_cards/product_gift_cards_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/components/index.dart';
 import 'package:medusa_admin/presentation/modules/products_module/add_update_product/components/image_card.dart';
 import '../../presentation/views/auth/reset_password_view.dart';
 import '../../presentation/views/auth/sign_in_view.dart';
 import '../../presentation/modules/categories/views/categories_view.dart';
 import '../../presentation/views/collection_details/collection_details_view.dart';
-import '../../presentation/modules/collections_module/collections/views/collections_view.dart';
-import '../../presentation/modules/collections_module/create_collection/views/create_collection_view.dart';
+import '../../presentation/views/collections/collections_view.dart';
+import '../../presentation/views/create_collection/create_collection_view.dart';
 import '../../presentation/widgets/countries/controller/country_controller.dart';
 import '../../presentation/widgets/countries/view/country_view.dart';
 import '../../presentation/widgets/pick_groups/controllers/pick_groups_controller.dart';

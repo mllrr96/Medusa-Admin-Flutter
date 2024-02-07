@@ -10,7 +10,6 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
-import 'package:medusa_admin/presentation/modules/collections_module/create_collection/controllers/create_collection_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_products_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -77,8 +76,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                           if (result == 0) {
                             await context
                                 .pushRoute(CreateCollectionRoute(
-                                    updateCollectionReq:
-                                        UpdateCollectionReq(_.collection)))
+                                collection: _.collection))
                                 .then((result) async {
                               if (result != null) {
                                 context.read<CollectionCrudBloc>().add(

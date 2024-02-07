@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
+import 'package:medusa_admin/presentation/cubits/collections_cubit/collections_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/discount_details/discount_details_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
@@ -59,6 +60,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       ),
       BlocProvider<CollectionCrudBloc>(
         create: (_) => CollectionCrudBloc.instance,
+      ),
+      BlocProvider<CollectionsCubit>(
+        create: (_) => CollectionsCubit.instance,
       ),
     ], child: child);
   }
