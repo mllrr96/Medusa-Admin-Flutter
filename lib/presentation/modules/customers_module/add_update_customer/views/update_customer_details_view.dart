@@ -17,7 +17,7 @@ class AddUpdateCustomerView extends StatelessWidget {
   Widget build(BuildContext context) {
     const halfSpace = Gap(6.0);
     return GetBuilder<AddUpdateCustomerController>(
-        init: AddUpdateCustomerController( customer: customer, updateCustomerUseCase: UpdateCustomerUseCase.instance),
+        init: AddUpdateCustomerController( customer: customer, updateCustomerUseCase: CustomerCrudUseCase.instance),
         builder: (controller) {
           final updateMode = controller.updateMode;
       return GestureDetector(

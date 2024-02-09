@@ -33,8 +33,8 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
 
   @override
   void initState() {
-    pagingController.addPageRequestListener(_loadPage);
     productsCubit = ProductsCubit.instance;
+    pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
@@ -46,7 +46,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   }
 
   void _loadPage(int _) {
-    context.read<ProductsCubit>().loadProducts(queryParameters: {
+    productsCubit.loadProducts(queryParameters: {
       'is_giftcard': true,
       'offset': pagingController.itemList?.length ?? 0,
     });
@@ -122,11 +122,11 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final productsCount = context.select<ProductsCubit, int?>(
-                    (bloc) =>
-                        bloc.state.mapOrNull(products: (state) => state.count));
+                final productsCount = productsCubit.state
+                        .mapOrNull(products: (state) => state.count) ??
+                    0;
                 return Text(
-                    productsCount != null && productsCount != 0
+                    productsCount != 0
                         ? 'Gift Cards ($productsCount)'
                         : 'Gift Cards',
                     overflow: TextOverflow.ellipsis);

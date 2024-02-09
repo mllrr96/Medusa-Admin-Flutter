@@ -205,11 +205,13 @@ class _ProductsViewState extends State<ProductsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final productsCount = context.select<ProductsCubit, int?>(
+                final productsCount = context.select<ProductsCubit, int>(
                     (bloc) =>
-                        bloc.state.mapOrNull(products: (state) => state.count));
+                        bloc.state
+                            .mapOrNull(products: (state) => state.count) ??
+                        0);
                 return Text(
-                    productsCount != null && productsCount != 0
+                    productsCount != 0
                         ? 'Products ($productsCount)'
                         : 'Products',
                     overflow: TextOverflow.ellipsis);

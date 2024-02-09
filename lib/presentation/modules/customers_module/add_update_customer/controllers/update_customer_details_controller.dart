@@ -17,7 +17,7 @@ class AddUpdateCustomerController extends GetxController {
   final emailNameCtrl = TextEditingController();
   final phoneNameCtrl = TextEditingController();
   final keyForm = GlobalKey<FormState>();
-  final UpdateCustomerUseCase updateCustomerUseCase;
+  final CustomerCrudUseCase updateCustomerUseCase;
   bool get updateMode => customer != null;
   @override
   void onInit() {

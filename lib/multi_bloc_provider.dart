@@ -12,6 +12,7 @@ import 'presentation/blocs/authentication/authentication_bloc.dart';
 import 'presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'presentation/blocs/product_details/product_details_bloc.dart';
 import 'presentation/blocs/store/store_bloc.dart';
+import 'presentation/cubits/customers/customers_cubit.dart';
 import 'presentation/cubits/language/language_cubit.dart';
 import 'presentation/cubits/theme/theme_cubit.dart';
 
@@ -43,16 +44,16 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<ResetPasswordCubit>(
         create: (_) => ResetPasswordCubit.instance,
       ),
-      BlocProvider(
+      BlocProvider<DiscountCrudBloc>(
         create: (context) => DiscountCrudBloc.instance,
       ),
-      BlocProvider(
+      BlocProvider<DiscountDetailsCubit>(
         create: (context) => DiscountDetailsCubit.instance,
       ),
-      BlocProvider(
+      BlocProvider<GiftCardsCubit>(
         create: (context) => GiftCardsCubit.instance,
       ),
-      BlocProvider(
+      BlocProvider<SearchBloc>(
         create: (context) => SearchBloc.instance,
       ),
       BlocProvider<ProductDetailsBloc>(
@@ -64,6 +65,12 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<CollectionsCubit>(
         create: (_) => CollectionsCubit.instance,
       ),
+      BlocProvider<CustomersCubit>(
+        create: (_) => CustomersCubit.instance,
+      ),
+      // BlocProvider<CustomerCrudBloc>(
+      //   create: (_) => CustomerCrudBloc.instance,
+      // ),
     ], child: child);
   }
 }

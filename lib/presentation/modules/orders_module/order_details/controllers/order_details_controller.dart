@@ -12,7 +12,7 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
     required this.orderDetailsUseCase,
     required this.orderId,
   });
-  final OrderDetailsUseCase orderDetailsUseCase;
+  final OrderCrudUseCase orderDetailsUseCase;
   final String orderId;
   List<User> loadedUsers = [];
   List timeLine = [];

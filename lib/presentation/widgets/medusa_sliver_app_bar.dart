@@ -15,7 +15,8 @@ class MedusaSliverAppBar extends StatelessWidget {
     this.actions,
     this.floating,
     this.snap,
-    this.systemOverlayStyle, this.backgroundColor,
+    this.systemOverlayStyle,
+    this.backgroundColor,
   });
   final AppBarStyle? appBarStyle;
   final Widget? title;

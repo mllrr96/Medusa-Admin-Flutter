@@ -116,7 +116,7 @@ class _CustomersViewState extends State<CustomersView> {
                     final customersCount = context.select<CustomersCubit, int?>(
                         (bloc) => bloc.state.mapOrNull(
                             customers: (state) =>
-                                state.count > 0 ? state.count : null));
+                                state.count > 0 ? state.count : null) ?? 0);
                     return Text(
                         customersCount != 0
                             ? 'Customers ($customersCount)'
@@ -148,7 +148,6 @@ class _CustomersViewState extends State<CustomersView> {
                     firstPageErrorIndicatorBuilder: (context) =>
                         PaginationErrorPage(pagingController: pagingController),
                   ),
-                  // separatorBuilder: (_, __) => const Divider(height: 0),
                 ),
               ),
             ),

@@ -39,8 +39,9 @@ class _OrdersViewState extends State<OrdersView> {
 
   void _loadPage(int _) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-    }..addAll(orderFilter?.toJson() ?? {})));
+          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          ...?orderFilter?.toJson()
+        }));
   }
 
   @override
@@ -145,8 +146,9 @@ class _OrdersViewState extends State<OrdersView> {
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
                 final ordersCount = context.select<OrdersBloc, int?>((bloc) =>
-                    bloc.state
-                        .mapOrNull(orders: (state) => state.count > 0 ? state.count : null));
+                    bloc.state.mapOrNull(
+                        orders: (state) =>
+                            state.count > 0 ? state.count : null));
                 return Text(
                     ordersCount != null ? 'Orders ($ordersCount)' : 'Orders',
                     overflow: TextOverflow.ellipsis);

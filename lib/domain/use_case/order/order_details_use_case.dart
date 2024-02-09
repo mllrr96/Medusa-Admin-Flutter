@@ -5,8 +5,8 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class OrderDetailsUseCase {
-  static OrderDetailsUseCase get instance => getIt<OrderDetailsUseCase>();
+class OrderCrudUseCase {
+  static OrderCrudUseCase get instance => getIt<OrderCrudUseCase>();
 
   OrdersRepository get  _orderRepository => getIt<MedusaAdmin>().orderRepository;
   OrderEditRepository get _orderEditRepository => getIt<MedusaAdmin>().orderEditRepository;

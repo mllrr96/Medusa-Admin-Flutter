@@ -6,15 +6,15 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/search_history.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
+import 'package:medusa_admin/presentation/views/orders_filter/orders_filter_view.dart';
+import 'package:medusa_admin/presentation/views/products_filter/products_filter_view.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../core/utils/enums.dart';
-import '../../orders_filter/orders_filter_view.dart';
-import '../../products_filter/products_filter_view.dart';
 import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -38,11 +38,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
   OrderFilter? orderFilter;
-  PagingController<int, Object> get controller => widget.controller;
   @override
   void initState() {
-    searchCategory = widget.searchCategory;
     widget.controller.addPageRequestListener(_search);
+    searchCategory = widget.searchCategory;
     super.initState();
   }
 
@@ -84,7 +83,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   controller: widget.searchCtrl,
                   onSubmitted: (val) async {
                     if (val.removeAllWhitespace.isNotEmpty) {
-                      controller.refresh();
+                      _search(0);
                       await PreferenceService.instance.updateSearchHistory(
                           SearchHistory(
                               text: val, searchableFields: searchCategory));
@@ -105,7 +104,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                         padding: const EdgeInsets.all(16),
                         onPressed: () {
                           widget.searchCtrl.clear();
-                          controller.itemList?.clear();
+                          widget.controller.itemList?.clear();
                         },
                         icon: const Icon(Icons.clear))
                   ],
@@ -120,7 +119,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       controller: widget.searchCtrl,
                       onSubmitted: (val) async {
                         if (val.removeAllWhitespace.isNotEmpty) {
-                          controller.refresh();
+                          widget.controller.refresh();
                           await PreferenceService.instance.updateSearchHistory(
                               SearchHistory(
                                   text: val, searchableFields: searchCategory));
@@ -130,7 +129,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       autoFocus: true,
                       onSuffixTap: () {
                         widget.searchCtrl.clear();
-                        controller.itemList?.clear();
+                        widget.controller.itemList?.clear();
                       },
                     ),
                   ),
@@ -175,7 +174,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                     }
                                     orderFilter = null;
                                     productFilter = null;
-                                    controller.itemList = [];
+                                    widget.controller.itemList = [];
                                     searchCategory = result;
                                     setState(() {});
                                     // if (controller.searchTerm.isNotEmpty) {
@@ -206,7 +205,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                       disableZA: isGroupSelected);
                                   if (result is SortOptions) {
                                     sortOptions = result;
-                                    controller.refresh();
+                                    widget.controller.refresh();
                                     setState(() {});
                                   }
                                 },
@@ -264,7 +263,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                               ProductsFilterView(
                                                 onResetPressed: () {
                                                   productFilter = null;
-                                                  controller.refresh();
+                                                  widget.controller.refresh();
                                                   setState(() {});
                                                   context.popRoute();
                                                 },
@@ -273,7 +272,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                         if (result is ProductFilter) {
                                           productFilter = result;
                                           setState(() {});
-                                          controller.refresh();
+                                          widget.controller.refresh();
                                         }
                                       });
 
@@ -292,14 +291,14 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                 onResetTap: () {
                                                   orderFilter = null;
                                                   setState(() {});
-                                                  controller.refresh();
+                                                  widget. controller.refresh();
                                                   context.popRoute();
                                                 },
                                               )).then((result) {
                                         if (result is OrderFilter) {
                                           orderFilter = result;
                                           setState(() {});
-                                          controller.refresh();
+                                          widget. controller.refresh();
                                         }
                                       });
                                     case SearchCategory.draftOrders:

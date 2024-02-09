@@ -22,7 +22,7 @@ class OrderDetailsView extends StatelessWidget {
 
     return GetBuilder<OrderDetailsController>(
       init: OrderDetailsController(
-          orderDetailsUseCase: OrderDetailsUseCase.instance, orderId: orderId),
+          orderDetailsUseCase: OrderCrudUseCase.instance, orderId: orderId),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -75,7 +75,6 @@ class OrderDetailsView extends StatelessWidget {
                 await controller.fetchOrderDetails();
                 controller.timeLineFuture = controller.fetchTimeLine();
               },
-              header: const MaterialClassicHeader(),
               child: controller.obx(
                 (order) => SingleChildScrollView(
                   child: Padding(

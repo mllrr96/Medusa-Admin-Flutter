@@ -105,9 +105,9 @@ class _CollectionsViewState extends State<CollectionsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final collectionsCount = context.select<CollectionsCubit, int?>(
+                final collectionsCount = context.select<CollectionsCubit, int>(
                     (bloc) => bloc.state
-                        .mapOrNull(collections: (state) => state.count));
+                        .mapOrNull(collections: (state) => state.count) ?? 0);
                 return Text(
                     collectionsCount != 0
                         ? 'Collections ($collectionsCount)'
