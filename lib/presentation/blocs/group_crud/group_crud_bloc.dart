@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/group/group_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -63,4 +64,5 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
   }
 
   final GroupCrudUseCase groupCrudUseCase;
+  static GroupCrudBloc get instance => getIt<GroupCrudBloc>();
 }
