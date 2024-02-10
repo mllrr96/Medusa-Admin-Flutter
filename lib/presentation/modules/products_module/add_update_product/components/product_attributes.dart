@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/copy_with_product.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/countries/controller/country_controller.dart';
 import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
@@ -104,7 +106,7 @@ class ProductAttributes extends StatelessWidget {
                       ));
                   if (result is List<Country>) {
                     controller.countryCtrl.text = result.first.displayName!;
-                    controller.product = controller.product.copyWith(originCountry: result.first.iso2);
+                    controller.product = controller.product.copyWith(originCountry: Wrapped.value(result.first.iso2));
                     controller.update([3]);
                   }
                 },
@@ -122,7 +124,7 @@ class ProductAttributes extends StatelessWidget {
                       : IconButton(
                       onPressed: () {
                         controller.countryCtrl.clear();
-                        controller.product = controller.product.copyWith.originCountry(null);
+                        controller.product = controller.product.copyWith(originCountry: const Wrapped.value(null));
                         controller.update([3]);
                       },
                       icon: const Icon(CupertinoIcons.clear_circled_solid)),

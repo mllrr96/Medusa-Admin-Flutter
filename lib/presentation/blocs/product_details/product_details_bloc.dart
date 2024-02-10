@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/extension/copy_with_product.dart';
 import 'package:medusa_admin/domain/use_case/product/product_details_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
@@ -65,7 +66,7 @@ class ProductDetailsBloc
           variants.addAll(v);
         }, (error) {});
       }
-      emit(_Product(product.copyWith.variants(variants)));
+      emit(_Product(product.copyWith(variants: variants)));
     }, (error) {
       emit(_Error(error));
     });

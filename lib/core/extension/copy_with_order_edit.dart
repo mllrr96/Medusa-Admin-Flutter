@@ -1,0 +1,56 @@
+import 'package:medusa_admin_flutter/medusa_admin.dart';
+
+extension CopyWithOrderEdit on OrderEdit {
+  OrderEdit copyWith({
+    String? orderId,
+    Order? order,
+    List<OrderItemChange>? changes,
+    String? createdBy,
+    String? id,
+    String? internalNote,
+    List<LineItem>? items,
+    int? subtotal,
+    OrderEditStatus? status,
+    int? discountTotal,
+    DateTime? declinedAt,
+    String? declinedBy,
+    String? declinedReason,
+    int? differenceDue,
+    DateTime? canceledAt,
+    String? canceledBy,
+    DateTime? confirmedAt,
+    String? confirmedBy,
+    DateTime? requestedAt,
+    String? requestedBy,
+    int? taxTotal,
+    int? total,
+    String? paymentCollectionId,
+  }) {
+    return OrderEdit(
+      id: id ?? this.id,
+      internalNote: internalNote ?? this.internalNote,
+      items: items ?? this.items,
+      subtotal: subtotal ?? this.subtotal,
+      status: status ?? this.status,
+      discountTotal: discountTotal ?? this.discountTotal,
+      declinedAt: declinedAt ?? this.declinedAt,
+      declinedBy: declinedBy ?? this.declinedBy,
+      declinedReason: declinedReason ?? this.declinedReason,
+      differenceDue: differenceDue ?? this.differenceDue,
+      canceledAt: canceledAt ?? this.canceledAt,
+      canceledBy: canceledBy ?? this.canceledBy,
+      confirmedAt: confirmedAt ?? this.confirmedAt,
+      confirmedBy: confirmedBy ?? this.confirmedBy,
+      requestedAt: requestedAt ?? this.requestedAt,
+      requestedBy: requestedBy ?? this.requestedBy,
+      taxTotal: taxTotal ?? this.taxTotal,
+      total: total ?? this.total,
+      orderId: orderId ?? this.orderId,
+      paymentCollectionId: paymentCollectionId ?? this.paymentCollectionId,
+      order: order ?? this.order,
+      changes: changes ?? this.changes,
+      createdBy: createdBy ?? this.createdBy,
+    );
+  }
+}
+

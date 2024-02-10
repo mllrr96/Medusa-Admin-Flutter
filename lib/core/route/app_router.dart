@@ -29,7 +29,7 @@ import '../../presentation/widgets/pick_products/controllers/pick_products_contr
 import '../../presentation/widgets/pick_products/views/pick_products_view.dart';
 import '../../presentation/widgets/pick_regions/controllers/pick_regions_controller.dart';
 import '../../presentation/widgets/pick_regions/views/pick_regions_view.dart';
-import '../../presentation/modules/customers_module/add_update_customer/views/update_customer_details_view.dart';
+import '../../presentation/views/add_update_customer/update_customer_details_view.dart';
 import '../../presentation/views/customer_details/customer_details_view.dart';
 import '../../presentation/views/customers/customers_view.dart';
 import '../../presentation/views/transfer_order/transfer_order_view.dart';
@@ -59,7 +59,7 @@ import '../../presentation/views/draft_orders/draft_orders_view.dart';
 import '../../presentation/modules/gift_cards_module/create_update_custom_gift_card/views/create_update_custom_gift_card_view.dart';
 import '../../presentation/views/custom_gift_cards/custom_gift_cards_view.dart';
 import '../../presentation/modules/groups_module/create_update_group/views/create_update_group_view.dart';
-import '../../presentation/modules/groups_module/group_details/views/group_details_view.dart';
+import '../../presentation/views/group_details/group_details_view.dart';
 import '../../presentation/modules/groups_module/groups/views/groups_view.dart';
 import '../../presentation/views/search/medusa_search_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';

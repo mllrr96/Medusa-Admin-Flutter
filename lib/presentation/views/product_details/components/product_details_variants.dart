@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/copy_with_product_variant.dart';
 import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:medusa_admin/presentation/modules/products_module/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/copy_with_order_edit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/order/order_details_use_case.dart';
@@ -94,12 +95,9 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
           success.orderEdits?.forEach((element) {
             timeLine.add(element);
             if (element.status == OrderEditStatus.requested) {
-              timeLine.add(element.copyWith
-                  .requestedAt(null)
-                  .copyWith
-                  .confirmedAt(DateTime.now()));
+              timeLine.add(element.copyWith(confirmedAt: DateTime.now(), requestedAt:  null));
             } else {
-              timeLine.add(element.copyWith.requestedAt(null));
+              timeLine.add(element.copyWith(requestedAt: null));
             }
           });
           createdByList?.forEach(

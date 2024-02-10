@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/copy_with_price_list.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:medusa_admin/domain/use_case/price_list/update_price_list_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -177,14 +179,14 @@ class AddUpdatePriceListView extends StatelessWidget {
                     value: controller.priceList.startsAt != null,
                     onChanged: (val) async {
                       if (val) {
-                        controller.priceList = controller.priceList.copyWith
-                            .startsAt(DateTime.now());
+                        controller.priceList = controller.priceList
+                            .copyWith(startsAt: Wrapped.value(DateTime.now()));
                         controller.update([2]);
                         await controller.configKey.currentContext
                             .ensureVisibility();
                       } else {
-                        controller.priceList =
-                            controller.priceList.copyWith.startsAt(null);
+                        controller.priceList = controller.priceList
+                            .copyWith(startsAt: const Wrapped.value(null));
                         controller.update([2]);
                       }
                     },
@@ -201,12 +203,13 @@ class AddUpdatePriceListView extends StatelessWidget {
                                 return null;
                               },
                               onTap: () async {
-                                final result = await context.adaptiveDateTimePicker(
-                                    date: controller.priceList.startsAt);
+                                final result =
+                                    await context.adaptiveDateTimePicker(
+                                        date: controller.priceList.startsAt);
                                 if (result != null) {
-                                  controller.priceList = controller
-                                      .priceList.copyWith
-                                      .startsAt(result);
+                                  controller.priceList = controller.priceList
+                                      .copyWith(
+                                          startsAt: Wrapped.value(result));
                                   controller.update([2]);
                                 }
                               },
@@ -224,15 +227,15 @@ class AddUpdatePriceListView extends StatelessWidget {
                     value: controller.priceList.endsAt != null,
                     onChanged: (val) async {
                       if (val) {
-                        controller.priceList = controller.priceList.copyWith
-                            .endsAt(
-                                DateTime.now().add(const Duration(days: 7)));
+                        controller.priceList = controller.priceList.copyWith(
+                            endsAt: Wrapped.value(
+                                DateTime.now().add(const Duration(days: 7))));
                         controller.update([2]);
                         await controller.configKey.currentContext
                             .ensureVisibility();
                       } else {
-                        controller.priceList =
-                            controller.priceList.copyWith.endsAt(null);
+                        controller.priceList = controller.priceList
+                            .copyWith(endsAt: const Wrapped.value(null));
                         controller.update([2]);
                       }
                     },
@@ -249,12 +252,12 @@ class AddUpdatePriceListView extends StatelessWidget {
                                 return null;
                               },
                               onTap: () async {
-                                final result = await context.adaptiveDateTimePicker(
-                                    date: controller.priceList.endsAt);
+                                final result =
+                                    await context.adaptiveDateTimePicker(
+                                        date: controller.priceList.endsAt);
                                 if (result != null) {
-                                  controller.priceList = controller
-                                      .priceList.copyWith
-                                      .endsAt(result);
+                                  controller.priceList = controller.priceList
+                                      .copyWith(endsAt: Wrapped.value(result));
                                   controller.update([2]);
                                 }
                               },
@@ -300,7 +303,8 @@ class AddUpdatePriceListView extends StatelessWidget {
                               onTap: () async {
                                 final result = await showBarModalBottomSheet(
                                     context: context,
-                                    backgroundColor: context.theme.scaffoldBackgroundColor,
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
                                     builder: (context) => PickGroupsView(
@@ -309,9 +313,10 @@ class AddUpdatePriceListView extends StatelessWidget {
                                             selectedGroups: controller
                                                 .priceList.customerGroups)));
                                 if (result is List<CustomerGroup>) {
-                                  controller.priceList = controller
-                                      .priceList.copyWith
-                                      .customerGroups(result);
+                                  controller.priceList = controller.priceList
+                                      .copyWith(
+                                          customerGroups:
+                                              Wrapped.value(result));
                                   controller.groupCtrl.text = result
                                       .map((e) => e.name)
                                       .toList()
@@ -335,9 +340,11 @@ class AddUpdatePriceListView extends StatelessWidget {
                                         Icons.keyboard_arrow_down_outlined)
                                     : IconButton(
                                         onPressed: () {
-                                          controller.priceList = controller
-                                              .priceList.copyWith
-                                              .customerGroups(null);
+                                          controller.priceList =
+                                              controller.priceList.copyWith(
+                                                  customerGroups:
+                                                      const Wrapped.value(
+                                                          null));
                                           controller.groupCtrl.clear();
                                           controller.update([2]);
                                         },
@@ -407,8 +414,9 @@ class AddUpdatePriceListView extends StatelessWidget {
                                   case 0:
                                     final result =
                                         await showBarModalBottomSheet(
-                                          backgroundColor: context.theme.scaffoldBackgroundColor,
-                                          overlayStyle: context
+                                      backgroundColor:
+                                          context.theme.scaffoldBackgroundColor,
+                                      overlayStyle: context
                                           .theme.appBarTheme.systemOverlayStyle,
                                       context: context,
                                       builder: (context) =>
@@ -420,9 +428,9 @@ class AddUpdatePriceListView extends StatelessWidget {
                                     if (result is List<MoneyAmount>) {
                                       final originalPrices =
                                           controller.priceList.prices ?? [];
-                                      controller.priceList = controller
-                                          .priceList.copyWith
-                                          .prices(result + originalPrices);
+                                      controller.priceList =
+                                          controller.priceList.copyWith(
+                                              prices: result + originalPrices);
                                       controller.update([3]);
                                     }
                                     return;

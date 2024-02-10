@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin/core/extension/copy_with_product.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../controllers/add_update_product_controller.dart';
 import 'image_card.dart';
@@ -32,7 +33,7 @@ class ProductThumbnail extends StatelessWidget {
             controller.product.thumbnail!,
             heroTag: 'thumbnail',
             onDelete: () {
-              controller.product = controller.product.copyWith.thumbnail(null);
+              controller.product = controller.product.copyWith(thumbnail: const Wrapped.value(null));
               controller.deleteThumbnail = true;
               controller.update([4]);
             },

@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/extension/copy_with_line_item.dart';
 import 'package:medusa_admin/domain/use_case/region/regions_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -215,8 +216,8 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                         if (lineItems.isNotEmpty)
                           ListView.builder(
                               itemCount: lineItems.length,
-                              padding:
-                              const EdgeInsets.fromLTRB(12.0, 4.0, 0.0, 4.0),
+                              padding: const EdgeInsets.fromLTRB(
+                                  12.0, 4.0, 0.0, 4.0),
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -225,7 +226,8 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                   lineItem,
                                   onDelete: () {
                                     lineItems.removeAt(index);
-                                    field.didChange(lineItems + customLineItems);
+                                    field
+                                        .didChange(lineItems + customLineItems);
                                     setState(() {});
                                   },
                                   onAddTap: () {
@@ -234,30 +236,31 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                     lineItems[index] = lineItems
                                         .elementAt(index)
                                         .copyWith(quantity: quantity);
-                                    field.didChange(lineItems + customLineItems);
+                                    field
+                                        .didChange(lineItems + customLineItems);
                                     setState(() {});
                                   },
                                   onRemoveTap: lineItem.quantity! > 1
                                       ? () {
-                                    var quantity =
-                                        lineItems[index].quantity;
-                                    if (quantity! > 1) {
-                                      quantity = quantity - 1;
-                                      lineItems[index] = lineItems[index]
-                                          .copyWith
-                                          .quantity(quantity);
-                                    }
-                                    field.didChange(
-                                        lineItems + customLineItems);
-                                    setState(() {});
-                                  }
+                                          var quantity =
+                                              lineItems[index].quantity;
+                                          if (quantity! > 1) {
+                                            quantity = quantity - 1;
+                                            lineItems[index] = lineItems[index]
+                                                .copyWith(quantity: quantity);
+                                          }
+                                          field.didChange(
+                                              lineItems + customLineItems);
+                                          setState(() {});
+                                        }
                                       : null,
                                   selectedRegion: selectedRegion,
                                 );
                               }),
                         if (lineItems.isNotEmpty && customLineItems.isNotEmpty)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -273,7 +276,8 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: customLineItems.length,
-                              padding: const EdgeInsets.symmetric(vertical: 6.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 6.0),
                               itemBuilder: (context, index) {
                                 final customLineItem = customLineItems[index];
                                 return CustomVariantListTile(
@@ -281,36 +285,38 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                                   currencyCode: selectedRegion!.currencyCode!,
                                   onDelete: () {
                                     customLineItems.removeAt(index);
-                                    field.didChange(lineItems + customLineItems);
+                                    field
+                                        .didChange(lineItems + customLineItems);
                                     setState(() {});
                                   },
                                   onAddTap: () {
                                     customLineItems[index] = customLineItems
                                         .elementAt(index)
                                         .copyWith(
-                                        quantity:
-                                        customLineItems[index].quantity! +
-                                            1);
-                                    field.didChange(lineItems + customLineItems);
+                                            quantity: customLineItems[index]
+                                                    .quantity! +
+                                                1);
+                                    field
+                                        .didChange(lineItems + customLineItems);
                                     setState(() {});
                                   },
-                                  onRemoveTap: customLineItems[index].quantity! >
-                                      1
+                                  onRemoveTap: customLineItems[index]
+                                              .quantity! >
+                                          1
                                       ? () {
-                                    if (customLineItems[index].quantity! >
-                                        1) {
-                                      customLineItems[index] =
-                                          customLineItems[index]
-                                              .copyWith
-                                              .quantity(
-                                              customLineItems[index]
-                                                  .quantity! -
-                                                  1);
-                                    }
-                                    field.didChange(
-                                        lineItems + customLineItems);
-                                    setState(() {});
-                                  }
+                                          if (customLineItems[index].quantity! >
+                                              1) {
+                                            customLineItems[index] =
+                                                customLineItems[index].copyWith(
+                                                    quantity:
+                                                        customLineItems[index]
+                                                                .quantity! -
+                                                            1);
+                                          }
+                                          field.didChange(
+                                              lineItems + customLineItems);
+                                          setState(() {});
+                                        }
                                       : null,
                                 );
                               }),
@@ -321,23 +327,28 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
                             TextButton(
                                 onPressed: selectedRegion != null
                                     ? () async {
-                                  final result =
-                                  await showBarModalBottomSheet(
-                                      context: context,
-                                      backgroundColor: context.theme.scaffoldBackgroundColor,
-                                      overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-                                      builder: (context) {
-                                        return AddCustomItemView(
-                                            currencyCode: selectedRegion
-                                                ?.currencyCode);
-                                      });
-                                  if (result is LineItem) {
-                                    customLineItems.add(result);
-                                    field.didChange(
-                                        lineItems + customLineItems);
-                                    setState(() {});
-                                  }
-                                }
+                                        final result =
+                                            await showBarModalBottomSheet(
+                                                context: context,
+                                                backgroundColor: context.theme
+                                                    .scaffoldBackgroundColor,
+                                                overlayStyle: context
+                                                    .theme
+                                                    .appBarTheme
+                                                    .systemOverlayStyle,
+                                                builder: (context) {
+                                                  return AddCustomItemView(
+                                                      currencyCode:
+                                                          selectedRegion
+                                                              ?.currencyCode);
+                                                });
+                                        if (result is LineItem) {
+                                          customLineItems.add(result);
+                                          field.didChange(
+                                              lineItems + customLineItems);
+                                          setState(() {});
+                                        }
+                                      }
                                     : null,
                                 child: const Row(
                                   children: [
