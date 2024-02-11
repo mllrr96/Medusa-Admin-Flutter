@@ -58,9 +58,9 @@ import '../../presentation/modules/draft_orders_module/draft_order_details/views
 import '../../presentation/views/draft_orders/draft_orders_view.dart';
 import '../../presentation/modules/gift_cards_module/create_update_custom_gift_card/views/create_update_custom_gift_card_view.dart';
 import '../../presentation/views/custom_gift_cards/custom_gift_cards_view.dart';
-import '../../presentation/modules/groups_module/create_update_group/views/create_update_group_view.dart';
+import '../../presentation/views/add_update_group/create_update_group_view.dart';
 import '../../presentation/views/group_details/group_details_view.dart';
-import '../../presentation/modules/groups_module/groups/views/groups_view.dart';
+import '../../presentation/views/groups/groups_view.dart';
 import '../../presentation/views/search/medusa_search_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
 import '../../presentation/modules/orders_module/order_details/components/order_create_fulfillment.dart';

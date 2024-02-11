@@ -2,18 +2,18 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../../core/utils/medusa_icons_icons.dart';
 
-class GroupCard extends GetView<GroupsController> {
+class GroupCard extends StatelessWidget {
   const GroupCard(
-      {super.key, required this.customerGroup, required this.index});
+      {super.key, required this.customerGroup, required this.index, this.onDelete, this.afterUpdate});
   final CustomerGroup customerGroup;
   final int index;
+  final void Function()? onDelete;
+  final void Function()? afterUpdate;
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
@@ -29,7 +29,7 @@ class GroupCard extends GetView<GroupsController> {
             onPressed: (_) async {
               await context.pushRoute(CreateUpdateGroupRoute(customerGroup: customerGroup)).then((value) {
                 if (value is CustomerGroup) {
-                  controller.pagingController.refresh();
+                  afterUpdate?.call();
                 }
               });
             },
@@ -48,7 +48,7 @@ class GroupCard extends GetView<GroupsController> {
                 isDestructiveAction: true,
               ).then((value) async {
                 if (value == OkCancelResult.ok) {
-                  await controller.deleteGroup(id: customerGroup.id!);
+                  onDelete?.call();
                 }
               });
             },

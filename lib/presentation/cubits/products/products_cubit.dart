@@ -14,10 +14,10 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.productsUseCase) : super(const _Initial());
   Future<void> loadProducts({Map<String, dynamic>? queryParameters}) async {
     emit(const _Loading());
-    final result = await productsUseCase.fetchProducts(
-        queryParameters: {
+    final result = await productsUseCase.fetchProducts(queryParameters: {
       'limit': pageSize,
-    }..addAll(queryParameters ?? {}));
+      ...?queryParameters,
+    });
     result.when((response) {
       emit(_Products(response.products!, response.count ?? 0));
     }, (error) {

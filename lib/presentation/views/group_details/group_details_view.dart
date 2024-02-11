@@ -11,7 +11,6 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/customers/customers_cubit.dart';
 import 'package:medusa_admin/presentation/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
-import 'package:medusa_admin/presentation/modules/groups_module/groups/controllers/groups_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -140,9 +139,10 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                       customerGroup: widget.customerGroup))
                                   .then((value) {
                                 if (value is CustomerGroup) {
+
                                   // customerGroup = value;
-                                  GroupsController.instance.pagingController
-                                      .refresh();
+                                  // GroupsController.instance.pagingController
+                                  //     .refresh();
                                 }
                               });
                               break;

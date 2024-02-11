@@ -14,7 +14,7 @@ import 'package:medusa_admin/presentation/views/collections/components/collectio
 import 'package:medusa_admin/presentation/views/customers/components/index.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discount_card.dart';
 import 'package:medusa_admin/presentation/views/draft_orders/components/index.dart';
-import 'package:medusa_admin/presentation/modules/groups_module/groups/components/group_card.dart';
+import 'package:medusa_admin/presentation/views/groups/components/index.dart';
 import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/views/products/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
