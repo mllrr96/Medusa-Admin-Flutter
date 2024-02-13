@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discount_conditions/components/condition_collection_list_tile.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/collection/collection_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../controllers/discount_conditions_controller.dart';
 import 'condition_operator_card.dart';
 
 @RoutePage()

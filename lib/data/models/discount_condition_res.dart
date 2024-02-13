@@ -18,8 +18,3 @@ class DiscountConditionRes {
     this.customerGroups,
   });
 }
-
-class DiscountConditionReq {
-  DiscountConditionReq({this.discountTypes});
-  List<DiscountConditionType>? discountTypes;
-}

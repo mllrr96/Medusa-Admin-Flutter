@@ -6,11 +6,11 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/data/models/discount_condition_req.dart';
 import 'package:medusa_admin/presentation/modules/discount_module/discount_conditions/components/condition_card.dart';
-import 'package:medusa_admin/presentation/modules/discount_module/discount_conditions/controllers/discount_conditions_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'dart:io';
-
+import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ConditionExpansionTile extends StatefulWidget {

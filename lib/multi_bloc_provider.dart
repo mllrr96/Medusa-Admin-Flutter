@@ -6,6 +6,7 @@ import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/collections_cubit/collections_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/discount_details/discount_details_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/groups/groups_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
 
 import 'presentation/blocs/app_update/app_update_bloc.dart';
@@ -72,6 +73,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       ),
       BlocProvider<CustomerCrudBloc>(
         create: (_) => CustomerCrudBloc.instance,
+      ),
+      BlocProvider<GroupsCubit>(
+        create: (_) => GroupsCubit.instance,
       ),
       BlocProvider<GroupCrudBloc>(
         create: (_) => GroupCrudBloc.instance,

@@ -8,12 +8,14 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/data/models/discount_condition_req.dart';
+import 'package:medusa_admin/data/models/discount_condition_res.dart';
+import 'package:medusa_admin/data/models/update_condition_req.dart';
+import 'package:medusa_admin/data/models/update_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../core/constant/colors.dart';
 import '../../../modules/discount_module/discount_conditions/components/condition_card.dart';
-import '../../../modules/discount_module/discount_conditions/controllers/discount_conditions_controller.dart';
-import '../../../modules/discount_module/update_condition/controllers/update_condition_controller.dart';
 
 class ConditionsCard extends StatelessWidget {
   const ConditionsCard(this.discount,{this.discountCrudBloc,super.key});
@@ -100,7 +102,7 @@ class ConditionsCard extends StatelessWidget {
                               updateConditionReq: UpdateConditionReq(
                                   discountCondition: condition,
                                   discountConditionType: val)));
-                      if (result != null && result is UpdateConditionRes) {
+                      if (result is UpdateConditionRes) {
                         if (result.updatedItemIds.isEmpty) {
                           if (context.mounted) {
                             discountCrudBloc?.add(

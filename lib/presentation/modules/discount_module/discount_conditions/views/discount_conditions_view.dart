@@ -2,8 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/data/models/discount_condition_req.dart';
+import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import '../components/index.dart';
-import '../controllers/discount_conditions_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 @RoutePage()
