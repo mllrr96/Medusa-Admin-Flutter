@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -39,8 +39,8 @@ class ProductDetailsThumbnail extends StatelessWidget {
                 .then((result) async {
               if (result != null) {
                 context
-                    .read<ProductDetailsBloc>()
-                    .add(ProductDetailsEvent.loadWithVariants(product.id!));
+                    .read<ProductCrudBloc>()
+                    .add(ProductCrudEvent.loadWithVariants(product.id!));
               }
             });
           },

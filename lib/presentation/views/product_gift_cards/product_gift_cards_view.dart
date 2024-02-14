@@ -101,7 +101,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
               overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
               backgroundColor: context.theme.scaffoldBackgroundColor,
               context: context,
-              builder: (context) => const CreateGiftCardView()),
+              builder: (context) => const CreateProductGiftCardView()),
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.only(bottom: bottomPadding),
@@ -183,7 +183,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
                                 overlayStyle: context
                                     .theme.appBarTheme.systemOverlayStyle,
                                 builder: (context) =>
-                                    const CreateGiftCardView());
+                                    const CreateProductGiftCardView());
                           },
                           child: const Text('Create Gift Card'))
                     ],

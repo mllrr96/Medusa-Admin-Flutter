@@ -1,11 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/presentation/blocs/product_details/product_details_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
@@ -24,10 +24,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   @override
   void initState() {
     context
-        .read<ProductDetailsBloc>()
-        .add(ProductDetailsEvent.loadWithVariants(widget.productId));
+        .read<ProductCrudBloc>()
+        .add(ProductCrudEvent.loadWithVariants(widget.productId));
     super.initState();
   }
+
   final GlobalKey variantsKey = GlobalKey();
   final GlobalKey attributesKey = GlobalKey();
   final GlobalKey thumbnailKey = GlobalKey();
@@ -40,7 +41,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         systemOverlayStyle: context.defaultSystemUiOverlayStyle,
         title: const Text('Product Details'),
         actions: [
-          BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+          BlocBuilder<ProductCrudBloc, ProductCrudState>(
             builder: (context, state) {
               return state.maybeMap(
                 product: (state) {
@@ -58,8 +59,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         isDestructiveAction: true,
                       ).then((result) async {
                         if (result == OkCancelResult.ok) {
-                          context.read<ProductDetailsBloc>().add(
-                              ProductDetailsEvent.update(
+                          context.read<ProductCrudBloc>().add(
+                              ProductCrudEvent.update(
                                   widget.productId,
                                   UserPostUpdateProductReq(
                                       status: isPublished
@@ -74,8 +75,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         _getStatusIcon(state.product.status),
                         const SizedBox(width: 4.0),
                         Text(
-                          state.product.status.name.capitalize ??
-                              state.product.status.name,
+                          state.product.status.name.capitalize,
                           style: context.bodySmall,
                         ),
                       ],
@@ -89,7 +89,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         ],
       ),
       body: SafeArea(
-        child: BlocConsumer<ProductDetailsBloc, ProductDetailsState>(
+        child: BlocConsumer<ProductCrudBloc, ProductCrudState>(
           listener: (context, state) {
             state.maybeWhen(
               deleted: () {
@@ -97,8 +97,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               },
               updated: (product) {
                 context
-                    .read<ProductDetailsBloc>()
-                    .add(ProductDetailsEvent.loadWithVariants(product.id!));
+                    .read<ProductCrudBloc>()
+                    .add(ProductCrudEvent.loadWithVariants(product.id!));
               },
               orElse: () {},
             );
@@ -112,13 +112,17 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         children: [
                           ProductDetailsOverview(product: _.product),
                           space,
-                          ProductDetailsVariants(product: _.product, key: variantsKey),
+                          ProductDetailsVariants(
+                              product: _.product, key: variantsKey),
                           space,
-                          ProductDetailsAttributes(product: _.product, key: attributesKey),
+                          ProductDetailsAttributes(
+                              product: _.product, key: attributesKey),
                           space,
-                          ProductDetailsThumbnail(product: _.product, key: thumbnailKey),
+                          ProductDetailsThumbnail(
+                              product: _.product, key: thumbnailKey),
                           space,
-                          ProductDetailsImages(product: _.product, key: imagesKey),
+                          ProductDetailsImages(
+                              product: _.product, key: imagesKey),
                         ],
                       ),
                     ),
@@ -131,8 +135,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           FilledButton(
                               child: const Text('Retry'),
                               onPressed: () {
-                                context.read<ProductDetailsBloc>().add(
-                                    ProductDetailsEvent.loadWithVariants(
+                                context.read<ProductCrudBloc>().add(
+                                    ProductCrudEvent.loadWithVariants(
                                         widget.productId));
                               }),
                         ],

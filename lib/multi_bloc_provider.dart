@@ -13,7 +13,7 @@ import 'presentation/blocs/app_update/app_update_bloc.dart';
 import 'presentation/blocs/authentication/authentication_bloc.dart';
 import 'presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'presentation/blocs/discount_crud/discount_crud_bloc.dart';
-import 'presentation/blocs/product_details/product_details_bloc.dart';
+import 'presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'presentation/blocs/store/store_bloc.dart';
 import 'presentation/cubits/customers/customers_cubit.dart';
 import 'presentation/cubits/language/language_cubit.dart';
@@ -59,8 +59,8 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<SearchBloc>(
         create: (context) => SearchBloc.instance,
       ),
-      BlocProvider<ProductDetailsBloc>(
-        create: (_) => ProductDetailsBloc.instance,
+      BlocProvider<ProductCrudBloc>(
+        create: (_) => ProductCrudBloc.instance,
       ),
       BlocProvider<CollectionCrudBloc>(
         create: (_) => CollectionCrudBloc.instance,

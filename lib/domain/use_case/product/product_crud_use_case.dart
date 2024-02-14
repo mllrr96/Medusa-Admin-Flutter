@@ -5,10 +5,10 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class ProductDetailsUseCase{
+class ProductCrudUseCase{
   ProductsRepository get _productsRepository =>
       getIt<MedusaAdmin>().productsRepository;
-  static ProductDetailsUseCase get instance => getIt<ProductDetailsUseCase>();
+  static ProductCrudUseCase get instance => getIt<ProductCrudUseCase>();
   Future<Result<Product, Failure>> fetchProduct(String id,{
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -51,6 +51,17 @@ class ProductDetailsUseCase{
   }) async {
     try {
       final result = await _productsRepository.update(id: id, userPostUpdateProductReq: userPostUpdateProductReq);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+  Future<Result<Product, Failure>> createProduct({
+    required UserPostProductReq userPostProductReq,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final result = await _productsRepository.add(userPostProductReq: userPostProductReq);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));

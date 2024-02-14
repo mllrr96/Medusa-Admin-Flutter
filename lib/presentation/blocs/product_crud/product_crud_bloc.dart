@@ -4,26 +4,26 @@ import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/extension/copy_with_product.dart';
-import 'package:medusa_admin/domain/use_case/product/product_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/product/product_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-part 'product_details_event.dart';
-part 'product_details_state.dart';
-part 'product_details_bloc.freezed.dart';
+part 'product_crud_event.dart';
+part 'product_crud_state.dart';
+part 'product_crud_bloc.freezed.dart';
 
 @injectable
-class ProductDetailsBloc
-    extends Bloc<ProductDetailsEvent, ProductDetailsState> {
-  ProductDetailsBloc(this.productDetailsUseCase) : super(const _Initial()) {
+class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
+  ProductCrudBloc(this.productDetailsUseCase) : super(const _Initial()) {
     on<_Load>(_load);
     on<_LoadWithVariants>(_loadWithVariants);
     on<_Delete>(_delete);
     on<_Update>(_update);
+    on<_Create>(_create);
   }
 
   Future<void> _load(
     _Load event,
-    Emitter<ProductDetailsState> emit,
+    Emitter<ProductCrudState> emit,
   ) async {
     emit(const _Loading());
     final result = await productDetailsUseCase.fetchProduct(
@@ -42,7 +42,7 @@ class ProductDetailsBloc
 
   Future<void> _loadWithVariants(
     _LoadWithVariants event,
-    Emitter<ProductDetailsState> emit,
+    Emitter<ProductCrudState> emit,
   ) async {
     emit(const _Loading());
     final result = await productDetailsUseCase.fetchProduct(
@@ -72,9 +72,24 @@ class ProductDetailsBloc
     });
   }
 
+  Future<void> _create(
+    _Create event,
+    Emitter<ProductCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await productDetailsUseCase.createProduct(
+      userPostProductReq: event.userPostProductReq,
+    );
+    result.when((product) {
+      emit(_Product(product));
+    }, (error) {
+      emit(_Error(error));
+    });
+  }
+
   Future<void> _delete(
     _Delete event,
-    Emitter<ProductDetailsState> emit,
+    Emitter<ProductCrudState> emit,
   ) async {
     emit(const _Loading());
     final result = await productDetailsUseCase.deleteProduct(id: event.id);
@@ -87,7 +102,7 @@ class ProductDetailsBloc
 
   Future<void> _update(
     _Update event,
-    Emitter<ProductDetailsState> emit,
+    Emitter<ProductCrudState> emit,
   ) async {
     emit(const _Loading());
     final result = await productDetailsUseCase.updateProduct(
@@ -99,6 +114,6 @@ class ProductDetailsBloc
     });
   }
 
-  final ProductDetailsUseCase productDetailsUseCase;
-  static ProductDetailsBloc instance = getIt<ProductDetailsBloc>();
+  final ProductCrudUseCase productDetailsUseCase;
+  static ProductCrudBloc instance = getIt<ProductCrudBloc>();
 }
