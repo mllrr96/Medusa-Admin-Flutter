@@ -288,6 +288,7 @@ class _ProductsViewState extends State<ProductsView> {
                 },
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
+                animateTransitions: true,
               ),
             ),
           ),

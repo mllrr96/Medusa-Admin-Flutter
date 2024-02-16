@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/di/di.dart';
 
@@ -71,7 +72,8 @@ class UseBiometricReminder extends StatelessWidget {
                         '* You can enable this feature later in settings.',
                         style: context.bodySmall
                             ?.copyWith(color: ColorManager.manatee),
-                      )
+                      ),
+                      Gap(context.bottomViewPadding),
                     ],
                   ),
                 ],

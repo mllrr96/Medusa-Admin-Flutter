@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/order_crud/order_crud_bloc.dart';
-import 'package:medusa_admin/presentation/modules/draft_orders_module/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
+import 'package:medusa_admin/presentation/views/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/presentation/views/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/views/orders/components/payment_status_label.dart';

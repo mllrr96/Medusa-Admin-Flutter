@@ -7,12 +7,12 @@ import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/order/order_edit_use_case.dart';
+import 'package:medusa_admin/presentation/views/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import '../../../../../draft_orders_module/create_draft_order/components/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import '../controllers/add_update_order_edit_controller.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

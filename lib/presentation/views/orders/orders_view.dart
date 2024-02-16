@@ -209,6 +209,7 @@ class _OrdersViewState extends State<OrdersView> {
                     const OrdersLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
+                  animateTransitions: true,
               ),
             ),
           ),

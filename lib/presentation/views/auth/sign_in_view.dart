@@ -125,35 +125,38 @@ class _SignInViewState extends State<SignInView> {
                     duration: 300.ms),
                 persistentFooterAlignment: AlignmentDirectional.center,
                 persistentFooterButtons: [
-                  SignInFooterButtons(
-                    isSessionExpired,
-                    onGoToSignInPressed: loading
-                        ? null
-                        : () => context.router.replaceAll([SignInRoute()]),
-                    onUrlPressed: loading
-                        ? null
-                        : () async {
-                            final result = await context
-                                .pushRoute(const UrlConfigureRoute());
-                            if (result == true) {
-                              _onInit();
-                              setState(() {});
-                            }
-                          },
-                    onUrlLongPressed: loading
-                        ? null
-                        : () async {
-                            final result = await showBarModalBottomSheet(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                context: context,
-                                overlayStyle:
-                                    context.systemUiOverlayNoAppBarStyle,
-                                builder: (context) => const UrlConfigureView());
-                            if (result == true) {
-                              _onInit();
-                              setState(() {});
-                            }
-                          },
+                  Padding(
+                    padding: EdgeInsets.only(bottom: context.bottomViewPadding),
+                    child: SignInFooterButtons(
+                      isSessionExpired,
+                      onGoToSignInPressed: loading
+                          ? null
+                          : () => context.router.replaceAll([SignInRoute()]),
+                      onUrlPressed: loading
+                          ? null
+                          : () async {
+                              final result = await context
+                                  .pushRoute(const UrlConfigureRoute());
+                              if (result == true) {
+                                _onInit();
+                                setState(() {});
+                              }
+                            },
+                      onUrlLongPressed: loading
+                          ? null
+                          : () async {
+                              final result = await showBarModalBottomSheet(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  context: context,
+                                  overlayStyle:
+                                      context.systemUiOverlayNoAppBarStyle,
+                                  builder: (context) => const UrlConfigureView());
+                              if (result == true) {
+                                _onInit();
+                                setState(() {});
+                              }
+                            },
+                    ),
                   )
                 ],
                 body: SafeArea(

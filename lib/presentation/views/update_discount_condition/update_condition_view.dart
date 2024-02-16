@@ -11,13 +11,9 @@ import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:medusa_admin/data/models/update_condition_req.dart';
 import 'package:medusa_admin/data/models/update_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/discount_condition/discount_condition_bloc.dart';
-import 'package:medusa_admin/presentation/modules/discount_module/discount_conditions/components/condition_product_list_tile.dart';
+import 'package:medusa_admin/presentation/views/discount_conditions/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../modules/discount_module/discount_conditions/components/condition_collection_list_tile.dart';
-import '../../modules/discount_module/discount_conditions/components/condition_customer_group_list_tile.dart';
-import '../../modules/discount_module/discount_conditions/components/condition_tag_list_tile.dart';
-import '../../modules/discount_module/discount_conditions/components/condition_type_list_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
@@ -146,7 +142,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
         final item = object as Product;
-        return ProductListTileWithVariantCount(
+        return ProductTileWithVariantCount(
           product: item,
           value: (selectedItems as List<Product>)
               .map((e) => e.id!)
@@ -184,7 +180,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         );
       case DiscountConditionType.productCollections:
         final item = object as ProductCollection;
-        return ConditionCollectionListTile(
+        return ConditionCollectionTile(
           collection: item,
           value: (selectedItems as List<ProductCollection>)
               .map((e) => e.id!)
@@ -204,7 +200,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
 
       case DiscountConditionType.productTags:
         final item = object as ProductTag;
-        return ConditionTagListTile(
+        return ConditionTagTile(
           tag: item,
           value: (selectedItems as List<ProductTag>)
               .map((e) => e.id!)
@@ -224,7 +220,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
 
       case DiscountConditionType.customerGroups:
         final item = object as CustomerGroup;
-        return ConditionCustomerGroupListTile(
+        return ConditionCustomerGroupTile(
           customerGroup: item,
           value: (selectedItems as List<CustomerGroup>)
               .map((e) => e.id!)
