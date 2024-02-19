@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/discount_condition_req.dart';
 import 'package:medusa_admin/data/models/update_condition_req.dart';
+import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_view.dart';
 import 'package:medusa_admin/presentation/modules/categories/views/categories_view.dart';
@@ -16,9 +17,6 @@ import 'package:medusa_admin/presentation/modules/orders_module/order_details/vi
 import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/views/add_update_price_list_view.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/price_list_details/views/price_list_details_view.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/pricing/views/pricing_view.dart';
-import 'package:medusa_admin/presentation/modules/products_module/add_update_product/components/product_add_variant.dart';
-import 'package:medusa_admin/presentation/modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
-import 'package:medusa_admin/presentation/modules/products_module/add_update_product/views/add_update_product_view.dart';
 import 'package:medusa_admin/presentation/modules/products_module/import_products/import_products.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
@@ -49,6 +47,9 @@ import 'package:medusa_admin/presentation/modules/settings_module/store_settings
 import 'package:medusa_admin/presentation/views/add_update_customer/update_customer_details_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_discount/add_update_discount_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_group/create_update_group_view.dart';
+import 'package:medusa_admin/presentation/views/add_update_product/components/image_card.dart';
+import 'package:medusa_admin/presentation/views/add_update_product/components/product_add_variant.dart';
+import 'package:medusa_admin/presentation/views/add_update_product/views/add_update_product_view.dart';
 import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
 import 'package:medusa_admin/presentation/views/auth/reset_password_view.dart';
 import 'package:medusa_admin/presentation/views/auth/sign_in_view.dart';
@@ -91,7 +92,6 @@ import 'package:medusa_admin/presentation/widgets/pick_regions/controllers/pick_
 import 'package:medusa_admin/presentation/widgets/pick_regions/views/pick_regions_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/components/index.dart';
-import 'package:medusa_admin/presentation/modules/products_module/add_update_product/components/image_card.dart';
 
 part 'app_router.gr.dart';
 

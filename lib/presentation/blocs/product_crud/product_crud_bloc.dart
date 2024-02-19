@@ -115,5 +115,5 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
   }
 
   final ProductCrudUseCase productDetailsUseCase;
-  static ProductCrudBloc instance = getIt<ProductCrudBloc>();
+  static ProductCrudBloc get instance => getIt<ProductCrudBloc>();
 }

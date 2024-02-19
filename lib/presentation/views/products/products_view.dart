@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/presentation/cubits/products/products_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -18,7 +19,6 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/utils/enums.dart';
-import '../../modules/products_module/add_update_product/controllers/add_update_product_controller.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 

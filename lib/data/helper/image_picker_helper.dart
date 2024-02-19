@@ -2,14 +2,16 @@ import 'dart:io';
 import 'dart:math';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/extension/random_extension.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 
+@singleton
 class ImagePickerHelper {
   final _picker = ImagePicker();
   final _imageCropper = ImageCropper();
-  final uuid = const Uuid();
+  static ImagePickerHelper get instance => getIt<ImagePickerHelper>();
 
   Future<File?> imagePicker(
       {required ImageSource source, CropStyle? cropStyle, CropAspectRatio? cropAspectRatio}) async {
