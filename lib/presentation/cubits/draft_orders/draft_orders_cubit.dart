@@ -8,6 +8,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 part 'draft_orders_state.dart';
 part 'draft_orders_cubit.freezed.dart';
+
 @injectable
 class DraftOrdersCubit extends Cubit<DraftOrdersState> {
   static int pageSize = 20;
@@ -16,7 +17,8 @@ class DraftOrdersCubit extends Cubit<DraftOrdersState> {
     emit(const _Loading());
     final result = await draftsUseCase(queryParameters: {
       'limit': pageSize,
-    }..addAll(queryParameters ?? {}));
+      ...?queryParameters,
+    });
     result.when((success) {
       emit(_DraftOrders(success.draftOrders!, success.count ?? 0));
     }, (error) {

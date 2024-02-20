@@ -21,10 +21,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     emit(const _Loading());
-    final result = await ordersUseCase.retrieveOrders(
-        queryParameters: {'limit': pageSize}
-          ..addAll(_expandParameters)
-          ..addAll(event.queryParameters ?? {}));
+    final result = await ordersUseCase.retrieveOrders(queryParameters: {
+      'limit': pageSize,
+      ..._expandParameters,
+      ...?event.queryParameters,
+    });
     result.when((ordersResponse) {
       emit(_Orders(ordersResponse.orders!, ordersResponse.count ?? 0));
     }, (error) {

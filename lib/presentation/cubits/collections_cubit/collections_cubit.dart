@@ -18,7 +18,8 @@ class CollectionsCubit extends Cubit<CollectionsState> {
     final result = await collectionsUseCase(
         queryParameters: {
           'limit': pageSize,
-        }..addAll(queryParameters ?? {}));
+          ...?queryParameters,
+        });
     result.when((success) {
       emit(_Collections(success.collections!, success.count ?? 0));
     }, (error) {

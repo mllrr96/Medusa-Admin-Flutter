@@ -15,4 +15,19 @@ extension ProductOptionValueExtension on ProductOptionValue {
       metadata: null,
     );
   }
+
+  ProductOptionValue duplicate() {
+    return ProductOptionValue(
+      value: value,
+      optionId: null,
+      variantId: null,
+      variant: null,
+      option: null,
+      id: null,
+      createdAt: null,
+      updatedAt: null,
+      deletedAt: null,
+      metadata: null,
+    );
+  }
 }

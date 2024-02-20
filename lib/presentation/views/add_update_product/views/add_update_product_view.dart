@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/copy_with_product.dart';
+import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/core/extension/product_variant_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';

@@ -18,7 +18,8 @@ class DiscountsCubit extends Cubit<DiscountsState> {
         queryParameters: {
       'limit': pageSize,
       'is_dynamic': false,
-    }..addAll(queryParameters ?? {}));
+      ...?queryParameters,
+    });
     result.when((success) {
       emit(_Discounts(success.discounts!, success.count ?? 0));
     }, (error) {

@@ -16,7 +16,7 @@ class MedusaSliverAppBar extends StatelessWidget {
     this.floating,
     this.snap,
     this.systemOverlayStyle,
-    this.backgroundColor,
+    this.backgroundColor, this.centerTitle,
   });
   final AppBarStyle? appBarStyle;
   final Widget? title;
@@ -26,6 +26,7 @@ class MedusaSliverAppBar extends StatelessWidget {
   final Color? backgroundColor;
   final bool? snap;
   final SystemUiOverlayStyle? systemOverlayStyle;
+  final bool? centerTitle;
   @override
   Widget build(BuildContext context) {
     final isDashboardRoute = context.router.current.name == DashboardRoute.name;
@@ -39,6 +40,7 @@ class MedusaSliverAppBar extends StatelessWidget {
       case AppBarStyle.normal:
         return SliverAppBar(
           title: title,
+          centerTitle: centerTitle,
           backgroundColor: backgroundColor,
           leading: leading,
           actions: actions,
@@ -49,6 +51,7 @@ class MedusaSliverAppBar extends StatelessWidget {
       case AppBarStyle.medium:
         return SliverAppBar.medium(
           title: title,
+          centerTitle: centerTitle,
           backgroundColor: backgroundColor,
           leading: leading,
           actions: actions,
@@ -57,6 +60,7 @@ class MedusaSliverAppBar extends StatelessWidget {
       case AppBarStyle.large:
         return SliverAppBar.large(
           title: title,
+          centerTitle: centerTitle,
           backgroundColor: backgroundColor,
           leading: leading,
           actions: actions,

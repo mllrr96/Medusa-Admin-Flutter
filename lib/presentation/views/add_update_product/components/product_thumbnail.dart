@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/copy_with_product.dart';
+import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/data/helper/image_picker_helper.dart';
 import 'package:medusa_admin/data/models/wrapped.dart';

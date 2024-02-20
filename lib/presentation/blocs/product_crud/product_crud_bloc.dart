@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin/core/extension/copy_with_product.dart';
+import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/domain/use_case/product/product_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
@@ -25,7 +25,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Load event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(const _Loading());
+    emit(_Loading(id: event.id));
     final result = await productDetailsUseCase.fetchProduct(
       event.id,
       queryParameters: {
@@ -44,7 +44,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _LoadWithVariants event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(const _Loading());
+    emit(_Loading(id: event.id));
     final result = await productDetailsUseCase.fetchProduct(
       event.id,
       queryParameters: {
@@ -91,7 +91,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Delete event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(const _Loading());
+    emit(_Loading(id: event.id));
     final result = await productDetailsUseCase.deleteProduct(id: event.id);
     result.when((success) {
       emit(const _Deleted());
@@ -104,7 +104,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     _Update event,
     Emitter<ProductCrudState> emit,
   ) async {
-    emit(const _Loading());
+    emit(_Loading(id: event.id));
     final result = await productDetailsUseCase.updateProduct(
         id: event.id, userPostUpdateProductReq: event.userPostUpdateProductReq);
     result.when((success) {

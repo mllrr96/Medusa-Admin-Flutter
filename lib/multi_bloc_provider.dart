@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
-import 'package:medusa_admin/presentation/blocs/search/search_bloc.dart';
-import 'package:medusa_admin/presentation/cubits/collections_cubit/collections_cubit.dart';
-import 'package:medusa_admin/presentation/cubits/discount_details/discount_details_cubit.dart';
-import 'package:medusa_admin/presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
-import 'package:medusa_admin/presentation/cubits/groups/groups_cubit.dart';
-import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
-
+import 'presentation/blocs/collection_crud/collection_crud_bloc.dart';
+import 'presentation/blocs/group_crud/group_crud_bloc.dart';
+import 'presentation/blocs/search/search_bloc.dart';
+import 'presentation/cubits/collections_cubit/collections_cubit.dart';
+import 'presentation/cubits/discount_details/discount_details_cubit.dart';
+import 'presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
+import 'presentation/cubits/groups/groups_cubit.dart';
+import 'presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'presentation/blocs/app_update/app_update_bloc.dart';
 import 'presentation/blocs/authentication/authentication_bloc.dart';
 import 'presentation/blocs/customer_crud/customer_crud_bloc.dart';
@@ -58,9 +57,6 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<SearchBloc>(
         create: (context) => SearchBloc.instance,
       ),
-      // BlocProvider<ProductCrudBloc>(
-      //   create: (_) => ProductCrudBloc.instance,
-      // ),
       BlocProvider<CollectionCrudBloc>(
         create: (_) => CollectionCrudBloc.instance,
       ),

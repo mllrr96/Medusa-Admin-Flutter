@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
+import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/products/products_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -16,8 +18,10 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/domain/use_case/batch_job/create_batch_job_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/utils/enums.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -36,53 +40,98 @@ class _ProductsViewState extends State<ProductsView> {
   RefreshController refreshController = RefreshController();
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
+  late ProductCrudBloc productCrudBloc;
+  String loadingProductId = '';
   void _loadPage(int _) {
-    context.read<ProductsCubit>().loadProducts(
-            queryParameters: {
-          'order': sortOptions.map(),
-          'is_giftcard': false,
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-        }..addAll(productFilter?.toJson() ?? {}));
+    context.read<ProductsCubit>().loadProducts(queryParameters: {
+      'order': sortOptions.map(),
+      'is_giftcard': false,
+      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      ...?productFilter?.toJson()
+    });
   }
 
   @override
   void initState() {
+    productCrudBloc = ProductCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
+  void dispose() {
+    pagingController.dispose();
+    refreshController.dispose();
+    productCrudBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    return BlocListener<ProductsCubit, ProductsState>(
-      listener: (context, state) {
-        state.mapOrNull(
-          products: (state) async {
-            final isLastPage = state.products.length < ProductsCubit.pageSize;
-            if (refreshController.isRefresh) {
-              pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
-              await Future.delayed(const Duration(milliseconds: 250));
-            }
-            if (isLastPage) {
-              pagingController.appendLastPage(state.products);
-            } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.products.length;
-              pagingController.appendPage(state.products, nextPageKey);
-            }
-            if (refreshController.isRefresh) {
-              pagingController.addPageRequestListener(_loadPage);
-              refreshController.refreshCompleted();
-            }
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ProductsCubit, ProductsState>(
+          listener: (BuildContext context, ProductsState state) {
+            state.mapOrNull(
+              products: (state) async {
+                final isLastPage =
+                    state.products.length < ProductsCubit.pageSize;
+                if (refreshController.isRefresh) {
+                  pagingController.removePageRequestListener(_loadPage);
+                  pagingController.value = const PagingState(
+                      nextPageKey: null, error: null, itemList: null);
+                  await Future.delayed(const Duration(milliseconds: 250));
+                }
+                if (isLastPage) {
+                  pagingController.appendLastPage(state.products);
+                } else {
+                  final nextPageKey =
+                      pagingController.nextPageKey ?? 0 + state.products.length;
+                  pagingController.appendPage(state.products, nextPageKey);
+                }
+                if (refreshController.isRefresh) {
+                  pagingController.addPageRequestListener(_loadPage);
+                  refreshController.refreshCompleted();
+                }
+              },
+              error: (state) {
+                refreshController.refreshFailed();
+                pagingController.error = state.error;
+              },
+            );
           },
-          error: (state) {
-            refreshController.refreshFailed();
-            pagingController.error = state.error;
-          },
-        );
-      },
+        ),
+        BlocListener<ProductCrudBloc, ProductCrudState>(
+            bloc: productCrudBloc,
+            listener: (BuildContext context, ProductCrudState state) {
+              state.mapOrNull(
+                loading: (_) {
+                  setState(() => loadingProductId = _.id ?? '');
+                },
+                product: (_) {
+                  // refreshController.headerMode!.value = RefreshStatus.refreshing;
+                  // _loadPage(0);
+                  pagingController.refresh();
+                  loadingProductId = '';
+                },
+                deleted: (_) {
+                  pagingController.refresh();
+                  loadingProductId = '';
+                },
+                updated: (_) {
+                  pagingController.refresh();
+                  // _loadPage(0);
+                  loadingProductId = '';
+                },
+                error: (state) {
+                  context.showSnackBar(state.failure.toSnackBarString());
+                  loadingProductId = '';
+                },
+              );
+              // setState(() {});
+            }),
+      ],
       child: Scaffold(
         drawer: const AppDrawer(),
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
@@ -103,107 +152,83 @@ class _ProductsViewState extends State<ProductsView> {
               }
               setState(() => this.productFilter = productFilter);
               pagingController.refresh();
-              // controller.updateFilter(productFilter);
               context.popRoute();
             },
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Directionality(
-            textDirection:
-                context.isRTL ? TextDirection.rtl : TextDirection.ltr,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SpeedDial(
-                  switchLabelPosition: true,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  icon: CupertinoIcons.doc_text_search,
-                  spacing: 10,
-                  children: [
-                    SpeedDialChild(
-                      child: const Icon(MedusaIcons.magnifying_glass_mini),
-                      label: 'Search for a product',
-                      labelStyle: smallTextStyle,
-                      onTap: () => context.pushRoute(MedusaSearchRoute(
-                          searchCategory: SearchCategory.products)),
-                      onLongPress: () {},
-                    ),
-                    SpeedDialChild(
-                      child: const Icon(CupertinoIcons.sort_up),
-                      label: 'Sort',
-                      labelStyle: smallTextStyle,
-                      onTap: () async {
-                        final result = await sortOptionsSheet;
-                        if (result != null) {
-                          setState(() => sortOptions = result);
+        floatingActionButton: Directionality(
+          textDirection: context.isRTL ? TextDirection.rtl : TextDirection.ltr,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SearchFloatingActionButton(
+                      searchCategory: SearchCategory.products),
+                  Gap(4.0),
+                ],
+              ),
+              const Gap(6.0),
+              SpeedDial(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                animatedIcon: AnimatedIcons.menu_close,
+                spacing: 10,
+                children: [
+                  SpeedDialChild(
+                    child: const Icon(Icons.add),
+                    label: 'New Product',
+                    labelStyle: smallTextStyle,
+                    onTap: () async {
+                      await context
+                          .pushRoute(
+                              AddUpdateProductRoute(updateProductReq: null))
+                          .then((result) {
+                        if (result is bool && result == true) {
                           pagingController.refresh();
                         }
-                      },
-                      onLongPress: () {},
-                    ),
-                  ],
-                ),
-                SpeedDial(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  animatedIcon: AnimatedIcons.menu_close,
-                  spacing: 10,
-                  children: [
-                    SpeedDialChild(
-                      child: const Icon(Icons.add),
-                      label: 'New Product',
-                      labelStyle: smallTextStyle,
-                      onTap: () async {
-                        await context
-                            .pushRoute(
-                                AddUpdateProductRoute(updateProductReq: null))
-                            .then((result) {
-                          if (result is bool && result == true) {
-                            pagingController.refresh();
-                          }
+                      });
+                    },
+                    onLongPress: () {},
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(MedusaIcons.arrow_down_tray),
+                    label: 'Import Products',
+                    labelStyle: smallTextStyle,
+                    onTap: () async {
+                      await context.pushRoute(const ImportProductsRoute());
+                    },
+                    onLongPress: () {},
+                  ),
+                  SpeedDialChild(
+                    child: const Icon(Icons.cloud_upload_rounded),
+                    label: 'Export Products',
+                    labelStyle: smallTextStyle,
+                    onTap: () async {
+                      if (await exportProducts) {
+                        final result = await CreateBatchJobUseCase.instance(
+                            BatchJobType.productExport);
+                        result.when((success) {
+                          context.showSnackBar('Export started');
+                        }, (error) {
+                          context.showSnackBar(error.message);
                         });
-                      },
-                      onLongPress: () {},
-                    ),
-                    SpeedDialChild(
-                      child: const Icon(MedusaIcons.arrow_down_tray),
-                      label: 'Import Products',
-                      labelStyle: smallTextStyle,
-                      onTap: () async {
-                        await context.pushRoute(const ImportProductsRoute());
-                      },
-                      onLongPress: () {},
-                    ),
-                    SpeedDialChild(
-                      child: const Icon(Icons.cloud_upload_rounded),
-                      label: 'Export Products',
-                      labelStyle: smallTextStyle,
-                      onTap: () async {
-                        if (await exportProducts) {
-                          final result = await CreateBatchJobUseCase.instance(
-                              BatchJobType.productExport);
-                          result.when((success) {
-                            context.showSnackBar('Export started');
-                          }, (error) {
-                            context.showSnackBar(error.message);
-                          });
-                        }
-                      },
-                      onLongPress: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                      }
+                    },
+                    onLongPress: () {},
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
+              centerTitle: true,
               title: Builder(builder: (context) {
                 final productsCount = context.select<ProductsCubit, int>(
                     (bloc) =>
@@ -217,11 +242,22 @@ class _ProductsViewState extends State<ProductsView> {
                     overflow: TextOverflow.ellipsis);
               }),
               actions: [
+                IconButton(
+                    padding: const EdgeInsets.all(16.0),
+                    onPressed: () async {
+                      final result = await sortOptionsSheet;
+                      if (result != null) {
+                        setState(() => sortOptions = result);
+                        pagingController.refresh();
+                      }
+                    },
+                    icon: const Icon(CupertinoIcons.sort_up)),
                 Builder(
                   builder: (context) {
                     final iconColor =
                         (productFilter?.count() ?? -1) > 0 ? Colors.red : null;
                     return IconButton(
+                        padding: const EdgeInsets.all(16.0),
                         onPressed: () => context.openEndDrawer(),
                         icon: Icon(Icons.sort, color: iconColor));
                   },
@@ -238,28 +274,42 @@ class _ProductsViewState extends State<ProductsView> {
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Product>(
-                itemBuilder: (context, product, index) => ProductListTile(
-                  product: product,
-                  onEdit: () async {
-                    final result = await context.pushRoute(
-                        AddUpdateProductRoute(
-                            updateProductReq:
-                                UpdateProductReq(product: product, number: 7)));
-                    if (result != null) {
-                      pagingController.refresh();
-                    }
-                  },
-                  onDelete: () async {
-                    if (await confirmDelete) {
-                      // await controller.deleteProduct(product.id!);
-                    }
-                  },
-                  onPublish: () async {
-                    // await controller.updateProduct(product);
-                  },
-                  onDuplicate: () async {
-                    // await controller.duplicateProduct(product);
-                  },
+                itemBuilder: (context, product, index) => Skeletonizer(
+                  enabled: product.id == loadingProductId,
+                  child: ProductListTile(
+                    product: product,
+                    onEdit: () async {
+                      final result = await context.pushRoute(
+                          AddUpdateProductRoute(
+                              updateProductReq: UpdateProductReq(
+                                  product: product, number: 7)));
+                      if (result != null) {
+                        pagingController.refresh();
+                      }
+                    },
+                    onDelete: () async {
+                      if (await confirmDelete) {
+                        productCrudBloc
+                            .add(ProductCrudEvent.delete(product.id!));
+                      }
+                    },
+                    onPublish: () async {
+                      productCrudBloc.add(ProductCrudEvent.update(
+                          product.id!,
+                          UserPostUpdateProductReq(
+                            status: product.status == ProductStatus.draft
+                                ? ProductStatus.published
+                                : ProductStatus.draft,
+                          )));
+                    },
+                    onDuplicate: () async {
+                      productCrudBloc.add(ProductCrudEvent.create(
+                          UserPostProductReq(
+                              product: product.duplicate(
+                                  title: '${product.title ?? ''} (copy)',
+                                  handle: '${product.handle ?? ''}-copy'))));
+                    },
+                  ),
                 ),
                 firstPageProgressIndicatorBuilder: (_) =>
                     const ProductsLoadingPage(),
