@@ -130,11 +130,6 @@ class ConditionsCard extends StatelessWidget {
                                 DiscountCrudEvent.removeItemsFromCondition(
                                     discount.id!, condition.id!, deletedItems));
                           }
-                          // await controller.updateCondition(
-                          //     addedItems: addedItems,
-                          //     deletedItems: deletedItems,
-                          //     conditionId: condition.id!,
-                          //     context: context);
                         }
                       }
                     },

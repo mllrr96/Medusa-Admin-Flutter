@@ -25,6 +25,6 @@ class DiscountDetailsCubit extends Cubit<DiscountDetailsState> {
     });
   }
 
-  final DiscountDetailsUseCase discountDetailsUseCase;
+  final DiscountCrudUseCase discountDetailsUseCase;
   static DiscountDetailsCubit get instance => getIt<DiscountDetailsCubit>();
 }

@@ -52,7 +52,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
           ),
           floatingActionButton: DiscountDetailsFab(discountCrudBloc),
           body: SafeArea(
-            child: state.map(
+            child: state.maybeMap(
               discount: (state) => SmartRefresher(
                 controller: refreshController,
                 onRefresh: () => discountCrudBloc
@@ -99,6 +99,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                 ),
               ),
               deleted: (_) => const SizedBox.shrink(),
+              orElse: () => const SizedBox.shrink(),
             ),
           ),
         );

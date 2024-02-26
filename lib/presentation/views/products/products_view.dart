@@ -228,7 +228,7 @@ class _ProductsViewState extends State<ProductsView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
-              centerTitle: true,
+              // centerTitle: true,
               title: Builder(builder: (context) {
                 final productsCount = context.select<ProductsCubit, int>(
                     (bloc) =>

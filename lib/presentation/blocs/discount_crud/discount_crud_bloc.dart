@@ -11,11 +11,10 @@ part 'discount_crud_state.dart';
 part 'discount_crud_bloc.freezed.dart';
 
 @injectable
-class DiscountCrudBloc
-    extends Bloc<DiscountCrudEvent, DiscountCrudState> {
-  DiscountCrudBloc(this.discountDetailsUseCase)
-      : super(const _Initial()) {
+class DiscountCrudBloc extends Bloc<DiscountCrudEvent, DiscountCrudState> {
+  DiscountCrudBloc(this.discountDetailsUseCase) : super(const _Initial()) {
     on<_Load>(_load);
+    on<_LoadAll>(_loadAll);
     on<_Update>(_update);
     on<_Create>(_create);
 
@@ -36,6 +35,24 @@ class DiscountCrudBloc
     );
     result.when((discount) => emit(_Discount(discount)),
         (error) => emit(_Error(error)));
+  }
+
+  Future<void> _loadAll(
+    _LoadAll event,
+    Emitter<DiscountCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result =
+        await discountDetailsUseCase.retrieveDiscounts(queryParameters: {
+      'limit': pageSize,
+      'is_dynamic': false,
+      ...?event.queryParameters,
+    });
+    result.when((success) {
+      emit(_Discounts(success.discounts ?? [], success.count ?? 0));
+    }, (error) {
+      emit(_Error(error));
+    });
   }
 
   Future<void> _update(
@@ -115,7 +132,7 @@ class DiscountCrudBloc
   }
 
   Future<void> _removeItemsFromCondition(
-      _RemoveItemsFromCondition event,
+    _RemoveItemsFromCondition event,
     Emitter<DiscountCrudState> emit,
   ) async {
     emit(_Loading(discountId: event.discountId));
@@ -127,7 +144,7 @@ class DiscountCrudBloc
         (error) => emit(_Error(error)));
   }
 
-  final DiscountDetailsUseCase discountDetailsUseCase;
-  static DiscountCrudBloc get instance =>
-      getIt<DiscountCrudBloc>();
+  final DiscountCrudUseCase discountDetailsUseCase;
+  static DiscountCrudBloc get instance => getIt<DiscountCrudBloc>();
+  static int pageSize = 20;
 }
