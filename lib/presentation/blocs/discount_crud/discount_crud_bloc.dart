@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin/domain/use_case/discount/discount_details_use_case.dart';
+import 'package:medusa_admin/domain/use_case/discount/discount_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 part 'discount_crud_event.dart';

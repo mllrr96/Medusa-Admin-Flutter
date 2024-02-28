@@ -42,4 +42,17 @@ class CustomerCrudUseCase {
       return Error(Failure.from(e));
     }
   }
+
+
+  Future<Result<CustomersRes, Failure>> retrieveAll(
+      {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _customerRepository.retrieveCustomers(
+          queryParameters: queryParameters);
+      return Success(result!);
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
 }

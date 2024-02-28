@@ -7,4 +7,5 @@ class CustomerCrudEvent with _$CustomerCrudEvent {
       UserUpdateCustomerReq userUpdateCustomerReq) = _Update;
   const factory CustomerCrudEvent.delete(String id) = _Delete;
   const factory CustomerCrudEvent.load(String id) = _Load;
+  const factory CustomerCrudEvent.loadAll({Map<String,dynamic>? queryParameters}) = _LoadAll;
 }

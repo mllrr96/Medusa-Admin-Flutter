@@ -60,10 +60,8 @@ class _ImportProductsViewState extends State<ImportProductsView> {
 
   @override
   Widget build(BuildContext context) {
-
-    final templateWidget =Padding(
-      padding:
-      const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+    final templateWidget = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -73,8 +71,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
               child: Text('Unsure about how to arrange your list?')),
           Text(
             'Download the template below to ensure you are following the correct format.',
-            style: context.bodyMedium
-                ?.copyWith(color: ColorManager.manatee),
+            style: context.bodyMedium?.copyWith(color: ColorManager.manatee),
             textAlign: TextAlign.justify,
           ),
           const Gap(8.0),
@@ -82,26 +79,24 @@ class _ImportProductsViewState extends State<ImportProductsView> {
             onTap: loadingTemplate
                 ? null
                 : () async {
-              setState(() => loadingTemplate = true);
-              const fileName = 'product-import-template.csv';
-              final dir =
-              await getApplicationDocumentsDirectory();
-              String savePath = '${dir.path}/$fileName';
-              final exist = await File(savePath).exists();
+                    setState(() => loadingTemplate = true);
+                    const fileName = 'product-import-template.csv';
+                    final dir = await getApplicationDocumentsDirectory();
+                    String savePath = '${dir.path}/$fileName';
+                    final exist = await File(savePath).exists();
 
-              if (exist) {
-                setState(() => loadingTemplate = false);
-                await Share.shareXFiles([XFile(savePath)]);
-              } else {
-                final byteData =
-                await rootBundle.load('assets/$fileName');
-                final file = File(savePath);
-                await file.writeAsBytes(
-                    byteData.buffer.asUint8List());
-                setState(() => loadingTemplate = false);
-                await Share.shareXFiles([XFile(savePath)]);
-              }
-            },
+                    if (exist) {
+                      setState(() => loadingTemplate = false);
+                      await Share.shareXFiles([XFile(savePath)]);
+                    } else {
+                      final byteData =
+                          await rootBundle.load('assets/$fileName');
+                      final file = File(savePath);
+                      await file.writeAsBytes(byteData.buffer.asUint8List());
+                      setState(() => loadingTemplate = false);
+                      await Share.shareXFiles([XFile(savePath)]);
+                    }
+                  },
             borderRadius: BorderRadius.circular(4.0),
             child: Ink(
                 padding: const EdgeInsets.all(8.0),
@@ -114,23 +109,19 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                   children: [
                     if (loadingTemplate)
                       LoadingAnimationWidget.threeArchedCircle(
-                          color: context.theme.colorScheme.primary,
-                          size: 24),
+                          color: context.theme.colorScheme.primary, size: 24),
                     Opacity(
                       opacity: loadingTemplate ? 0.4 : 1.0,
                       child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
                               Icon(Icons.file_present_rounded,
-                                  color: context
-                                      .theme.colorScheme.primary),
+                                  color: context.theme.colorScheme.primary),
                               const Gap(8.0),
                               const Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('medusa-template.csv'),
                                   Text('2.90 KiB'),
@@ -139,8 +130,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                             ],
                           ),
                           Icon(Icons.file_download_outlined,
-                              color:
-                              context.theme.colorScheme.primary)
+                              color: context.theme.colorScheme.primary)
                         ],
                       ),
                     ),
@@ -182,36 +172,39 @@ class _ImportProductsViewState extends State<ImportProductsView> {
               });
             },
             child: Scaffold(
-              bottomNavigationBar: controller.obx((batchJob) {
-                final status = batchJob?.status;
-                if(status == BatchJobStatus.preProcessed){
-                  return Container(
-                    padding: const EdgeInsets.all(16.0),
-                    child: FilledButton(
-                      onPressed: ()async{
-                        loading();
-                       final result = await ConfirmBatchJobUseCase.instance(batchJobId!);
-                       result.when((success) {
-                         context.router.popForced();
-                         context.showSnackBar('Import confirmed for processing. Progress info is available in the activity drawer.');
-                         dismissLoading();
-                       } , (error) {
-                         dismissLoading();
-                         context.showSnackBar(error.toSnackBarString());
-                       } );
-                      },
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size(double.maxFinite, 48),
+              bottomNavigationBar: controller.obx(
+                (batchJob) {
+                  final status = batchJob?.status;
+                  if (status == BatchJobStatus.preProcessed) {
+                    return Container(
+                      padding: const EdgeInsets.all(16.0),
+                      child: FilledButton(
+                        onPressed: () async {
+                          loading();
+                          final result = await ConfirmBatchJobUseCase.instance(
+                              batchJobId!);
+                          result.when((success) {
+                            context.router.popForced();
+                            context.showSnackBar(
+                                'Import confirmed for processing. Progress info is available in the activity drawer.');
+                            dismissLoading();
+                          }, (error) {
+                            dismissLoading();
+                            context.showSnackBar(error.toSnackBarString());
+                          });
+                        },
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(double.maxFinite, 48),
+                        ),
+                        child: const Text('Import List'),
                       ),
-                      child: const Text('Import List'),
-                    ),
-                  );
-                } else {
-                  return templateWidget;
-                }
-              },
-              onLoading: templateWidget,
-              onEmpty: templateWidget,
+                    );
+                  } else {
+                    return templateWidget;
+                  }
+                },
+                onLoading: templateWidget,
+                onEmpty: templateWidget,
                 onError: (_) => templateWidget,
               ),
               body: NestedScrollView(
@@ -251,7 +244,6 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                           textAlign: TextAlign.justify,
                         ),
                         const Gap(16.0),
-
                         if (batchJob?.status == BatchJobStatus.preProcessed)
                           Container(
                             padding: const EdgeInsets.all(8.0),
@@ -293,12 +285,11 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                                         await CancelBatchJobUseCase.instance(
                                                 batchJobId!)
                                             .then((result) {
-                                          result.when(
-                                              (success) {
-                                                batchJobId = null;
-                                                setState(() {});
-                                                controller.resetState();
-                                              },
+                                          result.when((success) {
+                                            batchJobId = null;
+                                            setState(() {});
+                                            controller.resetState();
+                                          },
                                               (error) => context.showSnackBar(
                                                   error.toSnackBarString()));
                                         });
@@ -333,7 +324,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                           ),
                         const Gap(16.0),
                         Text(batchJob?.result?.statDescriptors?.firstOrNull
-                            ?.message ??
+                                ?.message ??
                             ''),
                       ]);
                     },

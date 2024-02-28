@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/presentation/cubits/customers/customers_cubit.dart';
+import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -29,27 +29,40 @@ class _CustomersViewState extends State<CustomersView> {
   final refreshController = RefreshController();
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
+  late CustomerCrudBloc customerCrudBloc;
 
   void _loadPage(int _) {
-    context.read<CustomersCubit>().loadCustomers(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-      'expand': 'orders',
-    });
+    customerCrudBloc.add(
+      CustomerCrudEvent.loadAll(queryParameters: {
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'expand': 'orders',
+      }),
+    );
   }
 
   @override
   void initState() {
+    customerCrudBloc = CustomerCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
+  void dispose() {
+    customerCrudBloc.close();
+    pagingController.dispose();
+    refreshController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<CustomersCubit, CustomersState>(
+    return BlocListener<CustomerCrudBloc, CustomerCrudState>(
+      bloc: customerCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           customers: (state) async {
-            final isLastPage = state.customer.length < CustomersCubit.pageSize;
+            final isLastPage = state.customers.length < CustomerCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -57,11 +70,11 @@ class _CustomersViewState extends State<CustomersView> {
               await Future.delayed(const Duration(milliseconds: 250));
             }
             if (isLastPage) {
-              pagingController.appendLastPage(state.customer);
+              pagingController.appendLastPage(state.customers);
             } else {
               final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.customer.length;
-              pagingController.appendPage(state.customer, nextPageKey);
+                  pagingController.nextPageKey ?? 0 + state.customers.length;
+              pagingController.appendPage(state.customers, nextPageKey);
             }
             if (refreshController.isRefresh) {
               pagingController.addPageRequestListener(_loadPage);
@@ -113,10 +126,9 @@ class _CustomersViewState extends State<CustomersView> {
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 MedusaSliverAppBar(
                   title: Builder(builder: (context) {
-                    final customersCount = context.select<CustomersCubit, int?>(
-                        (bloc) => bloc.state.mapOrNull(
-                            customers: (state) =>
-                                state.count > 0 ? state.count : null) ?? 0);
+                    final customersCount = customerCrudBloc.state.mapOrNull(
+                        customers: (state) =>
+                            state.count > 0 ? state.count : null) ?? 0;
                     return Text(
                         customersCount != 0
                             ? 'Customers ($customersCount)'

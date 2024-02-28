@@ -8,8 +8,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
-import 'package:medusa_admin/presentation/cubits/customers/customers_cubit.dart';
 import 'package:medusa_admin/presentation/views/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -30,25 +30,27 @@ class GroupDetailsView extends StatefulWidget {
 class _GroupDetailsViewState extends State<GroupDetailsView> {
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
-  late CustomersCubit customersCubit;
+  late CustomerCrudBloc customerCrudBloc;
 
   void _loadPage(int _) {
-    customersCubit.loadCustomers(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-      'expand': 'groups',
-    });
+    customerCrudBloc.add(
+      CustomerCrudEvent.loadAll(queryParameters: {
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'expand': 'groups',
+      }),
+    );
   }
 
   @override
   void initState() {
-    customersCubit = CustomersCubit.instance;
+    customerCrudBloc = CustomerCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
   void dispose() {
-    customersCubit.close();
+    customerCrudBloc.close();
     pagingController.dispose();
     super.dispose();
   }
@@ -59,23 +61,23 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
     final largeTextStyle = context.bodyLarge;
     return MultiBlocListener(
       listeners: [
-        BlocListener<CustomersCubit, CustomersState>(
-          bloc: customersCubit,
+        BlocListener<CustomerCrudBloc, CustomerCrudState>(
+          bloc: customerCrudBloc,
           listener: (context, state) {
             state.mapOrNull(
               loading: (_) => loading(),
               customers: (state) async {
                 final isLastPage =
-                    state.customer.length < CustomersCubit.pageSize;
+                    state.customers.length < CustomerCrudBloc.pageSize;
                 if (pagingController.value.itemList == null) {
-                  pagingController.appendPage(state.customer, 0);
+                  pagingController.appendPage(state.customers, 0);
                 }
                 if (isLastPage) {
-                  pagingController.appendLastPage(state.customer);
+                  pagingController.appendLastPage(state.customers);
                 } else {
                   final nextPageKey =
-                      pagingController.nextPageKey! + state.customer.length;
-                  pagingController.appendPage(state.customer, nextPageKey);
+                      pagingController.nextPageKey! + state.customers.length;
+                  pagingController.appendPage(state.customers, nextPageKey);
                 }
                 dismissLoading();
               },

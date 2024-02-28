@@ -14,9 +14,7 @@ import 'package:medusa_admin/presentation/modules/gift_cards_module/create_updat
 import 'package:medusa_admin/presentation/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/order_details/components/order_create_fulfillment.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/order_details/views/order_details_view.dart';
-import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/views/add_update_price_list_view.dart';
-import 'package:medusa_admin/presentation/modules/pricing_module/price_list_details/views/price_list_details_view.dart';
-import 'package:medusa_admin/presentation/modules/pricing_module/pricing/views/pricing_view.dart';
+import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/add_update_price_list_view.dart';
 import 'package:medusa_admin/presentation/modules/products_module/import_products/import_products.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
@@ -74,6 +72,8 @@ import 'package:medusa_admin/presentation/views/draft_orders/draft_orders_view.d
 import 'package:medusa_admin/presentation/views/group_details/group_details_view.dart';
 import 'package:medusa_admin/presentation/views/groups/groups_view.dart';
 import 'package:medusa_admin/presentation/views/orders/orders_view.dart';
+import 'package:medusa_admin/presentation/views/price_list_details/price_list_details_view.dart';
+import 'package:medusa_admin/presentation/views/pricing_lists/pricing_view.dart';
 import 'package:medusa_admin/presentation/views/product_details/product_details_view.dart';
 import 'package:medusa_admin/presentation/views/product_gift_cards/product_gift_cards_view.dart';
 import 'package:medusa_admin/presentation/views/products/products_view.dart';

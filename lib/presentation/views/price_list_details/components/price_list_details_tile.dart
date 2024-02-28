@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
+import 'package:medusa_admin/presentation/views/discounts/components/discount_rule_type_label.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../views/discounts/components/discount_rule_type_label.dart';
 
 class PriceListDetailsTile extends StatelessWidget {
   const PriceListDetailsTile(this.priceList, {super.key, this.shimmer = false});

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/presentation/cubits/collections_cubit/collections_cubit.dart';
+import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
@@ -30,27 +30,39 @@ class _CollectionsViewState extends State<CollectionsView> {
   final RefreshController refreshController = RefreshController();
   final PagingController<int, ProductCollection> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
+  late CollectionCrudBloc collectionCrudBloc;
 
   void _loadPage(int _) {
-    context.read<CollectionsCubit>().loadCollections(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-    });
+    collectionCrudBloc.add(CollectionCrudEvent.loadAll(
+        queryParameters: {
+          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        }
+    ));
   }
 
   @override
   void initState() {
+    collectionCrudBloc = CollectionCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
+  void dispose() {
+    collectionCrudBloc.close();
+    pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<CollectionsCubit, CollectionsState>(
+    return BlocListener<CollectionCrudBloc, CollectionCrudState>(
+      bloc: collectionCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           collections: (state) async {
             final isLastPage =
-                state.collections.length < CollectionsCubit.pageSize;
+                state.collections.length < CollectionCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -105,9 +117,8 @@ class _CollectionsViewState extends State<CollectionsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final collectionsCount = context.select<CollectionsCubit, int>(
-                    (bloc) => bloc.state
-                        .mapOrNull(collections: (state) => state.count) ?? 0);
+                final collectionsCount = collectionCrudBloc.state
+                    .mapOrNull(collections: (state) => state.count) ?? 0;
                 return Text(
                     collectionsCount != 0
                         ? 'Collections ($collectionsCount)'

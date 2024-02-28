@@ -14,6 +14,7 @@ part 'customer_crud_bloc.freezed.dart';
 class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
   CustomerCrudBloc(this.customerCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
+    on<_LoadAll>(_loadAll);
   }
   Future<void> _load(
     _Load event,
@@ -28,6 +29,21 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
     });
   }
 
+  Future<void> _loadAll(
+    _LoadAll event,
+    Emitter<CustomerCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await customerCrudUseCase.retrieveAll(queryParameters: {'limit': pageSize, ...?event.queryParameters});
+    result.when((response) {
+      emit(_Customers(response.customers ?? [], response.count ?? 0));
+    }, (error) {
+      emit(_Error(error));
+    });
+  }
+
+
   final CustomerCrudUseCase customerCrudUseCase;
+  static const int pageSize = 20;
   static CustomerCrudBloc get instance => getIt<CustomerCrudBloc>();
 }

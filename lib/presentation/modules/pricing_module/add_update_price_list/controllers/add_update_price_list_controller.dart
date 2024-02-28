@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/presentation/modules/pricing_module/pricing/controllers/pricing_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/price_list/update_price_list_use_case.dart';
@@ -81,7 +80,7 @@ class AddUpdatePriceListController extends GetxController {
 
     result.when((success) {
       EasyLoading.showSuccess('Price List Created');
-      PricingController.instance.pagingController.refresh();
+      // PricingController.instance.pagingController.refresh();
       context.popRoute();
     }, (error) {
       dismissLoading();
@@ -112,7 +111,7 @@ class AddUpdatePriceListController extends GetxController {
 
     result.when((success) {
       EasyLoading.showSuccess('Price List Updated');
-      PricingController.instance.pagingController.refresh();
+      // PricingController.instance.pagingController.refresh();
       context.popRoute();
     }, (error) {
       dismissLoading();

@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/presentation/cubits/collections_cubit/collections_cubit.dart';
+import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/product_types/product_types_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/sales_channels/sales_channels_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_chip_input_text_field.dart';
@@ -34,7 +34,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
   bool get updateMode => widget.updateMode;
   bool enableSalesChannels = false;
   late ProductTypesCubit productTypesCubit;
-  late CollectionsCubit collectionsCubit;
+  late CollectionCrudBloc collectionCrudBloc;
   late SalesChannelsCubit salesChannelsCubit;
   ProductType? selectedType;
   ProductCollection? selectedCollection;
@@ -46,17 +46,17 @@ class _ProductOrganizeState extends State<ProductOrganize> {
   @override
   void initState() {
     productTypesCubit = ProductTypesCubit.instance;
-    collectionsCubit = CollectionsCubit.instance;
+    collectionCrudBloc = CollectionCrudBloc.instance;
     salesChannelsCubit = SalesChannelsCubit.instance;
     productTypesCubit.load();
-    collectionsCubit.loadCollections();
+    collectionCrudBloc.add(const CollectionCrudEvent.loadAll());
     super.initState();
   }
 
   @override
   void dispose() {
     productTypesCubit.close();
-    collectionsCubit.close();
+    collectionCrudBloc.close();
     salesChannelsCubit.close();
     super.dispose();
   }
@@ -147,7 +147,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                 ],
               ),
               const SizedBox(height: 6.0),
-              BlocBuilder<CollectionsCubit, CollectionsState>(
+              BlocBuilder<CollectionCrudBloc, CollectionCrudState>(
+                bloc: collectionCrudBloc,
                 builder: (context, state) {
                   return state.maybeMap(
                       loading: (_) => const Center(
@@ -198,7 +199,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                               ),
                               TextButton(
                                   onPressed: () async =>
-                                      await collectionsCubit.loadCollections(),
+                                  collectionCrudBloc.add(const CollectionCrudEvent.loadAll()),
                                   child: const Text('Retry'))
                             ],
                           ),

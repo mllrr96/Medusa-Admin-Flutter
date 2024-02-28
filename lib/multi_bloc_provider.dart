@@ -3,17 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'presentation/blocs/search/search_bloc.dart';
-import 'presentation/cubits/collections_cubit/collections_cubit.dart';
-import 'presentation/cubits/discount_details/discount_details_cubit.dart';
 import 'presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
-import 'presentation/cubits/groups/groups_cubit.dart';
 import 'presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'presentation/blocs/app_update/app_update_bloc.dart';
 import 'presentation/blocs/authentication/authentication_bloc.dart';
 import 'presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'presentation/blocs/store/store_bloc.dart';
-import 'presentation/cubits/customers/customers_cubit.dart';
 import 'presentation/cubits/language/language_cubit.dart';
 import 'presentation/cubits/theme/theme_cubit.dart';
 
@@ -48,9 +44,6 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<DiscountCrudBloc>(
         create: (context) => DiscountCrudBloc.instance,
       ),
-      BlocProvider<DiscountDetailsCubit>(
-        create: (context) => DiscountDetailsCubit.instance,
-      ),
       BlocProvider<GiftCardsCubit>(
         create: (context) => GiftCardsCubit.instance,
       ),
@@ -60,18 +53,18 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<CollectionCrudBloc>(
         create: (_) => CollectionCrudBloc.instance,
       ),
-      BlocProvider<CollectionsCubit>(
-        create: (_) => CollectionsCubit.instance,
-      ),
-      BlocProvider<CustomersCubit>(
-        create: (_) => CustomersCubit.instance,
-      ),
+      // BlocProvider<CollectionsCubit>(
+      //   create: (_) => CollectionsCubit.instance,
+      // ),
+      // BlocProvider<CustomersCubit>(
+      //   create: (_) => CustomersCubit.instance,
+      // ),
       BlocProvider<CustomerCrudBloc>(
         create: (_) => CustomerCrudBloc.instance,
       ),
-      BlocProvider<GroupsCubit>(
-        create: (_) => GroupsCubit.instance,
-      ),
+      // BlocProvider<GroupsCubit>(
+      //   create: (_) => GroupsCubit.instance,
+      // ),
       BlocProvider<GroupCrudBloc>(
         create: (_) => GroupCrudBloc.instance,
       ),

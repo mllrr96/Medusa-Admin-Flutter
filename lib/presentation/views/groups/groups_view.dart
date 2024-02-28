@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/presentation/cubits/groups/groups_cubit.dart';
+import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -31,26 +31,39 @@ class _GroupsViewState extends State<GroupsView> {
   final PagingController<int, CustomerGroup> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   RefreshController refreshController = RefreshController();
+  late GroupCrudBloc groupCrudBloc;
 
   @override
   void initState() {
+    groupCrudBloc = GroupCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   void _loadPage(int _) {
-    context.read<GroupsCubit>().loadGroups(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-    });
+    groupCrudBloc.add(GroupCrudEvent.loadAll(
+      queryParameters: {
+        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      }
+    ));
+  }
+
+  @override
+  void dispose() {
+    groupCrudBloc.close();
+    pagingController.dispose();
+    refreshController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupsCubit, GroupsState>(
+    return BlocListener<GroupCrudBloc, GroupCrudState>(
+      bloc: groupCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           groups: (state) async {
-            final isLastPage = state.groups.length < GroupsCubit.pageSize;
+            final isLastPage = state.groups.length < GroupCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -113,11 +126,8 @@ class _GroupsViewState extends State<GroupsView> {
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 MedusaSliverAppBar(
                   title: Builder(builder: (context) {
-                    final groupsCount = context.select<GroupsCubit, int>(
-                        (bloc) =>
-                            bloc.state
-                                .mapOrNull(groups: (state) => state.count) ??
-                            0);
+                    final groupsCount = groupCrudBloc.state
+                        .mapOrNull(groups: (state) => state.count) ?? 0;
                     return Text(
                         groupsCount != 0 ? 'Groups ($groupsCount)' : 'Groups',
                         overflow: TextOverflow.ellipsis);

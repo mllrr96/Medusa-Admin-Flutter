@@ -9,19 +9,17 @@ class GroupCrudUseCase {
   static GroupCrudUseCase get instance => getIt<GroupCrudUseCase>();
   CustomerGroupRepository get _customerGroupRepository =>
       getIt<MedusaAdmin>().customerGroupRepository;
-  //
-  // Future<Result<UserRetrieveCustomersRes, Failure>> retrieveCustomers(
-  //     {required String id, Map<String, dynamic>? queryParameters}) async {
-  //   try {
-  //     final result = await _customerGroupRepository.retrieveCustomers(
-  //       id: id,
-  //       queryParameters: queryParameters,
-  //     );
-  //     return Success(result!);
-  //   } catch (e) {
-  //     return Error(Failure.from(e));
-  //   }
-  // }
+
+  Future<Result<UserRetrieveCustomerGroupsRes, Failure>> retrieveAll(
+      {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _customerGroupRepository.retrieveCustomerGroups(
+          queryParameters: queryParameters);
+      return Success(result!);
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
 
   Future<Result<CustomerGroup, Failure>> removeCustomers(
       {required String id,

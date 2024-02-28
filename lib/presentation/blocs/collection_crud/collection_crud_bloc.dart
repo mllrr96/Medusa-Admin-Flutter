@@ -15,6 +15,7 @@ class CollectionCrudBloc
     extends Bloc<CollectionCrudEvent, CollectionCrudState> {
   CollectionCrudBloc(this.collectionCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
+    on<_LoadAll>(_loadAll);
     on<_Create>(_create);
     on<_Update>(_update);
     on<_Delete>(_delete);
@@ -31,6 +32,20 @@ class CollectionCrudBloc
       queryParameters: event.queryParameters,
     );
     result.when((collection) => emit(_Collection(collection)),
+        (error) => emit(_Error(error)));
+  }
+
+  Future<void> _loadAll(
+    _LoadAll event,
+    Emitter<CollectionCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await collectionCrudUseCase.getCollections(
+      queryParameters: {'limit': pageSize, ...?event.queryParameters},
+    );
+    result.when(
+        (response) =>
+            emit(_Collections(response.collections ?? [], response.count ?? 0)),
         (error) => emit(_Error(error)));
   }
 
@@ -93,5 +108,6 @@ class CollectionCrudBloc
   }
 
   final CollectionCrudUseCase collectionCrudUseCase;
+  static int pageSize = 20;
   static CollectionCrudBloc get instance => getIt<CollectionCrudBloc>();
 }

@@ -30,6 +30,16 @@ class CollectionCrudUseCase {
       return Error(Failure.from(error));
     }
   }
+  Future<Result<UserCollectionsRes, Failure>> getCollections(
+      {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _collectionRepository.retrieveAll(
+          queryParameters: queryParameters);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
 
   Future<Result<UserCollectionRemoveProductsRes, Failure>> removeProducts(
       UserCollectionRemoveProductsReq userCollectionRemoveProductsReq) async {

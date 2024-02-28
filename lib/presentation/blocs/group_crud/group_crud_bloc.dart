@@ -14,6 +14,7 @@ part 'group_crud_bloc.freezed.dart';
 class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
   GroupCrudBloc(this.groupCrudUseCase) : super(const GroupCrudState.initial()) {
     on<_Load>(_load);
+    on<_LoadAll>(_loadAll);
     on<_Create>(_create);
     on<_Delete>(_delete);
     on<_Update>(_update);
@@ -24,6 +25,16 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
     emit(const _Loading());
     final result = await groupCrudUseCase.retrieve(id: event.id);
     result.when((group) => emit(_Group(group)), (error) => emit(_Error(error)));
+  }
+
+  Future<void> _loadAll(_LoadAll event, Emitter<GroupCrudState> emit) async {
+    emit(const _Loading());
+    final result = await groupCrudUseCase.retrieveAll(
+        queryParameters: event.queryParameters);
+    result.when(
+        (response) =>
+            emit(_Groups(response.customerGroups ?? [], response.count ?? 0)),
+        (error) => emit(_Error(error)));
   }
 
   Future<void> _create(_Create event, Emitter<GroupCrudState> emit) async {
@@ -65,4 +76,5 @@ class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
 
   final GroupCrudUseCase groupCrudUseCase;
   static GroupCrudBloc get instance => getIt<GroupCrudBloc>();
+  static const int pageSize = 10;
 }
