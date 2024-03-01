@@ -36,6 +36,9 @@ untranslated.txt
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 /ios/firebase_app_id_file.json
+*.freezed.dart
+*.gr.dart
+*.config.dart
 
 # Symbolication related
 app.*.symbols
