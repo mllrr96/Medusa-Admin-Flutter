@@ -49,6 +49,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
     swapLinkCtrl.dispose();
     draftOrderCtrl.dispose();
     inviteLinkCtrl.dispose();
+    storeBloc.close();
     super.dispose();
   }
 

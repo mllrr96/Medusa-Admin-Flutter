@@ -131,7 +131,10 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                   loading: (_) => loading(),
                   salesChannel: (_) {
                     pagingController.refresh();
+                    selectedProducts.clear();
+                    selectAll = false;
                     dismissLoading();
+                    setState(() {});
                   },
                   deleted: (_) {
                     dismissLoading();
@@ -155,94 +158,95 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
               Text(salesChannel.name ?? ''),
             ],
           ),
-          bottom: pagingController.itemList?.isEmpty ?? true
-              ? null
-              : PreferredSize(
-                  preferredSize: const Size.fromHeight(kToolbarHeight),
-                  child: SizedBox(
-                    height: kToolbarHeight,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 4.0),
-                        Checkbox(
-                            value: selectAll,
-                            onChanged: (val) {
-                              if (val == null) return;
-                              if (val) {
-                                selectedProducts.addAll(pagingController
-                                        .itemList
-                                        ?.map((e) => e.id!) ??
-                                    []);
-                                selectAll = true;
-                              } else {
-                                selectedProducts.clear();
-                                selectAll = false;
-                              }
-                              setState(() {});
-                            }),
-                        InkWell(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(6.0)),
-                          onLongPress: () {
-                            resetFilter();
-                          },
-                          onTap: () async {
-                            Future<ProductFilter?> productFilterView() async =>
-                                await showBarModalBottomSheet<ProductFilter>(
-                                    context: context,
-                                    backgroundColor:
-                                        context.theme.scaffoldBackgroundColor,
-                                    overlayStyle: context
-                                        .theme.appBarTheme.systemOverlayStyle,
-                                    builder: (context) => ProductsFilterView(
-                                          onResetPressed: () {
-                                            productFilter = null;
-                                            setState(() {});
-                                            pagingController.refresh();
-                                            context.popRoute();
-                                          },
-                                          productFilter: productFilter,
-                                        ));
-                            productFilterView().then((result) {
-                              if (result is ProductFilter) {
-                                productFilter = result;
-                                setState(() {});
-                                pagingController.refresh();
-                              }
-                            });
-                          },
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: (productFilter?.count() ?? 0) != 0
-                                      ? ColorManager.primary
-                                      : Colors.transparent),
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6.0)),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0, vertical: 8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Filters',
-                                    style: context.bodySmall
-                                        ?.copyWith(color: manatee)),
-                                if (productFilter?.count() != null)
-                                  Text(' ${productFilter?.count() ?? ''}',
-                                      style: context.bodySmall?.copyWith(
-                                          color: ColorManager.primary)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: SizedBox(
+              height: kToolbarHeight,
+              child: Row(
+                children: [
+                  const SizedBox(width: 4.0),
+                  Checkbox(
+                      value: selectAll,
+                      onChanged: (val) {
+                        if (val == null ||
+                            (pagingController.itemList?.isEmpty ?? true)) {
+                          return;
+                        }
+                        if (val) {
+                          selectedProducts.addAll(
+                              pagingController.itemList?.map((e) => e.id!) ??
+                                  []);
+                          selectAll = true;
+                        } else {
+                          selectedProducts.clear();
+                          selectAll = false;
+                        }
+                        setState(() {});
+                      }),
+                  InkWell(
+                    borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                    onLongPress: () {
+                      resetFilter();
+                    },
+                    onTap: () async {
+                      if (pagingController.itemList?.isEmpty ?? true) return;
+                      Future<ProductFilter?> productFilterView() async =>
+                          await showBarModalBottomSheet<ProductFilter>(
+                              context: context,
+                              backgroundColor:
+                                  context.theme.scaffoldBackgroundColor,
+                              overlayStyle:
+                                  context.theme.appBarTheme.systemOverlayStyle,
+                              builder: (context) => ProductsFilterView(
+                                    onResetPressed: () {
+                                      productFilter = null;
+                                      setState(() {});
+                                      pagingController.refresh();
+                                      context.popRoute();
+                                    },
+                                    productFilter: productFilter,
+                                  ));
+                      productFilterView().then((result) {
+                        if (result is ProductFilter) {
+                          productFilter = result;
+                          setState(() {});
+                          pagingController.refresh();
+                        }
+                      });
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: (productFilter?.count() ?? 0) != 0
+                                ? ColorManager.primary
+                                : Colors.transparent),
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Filters',
+                              style:
+                                  context.bodySmall?.copyWith(color: manatee)),
+                          if (productFilter?.count() != null)
+                            Text(' ${productFilter?.count() ?? ''}',
+                                style: context.bodySmall
+                                    ?.copyWith(color: ColorManager.primary)),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
+              ),
+            ),
+          ),
           actions: [
             IconButton(
+                padding: const EdgeInsets.all(16.0),
                 onPressed: () async {
                   await showModalActionSheet<int>(
                       title: 'Manage Sales Channel',

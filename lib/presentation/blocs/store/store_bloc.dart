@@ -17,7 +17,6 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       : super(const _Initial()) {
     on<_LoadStore>(_loadStore);
     on<_UpdateStore>(_updateStore);
-    add(const _LoadStore());
   }
 
   Future<void> _loadStore(

@@ -32,7 +32,6 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
     salesChannelCrudBloc.add(
       SalesChannelCrudEvent.loadAll(queryParameters: {
         'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-        'expand': 'orders',
       }),
     );
   }
@@ -54,9 +53,8 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
 
   @override
   Widget build(BuildContext context) {
-    const manatee = ColorManager.manatee;
-    final smallTextStyle = context.bodySmall;
     return BlocListener<SalesChannelCrudBloc, SalesChannelCrudState>(
+      bloc: salesChannelCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           salesChannels: (state) async {
@@ -104,8 +102,8 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
                                 const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Text(
                                 'Control which products are available in which channels',
-                                style:
-                                    smallTextStyle?.copyWith(color: manatee)))),
+                                style: context.bodySmall
+                                    ?.copyWith(color: ColorManager.manatee)))),
                     const Divider(height: 0),
                   ],
                 ),

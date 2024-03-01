@@ -35,7 +35,7 @@ class CustomMultiBlocProvider extends StatelessWidget {
         lazy: false,
       ),
       BlocProvider<StoreBloc>(
-        create: (_) => StoreBloc.instance,
+        create: (_) => StoreBloc.instance..add(const StoreEvent.loadStore()),
       ),
       BlocProvider<ResetPasswordCubit>(
         create: (_) => ResetPasswordCubit.instance,
