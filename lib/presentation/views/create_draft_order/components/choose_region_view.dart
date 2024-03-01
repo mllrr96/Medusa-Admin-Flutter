@@ -19,7 +19,7 @@ class ChooseRegionView extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     const space = Gap(12);
     return GetBuilder<ChooseRegionController>(
-        init: ChooseRegionController(regionsUseCase: RegionsUseCase.instance),
+        init: ChooseRegionController(regionsUseCase: RegionCrudUseCase.instance),
         builder: (controller) {
           return controller.obx(
             (state) => Padding(
@@ -80,7 +80,7 @@ class ChooseRegionController extends GetxController
 
   ChooseRegionController({required this.regionsUseCase});
 
-  final RegionsUseCase regionsUseCase;
+  final RegionCrudUseCase regionsUseCase;
 
   @override
   Future<void> onInit() async {
@@ -90,7 +90,7 @@ class ChooseRegionController extends GetxController
 
   Future<void> _loadRegions() async {
     change(null, status: RxStatus.loading());
-    final result = await regionsUseCase();
+    final result = await regionsUseCase.loadAll();
 
     result.when(
         (success) => change(success.regions ?? [], status: RxStatus.success()),

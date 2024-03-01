@@ -3,24 +3,46 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
-import 'package:medusa_admin/domain/use_case/region/region_details_use_case.dart';
+import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
+import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import '../../../../../../../core/constant/colors.dart';
-import '../../add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
-import '../components/index.dart';
-import '../controllers/region_details_controller.dart';
+import 'components/index.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
-class RegionDetailsView extends StatelessWidget {
+class RegionDetailsView extends StatefulWidget {
   const RegionDetailsView(this.regionId, {super.key});
   final String regionId;
+
+  @override
+  State<RegionDetailsView> createState() => _RegionDetailsViewState();
+}
+
+class _RegionDetailsViewState extends State<RegionDetailsView> {
+  late RegionCrudBloc regionCrudBloc;
+
+  @override
+  void initState() {
+    regionCrudBloc = RegionCrudBloc.instance;
+    regionCrudBloc.add(RegionCrudEvent.load(widget.regionId));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    regionCrudBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -29,142 +51,76 @@ class RegionDetailsView extends StatelessWidget {
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     const halfSpace = Gap(6);
-    String getCountriesText(Region region) {
-      if (region.countries == null || region.countries!.isEmpty) {
-        return 'No countries configured';
-      }
-      if (region.countries!.length > 4) {
-        String result = '';
-        region.countries!.take(4).forEach((element) {
-          if (result.isEmpty) {
-            result = element.name ?? '';
-          } else {
-            result = '$result, ${element.name ?? ''}';
-          }
-        });
-        result = '$result +${region.countries!.length - 4}';
-        return result;
-      } else {
-        String result = '';
-        for (var element in region.countries!) {
-          if (result.isEmpty) {
-            result = element.name ?? '';
-          } else {
-            result = '$result, ${element.name ?? ''}';
-          }
-        }
-        return result;
-      }
-    }
-
-    String getAllCountriesText(Region region) {
-      if (region.countries == null || region.countries!.isEmpty) {
-        return 'No countries configured';
-      }
-
-      String result = '';
-      for (var element in region.countries!) {
-        if (result.isEmpty) {
-          result = element.name ?? '';
-        } else {
-          result = '$result, ${element.name ?? ''}';
-        }
-      }
-      return result;
-    }
-
-    String getPaymentProviders(Region region) {
-      String paymentProviders = '';
-      if (region.paymentProviders != null) {
-        for (PaymentProvider payment in region.paymentProviders!) {
-          if (paymentProviders.isNotEmpty) {
-            paymentProviders = '$paymentProviders, ${payment.id!}';
-          } else {
-            paymentProviders = payment.id!;
-          }
-        }
-      }
-      return paymentProviders.capitalize ?? paymentProviders;
-    }
-
-    String getFulfilmentProviders(Region region) {
-      String fulfilmentProviders = '';
-      if (region.fulfillmentProviders != null) {
-        for (FulfillmentProvider fulfillment in region.fulfillmentProviders!) {
-          if (fulfilmentProviders.isNotEmpty) {
-            fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
-          } else {
-            fulfilmentProviders = fulfillment.id!;
-          }
-        }
-      }
-      return fulfilmentProviders.capitalize ?? fulfilmentProviders;
-    }
-
-    return GetBuilder<RegionDetailsController>(
-        init: RegionDetailsController(
-          regionDetailsUseCase: RegionDetailsUseCase.instance,
-          regionId: regionId,
-        ),
-        builder: (controller) {
-          return Scaffold(
-            body: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                MedusaSliverAppBar(
-                  title: Obx(() => Text(controller.regionName.value)),
-                  actions: [
-                    IconButton(
-                        icon: const Icon(Icons.more_horiz_outlined),
-                        onPressed: () async {
-                          await showModalActionSheet<int>(
-                              title:
-                                  'Manage ${controller.regionName.value} region',
-                              context: context,
-                              actions: <SheetAction<int>>[
-                                const SheetAction(label: 'Edit', key: 0),
-                                const SheetAction(
-                                    label: 'Delete',
-                                    isDestructiveAction: true,
-                                    key: 1),
-                              ]).then((result) async {
-                            switch (result) {
-                              case 0:
-                                if (controller.state == null) {
-                                  return;
-                                }
-                                context.pushRoute(
-                                    AddRegionRoute(region: controller.state!));
-                                break;
-                              case 1:
-                                if (controller.state == null) {
-                                  return;
-                                }
-                                await showTextAnswerDialog(
-                                  keyword: controller.state!.name!,
-                                  hintText: controller.state!.name!,
-                                  context: context,
-                                  title: 'Delete region?',
-                                  message:
-                                      'Are you sure you want to delete this region?\n Type the name "${controller.state!.name!}" to confirm ',
-                                  okLabel: 'Yes, confirm',
-                                  retryTitle: 'Wrong name',
-                                  retryMessage:
-                                      'Make sure to type the region name "${controller.state!.name!}" to confirm deletion',
+    return BlocConsumer<RegionCrudBloc, RegionCrudState>(
+      bloc: regionCrudBloc,
+      listener: (context, state) {
+        state.mapOrNull(
+          deleted: (_) {
+            context.showSnackBar('Region deleted');
+            context.popRoute();
+          },
+        );
+      },
+      builder: (context, state) {
+        final regionName = state.maybeMap(
+            region: (_) => _.region.name!, orElse: () => 'Region');
+        final region = state.mapOrNull(region: (region) => region.region);
+        return Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              MedusaSliverAppBar(
+                title: Text(regionName),
+                actions: [
+                  IconButton(
+                      icon: const Icon(Icons.more_horiz_outlined),
+                      onPressed: () async {
+                        if (region == null) {
+                          return;
+                        }
+                        await showModalActionSheet<int>(
+                            title: 'Manage $regionName region',
+                            context: context,
+                            actions: <SheetAction<int>>[
+                              const SheetAction(label: 'Edit', key: 0),
+                              const SheetAction(
+                                  label: 'Delete',
                                   isDestructiveAction: true,
-                                ).then((value) async {
-                                  if (value) {
-                                    await controller.deleteRegion(context);
-                                  }
-                                });
-                                break;
-                            }
-                          });
-                        })
-                  ],
-                ),
-              ],
-              body: controller.obx(
-                (region) => ListView(
+                                  key: 1),
+                            ]).then((result) async {
+                          switch (result) {
+                            case 0:
+                              context.pushRoute(AddRegionRoute(region: region));
+                              break;
+                            case 1:
+                              await showTextAnswerDialog(
+                                keyword: region.name!,
+                                hintText: region.name!,
+                                context: context,
+                                title: 'Delete region?',
+                                message:
+                                    'Are you sure you want to delete this region?\n Type the name "${region.name!}" to confirm ',
+                                okLabel: 'Yes, confirm',
+                                retryTitle: 'Wrong name',
+                                retryMessage:
+                                    'Make sure to type the region name "${region.name!}" to confirm deletion',
+                                isDestructiveAction: true,
+                              ).then((value) async {
+                                if (value) {
+                                  regionCrudBloc.add(
+                                      RegionCrudEvent.delete(widget.regionId));
+                                }
+                              });
+                              break;
+                          }
+                        });
+                      })
+                ],
+              ),
+            ],
+            body: state.maybeMap(
+              region: (_) {
+                final region = _.region;
+                return ListView(
                   padding: EdgeInsets.zero,
                   children: [
                     const SizedBox(height: 6.0),
@@ -190,7 +146,7 @@ class RegionDetailsView extends StatelessWidget {
                                   style: mediumTextStyle!
                                       .copyWith(color: manatee)),
                               Text(
-                                  '${region?.currencyCode?.toUpperCase() ?? '-'} ${NumberFormat.simpleCurrency(name: region?.currencyCode?.toUpperCase()).currencySymbol}',
+                                  '${region.currencyCode?.toUpperCase() ?? '-'} ${NumberFormat.simpleCurrency(name: region.currencyCode?.toUpperCase()).currencySymbol}',
                                   style: mediumTextStyle),
                             ],
                           ),
@@ -209,7 +165,7 @@ class RegionDetailsView extends StatelessWidget {
                                   const BorderRadius.all(Radius.circular(4)),
                               infoTextAlign: TextAlign.start,
                             ),
-                            contentTitle: getAllCountriesText(region!),
+                            contentTitle: getAllCountriesText(region),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -316,7 +272,7 @@ class RegionDetailsView extends StatelessWidget {
                                   style:
                                       mediumTextStyle.copyWith(color: manatee)),
                               space,
-                              ReturnShippingOptionsList(region),
+                              ShippingOptionsList(region, isReturn: true),
                               Center(
                                 child: TextButton(
                                   onPressed: () => context
@@ -345,23 +301,100 @@ class RegionDetailsView extends StatelessWidget {
                     ),
                     SizedBox(height: MediaQuery.of(context).padding.bottom)
                   ],
-                ),
-                onLoading:
-                    const Center(child: CircularProgressIndicator.adaptive()),
-                onError: (e) => Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(e ?? 'Error loading users', style: largeTextStyle),
-                      TextButton(
-                          onPressed: () async => controller.loadRegion(),
-                          child: const Text('Retry'))
-                    ],
-                  ),
+                );
+              },
+              loading: (_) => const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+              error: (_) => Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Error loading region', style: largeTextStyle),
+                    TextButton(
+                        onPressed: () => regionCrudBloc
+                            .add(RegionCrudEvent.load(widget.regionId)),
+                        child: const Text('Retry'))
+                  ],
                 ),
               ),
+              orElse: () => const SizedBox.shrink(),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
+  }
+
+  String getCountriesText(Region region) {
+    if (region.countries == null || region.countries!.isEmpty) {
+      return 'No countries configured';
+    }
+    if (region.countries!.length > 4) {
+      String result = '';
+      region.countries!.take(4).forEach((element) {
+        if (result.isEmpty) {
+          result = element.name ?? '';
+        } else {
+          result = '$result, ${element.name ?? ''}';
+        }
+      });
+      result = '$result +${region.countries!.length - 4}';
+      return result;
+    } else {
+      String result = '';
+      for (var element in region.countries!) {
+        if (result.isEmpty) {
+          result = element.name ?? '';
+        } else {
+          result = '$result, ${element.name ?? ''}';
+        }
+      }
+      return result;
+    }
+  }
+
+  String getAllCountriesText(Region region) {
+    if (region.countries == null || region.countries!.isEmpty) {
+      return 'No countries configured';
+    }
+
+    String result = '';
+    for (var element in region.countries!) {
+      if (result.isEmpty) {
+        result = element.name ?? '';
+      } else {
+        result = '$result, ${element.name ?? ''}';
+      }
+    }
+    return result;
+  }
+
+  String getPaymentProviders(Region region) {
+    String paymentProviders = '';
+    if (region.paymentProviders != null) {
+      for (PaymentProvider payment in region.paymentProviders!) {
+        if (paymentProviders.isNotEmpty) {
+          paymentProviders = '$paymentProviders, ${payment.id!}';
+        } else {
+          paymentProviders = payment.id!;
+        }
+      }
+    }
+    return paymentProviders.capitalize ?? paymentProviders;
+  }
+
+  String getFulfilmentProviders(Region region) {
+    String fulfilmentProviders = '';
+    if (region.fulfillmentProviders != null) {
+      for (FulfillmentProvider fulfillment in region.fulfillmentProviders!) {
+        if (fulfilmentProviders.isNotEmpty) {
+          fulfilmentProviders = '$fulfilmentProviders, ${fulfillment.id!}';
+        } else {
+          fulfilmentProviders = fulfillment.id!;
+        }
+      }
+    }
+    return fulfilmentProviders.capitalize ?? fulfilmentProviders;
   }
 }

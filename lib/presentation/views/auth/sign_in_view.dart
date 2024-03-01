@@ -23,6 +23,7 @@ import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -113,8 +114,7 @@ class _SignInViewState extends State<SignInView> {
           canPop: !isSessionExpired,
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: context.systemUiOverlayNoAppBarStyle,
-            child: GestureDetector(
-              onTap: () => context.unfocus(),
+            child: HideKeyboard(
               child: Scaffold(
                 bottomNavigationBar: AnimatedCrossFade(
                     firstChild: const SizedBox.shrink(),

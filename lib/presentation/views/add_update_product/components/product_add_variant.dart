@@ -15,6 +15,7 @@ import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
@@ -64,8 +65,7 @@ class ProductAddVariantView extends StatelessWidget {
               }
             });
           },
-          child: GestureDetector(
-            onTap: () => context.unfocus(),
+          child: HideKeyboard(
             child: Scaffold(
               appBar: AppBar(
                 leading: const CloseButton(),

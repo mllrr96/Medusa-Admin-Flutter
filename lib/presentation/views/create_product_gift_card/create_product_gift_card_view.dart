@@ -9,9 +9,9 @@ import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class CreateProductGiftCardView extends StatefulWidget {
@@ -59,8 +59,7 @@ class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
           },
         );
       },
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
+      child: HideKeyboard(
         child: Scaffold(
           appBar: AppBar(
             leading: const CloseButton(),

@@ -15,6 +15,7 @@ import 'package:medusa_admin/presentation/blocs/pricing/pricing_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pick_groups/controllers/pick_groups_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_groups/views/pick_groups_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';
@@ -568,8 +569,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
           orElse: () => dismissLoading(),
         );
       },
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
+      child: HideKeyboard(
         child: Scaffold(
           appBar: AppBar(
             systemOverlayStyle: context.defaultSystemUiOverlayStyle,

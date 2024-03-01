@@ -9,6 +9,7 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'components/sign_in_medusa_logo.dart';
 
 @RoutePage()
@@ -48,8 +49,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
           },
         );
       },
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
+      child: HideKeyboard(
         child: Scaffold(
           appBar: AppBar(
             systemOverlayStyle: context.defaultSystemUiOverlayStyle,

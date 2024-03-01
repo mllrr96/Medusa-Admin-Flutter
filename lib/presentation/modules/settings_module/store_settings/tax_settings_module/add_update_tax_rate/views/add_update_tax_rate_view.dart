@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/tax_rate/update_tax_rate_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import '../controllers/add_update_tax_rate_controller.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class AddUpdateTaxRateView extends StatelessWidget {
@@ -22,8 +22,7 @@ class AddUpdateTaxRateView extends StatelessWidget {
             updateTaxRateUseCase: UpdateTaxRateUseCase.instance,
             addUpdateTaxRateReq: addUpdateTaxRateReq),
         builder: (controller) {
-          return GestureDetector(
-            onTap: () => context.unfocus(),
+          return HideKeyboard(
             child: Scaffold(
               appBar: AppBar(
                 leading: const CloseButton(),

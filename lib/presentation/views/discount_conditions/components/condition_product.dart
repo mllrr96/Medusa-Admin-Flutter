@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
@@ -24,8 +24,7 @@ class ConditionProductView extends StatelessWidget {
           productsUseCase: ProductsUseCase.instance,
           disabledProducts: disabledProducts ?? []),
       builder: (controller) {
-        return GestureDetector(
-          onTap: () => context.unfocus(),
+        return HideKeyboard(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             body: CustomScrollView(

@@ -55,6 +55,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<DraftOrderCrudBloc, DraftOrderCrudState>(
+      bloc: draftOrderCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           draftOrders: (state) async {

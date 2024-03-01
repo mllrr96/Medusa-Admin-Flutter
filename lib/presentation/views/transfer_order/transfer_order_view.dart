@@ -12,8 +12,8 @@ import 'package:medusa_admin/presentation/views/orders/components/order_card.dar
 import 'package:medusa_admin/presentation/views/orders/components/payment_status_label.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class TransferOrderView extends StatefulWidget {
@@ -68,8 +68,7 @@ class _TransferOrderViewState extends State<TransferOrderView> {
               context.showSnackBar(_.failure.toSnackBarString());
             });
       },
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
+      child: HideKeyboard(
         child: Scaffold(
           appBar: AppBar(
             leading: const CloseButton(),

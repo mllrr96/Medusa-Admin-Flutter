@@ -5,8 +5,8 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/sales_channel_crud/sales_channel_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 @RoutePage()
@@ -71,8 +71,7 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
           orElse: () => dismissLoading(),
         );
       },
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
+      child: HideKeyboard(
         child: Scaffold(
           appBar: AppBar(
             title: updateMode

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/region/update_shipping_option_use_case.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/region_details/controllers/region_details_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -86,9 +85,9 @@ class AddUpdateShippingOptionController extends GetxController {
 
     result.when((success) async {
       if (addUpdateShippingOptionReq.returnShippingOption) {
-        RegionDetailsController.instance.updateReturnOptions();
+        // RegionDetailsController.instance.updateReturnOptions();
       } else {
-        RegionDetailsController.instance.updateOptions();
+        // RegionDetailsController.instance.updateOptions();
       }
       dismissLoading();
       context.popRoute();
@@ -128,9 +127,9 @@ class AddUpdateShippingOptionController extends GetxController {
     );
     result.when((success) async {
       if (addUpdateShippingOptionReq.returnShippingOption) {
-        RegionDetailsController.instance.updateReturnOptions();
+        // RegionDetailsController.instance.updateReturnOptions();
       } else {
-        RegionDetailsController.instance.updateOptions();
+        // RegionDetailsController.instance.updateOptions();
       }
       context.popRoute();
       dismissLoading();

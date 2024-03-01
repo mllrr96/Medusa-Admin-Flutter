@@ -9,6 +9,7 @@ import 'package:medusa_admin/domain/use_case/gift_card/update_gift_card_use_case
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/pick_regions/controllers/pick_regions_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_regions/views/pick_regions_view.dart';
@@ -32,8 +33,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
     return GetBuilder<CreateUpdateCustomGiftCardController>(
       init: CreateUpdateCustomGiftCardController(updateGiftCardUseCase: UpdateGiftCardUseCase.instance, giftCard: giftCard),
       builder: (controller) {
-        return GestureDetector(
-          onTap: () => context.unfocus(),
+        return HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
               title:

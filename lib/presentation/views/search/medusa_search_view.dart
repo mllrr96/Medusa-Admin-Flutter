@@ -17,6 +17,7 @@ import 'package:medusa_admin/presentation/views/draft_orders/components/index.da
 import 'package:medusa_admin/presentation/views/groups/components/index.dart';
 import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/views/products/components/index.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -70,8 +71,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
             },
             error: (_) => pagingController.error = _.failure);
       },
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
+      child: HideKeyboard(
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: context.systemUiOverlayNoAppBarStyle,
           child: Scaffold(

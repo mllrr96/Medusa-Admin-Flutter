@@ -13,6 +13,7 @@ import 'package:medusa_admin/data/models/wrapped.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/upload_files/upload_files_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../components/index.dart';
@@ -141,8 +142,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
       ],
       child: PopScope(
         onPopInvoked: (val) => deleteTempImages(),
-        child: GestureDetector(
-          onTap: () => context.unfocus(),
+        child: HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,

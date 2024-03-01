@@ -8,6 +8,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -42,8 +43,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
     const space = Gap(12);
     const halfSpace = Gap(6);
     final currencyCode = widget.order.currencyCode;
-    return GestureDetector(
-      onTap: () => context.unfocus(),
+    return HideKeyboard(
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(

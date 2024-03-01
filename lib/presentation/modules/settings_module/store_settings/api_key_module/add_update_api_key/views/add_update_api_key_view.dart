@@ -5,9 +5,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/api_key/api_key_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import '../controllers/add_update_api_key_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -25,8 +25,7 @@ class AddUpdateApiKeyView extends StatelessWidget {
         init: AddUpdateApiKeyController(
              publishableApiKey: publishableApiKey, apiKeyUseCase: ApiKeyUseCase.instance),
         builder: (controller) {
-          return GestureDetector(
-            onTap: () => context.unfocus(),
+          return HideKeyboard(
             child: Scaffold(
               appBar: AppBar(
                 title: controller.updateMode

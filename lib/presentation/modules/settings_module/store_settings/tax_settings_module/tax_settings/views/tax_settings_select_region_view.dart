@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/presentation/views/store_settings/regions/components/region_card.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/domain/use_case/tax_rate/tax_settings_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../regions_module/regions/components/region_card.dart';
 import '../controllers/tax_settings_select_region_controller.dart';
 
 @RoutePage()

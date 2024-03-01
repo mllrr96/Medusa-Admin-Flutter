@@ -7,10 +7,10 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class AddUpdateVariantsPriceView extends StatefulWidget {
@@ -163,8 +163,7 @@ class _AddUpdateVariantsPriceViewState
       ));
       children.add(const Gap(5.0));
     });
-    return GestureDetector(
-      onTap: () => context.unfocus(),
+    return HideKeyboard(
       child: Scaffold(
         appBar: AppBar(
           leading: const CloseButton(),

@@ -8,6 +8,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/draft_order_crud/draft_order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_stepper.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'components/index.dart';
@@ -101,8 +102,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
           systemNavigationBarColor: context.theme.appBarTheme.backgroundColor,
           statusBarColor: context.theme.appBarTheme.backgroundColor,
         ),
-        child: GestureDetector(
-          onTap: () => context.unfocus(),
+        child: HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Create Draft Order'),

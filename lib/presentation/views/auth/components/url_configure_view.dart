@@ -12,6 +12,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 
 @RoutePage()
 class UrlConfigureView extends StatefulWidget {
@@ -169,8 +170,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       AuthenticationType.jwt =>
         'Use a JWT token to send authenticated requests. (Default)',
     };
-    return GestureDetector(
-      onTap: () => context.unfocus(),
+    return HideKeyboard(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(

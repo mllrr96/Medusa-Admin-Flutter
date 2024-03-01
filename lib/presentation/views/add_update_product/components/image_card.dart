@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 
 class NetworkImageCard extends StatelessWidget {
   const NetworkImageCard(
@@ -188,10 +189,7 @@ class ImagePreviewView extends StatelessWidget {
         ? Image.file(imageFile!)
         : CachedNetworkImage(imageUrl: imageUrl!);
 
-    return GestureDetector(
-      onTap: () {
-        context.popRoute();
-      },
+    return HideKeyboard(
       child: Scaffold(
         appBar: AppBar(
           leading: const CloseButton(),

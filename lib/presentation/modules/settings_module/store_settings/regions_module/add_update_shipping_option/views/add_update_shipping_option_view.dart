@@ -5,19 +5,39 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/domain/use_case/region/update_shipping_option_use_case.dart';
+import 'package:medusa_admin/presentation/blocs/shipping_option_crud/shipping_option_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/add_update_shipping_option_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
-class AddUpdateShippingOptionView extends StatelessWidget {
+class AddUpdateShippingOptionView extends StatefulWidget {
   const AddUpdateShippingOptionView(this.addUpdateShippingOptionReq,
       {super.key});
   final AddUpdateShippingOptionReq addUpdateShippingOptionReq;
+
+  @override
+  State<AddUpdateShippingOptionView> createState() => _AddUpdateShippingOptionViewState();
+}
+
+class _AddUpdateShippingOptionViewState extends State<AddUpdateShippingOptionView> {
+  late ShippingOptionCrudBloc shippingOptionCrudBloc;
+
+  @override
+  void initState() {
+    shippingOptionCrudBloc = ShippingOptionCrudBloc.instance;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    shippingOptionCrudBloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +52,7 @@ class AddUpdateShippingOptionView extends StatelessWidget {
 
     return GetBuilder<AddUpdateShippingOptionController>(
       init: AddUpdateShippingOptionController(
-        addUpdateShippingOptionReq: addUpdateShippingOptionReq,
+        addUpdateShippingOptionReq: widget.addUpdateShippingOptionReq,
         updateShippingOptionUseCase: UpdateShippingOptionUseCase.instance,
       ),
       builder: (controller) {
@@ -47,8 +67,7 @@ class AddUpdateShippingOptionView extends StatelessWidget {
               '   ${NumberFormat.simpleCurrency(name: controller.addUpdateShippingOptionReq.region.currencyCode?.toUpperCase()).currencySymbol}   ',
               style: smallTextStyle?.copyWith(color: manatee)),
         );
-        return GestureDetector(
-          onTap: () => context.unfocus(),
+        return HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
               title: controller.updateMode

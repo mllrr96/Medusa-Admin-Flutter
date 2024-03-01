@@ -9,6 +9,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/domain/use_case/currency/currencies_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -75,8 +76,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
         );
       },
       builder: (context, state) {
-        return GestureDetector(
-          onTap: () => context.unfocus(),
+        return HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,
@@ -264,8 +264,7 @@ class AllCurrenciesView extends StatelessWidget {
           currenciesUseCase: CurrenciesUseCase.instance,
           storeCurrencies: storeCurrencies),
       builder: (controller) {
-        return GestureDetector(
-          onTap: () => context.unfocus(),
+        return HideKeyboard(
           child: Material(
             child: Scaffold(
               appBar: AppBar(

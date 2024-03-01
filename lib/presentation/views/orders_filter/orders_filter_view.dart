@@ -9,6 +9,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
 import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -86,8 +87,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
         );
       },
       builder: (context, state) {
-        return GestureDetector(
-          onTap: () => context.unfocus(),
+        return HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Orders Filter'),

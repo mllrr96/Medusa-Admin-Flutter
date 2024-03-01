@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/domain/use_case/return_reason/update_return_reason_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import '../controllers/create_update_return_reason_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 @RoutePage()
@@ -20,8 +20,7 @@ class CreateUpdateReturnReasonView extends StatelessWidget {
             returnReason: returnReason,
             updateReturnReasonUseCase: UpdateReturnReasonUseCase.instance),
         builder: (controller) {
-          return GestureDetector(
-            onTap: () => context.unfocus(),
+          return HideKeyboard(
             child: Scaffold(
               appBar: AppBar(
                 leading: const CloseButton(),

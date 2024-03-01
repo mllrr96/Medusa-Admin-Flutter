@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
@@ -38,8 +38,7 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
         : MediaQuery.of(context).viewPadding.bottom +
             MediaQuery.of(context).viewInsets.bottom;
 
-    return GestureDetector(
-      onTap: () => context.unfocus(),
+    return HideKeyboard(
       child: Container(
         color: context.theme.scaffoldBackgroundColor,
         child: Form(

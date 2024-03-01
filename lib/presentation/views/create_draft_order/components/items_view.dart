@@ -44,7 +44,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
   }
 
   Future<Result<UserRegionsRes, Failure>> fetchRegions() async {
-    return await RegionsUseCase.instance();
+    return await RegionCrudUseCase.instance.loadAll();
   }
 
   final expansionController = FlexExpansionTileController();

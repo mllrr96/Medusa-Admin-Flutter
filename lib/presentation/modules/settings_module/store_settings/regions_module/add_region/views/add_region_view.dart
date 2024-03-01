@@ -9,12 +9,12 @@ import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/countries/controller/country_controller.dart';
 import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
-import '../../regions/controllers/regions_controller.dart';
 import '../controllers/add_region_controller.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -39,15 +39,14 @@ class AddRegionView extends StatelessWidget {
         .read<StoreBloc>()
         .state
         .mapOrNull(loaded: (_) => _.store.currencies);
-    return GestureDetector(
-      onTap: () => context.unfocus(),
+    return HideKeyboard(
       child: GetBuilder<AddRegionController>(
         init: AddRegionController(
             updateRegionUseCase: UpdateRegionUseCase.instance,
             region: region,
             selectedCurrency: currencies
-                ?.where((element) => element.code == region!.currencyCode)
-                .first),
+                ?.where((element) => element.code == region?.currencyCode)
+                .firstOrNull),
         builder: (controller) {
           return Scaffold(
             appBar: AppBar(
@@ -190,14 +189,15 @@ class AddRegionView extends StatelessWidget {
                                         context.theme.scaffoldBackgroundColor,
                                     builder: (context) => SelectCountryView(
                                             selectCountryReq: SelectCountryReq(
-                                          disabledCountriesIso2: controller
-                                                  .updateMode
-                                              ? RegionsController.instance
-                                                  .disabledCountriesIso2(
-                                                      excludedRegion:
-                                                          controller.region!)
-                                              : RegionsController.instance
-                                                  .disabledCountriesIso2(),
+                                          disabledCountriesIso2: [],
+                                              // disabledCountriesIso2: controller
+                                              //     .updateMode
+                                              //     ? RegionsController.instance
+                                              //     .disabledCountriesIso2(
+                                              //     excludedRegion:
+                                              //     controller.region!)
+                                              //     : RegionsController.instance
+                                              //     .disabledCountriesIso2(),
                                           multipleSelect: true,
                                           selectedCountries: [
                                             ...controller.selectedCountries

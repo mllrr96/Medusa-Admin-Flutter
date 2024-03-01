@@ -5,6 +5,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -94,8 +95,7 @@ class _EditAddressState extends State<EditAddress> {
       return false;
     }
 
-    return GestureDetector(
-      onTap: () => context.unfocus(),
+    return HideKeyboard(
       child: Scaffold(
         appBar: AppBar(
           leading: const CloseButton(),
