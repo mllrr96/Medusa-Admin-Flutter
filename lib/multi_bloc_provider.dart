@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'presentation/blocs/search/search_bloc.dart';
-import 'presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
 import 'presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'presentation/blocs/app_update/app_update_bloc.dart';
 import 'presentation/blocs/authentication/authentication_bloc.dart';
@@ -44,9 +43,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       BlocProvider<DiscountCrudBloc>(
         create: (context) => DiscountCrudBloc.instance,
       ),
-      BlocProvider<GiftCardsCubit>(
-        create: (context) => GiftCardsCubit.instance,
-      ),
+      // BlocProvider<GiftCardsCubit>(
+      //   create: (context) => GiftCardsCubit.instance,
+      // ),
       BlocProvider<SearchBloc>(
         create: (context) => SearchBloc.instance,
       ),

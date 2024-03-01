@@ -8,7 +8,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class ProductCheckboxListTile extends StatelessWidget {
-  const ProductCheckboxListTile(this.product, {super.key, this.onRemove, this.selected, this.onToggle});
+  const ProductCheckboxListTile(this.product,
+      {super.key, this.onRemove, this.selected, this.onToggle});
   final Product product;
   final void Function()? onRemove;
   final void Function(bool?)? onToggle;
@@ -51,8 +52,11 @@ class ProductCheckboxListTile extends StatelessWidget {
                 child: CachedNetworkImage(
                   key: ValueKey(product.thumbnail),
                   imageUrl: product.thumbnail!,
-                  placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                  errorWidget: (context, string, error) => const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                  placeholder: (context, text) =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  errorWidget: (context, string, error) => const Icon(
+                      Icons.warning_rounded,
+                      color: Colors.redAccent),
                 ))
             : null,
         controlAffinity: ListTileControlAffinity.leading,

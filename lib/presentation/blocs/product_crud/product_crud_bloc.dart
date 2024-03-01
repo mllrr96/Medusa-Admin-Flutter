@@ -13,8 +13,9 @@ part 'product_crud_bloc.freezed.dart';
 
 @injectable
 class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
-  ProductCrudBloc(this.productDetailsUseCase) : super(const _Initial()) {
+  ProductCrudBloc(this.productCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
+    on<_LoadAll>(_loadAll);
     on<_LoadWithVariants>(_loadWithVariants);
     on<_Delete>(_delete);
     on<_Update>(_update);
@@ -26,7 +27,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     Emitter<ProductCrudState> emit,
   ) async {
     emit(_Loading(id: event.id));
-    final result = await productDetailsUseCase.fetchProduct(
+    final result = await productCrudUseCase.fetchProduct(
       event.id,
       queryParameters: {
         'expand':
@@ -40,12 +41,31 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     });
   }
 
+  Future<void> _loadAll(
+    _LoadAll event,
+    Emitter<ProductCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await productCrudUseCase.fetchProducts(
+      queryParameters: {
+        'limit': pageSize,
+        ...?event.queryParameters,
+      },
+    );
+    result.when((response) {
+      emit(_Products(response.products!, response.count ?? 0));
+    }, (error) {
+      emit(_Error(error));
+    });
+  }
+
+
   Future<void> _loadWithVariants(
     _LoadWithVariants event,
     Emitter<ProductCrudState> emit,
   ) async {
     emit(_Loading(id: event.id));
-    final result = await productDetailsUseCase.fetchProduct(
+    final result = await productCrudUseCase.fetchProduct(
       event.id,
       queryParameters: {
         'expand':
@@ -60,7 +80,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
 
       List<ProductVariant> variants = [];
       for (ProductVariant variant in product.variants!) {
-        final result = await productDetailsUseCase.fetchVariants(
+        final result = await productCrudUseCase.fetchVariants(
             queryParameters: {'id': variant.id!, 'expand': 'options,prices'});
         result.when((v) {
           variants.addAll(v);
@@ -77,7 +97,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     Emitter<ProductCrudState> emit,
   ) async {
     emit(const _Loading());
-    final result = await productDetailsUseCase.createProduct(
+    final result = await productCrudUseCase.createProduct(
       userPostProductReq: event.userPostProductReq,
     );
     result.when((product) {
@@ -92,7 +112,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     Emitter<ProductCrudState> emit,
   ) async {
     emit(_Loading(id: event.id));
-    final result = await productDetailsUseCase.deleteProduct(id: event.id);
+    final result = await productCrudUseCase.deleteProduct(id: event.id);
     result.when((success) {
       emit(const _Deleted());
     }, (error) {
@@ -105,7 +125,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     Emitter<ProductCrudState> emit,
   ) async {
     emit(_Loading(id: event.id));
-    final result = await productDetailsUseCase.updateProduct(
+    final result = await productCrudUseCase.updateProduct(
         id: event.id, userPostUpdateProductReq: event.userPostUpdateProductReq);
     result.when((success) {
       emit(_Updated(success));
@@ -114,6 +134,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
     });
   }
 
-  final ProductCrudUseCase productDetailsUseCase;
+  final ProductCrudUseCase productCrudUseCase;
   static ProductCrudBloc get instance => getIt<ProductCrudBloc>();
+  static const int pageSize = 20;
 }

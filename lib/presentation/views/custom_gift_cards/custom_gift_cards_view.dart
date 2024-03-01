@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/presentation/cubits/gift_cards_cubit/gift_cards_cubit.dart';
+import 'package:medusa_admin/presentation/blocs/gift_card_crud/gift_card_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -26,33 +26,42 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
   final pagingController = PagingController<int, GiftCard>(
       firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();
+  late GiftCardCrudBloc giftCardCrudBloc;
 
   @override
   void initState() {
+    giftCardCrudBloc = GiftCardCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
   void dispose() {
+    giftCardCrudBloc.close();
     pagingController.dispose();
     refreshController.dispose();
     super.dispose();
   }
 
   void _loadPage(int _) {
-    context.read<GiftCardsCubit>().loadGiftCards(queryParameters: {
-      'offset': pagingController.itemList?.length ?? 0,
-    });
+    giftCardCrudBloc.add(
+      GiftCardCrudEvent.loadAll(
+        queryParameters: {
+          'offset': pagingController.itemList?.length ?? 0,
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GiftCardsCubit, GiftCardsState>(
+    return BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
+      bloc: giftCardCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           giftCards: (state) async {
-            final isLastPage = state.giftCards.length < GiftCardsCubit.pageSize;
+            final isLastPage =
+                state.giftCards.length < GiftCardCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -105,12 +114,10 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final ordersCount = context.select<GiftCardsCubit, int?>(
-                    (bloc) => bloc.state.mapOrNull(
-                        giftCards: (state) =>
-                            state.count > 0 ? state.count : null));
+                final ordersCount = giftCardCrudBloc.state.maybeMap(
+                    giftCards: (state) => state.count, orElse: () => 0);
                 return Text(
-                    ordersCount != null
+                    ordersCount > 0
                         ? 'Gift Cards History ($ordersCount)'
                         : 'Gift Cards History',
                     overflow: TextOverflow.ellipsis);
@@ -126,7 +133,6 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                 builderDelegate: PagedChildBuilderDelegate<GiftCard>(
                   itemBuilder: (context, giftCard, index) {
                     final isDisabled = giftCard.isDisabled;
-
                     final listTile = CustomGiftCardTile(
                       giftCard,
                       onToggle: () async {

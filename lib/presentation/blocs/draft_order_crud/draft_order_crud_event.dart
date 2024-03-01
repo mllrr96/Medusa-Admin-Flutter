@@ -4,6 +4,8 @@ part of 'draft_order_crud_bloc.dart';
 class DraftOrderCrudEvent with _$DraftOrderCrudEvent {
   const factory DraftOrderCrudEvent.load(String id,
       {Map<String, dynamic>? queryParameters}) = _Load;
+  const factory DraftOrderCrudEvent.loadAll(
+      {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory DraftOrderCrudEvent.delete(String id) = _Delete;
   const factory DraftOrderCrudEvent.create(
       UserCreateDraftOrderReq userCreateDraftOrderReq) = _Create;

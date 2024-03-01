@@ -14,15 +14,10 @@ import 'package:medusa_admin/presentation/modules/gift_cards_module/create_updat
 import 'package:medusa_admin/presentation/modules/orders_module/order_details/components/add_update_order_edit/views/add_update_order_edit_view.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/order_details/components/order_create_fulfillment.dart';
 import 'package:medusa_admin/presentation/modules/orders_module/order_details/views/order_details_view.dart';
-import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/add_update_price_list_view.dart';
 import 'package:medusa_admin/presentation/modules/products_module/import_products/import_products.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/app_settings/app_dev_settings.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/app_settings/order_settings/views/order_settings_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/app_settings/ui_settings/app_bar_style_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/app_settings/views/app_settings_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/api_key_module/api_key_management/views/api_key_management_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/currencies/views/currencies_view.dart';
+import 'package:medusa_admin/presentation/modules/settings_module/store_settings/currencies/currencies_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/personal_information/views/personal_information_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_region/views/add_region_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
@@ -31,11 +26,6 @@ import 'package:medusa_admin/presentation/modules/settings_module/store_settings
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/regions/views/regions_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/views/create_update_return_reason_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/return_reasons_module/return_reasons/views/return_reasons_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/sales_channel_module/add_update_sales_channel/views/add_update_sales_channel_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/sales_channel_module/sales_channel_details/views/sales_channel_details_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/sales_channel_module/sales_channels/views/sales_channels_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/shipping/views/shipping_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/store_details/views/store_details_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/store_settings_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/views/add_update_tax_rate_view.dart';
@@ -45,9 +35,15 @@ import 'package:medusa_admin/presentation/modules/settings_module/store_settings
 import 'package:medusa_admin/presentation/views/add_update_customer/update_customer_details_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_discount/add_update_discount_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_group/create_update_group_view.dart';
+import 'package:medusa_admin/presentation/views/add_update_price_list/add_update_price_list_view.dart';
+import 'package:medusa_admin/presentation/views/add_update_price_list/components/product_price_list.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/components/image_card.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/components/product_add_variant.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/views/add_update_product_view.dart';
+import 'package:medusa_admin/presentation/views/app_settings/app_dev_settings.dart';
+import 'package:medusa_admin/presentation/views/app_settings/order_settings/order_settings_view.dart';
+import 'package:medusa_admin/presentation/views/app_settings/ui_settings/app_bar_style_view.dart';
+import 'package:medusa_admin/presentation/views/app_settings/views/app_settings_view.dart';
 import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
 import 'package:medusa_admin/presentation/views/auth/reset_password_view.dart';
 import 'package:medusa_admin/presentation/views/auth/sign_in_view.dart';
@@ -79,6 +75,11 @@ import 'package:medusa_admin/presentation/views/product_gift_cards/product_gift_
 import 'package:medusa_admin/presentation/views/products/products_view.dart';
 import 'package:medusa_admin/presentation/views/search/medusa_search_view.dart';
 import 'package:medusa_admin/presentation/views/splash/splash_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/add_update_sales_channel/add_update_sales_channel_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/sales_channel_details/sales_channel_details_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/sales_channels/sales_channels_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/shipping/shipping_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/store_details/store_details_view.dart';
 import 'package:medusa_admin/presentation/views/transfer_order/transfer_order_view.dart';
 import 'package:medusa_admin/presentation/views/update_discount_condition/update_condition_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
@@ -91,7 +92,6 @@ import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_produ
 import 'package:medusa_admin/presentation/widgets/pick_regions/controllers/pick_regions_controller.dart';
 import 'package:medusa_admin/presentation/widgets/pick_regions/views/pick_regions_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import 'package:medusa_admin/presentation/modules/pricing_module/add_update_price_list/components/index.dart';
 
 part 'app_router.gr.dart';
 

@@ -7,6 +7,8 @@ class DraftOrderCrudState with _$DraftOrderCrudState {
   const factory DraftOrderCrudState.paymentRegistered() = _PaymentRegistered;
   const factory DraftOrderCrudState.draftOrder(DraftOrder draftOrder) =
       _DraftOrder;
+  const factory DraftOrderCrudState.draftOrders(List<DraftOrder> draftOrders, int count) =
+      _DraftOrders;
   const factory DraftOrderCrudState.error(Failure error) = _Error;
   const factory DraftOrderCrudState.deleted() = _Deleted;
 }

@@ -21,6 +21,18 @@ class ProductCrudUseCase{
     }
   }
 
+  Future<Result<UserProductsListRes, Failure>> fetchProducts({
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final result = await _productsRepository.retrieveAll(
+          queryParameters: queryParameters);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
   Future<Result<List<ProductVariant>, Failure>> fetchVariants({
     Map<String, dynamic>? queryParameters,
   }) async {

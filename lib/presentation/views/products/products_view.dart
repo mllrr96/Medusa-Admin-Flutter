@@ -9,7 +9,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
-import 'package:medusa_admin/presentation/cubits/products/products_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -41,19 +40,22 @@ class _ProductsViewState extends State<ProductsView> {
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
   late ProductCrudBloc productCrudBloc;
+  late ProductCrudBloc productsBloc;
   String loadingProductId = '';
   void _loadPage(int _) {
-    context.read<ProductsCubit>().loadProducts(queryParameters: {
+
+    productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'order': sortOptions.map(),
       'is_giftcard': false,
       'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
       ...?productFilter?.toJson()
-    });
+    }));
   }
 
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
+    productsBloc = ProductCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -63,6 +65,7 @@ class _ProductsViewState extends State<ProductsView> {
     pagingController.dispose();
     refreshController.dispose();
     productCrudBloc.close();
+    productsBloc.close();
     super.dispose();
   }
 
@@ -71,12 +74,13 @@ class _ProductsViewState extends State<ProductsView> {
     final smallTextStyle = context.bodySmall;
     return MultiBlocListener(
       listeners: [
-        BlocListener<ProductsCubit, ProductsState>(
-          listener: (BuildContext context, ProductsState state) {
+        BlocListener<ProductCrudBloc, ProductCrudState>(
+          bloc: productsBloc,
+          listener: (context, state) {
             state.mapOrNull(
               products: (state) async {
                 final isLastPage =
-                    state.products.length < ProductsCubit.pageSize;
+                    state.products.length < ProductCrudBloc.pageSize;
                 if (refreshController.isRefresh) {
                   pagingController.removePageRequestListener(_loadPage);
                   pagingController.value = const PagingState(
@@ -97,7 +101,7 @@ class _ProductsViewState extends State<ProductsView> {
               },
               error: (state) {
                 refreshController.refreshFailed();
-                pagingController.error = state.error;
+                pagingController.error = state.failure;
               },
             );
           },
@@ -230,13 +234,11 @@ class _ProductsViewState extends State<ProductsView> {
             MedusaSliverAppBar(
               // centerTitle: true,
               title: Builder(builder: (context) {
-                final productsCount = context.select<ProductsCubit, int>(
-                    (bloc) =>
-                        bloc.state
-                            .mapOrNull(products: (state) => state.count) ??
-                        0);
+                final productsCount = productsBloc.state
+                        .mapOrNull(products: (state) => state.count) ??
+                    0;
                 return Text(
-                    productsCount != 0
+                    productsCount > 0
                         ? 'Products ($productsCount)'
                         : 'Products',
                     overflow: TextOverflow.ellipsis);

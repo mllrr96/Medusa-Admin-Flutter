@@ -6,8 +6,6 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc.dart';
-import 'package:medusa_admin/presentation/cubits/draft_orders/draft_orders_cubit.dart';
-import 'package:medusa_admin/presentation/cubits/products/products_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/products_filter/products_filter_cubit.dart';
 
 @RoutePage()
@@ -24,12 +22,12 @@ class DashboardView extends StatelessWidget {
         BlocProvider<OrdersFilterBloc>(
           create: (_) => OrdersFilterBloc.instance,
         ),
-        BlocProvider<DraftOrdersCubit>(
-          create: (_) => DraftOrdersCubit.instance,
-        ),
-        BlocProvider<ProductsCubit>(
-          create: (_) => ProductsCubit.instance,
-        ),
+        // BlocProvider<DraftOrdersCubit>(
+        //   create: (_) => DraftOrdersCubit.instance,
+        // ),
+        // BlocProvider<ProductsCubit>(
+        //   create: (_) => ProductsCubit.instance,
+        // ),
         BlocProvider<ProductsFilterCubit>(
           create: (_) => ProductsFilterCubit.instance,
         ),

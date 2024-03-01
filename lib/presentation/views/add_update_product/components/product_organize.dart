@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/sales_channel_crud/sales_channel_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/product_types/product_types_cubit.dart';
-import 'package:medusa_admin/presentation/cubits/sales_channels/sales_channels_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_chip_input_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -35,7 +35,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
   bool enableSalesChannels = false;
   late ProductTypesCubit productTypesCubit;
   late CollectionCrudBloc collectionCrudBloc;
-  late SalesChannelsCubit salesChannelsCubit;
+  late SalesChannelCrudBloc salesChannelCrudBloc;
   ProductType? selectedType;
   ProductCollection? selectedCollection;
   List<ProductTag> tags = [];
@@ -47,7 +47,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
   void initState() {
     productTypesCubit = ProductTypesCubit.instance;
     collectionCrudBloc = CollectionCrudBloc.instance;
-    salesChannelsCubit = SalesChannelsCubit.instance;
+    salesChannelCrudBloc = SalesChannelCrudBloc.instance;
     productTypesCubit.load();
     collectionCrudBloc.add(const CollectionCrudEvent.loadAll());
     super.initState();
@@ -57,7 +57,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
   void dispose() {
     productTypesCubit.close();
     collectionCrudBloc.close();
-    salesChannelsCubit.close();
+    salesChannelCrudBloc.close();
     super.dispose();
   }
 
@@ -244,8 +244,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                 : (val) async => setState(() => enableSalesChannels = val),
             activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
           ),
-          BlocBuilder<SalesChannelsCubit, SalesChannelsState>(
-            bloc: salesChannelsCubit,
+          BlocBuilder<SalesChannelCrudBloc, SalesChannelCrudState>(
+            bloc: salesChannelCrudBloc,
             builder: (context, state) {
               return state.maybeMap(
                   loading: (_) => const Center(

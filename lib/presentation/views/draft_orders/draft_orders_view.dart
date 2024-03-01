@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin/presentation/cubits/draft_orders/draft_orders_cubit.dart';
+import 'package:medusa_admin/presentation/blocs/draft_order_crud/draft_order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/draft_orders/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
@@ -28,27 +28,38 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
   final smartRefresherCtrl = RefreshController();
   final PagingController<int, DraftOrder> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
+  late DraftOrderCrudBloc draftOrderCrudBloc;
 
-  Future<void> _loadPage(int pageKey) async {
-    await context.read<DraftOrdersCubit>().loadDraftOrders(queryParameters: {
-      'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
-    });
+  void _loadPage(int pageKey) {
+    draftOrderCrudBloc.add(DraftOrderCrudEvent.loadAll(
+      queryParameters: {
+        'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      },
+    ));
   }
 
   @override
   void initState() {
+    draftOrderCrudBloc = DraftOrderCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
+  void dispose() {
+    draftOrderCrudBloc.close();
+    pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<DraftOrdersCubit, DraftOrdersState>(
+    return BlocListener<DraftOrderCrudBloc, DraftOrderCrudState>(
       listener: (context, state) {
         state.mapOrNull(
           draftOrders: (state) async {
             final isLastPage =
-                state.draftOrders.length < DraftOrdersCubit.pageSize;
+                state.draftOrders.length < DraftOrderCrudBloc.pageSize;
             if (smartRefresherCtrl.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -69,7 +80,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
           },
           error: (state) {
             smartRefresherCtrl.refreshFailed();
-            pagingController.error = state.failure;
+            pagingController.error = state.error;
           },
         );
       },
@@ -103,12 +114,11 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final ordersCount = context.select<DraftOrdersCubit, int?>(
-                    (bloc) => bloc.state.mapOrNull(
-                        draftOrders: (state) =>
-                            state.count > 0 ? state.count : null));
+                final ordersCount = draftOrderCrudBloc.state.maybeMap(
+                    draftOrders: (state) =>
+                        state.count, orElse: () => 0 );
                 return Text(
-                    ordersCount != null ? 'Drafts ($ordersCount)' : 'Drafts',
+                    ordersCount > 0 ? 'Drafts ($ordersCount)' : 'Drafts',
                     overflow: TextOverflow.ellipsis);
               }),
             ),

@@ -15,12 +15,12 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
+import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
-import '../../../views/auth/components/url_configure_view.dart';
 
 @RoutePage()
 class AppDevSettingsView extends StatefulWidget {

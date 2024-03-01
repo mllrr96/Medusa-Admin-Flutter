@@ -15,6 +15,7 @@ class DraftOrderCrudBloc
     extends Bloc<DraftOrderCrudEvent, DraftOrderCrudState> {
   DraftOrderCrudBloc(this.draftCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
+    on<_LoadAll>(_loadAll);
     on<_Update>(_update);
     on<_Create>(_create);
     on<_Delete>(_delete);
@@ -30,6 +31,24 @@ class DraftOrderCrudBloc
     result.when(
       (draftOrder) {
         emit(_DraftOrder(draftOrder));
+      },
+      (error) {
+        emit(_Error(error));
+      },
+    );
+  }
+
+  Future<void> _loadAll(_LoadAll event, Emitter<DraftOrderCrudState> emit) async {
+    emit(const _Loading());
+    final result = await draftCrudUseCase.retrieveDraftOrders(
+      queryParameters: {
+        'limit': pageSize,
+        ...?event.queryParameters,
+      },
+    );
+    result.when(
+      (response) {
+        emit(_DraftOrders(response.draftOrders ?? [], response.count ?? 0));
       },
       (error) {
         emit(_Error(error));
@@ -106,4 +125,5 @@ class DraftOrderCrudBloc
 
   final DraftCrudUseCase draftCrudUseCase;
   static DraftOrderCrudBloc get instance => getIt<DraftOrderCrudBloc>();
+  static int pageSize = 20;
 }

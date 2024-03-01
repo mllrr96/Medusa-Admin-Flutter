@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
@@ -14,7 +15,6 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
-import '../../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
@@ -28,18 +28,28 @@ class CurrenciesView extends StatefulWidget {
 class _CurrenciesViewState extends State<CurrenciesView> {
   late List<Currency> currencies;
   late Currency? defaultStoreCurrency;
+  late StoreBloc storeBloc;
+  Store? store;
   @override
   void initState() {
-    currencies = List<Currency>.from(context
-            .read<StoreBloc>()
-            .state
-            .mapOrNull(loaded: (_) => _.store.currencies) ??
-        []);
-    defaultStoreCurrency = context
+    storeBloc = StoreBloc.instance;
+    store = context
         .read<StoreBloc>()
         .state
-        .mapOrNull(loaded: (_) => _.store.defaultCurrency);
+        .maybeMap(loaded: (value) => value.store, orElse: () => null);
+    if (store == null) {
+      context.read<StoreBloc>().add(const StoreEvent.loadStore());
+      context.popRoute();
+    }
+    currencies = store?.currencies ?? [];
+    defaultStoreCurrency = store?.defaultCurrency;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    storeBloc.close();
+    super.dispose();
   }
 
   @override
@@ -49,9 +59,10 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     final largeTextStyle = context.bodyLarge;
     const space = Gap(12);
     return BlocConsumer<StoreBloc, StoreState>(
+      bloc: storeBloc,
       listener: (context, state) {
-        state.mapOrNull(
-          loading: (_) => loading(status: 'Loading Store Info'),
+        state.maybeMap(
+          loading: (_) => loading(),
           loaded: (_) {
             dismissLoading();
             context.popRoute();
@@ -60,6 +71,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
             dismissLoading();
             context.showSnackBar(_.failure.toSnackBarString());
           },
+          orElse: () => dismissLoading(),
         );
       },
       builder: (context, state) {
@@ -91,10 +103,9 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                       for (var currency in currencies) {
                         currenciesIsoCode.add(currency.code!);
                       }
-                      context.read<StoreBloc>().add(StoreEvent.updateStore(
-                          StorePostReq(
-                              defaultCurrencyCode: defaultStoreCurrency?.code,
-                              currencies: currenciesIsoCode)));
+                      storeBloc.add(StoreEvent.updateStore(StorePostReq(
+                          defaultCurrencyCode: defaultStoreCurrency?.code,
+                          currencies: currenciesIsoCode)));
                     },
                     child: const Text('Save')),
               ],
@@ -281,7 +292,7 @@ class AllCurrenciesView extends StatelessWidget {
                                   name: currency.code?.toUpperCase())
                               .currencySymbol,
                           style: context.bodyMediumW600),
-                      onChanged: (bool? value) {
+                      onChanged: (value) {
                         var selectedCurrencies = controller.selectedCurrencies;
                         if (selectedCurrencies
                             .any((element) => element.code == currency.code)) {

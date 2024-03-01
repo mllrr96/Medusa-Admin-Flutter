@@ -37,10 +37,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     emit(const _Loading());
     final result = await updateStoreUseCase(event.storePostReq);
     result.when(
-        (store) => emit(_Loaded(store)), (error) {
-          emit(_Error(error));
-
-        });
+        (store) => emit(_Loaded(store)), (error) => emit(_Error(error)));
   }
 
   final LoadStoreUseCase loadStoreUseCase;

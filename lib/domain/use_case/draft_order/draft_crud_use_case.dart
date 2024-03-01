@@ -23,6 +23,18 @@ class DraftCrudUseCase {
     }
   }
 
+  Future<Result<UserDraftOrdersRes, Failure>> retrieveDraftOrders({
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final result = await _draftRepository.retrieveDraftOrders(
+          queryParameters: queryParameters);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
   Future<Result<UserDeleteDraftOrderRes, Failure>> cancelDraft({
     required String id,
     Map<String, dynamic>? queryParameters,
