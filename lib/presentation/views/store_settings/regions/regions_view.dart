@@ -89,7 +89,7 @@ class _RegionsViewState extends State<RegionsView> {
           label: 'New Region',
           icon: const Icon(Icons.add),
           onPressed: () async {
-            final result = await context.pushRoute(AddRegionRoute());
+            final result = await context.pushRoute(AddUpdateRegionRoute());
             if (result is bool && result == true) {
               pagingController.refresh();
             }

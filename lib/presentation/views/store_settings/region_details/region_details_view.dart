@@ -89,7 +89,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                             ]).then((result) async {
                           switch (result) {
                             case 0:
-                              context.pushRoute(AddRegionRoute(region: region));
+                              context.pushRoute(AddUpdateRegionRoute(region: region));
                               break;
                             case 1:
                               await showTextAnswerDialog(

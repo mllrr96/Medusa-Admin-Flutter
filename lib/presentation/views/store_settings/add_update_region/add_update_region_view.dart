@@ -21,15 +21,15 @@ import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
-class AddRegionView extends StatefulWidget {
-  const AddRegionView({super.key, this.region});
+class AddUpdateRegionView extends StatefulWidget {
+  const AddUpdateRegionView({super.key, this.region});
   final Region? region;
 
   @override
-  State<AddRegionView> createState() => _AddRegionViewState();
+  State<AddUpdateRegionView> createState() => _AddUpdateRegionViewState();
 }
 
-class _AddRegionViewState extends State<AddRegionView> {
+class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
   bool get updateMode => region != null;
   Region? get region => widget.region;
   late RegionCrudBloc regionCrudBloc;
