@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/discount_condition_req.dart';
+import 'package:medusa_admin/data/models/shipping_option_req.dart';
 import 'package:medusa_admin/data/models/update_condition_req.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
@@ -18,7 +19,6 @@ import 'package:medusa_admin/presentation/modules/products_module/import_product
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/api_key_module/api_key_management/views/api_key_management_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/personal_information/views/personal_information_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/views/add_update_shipping_option_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/views/create_update_return_reason_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/return_reasons_module/return_reasons/views/return_reasons_view.dart';

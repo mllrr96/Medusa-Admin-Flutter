@@ -59,7 +59,6 @@ class RegionCrudUseCase {
     }
   }
 
-
   Future<Result<UserDeleteRegionRes, Failure>> delete(String id) async {
     try {
       final result = await _regionsRepository.delete(id: id);
@@ -69,4 +68,93 @@ class RegionCrudUseCase {
     }
   }
 
+  Future<Result<Region, Failure>> addCountry({
+    required String id,
+    required String countryCode,
+  }) async {
+    try {
+      final result = await _regionsRepository.addCountryToRegion(
+          id: id, countryCode: countryCode);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<Region, Failure>> removeCountry({
+    required String id,
+    required String countryCode,
+  }) async {
+    try {
+      final result = await _regionsRepository.removeCountryFromRegion(
+          id: id, countryCode: countryCode);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<List<FulfillmentOption>, Failure>> loadFulfillmentOptions(
+    String id,
+  ) async {
+    try {
+      final result =
+          await _regionsRepository.retrieveFulfillmentOptions(id: id);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<Region, Failure>> addFulfillmentProvider({
+    required String id,
+    required String providerId,
+  }) async {
+    try {
+      final result = await _regionsRepository.addFulfillmentProvider(
+          id: id, providerId: providerId);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<Region, Failure>> removeFulfillmentProvider({
+    required String id,
+    required String providerId,
+  }) async {
+    try {
+      final result = await _regionsRepository.deleteFulfillmentProvider(
+          id: id, providerId: providerId);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<Region, Failure>> addPaymentProvider({
+    required String id,
+    required String providerId,
+  }) async {
+    try {
+      final result = await _regionsRepository.addPaymentProvider(
+          id: id, providerId: providerId);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<Region, Failure>> removePaymentProvider({
+    required String id,
+    required String providerId,
+  }) async {
+    try {
+      final result = await _regionsRepository.deletePaymentProvider(
+          id: id, providerId: providerId);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
 }

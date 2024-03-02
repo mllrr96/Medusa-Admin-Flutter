@@ -6,14 +6,16 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
+import 'package:medusa_admin/data/models/shipping_option_req.dart';
+import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/shipping_option_crud/shipping_option_crud_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/shipping_profile_crud/shipping_profile_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../controllers/add_update_shipping_option_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()
@@ -30,6 +32,8 @@ class AddUpdateShippingOptionView extends StatefulWidget {
 class _AddUpdateShippingOptionViewState
     extends State<AddUpdateShippingOptionView> {
   late ShippingOptionCrudBloc shippingOptionCrudBloc;
+  late ShippingProfileCrudBloc shippingProfileCrudBloc;
+  late RegionCrudBloc fulfillmentOptionsBloc;
   AddUpdateShippingOptionReq get addUpdateShippingOptionReq =>
       widget.addUpdateShippingOptionReq;
   bool get updateMode => addUpdateShippingOptionReq.shippingOption != null;
@@ -44,11 +48,34 @@ class _AddUpdateShippingOptionViewState
   final formKey = GlobalKey<FormState>();
 
   List<FulfillmentOption>? fulfillmentOptions;
-  List<ShippingProfile>? shippingProfiles;
 
   @override
   void initState() {
     shippingOptionCrudBloc = ShippingOptionCrudBloc.instance;
+    shippingProfileCrudBloc = ShippingProfileCrudBloc.instance;
+    shippingProfileCrudBloc.add(const ShippingProfileCrudEvent.loadAll());
+    fulfillmentOptionsBloc = RegionCrudBloc.instance;
+    fulfillmentOptionsBloc.add(RegionCrudEvent.loadFulfillmentOptions(
+        addUpdateShippingOptionReq.region.id!));
+    if (updateMode) {
+      final shippingOption = addUpdateShippingOptionReq.shippingOption!;
+      titleCtrl.text = shippingOption.name ?? '';
+      selectedPriceType = shippingOption.priceType;
+      priceCtrl.text = shippingOption.amount?.toString() ?? '';
+      minSubtotalCtrl.text = shippingOption.requirements
+              ?.firstWhere(
+                  (element) => element.type == RequirementType.minSubtotal)
+              .amount
+              .toString() ??
+          '';
+      maxSubtotalCtrl.text = shippingOption.requirements
+              ?.firstWhere(
+                  (element) => element.type == RequirementType.maxSubtotal)
+              .amount
+              .toString() ??
+          '';
+      visibleInStore = !shippingOption.adminOnly;
+    }
     super.initState();
   }
 
@@ -238,55 +265,78 @@ class _AddUpdateShippingOptionViewState
                                 ],
                               ),
                               halfSpace,
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 300),
-                                child: shippingProfiles != null
-                                    ? DropdownButtonFormField<ShippingProfile>(
-                                        style: context.bodyMedium,
-                                        value: selectedShippingProfile,
-                                        hint: const Text(
-                                            'Choose a shipping profile'),
-                                        dropdownColor: Theme.of(context)
-                                            .appBarTheme
-                                            .backgroundColor,
-                                        validator: (val) {
-                                          if (val == null) {
-                                            return 'Field is required';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.grey),
+                              BlocBuilder<ShippingProfileCrudBloc,
+                                  ShippingProfileCrudState>(
+                                bloc: shippingProfileCrudBloc,
+                                builder: (context, state) {
+                                  return state.maybeMap(
+                                      shippingProfiles: (_) =>
+                                          DropdownButtonFormField<
+                                              ShippingProfile>(
+                                            style: context.bodyMedium,
+                                            value: selectedShippingProfile,
+                                            hint: const Text(
+                                                'Choose a shipping profile'),
+                                            dropdownColor: Theme.of(context)
+                                                .appBarTheme
+                                                .backgroundColor,
+                                            validator: (val) {
+                                              if (val == null) {
+                                                return 'Field is required';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                              enabledBorder:
+                                                  const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.grey),
+                                              ),
+                                              filled: true,
+                                              fillColor: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              border: border,
+                                            ),
+                                            items: _.shippingProfiles
+                                                .map((e) => DropdownMenuItem<
+                                                        ShippingProfile>(
+                                                      value: e,
+                                                      child: Text(e.name ?? ''),
+                                                    ))
+                                                .toList(),
+                                            onChanged: (val) {
+                                              setState(() =>
+                                                  selectedShippingProfile =
+                                                      val);
+                                            },
                                           ),
-                                          filled: true,
-                                          fillColor: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          border: border,
-                                        ),
-                                        items: shippingProfiles!
-                                            .map((e) => DropdownMenuItem<
-                                                    ShippingProfile>(
-                                                  value: e,
-                                                  child: Text(e.name ?? ''),
-                                                ))
-                                            .toList(),
-                                        onChanged: (val) {
-                                          setState(() =>
-                                              selectedShippingProfile = val);
-                                        },
-                                      )
-                                    : const Skeletonizer(
-                                        enabled: true,
-                                        child: TextField(
-                                          readOnly: true,
-                                          decoration: InputDecoration(
-                                            hintText:
-                                                'Choose a shipping profile',
-                                          ),
-                                        )),
+                                      loading: (_) => const Skeletonizer(
+                                          enabled: true,
+                                          child: TextField(
+                                            readOnly: true,
+                                            decoration: InputDecoration(
+                                              hintText:
+                                                  'Choose a shipping profile',
+                                            ),
+                                          )),
+                                      error: (_) {
+                                        return Column(
+                                          children: [
+                                            const Text(
+                                                'Error loading shipping profiles'),
+                                            const Gap(8),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  shippingProfileCrudBloc.add(
+                                                      const ShippingProfileCrudEvent
+                                                          .loadAll()),
+                                              child: const Text('Retry'),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                      orElse: () => const SizedBox.shrink());
+                                },
                               ),
                             ],
                           ),
@@ -304,49 +354,49 @@ class _AddUpdateShippingOptionViewState
                                 ],
                               ),
                               halfSpace,
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 300),
-                                child: fulfillmentOptions != null
-                                    ? DropdownButtonFormField<
-                                        FulfillmentOption>(
-                                        style: context.bodyMedium,
-                                        value: selectedFulfillmentOption,
-                                        hint: const Text(
-                                            'Choose a fulfillment method'),
-                                        dropdownColor: Theme.of(context)
-                                            .appBarTheme
-                                            .backgroundColor,
-                                        validator: (val) {
-                                          if (val == null) {
-                                            return 'Field is required';
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.grey),
-                                          ),
-                                          filled: true,
-                                          fillColor: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          border: border,
+                              BlocBuilder<RegionCrudBloc, RegionCrudState>(
+                                bloc: fulfillmentOptionsBloc,
+                                builder: (context, state) {
+                                  return state.maybeMap(
+                                    fulfillmentOptions: (_) =>
+                                        DropdownButtonFormField<
+                                            FulfillmentOption>(
+                                      style: context.bodyMedium,
+                                      value: selectedFulfillmentOption,
+                                      hint: const Text(
+                                          'Choose a fulfillment method'),
+                                      dropdownColor: Theme.of(context)
+                                          .appBarTheme
+                                          .backgroundColor,
+                                      validator: (val) {
+                                        if (val == null) {
+                                          return 'Field is required';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
                                         ),
-                                        items: fulfillmentOptions!
-                                            .map((e) => DropdownMenuItem<
-                                                    FulfillmentOption>(
-                                                  value: e,
-                                                  child:
-                                                      Text(e.providerId ?? ''),
-                                                ))
-                                            .toList(),
-                                        onChanged: (val) {
-                                          setState(() =>
-                                              selectedFulfillmentOption = val);
-                                        },
-                                      )
-                                    : const Skeletonizer(
+                                        filled: true,
+                                        fillColor: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        border: border,
+                                      ),
+                                      items: _.fulfillmentOptions
+                                          .map((e) => DropdownMenuItem<
+                                                  FulfillmentOption>(
+                                                value: e,
+                                                child: Text(e.providerId ?? ''),
+                                              ))
+                                          .toList(),
+                                      onChanged: (val) {
+                                        setState(() =>
+                                            selectedFulfillmentOption = val);
+                                      },
+                                    ),
+                                    loading: (_) => const Skeletonizer(
                                         enabled: true,
                                         child: TextField(
                                           readOnly: true,
@@ -355,6 +405,24 @@ class _AddUpdateShippingOptionViewState
                                                 'Choose a fulfillment method',
                                           ),
                                         )),
+                                    error: (_) => Column(
+                                      children: [
+                                        const Text(
+                                            'Error loading fulfillment options'),
+                                        const Gap(8),
+                                        TextButton(
+                                          onPressed: () => fulfillmentOptionsBloc
+                                              .add(RegionCrudEvent
+                                                  .loadFulfillmentOptions(
+                                                      addUpdateShippingOptionReq
+                                                          .region.id!)),
+                                          child: const Text('Retry'),
+                                        )
+                                      ],
+                                    ),
+                                    orElse: () => const SizedBox.shrink(),
+                                  );
+                                },
                               ),
                             ],
                           ),
