@@ -47,34 +47,34 @@ class _AddUpdateShippingOptionViewState
   FulfillmentOption? selectedFulfillmentOption;
   final formKey = GlobalKey<FormState>();
 
-  List<FulfillmentOption>? fulfillmentOptions;
-
   @override
   void initState() {
     shippingOptionCrudBloc = ShippingOptionCrudBloc.instance;
     shippingProfileCrudBloc = ShippingProfileCrudBloc.instance;
-    shippingProfileCrudBloc.add(const ShippingProfileCrudEvent.loadAll());
     fulfillmentOptionsBloc = RegionCrudBloc.instance;
-    fulfillmentOptionsBloc.add(RegionCrudEvent.loadFulfillmentOptions(
-        addUpdateShippingOptionReq.region.id!));
+
     if (updateMode) {
       final shippingOption = addUpdateShippingOptionReq.shippingOption!;
       titleCtrl.text = shippingOption.name ?? '';
       selectedPriceType = shippingOption.priceType;
       priceCtrl.text = shippingOption.amount?.toString() ?? '';
       minSubtotalCtrl.text = shippingOption.requirements
-              ?.firstWhere(
-                  (element) => element.type == RequirementType.minSubtotal)
-              .amount
+              ?.where((element) => element.type == RequirementType.minSubtotal)
+              .firstOrNull
+              ?.amount
               .toString() ??
           '';
       maxSubtotalCtrl.text = shippingOption.requirements
-              ?.firstWhere(
-                  (element) => element.type == RequirementType.maxSubtotal)
-              .amount
+              ?.where((element) => element.type == RequirementType.maxSubtotal)
+              .firstOrNull
+              ?.amount
               .toString() ??
           '';
       visibleInStore = !shippingOption.adminOnly;
+    } else {
+      fulfillmentOptionsBloc.add(RegionCrudEvent.loadFulfillmentOptions(
+          addUpdateShippingOptionReq.region.id!));
+      shippingProfileCrudBloc.add(const ShippingProfileCrudEvent.loadAll());
     }
     super.initState();
   }
