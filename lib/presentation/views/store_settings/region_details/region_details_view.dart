@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:info_popup/info_popup.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -146,7 +146,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
                                   style: mediumTextStyle!
                                       .copyWith(color: manatee)),
                               Text(
-                                  '${region.currencyCode?.toUpperCase() ?? '-'} ${NumberFormat.simpleCurrency(name: region.currencyCode?.toUpperCase()).currencySymbol}',
+                                  '${region.currencyCode?.toUpperCase() ?? '-'} ${region.currencyCode.getCurrencySymbol}',
                                   style: mediumTextStyle),
                             ],
                           ),

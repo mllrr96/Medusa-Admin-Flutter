@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension AppUpdateExtension on String {
   bool higherThan(String other) {
     final latestVersion = int.tryParse(replaceAll(RegExp(r'[^0-9]'), ''));
@@ -8,5 +10,12 @@ extension AppUpdateExtension on String {
     } else {
       return false;
     }
+  }
+}
+
+extension CurrencySymbolExtension on String? {
+  String get getCurrencySymbol {
+    return NumberFormat?.simpleCurrency(name: this?.toUpperCase())
+        .currencySymbol;
   }
 }

@@ -18,7 +18,6 @@ import 'package:medusa_admin/presentation/modules/products_module/import_product
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/api_key_module/add_update_api_key/views/add_update_api_key_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/api_key_module/api_key_management/views/api_key_management_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/personal_information/views/personal_information_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_region/views/add_region_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/controllers/add_update_shipping_option_controller.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/regions_module/add_update_shipping_option/views/add_update_shipping_option_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/return_reasons_module/create_update_return_reason/views/create_update_return_reason_view.dart';
@@ -72,6 +71,7 @@ import 'package:medusa_admin/presentation/views/product_gift_cards/product_gift_
 import 'package:medusa_admin/presentation/views/products/products_view.dart';
 import 'package:medusa_admin/presentation/views/search/medusa_search_view.dart';
 import 'package:medusa_admin/presentation/views/splash/splash_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/add_region/add_region_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/add_update_sales_channel/add_update_sales_channel_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/currencies/currencies_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/region_details/region_details_view.dart';

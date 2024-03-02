@@ -1,10 +1,10 @@
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -235,7 +235,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
                             )
                         ],
                         prefixText:
-                            '   ${selectedRegions.isNotEmpty ? NumberFormat.simpleCurrency(name: selectedRegions.first.currencyCode?.toUpperCase()).currencySymbol : ''} ',
+                            '   ${selectedRegions.firstOrNull?.currencyCode.getCurrencySymbol} ',
                         validator: (val) {
                           if (val == null || val.isEmpty) {
                             return 'Required';

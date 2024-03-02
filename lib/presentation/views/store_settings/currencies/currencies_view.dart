@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
@@ -228,10 +228,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(NumberFormat.simpleCurrency(
-                                              name:
-                                                  currency.code?.toUpperCase())
-                                          .currencySymbol),
+                                      Text(currency.code.getCurrencySymbol),
                                       const SizedBox(width: 12.0),
                                       Text(currency.name ?? ''),
                                     ],
@@ -287,9 +284,7 @@ class AllCurrenciesView extends StatelessWidget {
                       controlAffinity: ListTileControlAffinity.trailing,
                       title: Text(currency.name ?? ''),
                       secondary: Text(
-                          NumberFormat.simpleCurrency(
-                                  name: currency.code?.toUpperCase())
-                              .currencySymbol,
+                          currency.code.getCurrencySymbol,
                           style: context.bodyMediumW600),
                       onChanged: (value) {
                         var selectedCurrencies = controller.selectedCurrencies;

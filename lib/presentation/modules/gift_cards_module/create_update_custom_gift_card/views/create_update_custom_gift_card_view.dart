@@ -2,9 +2,9 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/domain/use_case/gift_card/update_gift_card_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -133,7 +133,7 @@ class CreateUpdateCustomGiftCardView extends StatelessWidget {
                                     )
                                 ],
                                 prefixText:
-                                    '   ${controller.selectedRegion != null ? NumberFormat.simpleCurrency(name: controller.selectedRegion!.currencyCode?.toUpperCase()).currencySymbol : ''} ',
+                                    '   ${controller.selectedRegion!.currencyCode.getCurrencySymbol} ',
                                 validator: (val) {
                                   if (val == null || val.isEmpty) {
                                     return 'Required';

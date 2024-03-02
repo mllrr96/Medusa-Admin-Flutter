@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
@@ -293,7 +293,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 //     (selectedCurrency, val, widget.index);
               },
               prefixText:
-                  '    ${NumberFormat.simpleCurrency(name: selectedCurrency?.code?.toUpperCase()).currencySymbol} | ',
+                  '    ${selectedCurrency?.code.getCurrencySymbol} | ',
               noEndSpace: true,
               inputFormatters: [
                 if (selectedCurrency != null)
