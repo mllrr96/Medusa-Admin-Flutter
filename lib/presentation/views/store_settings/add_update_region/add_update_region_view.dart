@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
+import 'package:medusa_admin/presentation/cubits/payment_providers/payment_providers_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/countries/controller/country_controller.dart';
 import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -19,6 +20,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 @RoutePage()
 class AddUpdateRegionView extends StatefulWidget {
@@ -33,21 +35,21 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
   bool get updateMode => region != null;
   Region? get region => widget.region;
   late RegionCrudBloc regionCrudBloc;
+  late PaymentProvidersCubit paymentProvidersCubit;
 
   final titleCtrl = TextEditingController();
   final defaultTaxRateCtrl = TextEditingController();
   final defaultTextCode = TextEditingController();
   final formKey = GlobalKey<FormState>();
   List<Country> selectedCountries = [];
-  List<PaymentProvider>? paymentProviders;
   List<String> selectedPaymentProviders = [];
-  List<FulfillmentProvider>? fulfillmentProviders;
   Currency? selectedCurrency;
   final providersExpansionKey = GlobalKey();
   List<Currency>? currencies;
   @override
   void initState() {
     regionCrudBloc = RegionCrudBloc.instance;
+    paymentProvidersCubit = PaymentProvidersCubit.instance;
     currencies = context
         .read<StoreBloc>()
         .state
@@ -70,6 +72,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
   @override
   void dispose() {
     regionCrudBloc.close();
+    paymentProvidersCubit.close();
     titleCtrl.dispose();
     defaultTaxRateCtrl.dispose();
     defaultTextCode.dispose();
@@ -365,29 +368,40 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                             ],
                           ),
                           halfSpace,
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            child: paymentProviders != null
-                                ? MultiSelectDropDown<String>(
-                                    hintStyle: smallTextStyle,
-                                    options: paymentProviders!
-                                        .map((e) => ValueItem(
-                                            label: e.id ?? 'Unknown',
-                                            value: e.id))
-                                        .toList(),
-                                    inputDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      border: Border.all(color: Colors.grey),
-                                      color: Theme.of(context)
+                          BlocBuilder<PaymentProvidersCubit,
+                              PaymentProvidersState>(
+                            bloc: paymentProvidersCubit,
+                            builder: (context, state) {
+                              return state.maybeMap(
+                                  loading: (_) => Skeletonizer(
+                                      enabled: true,
+                                      child: MultiSelectDropDown(
+                                          onOptionSelected: (_) {},
+                                          options: const [])),
+                                  paymentProviders: (_) {
+                                    return MultiSelectDropDown<String>(
+                                      hintStyle: smallTextStyle,
+                                      options: _.paymentProviders
+                                          .map((e) => ValueItem(
+                                              label: e.id ?? 'Unknown',
+                                              value: e.id))
+                                          .toList(),
+                                      inputDecoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                        border: Border.all(color: Colors.grey),
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      optionsBackgroundColor: Theme.of(context)
                                           .scaffoldBackgroundColor,
-                                    ),
-                                    optionsBackgroundColor: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    optionTextStyle: context.bodySmall,
-                                    onOptionSelected: (List<ValueItem<String>>
-                                        selectedOptions) {},
-                                  )
-                                : const CircularProgressIndicator.adaptive(),
+                                      optionTextStyle: context.bodySmall,
+                                      onOptionSelected: (List<ValueItem<String>>
+                                          selectedOptions) {},
+                                    );
+                                  },
+                                  orElse: () => const SizedBox.shrink());
+                            },
                           ),
                           space,
                           Row(

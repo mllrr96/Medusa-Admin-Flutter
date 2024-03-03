@@ -21,8 +21,8 @@ import 'package:medusa_admin/presentation/modules/settings_module/store_settings
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/store_settings_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/controllers/add_update_tax_rate_controller.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/views/add_update_tax_rate_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_select_region_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
+import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/tax_settings_select_region_view.dart';
+import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/tax_settings_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_customer/update_customer_details_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_discount/add_update_discount_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_group/create_update_group_view.dart';
