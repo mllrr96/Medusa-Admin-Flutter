@@ -6,7 +6,6 @@ import 'shipping_option_label.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
-
 class ShippingOptionCard extends StatelessWidget {
   const ShippingOptionCard(
       {super.key,
@@ -87,14 +86,10 @@ class ShippingOptionCard extends StatelessWidget {
                             ]).then((value) async {
                           switch (value) {
                             case 0:
-                              if (onEditTap != null) {
-                                onEditTap!();
-                              }
+                              onEditTap?.call();
                               break;
                             case 1:
-                              if (onDeleteTap != null) {
-                                onDeleteTap!();
-                              }
+                              onDeleteTap?.call();
                               break;
                           }
                         });
@@ -111,8 +106,7 @@ class ShippingOptionCard extends StatelessWidget {
                         'Flat Rate: ${shippingOption.amount.formatAsPrice(currencyCode, symbolAtEnd: true)}',
                         style: smallTextStyle?.copyWith(color: manatee)),
                   ),
-                  ShippingOptionLabel(
-                      adminOnly: shippingOption.adminOnly)
+                  ShippingOptionLabel(adminOnly: shippingOption.adminOnly)
                 ],
               ),
               halfSpace,

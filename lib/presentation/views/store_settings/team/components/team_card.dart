@@ -78,14 +78,10 @@ class TeamCard extends StatelessWidget {
                             ]).then((result) async {
                           switch (result) {
                             case 0:
-                              if (onEditTap != null) {
-                                onEditTap!();
-                              }
+                              onEditTap?.call();
                               return;
                             case 1:
-                              if (onDeleteTap != null) {
-                                onDeleteTap!();
-                              }
+                              onDeleteTap?.call();
                               return;
                           }
                         });

@@ -23,7 +23,6 @@ import 'package:medusa_admin/presentation/modules/settings_module/store_settings
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/add_update_tax_rate/views/add_update_tax_rate_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_select_region_view.dart';
 import 'package:medusa_admin/presentation/modules/settings_module/store_settings/tax_settings_module/tax_settings/views/tax_settings_view.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/team/views/team_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_customer/update_customer_details_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_discount/add_update_discount_view.dart';
 import 'package:medusa_admin/presentation/views/add_update_group/create_update_group_view.dart';
@@ -73,6 +72,7 @@ import 'package:medusa_admin/presentation/views/store_settings/add_update_sales_
 import 'package:medusa_admin/presentation/views/store_settings/add_update_shipping_option/add_update_shipping_option_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/api_key_management/api_key_management_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/currencies/currencies_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/invites/invites_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/personal_information/personal_information_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/region_details/region_details_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/regions/regions_view.dart';
@@ -80,6 +80,7 @@ import 'package:medusa_admin/presentation/views/store_settings/sales_channel_det
 import 'package:medusa_admin/presentation/views/store_settings/sales_channels/sales_channels_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/shipping/shipping_view.dart';
 import 'package:medusa_admin/presentation/views/store_settings/store_details/store_details_view.dart';
+import 'package:medusa_admin/presentation/views/store_settings/team/team_view.dart';
 import 'package:medusa_admin/presentation/views/transfer_order/transfer_order_view.dart';
 import 'package:medusa_admin/presentation/views/update_discount_condition/update_condition_view.dart';
 import 'package:medusa_admin/presentation/widgets/app_update_view.dart';
@@ -224,6 +225,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
       AutoRoute(page: AddUpdateApiKeyRoute.page),
 
       AutoRoute(page: TeamRoute.page),
+      AutoRoute(page: InvitesRoute.page),
 
       // App Settings
       AutoRoute(page: OrderSettingsRoute.page),

@@ -73,8 +73,7 @@ class DetailedConditionCard extends StatelessWidget {
                 DiscountConditionOperator.notIn
             ? 'Discount is applicable to all products except specific products'
             : 'Discount is applicable to specific products';
-        defaultEdit = () =>
-            context.pushRoute(ConditionProductRoute());
+        defaultEdit = () => context.pushRoute(ConditionProductRoute());
         break;
       case DiscountConditionType.productType:
         title = 'Product Type';
@@ -82,8 +81,7 @@ class DetailedConditionCard extends StatelessWidget {
                 DiscountConditionOperator.notIn
             ? 'Discount is applicable to all product types expect specific product types'
             : 'Discount is applicable to specific product types';
-        defaultEdit =
-            () => context.pushRoute(ConditionTypeRoute());
+        defaultEdit = () => context.pushRoute(ConditionTypeRoute());
         break;
       case DiscountConditionType.productCollections:
         title = 'Collection';
@@ -100,8 +98,7 @@ class DetailedConditionCard extends StatelessWidget {
                 DiscountConditionOperator.notIn
             ? 'Discount is applicable to all product tags except specific product tags'
             : 'Discount is applicable to specific product tags';
-        defaultEdit =
-            () => context.pushRoute(ConditionTagRoute());
+        defaultEdit = () => context.pushRoute(ConditionTagRoute());
         break;
       case DiscountConditionType.customerGroups:
         title = 'Customer Group';
@@ -142,8 +139,7 @@ class DetailedConditionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(title, style: mediumTextStyle),
-                Text(subtitle,
-                    style: smallTextStyle?.copyWith(color: manatee)),
+                Text(subtitle, style: smallTextStyle?.copyWith(color: manatee)),
               ],
             ),
           ),
@@ -162,15 +158,13 @@ class DetailedConditionCard extends StatelessWidget {
                   switch (result) {
                     case 0:
                       if (onEditTap != null) {
-                        onEditTap!(discountCondition.type);
+                        onEditTap?.call(discountCondition.type);
                       } else {
-                        defaultEdit!();
+                        defaultEdit?.call();
                       }
                       break;
                     case 1:
-                      if (onDeleteTap != null) {
-                        onDeleteTap!();
-                      }
+                      onDeleteTap?.call();
                       break;
                   }
                 });

@@ -36,8 +36,7 @@ class ProductListTile extends StatelessWidget {
           children: [
             _getStatusIcon(product.status),
             const SizedBox(width: 4.0),
-            Text(product.status.name.capitalize,
-                style: context.bodySmall),
+            Text(product.status.name.capitalize, style: context.bodySmall),
           ],
         ),
         leading: product.thumbnail != null
@@ -52,7 +51,12 @@ class ProductListTile extends StatelessWidget {
                       Icons.warning_rounded,
                       color: Colors.redAccent),
                 ))
-            : Container(width: 45, height: double.maxFinite, color: ColorManager.manatee,child: const Icon(Icons.image),),
+            : Container(
+                width: 45,
+                height: double.maxFinite,
+                color: ColorManager.manatee,
+                child: const Icon(Icons.image),
+              ),
         trailing: IconButton(
           padding: const EdgeInsets.all(16.0),
           onPressed: () async {
@@ -73,22 +77,14 @@ class ProductListTile extends StatelessWidget {
                 ]).then((result) async {
               switch (result) {
                 case 0:
-                  if (onEdit != null) {
-                    onEdit!();
-                  }
+                  onEdit?.call();
                 case 1:
-                  if (onPublish != null) {
-                    onPublish!();
-                  }
+                  onPublish?.call();
                 case 2:
-                  if (onDuplicate != null) {
-                    onDuplicate!();
-                  }
+                  onDuplicate?.call();
                   break;
                 case 3:
-                  if (onDelete != null) {
-                    onDelete!();
-                  }
+                  onDelete?.call();
               }
             });
           },

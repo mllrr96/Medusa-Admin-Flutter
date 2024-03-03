@@ -87,6 +87,11 @@ class StoreSettingsView extends StatelessWidget {
                   onPressed: (_) => context.pushRoute(const TeamRoute()),
                 ),
                 SettingsTile.navigation(
+                  leading: const Icon(Icons.group),
+                  title: const Text('Invites'),
+                  onPressed: (_) => context.pushRoute(const InvitesRoute()),
+                ),
+                SettingsTile.navigation(
                   leading: const Icon(Icons.mail),
                   title: const Text('Support'),
                 ),

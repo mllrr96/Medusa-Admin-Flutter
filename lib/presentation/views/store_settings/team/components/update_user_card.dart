@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:medusa_admin/presentation/modules/settings_module/store_settings/team/controllers/team_controller.dart';
+import 'package:get/utils.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class UpdateUserCard extends StatefulWidget {
-  const UpdateUserCard({super.key, required this.user});
+  const UpdateUserCard({super.key, required this.user, this.onUpdated});
   final User user;
+  final void Function(UserUpdateUserReq)? onUpdated;
   @override
   State<UpdateUserCard> createState() => _UpdateUserCardState();
 }
@@ -74,17 +74,12 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                           return;
                         }
 
-                        await TeamController.instance.updateUser(
-                          id: user.id!,
-                          context: context,
-                          userUpdateUserReq: UserUpdateUserReq(
-                            firstName: firstNameCtrl.text,
-                            lastName: lastNameCtrl.text,
-                            apiToken: tokenCtrl.text.isNotEmpty
-                                ? tokenCtrl.text
-                                : null,
-                          ),
-                        );
+                        widget.onUpdated?.call(UserUpdateUserReq(
+                          firstName: firstNameCtrl.text,
+                          lastName: lastNameCtrl.text,
+                          apiToken:
+                              tokenCtrl.text.isNotEmpty ? tokenCtrl.text : null,
+                        ));
                       },
                       child: const Text('Update')),
                 ],

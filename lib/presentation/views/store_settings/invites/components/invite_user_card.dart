@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../controllers/invite_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 class InviteUserCard extends StatefulWidget {
-  const InviteUserCard({super.key});
-
+  const InviteUserCard({super.key, this.onInvite});
+  final void Function()? onInvite;
   @override
   State<InviteUserCard> createState() => _InviteUserCardState();
 }
@@ -45,7 +44,8 @@ class _InviteUserCardState extends State<InviteUserCard> {
                 TextButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        await InviteController.instance.inviteUser(email: emailCtrl.text, role: selectedRole, context: context);
+                        widget.onInvite?.call();
+
                       }
                     },
                     child: const Text('Invite')),

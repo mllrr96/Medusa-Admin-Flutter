@@ -8,7 +8,12 @@ import '../../../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class TaxRateCard extends StatelessWidget {
-  const TaxRateCard({super.key, required this.taxRate, this.onEditTap, this.onDeleteTap, this.shimmer = false});
+  const TaxRateCard(
+      {super.key,
+      required this.taxRate,
+      this.onEditTap,
+      this.onDeleteTap,
+      this.shimmer = false});
   final TaxRate taxRate;
   final void Function()? onEditTap;
   final void Function()? onDeleteTap;
@@ -20,7 +25,7 @@ class TaxRateCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
 
     return Skeletonizer(
-      enabled : shimmer,
+      enabled: shimmer,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
         decoration: BoxDecoration(
@@ -41,18 +46,17 @@ class TaxRateCard extends StatelessWidget {
                           context: context,
                           actions: <SheetAction<int>>[
                             const SheetAction(label: 'Edit', key: 0),
-                            const SheetAction(label: 'Delete', isDestructiveAction: true, key: 1),
+                            const SheetAction(
+                                label: 'Delete',
+                                isDestructiveAction: true,
+                                key: 1),
                           ]).then((value) async {
                         switch (value) {
                           case 0:
-                            if (onEditTap != null) {
-                              onEditTap!();
-                            }
+                            onEditTap?.call();
                             return;
                           case 1:
-                            if (onDeleteTap != null) {
-                              onDeleteTap!();
-                            }
+                            onDeleteTap?.call();
                             return;
                         }
                       });
@@ -63,8 +67,10 @@ class TaxRateCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Code: ${taxRate.code ?? ''}', style: smallTextStyle?.copyWith(color: manatee)),
-                Text('${taxRate.rate?.toString() ?? ''} %', style: smallTextStyle),
+                Text('Code: ${taxRate.code ?? ''}',
+                    style: smallTextStyle?.copyWith(color: manatee)),
+                Text('${taxRate.rate?.toString() ?? ''} %',
+                    style: smallTextStyle),
               ],
             ),
             const Gap(12)

@@ -146,17 +146,11 @@ class ImageCard extends StatelessWidget {
                       ]).then((result) {
                     switch (result) {
                       case 0:
-                        if (onDelete != null) {
-                          onDelete!();
-                        }
+                        onDelete?.call();
                       case 1:
-                        if (onCrop != null) {
-                          onCrop!();
-                        }
+                        onCrop?.call();
                       case 2:
-                        if (onRename != null) {
-                          onRename!();
-                        }
+                        onRename?.call();
                     }
                   });
                 },

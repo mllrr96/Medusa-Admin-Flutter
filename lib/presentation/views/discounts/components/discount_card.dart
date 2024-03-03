@@ -10,7 +10,8 @@ import 'package:super_banners/super_banners.dart';
 import 'discount_rule_type_label.dart';
 
 class DiscountCard extends StatelessWidget {
-  const DiscountCard(this.discount, {super.key, this.onToggle, this.onDelete, this.onTap});
+  const DiscountCard(this.discount,
+      {super.key, this.onToggle, this.onDelete, this.onTap});
   final Discount discount;
   final void Function()? onToggle;
   final void Function()? onDelete;
@@ -38,8 +39,8 @@ class DiscountCard extends StatelessWidget {
       // color: context.getAlphaBlend(context.theme.cardColor),
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        onTap: onTap ?? () =>
-            context.pushRoute(DiscountDetailsRoute(discount: discount)),
+        onTap: onTap ??
+            () => context.pushRoute(DiscountDetailsRoute(discount: discount)),
         child: Ink(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -113,9 +114,7 @@ class DiscountCard extends StatelessWidget {
                                     });
                                     break;
                                   case 1:
-                                    if (onToggle != null) {
-                                      onToggle!();
-                                    }
+                                    onToggle?.call();
                                     break;
                                   case 2:
                                     await showOkCancelAlertDialog(
@@ -128,9 +127,7 @@ class DiscountCard extends StatelessWidget {
                                             isDestructiveAction: true)
                                         .then((value) async {
                                       if (value == OkCancelResult.ok) {
-                                        if (onDelete != null) {
-                                          onDelete!();
-                                        }
+                                        onDelete?.call();
                                       }
                                     });
                                     break;

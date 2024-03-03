@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 import '../../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
+
 class OrderNoteWidget extends StatelessWidget {
   const OrderNoteWidget(this.note, {super.key, this.onNoteDelete});
   final Note note;
@@ -17,7 +18,8 @@ class OrderNoteWidget extends StatelessWidget {
     final name = '${user?.firstName ?? ''} ${user?.lastName ?? ''}';
     final email = user?.email;
     final text = name.removeAllWhitespace.isNotEmpty ? '$name ($email)' : email;
-    final durationDiff = DateTime.now().difference(note.createdAt ?? DateTime.now());
+    final durationDiff =
+        DateTime.now().difference(note.createdAt ?? DateTime.now());
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     return Column(
@@ -35,10 +37,15 @@ class OrderNoteWidget extends StatelessWidget {
                       CircleAvatar(
                         radius: 14,
                         backgroundColor: ColorManager.getAvatarColor(text),
-                        child: Text(text?[0].toUpperCase() ?? '', style: smallTextStyle?.copyWith(color: Colors.white)),
+                        child: Text(text?[0].toUpperCase() ?? '',
+                            style:
+                                smallTextStyle?.copyWith(color: Colors.white)),
                       ),
                       const Gap(8),
-                      Flexible(child: Text(text ?? '', style: smallTextStyle?.copyWith(fontWeight: FontWeight.bold))),
+                      Flexible(
+                          child: Text(text ?? '',
+                              style: smallTextStyle?.copyWith(
+                                  fontWeight: FontWeight.bold))),
                     ],
                   ),
                   Row(
@@ -47,7 +54,8 @@ class OrderNoteWidget extends StatelessWidget {
                         radius: 14,
                         backgroundColor: Colors.transparent,
                         child: Text(text?[0].toUpperCase() ?? '',
-                            style: smallTextStyle?.copyWith(color: Colors.transparent)),
+                            style: smallTextStyle?.copyWith(
+                                color: Colors.transparent)),
                       ),
                       const Gap(8),
                       Text(DateTime.now().subtract(durationDiff).timeAgo(),
@@ -65,11 +73,9 @@ class OrderNoteWidget extends StatelessWidget {
                     message: 'Are you sure you want to delete this note?',
                     okLabel: 'Yes, Delete',
                     isDestructiveAction: true,
-                  ).then((result) async{
+                  ).then((result) async {
                     if (result == OkCancelResult.ok) {
-                      if (onNoteDelete != null) {
-                        onNoteDelete!();
-                      }
+                      onNoteDelete?.call();
                     }
                   });
                 },
@@ -81,7 +87,8 @@ class OrderNoteWidget extends StatelessWidget {
             CircleAvatar(
               radius: 14,
               backgroundColor: Colors.transparent,
-              child: Text(text?[0].toUpperCase() ?? '', style: smallTextStyle?.copyWith(color: Colors.transparent)),
+              child: Text(text?[0].toUpperCase() ?? '',
+                  style: smallTextStyle?.copyWith(color: Colors.transparent)),
             ),
             const Gap(8),
             Flexible(
@@ -90,12 +97,16 @@ class OrderNoteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   // color: context.theme.scaffoldBackgroundColor,
-                  color: Get.isDarkMode ? context.theme.scaffoldBackgroundColor : ColorManager.primaryOpacity,
+                  color: Get.isDarkMode
+                      ? context.theme.scaffoldBackgroundColor
+                      : ColorManager.primaryOpacity,
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                 ),
                 child: Text(
                   note.value ?? '',
-                  style: smallTextStyle?.copyWith(color: Get.isDarkMode ? Colors.white : ColorManager.primary),
+                  style: smallTextStyle?.copyWith(
+                      color:
+                          Get.isDarkMode ? Colors.white : ColorManager.primary),
                 ),
               ),
             ),

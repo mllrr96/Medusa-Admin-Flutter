@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
@@ -24,7 +25,8 @@ class InviteCard extends StatelessWidget {
     final email = invite.userEmail ?? '';
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).cardColor, borderRadius: const BorderRadius.all(Radius.circular(16.0))),
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(16.0))),
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Column(
@@ -36,7 +38,8 @@ class InviteCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: ColorManager.getAvatarColor(email),
-                      child: Text(email[0].toUpperCase(), style: largeTextStyle?.copyWith(color: Colors.white)),
+                      child: Text(email[0].toUpperCase(),
+                          style: largeTextStyle?.copyWith(color: Colors.white)),
                     ),
                     const SizedBox(width: 6.0),
                     Flexible(child: Text(email, style: mediumTextStyle)),
@@ -48,26 +51,27 @@ class InviteCard extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () async {
-                        await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
+                        await showModalActionSheet<
+                            int>(context: context, actions: <SheetAction<int>>[
                           const SheetAction(label: 'Resend Invitation', key: 0),
                           const SheetAction(label: 'Copy Invite Link', key: 1),
-                          const SheetAction(label: 'Remove Invitation', isDestructiveAction: true, key: 2),
+                          const SheetAction(
+                              label: 'Remove Invitation',
+                              isDestructiveAction: true,
+                              key: 2),
                         ]).then((result) async {
                           switch (result) {
                             case 0:
-                              if (onResendTap != null) {
-                                onResendTap!();
-                              }
+                              onResendTap?.call();
                               return;
                             case 1:
-                              await Clipboard.setData(ClipboardData(text: invite.token ?? '' )).then((value) =>
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(content: Text('Token copied'))));
+                              await Clipboard.setData(
+                                      ClipboardData(text: invite.token ?? ''))
+                                  .then((value) =>
+                                      context.showSnackBar('Token copied'));
                               return;
                             case 2:
-                              if (onDeleteTap != null) {
-                                onDeleteTap!();
-                              }
+                              onDeleteTap?.call();
                               return;
                           }
                         });

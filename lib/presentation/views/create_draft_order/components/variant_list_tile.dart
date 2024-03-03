@@ -7,7 +7,6 @@ import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-
 class VariantListTile extends StatelessWidget {
   const VariantListTile(
     this.lineItem, {
@@ -29,7 +28,8 @@ class VariantListTile extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     final productVariant = lineItem.variant!;
     MoneyAmount? moneyAmount;
-    final priceList = productVariant.prices?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
+    final priceList = productVariant.prices
+        ?.where((e) => e.currencyCode == selectedRegion?.currencyCode);
     if (priceList?.isNotEmpty ?? false) {
       moneyAmount = priceList!.first;
     } else {
@@ -48,9 +48,7 @@ class VariantListTile extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (_) {
-              if (onDelete != null) {
-                onDelete!();
-              }
+              onDelete?.call();
             },
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
@@ -71,9 +69,11 @@ class VariantListTile extends StatelessWidget {
                       child: CachedNetworkImage(
                         key: ValueKey(productVariant.product!.thumbnail!),
                         imageUrl: productVariant.product!.thumbnail!,
-                        placeholder: (context, text) => const Center(child: CircularProgressIndicator.adaptive()),
-                        errorWidget: (context, string, error) =>
-                            const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                        placeholder: (context, text) => const Center(
+                            child: CircularProgressIndicator.adaptive()),
+                        errorWidget: (context, string, error) => const Icon(
+                            Icons.warning_rounded,
+                            color: Colors.redAccent),
                       )),
                 space,
                 // Product, Variant name and price
@@ -89,7 +89,9 @@ class VariantListTile extends StatelessWidget {
                           style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
-                      Text(moneyAmount.amount.formatAsPrice(moneyAmount.currencyCode),
+                      Text(
+                          moneyAmount.amount
+                              .formatAsPrice(moneyAmount.currencyCode),
                           style: smallTextStyle?.copyWith(color: manatee),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
@@ -149,11 +151,7 @@ class CustomVariantListTile extends StatelessWidget {
         motion: const DrawerMotion(),
         children: [
           SlidableAction(
-            onPressed: (_) {
-              if (onDelete != null) {
-                onDelete!();
-              }
-            },
+            onPressed: (_) => onDelete?.call(),
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
             icon: Icons.delete_forever,

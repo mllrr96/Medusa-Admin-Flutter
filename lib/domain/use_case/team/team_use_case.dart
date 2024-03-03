@@ -5,12 +5,12 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class TeamUseCase {
+class InviteCrudUseCase {
   UserRepository get _userRepository => getIt<MedusaAdmin>().userRepository;
   InviteRepository get _inviteRepository =>
       getIt<MedusaAdmin>().inviteRepository;
 
-  static TeamUseCase get instance => getIt<TeamUseCase>();
+  static InviteCrudUseCase get instance => getIt<InviteCrudUseCase>();
 
   Future<Result<UserRetrieveUserListRes, Failure>> fetchUsers() async {
     try {
@@ -52,7 +52,19 @@ class TeamUseCase {
     }
   }
 
-  Future<Result<UserDeleteInvitesRes, Failure>> deleteInvite(String inviteId) async {
+  Future<Result<bool, Failure>> acceptInvite(
+      UserAcceptInvitationReq userAcceptInvitationReq) async {
+    try {
+      final result = await _inviteRepository.acceptInvitation(
+          userAcceptInvitationReq: userAcceptInvitationReq);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<UserDeleteInvitesRes, Failure>> deleteInvite(
+      String inviteId) async {
     try {
       final result = await _inviteRepository.deleteInvite(inviteId: inviteId);
       return Success(result!);
