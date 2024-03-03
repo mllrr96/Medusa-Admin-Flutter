@@ -2,20 +2,24 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 
-import '../controllers/return_reasons_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
-class ReturnReasonCard extends GetView<ReturnReasonsController> {
+class ReturnReasonCard extends StatelessWidget {
   const ReturnReasonCard(this.returnReason,
-      {super.key, this.onPressed, this.listTiltStyle = false});
+      {super.key,
+      this.onPressed,
+      this.listTiltStyle = false,
+      this.onDelete,
+      this.onAfterEdit});
 
   final ReturnReason returnReason;
   final void Function()? onPressed;
+  final void Function()? onDelete;
+  final void Function()? onAfterEdit;
   final bool listTiltStyle;
 
   @override
@@ -43,7 +47,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
                   okLabel: 'Yes, Delete',
                 ).then((value) async {
                   if (value == OkCancelResult.ok) {
-                    await controller.deleteReturnReason(returnReason.id!);
+                    onDelete?.call();
                   }
                 });
               },
@@ -61,7 +65,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
                           returnReason: returnReason))
                       .then((value) {
                     if (value != null && value == true) {
-                      controller.pagingController.refresh();
+                      onAfterEdit?.call();
                     }
                   }),
           title: Text(
@@ -78,12 +82,12 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
 
     return GestureDetector(
       onTap: onPressed ??
-          () async =>await context
+          () async => await context
                   .pushRoute(
                       CreateUpdateReturnReasonRoute(returnReason: returnReason))
                   .then((value) {
                 if (value != null && value == true) {
-                  controller.pagingController.refresh();
+                  onAfterEdit?.call();
                 }
               }),
       child: Container(
@@ -119,7 +123,7 @@ class ReturnReasonCard extends GetView<ReturnReasonsController> {
                   okLabel: 'Yes, Delete',
                 ).then((value) async {
                   if (value == OkCancelResult.ok) {
-                    await controller.deleteReturnReason(returnReason.id!);
+                    onDelete?.call();
                   }
                 });
               },
