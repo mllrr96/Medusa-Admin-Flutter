@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/fetch_bach_job_use_case.dart';
+import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 class ImportProductsController extends GetxController
@@ -14,7 +14,7 @@ class ImportProductsController extends GetxController
     if (showLoading) {
       change(null, status: RxStatus.loading());
     }
-    final result = await FetchBatchJobUseCase.instance(id);
+    final result = await BatchJobCrudUseCase.instance.load(id);
     result.when((batchJob) {
       change(batchJob, status: RxStatus.success());
     }, (error) {

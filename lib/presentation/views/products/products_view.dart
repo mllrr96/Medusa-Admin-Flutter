@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
+import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -15,7 +16,6 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/create_batch_job_use_case.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -213,7 +213,7 @@ class _ProductsViewState extends State<ProductsView> {
                     labelStyle: smallTextStyle,
                     onTap: () async {
                       if (await exportProducts) {
-                        final result = await CreateBatchJobUseCase.instance(
+                        final result = await BatchJobCrudUseCase.instance.create(
                             BatchJobType.productExport);
                         result.when((success) {
                           context.showSnackBar('Export started');

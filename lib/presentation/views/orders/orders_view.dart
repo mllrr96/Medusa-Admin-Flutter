@@ -6,7 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/create_batch_job_use_case.dart';
+import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
 import 'package:medusa_admin/presentation/views/orders_filter/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/views/orders/components/orders_loading_page.dart';
@@ -129,7 +129,7 @@ class _OrdersViewState extends State<OrdersView> {
               icon: const Icon(MedusaIcons.arrow_up_tray),
               onPressed: () async {
                 if (await exportOrders) {
-                  final result = await CreateBatchJobUseCase.instance(
+                  final result = await BatchJobCrudUseCase.instance.create(
                       BatchJobType.orderExport);
                   result.when((success) {
                     context.showSnackBar('Export started');

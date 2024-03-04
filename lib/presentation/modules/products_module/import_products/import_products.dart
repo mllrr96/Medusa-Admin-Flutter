@@ -9,13 +9,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/cancel_batch_job_use_case.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/confirm_batch_job_use_case.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/fetch_bach_job_use_case.dart';
+import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/domain/use_case/batch_job/create_batch_job_use_case.dart';
 import 'package:medusa_admin/domain/use_case/file/upload_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -35,6 +32,7 @@ class ImportProductsView extends StatefulWidget {
 class _ImportProductsViewState extends State<ImportProductsView> {
   bool loadingTemplate = false;
   String? batchJobId;
+  late BatchJobCrudUseCase batchJobCrudUseCase;
 
   Future<File?> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -52,10 +50,16 @@ class _ImportProductsViewState extends State<ImportProductsView> {
   }
 
   Future<void> fetchBatchJob() async {
-    final result = await FetchBatchJobUseCase.instance(batchJobId!);
+    final result = await batchJobCrudUseCase.load(batchJobId!);
     result.when((batchJob) {
       // update ui according to batch job status, in case the batch job is still running, fetch again after 5 seconds
     }, (error) {});
+  }
+
+  @override
+  void initState() {
+    batchJobCrudUseCase = BatchJobCrudUseCase.instance;
+    super.initState();
   }
 
   @override
@@ -160,8 +164,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                 if (result == OkCancelResult.ok) {
                   loading();
                   // Cancel batch job here
-                  await CancelBatchJobUseCase.instance(batchJobId!)
-                      .then((result) {
+                  await batchJobCrudUseCase.cancel(batchJobId!).then((result) {
                     result.when(
                         (success) => context.router.popForced(),
                         (error) =>
@@ -181,8 +184,8 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                       child: FilledButton(
                         onPressed: () async {
                           loading();
-                          final result = await ConfirmBatchJobUseCase.instance(
-                              batchJobId!);
+                          final result =
+                              await batchJobCrudUseCase.confirm(batchJobId!);
                           result.when((success) {
                             context.router.popForced();
                             context.showSnackBar(
@@ -282,8 +285,8 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                                       if (result == OkCancelResult.ok) {
                                         loading();
                                         // Cancel batch job here
-                                        await CancelBatchJobUseCase.instance(
-                                                batchJobId!)
+                                        await batchJobCrudUseCase
+                                            .cancel(batchJobId!)
                                             .then((result) {
                                           result.when((success) {
                                             batchJobId = null;
@@ -348,9 +351,8 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                                 .uploadProtected([file]);
                             await uploadResult.when((urls) async {
                               final uploadUrl = urls.first;
-                              final batchJobResult =
-                                  await CreateBatchJobUseCase.instance(
-                                      BatchJobType.productImport,
+                              final batchJobResult = await batchJobCrudUseCase
+                                  .create(BatchJobType.productImport,
                                       dryRun: true,
                                       context: {
                                     'fileKey': uploadUrl.split('/').last

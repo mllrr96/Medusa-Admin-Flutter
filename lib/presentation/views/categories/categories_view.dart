@@ -40,6 +40,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   void dispose() {
+    categoryCrudBloc.close();
     pagingController.dispose();
     refreshController.dispose();
     super.dispose();
