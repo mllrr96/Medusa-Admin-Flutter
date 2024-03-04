@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin/domain/use_case/tax_rate/tax_settings_use_case.dart';
+import 'package:medusa_admin/domain/use_case/tax_rate/tax_settings_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 part 'tax_crud_event.dart';
