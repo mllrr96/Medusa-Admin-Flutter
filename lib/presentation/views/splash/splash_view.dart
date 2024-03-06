@@ -12,7 +12,6 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
-import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 
 @RoutePage()
 class SplashView extends StatefulWidget {
@@ -51,7 +50,7 @@ class _SplashViewState extends State<SplashView> {
             //         .init()).then((value) {
             //
             // });
-            Get.put(ActivityController());
+            // Get.put(ActivityController());
             context.router.replaceAll([const DashboardRoute()]);
           },
           loggedOut: (_) {

@@ -10,14 +10,17 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../core/constant/colors.dart';
-import '../controllers/order_details_controller.dart';
 import 'edit_shipping_address.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-class OrderCustomer extends GetView<OrderDetailsController> {
-  const OrderCustomer(this.order, {super.key, this.onExpansionChanged});
+
+class OrderCustomer extends StatelessWidget {
+  const OrderCustomer(this.order, {super.key, this.onExpansionChanged, this.onEditShippingAddress, this.onEditBillingAddress, this.onEditEmailAddress});
   final Order order;
   final void Function(bool)? onExpansionChanged;
+  final void Function()? onEditShippingAddress;
+  final void Function()? onEditBillingAddress;
+  final void Function()? onEditEmailAddress;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -35,7 +38,6 @@ class OrderCustomer extends GetView<OrderDetailsController> {
     }
 
     return FlexExpansionTile(
-      key: controller.customerKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Customer'),
@@ -69,7 +71,8 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                     ),
                   );
                   if (result is Address) {
-                    await controller.updateShippingAddress(result);
+                    // await controller.updateShippingAddress(result);
+                    onEditShippingAddress?.call();
                   }
                   break;
                 case 3:
@@ -85,7 +88,8 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                     ),
                   );
                   if (result is Address) {
-                    await controller.updateBillingAddress(result);
+                    // await controller.updateBillingAddress(result);
+                    onEditBillingAddress?.call();
                   }
                   break;
                 case 4:
@@ -97,7 +101,8 @@ class OrderCustomer extends GetView<OrderDetailsController> {
                         return EmailUpdateView(currentEmail: order.email);
                       });
                   if (result is String) {
-                    await controller.updateEmail(result);
+                    // await controller.updateEmail(result);
+                    onEditEmailAddress?.call();
                   }
               }
             });

@@ -21,7 +21,6 @@ import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart'
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
-import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
@@ -83,12 +82,6 @@ class _SignInViewState extends State<SignInView> {
             await _showBiometricDialog();
           }
           if (!isSessionExpired) {
-            Get.put(ActivityController());
-            if (ActivityController
-                    .instance.pagingController.itemList?.isNotEmpty ??
-                false) {
-              ActivityController.instance.pagingController.refresh();
-            }
             if (mounted) {
               context.router.replaceAll([const DashboardRoute()]);
             }

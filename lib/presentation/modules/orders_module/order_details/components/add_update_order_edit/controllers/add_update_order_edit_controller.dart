@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:medusa_admin/domain/use_case/order/order_edit_use_case.dart';
+import 'package:medusa_admin/domain/use_case/order_edit/order_edit_crud_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 
 class AddUpdateOrderEditController extends GetxController with StateMixin<OrderEdit> {
   AddUpdateOrderEditController({required this.orderEditUseCase, required this.order});
-  final OrderEditUseCase orderEditUseCase;
+  final OrderEditCrudUseCase orderEditUseCase;
   final Order? order;
   String? get orderId => order?.id;
   final noteCtrl = TextEditingController();

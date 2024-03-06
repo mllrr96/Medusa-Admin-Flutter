@@ -8,12 +8,14 @@ import 'package:multiple_result/multiple_result.dart';
 class OrderCrudUseCase {
   static OrderCrudUseCase get instance => getIt<OrderCrudUseCase>();
 
-  OrdersRepository get  _orderRepository => getIt<MedusaAdmin>().orderRepository;
-  OrderEditRepository get _orderEditRepository => getIt<MedusaAdmin>().orderEditRepository;
-  NoteRepository get _noteRepository => getIt<MedusaAdmin>().noteRepository;
-  NotificationRepository get _notificationRepository => getIt<MedusaAdmin>().notificationRepository;
+  OrdersRepository get _orderRepository => getIt<MedusaAdmin>().orderRepository;
+  OrderEditRepository get _orderEditRepository =>
+      getIt<MedusaAdmin>().orderEditRepository;
+  NotificationRepository get _notificationRepository =>
+      getIt<MedusaAdmin>().notificationRepository;
   UserRepository get _userRepository => getIt<MedusaAdmin>().userRepository;
-  FulfillmentRepository get _fulfillmentRepository => getIt<MedusaAdmin>().fulfillmentRepository;
+  FulfillmentRepository get _fulfillmentRepository =>
+      getIt<MedusaAdmin>().fulfillmentRepository;
 
   Future<Result<Order, Failure>> retrieveOrder({
     required String id,
@@ -80,23 +82,6 @@ class OrderCrudUseCase {
       final result = await _fulfillmentRepository.createFulfillment(
           id: id, userCreateFulfillmentReq: userCreateFulfillmentReq);
       return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<UserNotesRes, Failure>> retrieveNotes({
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final result = await _noteRepository.retrieveNotes(
-        queryParameters: queryParameters,
-      );
-      if (result?.notes == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result!);
-      }
     } catch (e) {
       return Error(Failure.from(e));
     }
@@ -212,43 +197,6 @@ class OrderCrudUseCase {
     try {
       final response = await _orderRepository.captureOrderPayment(
         id: id,
-
-      );
-      if (response != null) {
-        return Success(response);
-      } else {
-        return Error(Failure.from(response));
-      }
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<UserDeleteNoteRes, Failure>> deleteNote({
-    required String id,
-  }) async {
-    try {
-      final response = await _noteRepository.deleteNote(
-        id: id,
-      );
-      if (response != null) {
-        return Success(response);
-      } else {
-        return Error(Failure.from(response));
-      }
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<Note, Failure>> createNote({
-    required String resourceId,
-    required String resourceType,
-    required String value,
-  }) async {
-    try {
-      final response = await _noteRepository.createNote(
-       resourceId: resourceId, resourceType: resourceType, value: value,
       );
       if (response != null) {
         return Success(response);

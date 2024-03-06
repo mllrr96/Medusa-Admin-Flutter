@@ -5,16 +5,14 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/presentation/views/orders/components/payment_status_label.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../../../../views/orders/components/payment_status_label.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-
-import '../controllers/order_details_controller.dart';
 import 'order_create_refund.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 
-class OrderPayment extends GetView<OrderDetailsController> {
+class OrderPayment extends StatelessWidget {
   const OrderPayment(this.order, {super.key, this.onExpansionChanged});
   final Order order;
   final void Function(bool)? onExpansionChanged;
@@ -31,7 +29,8 @@ class OrderPayment extends GetView<OrderDetailsController> {
       switch (order.paymentStatus) {
         case PaymentStatus.refunded:
           return TextButton(
-            onPressed: () async => await controller.capturePayment(),
+            // onPressed: () async => await controller.capturePayment(),
+            onPressed: () {},
             child: Text(tr.templatesCapturePayment),
           );
         case PaymentStatus.notPaid:
@@ -45,7 +44,7 @@ class OrderPayment extends GetView<OrderDetailsController> {
                   backgroundColor: context.theme.scaffoldBackgroundColor,
                   builder: (context) => OrderCreateRefund(order));
               if (result is UserCreateRefundOrdersReq) {
-                await controller.createRefund(result);
+                // await controller.createRefund(result);
               }
             },
             child: Text(tr.templatesRefund),
@@ -59,7 +58,6 @@ class OrderPayment extends GetView<OrderDetailsController> {
     }
 
     return FlexExpansionTile(
-      key: controller.paymentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       title: Text(tr.detailsPayment),

@@ -19,7 +19,6 @@ import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart'
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
-import 'package:medusa_admin/presentation/modules/activity_module/activity_controller.dart';
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -126,7 +125,7 @@ class _AppDrawerState extends State<AppDrawer> {
         state.mapOrNull(
           loading: (_) => loading(),
           loggedOut: (_) async {
-            await Get.delete<ActivityController>(force: true);
+            // await Get.delete<ActivityController>(force: true);
             // await Get.delete<ProductsFilterController>(force: true);
             await AuthPreferenceService.instance.clearLoginData();
             await AuthPreferenceService.instance.clearExportFiles();

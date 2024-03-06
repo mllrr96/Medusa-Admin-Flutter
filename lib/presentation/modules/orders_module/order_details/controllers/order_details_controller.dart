@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/copy_with_order_edit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/domain/use_case/order/order_details_use_case.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -137,26 +136,26 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   }
 
   Future<void> fetchOrderNotes() async {
-    final result = await orderDetailsUseCase.retrieveNotes(
-      queryParameters: {
-        'resource_id': orderId,
-      },
-    );
-
-    result.when(
-      (success) {
-        if (success.notes != null) {
-          success.notes?.forEach((element) {
-            timeLine.add(element);
-          });
-        } else {
-          // TODO: handle when edits are null
-        }
-      },
-      (error) {
-        // TODO: handle error
-      },
-    );
+    // final result = await orderDetailsUseCase.retrieveNotes(
+    //   queryParameters: {
+    //     'resource_id': orderId,
+    //   },
+    // );
+    //
+    // result.when(
+    //   (success) {
+    //     if (success.notes != null) {
+    //       success.notes?.forEach((element) {
+    //         timeLine.add(element);
+    //       });
+    //     } else {
+    //       // TODO: handle when edits are null
+    //     }
+    //   },
+    //   (error) {
+    //     // TODO: handle error
+    //   },
+    // );
   }
 
   Future<void> fetchOrderNotification() async {
@@ -391,37 +390,37 @@ class OrderDetailsController extends GetxController with StateMixin<Order> {
   }
 
   Future<void> deleteNote(String? id, BuildContext context) async {
-    if (id == null) return;
-    loading();
-    final result = await orderDetailsUseCase.deleteNote(id: id);
-    await result.when((success) async {
-      EasyLoading.showSuccess('Note deleted');
-      reloadTimeLine();
-    }, (error) {
-      dismissLoading();
-      context.showSnackBar(
-        'Error deleting note, ${error.toSnackBarString()}',
-      );
-    });
+    // if (id == null) return;
+    // loading();
+    // final result = await orderDetailsUseCase.deleteNote(id: id);
+    // await result.when((success) async {
+    //   EasyLoading.showSuccess('Note deleted');
+    //   reloadTimeLine();
+    // }, (error) {
+    //   dismissLoading();
+    //   context.showSnackBar(
+    //     'Error deleting note, ${error.toSnackBarString()}',
+    //   );
+    // });
   }
 
   Future<void> addNote(BuildContext context) async {
-    if (noteCtrl.text.removeAllWhitespace.isEmpty) {
-      return;
-    }
-    loading();
-    final result = await orderDetailsUseCase.createNote(
-        resourceId: orderId, resourceType: 'order', value: noteCtrl.text);
-    await result.when((success) async {
-      EasyLoading.showSuccess('Note created');
-      noteCtrl.clear();
-      reloadTimeLine();
-    }, (error) {
-      dismissLoading();
-      context.showSnackBar(
-        'Error creating note, ${error.toSnackBarString()}',
-      );
-    });
+    // if (noteCtrl.text.removeAllWhitespace.isEmpty) {
+    //   return;
+    // }
+    // loading();
+    // final result = await orderDetailsUseCase.createNote(
+    //     resourceId: orderId, resourceType: 'order', value: noteCtrl.text);
+    // await result.when((success) async {
+    //   EasyLoading.showSuccess('Note created');
+    //   noteCtrl.clear();
+    //   reloadTimeLine();
+    // }, (error) {
+    //   dismissLoading();
+    //   context.showSnackBar(
+    //     'Error creating note, ${error.toSnackBarString()}',
+    //   );
+    // });
   }
 
   void reloadTimeLine() {

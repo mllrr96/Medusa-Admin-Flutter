@@ -5,10 +5,10 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class OrderEditUseCase {
+class OrderEditCrudUseCase {
   OrderEditRepository get _orderRepository =>
       getIt<MedusaAdmin>().orderEditRepository;
-  static OrderEditUseCase get instance => getIt<OrderEditUseCase>();
+  static OrderEditCrudUseCase get instance => getIt<OrderEditCrudUseCase>();
 
   Future<Result<OrderEdit, Failure>> cancelOrderEdit({
     required String id,
@@ -70,6 +70,40 @@ class OrderEditUseCase {
       return Error(Failure.from(e));
     }
   }
+  Future<Result<UserDeleteLineItemChangeRes, Failure>> deleteLineItemChange({
+    required String id,
+    required String changeId,
+  }) async {
+    try {
+      final result = await _orderRepository.deleteLineItemChange(
+          id: id, changeId: changeId);
+      return Success(result!);
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
+  Future<Result<OrderEdit, Failure>> confirmOrderEdit({
+    required String id,
+  }) async {
+    try {
+      final result = await _orderRepository.confirmOrderEdit(id: id);
+      return Success(result!);
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
+
+  Future<Result<UserDeleteOrderEditRes, Failure>> deleteOrderEdit({
+    required String id,
+  }) async {
+    try {
+      final result = await _orderRepository.deleteOrderEdit(id: id);
+      return Success(result!);
+    } catch (e) {
+      return Error(Failure.from(e));
+    }
+  }
 
   Future<Result<OrderEdit, Failure>> upsertLineItemChange({
     required String id,
@@ -91,7 +125,7 @@ class OrderEditUseCase {
   }) async {
     try {
       final result = await _orderRepository.addLineItem(
-          id: id,userAddLineItemReq: userAddLineItemReq);
+          id: id, userAddLineItemReq: userAddLineItemReq);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));

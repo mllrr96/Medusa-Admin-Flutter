@@ -1,19 +1,16 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/views/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-
-import '../controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
-class OrderFulfillment extends GetView<OrderDetailsController> {
+class OrderFulfillment extends StatelessWidget {
   const OrderFulfillment(this.order, {super.key, this.onExpansionChanged});
   final Order order;
   final void Function(bool)? onExpansionChanged;
@@ -24,7 +21,6 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
     return FlexExpansionTile(
-      key: controller.fulfillmentKey,
       onExpansionChanged: onExpansionChanged,
       controlAffinity: ListTileControlAffinity.leading,
       childPadding:
@@ -38,7 +34,7 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                 final result = await context
                     .pushRoute(OrderCreateFulfillmentRoute(order: order));
                 if (result is List<LineItem>) {
-                  await controller.createFulfillment(result);
+                  // await controller.createFulfillment(result);
                 }
               },
               child: Text(tr.detailsCreateFulfillment),
@@ -110,8 +106,8 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                             ]).then((val) async {
                           switch (val) {
                             case 0:
-                              await controller.createOrderShipment(
-                                  fulfillmentId: fulfillment.id!);
+                              // await controller.createOrderShipment(
+                              //     fulfillmentId: fulfillment.id!);
                               break;
                             case 1:
                               await showOkCancelAlertDialog(
@@ -123,8 +119,8 @@ class OrderFulfillment extends GetView<OrderDetailsController> {
                                 isDestructiveAction: true,
                               ).then((value) async {
                                 if (value == OkCancelResult.ok) {
-                                  await controller
-                                      .cancelFulfillment(fulfillment.id!);
+                                  // await controller
+                                  //     .cancelFulfillment(fulfillment.id!);
                                 }
                               });
                               break;

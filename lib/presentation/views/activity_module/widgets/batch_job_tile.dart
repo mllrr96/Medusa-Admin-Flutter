@@ -28,7 +28,6 @@ class _BatchJobTileState extends State<BatchJobTile> {
     final isCompleted = widget.batchJob.status == BatchJobStatus.completed;
 
     Widget fileWidget;
-    Widget statusWidget = const SizedBox.shrink();
 
     String getFileSize() {
       final fileSize = widget.batchJob.result?.fileSize?.toDouble();
@@ -67,8 +66,6 @@ class _BatchJobTileState extends State<BatchJobTile> {
         break;
       case BatchJobStatus.completed:
         if (isExport) {
-          statusWidget = Text(
-              'Export of ${widget.batchJob.type == BatchJobType.orderExport ? 'orders' : 'products'} is done.');
           fileWidget = Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -94,7 +91,6 @@ class _BatchJobTileState extends State<BatchJobTile> {
             ],
           );
         } else {
-          statusWidget = const Text('Import of products is done.');
           fileWidget = Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -142,7 +138,6 @@ class _BatchJobTileState extends State<BatchJobTile> {
             ],
           );
         } else {
-          statusWidget = const Text('Import of products has been canceled.');
           fileWidget = Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -191,7 +186,6 @@ class _BatchJobTileState extends State<BatchJobTile> {
               ),
             ],
           );
-          statusWidget = const Text('Import of products has failed.');
         }
         break;
       case BatchJobStatus.preProcessed:
@@ -217,29 +211,40 @@ class _BatchJobTileState extends State<BatchJobTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(8),
+              //     // border: Border.all(color: context.theme.cardColor, width: 2),
+              //     color: context
+              //         .getAlphaBlend(context.theme.scaffoldBackgroundColor),
+              //   ),
+              //   padding: const EdgeInsets.all(6.0),
+              //   child: Row(
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       isExport
+              //           ? const Icon(Icons.file_upload_outlined)
+              //           : const Icon(Icons.file_download_outlined),
+              //       const Gap(5.0),
+              //       // statusWidget
+              //     ],
+              //   ),
+              // ),
+
               Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  // border: Border.all(color: context.theme.cardColor, width: 2),
-                  color: context
-                      .getAlphaBlend(context.theme.scaffoldBackgroundColor),
-                ),
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    isExport
-                        ? const Icon(Icons.file_upload_outlined)
-                        : const Icon(Icons.file_download_outlined),
-                    const Gap(5.0),
-                    statusWidget
-                  ],
-                ),
-              ),
+                  width: context.width / 1.8,
+                  padding: const EdgeInsets.all(6.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    // border: Border.all(color: context.theme.cardColor, width: 2),
+                    color: context.getAlphaBlend(context.theme.cardColor),
+                  ),
+                  child: fileWidget),
+              const Gap(10),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -255,28 +260,22 @@ class _BatchJobTileState extends State<BatchJobTile> {
                       textAlign: TextAlign.center),
                 ),
               ),
-              const Gap(10),
-              Container(
-                  width: context.width / 1.8,
-                  padding: const EdgeInsets.all(6.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    // border: Border.all(color: context.theme.cardColor, width: 2),
-                    color: context.getAlphaBlend(context.theme.cardColor),
-                  ),
-                  child: fileWidget),
-              const Gap(10),
               if (isExport && isCompleted)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    OutlinedButton(
-                        onPressed: isCompleted ? widget.onDelete : null,
-                        child: const Text('Delete')),
-                    FilledButton.icon(
-                        onPressed: isCompleted ? widget.onShare : null,
-                        label: const Text('Share'),
-                        icon: const Icon(Icons.file_upload_outlined)),
+                    const Gap(10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                            onPressed: isCompleted ? widget.onDelete : null,
+                            child: const Text('Delete')),
+                        FilledButton.icon(
+                            onPressed: isCompleted ? widget.onShare : null,
+                            label: const Text('Share'),
+                            icon: const Icon(Icons.file_upload_outlined)),
+                      ],
+                    ),
                   ],
                 ),
             ],
