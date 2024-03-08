@@ -82,7 +82,7 @@ class _SignInViewState extends State<SignInView> {
             await _showBiometricDialog();
           }
           if (!isSessionExpired) {
-            if (mounted) {
+            if (context.mounted) {
               context.router.replaceAll([const DashboardRoute()]);
             }
           } else if (isSessionExpired) {

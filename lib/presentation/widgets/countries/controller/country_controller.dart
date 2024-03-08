@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../components/countries.dart';
 
@@ -63,10 +64,3 @@ class SelectCountryController extends GetxController {
   }
 }
 
-class SelectCountryReq {
-  const SelectCountryReq(
-      {this.multipleSelect = false, this.selectedCountries = const [], this.disabledCountriesIso2 = const []});
-  final bool multipleSelect;
-  final List<Country> selectedCountries;
-  final List<String> disabledCountriesIso2;
-}

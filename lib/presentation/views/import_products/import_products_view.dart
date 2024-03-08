@@ -164,7 +164,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
               // Cancel batch job here
               batchJobCrudBloc.add(BatchJobCrudEvent.cancel(batchJobId!));
               batchJobId = null;
-              if (mounted) {
+              if (context.mounted) {
                 context.router.popForced();
               }
             }

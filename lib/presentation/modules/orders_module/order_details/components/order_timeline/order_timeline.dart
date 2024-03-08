@@ -3,7 +3,6 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/note_crud/note_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/notification/notification_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/order_edit_crud/order_edit_crud_bloc.dart';
@@ -27,16 +26,30 @@ class _OrderTimelineState extends State<OrderTimeline> {
   late NoteCrudBloc noteCrudBloc;
   late OrderEditCrudBloc orderEditCrudBloc;
   late NotificationBloc notificationBloc;
+  late List<Refund> refunds;
+  bool failed = false;
+  List timeline = [];
 
-  @override
-  void initState() {
-    noteCrudBloc = NoteCrudBloc.instance;
-    orderEditCrudBloc = OrderEditCrudBloc.instance;
-    notificationBloc = NotificationBloc.instance;
+  void loadData() {
+    failed = false;
+    noteCrudBloc.add(
+      NoteCrudEvent.loadAll(queryParameters: {'resource_id': widget.order.id}),
+    );
     orderEditCrudBloc.add(
       OrderEditCrudEvent.loadAll(
           queryParameters: {'order_id': widget.order.id}),
     );
+    notificationBloc.add(NotificationEvent.loadAll(
+        queryParameters: {'resource_id': widget.order.id}));
+  }
+
+  @override
+  void initState() {
+    refunds = widget.order.refunds ?? [];
+    noteCrudBloc = NoteCrudBloc.instance;
+    orderEditCrudBloc = OrderEditCrudBloc.instance;
+    notificationBloc = NotificationBloc.instance;
+    loadData();
     super.initState();
   }
 
@@ -61,18 +74,44 @@ class _OrderTimelineState extends State<OrderTimeline> {
   @override
   Widget build(BuildContext context) {
     final tr = context.tr;
-    return BlocListener<NoteCrudBloc, NoteCrudState>(
-      bloc: noteCrudBloc,
-      listener: (context, state) {
-        state.mapOrNull(note: (_) {
-          noteCtrl.clear();
-          context.showSnackBar('Note created');
-          // refresh timeline
-        }, deleted: (_) {
-          context.showSnackBar('Note deleted');
-          // refresh timeline
-        });
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<NoteCrudBloc, NoteCrudState>(
+          bloc: noteCrudBloc,
+          listener: (context, state) {
+            state.mapOrNull(
+              notes: (_) {
+                timeline.addAll(_.notes);
+              },
+              error: (e) => setState(() => failed = true),
+            );
+          },
+        ),
+        BlocListener<NotificationBloc, NotificationState>(
+          bloc: notificationBloc,
+          listener: (context, state) {
+            state.mapOrNull(
+              notifications: (_) {
+                // refresh timeline
+                timeline.addAll(_.notifications);
+              },
+              error: (e) => setState(() => failed = true),
+            );
+          },
+        ),
+        BlocListener<OrderEditCrudBloc, OrderEditCrudState>(
+          bloc: orderEditCrudBloc,
+          listener: (context, state) {
+            state.mapOrNull(
+              orderEdits: (_) {
+                // refresh timeline
+                timeline.addAll(_.orderEdits);
+              },
+              error: (e) => setState(() => failed = true),
+            );
+          },
+        ),
+      ],
       child: FlexExpansionTile(
         onExpansionChanged: widget.onExpansionChanged,
         controlAffinity: ListTileControlAffinity.leading,
@@ -111,72 +150,51 @@ class _OrderTimelineState extends State<OrderTimeline> {
               onSubmitted: (_) => createNote(),
             ),
             const Divider(),
-            // FutureBuilder<List?>(
-            //   // future: controller.timeLineFuture,
-            //   builder: (context, asyncSnapshot) {
-            //     switch (asyncSnapshot.connectionState) {
-            //       case ConnectionState.none ||
-            //       ConnectionState.waiting ||
-            //       ConnectionState.active:
-            //         return const Center(
-            //           child: CircularProgressIndicator.adaptive(),
-            //         );
-            //       case ConnectionState.done:
-            //         if (asyncSnapshot.hasData) {
-            //           return ListView.builder(
-            //             shrinkWrap: true,
-            //             physics: const NeverScrollableScrollPhysics(),
-            //             itemCount: asyncSnapshot.data?.length,
-            //             itemBuilder: (context, index) {
-            //               final item = asyncSnapshot.data?[index];
-            //               switch (item.runtimeType) {
-            //                 case const (OrderEdit):
-            //                   if ((item as OrderEdit).requestedAt != null) {
-            //                     return OrderEditWidget(item);
-            //                   } else {
-            //                     return OrderEditStatusWidget(widget.order,
-            //                         orderEdit: item);
-            //                   }
-            //                 case const (Note):
-            //                   return OrderNoteWidget(
-            //                     item,
-            //                     onNoteDelete: () {
-            //                       noteCrudBloc.add(
-            //                         NoteCrudEvent.delete(
-            //                             (item as Note).id ?? ''),
-            //                       );
-            //                     },
-            //                   );
-            //                 case const (Refund):
-            //                   return RefundWidget(item,
-            //                       currencyCode: widget.order.currencyCode);
-            //                 case const (Notification):
-            //                   return const SizedBox();
-            //                 default:
-            //                   return const SizedBox();
-            //               }
-            //             },
-            //           );
-            //         } else if (!asyncSnapshot.hasData) {
-            //           return const SizedBox.shrink();
-            //         }
-            //     }
-            //
-            //     if (asyncSnapshot.hasError) {
-            //       return Column(
-            //         children: [
-            //           const Text('Error fetching order edits'),
-            //           OutlinedButton(
-            //               onPressed: () {}, child: const Text('Retry'))
-            //         ],
-            //       );
-            //     }
-            //
-            //     return const Center(
-            //       child: CircularProgressIndicator.adaptive(),
-            //     );
-            //   },
-            // ),
+            if (failed)
+              Column(
+                children: [
+                  const Center(child: Text('Error fetching order edits')),
+                  OutlinedButton(
+                      onPressed: () {
+                        loadData();
+                      },
+                      child: const Text('Retry'))
+                ],
+              ),
+            if (!failed)
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: timeline.length,
+                itemBuilder: (context, index) {
+                  final item = timeline[index];
+                  switch (item.runtimeType) {
+                    case const (OrderEdit):
+                      if ((item as OrderEdit).requestedAt != null) {
+                        return OrderEditWidget(item);
+                      } else {
+                        return OrderEditStatusWidget(widget.order,
+                            orderEdit: item);
+                      }
+                    case const (Note):
+                      return OrderNoteWidget(
+                        item,
+                        onNoteDelete: () {
+                          noteCrudBloc.add(
+                            NoteCrudEvent.delete((item as Note).id ?? ''),
+                          );
+                        },
+                      );
+                    case const (Refund):
+                      return RefundWidget(item,
+                          currencyCode: widget.order.currencyCode);
+                    case const (Notification):
+                      return const SizedBox();
+                    default:
+                      return const SizedBox();
+                  }
+                },
+              ),
             OrderPlacedWidget(widget.order),
           ],
         ),

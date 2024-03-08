@@ -7,4 +7,5 @@ class AuthenticationEvent with _$AuthenticationEvent {
   const factory AuthenticationEvent.logInCookie(String email, String password) = _LogInCookie;
   const factory AuthenticationEvent.logInToken() = _LogInToken;
   const factory AuthenticationEvent.logOut() = _LogOut;
+  const factory AuthenticationEvent.cancel() = _Cancel;
 }

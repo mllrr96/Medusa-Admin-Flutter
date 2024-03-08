@@ -149,7 +149,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                               });
                               break;
                             case 1:
-                              if (await removeCustomer && mounted) {
+                              if (await removeCustomer && context.mounted) {
                                 context.read<GroupCrudBloc>().add(
                                     GroupCrudEvent.delete(
                                         widget.customerGroup.id!));

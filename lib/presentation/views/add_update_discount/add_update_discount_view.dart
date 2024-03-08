@@ -82,7 +82,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
         // (updatingDiscount && controller.sameDiscount()),
         onPopInvoked: (val) async {
           if (val) return;
-          if (await confirmDiscardChanges && mounted) {
+          if (await confirmDiscardChanges && context.mounted) {
             context.router.popForced();
           }
         },

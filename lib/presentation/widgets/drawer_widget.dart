@@ -131,7 +131,7 @@ class _AppDrawerState extends State<AppDrawer> {
             await AuthPreferenceService.instance.clearExportFiles();
             await AuthPreferenceService.instance.clearLoginKey();
             dismissLoading();
-            if (mounted) {
+            if (context.mounted) {
               context.router.replaceAll([SignInRoute()]);
             }
           },

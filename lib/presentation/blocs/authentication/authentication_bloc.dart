@@ -30,6 +30,8 @@ class AuthenticationBloc
     on<_LogInJWT>(_onLoginJWT);
     on<_LogInToken>(_onLoginToken);
     on<_LogOut>(_logOut);
+    on<_Cancel>(_cancel);
+
     add(const _Init());
   }
 
@@ -130,6 +132,14 @@ class AuthenticationBloc
       authPreferenceService.setIsAuthenticated(false);
       emit(const _LoggedOut());
     }, (e) => emit(_Error(e)));
+  }
+
+  Future<void> _cancel(
+    _Cancel event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    emit(const _Loading());
+    emit(const _Initial());
   }
 
   final AuthPreferenceService authPreferenceService;
