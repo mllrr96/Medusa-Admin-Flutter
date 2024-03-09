@@ -16,7 +16,7 @@ class AppConstants {
   static const String languageKey = 'language';
   static const String useAndroidPickerKey = 'useAndroidPicker';
   static const String searchHistoryKey = 'searchHistory';
-  static const String flutterVersion = 'stable 3.19.2';
+  static const String flutterVersion = 'stable 3.19.3';
   static const String copyright = '© 2022 - 2024';
   static const String author = 'Mohammed Ragheb';
   static const int noInternetCode = 503;

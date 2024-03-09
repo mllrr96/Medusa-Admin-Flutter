@@ -413,7 +413,7 @@ class _SignInViewState extends State<SignInView> {
     final canUseBiometric =
         await getIt<LocalAuthentication>().canCheckBiometrics &&
             await getIt<LocalAuthentication>().isDeviceSupported();
-    if (useBiometric == null && context.mounted && canUseBiometric) {
+    if (useBiometric == null && mounted && canUseBiometric) {
       final result = await showModalBottomSheet<bool?>(
           isDismissible: false,
           enableDrag: false,

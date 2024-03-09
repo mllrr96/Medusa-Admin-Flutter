@@ -12,7 +12,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/domain/use_case/product/update_product_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
+import 'package:medusa_admin/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';

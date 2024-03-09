@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
-import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
+import 'package:medusa_admin/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';

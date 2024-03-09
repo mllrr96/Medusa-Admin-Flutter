@@ -8,19 +8,20 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 part 'products_filter_state.dart';
 part 'products_filter_cubit.freezed.dart';
+
 @injectable
 class ProductsFilterCubit extends Cubit<ProductsFilterState> {
-  ProductsFilterCubit(this.productsFilterUseCase) : super(const _Initial()){
+  ProductsFilterCubit(this.productsFilterUseCase) : super(const _Initial()) {
     loadData();
   }
-
 
   Future<void> loadData() async {
     emit(const ProductsFilterState.loading());
     final result = await productsFilterUseCase();
 
     result.when((success) {
-      emit(ProductsFilterState.loaded(success.$1.collections ?? [], success.$2.tags ?? []));
+      emit(ProductsFilterState.loaded(
+          success.$1.collections ?? [], success.$2.tags ?? []));
     }, (error) {
       emit(ProductsFilterState.error(error));
     });

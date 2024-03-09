@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-
-import '../../../../../../core/constant/colors.dart';
-import '../../controllers/order_details_controller.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
-class OrderEditStatusWidget extends GetView<OrderDetailsController> {
+class OrderEditStatusWidget extends StatelessWidget {
   const OrderEditStatusWidget(this.order, {super.key, required this.orderEdit});
   final OrderEdit orderEdit;
   final Order order;
@@ -129,28 +127,30 @@ class OrderEditStatusWidget extends GetView<OrderDetailsController> {
     }
 
     Widget userName({String? user}) {
-      if (controller.loadedUsers.isNotEmpty &&
-          controller.loadedUsers.map((e) => e.id).toList().contains(user ?? orderEdit.createdBy)) {
-        final user = controller.loadedUsers.where((element) => element.id == orderEdit.createdBy).first;
-        final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
-        final email = user.email;
-        final text = name.removeAllWhitespace.isNotEmpty ? name : email;
-        return Text(
-          text ?? '',
-          style: smallTextStyle?.copyWith(color: manatee),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        );
-      }
-      return GestureDetector(
-        onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
-        child: Text(
-          'Error loading user, tap to retry',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: smallTextStyle?.copyWith(color: Colors.redAccent),
-        ),
-      );
+      // if (controller.loadedUsers.isNotEmpty &&
+      //     controller.loadedUsers.map((e) => e.id).toList().contains(user ?? orderEdit.createdBy)) {
+      //   final user = controller.loadedUsers.where((element) => element.id == orderEdit.createdBy).first;
+      //   final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
+      //   final email = user.email;
+      //   final text = name.removeAllWhitespace.isNotEmpty ? name : email;
+      //   return Text(
+      //     text ?? '',
+      //     style: smallTextStyle?.copyWith(color: manatee),
+      //     maxLines: 1,
+      //     overflow: TextOverflow.ellipsis,
+      //   );
+      // }
+      // return GestureDetector(
+      //   onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
+      //   child: Text(
+      //     'Error loading user, tap to retry',
+      //     maxLines: 1,
+      //     overflow: TextOverflow.ellipsis,
+      //     style: smallTextStyle?.copyWith(color: Colors.redAccent),
+      //   ),
+      // );
+      // TODO: implement user name
+      return const SizedBox.shrink();
     }
 
     switch (orderEdit.status) {

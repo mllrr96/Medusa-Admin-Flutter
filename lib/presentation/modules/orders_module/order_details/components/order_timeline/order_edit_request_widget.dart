@@ -3,15 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
-import '../../../../../../core/constant/colors.dart';
-import '../../../../../../core/utils/medusa_icons_icons.dart';
-import '../../controllers/order_details_controller.dart';
-
-class OrderEditWidget extends GetView<OrderDetailsController> {
+class OrderEditWidget extends StatelessWidget {
   const OrderEditWidget(
     this.orderEdit, {
     super.key,
@@ -49,28 +47,30 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
     );
 
     Widget userName({String? user}) {
-      if (controller.loadedUsers.isNotEmpty &&
-          controller.loadedUsers.map((e) => e.id).toList().contains(user ?? orderEdit.createdBy)) {
-        final user = controller.loadedUsers.where((element) => element.id == orderEdit.createdBy).first;
-        final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
-        final email = user.email;
-        final text = name.removeAllWhitespace.isNotEmpty ? name : email;
-        return Text(
-          text ?? '',
-          style: smallTextStyle?.copyWith(color: manatee),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        );
-      }
-      return GestureDetector(
-        onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
-        child: Text(
-          'Error loading user, tap to retry',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: smallTextStyle?.copyWith(color: Colors.redAccent),
-        ),
-      );
+      // TODO: Implement user fetching
+      // if (controller.loadedUsers.isNotEmpty &&
+      //     controller.loadedUsers.map((e) => e.id).toList().contains(user ?? orderEdit.createdBy)) {
+      //   final user = controller.loadedUsers.where((element) => element.id == orderEdit.createdBy).first;
+      //   final name = '${user.firstName ?? ''} ${user.lastName ?? ''}';
+      //   final email = user.email;
+      //   final text = name.removeAllWhitespace.isNotEmpty ? name : email;
+      //   return Text(
+      //     text ?? '',
+      //     style: smallTextStyle?.copyWith(color: manatee),
+      //     maxLines: 1,
+      //     overflow: TextOverflow.ellipsis,
+      //   );
+      // }
+      // return GestureDetector(
+      //   onTap: () async => await controller.fetchUser(orderEdit.createdBy ?? ''),
+      //   child: Text(
+      //     'Error loading user, tap to retry',
+      //     maxLines: 1,
+      //     overflow: TextOverflow.ellipsis,
+      //     style: smallTextStyle?.copyWith(color: Colors.redAccent),
+      //   ),
+      // );
+      return const SizedBox.shrink();
     }
 
     Future<void> onCancelTap() async {
@@ -83,7 +83,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
         isDestructiveAction: true,
       ).then((result) async {
         if (result == OkCancelResult.ok) {
-          await controller.cancelOrderEdit(orderEdit.id ?? '');
+          // await controller.cancelOrderEdit(orderEdit.id ?? '');
         }
       });
     }
@@ -98,7 +98,7 @@ class OrderEditWidget extends GetView<OrderDetailsController> {
         isDestructiveAction: true,
       ).then((result) async {
         if (result == OkCancelResult.ok) {
-          await controller.confirmOrderEdit(orderEdit.id ?? '');
+          // await controller.confirmOrderEdit(orderEdit.id ?? '');
         }
       });
     }

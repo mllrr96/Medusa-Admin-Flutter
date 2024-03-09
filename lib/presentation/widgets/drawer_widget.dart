@@ -182,8 +182,8 @@ class _AppDrawerState extends State<AppDrawer> {
                           ),
                           BlocBuilder<StoreBloc, StoreState>(
                             builder: (context, state) {
-                              final storeName = state.mapOrNull(
-                                  loaded: (_) => _.store.name);
+                              final storeName =
+                                  state.mapOrNull(loaded: (_) => _.store.name);
                               return Flexible(
                                 child: Text(storeName ?? '',
                                     style: context.bodyLarge,

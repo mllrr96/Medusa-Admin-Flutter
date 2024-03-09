@@ -42,8 +42,8 @@ class _ProductsViewState extends State<ProductsView> {
   late ProductCrudBloc productCrudBloc;
   late ProductCrudBloc productsBloc;
   String loadingProductId = '';
-  void _loadPage(int _) {
 
+  void _loadPage(int _) {
     productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'order': sortOptions.map(),
       'is_giftcard': false,

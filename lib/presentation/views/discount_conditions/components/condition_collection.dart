@@ -1,30 +1,89 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
+import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
+import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/domain/use_case/collection/collection_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'condition_collection_tile.dart';
 import 'condition_operator_card.dart';
 
 @RoutePage()
-class ConditionCollectionView extends StatelessWidget {
-  const ConditionCollectionView( {super.key,this.disabledCollections});
+class ConditionCollectionView extends StatefulWidget {
+  const ConditionCollectionView({super.key, this.disabledCollections});
   final List<ProductCollection>? disabledCollections;
 
   @override
+  State<ConditionCollectionView> createState() =>
+      _ConditionCollectionViewState();
+}
+
+class _ConditionCollectionViewState extends State<ConditionCollectionView> {
+  late CollectionCrudBloc collectionCrudBloc;
+  List<ProductCollection> selectedCollections = <ProductCollection>[];
+  DiscountConditionOperator discountConditionOperator =
+      DiscountConditionOperator.inn;
+  final PagingController<int, ProductCollection> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  List<ProductCollection> get disabledCollections =>
+      widget.disabledCollections ?? [];
+  bool get updateMode => disabledCollections.isNotEmpty;
+  final searchCtrl = TextEditingController();
+  String searchTerm = '';
+
+  void _loadPage(int pageKey) {
+    collectionCrudBloc.add(CollectionCrudEvent.loadAll(
+      queryParameters: {
+        'offset': pagingController.itemList?.length ?? 0,
+        if (searchTerm.isNotEmpty) 'q': searchTerm,
+      },
+    ));
+  }
+
+  @override
+  void initState() {
+    collectionCrudBloc = CollectionCrudBloc.instance;
+    pagingController.addPageRequestListener(_loadPage);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    collectionCrudBloc.close();
+    pagingController.dispose();
+    searchCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const space = Gap(12);
-    return GetBuilder<ConditionCollectionController>(
-      init: ConditionCollectionController(
-          collectionUseCase: CollectionUseCase.instance,
-          disabledCollections: disabledCollections ?? []),
-      builder: (controller) {
-        return Scaffold(
+    return BlocListener<CollectionCrudBloc, CollectionCrudState>(
+      bloc: collectionCrudBloc,
+      listener: (context, state) {
+        state.mapOrNull(
+          collections: (state) async {
+            final isLastPage =
+                state.collections.length < CollectionCrudBloc.pageSize;
+            if (isLastPage) {
+              pagingController.appendLastPage(state.collections);
+            } else {
+              final nextPageKey =
+                  pagingController.nextPageKey ?? 0 + state.collections.length;
+              pagingController.appendPage(state.collections, nextPageKey);
+            }
+          },
+          error: (state) {
+            pagingController.error = state.failure;
+          },
+        );
+      },
+      child: HideKeyboard(
+        child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: CustomScrollView(
             slivers: [
@@ -33,13 +92,11 @@ class ConditionCollectionView extends StatelessWidget {
                 title: const Text('Choose collections'),
                 actions: [
                   TextButton(
-                      onPressed: controller.selectedCollections.isNotEmpty
+                      onPressed: selectedCollections.isNotEmpty
                           ? () {
                               final result = DiscountConditionRes(
-                                  operator:
-                                      controller.discountConditionOperator,
-                                  productCollections:
-                                      controller.selectedCollections,
+                                  operator: discountConditionOperator,
+                                  productCollections: selectedCollections,
                                   conditionType:
                                       DiscountConditionType.productCollections);
                               context.popRoute(result);
@@ -55,25 +112,25 @@ class ConditionCollectionView extends StatelessWidget {
                         horizontal: 12.0, vertical: 4.0),
                     child: SearchTextField(
                       fillColor: context.theme.scaffoldBackgroundColor,
-                      controller: controller.searchCtrl,
+                      controller: searchCtrl,
                       hintText: 'Search for collection name, handle',
                       onSuffixTap: () {
-                        if (controller.searchTerm.isEmpty) return;
-                        controller.searchCtrl.clear();
-                        controller.searchTerm = '';
-                        controller.pagingController.refresh();
+                        if (searchTerm.isEmpty) return;
+                        searchCtrl.clear();
+                        searchTerm = '';
+                        pagingController.refresh();
                       },
                       onSubmitted: (val) {
-                        if (controller.searchTerm != val && val.isNotEmpty) {
-                          controller.searchTerm = val;
-                          controller.pagingController.refresh();
+                        if (searchTerm != val && val.isNotEmpty) {
+                          searchTerm = val;
+                          pagingController.refresh();
                         }
                       },
                     ),
                   ),
                 ),
               ),
-              if (!controller.updateMode)
+              if (!updateMode)
                 SliverToBoxAdapter(
                     child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -82,19 +139,19 @@ class ConditionCollectionView extends StatelessWidget {
                     children: [
                       ConditionOperatorCard(
                         conditionOperator: DiscountConditionOperator.inn,
-                        groupValue: controller.discountConditionOperator,
+                        groupValue: discountConditionOperator,
                         onTap: (val) {
-                          controller.discountConditionOperator = val;
-                          controller.update();
+                          discountConditionOperator = val;
+                          setState(() {});
                         },
                       ),
-                      space,
+                      const Gap(12),
                       ConditionOperatorCard(
                         conditionOperator: DiscountConditionOperator.notIn,
-                        groupValue: controller.discountConditionOperator,
+                        groupValue: discountConditionOperator,
                         onTap: (val) {
-                          controller.discountConditionOperator = val;
-                          controller.update();
+                          discountConditionOperator = val;
+                          setState(() {});
                         },
                       ),
                     ],
@@ -105,47 +162,47 @@ class ConditionCollectionView extends StatelessWidget {
                 sliver: PagedSliverList.separated(
                   separatorBuilder: (_, __) =>
                       const Divider(height: 0, indent: 16),
-                  pagingController: controller.pagingController,
+                  pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
                     itemBuilder: (context, collection, index) =>
                         ConditionCollectionTile(
                       collection: collection,
-                      value: controller.selectedCollections
+                      value: selectedCollections
                           .map((e) => e.id!)
                           .toList()
                           .contains(collection.id),
-                      enabled: !controller.disabledCollections
+                      enabled: !disabledCollections
                           .map((e) => e.id!)
                           .toList()
                           .contains(collection.id),
                       onChanged: (val) {
                         if (val == null) return;
                         if (val) {
-                          controller.selectedCollections.add(collection);
+                          selectedCollections.add(collection);
                         } else {
-                          controller.selectedCollections
+                          selectedCollections
                               .removeWhere((e) => e.id == collection.id);
                         }
-                        controller.update();
+                        setState(() {});
                       },
                     ),
                     firstPageProgressIndicatorBuilder: (context) =>
                         const Center(
                             child: CircularProgressIndicator.adaptive()),
-                    firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
-                        pagingController: controller.pagingController),
+                    firstPageErrorIndicatorBuilder: (_) =>
+                        PaginationErrorPage(pagingController: pagingController),
                     noItemsFoundIndicatorBuilder: (context) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text('No collections found'),
-                          if (controller.searchTerm.isNotEmpty)
+                          if (searchTerm.isNotEmpty)
                             TextButton(
                                 onPressed: () {
-                                  controller.searchTerm = '';
-                                  controller.searchCtrl.clear();
-                                  controller.pagingController.refresh();
+                                  searchTerm = '';
+                                  searchCtrl.clear();
+                                  pagingController.refresh();
                                 },
                                 child: const Text('Clear search')),
                         ],
@@ -156,60 +213,8 @@ class ConditionCollectionView extends StatelessWidget {
               ),
             ],
           ),
-        );
-      },
+        ),
+      ),
     );
-  }
-}
-
-class ConditionCollectionController extends GetxController {
-  ConditionCollectionController(
-      {required this.collectionUseCase, required this.disabledCollections});
-  final CollectionUseCase collectionUseCase;
-  List<ProductCollection> selectedCollections = <ProductCollection>[];
-  DiscountConditionOperator discountConditionOperator =
-      DiscountConditionOperator.inn;
-  final PagingController<int, ProductCollection> pagingController =
-      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
-  final int _pageSize = 20;
-  final List<ProductCollection> disabledCollections;
-  bool get updateMode => disabledCollections.isNotEmpty;
-  final searchCtrl = TextEditingController();
-  String searchTerm = '';
-  @override
-  void onInit() {
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
-    super.onInit();
-  }
-
-  @override
-  void dispose() {
-    searchCtrl.dispose();
-    super.dispose();
-  }
-
-  Future<void> _fetchPage(int pageKey) async {
-    final result = await collectionUseCase.retrieveAll(
-      queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
-        'limit': _pageSize,
-        if (searchTerm.isNotEmpty) 'q': searchTerm,
-      },
-    );
-
-    result.when((success) {
-      final isLastPage = success.collections!.length < _pageSize;
-      update([5]);
-      if (isLastPage) {
-        pagingController.appendLastPage(success.collections!);
-      } else {
-        final nextPageKey = pageKey + success.collections!.length;
-        pagingController.appendPage(success.collections!, nextPageKey);
-      }
-    }, (error) {
-      pagingController.error = error;
-    });
   }
 }

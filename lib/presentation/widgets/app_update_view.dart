@@ -244,7 +244,7 @@ class _AppUpdateViewState extends State<AppUpdateView> {
         ),
       );
     } catch (e) {
-      if (context.mounted) {
+      if (mounted) {
         context.showSnackBar('Failed to download update');
       }
     }
@@ -256,7 +256,7 @@ class _AppUpdateViewState extends State<AppUpdateView> {
         await ApkInstaller.installApk(filePath: savePath);
       }
     } catch (e) {
-      if (context.mounted) {
+      if (mounted) {
         context.showSnackBar('Failed to install update');
       }
     }

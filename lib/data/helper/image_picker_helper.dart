@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/extension/random_extension.dart';
 import 'package:path_provider/path_provider.dart';
 
-@singleton
+@lazySingleton
 class ImagePickerHelper {
   final _picker = ImagePicker();
   final _imageCropper = ImageCropper();

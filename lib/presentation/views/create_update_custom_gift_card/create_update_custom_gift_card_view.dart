@@ -7,6 +7,8 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
+import 'package:medusa_admin/data/models/pick_region_req.dart';
+import 'package:medusa_admin/data/models/pick_region_res.dart';
 import 'package:medusa_admin/presentation/blocs/gift_card_crud/gift_card_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/currency_formatter.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -14,8 +16,7 @@ import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
-import 'package:medusa_admin/presentation/widgets/pick_regions/controllers/pick_regions_controller.dart';
-import 'package:medusa_admin/presentation/widgets/pick_regions/views/pick_regions_view.dart';
+import 'package:medusa_admin/presentation/widgets/pick_regions_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
@@ -81,6 +82,7 @@ class _CreateUpdateCustomGiftCardViewState
     const space = Gap(12);
     const halfSpace = Gap(6);
     return BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
+      bloc: giftCardCrudBloc,
       listener: (context, state) {
         state.maybeMap(
             loading: (_) => loading(),
@@ -229,7 +231,7 @@ class _CreateUpdateCustomGiftCardViewState
                                   )
                               ],
                               prefixText:
-                              '   ${selectedRegion!.currencyCode.getCurrencySymbol} ',
+                              '   ${selectedRegion?.currencyCode.getCurrencySymbol ?? ''} ',
                               validator: (val) {
                                 if (val == null || val.isEmpty) {
                                   return 'Required';

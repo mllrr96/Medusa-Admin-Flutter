@@ -6,11 +6,12 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/data/models/pick_products_req.dart';
+import 'package:medusa_admin/data/models/pick_products_res.dart';
 import 'package:medusa_admin/presentation/blocs/pricing/pricing_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/presentation/widgets/pick_products/controllers/pick_products_controller.dart';
-import 'package:medusa_admin/presentation/widgets/pick_products/views/pick_products_view.dart';
+import 'package:medusa_admin/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -135,7 +136,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                           return;
                         case 1:
                           final pickProductsRes = await addProduct;
-                          if (pickProductsRes is PickProductsRes && mounted) {
+                          if (pickProductsRes is PickProductsRes && context.mounted) {
                             final prices = await showBarModalBottomSheet(
                               context: context,
                               backgroundColor:
@@ -256,7 +257,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                               onPressed: () async {
                                 final pickProductsRes = await addProduct;
                                 if (pickProductsRes is PickProductsRes &&
-                                    mounted) {
+                                    context.mounted) {
                                   final prices = await showBarModalBottomSheet(
                                     context: context,
                                     backgroundColor:

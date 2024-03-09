@@ -9,9 +9,9 @@ import 'package:medusa_admin/core/extension/copy_with_address.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-import 'pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class CreateDraftOrderAddressView extends StatefulWidget {

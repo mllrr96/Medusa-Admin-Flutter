@@ -10,11 +10,11 @@ import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
-import 'package:medusa_admin/presentation/views/create_draft_order/components/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/presentation/widgets/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 

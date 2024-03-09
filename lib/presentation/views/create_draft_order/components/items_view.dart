@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/extension/copy_with_line_item.dart';
 import 'package:medusa_admin/domain/use_case/region/regions_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
+import 'package:medusa_admin/presentation/widgets/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -16,8 +17,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'add_custom_item_view.dart';
 import 'choose_shipping_option.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
-
-import 'pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'variant_list_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 

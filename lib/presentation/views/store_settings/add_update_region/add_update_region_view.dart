@@ -9,7 +9,7 @@ import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/payment_providers/payment_providers_cubit.dart';
-import 'package:medusa_admin/presentation/widgets/countries/view/country_view.dart';
+import 'package:medusa_admin/presentation/widgets/countries/country_view.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';

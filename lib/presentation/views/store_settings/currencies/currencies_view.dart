@@ -8,10 +8,10 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
+import 'package:medusa_admin/presentation/cubits/currencies/currencies_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/domain/use_case/currency/currencies_use_case.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -251,106 +251,110 @@ class _CurrenciesViewState extends State<CurrenciesView> {
   }
 }
 
-class AllCurrenciesView extends StatelessWidget {
+class AllCurrenciesView extends StatefulWidget {
   const AllCurrenciesView({super.key, required this.storeCurrencies});
   final List<Currency> storeCurrencies;
+
+  @override
+  State<AllCurrenciesView> createState() => _AllCurrenciesViewState();
+}
+
+class _AllCurrenciesViewState extends State<AllCurrenciesView> {
+  late CurrenciesCubit currenciesCubit;
+  final PagingController<int, Currency> pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
+  List<Currency> selectedCurrencies = [];
+
+  void _loadPage(int pageKey) {
+    currenciesCubit.loadAll(queryParameters: {
+      'offset': pagingController.itemList?.length ?? 0,
+    });
+  }
+
+  @override
+  void initState() {
+    currenciesCubit = CurrenciesCubit.instance;
+    pagingController.addPageRequestListener(_loadPage);
+    selectedCurrencies.addAll(widget.storeCurrencies);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    currenciesCubit.close();
+    pagingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AllCurrenciesController>(
-      init: AllCurrenciesController(
-          currenciesUseCase: CurrenciesUseCase.instance,
-          storeCurrencies: storeCurrencies),
-      builder: (controller) {
-        return HideKeyboard(
-          child: Material(
-            child: Scaffold(
-              appBar: AppBar(
-                title: const Text('Add Store Currencies'),
-                actions: [
-                  if (controller.selectedCurrencies.isNotEmpty)
-                    TextButton(
-                        onPressed: () =>
-                            context.popRoute(controller.selectedCurrencies),
-                        child: const Text('Save')),
-                ],
-              ),
-              body: SafeArea(
-                child: PagedListView.separated(
-                  padding: const EdgeInsets.all(12.0),
-                  pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<Currency>(
-                    itemBuilder: (context, currency, index) => CheckboxListTile(
-                      contentPadding: EdgeInsets.zero,
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      title: Text(currency.name ?? ''),
-                      secondary: Text(
-                          currency.code.getCurrencySymbol,
-                          style: context.bodyMediumW600),
-                      onChanged: (value) {
-                        var selectedCurrencies = controller.selectedCurrencies;
-                        if (selectedCurrencies
-                            .any((element) => element.code == currency.code)) {
-                          selectedCurrencies.removeWhere(
-                              (element) => element.code == currency.code);
-                        } else {
-                          selectedCurrencies.add(currency);
-                        }
-                        controller.update();
-                      },
-                      value: controller.selectedCurrencies
-                          .any((element) => element.code == currency.code),
-                    ),
-                    firstPageProgressIndicatorBuilder: (context) =>
-                        const Center(
-                            child: CircularProgressIndicator.adaptive()),
-                    firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
-                        pagingController: controller.pagingController),
+    return BlocListener<CurrenciesCubit, CurrenciesState>(
+      bloc: currenciesCubit,
+      listener: (context, state) {
+        state.maybeWhen(
+          currencies: (currencies, count) {
+            final isLastPage = currencies.length < CurrenciesCubit.pageSize;
+            if (isLastPage) {
+              pagingController.appendLastPage(currencies);
+            } else {
+              final nextPageKey =
+                  pagingController.nextPageKey ?? 0 + currencies.length;
+              pagingController.appendPage(currencies, nextPageKey);
+            }
+          },
+          error: (failure) {
+            pagingController.error = failure;
+          },
+          orElse: () {},
+        );
+      },
+      child: HideKeyboard(
+        child: Material(
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Add Store Currencies'),
+              actions: [
+                if (selectedCurrencies.isNotEmpty)
+                  TextButton(
+                      onPressed: () => context.popRoute(selectedCurrencies),
+                      child: const Text('Save')),
+              ],
+            ),
+            body: SafeArea(
+              child: PagedListView.separated(
+                padding: const EdgeInsets.all(12.0),
+                pagingController: pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Currency>(
+                  itemBuilder: (context, currency, index) => CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    title: Text(currency.name ?? ''),
+                    secondary: Text(currency.code.getCurrencySymbol,
+                        style: context.bodyMediumW600),
+                    onChanged: (value) {
+                      if (selectedCurrencies
+                          .any((element) => element.code == currency.code)) {
+                        selectedCurrencies.removeWhere(
+                            (element) => element.code == currency.code);
+                      } else {
+                        selectedCurrencies.add(currency);
+                      }
+                      setState(() {});
+                    },
+                    value: selectedCurrencies
+                        .any((element) => element.code == currency.code),
                   ),
-                  separatorBuilder: (_, __) => const Divider(height: 0),
+                  firstPageProgressIndicatorBuilder: (context) =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  firstPageErrorIndicatorBuilder: (_) =>
+                      PaginationErrorPage(pagingController: pagingController),
                 ),
+                separatorBuilder: (_, __) => const Divider(height: 0),
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
-  }
-}
-
-class AllCurrenciesController extends GetxController {
-  AllCurrenciesController(
-      {required this.currenciesUseCase, required this.storeCurrencies});
-
-  final CurrenciesUseCase currenciesUseCase;
-  final List<Currency> storeCurrencies;
-  final PagingController<int, Currency> pagingController =
-      PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
-  final int _pageSize = 20;
-  List<Currency> selectedCurrencies = [];
-
-  @override
-  Future<void> onInit() async {
-    pagingController.addPageRequestListener((pageKey) {
-      debugPrint('Getting data');
-      _fetchPage(pageKey);
-    });
-    selectedCurrencies.addAll(storeCurrencies);
-    super.onInit();
-  }
-
-  Future<void> _fetchPage(int pageKey) async {
-    final result = await currenciesUseCase(queryParameters: {
-      'offset': pagingController.itemList?.length ?? 0,
-      'limit': _pageSize,
-    });
-    result.when((success) {
-      final isLastPage = success.currencies!.length < _pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(success.currencies!);
-      } else {
-        final nextPageKey = pageKey + success.currencies!.length;
-        pagingController.appendPage(success.currencies!, nextPageKey);
-      }
-    }, (error) => pagingController.error = error);
   }
 }

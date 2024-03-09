@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin/domain/use_case/product/products_use_case.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
@@ -13,207 +14,204 @@ import 'condition_operator_card.dart';
 import 'condition_product_tile.dart';
 
 @RoutePage()
-class ConditionProductView extends StatelessWidget {
-  const ConditionProductView( {super.key,this.disabledProducts});
+class ConditionProductView extends StatefulWidget {
+  const ConditionProductView({super.key, this.disabledProducts});
   final List<Product>? disabledProducts;
+
   @override
-  Widget build(BuildContext context) {
-    const space = Gap(12);
-    return GetBuilder<ConditionProductController>(
-      init: ConditionProductController(
-          productsUseCase: ProductsUseCase.instance,
-          disabledProducts: disabledProducts ?? []),
-      builder: (controller) {
-        return HideKeyboard(
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  title: const Text('Choose products'),
-                  actions: [
-                    TextButton(
-                        onPressed: controller.selectedProducts.isNotEmpty
-                            ? () {
-                                final res = DiscountConditionRes(
-                                    operator:
-                                        controller.discountConditionOperator,
-                                    products: controller.selectedProducts,
-                                    conditionType:
-                                        DiscountConditionType.products);
-                                context.popRoute(res);
-                              }
-                            : null,
-                        child: const Text('Save')),
-                  ],
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child: Container(
-                      height: kToolbarHeight,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 4.0),
-                      child: SearchTextField(
-                        fillColor: context.theme.scaffoldBackgroundColor,
-                        controller: controller.searchCtrl,
-                        hintText: 'Search for product name, variant title ...',
-                        onSuffixTap: () {
-                          if (controller.searchTerm.isEmpty) return;
-                          controller.searchCtrl.clear();
-                          controller.searchTerm = '';
-                          controller.pagingController.refresh();
-                        },
-                        onSubmitted: (val) {
-                          if (controller.searchTerm != val && val.isNotEmpty) {
-                            controller.searchTerm = val;
-                            controller.pagingController.refresh();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                if (!controller.updateMode)
-                  SliverToBoxAdapter(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    child: Column(
-                      children: [
-                        ConditionOperatorCard(
-                          conditionOperator: DiscountConditionOperator.inn,
-                          groupValue: controller.discountConditionOperator,
-                          onTap: (val) {
-                            controller.discountConditionOperator = val;
-                            controller.update();
-                          },
-                        ),
-                        space,
-                        ConditionOperatorCard(
-                          conditionOperator: DiscountConditionOperator.notIn,
-                          groupValue: controller.discountConditionOperator,
-                          onTap: (val) {
-                            controller.discountConditionOperator = val;
-                            controller.update();
-                          },
-                        ),
-                      ],
-                    ),
-                  )),
-                SliverSafeArea(
-                  top: false,
-                  sliver: PagedSliverList.separated(
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 0, indent: 16),
-                    pagingController: controller.pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<Product>(
-                      itemBuilder: (context, product, index) =>
-                          ProductTileWithVariantCount(
-                              enabled: !controller.disabledProducts
-                                  .map((e) => e.id!)
-                                  .toList()
-                                  .contains(product.id),
-                              product: product,
-                              value: controller.selectedProducts
-                                  .map((e) => e.id!)
-                                  .toList()
-                                  .contains(product.id),
-                              onChanged: (val) {
-                                if (val == null) return;
-                                if (val) {
-                                  controller.selectedProducts.add(product);
-                                } else {
-                                  controller.selectedProducts
-                                      .removeWhere((e) => e.id == product.id);
-                                }
-                                controller.update();
-                              }),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                              child: CircularProgressIndicator.adaptive()),
-                      firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
-                          pagingController: controller.pagingController),
-                      noItemsFoundIndicatorBuilder: (context) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('No products found'),
-                            if (controller.searchTerm.isNotEmpty)
-                              TextButton(
-                                  onPressed: () {
-                                    controller.searchTerm = '';
-                                    controller.searchCtrl.clear();
-                                    controller.pagingController.refresh();
-                                  },
-                                  child: const Text('Clear search')),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  State<ConditionProductView> createState() => _ConditionProductViewState();
 }
 
-class ConditionProductController extends GetxController {
-  ConditionProductController(
-      {required this.productsUseCase, required this.disabledProducts});
+class _ConditionProductViewState extends State<ConditionProductView> {
+  late ProductCrudBloc productCrudBloc;
 
-  final ProductsUseCase productsUseCase;
   DiscountConditionOperator discountConditionOperator =
       DiscountConditionOperator.inn;
   final PagingController<int, Product> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
-  final int _pageSize = 20;
   List<Product> selectedProducts = <Product>[];
-  final List<Product> disabledProducts;
+  List<Product> get disabledProducts => widget.disabledProducts ?? [];
 
   bool get updateMode => disabledProducts.isNotEmpty;
   final searchCtrl = TextEditingController();
   String searchTerm = '';
 
-  @override
-  void onInit() {
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
-    super.onInit();
+  void _loadPage(int _) {
+    productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
+      'is_giftcard': false,
+      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+    }));
   }
 
   @override
-  void onClose() {
+  void initState() {
+    productCrudBloc = ProductCrudBloc.instance;
+    pagingController.addPageRequestListener(_loadPage);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    productCrudBloc.close();
+    pagingController.dispose();
     searchCtrl.dispose();
-    // pagingController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
-  Future<void> _fetchPage(int pageKey) async {
-    final result = await productsUseCase.fetchProducts(
-      queryParameters: {
-        'offset': pagingController.itemList?.length ?? 0,
-        'limit': _pageSize,
-        'is_giftcard': 'false',
-        if (searchTerm.isNotEmpty) 'q': searchTerm,
+  @override
+  Widget build(BuildContext context) {
+    const space = Gap(12);
+    return BlocListener<ProductCrudBloc, ProductCrudState>(
+      bloc: productCrudBloc,
+      listener: (context, state) {
+        state.mapOrNull(
+          products: (state) async {
+            final isLastPage = state.products.length < ProductCrudBloc.pageSize;
+            if (isLastPage) {
+              pagingController.appendLastPage(state.products);
+            } else {
+              final nextPageKey =
+                  pagingController.nextPageKey ?? 0 + state.products.length;
+              pagingController.appendPage(state.products, nextPageKey);
+            }
+          },
+          error: (state) {
+            pagingController.error = state.failure;
+          },
+        );
       },
+      child: HideKeyboard(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                title: const Text('Choose products'),
+                actions: [
+                  TextButton(
+                      onPressed: selectedProducts.isNotEmpty
+                          ? () {
+                              final res = DiscountConditionRes(
+                                  operator: discountConditionOperator,
+                                  products: selectedProducts,
+                                  conditionType:
+                                      DiscountConditionType.products);
+                              context.popRoute(res);
+                            }
+                          : null,
+                      child: const Text('Save')),
+                ],
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    height: kToolbarHeight,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 4.0),
+                    child: SearchTextField(
+                      fillColor: context.theme.scaffoldBackgroundColor,
+                      controller: searchCtrl,
+                      hintText: 'Search for product name, variant title ...',
+                      onSuffixTap: () {
+                        if (searchTerm.isEmpty) return;
+                        searchCtrl.clear();
+                        searchTerm = '';
+                        pagingController.refresh();
+                      },
+                      onSubmitted: (val) {
+                        if (searchTerm != val && val.isNotEmpty) {
+                          searchTerm = val;
+                          pagingController.refresh();
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              if (!updateMode)
+                SliverToBoxAdapter(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
+                  child: Column(
+                    children: [
+                      ConditionOperatorCard(
+                        conditionOperator: DiscountConditionOperator.inn,
+                        groupValue: discountConditionOperator,
+                        onTap: (val) {
+                          discountConditionOperator = val;
+                          setState(() {});
+                        },
+                      ),
+                      space,
+                      ConditionOperatorCard(
+                        conditionOperator: DiscountConditionOperator.notIn,
+                        groupValue: discountConditionOperator,
+                        onTap: (val) {
+                          discountConditionOperator = val;
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                )),
+              SliverSafeArea(
+                top: false,
+                sliver: PagedSliverList.separated(
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16),
+                  pagingController: pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Product>(
+                    itemBuilder: (context, product, index) =>
+                        ProductTileWithVariantCount(
+                            enabled: !disabledProducts
+                                .map((e) => e.id!)
+                                .toList()
+                                .contains(product.id),
+                            product: product,
+                            value: selectedProducts
+                                .map((e) => e.id!)
+                                .toList()
+                                .contains(product.id),
+                            onChanged: (val) {
+                              if (val == null) return;
+                              if (val) {
+                                selectedProducts.add(product);
+                              } else {
+                                selectedProducts
+                                    .removeWhere((e) => e.id == product.id);
+                              }
+                              setState(() {});
+                            }),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const Center(
+                            child: CircularProgressIndicator.adaptive()),
+                    firstPageErrorIndicatorBuilder: (_) =>
+                        PaginationErrorPage(pagingController: pagingController),
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('No products found'),
+                          if (searchTerm.isNotEmpty)
+                            TextButton(
+                                onPressed: () {
+                                  searchTerm = '';
+                                  searchCtrl.clear();
+                                  pagingController.refresh();
+                                },
+                                child: const Text('Clear search')),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-
-    result.when((success) {
-      final isLastPage = success.products!.length < _pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(success.products!);
-      } else {
-        final nextPageKey = pageKey + success.products!.length;
-        pagingController.appendPage(success.products!, nextPageKey);
-      }
-    }, (error) {
-      pagingController.error = error;
-    });
   }
 }
