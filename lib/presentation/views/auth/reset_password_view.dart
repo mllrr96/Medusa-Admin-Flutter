@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';

@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get/get.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medusa_admin/core/constant/strings.dart';

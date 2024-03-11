@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

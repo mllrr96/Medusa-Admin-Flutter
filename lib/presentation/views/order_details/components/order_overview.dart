@@ -1,5 +1,6 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -73,7 +74,7 @@ class OrderOverview extends StatelessWidget {
                 children: [
                   Text(tr.detailsPayment, style: context.bodyMedium?.copyWith(color: Colors.grey)),
                   if (order.payments?.isNotEmpty ?? false)
-                    Text(order.payments!.first.providerId?.capitalize ?? '',
+                    Text(order.payments!.first.providerId!.capitalize,
                         style: context.bodyMedium),
                 ],
               ),

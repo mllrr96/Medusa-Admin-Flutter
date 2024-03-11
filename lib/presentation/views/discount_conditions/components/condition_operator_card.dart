@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import '../../../../../core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ConditionOperatorCard extends StatelessWidget {
   const ConditionOperatorCard(

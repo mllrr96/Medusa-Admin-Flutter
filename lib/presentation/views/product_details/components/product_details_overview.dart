@@ -1,15 +1,16 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ProductDetailsOverview extends StatelessWidget {
   const ProductDetailsOverview({super.key, required this.product});
@@ -186,8 +187,7 @@ class ProductDetailsOverview extends StatelessWidget {
                   Flexible(
                       flex: 2,
                       child: Text(
-                          product.discountable.toString().capitalize ??
-                              product.discountable.toString(),
+                          product.discountable.toString().capitalize,
                           style: mediumTextStyle.copyWith(color: manatee),
                           textAlign: TextAlign.right)),
                 ],

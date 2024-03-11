@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/search_history.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
@@ -100,7 +103,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                           return const SizedBox.shrink();
                         case SearchCategory.groups:
                           return Divider(
-                              height: 0, indent: GetPlatform.isIOS ? 16.0 : 0);
+                              height: 0, indent: Platform.isIOS ? 16.0 : 0);
                         case SearchCategory.giftCards:
                           return const Divider(height: 0);
                         case SearchCategory.discounts:

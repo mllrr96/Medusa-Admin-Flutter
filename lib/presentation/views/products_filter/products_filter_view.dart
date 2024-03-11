@@ -1,7 +1,8 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/cubits/products_filter/products_filter_cubit.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -124,7 +125,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                           child: Column(
                             children: ProductStatus.values
                                 .map((e) => CheckboxListTile(
-                                      title: Text(e.name.capitalize ?? e.name,
+                                      title: Text(e.name.capitalize,
                                           style: smallTextStyle),
                                       value: productFilter.status.contains(e),
                                       controlAffinity:

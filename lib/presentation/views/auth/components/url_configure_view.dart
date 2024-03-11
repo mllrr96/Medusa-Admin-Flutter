@@ -2,11 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/di/medusa_admin_di.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -201,7 +202,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                       return 'Field is required';
                     }
 
-                    if (!val.isURL) {
+                    if (!val.isUrl) {
                       return 'Invalid url';
                     }
                     return null;

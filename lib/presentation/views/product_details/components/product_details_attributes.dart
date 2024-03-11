@@ -3,7 +3,6 @@ import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
@@ -150,8 +149,9 @@ class ProductDetailsAttributes extends StatelessWidget {
                     children: [
                       Text(
                           countries
-                                  .firstWhereOrNull((element) =>
+                                  .where((element) =>
                                       element.iso2 == product.originCountry)
+                                  .firstOrNull
                                   ?.displayName ??
                               '-',
                           style: mediumTextStyle.copyWith(color: manatee),

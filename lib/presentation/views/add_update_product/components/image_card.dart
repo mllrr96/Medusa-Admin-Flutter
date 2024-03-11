@@ -3,8 +3,9 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';

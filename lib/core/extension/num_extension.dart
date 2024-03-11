@@ -4,14 +4,14 @@ import 'dart:math';
 extension FormatPrice on num? {
   String formatAsPrice(String? currencyCode,
       {bool includeSymbol = true,
-        bool space = true,
-        bool symbolAtEnd = false}) {
+      bool space = true,
+      bool symbolAtEnd = false}) {
     if (this == null || currencyCode == null) {
       return this?.toString() ?? '';
     }
     var value = this!;
     final formatter =
-    NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
+        NumberFormat.simpleCurrency(name: currencyCode.toUpperCase());
     if (formatter.decimalDigits! > 0) {
       value /= pow(10, formatter.decimalDigits!);
     }
@@ -26,4 +26,9 @@ extension FormatPrice on num? {
     }
     return formatter.format(value).replaceAll(currencySymbol, '');
   }
+}
+
+extension NumExtension on num {
+  bool isLowerThan(num b) => this < b;
+  bool isGreaterThan(num b) => this < b;
 }

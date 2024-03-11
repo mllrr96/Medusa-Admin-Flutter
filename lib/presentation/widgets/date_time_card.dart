@@ -1,7 +1,8 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
@@ -67,7 +68,7 @@ class DateTimeCard extends StatelessWidget {
                             Text(
                                 dateText == null
                                     ? 'Date'
-                                    : '${dateText!.capitalize!} Date',
+                                    : '${dateText!.capitalize} Date',
                                 style: dateTextStyle ??
                                     mediumTextStyle?.copyWith(color: manatee)),
                             halfSpace,
@@ -81,7 +82,7 @@ class DateTimeCard extends StatelessWidget {
                             Text(
                                 dateText == null
                                     ? 'Time'
-                                    : '${dateText!.capitalize!} Time',
+                                    : '${dateText!.capitalize} Time',
                                 style: dateTextStyle ??
                                     mediumTextStyle?.copyWith(color: manatee)),
                             halfSpace,

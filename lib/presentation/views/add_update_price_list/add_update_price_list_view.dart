@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/copy_with_price_list.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/models/pick_groups_req.dart';
 import 'package:medusa_admin/data/models/pick_products_req.dart';

@@ -24,12 +24,19 @@ extension ContextEntension<T> on BuildContext? {
 extension BuildContextEntension<T> on BuildContext {
   // media query
   // ===================================================================//
+  ThemeData get theme => Theme.of(this);
+  // ===================================================================//
+
+  // media query
+  // ===================================================================//
   EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
   double get bottomViewPadding => MediaQuery.of(this).viewPadding.bottom;
   double get bottomViewInsetPadding => MediaQuery.of(this).viewInsets.bottom;
   double get topViewPadding => MediaQuery.of(this).viewPadding.top;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
+  double get height => MediaQuery.of(this).size.height;
+  double get width => MediaQuery.of(this).size.width;
   // ===================================================================//
 
   // TabsRouter get tabsRouter => AutoTabsRouter.of(this);

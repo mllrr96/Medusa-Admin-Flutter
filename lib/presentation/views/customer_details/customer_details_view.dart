@@ -1,8 +1,8 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
@@ -96,11 +96,10 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                                       orders: (state) => state.count > 0
                                           ? state.count
                                           : null) ??
-                                  0,
-                          onUpdateDone: (){
-                            customerCrudBloc.add(CustomerCrudEvent.load(widget.customerId));
-                          }
-                          ),
+                                  0, onUpdateDone: () {
+                            customerCrudBloc
+                                .add(CustomerCrudEvent.load(widget.customerId));
+                          }),
                         ),
                     error: (e) => SliverToBoxAdapter(
                         child: Center(child: Text(e.failure.toString()))),
@@ -160,7 +159,8 @@ class Delegate extends SliverPersistentHeaderDelegate {
   final int ordersCount;
   final bool isSkeleton;
   final void Function()? onUpdateDone;
-  Delegate(this.customer, this.ordersCount, {this.isSkeleton = false,this.onUpdateDone});
+  Delegate(this.customer, this.ordersCount,
+      {this.isSkeleton = false, this.onUpdateDone});
 
   @override
   Widget build(
@@ -257,7 +257,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${tr.detailsUser}: ${customer.hasAccount.toString().capitalizeFirst}',
+                          '${tr.detailsUser}: ${customer.hasAccount.toString().capitalize}',
                           style: smallTextStyle,
                         ),
                         Text('${tr.detailsPhone}: ${customer.phone ?? 'N/A'}',

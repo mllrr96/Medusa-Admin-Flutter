@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
 import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
@@ -525,8 +527,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                                 DropdownMenuItem<DateType>(
                                                     value: e,
                                                     child: Text(
-                                                        e.name.capitalize ??
-                                                            e.name)))
+                                                        e.name.capitalize)))
                                             .toList(),
                                       ),
                                     ),

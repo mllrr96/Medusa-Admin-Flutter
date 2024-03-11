@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
-import '../../../../../core/constant/colors.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 class CreateDraftOrderOverViewView extends StatelessWidget {
   const CreateDraftOrderOverViewView(
@@ -93,7 +94,7 @@ class CreateDraftOrderOverViewView extends StatelessWidget {
                     maxRadius: 18,
                     child: Text(
                         customer.firstName == null
-                            ? customer.email[0].capitalize ?? customer.email[0]
+                            ? customer.email[0].capitalize
                             : customer.firstName![0],
                         style: largeTextStyle!.copyWith(color: Colors.white)),
                   ),

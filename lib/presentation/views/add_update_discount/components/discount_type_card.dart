@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
@@ -21,16 +22,15 @@ class DiscountTypeCard extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
-    final ThemeData theme = context.theme;
-    final bool useMaterial3 = theme.useMaterial3;
-    final Color background = theme.scaffoldBackgroundColor;
+    final bool useMaterial3 = context.theme.useMaterial3;
+    final Color background = context.theme.scaffoldBackgroundColor;
 
     final selected = discountType == groupValue;
     double borderRadius = useMaterial3 ? 12 : 4;
     final ShapeBorder shapeBorder = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       side: selected
-          ? BorderSide(color: theme.colorScheme.primaryContainer, width: 1)
+          ? BorderSide(color: context.theme.colorScheme.primaryContainer, width: 1)
           : BorderSide.none,
     );
     String title = '';

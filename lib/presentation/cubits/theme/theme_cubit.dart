@@ -1,8 +1,9 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get/get.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';

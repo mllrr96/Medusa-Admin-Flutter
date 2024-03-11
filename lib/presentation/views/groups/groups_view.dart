@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -139,7 +141,7 @@ class _GroupsViewState extends State<GroupsView> {
                 onRefresh: () => pagingController.refresh(),
                 child: PagedListView.separated(
                   separatorBuilder: (_, __) =>
-                      Divider(height: 0, indent: GetPlatform.isIOS ? 16.0 : 0),
+                      Divider(height: 0, indent: Platform.isIOS ? 16.0 : 0),
                   padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(

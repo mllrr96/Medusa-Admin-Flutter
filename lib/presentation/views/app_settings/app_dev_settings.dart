@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
+
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';

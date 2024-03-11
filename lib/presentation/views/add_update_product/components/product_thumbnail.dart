@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
@@ -147,7 +148,7 @@ class _ProductThumbnailState extends State<ProductThumbnail> {
                     actions: ImageSource.values
                         .map((e) => SheetAction<ImageSource>(
                               key: e,
-                              label: e.name.capitalize ?? e.name,
+                              label: e.name.capitalize,
                             ))
                         .toList());
                 if (imageSource == null) {

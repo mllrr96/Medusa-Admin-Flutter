@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';

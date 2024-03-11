@@ -1,5 +1,7 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -39,7 +41,7 @@ class PersonalInfoTile extends StatelessWidget {
                     radius: 25,
                     child: Text(
                         user?.firstName != null
-                            ? user!.firstName![0].capitalize ?? ''
+                            ? user!.firstName![0].capitalize
                             : user?.email?[0].capitalize ?? '',
                         style: largeTextStyle?.copyWith(color: Colors.white)),
                   ),

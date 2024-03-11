@@ -5,9 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart' hide GetNumUtils;
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
@@ -45,12 +44,6 @@ class _SplashViewState extends State<SplashView> {
       listener: (context, state) {
         state.mapOrNull(
           loggedIn: (loggedIn) async {
-            // await Get.putAsync(() =>
-            //     StoreService(storeRepo: getIt<MedusaAdmin>().storeRepository)
-            //         .init()).then((value) {
-            //
-            // });
-            // Get.put(ActivityController());
             context.router.replaceAll([const DashboardRoute()]);
           },
           loggedOut: (_) {
@@ -98,8 +91,11 @@ class _SplashViewState extends State<SplashView> {
                     const Text('Taking too long to load?'),
                     const Gap(10),
                     OutlinedButton(
-                        onPressed: () =>
-                            context.router.replaceAll([SignInRoute()]),
+                        onPressed: () {
+                          context.router.replaceAll([SignInRoute()]);
+                          context.read<AuthenticationBloc>().add(
+                              const AuthenticationEvent.cancel());
+                        },
                         child: const Text('Go to login')),
                     Gap(context.bottomViewPadding != 0
                         ? context.bottomViewPadding

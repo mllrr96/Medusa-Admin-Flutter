@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -381,7 +382,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
         }
       }
     }
-    return paymentProviders.capitalize ?? paymentProviders;
+    return paymentProviders.capitalize;
   }
 
   String getFulfilmentProviders(Region region) {
@@ -395,6 +396,6 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
         }
       }
     }
-    return fulfilmentProviders.capitalize ?? fulfilmentProviders;
+    return fulfilmentProviders.capitalize;
   }
 }

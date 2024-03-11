@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
@@ -374,7 +374,7 @@ class AlternativeOrderCard extends StatelessWidget {
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
                     style: context.bodySmall?.copyWith(
-                        color: Get.isDarkMode ? Colors.white : Colors.grey))),
+                        color: context.isDark ? Colors.white : Colors.grey))),
           ),
         ],
       );
@@ -606,7 +606,7 @@ class CustomerOrderCard extends StatelessWidget {
             child: Center(
                 child: Text('+ ${order.items!.length - 3}',
                     style: context.bodySmall?.copyWith(
-                        color: Get.isDarkMode ? Colors.white : Colors.grey))),
+                        color: context.isDark ? Colors.white : Colors.grey))),
           ),
         ],
       );

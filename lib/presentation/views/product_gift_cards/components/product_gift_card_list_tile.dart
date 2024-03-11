@@ -1,9 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class GiftCardListTile extends StatelessWidget {
   const GiftCardListTile(

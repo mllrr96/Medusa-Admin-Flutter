@@ -7,7 +7,6 @@
 //   * stepper feedback in the case of high-latency interactions
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// The state of a [Step] which is used to control the style of the circle and
 /// text.
@@ -886,7 +885,7 @@ class _MedusaStepperState extends State<MedusaStepper>
     return Column(
       children: <Widget>[
         Material(
-          color: context.theme.appBarTheme.backgroundColor,
+          color: Theme.of(context).appBarTheme.backgroundColor,
           elevation: widget.elevation ?? 2,
           child: SizedBox(
             height: _isLabel() ? 104.0 : 72.0,

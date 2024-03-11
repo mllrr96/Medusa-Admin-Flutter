@@ -2,9 +2,10 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/core/extension/product_variant_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';

@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/presentation/blocs/user_crud/user_crud_bloc.dart';
@@ -203,7 +205,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
       );
     }
 
-    if (GetPlatform.isIOS) {
+    if (Platform.isIOS) {
       await showCupertinoModalBottomSheet(
           context: context, builder: widgetBuilder);
     } else {

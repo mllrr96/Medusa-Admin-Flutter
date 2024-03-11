@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
@@ -243,7 +245,7 @@ class _CreateUpdateCustomGiftCardViewState
                             SwitchListTile.adaptive(
                               contentPadding: EdgeInsets.zero,
                               value: hasExpiryDate,
-                              activeColor: GetPlatform.isIOS
+                              activeColor: Platform.isIOS
                                   ? ColorManager.primary
                                   : null,
                               onChanged: (val) {

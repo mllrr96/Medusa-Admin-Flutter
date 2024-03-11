@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -19,8 +20,8 @@ class RegionCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     return Material(
-        color: Theme.of(context).appBarTheme.backgroundColor,
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      color: Theme.of(context).appBarTheme.backgroundColor,
+      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       child: InkWell(
         onTap: onTap ??
             () => context.pushRoute(RegionDetailsRoute(regionId: region.id!)),
@@ -100,7 +101,7 @@ class RegionCard extends StatelessWidget {
         }
       }
     }
-    return paymentProviders.capitalize ?? paymentProviders;
+    return paymentProviders.capitalize;
   }
 
   String getFulfilmentProviders() {
@@ -114,6 +115,6 @@ class RegionCard extends StatelessWidget {
         }
       }
     }
-    return fulfilmentProviders.capitalize ?? fulfilmentProviders;
+    return fulfilmentProviders.capitalize;
   }
 }

@@ -2,9 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/data/models/pick_customer_req.dart';
+import 'package:medusa_admin/data/models/pick_customer_res.dart';
 import 'package:medusa_admin/presentation/blocs/order_crud/order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/orders/components/fulfillment_label.dart';
 import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
@@ -12,7 +13,6 @@ import 'package:medusa_admin/presentation/views/orders/components/payment_status
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
-import 'package:medusa_admin/presentation/widgets/pick_customer/controllers/pick_customer_controller.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 @RoutePage()
@@ -79,21 +79,19 @@ class _TransferOrderViewState extends State<TransferOrderView> {
                 bottom: bottomViewPadding == 0 ? 12 : bottomViewPadding,
                 left: 24,
                 right: 24),
-            child: Obx(() {
-              return FilledButton(
-                  onPressed: selectedCustomer != null
-                      ? () {
-                          orderCrudBloc.add(OrderCrudEvent.update(
-                              order.id!,
-                              UserUpdateOrderReq(
-                                  customerId: selectedCustomer!.id!)));
-                        }
-                      : null,
-                  child: const Text(
-                    'Confirm',
-                    style: TextStyle(color: Colors.white),
-                  ));
-            }),
+            child: FilledButton(
+                onPressed: selectedCustomer != null
+                    ? () {
+                  orderCrudBloc.add(OrderCrudEvent.update(
+                      order.id!,
+                      UserUpdateOrderReq(
+                          customerId: selectedCustomer!.id!)));
+                }
+                    : null,
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(color: Colors.white),
+                )),
           ),
           body: SafeArea(
               child: ListView(

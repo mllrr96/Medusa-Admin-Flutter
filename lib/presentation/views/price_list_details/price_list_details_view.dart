@@ -2,7 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';

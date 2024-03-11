@@ -1,7 +1,10 @@
+import 'dart:io';
+
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
@@ -101,8 +104,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                             child: CircularProgressIndicator.adaptive(),
                           ),
                       types: (state) {
-                        selectedType = state.types.firstWhereOrNull(
-                            (element) => element.id == product?.type?.id);
+                        selectedType = state.types.where(
+                            (element) => element.id == product?.type?.id).firstOrNull;
                         return DropdownButtonFormField<ProductType>(
                           style: context.bodyMedium,
                           value: selectedType,
@@ -179,7 +182,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                           items: state.collections
                               .map((e) => DropdownMenuItem<ProductCollection>(
                                   value: e,
-                                  child: Text(e.title?.capitalize ?? e.title!)))
+                                  child: Text(e.title!.capitalize)))
                               .toList(),
                           decoration: InputDecoration(
                             hintText: 'Choose a collection',
@@ -242,7 +245,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
             onChanged: updateMode
                 ? null
                 : (val) async => setState(() => enableSalesChannels = val),
-            activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
+            activeColor: Platform.isIOS ? ColorManager.primary : null,
           ),
           BlocBuilder<SalesChannelCrudBloc, SalesChannelCrudState>(
             bloc: salesChannelCrudBloc,

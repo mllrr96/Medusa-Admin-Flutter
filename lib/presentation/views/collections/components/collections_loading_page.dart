@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'collection_list_tile.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 
 class CollectionsLoadingPage extends StatelessWidget {

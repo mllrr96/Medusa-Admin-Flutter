@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart' hide GetNumUtils;
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/locale_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -169,8 +170,7 @@ class _SignInViewState extends State<SignInView> {
                                   builder: (context, state) {
                                     return ElevatedButton.icon(
                                       label: Text(
-                                          state.themeMode.name.capitalize ??
-                                              state.themeMode.name),
+                                          state.themeMode.name.capitalize),
                                       onPressed: () => context
                                           .read<ThemeCubit>()
                                           .updateThemeState(

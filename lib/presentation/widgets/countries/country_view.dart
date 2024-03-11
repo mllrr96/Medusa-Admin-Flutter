@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';

@@ -5,10 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/data/models/select_products_res.dart';
 import 'package:medusa_admin/presentation/blocs/order_edit_crud/order_edit_crud_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/pick_product_variants/controllers/pick_product_variants_controller.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -71,8 +71,8 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
       },
       builder: (context, state) {
         final orderEdit = state.mapOrNull(
-            orderEdits: (_) => _.orderEdits.firstWhereOrNull(
-                (element) => element.status == OrderEditStatus.created));
+            orderEdits: (_) => _.orderEdits.where(
+                (element) => element.status == OrderEditStatus.created).firstOrNull);
         return Scaffold(
           appBar: AppBar(
             title: const Text('Order edit'),

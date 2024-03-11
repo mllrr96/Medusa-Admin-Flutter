@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
@@ -127,7 +129,7 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
           space,
           SwitchListTile.adaptive(
             value: discountable,
-            activeColor: GetPlatform.isIOS ? ColorManager.primary : null,
+            activeColor: Platform.isIOS ? ColorManager.primary : null,
             onChanged: (val) {
               setState(() => discountable = val);
             },

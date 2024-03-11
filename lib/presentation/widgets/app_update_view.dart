@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart' hide GetNumUtils;
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';

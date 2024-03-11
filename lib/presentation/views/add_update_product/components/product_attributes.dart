@@ -2,7 +2,7 @@ import 'package:flag/flag_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
@@ -47,8 +47,9 @@ class _ProductAttributesState extends State<ProductAttributes> {
       hsCodeCtrl.text = widget.product!.hsCode ?? '';
       originCountryIso = widget.product!.originCountry;
       countryCtrl.text = countries
-              .firstWhereOrNull((element) =>
+              .where((element) =>
                   element.iso2 == widget.product?.originCountry?.toLowerCase())
+              .firstOrNull
               ?.displayName ??
           '';
     }

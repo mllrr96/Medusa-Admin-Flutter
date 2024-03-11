@@ -4,9 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/data/models/discount_condition_req.dart';

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
+
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -80,7 +82,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
                 }
               },
               items: UserRole.values
-                  .map((e) => DropdownMenuItem<UserRole>(value: e, child: Text(e.name.capitalize ?? e.name)))
+                  .map((e) => DropdownMenuItem<UserRole>(value: e, child: Text(e.name.capitalize)))
                   .toList(),
               decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(

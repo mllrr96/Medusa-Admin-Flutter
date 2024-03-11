@@ -1,7 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
+
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
@@ -97,7 +99,7 @@ class OrderNoteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   // color: context.theme.scaffoldBackgroundColor,
-                  color: Get.isDarkMode
+                  color: context.isDark
                       ? context.theme.scaffoldBackgroundColor
                       : ColorManager.primaryOpacity,
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -106,7 +108,7 @@ class OrderNoteWidget extends StatelessWidget {
                   note.value ?? '',
                   style: smallTextStyle?.copyWith(
                       color:
-                          Get.isDarkMode ? Colors.white : ColorManager.primary),
+                          context.isDark ? Colors.white : ColorManager.primary),
                 ),
               ),
             ),

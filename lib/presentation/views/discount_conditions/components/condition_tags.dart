@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/cubits/tags/tags_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -11,6 +11,7 @@ import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'condition_operator_card.dart';
 import 'condition_tag_tile.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class ConditionTagView extends StatefulWidget {

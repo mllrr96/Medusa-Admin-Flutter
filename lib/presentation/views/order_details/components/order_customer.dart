@@ -1,8 +1,10 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
+
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -34,7 +36,7 @@ class OrderCustomer extends StatelessWidget {
             orElse: () => const Country(iso2: '', iso3: '', numCode: 0, name: '', displayName: ''));
         countryName = country.name ?? '';
       }
-      return countryName.capitalize ?? countryName;
+      return countryName.capitalize;
     }
 
     return FlexExpansionTile(

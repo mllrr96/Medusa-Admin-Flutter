@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -56,9 +56,9 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.mediaQueryViewPadding.bottom == 0
+    final bottomPadding = context.viewPadding.bottom == 0
         ? 12.0
-        : context.mediaQueryViewPadding.bottom;
+        : context.viewPadding.bottom;
     return BlocListener<ProductCrudBloc, ProductCrudState>(
       bloc: productCrudBloc,
       listener: (context, state) {
@@ -109,7 +109,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
               color: context.theme.scaffoldBackgroundColor,
               border: Border(
                   top: BorderSide(
-                      color: Get.isDarkMode ? Colors.white : Colors.black))),
+                      color: context.isDark ? Colors.white : Colors.black))),
           child: ListTile(
             title: const Text('Gift Cards History'),
             subtitle: Text('See the history of purchased Gift Cards',

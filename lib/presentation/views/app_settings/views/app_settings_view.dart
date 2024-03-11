@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart' hide GetStringUtils;
 import 'package:intl/intl.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -124,7 +124,6 @@ class _AppSettingsViewState extends State<AppSettingsView> {
                                   final result =
                                   await SignOutUseCase.instance();
                                   await result.when((success) async {
-                                    await Get.delete(force: true);
                                     await AuthPreferenceService
                                         .instance
                                         .clearLoginData();
@@ -271,7 +270,7 @@ class _AppSettingsViewState extends State<AppSettingsView> {
                     SettingsSection(
                       title: const Text('DateTime settings'),
                       tiles: <SettingsTile>[
-                        if (GetPlatform.isIOS)
+                        if (Platform.isIOS)
                           SettingsTile.switchTile(
                             title: const Text('Use Android date picker'),
                             activeSwitchColor: ColorManager.primary,

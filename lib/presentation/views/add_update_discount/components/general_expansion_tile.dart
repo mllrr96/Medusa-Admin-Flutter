@@ -4,7 +4,7 @@ import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/data/models/pick_region_req.dart';
 import 'package:medusa_admin/data/models/pick_region_res.dart';

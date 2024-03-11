@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/return_reasons_crud/return_reasons_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';

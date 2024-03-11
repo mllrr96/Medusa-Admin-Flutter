@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -170,7 +171,7 @@ class _ProductMediaState extends State<ProductMedia> {
                         actions: ImageSource.values
                             .map((e) => SheetAction<ImageSource>(
                                   key: e,
-                                  label: e.name.capitalize ?? e.name,
+                                  label: e.name.capitalize,
                                 ))
                             .toList());
                     if (imageSource == null) {
@@ -273,8 +274,8 @@ class _RenameFileViewState extends State<RenameFileView> {
 
     return Container(
       padding: EdgeInsets.only(
-          bottom: context.mediaQueryViewInsets.bottom +
-              context.mediaQueryPadding.bottom),
+          bottom: context.viewInsets.bottom +
+              context.viewInsets.bottom),
       color: context.theme.scaffoldBackgroundColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,

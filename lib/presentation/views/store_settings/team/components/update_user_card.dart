@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 

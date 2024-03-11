@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/app_preference.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
@@ -62,7 +64,7 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
                   segments: AppBarStyle.values
                       .map((e) => ButtonSegment<AppBarStyle>(
                             value: e,
-                            label: Text(e.name.capitalize ?? ''),
+                            label: Text(e.name.capitalize),
                           ))
                       .toList(),
                   selected: {selectedStyle}),

@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
@@ -158,7 +159,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                           validator: (value) {
                             if (value != null &&
                                 value.removeAllWhitespace.isNotEmpty &&
-                                !value.isURL) {
+                                !value.isUrl) {
                               return "Invalid URL";
                             }
                             return null;
@@ -171,7 +172,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                           validator: (value) {
                             if (value != null &&
                                 value.removeAllWhitespace.isNotEmpty &&
-                                !value.isURL) {
+                                !value.isUrl) {
                               return "Invalid URL";
                             }
                             return null;
@@ -186,7 +187,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                           validator: (value) {
                             if (value != null &&
                                 value.removeAllWhitespace.isNotEmpty &&
-                                !value.isURL) {
+                                !value.isUrl) {
                               return "Invalid URL";
                             }
                             return null;

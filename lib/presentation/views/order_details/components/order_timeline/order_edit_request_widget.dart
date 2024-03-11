@@ -2,9 +2,11 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/constant/colors.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
+import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
@@ -22,13 +24,17 @@ class OrderEditWidget extends StatelessWidget {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
 
-    final reqDurationDiff = DateTime.now().difference(orderEdit.requestedAt ?? DateTime.now());
+    final reqDurationDiff =
+        DateTime.now().difference(orderEdit.requestedAt ?? DateTime.now());
     const space = Gap(12);
     const halfSpace = Gap(6);
-    var addedItems = orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemAdd).toList();
+    var addedItems = orderEdit.changes
+        ?.where((element) => element.type == OrderEditItemChangeType.itemAdd)
+        .toList();
 
-    var removedItems =
-        orderEdit.changes?.where((element) => element.type == OrderEditItemChangeType.itemRemove).toList();
+    var removedItems = orderEdit.changes
+        ?.where((element) => element.type == OrderEditItemChangeType.itemRemove)
+        .toList();
 
     orderEdit.changes?.forEach(
       (element) {
@@ -38,9 +44,10 @@ class OrderEditWidget extends StatelessWidget {
           return;
         }
 
-        if (quantity?.isGreaterThan(origQuantity as num) ?? false) {
+        if (quantity != null && quantity.isGreaterThan(origQuantity as num)) {
           addedItems?.add(element);
-        } else if (quantity?.isLowerThan(origQuantity as num) ?? false) {
+        } else if (quantity != null &&
+                quantity.isLowerThan(origQuantity as num)) {
           removedItems?.add(element);
         }
       },
@@ -136,19 +143,26 @@ class OrderEditWidget extends StatelessWidget {
               const Gap(12),
               Row(
                 children: [
-                  const Icon(MedusaIcons.pencil_square_solid, color: Colors.transparent),
+                  const Icon(MedusaIcons.pencil_square_solid,
+                      color: Colors.transparent),
                   const Gap(12),
                   Flexible(
                     child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
-                        color: Get.isDarkMode ? context.theme.scaffoldBackgroundColor : ColorManager.primaryOpacity,
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: context.isDark
+                            ? context.theme.scaffoldBackgroundColor
+                            : ColorManager.primaryOpacity,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Text(
                         orderEdit.internalNote ?? '',
-                        style: smallTextStyle?.copyWith(color: Get.isDarkMode ? Colors.white : ColorManager.primary),
+                        style: smallTextStyle?.copyWith(
+                            color: context.isDark
+                                ? Colors.white
+                                : ColorManager.primary),
                       ),
                     ),
                   ),
@@ -159,7 +173,8 @@ class OrderEditWidget extends StatelessWidget {
         if (orderEdit.changes?.isNotEmpty ?? false)
           Row(
             children: [
-              const Icon(MedusaIcons.pencil_square_solid, color: Colors.transparent),
+              const Icon(MedusaIcons.pencil_square_solid,
+                  color: Colors.transparent),
               const SizedBox(width: 12.0),
               Expanded(
                 child: Column(
@@ -169,7 +184,8 @@ class OrderEditWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           space,
-                          Text('Added', style: smallTextStyle?.copyWith(color: manatee)),
+                          Text('Added',
+                              style: smallTextStyle?.copyWith(color: manatee)),
                           space,
                           ListView.separated(
                               separatorBuilder: (_, __) => halfSpace,
@@ -179,46 +195,63 @@ class OrderEditWidget extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final item = addedItems[index];
                                 int quantityAdded =
-                                    (item.lineItem?.quantity ?? 0) - (item.originalLineItem?.quantity ?? 0);
+                                    (item.lineItem?.quantity ?? 0) -
+                                        (item.originalLineItem?.quantity ?? 0);
                                 String quantityAddedString =
-                                    quantityAdded != 1 && quantityAdded != 0 ? '${quantityAdded}x ' : '';
+                                    quantityAdded != 1 && quantityAdded != 0
+                                        ? '${quantityAdded}x '
+                                        : '';
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   leading: item.lineItem?.thumbnail != null
                                       ? ConstrainedBox(
-                                          constraints: const BoxConstraints(maxWidth: 50),
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 50),
                                           child: CachedNetworkImage(
-                                            imageUrl: item.lineItem?.thumbnail ?? '',
+                                            imageUrl:
+                                                item.lineItem?.thumbnail ?? '',
                                             fit: BoxFit.fitHeight,
                                             placeholder: (context, text) =>
-                                                const Center(child: CircularProgressIndicator.adaptive()),
-                                            errorWidget: (context, string, error) =>
-                                                const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator
+                                                            .adaptive()),
+                                            errorWidget: (context, string,
+                                                    error) =>
+                                                const Icon(
+                                                    Icons.warning_rounded,
+                                                    color: Colors.redAccent),
                                           ))
                                       : null,
-                                  title: Text(quantityAddedString + (item.lineItem?.title ?? '')),
+                                  title: Text(quantityAddedString +
+                                      (item.lineItem?.title ?? '')),
                                   subtitle: quantityAddedString.isNotEmpty
                                       ? Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
                                               quantityAddedString,
-                                              style: const TextStyle(color: Colors.transparent),
+                                              style: const TextStyle(
+                                                  color: Colors.transparent),
                                             ),
                                             Text(
-                                              item.lineItem?.variant?.title ?? '',
-                                              style: smallTextStyle?.copyWith(color: manatee),
+                                              item.lineItem?.variant?.title ??
+                                                  '',
+                                              style: smallTextStyle?.copyWith(
+                                                  color: manatee),
                                             ),
                                           ],
                                         )
                                       : Text(
                                           item.lineItem?.variant?.title ?? '',
-                                          style: smallTextStyle?.copyWith(color: manatee),
+                                          style: smallTextStyle?.copyWith(
+                                              color: manatee),
                                         ),
                                 );
                               }),
                           space,
-                          if (orderEdit.status == OrderEditStatus.requested && (removedItems?.isEmpty ?? false))
+                          if (orderEdit.status == OrderEditStatus.requested &&
+                              (removedItems?.isEmpty ?? false))
                             EditRequestButton(
                               onCopyTap: () {
                                 // TODO: Figure out how to get the link
@@ -234,7 +267,8 @@ class OrderEditWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           space,
-                          Text('Removed', style: smallTextStyle?.copyWith(color: manatee)),
+                          Text('Removed',
+                              style: smallTextStyle?.copyWith(color: manatee)),
                           space,
                           ListView.separated(
                               separatorBuilder: (_, __) => halfSpace,
@@ -242,43 +276,58 @@ class OrderEditWidget extends StatelessWidget {
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: removedItems!.length,
                               itemBuilder: (context, index) {
-                                final item = removedItems[index].originalLineItem;
-                                int quantityRemoved =
-                                    (item?.quantity ?? 0) - (removedItems[index].lineItem?.quantity ?? 0);
+                                final item =
+                                    removedItems[index].originalLineItem;
+                                int quantityRemoved = (item?.quantity ?? 0) -
+                                    (removedItems[index].lineItem?.quantity ??
+                                        0);
                                 String quantityRemovedString =
-                                    quantityRemoved != 1 && quantityRemoved != 0 ? '${quantityRemoved}x ' : '';
+                                    quantityRemoved != 1 && quantityRemoved != 0
+                                        ? '${quantityRemoved}x '
+                                        : '';
 
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   leading: item?.thumbnail != null
                                       ? ConstrainedBox(
-                                          constraints: const BoxConstraints(maxWidth: 50),
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 50),
                                           child: CachedNetworkImage(
                                             imageUrl: item?.thumbnail ?? '',
                                             placeholder: (context, text) =>
-                                                const Center(child: CircularProgressIndicator.adaptive()),
-                                            errorWidget: (context, string, error) =>
-                                                const Icon(Icons.warning_rounded, color: Colors.redAccent),
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator
+                                                            .adaptive()),
+                                            errorWidget: (context, string,
+                                                    error) =>
+                                                const Icon(
+                                                    Icons.warning_rounded,
+                                                    color: Colors.redAccent),
                                           ))
                                       : null,
-                                  title: Text(quantityRemovedString + (item?.title ?? '')),
+                                  title: Text(quantityRemovedString +
+                                      (item?.title ?? '')),
                                   subtitle: quantityRemovedString.isNotEmpty
                                       ? Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
                                               quantityRemovedString,
-                                              style: const TextStyle(color: Colors.transparent),
+                                              style: const TextStyle(
+                                                  color: Colors.transparent),
                                             ),
                                             Text(
                                               item?.variant?.title ?? '',
-                                              style: smallTextStyle?.copyWith(color: manatee),
+                                              style: smallTextStyle?.copyWith(
+                                                  color: manatee),
                                             ),
                                           ],
                                         )
                                       : Text(
                                           item?.variant?.title ?? '',
-                                          style: smallTextStyle?.copyWith(color: manatee),
+                                          style: smallTextStyle?.copyWith(
+                                              color: manatee),
                                         ),
                                 );
                               }),
@@ -306,7 +355,8 @@ class OrderEditWidget extends StatelessWidget {
 }
 
 class EditRequestButton extends StatelessWidget {
-  const EditRequestButton({super.key, this.onCopyTap, this.onForceConfirmTap, this.onCancelTap});
+  const EditRequestButton(
+      {super.key, this.onCopyTap, this.onForceConfirmTap, this.onCancelTap});
 
   final void Function()? onCopyTap;
   final void Function()? onForceConfirmTap;
@@ -329,7 +379,8 @@ class EditRequestButton extends StatelessWidget {
                     shape: buttonShape,
                   ),
                   onPressed: onCopyTap,
-                  child: const Text('Copy Confirmation-Request Link', overflow: TextOverflow.ellipsis)),
+                  child: const Text('Copy Confirmation-Request Link',
+                      overflow: TextOverflow.ellipsis)),
             ),
           ],
         ),
@@ -342,7 +393,8 @@ class EditRequestButton extends StatelessWidget {
                     shape: buttonShape,
                   ),
                   onPressed: onForceConfirmTap,
-                  child: const Text('Force Confirm', overflow: TextOverflow.ellipsis)),
+                  child: const Text('Force Confirm',
+                      overflow: TextOverflow.ellipsis)),
             ),
             const SizedBox(width: 6.0),
             Expanded(
@@ -352,7 +404,8 @@ class EditRequestButton extends StatelessWidget {
                   ),
                   onPressed: onCancelTap,
                   child: const Text('Cancel Order Edit',
-                      style: TextStyle(color: Colors.red), overflow: TextOverflow.ellipsis)),
+                      style: TextStyle(color: Colors.red),
+                      overflow: TextOverflow.ellipsis)),
             ),
           ],
         ),

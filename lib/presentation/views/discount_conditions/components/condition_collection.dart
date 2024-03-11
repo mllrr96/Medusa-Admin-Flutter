@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
@@ -12,6 +12,7 @@ import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'condition_collection_tile.dart';
 import 'condition_operator_card.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
 class ConditionCollectionView extends StatefulWidget {

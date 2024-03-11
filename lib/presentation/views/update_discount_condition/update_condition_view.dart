@@ -32,7 +32,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
   String operatorText = '';
   UpdateConditionReq get updateConditionReq => widget.updateConditionReq;
   List conditionItems = [];
-  List selectedItems = [];
+  List<Object> selectedItems = [];
   List items = [];
 
   @override
@@ -128,6 +128,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         ),
         body: SafeArea(
           child: ListView.builder(
+            itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
               return tileWidget(item);
@@ -144,17 +145,17 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         final item = object as Product;
         return ProductTileWithVariantCount(
           product: item,
-          value: (selectedItems as List<Product>)
-              .map((e) => e.id!)
+          value: selectedItems
+              .map((e) => (e as Product).id!)
               .toList()
               .contains(item.id),
           onChanged: (val) {
             if (val == null) return;
             if (val) {
-              (selectedItems as List<Product>).add(item);
+              selectedItems.add(item);
             } else {
-              (selectedItems as List<Product>)
-                  .removeWhere((element) => element.id == item.id);
+              selectedItems
+                  .removeWhere((element) => (element as Product).id == item.id);
             }
             setState(() {});
           },
@@ -163,17 +164,17 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         final item = object as ProductType;
         return ConditionTypeListTile(
           type: item,
-          value: (selectedItems as List<ProductType>)
-              .map((e) => e.id!)
+          value: selectedItems
+              .map((e) => (e as ProductType).id!)
               .toList()
               .contains(item.id),
           onChanged: (val) {
             if (val == null) return;
             if (val) {
-              (selectedItems as List<ProductType>).add(item);
+              selectedItems.add(item);
             } else {
-              (selectedItems as List<ProductType>)
-                  .removeWhere((element) => element.id == item.id);
+              selectedItems.removeWhere(
+                  (element) => (element as ProductType).id == item.id);
             }
             setState(() {});
           },
@@ -182,17 +183,17 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         final item = object as ProductCollection;
         return ConditionCollectionTile(
           collection: item,
-          value: (selectedItems as List<ProductCollection>)
-              .map((e) => e.id!)
+          value: selectedItems
+              .map((e) => (e as ProductCollection).id!)
               .toList()
               .contains(item.id),
           onChanged: (val) {
             if (val == null) return;
             if (val) {
-              (selectedItems as List<ProductCollection>).add(item);
+              selectedItems.add(item);
             } else {
-              (selectedItems as List<ProductCollection>)
-                  .removeWhere((element) => element.id == item.id);
+              selectedItems.removeWhere(
+                  (element) => (element as ProductCollection).id == item.id);
             }
             setState(() {});
           },
@@ -202,17 +203,17 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         final item = object as ProductTag;
         return ConditionTagTile(
           tag: item,
-          value: (selectedItems as List<ProductTag>)
-              .map((e) => e.id!)
+          value: selectedItems
+              .map((e) => (e as ProductTag).id!)
               .toList()
               .contains(item.id),
           onChanged: (val) {
             if (val == null) return;
             if (val) {
-              (selectedItems as List<ProductTag>).add(item);
+              selectedItems.add(item);
             } else {
-              (selectedItems as List<ProductTag>)
-                  .removeWhere((element) => element.id == item.id);
+              selectedItems.removeWhere(
+                  (element) => (element as ProductTag).id == item.id);
             }
             setState(() {});
           },
@@ -222,17 +223,17 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         final item = object as CustomerGroup;
         return ConditionCustomerGroupTile(
           customerGroup: item,
-          value: (selectedItems as List<CustomerGroup>)
-              .map((e) => e.id!)
+          value: selectedItems
+              .map((e) => (e as CustomerGroup).id!)
               .toList()
               .contains(item.id),
           onChanged: (val) {
             if (val == null) return;
             if (val) {
-              (selectedItems as List<CustomerGroup>).add(item);
+              selectedItems.add(item);
             } else {
-              (selectedItems as List<CustomerGroup>)
-                  .removeWhere((element) => element.id == item.id);
+              selectedItems.removeWhere(
+                  (element) => (element as CustomerGroup).id == item.id);
             }
             setState(() {});
           },
@@ -337,7 +338,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
         final result = await context.pushRoute(
-            ConditionProductRoute(disabledProducts: items as List<Product>));
+            ConditionProductRoute(disabledProducts: List<Product>.from(items)));
 
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.products!);
@@ -347,7 +348,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         break;
       case DiscountConditionType.productType:
         final result = await context.pushRoute(
-            ConditionTypeRoute(disabledTypes: items as List<ProductType>));
+            ConditionTypeRoute(disabledTypes: List<ProductType>.from(items)));
 
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.productTypes!);
@@ -357,7 +358,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         break;
       case DiscountConditionType.productCollections:
         final result = await context.pushRoute(ConditionCollectionRoute(
-            disabledCollections: items as List<ProductCollection>));
+            disabledCollections: List<ProductCollection>.from(items)));
 
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.productCollections!);
@@ -367,7 +368,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         break;
       case DiscountConditionType.productTags:
         final result = await context.pushRoute(
-            ConditionTagRoute(disabledTags: items as List<ProductTag>));
+            ConditionTagRoute(disabledTags: List<ProductTag>.from(items)));
 
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.productTags!);
@@ -377,7 +378,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         break;
       case DiscountConditionType.customerGroups:
         final result = await context.pushRoute(ConditionCustomerGroupRoute(
-            disabledGroups: items as List<CustomerGroup>));
+            disabledGroups: List<CustomerGroup>.from(items)));
 
         if (result != null && result is DiscountConditionRes) {
           items.addAll(result.customerGroups!);

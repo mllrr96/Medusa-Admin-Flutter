@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:medusa_admin/core/extension/settings_list_tile_extension.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
