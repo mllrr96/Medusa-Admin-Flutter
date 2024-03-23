@@ -2,21 +2,25 @@ import 'dart:ui';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'data/service/language_service.dart';
+import 'package:medusa_admin/multi_bloc_provider.dart';
+import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
+import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'core/constant/strings.dart';
 import 'core/route/app_router.dart';
 import 'core/theme/flex_theme.dart';
-import 'data/service/preference_service.dart';
-import 'data/service/theme_service.dart';
 import 'core/di/di.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //* observe bloc logs
+  Bloc.observer = MyBlocObserver();
 
   //* initialize firebase
   await Firebase.initializeApp(
@@ -32,8 +36,6 @@ Future<void> main() async {
 
   //* inject dependencies
   await configureInjection();
-  //* initialize getx services
-  await initServices();
 
   runApp(const MedusaAdminApp());
 }
@@ -45,28 +47,29 @@ class MedusaAdminApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ThemeController>(builder: (controller) {
-      final themeMode = PreferenceService.instance.loadThemeMode();
-      final locale = PreferenceService.instance.loadLocale();
-      return MaterialApp.router(
-        title: AppConstants.appName,
-        locale: locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        themeMode: themeMode,
-        theme: FlexTheme.light,
-        darkTheme: FlexTheme.dark,
-        builder: EasyLoading.init(),
-        routerConfig: _router.config(),
-      );
-    });
+    return CustomMultiBlocProvider(
+      child: BlocBuilder<LanguageCubit, LanguageState>(
+        builder: (context, languageState) {
+          return BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, themeState) {
+              return MaterialApp.router(
+                title: AppConstants.appName,
+                locale: languageState.locale,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                themeMode: themeState.themeMode,
+                theme: FlexTheme.light(
+                    themeState.flexScheme, themeState.useMaterial3),
+                darkTheme: FlexTheme.dark(
+                    themeState.flexScheme, themeState.useMaterial3),
+                builder: EasyLoading.init(),
+                routerConfig: _router.config(),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
-}
-
-Future<void> initServices() async {
-  debugPrint('starting services ...');
-  Get.put(LanguageService().init());
-  Get.put(ThemeController());
-  debugPrint('All services started...');
 }

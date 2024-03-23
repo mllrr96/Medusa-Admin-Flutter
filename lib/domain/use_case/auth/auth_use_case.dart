@@ -53,7 +53,7 @@ class AuthenticationUseCase {
     }
   }
 
-  Future<Result<bool, Failure>> logoutCustomer() async {
+  Future<Result<bool, Failure>> logout() async {
     try {
       final result = await _authRepository.signOut();
       if (result != null) {
@@ -61,8 +61,8 @@ class AuthenticationUseCase {
       } else {
         return Error(Failure(message: 'Error logging out', type: ''));
       }
-    } on Exception catch (_) {
-      return Error(Failure.from(_));
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 

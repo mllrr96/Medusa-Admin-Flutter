@@ -23,6 +23,9 @@ class Failure {
     if(message.isNotEmpty){
       val = '$val $message';
     }
+    if(code == null && type.isEmpty){
+      val = message;
+    }
     return val;
   }
 

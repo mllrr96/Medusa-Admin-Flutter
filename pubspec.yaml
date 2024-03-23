@@ -9,13 +9,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   # State management packages
   # -------------------
-  get: ^4.6.5
+  flutter_bloc: ^8.1.3
   # -------------------
-
   # Dependency injection packages
   # -------------------
   get_it: ^7.6.4
   injectable: ^2.3.2
+  freezed_annotation: ^2.4.1
   # -------------------
 
   # App routing
@@ -47,7 +47,7 @@ dependencies:
   flutter_animate: ^4.1.1+1
   super_banners: ^0.0.1
   google_fonts: ^6.1.0
-  skeletonizer: ^0.8.0
+  skeletonizer: ^1.0.1
   fluttertoast: ^8.2.4
   info_popup: ^4.3.1
   #--------------------
@@ -76,7 +76,6 @@ dependencies:
   gap: ^3.0.1
   multiple_result: ^5.0.0
   package_info_plus: ^5.0.1
-  copy_with_extension: ^5.0.3
   multi_dropdown: ^2.1.2
   local_auth: ^2.1.8
   flutter:
@@ -117,6 +116,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   copy_with_extension_gen: ^5.0.4
   injectable_generator: ^2.4.1
+  freezed: ^2.4.6
   flutter_test:
     sdk: flutter
 

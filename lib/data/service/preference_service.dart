@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/data/models/app_update.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
-import 'package:medusa_admin/data/service/theme_service.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/presentation/modules/medusa_search/controllers/medusa_search_controller.dart';
+import 'package:medusa_admin/data/models/search_history.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constant/strings.dart';
@@ -21,46 +18,23 @@ class PreferenceService {
   static PreferenceService get instance => getIt<PreferenceService>();
   final SharedPreferences _prefs;
 
-  static String get language => instance._language;
 
   static PackageInfo get packageInfo => instance._packageInfo;
-  static AppPreference get appSettings => instance._appSettings;
+  static AppPreference get appSettingsGetter => instance._appSettings;
+  AppPreference get appSettings => _appSettings;
   static OrderPreference get orderPreference => instance._orderPreference;
-  static AppUpdate? get appUpdate => instance._appUpdate;
   static List<SearchHistory> get searchHistory => instance._searchHistory;
-  static bool get updateAvailable {
-    if (appUpdate == null || appUpdate?.tagName == null) return false;
-
-    final currentVersionNumber =
-        int.tryParse(packageInfo.version.replaceAll(RegExp(r'[^0-9]'), ''));
-    final latestVersionNumber =
-        int.tryParse(appUpdate!.tagName!.replaceAll(RegExp(r'[^0-9]'), ''));
-    if (currentVersionNumber != null && latestVersionNumber != null) {
-      return latestVersionNumber > currentVersionNumber;
-    }
-    return false;
-  }
   static bool get checkedForUpdate => instance._checkedForUpdate;
   bool _checkedForUpdate = false;
   late PackageInfo _packageInfo;
-  late String _language;
   late AppPreference _appSettings;
   late OrderPreference _orderPreference;
   late List<SearchHistory> _searchHistory;
-  AppUpdate? _appUpdate;
   bool? _isFirstRun;
   bool? _isSignedInBefore;
 
   @PostConstruct()
   void init() {
-    // Language
-    try {
-      _language = _prefs.getString(AppConstants.languageKey) ??
-          Get.deviceLocale?.languageCode ??
-          'en';
-    } catch (e) {
-      _language = 'en';
-    }
     try {
       final String? searchHistoryString =
           _prefs.getString(AppConstants.searchHistoryKey);
@@ -134,57 +108,6 @@ class PreferenceService {
     }
   }
 
-  ThemeMode loadThemeMode() {
-    try {
-      final themeMode = _prefs.getInt(AppConstants.themeModeKey);
-      switch (themeMode) {
-        case null:
-        case 0:
-          return ThemeMode.system;
-        case 1:
-          return ThemeMode.light;
-        case 2:
-          return ThemeMode.dark;
-        default:
-          return ThemeMode.system;
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      return ThemeMode.system;
-    }
-  }
-
-  Future<void> saveThemeMode(ThemeMode themeMode) async {
-    try {
-      await _prefs.setInt(AppConstants.themeModeKey, themeMode.index);
-      ThemeController.instance.update();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<void> saveLanguage(String language) async {
-    try {
-      await _prefs.setString(AppConstants.languageKey, language);
-      ThemeController.instance.update();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Locale loadLocale() {
-    try {
-      final locale = _prefs.getString(AppConstants.languageKey);
-      if (locale?.isNotEmpty ?? false) {
-        return Locale(locale!);
-      }
-      return Get.deviceLocale ?? const Locale('en', 'US');
-    } catch (e) {
-      debugPrint(e.toString());
-      return Get.deviceLocale ?? const Locale('en', 'US');
-    }
-  }
-
   Future<bool> isFirstRun() async {
     if (_isFirstRun != null) {
       return _isFirstRun!;
@@ -235,7 +158,6 @@ class PreferenceService {
     }
   }
 
-  void setAppUpdate(AppUpdate appUpdate) => _appUpdate = appUpdate;
   void setCheckedForUpdate(bool val) => _checkedForUpdate = val;
 
   Future<void> updateSearchHistory(SearchHistory searchHistory,

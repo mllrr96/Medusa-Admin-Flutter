@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
+import 'context_extension.dart';
 
 extension SnackBarExtension on BuildContext {
   void showSnackBar(

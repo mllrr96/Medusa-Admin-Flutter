@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
 
 import '../../../core/constant/colors.dart';
 
@@ -38,7 +41,7 @@ class BottomNavigationBarButton extends StatelessWidget {
     //   blurRadius: 7,
     //   offset: const Offset(0, 0),
     // );
-    if (GetPlatform.isIOS) {
+    if (Platform.isIOS) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [

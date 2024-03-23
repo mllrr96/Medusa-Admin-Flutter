@@ -10,7 +10,7 @@ class CollectionsUseCase {
   CollectionRepository get _collectionsRepository =>
       getIt<MedusaAdmin>().collectionRepository;
 
-  Future<Result<UserCollectionsRes, Failure>> fetchCollections({
+  Future<Result<UserCollectionsRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

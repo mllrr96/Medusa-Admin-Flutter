@@ -22,6 +22,34 @@ class GiftCardsUseCase {
     }
   }
 
+  Future<Result<GiftCard, Failure>> fetchGiftCard(String id) async {
+    try {
+      final result = await _giftCardRepository.retrieveGiftCard(id: id);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+  Future<Result<UserDeleteGiftCardRes, Failure>> delete(String id) async {
+    try {
+      final result = await _giftCardRepository.deleteGiftCard(id: id);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<GiftCard, Failure>> create(
+      UserCreateGiftCardReq userCreateGiftCardReq) async {
+    try {
+      final result = await _giftCardRepository.createGiftCard(
+          userCreateGiftCardReq: userCreateGiftCardReq);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
   Future<Result<GiftCard, Failure>> update({
     required String id,
     required UserUpdateGiftCardReq userUpdateGiftCardReq,

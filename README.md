@@ -98,6 +98,8 @@ flutter pub run build_runner build
 ```
 Optional: change the baseUrl (found in "lib/core/constant/strings.dart") to your backend URL, you can change baseUrl from inside the app
 
+This project uses firebase analytics, so you need to connect your firebase to this project, check [Firebase documentation](https://firebase.google.com/docs/flutter/setup?platform=ios) & [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/get-started?platform=flutter) for more info
+
 - To run the app on Android just run the following command in the root directory of the project:
 ```
 flutter run

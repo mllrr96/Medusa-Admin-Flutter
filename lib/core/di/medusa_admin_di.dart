@@ -9,7 +9,7 @@ import 'di.dart';
 abstract class MedusaAdminDi {
   static final Interceptor _interceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
-      final authType = AuthPreferenceService.authType;
+      final authType = AuthPreferenceService.authTypeGetter;
       final secureStorage = getIt<FlutterSecureStorage>();
       try {
         switch (authType) {
@@ -54,7 +54,7 @@ abstract class MedusaAdminDi {
         return;
       }
       final secureStorage = getIt<FlutterSecureStorage>();
-      final authType = AuthPreferenceService.authType;
+      final authType = AuthPreferenceService.authTypeGetter;
       try {
         AuthPreferenceService.instance.setIsAuthenticated(false);
         if (authType == AuthenticationType.cookie) {
@@ -74,7 +74,7 @@ abstract class MedusaAdminDi {
     if (!getIt.isRegistered<MedusaAdmin>()) {
       getIt.registerLazySingleton<MedusaAdmin>(
         () => MedusaAdmin.initialize(
-          baseUrl: AuthPreferenceService.baseUrl!,
+          baseUrl: AuthPreferenceService.baseUrlGetter!,
           interceptors: [_interceptor],
         ),
       );
