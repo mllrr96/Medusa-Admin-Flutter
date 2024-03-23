@@ -51,11 +51,11 @@ class UseBiometricReminder extends StatelessWidget {
                                     'Please authenticate to enable biometric authentication.',
                               )
                                   .then((value) {
-                                context.popRoute(value);
+                                context.maybePop(value);
                               });
                             } catch (_) {
                               if (context.mounted) {
-                                context.popRoute(false);
+                                context.maybePop(false);
                               }
                             }
                           },
@@ -65,7 +65,7 @@ class UseBiometricReminder extends StatelessWidget {
                           style: TextButton.styleFrom(
                             minimumSize: const Size(100, 48),
                           ),
-                          onPressed: () => context.popRoute(false),
+                          onPressed: () => context.maybePop(false),
                           child: const Text('Skip')),
                       const Gap(12),
                       Text(

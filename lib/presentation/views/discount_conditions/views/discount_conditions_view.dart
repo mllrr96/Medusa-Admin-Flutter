@@ -38,7 +38,7 @@ class DiscountConditionsView extends StatelessWidget {
                             ConditionProductRoute(disabledProducts: null))
                         .then((result) {
                       if (result is DiscountConditionRes) {
-                        context.popRoute(result);
+                        context.maybePop(result);
                       }
                     }),
                   ),
@@ -59,7 +59,7 @@ class DiscountConditionsView extends StatelessWidget {
                             ConditionCustomerGroupRoute(disabledGroups: null))
                         .then((result) {
                       if (result is DiscountConditionRes) {
-                        context.popRoute(result);
+                        context.maybePop(result);
                       }
                     }),
                   ),
@@ -79,7 +79,7 @@ class DiscountConditionsView extends StatelessWidget {
                         .pushRoute(ConditionTagRoute(disabledTags: null))
                         .then((result) {
                       if (result is DiscountConditionRes) {
-                        context.popRoute(result);
+                        context.maybePop(result);
                       }
                     }),
                   ),
@@ -100,7 +100,7 @@ class DiscountConditionsView extends StatelessWidget {
                             ConditionCollectionRoute(disabledCollections: null))
                         .then((result) {
                       if (result is DiscountConditionRes) {
-                        context.popRoute(result);
+                        context.maybePop(result);
                       }
                     }),
                   ),
@@ -118,7 +118,7 @@ class DiscountConditionsView extends StatelessWidget {
                     .pushRoute(ConditionTypeRoute(disabledTypes: null))
                     .then((result) {
                   if (result is DiscountConditionRes) {
-                    context.popRoute(result);
+                    context.maybePop(result);
                   }
                 }),
               ),

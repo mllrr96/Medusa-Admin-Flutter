@@ -98,7 +98,7 @@ class _OrdersViewState extends State<OrdersView> {
             onResetTap: () {
               setState(() => orderFilter = null);
               pagingController.refresh();
-              context.popRoute();
+              context.maybePop();
             },
             onSubmitted: (result) {
               if (result != null) {

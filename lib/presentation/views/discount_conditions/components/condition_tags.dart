@@ -98,7 +98,7 @@ class _ConditionTagViewState extends State<ConditionTagView> {
                                 productTags: selectedTags,
                                 conditionType:
                                     DiscountConditionType.productTags);
-                            context.popRoute(result);
+                            context.maybePop(result);
                           }
                         : null,
                     child: const Text('Save')),

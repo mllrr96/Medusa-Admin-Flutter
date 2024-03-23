@@ -60,7 +60,7 @@ class LanguageSelectionView extends StatelessWidget {
                         return;
                       }
                       context.read<LanguageCubit>().changeLanguage(Locale(val));
-                      context.popRoute();
+                      context.maybePop();
                     },
                   );
                 },

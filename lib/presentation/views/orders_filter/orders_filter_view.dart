@@ -146,7 +146,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                     orderFilter.orderDateFilter.number =
                                         int.tryParse(numberCtrl.text) ?? 0;
                                     widget.onSubmitted?.call(orderFilter);
-                                    context.popRoute();
+                                    context.maybePop();
                                   },
                                   child: const Text('Apply')),
                             ),

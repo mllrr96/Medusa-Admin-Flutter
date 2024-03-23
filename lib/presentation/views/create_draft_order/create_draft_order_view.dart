@@ -35,12 +35,12 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
           .then((result) {
         switch (result) {
           case OkCancelResult.ok:
-            context.popRoute();
+            context.maybePop();
           case OkCancelResult.cancel:
         }
       });
     } else {
-      context.popRoute();
+      context.maybePop();
     }
   }
 
@@ -93,7 +93,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
           draftOrder: (draftOrder) {
             dismissLoading();
             context.showSnackBar('Draft order created');
-            context.popRoute();
+            context.maybePop();
           },
         );
       },

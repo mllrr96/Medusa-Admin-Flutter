@@ -57,7 +57,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
           user: (_) {
             dismissLoading();
             context.showSnackBar('User updated');
-            context.popRoute();
+            context.maybePop();
           },
           error: (e) {
             dismissLoading();
@@ -130,7 +130,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
               children: [
                 TextButton(
                     child: const Text('Cancel'),
-                    onPressed: () => context.popRoute()),
+                    onPressed: () => context.maybePop()),
                 TextButton(
                   child: const Text('Update'),
                   onPressed: () async {
@@ -139,7 +139,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                     }
                     if (firstNameCtrl.text == user.firstName &&
                         lastNameCtrl.text == user.lastName) {
-                      context.popRoute();
+                      context.maybePop();
                     } else {
                       context.unfocus();
                       userCrudBloc.add(UserCrudEvent.update(
@@ -147,7 +147,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                           UserUpdateUserReq(
                               firstName: firstNameCtrl.text,
                               lastName: lastNameCtrl.text)));
-                      context.popRoute();
+                      context.maybePop();
                     }
                   },
                 ),
@@ -180,7 +180,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                         }
                         if (firstNameCtrl.text == user.firstName &&
                             lastNameCtrl.text == user.lastName) {
-                          context.popRoute();
+                          context.maybePop();
                         } else {
                           context.unfocus();
                           userCrudBloc.add(UserCrudEvent.update(
@@ -188,7 +188,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                               UserUpdateUserReq(
                                   firstName: firstNameCtrl.text,
                                   lastName: lastNameCtrl.text)));
-                          context.popRoute();
+                          context.maybePop();
                         }
                       },
                       validator: (val) {

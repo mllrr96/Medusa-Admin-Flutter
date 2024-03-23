@@ -117,7 +117,7 @@ class _ConditionTypeViewState extends State<ConditionTypeView> {
                                   productTypes: selectedTypes,
                                   conditionType:
                                       DiscountConditionType.productType);
-                              context.popRoute(result);
+                              context.maybePop(result);
                             }
                           : null,
                       child: const Text('Save')),

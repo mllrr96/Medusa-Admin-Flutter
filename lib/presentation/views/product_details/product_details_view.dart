@@ -105,7 +105,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 listener: (context, state) {
                   state.maybeWhen(
                     deleted: () {
-                      context.popRoute();
+                      context.maybePop();
                     },
                     updated: (product) {
                       productCrudBloc

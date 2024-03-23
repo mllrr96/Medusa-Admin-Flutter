@@ -59,7 +59,7 @@ class _SelectCountryViewState extends State<SelectCountryView> {
           TextButton(
               onPressed: selectedCountries.isEmpty
                   ? null
-                  : () => context.popRoute(selectedCountries),
+                  : () => context.maybePop(selectedCountries),
               child: const Text('Save'))
         ],
         bottom: PreferredSize(

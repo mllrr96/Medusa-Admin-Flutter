@@ -42,7 +42,7 @@ class _PriceListAddProductsState extends State<PriceListAddProducts> {
                 context.showSnackBar('Please add at least one price');
                 return;
               }
-              context.popRoute(prices);
+              context.maybePop(prices);
             },
             child: const Text('Done'),
           ),

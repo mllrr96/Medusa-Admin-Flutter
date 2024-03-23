@@ -561,10 +561,10 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
             } else {
               if (updateMode) {
                 context.showSnackBar('Price List Updated');
-                context.popRoute(true);
+                context.maybePop(true);
               } else {
                 context.showSnackBar('Price List Created');
-                context.popRoute(true);
+                context.maybePop(true);
               }
             }
           },

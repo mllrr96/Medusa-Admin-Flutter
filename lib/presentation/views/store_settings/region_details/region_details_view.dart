@@ -58,7 +58,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
         state.mapOrNull(
           deleted: (_) {
             context.showSnackBar('Region deleted');
-            context.popRoute();
+            context.maybePop();
           },
         );
       },

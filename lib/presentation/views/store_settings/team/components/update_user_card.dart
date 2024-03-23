@@ -59,7 +59,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                      onPressed: () => context.popRoute(),
+                      onPressed: () => context.maybePop(),
                       child: const Text('Cancel')),
                   TextButton(
                       onPressed: () async {
@@ -70,7 +70,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                         if (user.firstName == firstNameCtrl.text &&
                             user.lastName == lastNameCtrl.text &&
                             user.apiToken == tokenCtrl.text) {
-                          context.popRoute();
+                          context.maybePop();
                           return;
                         }
 

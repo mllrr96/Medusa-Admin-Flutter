@@ -40,7 +40,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
         .maybeMap(loaded: (value) => value.store, orElse: () => null);
     if (store == null) {
       context.read<StoreBloc>().add(const StoreEvent.loadStore());
-      context.popRoute();
+      context.maybePop();
     }
     currencies = store?.currencies ?? [];
     defaultStoreCurrency = store?.defaultCurrency;
@@ -66,7 +66,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
           loading: (_) => loading(),
           loaded: (_) {
             dismissLoading();
-            context.popRoute();
+            context.maybePop();
           },
           error: (_) {
             dismissLoading();
@@ -96,7 +96,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                   .mapOrNull(
                                       loaded: (_) => _.store.defaultCurrency)
                                   ?.code) {
-                        context.popRoute();
+                        context.maybePop();
                         return;
                       }
                       List<String> currenciesIsoCode = [];
@@ -316,7 +316,7 @@ class _AllCurrenciesViewState extends State<AllCurrenciesView> {
               actions: [
                 if (selectedCurrencies.isNotEmpty)
                   TextButton(
-                      onPressed: () => context.popRoute(selectedCurrencies),
+                      onPressed: () => context.maybePop(selectedCurrencies),
                       child: const Text('Save')),
               ],
             ),

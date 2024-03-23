@@ -53,7 +53,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                           lineItems.add(LineItem(id: key, quantity: value));
                         }
                       });
-                      context.popRoute(lineItems);
+                      context.maybePop(lineItems);
                     }
                   : null,
               child: const Text('Create'))

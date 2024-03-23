@@ -100,7 +100,7 @@ class _ConditionCollectionViewState extends State<ConditionCollectionView> {
                                   productCollections: selectedCollections,
                                   conditionType:
                                       DiscountConditionType.productCollections);
-                              context.popRoute(result);
+                              context.maybePop(result);
                             }
                           : null,
                       child: const Text('Save')),

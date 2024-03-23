@@ -47,7 +47,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
       listener: (context, state) {
         state.mapOrNull(deleted: (_) {
           context.showSnackBar('Collection deleted');
-          context.popRoute(true);
+          context.maybePop(true);
         }, productsRemoved: (_) {
           context.showSnackBar('Products updated');
           context

@@ -35,7 +35,7 @@ class PickSearchCategory extends StatelessWidget {
               alignment: WrapAlignment.start,
               children: SearchCategory.values
                   .map((e) => GestureDetector(
-                        onTap: () => context.popRoute(e),
+                        onTap: () => context.maybePop(e),
                         child: SearchChip(
                           searchableField: e,
                           selected: e == selectedSearchCategory,

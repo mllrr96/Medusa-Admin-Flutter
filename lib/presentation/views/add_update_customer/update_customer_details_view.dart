@@ -66,7 +66,7 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
             context.showSnackBar(updateMode
                 ? 'Customer updated successfully'
                 : 'Customer created successfully');
-            context.popRoute();
+            context.maybePop();
           },
         );
       },
@@ -86,7 +86,7 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                                   (customer!.firstName ?? '') &&
                               lastNameCtrl.text == (customer!.lastName ?? '') &&
                               phoneNameCtrl.text == (customer!.phone ?? '')) {
-                            context.popRoute();
+                            context.maybePop();
                             return;
                           }
                           if (!keyForm.currentState!.validate()) {

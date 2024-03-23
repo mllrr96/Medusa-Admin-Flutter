@@ -104,7 +104,7 @@ class _EditAddressState extends State<EditAddress> {
             TextButton(
                 onPressed: () {
                   if (sameAddress()) {
-                    context.popRoute();
+                    context.maybePop();
                     return;
                   }
                   final address = Address(
@@ -119,7 +119,7 @@ class _EditAddressState extends State<EditAddress> {
                     province: provinceCtrl.text,
                     countryCode: selectedCountry?.iso2,
                   );
-                  context.popRoute(address);
+                  context.maybePop(address);
                 },
                 child: const Text('Save'))
           ],

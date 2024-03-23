@@ -56,7 +56,7 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                         if (!formKey.currentState!.validate()) {
                           return;
                         }
-                        context.popRoute(LineItem(
+                        context.maybePop(LineItem(
                           title: titleCtrl.text,
                           quantity: int.tryParse(quantityCtrl.text),
                           unitPrice: int.tryParse(priceCtrl.text

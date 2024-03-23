@@ -99,7 +99,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
               deleted: (deleted) {
                 dismissLoading();
                 context.showSnackBar('Group deleted successfully');
-                context.router.pop();
+                context.router.popForced();
               },
             );
           },

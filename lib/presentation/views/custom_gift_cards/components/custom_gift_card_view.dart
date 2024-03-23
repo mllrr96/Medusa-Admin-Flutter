@@ -39,7 +39,7 @@ class CustomGiftCardView extends StatelessWidget {
                         ]).then((value) async {
                       switch (value) {
                         case 0:
-                          // context.popRoute();
+                          // context.maybePop();
                           // context.pushRoute(CreateUpdateCustomGiftCardView());
                           // Get.toNamed(Routes.CREATE_UPDATE_CUSTOM_GIFT_CARD, arguments: giftCard);
                           break;

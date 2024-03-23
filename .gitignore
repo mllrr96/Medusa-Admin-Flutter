@@ -51,3 +51,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /devtools_options.yaml
+/pubspec.lock

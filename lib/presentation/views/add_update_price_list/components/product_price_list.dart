@@ -188,7 +188,7 @@ class _AddUpdateVariantsPriceViewState
                       );
                     }
                   }
-                  context.popRoute(prices);
+                  context.maybePop(prices);
                 },
                 child: const Text('Save'))
           ],

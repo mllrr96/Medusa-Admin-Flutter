@@ -27,7 +27,7 @@ class ProductCheckboxListTile extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (context) {
-              context.popRoute();
+              context.maybePop();
               context.pushRoute(ProductDetailsRoute(productId: product.id!));
             },
             backgroundColor: const Color(0xFF7BC043),

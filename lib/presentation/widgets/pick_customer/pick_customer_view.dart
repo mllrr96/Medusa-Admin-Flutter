@@ -93,7 +93,7 @@ class _PickCustomerViewState extends State<PickCustomerView> {
                 actions: [
                   TextButton(
                       onPressed: selectedCustomers.isNotEmpty
-                          ? () => context.popRoute(PickCustomerRes(
+                          ? () => context.maybePop(PickCustomerRes(
                               selectedCustomers: selectedCustomers))
                           : null,
                       child: const Text('Done'))

@@ -42,7 +42,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
     return BlocConsumer<DiscountCrudBloc, DiscountCrudState>(
       bloc: discountCrudBloc,
       listener: (context, state) => state.mapOrNull(
-        deleted: (_) => context.popRoute(true),
+        deleted: (_) => context.maybePop(true),
       ),
       builder: (context, state) {
         return Scaffold(

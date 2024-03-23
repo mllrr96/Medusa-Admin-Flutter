@@ -43,7 +43,7 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
                   await preferenceService
                       .updateAppSettings(
                           appSettings.copyWith(appBarStyle: selectedStyle))
-                      .then((_) => context.popRoute());
+                      .then((_) => context.maybePop());
                 },
                 child: const Text('Save'))
           ],

@@ -85,7 +85,7 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
             ? tokenTextCtrl.text == savedToken
             : true) &&
         mounted) {
-      context.popRoute();
+      context.maybePop();
       return;
     }
 
@@ -107,11 +107,11 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
           await authPreferenceService.clearLoginData();
           await authPreferenceService.clearEmail();
           await _handleMedusaSingleton().then((_) {
-            context.popRoute(true);
+            context.maybePop(true);
             context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
           });
         } else {
-          context.popRoute(false);
+          context.maybePop(false);
           context.showSnackBar(setupUrl
               ? 'Could not set URL, try again'
               : 'Could not update URL, try again');

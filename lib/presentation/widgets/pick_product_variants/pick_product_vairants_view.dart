@@ -86,7 +86,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
             TextButton(
                 onPressed: isEqual
                     ? null
-                    : () => context.popRoute(SelectProductsRes(
+                    : () => context.maybePop(SelectProductsRes(
                     selectedProductVariants: newlySelectedProducts)),
                 child: const Text('Add'))
           ],

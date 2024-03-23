@@ -56,7 +56,7 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
           },
           deleted: (deleted) {
             context.showSnackBar('Draft Order Canceled');
-            context.popRoute();
+            context.maybePop();
           },
         );
       },

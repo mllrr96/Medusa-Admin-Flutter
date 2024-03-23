@@ -140,7 +140,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                   deleted: (_) {
                     dismissLoading();
                     context.showSnackBar('Sales channel deleted');
-                    context.popRoute(true);
+                    context.maybePop(true);
                   },
                   error: (_) {
                     dismissLoading();
@@ -203,7 +203,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                                       productFilter = null;
                                       setState(() {});
                                       pagingController.refresh();
-                                      context.popRoute();
+                                      context.maybePop();
                                     },
                                     productFilter: productFilter,
                                   ));

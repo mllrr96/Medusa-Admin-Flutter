@@ -89,7 +89,7 @@ class _CreateUpdateCustomGiftCardViewState
         state.maybeMap(
             loading: (_) => loading(),
             giftCard: (_) {
-              context.popRoute();
+              context.maybePop();
               context.showSnackBar(
                   'Gift card ${updateMode ? 'updated' : 'created'}');
               dismissLoading();

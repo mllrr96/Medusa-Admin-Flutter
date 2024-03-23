@@ -58,7 +58,7 @@ class _OrderCreateRefundState extends State<OrderCreateRefund> {
                     return;
                   }
 
-                  context.popRoute(
+                  context.maybePop(
                     UserCreateRefundOrdersReq(
                       amount: int.tryParse(amountCtrl.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
                       reason: reason.toLowerCase(),

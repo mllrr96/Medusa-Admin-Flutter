@@ -64,7 +64,7 @@ class _CreateUpdateReturnReasonViewState
             returnReason: (_) {
               context.showSnackBar(
                   'Return Reason ${updateMode ? 'Updated' : 'Created'}');
-              context.popRoute(true);
+              context.maybePop(true);
               dismissLoading();
             },
             error: (error) {
@@ -93,7 +93,7 @@ class _CreateUpdateReturnReasonViewState
                       valueCtrl.text == widget.returnReason!.value &&
                       descriptionCtrl.text ==
                           widget.returnReason!.description) {
-                    context.popRoute();
+                    context.maybePop();
                     return;
                   }
 

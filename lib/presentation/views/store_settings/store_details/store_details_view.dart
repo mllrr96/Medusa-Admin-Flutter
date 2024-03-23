@@ -37,7 +37,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
     store = context.read<StoreBloc>().state.mapOrNull(loaded: (_) => _.store);
     if (store == null) {
       context.read<StoreBloc>().add(const StoreEvent.loadStore());
-      context.popRoute();
+      context.maybePop();
     }
     storeCtrl.text = store?.name ?? '';
     swapLinkCtrl.text = store?.swapLinkTemplate ?? '';
@@ -68,7 +68,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
             loading: (_) => loading(),
             loaded: (_) {
               dismissLoading();
-              context.popRoute();
+              context.maybePop();
               context.showSnackBar('Store details updated successfully');
               context.read<StoreBloc>().add(const StoreEvent.loadStore());
             },
@@ -92,7 +92,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                             swapLinkCtrl.text.isEmpty) &&
                         (inviteLinkCtrl.text == store?.inviteLinkTemplate ||
                             inviteLinkCtrl.text.isEmpty)) {
-                      context.popRoute();
+                      context.maybePop();
                       return;
                     }
 

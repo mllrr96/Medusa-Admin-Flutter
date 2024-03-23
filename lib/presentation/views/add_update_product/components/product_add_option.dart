@@ -41,11 +41,11 @@ class _AddOptionViewState extends State<AddOptionView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(child: const Text('Cancel'), onPressed: () => context.popRoute()),
+              TextButton(child: const Text('Cancel'), onPressed: () => context.maybePop()),
               TextButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      context.popRoute(
+                      context.maybePop(
                            ProductOption(
                               title: optionCtrl.text,
                               values: variants.map((e) => ProductOptionValue(value: e, optionId: null, variantId: null)).toList(), productId: null));

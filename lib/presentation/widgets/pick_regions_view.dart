@@ -86,7 +86,7 @@ class _PickRegionsViewState extends State<PickRegionsView> {
                 TextButton(
                     onPressed: selectedRegions.isNotEmpty
                         ? () => context
-                            .popRoute(PickRegionsRes(regions: selectedRegions))
+                            .maybePop(PickRegionsRes(regions: selectedRegions))
                         : null,
                     child: const Text('Done'))
               ],

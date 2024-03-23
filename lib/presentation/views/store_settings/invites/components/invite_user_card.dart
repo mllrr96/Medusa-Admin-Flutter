@@ -42,7 +42,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: () => context.popRoute(), child: const Text('Cancel')),
+                TextButton(onPressed: () => context.maybePop(), child: const Text('Cancel')),
                 TextButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {

@@ -104,7 +104,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                                 .toList() ??
                             [])
                     ? null
-                    : () => context.popRoute(PickProductsRes(
+                    : () => context.maybePop(PickProductsRes(
                         selectedProducts: selectedProducts,
                         deSelectedProducts: [
                           ...?pickProductsReq.selectedProducts

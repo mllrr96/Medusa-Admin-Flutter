@@ -70,7 +70,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
               context.showSnackBar(
                   tr.collectionModalSuccessfullyCreatedCollection);
             }
-            context.popRoute();
+            context.maybePop();
           },
           error: (state) {
             context.showSnackBar(state.failure.toSnackBarString());
@@ -94,7 +94,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           if (titleCtrl.text == collection!.title &&
                               handleCtrl.text == collection!.handle &&
                               metadata == collection!.metadata) {
-                            context.popRoute();
+                            context.maybePop();
                             return;
                           }
                           // update collection

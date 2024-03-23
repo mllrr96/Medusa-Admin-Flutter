@@ -61,7 +61,7 @@ class _TransferOrderViewState extends State<TransferOrderView> {
             order: (_) {
               dismissLoading();
               context.showSnackBar('Order updated successfully');
-              context.popRoute();
+              context.maybePop();
             },
             error: (_) {
               dismissLoading();

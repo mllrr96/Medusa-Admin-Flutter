@@ -231,10 +231,10 @@ class _EmailUpdateViewState extends State<EmailUpdateView> {
                         return;
                       }
                       if (emailCtrl.text == widget.currentEmail) {
-                        context.popRoute();
+                        context.maybePop();
                         return;
                       }
-                      context.popRoute(emailCtrl.text);
+                      context.maybePop(emailCtrl.text);
                     },
                     child: const Text('Save'))
               ],

@@ -58,7 +58,7 @@ class _AddUpdateApiKeyViewState extends State<AddUpdateApiKeyView> {
           apiKey: (_) {
             dismissLoading();
             context.showSnackBar('Api key created');
-            context.popRoute();
+            context.maybePop();
           },
           error: (e) {
             dismissLoading();

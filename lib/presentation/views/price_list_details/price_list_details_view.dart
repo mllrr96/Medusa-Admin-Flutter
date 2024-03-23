@@ -102,7 +102,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                   deleted: (state) {
                     dismissLoading();
                     context.showSnackBar('Price list deleted');
-                    context.popRoute();
+                    context.maybePop();
                   },
                 );
               },

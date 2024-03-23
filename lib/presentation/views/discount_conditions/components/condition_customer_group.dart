@@ -98,7 +98,7 @@ class _ConditionCustomerGroupViewState
                                 customerGroups: selectedCustomerGroups,
                                 conditionType:
                                     DiscountConditionType.customerGroups);
-                            context.popRoute(result);
+                            context.maybePop(result);
                           }
                         : null,
                     child: const Text('Save')),

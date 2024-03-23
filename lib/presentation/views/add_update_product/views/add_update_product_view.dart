@@ -103,12 +103,12 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
               product: (_) {
                 dismissLoading();
                 context.showSnackBar('Product Created');
-                context.popRoute(_.product);
+                context.maybePop(_.product);
               },
               updated: (_) {
                 dismissLoading();
                 context.showSnackBar('Product Updated');
-                context.popRoute(_.product);
+                context.maybePop(_.product);
               },
               error: (state) {
                 dismissLoading();

@@ -58,10 +58,10 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
             dismissLoading();
             if (updateMode) {
               context.showSnackBar('Sales channel updated successfully');
-              context.popRoute(_.salesChannel);
+              context.maybePop(_.salesChannel);
             } else {
               context.showSnackBar('Sales channel created successfully');
-              context.popRoute(_.salesChannel);
+              context.maybePop(_.salesChannel);
             }
           },
           error: (error) {

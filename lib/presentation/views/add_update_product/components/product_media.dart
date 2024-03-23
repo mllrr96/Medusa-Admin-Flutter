@@ -258,7 +258,7 @@ class _RenameFileViewState extends State<RenameFileView> {
 
       if ('${path.substring(0, lastSeparator + 1)}$newName.$fileExtension' ==
           path) {
-        context.popRoute();
+        context.maybePop();
         return;
       }
 
@@ -266,7 +266,7 @@ class _RenameFileViewState extends State<RenameFileView> {
         return;
       }
       try {
-        context.popRoute(widget.file.rename(newPath));
+        context.maybePop(widget.file.rename(newPath));
       } catch (e) {
         debugPrint(e.toString());
       }

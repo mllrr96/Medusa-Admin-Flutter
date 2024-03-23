@@ -65,7 +65,7 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
               context.showSnackBar(
                   'Tax rate ${updateMode ? 'updated' : 'created'}');
               dismissLoading();
-              context.popRoute(true);
+              context.maybePop(true);
             },
             error: (error) {
               context.showSnackBar(error.failure.toSnackBarString());

@@ -246,9 +246,9 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
       case DiscountConditionType.products:
         if (eq((conditionItems as List<Product>).map((e) => e.id!).toList(),
             (selectedItems as List<Product>).map((e) => e.id!).toList())) {
-          context.popRoute();
+          context.maybePop();
         } else {
-          context.popRoute(UpdateConditionRes(
+          context.maybePop(UpdateConditionRes(
             updatedItemIds:
                 (selectedItems as List<Product>).map((e) => e.id!).toList(),
             originalItemIds:
@@ -261,9 +261,9 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
       case DiscountConditionType.productType:
         if (eq((conditionItems as List<ProductType>).map((e) => e.id!).toList(),
             (selectedItems as List<ProductType>).map((e) => e.id!).toList())) {
-          context.popRoute();
+          context.maybePop();
         } else {
-          context.popRoute(UpdateConditionRes(
+          context.maybePop(UpdateConditionRes(
             updatedItemIds:
                 (selectedItems as List<ProductType>).map((e) => e.id!).toList(),
             originalItemIds: (conditionItems as List<ProductType>)
@@ -282,9 +282,9 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
             (selectedItems as List<ProductCollection>)
                 .map((e) => e.id!)
                 .toList())) {
-          context.popRoute();
+          context.maybePop();
         } else {
-          context.popRoute(UpdateConditionRes(
+          context.maybePop(UpdateConditionRes(
             updatedItemIds: (selectedItems as List<ProductCollection>)
                 .map((e) => e.id!)
                 .toList(),
@@ -299,9 +299,9 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
       case DiscountConditionType.productTags:
         if (eq((conditionItems as List<ProductTag>).map((e) => e.id!).toList(),
             (selectedItems as List<ProductTag>).map((e) => e.id!).toList())) {
-          context.popRoute();
+          context.maybePop();
         } else {
-          context.popRoute(UpdateConditionRes(
+          context.maybePop(UpdateConditionRes(
             updatedItemIds:
                 (selectedItems as List<ProductTag>).map((e) => e.id!).toList(),
             originalItemIds:
@@ -317,9 +317,9 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
             (selectedItems as List<CustomerGroup>)
                 .map((e) => e.id!)
                 .toList())) {
-          context.popRoute();
+          context.maybePop();
         } else {
-          context.popRoute(UpdateConditionRes(
+          context.maybePop(UpdateConditionRes(
             updatedItemIds: (selectedItems as List<CustomerGroup>)
                 .map((e) => e.id!)
                 .toList(),

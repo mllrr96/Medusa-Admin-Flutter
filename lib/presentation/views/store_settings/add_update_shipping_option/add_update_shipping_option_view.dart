@@ -118,7 +118,7 @@ class _AddUpdateShippingOptionViewState
               context.showSnackBar(updateMode
                   ? 'Shipping option updated'
                   : 'Shipping option created');
-              context.popRoute();
+              context.maybePop();
             },
             loading: (_) => loading(),
             error: (e) {

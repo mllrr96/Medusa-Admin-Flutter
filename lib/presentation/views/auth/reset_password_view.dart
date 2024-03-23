@@ -41,7 +41,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
           success: (_) {
             setLoading(false);
             if (mounted) {
-              context.popRoute();
+              context.maybePop();
             }
           },
           error: (error) {

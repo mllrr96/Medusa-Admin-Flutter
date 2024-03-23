@@ -97,7 +97,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     padding: const EdgeInsets.all(16),
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () {
-                      context.popRoute();
+                      context.maybePop();
                     },
                   ),
                   trailing: [
@@ -266,7 +266,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                   productFilter = null;
                                                   widget.controller.refresh();
                                                   setState(() {});
-                                                  context.popRoute();
+                                                  context.maybePop();
                                                 },
                                                 productFilter: productFilter,
                                               )).then((result) {
@@ -293,7 +293,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                                                   orderFilter = null;
                                                   setState(() {});
                                                   widget. controller.refresh();
-                                                  context.popRoute();
+                                                  context.maybePop();
                                                 },
                                               )).then((result) {
                                         if (result is OrderFilter) {

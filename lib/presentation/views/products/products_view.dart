@@ -143,13 +143,13 @@ class _ProductsViewState extends State<ProductsView> {
           child: ProductsFilterView(
             onResetPressed: () {
               // if (productFilter == null || productFilter?.count() == 0) {
-              //   context.popRoute();
+              //   context.maybePop();
               //   return;
               // }
 
               productFilter = null;
               setState(() {});
-              context.popRoute();
+              context.maybePop();
               pagingController.refresh();
             },
             productFilter: productFilter,
@@ -159,7 +159,7 @@ class _ProductsViewState extends State<ProductsView> {
               }
               setState(() => this.productFilter = productFilter);
               pagingController.refresh();
-              context.popRoute();
+              context.maybePop();
             },
           ),
         ),

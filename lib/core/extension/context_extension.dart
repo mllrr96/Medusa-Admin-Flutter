@@ -112,11 +112,11 @@ extension DateTimePickerExtension on BuildContext {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                          onPressed: () => context.popRoute(),
+                          onPressed: () => context.maybePop(),
                           child: const Text('Cancel')),
                       TextButton(
                           onPressed: () => context
-                              .popRoute(selectedDate ?? date ?? DateTime.now()),
+                              .maybePop(selectedDate ?? date ?? DateTime.now()),
                           child: const Text('Done')),
                     ],
                   ),

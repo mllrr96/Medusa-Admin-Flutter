@@ -56,7 +56,7 @@ class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
           product: (product) {
             dismissLoading();
             context.showSnackBar('Gift Card Created');
-            context.popRoute();
+            context.maybePop();
           },
         );
       },

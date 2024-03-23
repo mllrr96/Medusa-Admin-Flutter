@@ -69,7 +69,7 @@ class _CreateUpdateGroupViewState extends State<CreateUpdateGroupView> {
           },
           group: (success) {
             dismissLoading();
-            context.popRoute();
+            context.maybePop();
             context.showSnackBar(updateMode
                 ? 'Customer group updated!'
                 : 'Customer group created!');

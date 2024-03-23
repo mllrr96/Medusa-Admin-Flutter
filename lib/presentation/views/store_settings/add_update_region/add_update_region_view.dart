@@ -104,7 +104,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
             dismissLoading();
             context
                 .showSnackBar(updateMode ? 'Region updated' : 'Region added');
-            context.popRoute();
+            context.maybePop();
           },
           orElse: () => dismissLoading(),
         );
