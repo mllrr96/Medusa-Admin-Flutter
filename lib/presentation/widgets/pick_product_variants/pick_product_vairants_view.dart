@@ -97,6 +97,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
               separatorBuilder: (_, __) =>
               const Divider(height: 0, indent: 16.0),
               builderDelegate: PagedChildBuilderDelegate<ProductVariant>(
+                animateTransitions: true,
                 itemBuilder: (context, productVariant, index) =>
                     ProductVariantListTile(
                       productVariant: productVariant,

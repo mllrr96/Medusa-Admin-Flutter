@@ -144,6 +144,7 @@ class _CustomersViewState extends State<CustomersView> {
                   pagingController: pagingController,
                   padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
                   builderDelegate: PagedChildBuilderDelegate<Customer>(
+                    animateTransitions: true,
                     itemBuilder: (context, customer, index) => CustomerListTile(
                       customer,
                       index: index,

@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
+import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 
 import '../../../../../../core/constant/colors.dart';
@@ -63,6 +64,7 @@ class TeamCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   IconButton(
+                    padding: const EdgeInsets.all(16.0),
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage user',
@@ -71,6 +73,7 @@ class TeamCard extends StatelessWidget {
                             context: context,
                             actions: <SheetAction<int>>[
                               const SheetAction(label: 'Edit User', key: 0),
+                              if(AuthPreferenceService.email != user.email)
                               const SheetAction(
                                   label: 'Remove User',
                                   isDestructiveAction: true,

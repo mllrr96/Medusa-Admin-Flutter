@@ -178,7 +178,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                           key: conditionsKey,
                           onSaved: (conditions) {
                             if (conditions.isNotEmpty) {
-                              this.conditions = conditions;
+                              setState(() => this.conditions = conditions);
                             }
                           },
                         ),

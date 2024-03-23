@@ -74,8 +74,8 @@ class _ProductOrganizeState extends State<ProductOrganize> {
       key : key,
       controller: widget.controller,
       onExpansionChanged: (expanded) async {
-        if (expanded && widget.key is GlobalKey) {
-          await (widget.key as GlobalKey).currentContext.ensureVisibility();
+        if (expanded) {
+          await key.currentContext.ensureVisibility();
         }
       },
       title: const Text('Organize'),

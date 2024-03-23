@@ -354,6 +354,7 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                 separatorBuilder: (_, __) => const Gap(6.0),
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<TaxRate>(
+                  animateTransitions: true,
                   itemBuilder: (context, taxRate, index) => TaxRateCard(
                     taxRate: taxRate,
                     onEditTap: () async {

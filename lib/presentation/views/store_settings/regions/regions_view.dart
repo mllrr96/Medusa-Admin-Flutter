@@ -111,6 +111,7 @@ class _RegionsViewState extends State<RegionsView> {
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Region>(
+                animateTransitions: true,
                 itemBuilder: (context, region, index) =>
                     RegionCard(region: region),
                 firstPageProgressIndicatorBuilder: (context) =>

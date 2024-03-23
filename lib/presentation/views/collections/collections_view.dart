@@ -134,6 +134,7 @@ class _CollectionsViewState extends State<CollectionsView> {
               pagingController: pagingController,
               padding: const EdgeInsets.only(bottom: kToolbarHeight),
               builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
+                animateTransitions: true,
                 itemBuilder: (context, collection, index) => CollectionListTile(
                     collection,
                     tileColor: index.isOdd

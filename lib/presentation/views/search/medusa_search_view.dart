@@ -113,6 +113,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                       }
                     },
                     builderDelegate: PagedChildBuilderDelegate<Object>(
+                        animateTransitions: true,
                         itemBuilder: (context, object, index) {
                           switch (searchCategory) {
                             case SearchCategory.orders:

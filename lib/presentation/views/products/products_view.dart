@@ -142,12 +142,15 @@ class _ProductsViewState extends State<ProductsView> {
         endDrawer: Drawer(
           child: ProductsFilterView(
             onResetPressed: () {
-              if (productFilter == null || productFilter?.count() == 0) {
-                return;
-              }
+              // if (productFilter == null || productFilter?.count() == 0) {
+              //   context.popRoute();
+              //   return;
+              // }
+
               productFilter = null;
-              pagingController.refresh();
+              setState(() {});
               context.popRoute();
+              pagingController.refresh();
             },
             productFilter: productFilter,
             onSubmitted: (productFilter) {
@@ -276,6 +279,7 @@ class _ProductsViewState extends State<ProductsView> {
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Product>(
+                animateTransitions: true,
                 itemBuilder: (context, product, index) => Skeletonizer(
                   enabled: product.id == loadingProductId,
                   child: ProductListTile(
@@ -340,7 +344,6 @@ class _ProductsViewState extends State<ProductsView> {
                 },
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
-                animateTransitions: true,
               ),
             ),
           ),

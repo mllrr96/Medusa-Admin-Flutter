@@ -108,5 +108,5 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
 
   final PersonalInfoCrudUseCase _useCase;
   static int pageSize = 20;
-  static UserCrudBloc instance = getIt<UserCrudBloc>();
+  static UserCrudBloc get instance => getIt<UserCrudBloc>();
 }

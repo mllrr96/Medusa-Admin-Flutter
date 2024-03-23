@@ -158,6 +158,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                         generalTileCtrl.expand();
                         return;
                       }
+                      keyForm.currentState!.save();
                       context.unfocus();
                       if (updateMode) {
                         await updateProduct();
@@ -214,6 +215,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                       ),
                       space,
                       ProductVariants(
+                        product: product,
                         controller: variantTileCtrl,
                         onSaved: (product) {
                           if (this.product == null) {

@@ -93,9 +93,11 @@ class _PickRegionsViewState extends State<PickRegionsView> {
             ),
           ],
           body: PagedListView.separated(
+
             separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
             pagingController: pagingController,
             builderDelegate: PagedChildBuilderDelegate<Region>(
+              animateTransitions: true,
               itemBuilder: (context, region, index) => CheckboxListTile(
                   title: Text(region.name ?? ''),
                   value: selectedRegions
@@ -116,7 +118,7 @@ class _PickRegionsViewState extends State<PickRegionsView> {
                     setState(() {});
                   }),
               firstPageProgressIndicatorBuilder: (context) =>
-                  const CircularProgressIndicator.adaptive(),
+                  const Center(child: CircularProgressIndicator.adaptive()),
               firstPageErrorIndicatorBuilder: (context) =>
                   PaginationErrorPage(pagingController: pagingController),
             ),

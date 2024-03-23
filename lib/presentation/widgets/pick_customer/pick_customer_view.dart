@@ -48,23 +48,23 @@ class _PickCustomerViewState extends State<PickCustomerView> {
     if (widget.pickCustomerReq?.disabledCustomers != null) {
       disabledCustomers.addAll(widget.pickCustomerReq!.disabledCustomers!);
     }
-    searchCtrl.addListener(() {
-      pagingController.refresh();
-    });
+    searchCtrl.addListener(() => pagingController.refresh());
     super.initState();
   }
 
   @override
   void dispose() {
-    customerCrudBloc.close();
+    // searchCtrl.removeListener(() => pagingController.refresh());
+    // searchCtrl.dispose();
     pagingController.dispose();
-    searchCtrl.dispose();
+    customerCrudBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) =>
       BlocListener<CustomerCrudBloc, CustomerCrudState>(
+        bloc: customerCrudBloc,
         listener: (context, state) {
           state.mapOrNull(
             customers: (state) async {
@@ -111,6 +111,7 @@ class _PickCustomerViewState extends State<PickCustomerView> {
                 separatorBuilder: (_, __) =>
                     const Divider(height: 0, indent: 16.0),
                 builderDelegate: PagedChildBuilderDelegate<Customer>(
+                  animateTransitions: true,
                   itemBuilder: (context, customer, index) {
                     final titleText = customer.firstName != null
                         ? '${customer.firstName ?? ''} ${customer.lastName ?? ''} (${customer.email})'

@@ -327,6 +327,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Product>(
+                animateTransitions: true,
                 itemBuilder: (context, product, index) =>
                     ProductCheckboxListTile(
                   product,

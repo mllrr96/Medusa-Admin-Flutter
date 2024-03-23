@@ -145,6 +145,7 @@ class _GroupsViewState extends State<GroupsView> {
                   padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
+                    animateTransitions: true,
                     itemBuilder: (context, customerGroup, index) => GroupCard(
                       customerGroup: customerGroup,
                       index: index,

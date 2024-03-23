@@ -140,6 +140,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
               pagingController: pagingController,
               padding: const EdgeInsets.only(bottom: 80),
               builderDelegate: PagedChildBuilderDelegate<Product>(
+                animateTransitions: true,
                 itemBuilder: (context, product, index) {
                   final published = product.status == ProductStatus.published;
                   final listTile = GiftCardListTile(

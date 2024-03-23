@@ -122,6 +122,7 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
               sliver: PagedSliverList(
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Order>(
+                  animateTransitions: true,
                   itemBuilder: (context, order, index) => CustomerOrderCard(
                       order,
                       index: index,

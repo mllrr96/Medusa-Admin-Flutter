@@ -163,6 +163,7 @@ class _ConditionTagViewState extends State<ConditionTagView> {
                     const Divider(height: 0, indent: 16),
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<ProductTag>(
+                  animateTransitions: true,
                   itemBuilder: (context, tag, index) => ConditionTagTile(
                       tag: tag,
                       value: selectedTags

@@ -163,6 +163,7 @@ class _ConditionProductViewState extends State<ConditionProductView> {
                       const Divider(height: 0, indent: 16),
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Product>(
+                    animateTransitions: true,
                     itemBuilder: (context, product, index) =>
                         ProductTileWithVariantCount(
                             enabled: !disabledProducts

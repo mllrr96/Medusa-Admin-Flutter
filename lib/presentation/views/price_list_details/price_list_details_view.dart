@@ -34,7 +34,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   late PricingCrudBloc pricingCrudBloc;
   late PricingCrudBloc priceListBloc;
   void _loadPage(int _) {
-    pricingCrudBloc.add(PricingCrudEvent.loadProducts(id));
+    priceListBloc.add(PricingCrudEvent.loadProducts(id));
   }
 
   String get id => widget.priceList.id!;
@@ -43,7 +43,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
   void initState() {
     pricingCrudBloc = PricingCrudBloc.instance;
     priceListBloc = PricingCrudBloc.instance;
-    priceListBloc.add(PricingCrudEvent.load(id));
+    pricingCrudBloc.add(PricingCrudEvent.load(id));
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -96,7 +96,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
           bloc: pricingCrudBloc,
           listener: (context, state) {
             state.maybeMap(
-              loading: (_) => loading(),
+              // loading: (_) => loading(),
               deleted: (state) {
                 state.mapOrNull(
                   deleted: (state) {
@@ -118,6 +118,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
             title: const Text('Price List Details'),
             actions: [
               IconButton(
+                padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
                     await showModalActionSheet<int>(
                         context: context,
@@ -192,7 +193,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                 slivers: [
                   SliverToBoxAdapter(
                     child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
-                      bloc: priceListBloc,
+                      bloc: pricingCrudBloc,
                       builder: (context, state) => state.maybeMap(
                         pricingList: (_) => PriceListDetailsTile(_.priceList),
                         loading: (_) => PriceListDetailsTile(widget.priceList,
@@ -206,6 +207,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                         const Divider(height: 0, indent: 16),
                     pagingController: pagingController,
                     builderDelegate: PagedChildBuilderDelegate<Product>(
+                      animateTransitions: true,
                       itemBuilder: (context, product, index) =>
                           PriceListProductTile(
                         product,

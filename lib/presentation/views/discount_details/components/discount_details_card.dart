@@ -26,7 +26,7 @@ class DiscountDetailsCard extends StatelessWidget {
       String detail = '';
       switch (discount.rule!.type!) {
         case DiscountRuleType.fixed:
-          valueText = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode, includeSymbol: false) ?? '';
+          valueText = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode) ?? '';
           valueColor = Colors.orangeAccent;
           detail = ' ${discount.regions?.firstOrNull?.currency?.code ?? ''}';
           break;

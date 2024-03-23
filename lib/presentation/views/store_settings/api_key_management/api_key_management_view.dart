@@ -95,6 +95,7 @@ class _ApiKeyManagementViewState extends State<ApiKeyManagementView> {
               padding: const EdgeInsets.only(bottom: kToolbarHeight * 1.4),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<PublishableApiKey>(
+                animateTransitions: true,
                 itemBuilder: (context, apiKey, index) => ApiKeyTile(apiKey),
                 noItemsFoundIndicatorBuilder: (_) =>
                     const Center(child: Text('No items found')),

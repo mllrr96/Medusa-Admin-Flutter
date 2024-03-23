@@ -101,6 +101,7 @@ class _ActivityViewState extends State<ActivityView> {
               padding: EdgeInsets.only(bottom: context.bottomViewPadding),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<BatchJob>(
+                animateTransitions: true,
                 itemBuilder: (context, batchJob, index) => BatchJobTile(
                   batchJob,
                   onDelete: () {},

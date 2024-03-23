@@ -114,6 +114,7 @@ class _PricingViewState extends State<PricingView> {
                   const Divider(height: 0, indent: 16.0),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<PriceList>(
+                animateTransitions: true,
                 itemBuilder: (context, priceList, index) =>
                     PriceListTile(priceList),
                 firstPageProgressIndicatorBuilder: (_) =>

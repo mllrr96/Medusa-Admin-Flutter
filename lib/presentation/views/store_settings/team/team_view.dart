@@ -87,10 +87,9 @@ class _TeamViewState extends State<TeamView> {
             controller: refreshController,
             onRefresh: () => _loadPage(0),
             child: PagedListView(
-              // padding: EdgeInsets.zero,
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<User>(
-                // animateTransitions: true,
+                animateTransitions: true,
                 itemBuilder: (context, user, index) {
                   return TeamCard(
                     user: user,
@@ -123,8 +122,6 @@ class _TeamViewState extends State<TeamView> {
                     },
                   );
                 },
-                // firstPageProgressIndicatorBuilder: (_) =>
-                //     const TeamLoadingPage(),
               ),
             ),
           ),

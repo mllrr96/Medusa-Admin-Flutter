@@ -61,12 +61,10 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
       if (discountType == DiscountRuleType.fixed) {
         // widget.discount?.rule;
         amountCtrl.text = widget.discount!.rule?.value
-                ?.formatAsPrice(selectedRegions.firstOrNull?.currencyCode) ??
+                ?.formatAsPrice(selectedRegions.firstOrNull?.currencyCode, includeSymbol: false) ??
             '';
       } else {
-        percentageCtrl.text = widget.discount!.rule?.value
-                ?.formatAsPrice(selectedRegions.firstOrNull?.currencyCode) ??
-            '';
+        percentageCtrl.text = widget.discount!.rule?.value?.toString() ?? '';
       }
       descriptionCtrl.text = widget.discount!.rule?.description ?? '';
       codeCtrl.text = widget.discount!.code ?? '';

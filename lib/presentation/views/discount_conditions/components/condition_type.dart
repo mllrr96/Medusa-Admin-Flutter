@@ -180,6 +180,7 @@ class _ConditionTypeViewState extends State<ConditionTypeView> {
                       const Divider(height: 0, indent: 16),
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<ProductType>(
+                    animateTransitions: true,
                     itemBuilder: (context, type, index) =>
                         ConditionTypeListTile(
                             type: type,

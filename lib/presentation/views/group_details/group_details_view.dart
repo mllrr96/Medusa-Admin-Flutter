@@ -31,27 +31,28 @@ class GroupDetailsView extends StatefulWidget {
 class _GroupDetailsViewState extends State<GroupDetailsView> {
   final PagingController<int, Customer> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
-  late CustomerCrudBloc customerCrudBloc;
+  late CustomerCrudBloc customerBloc;
 
   void _loadPage(int _) {
-    customerCrudBloc.add(
+    customerBloc.add(
       CustomerCrudEvent.loadAll(queryParameters: {
         'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
         'expand': 'groups',
+        'groups': [widget.customerGroup.id, ''],
       }),
     );
   }
 
   @override
   void initState() {
-    customerCrudBloc = CustomerCrudBloc.instance;
+    customerBloc = CustomerCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
 
   @override
   void dispose() {
-    customerCrudBloc.close();
+    customerBloc.close();
     pagingController.dispose();
     super.dispose();
   }
@@ -63,16 +64,12 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
     return MultiBlocListener(
       listeners: [
         BlocListener<CustomerCrudBloc, CustomerCrudState>(
-          bloc: customerCrudBloc,
+          bloc: customerBloc,
           listener: (context, state) {
             state.mapOrNull(
-              loading: (_) => loading(),
               customers: (state) async {
                 final isLastPage =
                     state.customers.length < CustomerCrudBloc.pageSize;
-                if (pagingController.value.itemList == null) {
-                  pagingController.appendPage(state.customers, 0);
-                }
                 if (isLastPage) {
                   pagingController.appendLastPage(state.customers);
                 } else {
@@ -80,10 +77,8 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                       pagingController.nextPageKey! + state.customers.length;
                   pagingController.appendPage(state.customers, nextPageKey);
                 }
-                dismissLoading();
               },
               error: (error) {
-                dismissLoading();
                 context.showSnackBar(error.failure.toSnackBarString());
               },
             );
@@ -95,6 +90,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
               loading: (_) => loading(),
               group: (_) {
                 dismissLoading();
+                pagingController.refresh();
               },
               error: (error) {
                 dismissLoading();
@@ -123,6 +119,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                 title: Text(widget.customerGroup.name ?? ''),
                 actions: [
                   IconButton(
+                    padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage group',
@@ -142,7 +139,6 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                       customerGroup: widget.customerGroup))
                                   .then((value) {
                                 if (value is CustomerGroup) {
-
                                   // customerGroup = value;
                                   // GroupsController.instance.pagingController
                                   //     .refresh();
@@ -166,6 +162,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
               PagedSliverList(
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Customer>(
+                    animateTransitions: true,
                     itemBuilder: (context, customer, index) {
                       final name = customer.fullName;
                       return ListTile(
@@ -186,6 +183,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                             ? Text(customer.email, style: smallTextStyle)
                             : null,
                         trailing: IconButton(
+                            padding: const EdgeInsets.all(16),
                             onPressed: () async {
                               await showModalActionSheet<int>(
                                   context: context,

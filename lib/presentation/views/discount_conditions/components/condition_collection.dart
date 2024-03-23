@@ -165,6 +165,7 @@ class _ConditionCollectionViewState extends State<ConditionCollectionView> {
                       const Divider(height: 0, indent: 16),
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<ProductCollection>(
+                    animateTransitions: true,
                     itemBuilder: (context, collection, index) =>
                         ConditionCollectionTile(
                       collection: collection,

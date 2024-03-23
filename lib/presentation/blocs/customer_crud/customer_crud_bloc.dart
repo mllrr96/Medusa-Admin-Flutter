@@ -15,6 +15,9 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
   CustomerCrudBloc(this.customerCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
     on<_LoadAll>(_loadAll);
+    on<_Create>(_create);
+    on<_Update>(_update);
+    // on<_Delete>(_delete);
   }
   Future<void> _load(
     _Load event,
@@ -28,6 +31,45 @@ class CustomerCrudBloc extends Bloc<CustomerCrudEvent, CustomerCrudState> {
       emit(_Error(error));
     });
   }
+
+  Future<void> _create(
+    _Create event,
+    Emitter<CustomerCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await customerCrudUseCase.create(event.userCreateCustomerReq);
+    result.when((customer) {
+      emit(_Customer(customer));
+    }, (error) {
+      emit(_Error(error));
+    });
+  }
+
+  Future<void> _update(
+    _Update event,
+    Emitter<CustomerCrudState> emit,
+  ) async {
+    emit(const _Loading());
+    final result = await customerCrudUseCase.update(event.id, event.userUpdateCustomerReq);
+    result.when((customer) {
+      emit(_Customer(customer));
+    }, (error) {
+      emit(_Error(error));
+    });
+  }
+
+  // Future<void> _delete(
+  //   _Delete event,
+  //   Emitter<CustomerCrudState> emit,
+  // ) async {
+  //   emit(const _Loading());
+  //   final result = await customerCrudUseCase.delete(id: event.id);
+  //   result.when((customer) {
+  //     emit(_Customer(customer));
+  //   }, (error) {
+  //     emit(_Error(error));
+  //   });
+  // }
 
   Future<void> _loadAll(
     _LoadAll event,

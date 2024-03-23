@@ -132,6 +132,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               padding: const EdgeInsets.only(
                   bottom: 120, top: 8.0, left: 8.0, right: 8.0),
               builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
+                  animateTransitions: true,
                   itemBuilder: (context, draftOrder, index) =>
                       DraftOrderCard(draftOrder),
                   noItemsFoundIndicatorBuilder: (_) =>
@@ -140,7 +141,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
                       const DraftsLoadingPage(),
                   firstPageErrorIndicatorBuilder: (context) =>
                       PaginationErrorPage(pagingController: pagingController),
-                  animateTransitions: true),
+              ),
               separatorBuilder: (_, __) => const Gap(8.0),
             ),
           ),

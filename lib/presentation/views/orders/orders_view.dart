@@ -129,8 +129,8 @@ class _OrdersViewState extends State<OrdersView> {
               icon: const Icon(MedusaIcons.arrow_up_tray),
               onPressed: () async {
                 if (await exportOrders) {
-                  final result = await BatchJobCrudUseCase.instance.create(
-                      BatchJobType.orderExport);
+                  final result = await BatchJobCrudUseCase.instance
+                      .create(BatchJobType.orderExport);
                   result.when((success) {
                     context.showSnackBar('Export started');
                   }, (error) {
@@ -178,6 +178,7 @@ class _OrdersViewState extends State<OrdersView> {
               separatorBuilder: (_, __) => const Gap(8.0),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Order>(
+                animateTransitions: true,
                 itemBuilder: (context, order, index) {
                   if (orderPreference.alternativeCard) {
                     return AlternativeOrderCard(order);
@@ -209,7 +210,6 @@ class _OrdersViewState extends State<OrdersView> {
                     const OrdersLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>
                     PaginationErrorPage(pagingController: pagingController),
-                  animateTransitions: true,
               ),
             ),
           ),

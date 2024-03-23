@@ -131,6 +131,7 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
                 separatorBuilder: (_, __) => const Divider(height: 0),
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<ReturnReason>(
+                  animateTransitions: true,
                   itemBuilder: (context, returnReason, index) =>
                       ReturnReasonCard(
                     returnReason,

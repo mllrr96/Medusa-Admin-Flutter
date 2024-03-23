@@ -38,7 +38,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
   late Product product;
   late ProductVariant? variant;
   late ProductCrudBloc productCrudBloc;
-  List<ProductOption>? get options => product.options;
+  List<ProductOption>? get options => productVariantReq.product.options;
   ProductVariantReq get productVariantReq => widget.productVariantReq;
   Map<int, ProductOptionValue> selectedOptionsValue = {};
   bool manageInventory = true;
@@ -64,7 +64,6 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
   final eanCtrl = TextEditingController();
   final upcCtrl = TextEditingController();
   final barcodeCtrl = TextEditingController();
-  final scrollController = ScrollController();
 
   final generalKey = GlobalKey();
   final pricingKey = GlobalKey();
@@ -81,6 +80,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
             .state
             .mapOrNull(loaded: (_) => _.store.currencies) ??
         [];
+    currencyCtrlMap = {for (var e in currencies) e: TextEditingController()};
     product = productVariantReq.product;
     variant = productVariantReq.productVariant;
     super.initState();
@@ -89,7 +89,6 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
   @override
   void dispose() {
     productCrudBloc.close();
-    scrollController.dispose();
     quantityCtrl.dispose();
     customTitleCtrl.dispose();
     materialCtrl.dispose();
@@ -181,318 +180,304 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
             ),
             body: SafeArea(
               child: SingleChildScrollView(
-                controller: scrollController,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 child: Form(
                   key: formKey,
                   child: Column(
                     children: [
-                      Column(
-                        children: [
-                          FlexExpansionTile(
-                            initiallyExpanded: true,
-                            controller: generalTileCtrl,
-                            title: const Text('General'),
-                            child: Column(
+                      FlexExpansionTile(
+                        key: generalKey,
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await generalKey.currentContext.ensureVisibility();
+                          }
+                        },
+                        initiallyExpanded: true,
+                        controller: generalTileCtrl,
+                        title: const Text('General'),
+                        child: Column(
+                          children: [
+                            Text(
+                                'Configure the general information for this variant.',
+                                style:
+                                    smallTextStyle?.copyWith(color: manatee)),
+                            space,
+                            LabeledTextField(
+                              label: 'Custom title',
+                              controller: customTitleCtrl,
+                              hintText: 'Green / XL',
+                            ),
+                            LabeledTextField(
+                              label: 'Material',
+                              controller: materialCtrl,
+                              hintText: '80% wool, 20% cotton',
+                            ),
+                            const Divider(),
+                            Row(
                               children: [
-                                Text(
-                                    'Configure the general information for this variant.',
-                                    style: smallTextStyle?.copyWith(
-                                        color: manatee)),
-                                space,
-                                LabeledTextField(
-                                  label: 'Custom title',
-                                  controller: customTitleCtrl,
-                                  hintText: 'Green / XL',
-                                ),
-                                LabeledTextField(
-                                  label: 'Material',
-                                  controller: materialCtrl,
-                                  hintText: '80% wool, 20% cotton',
-                                ),
-                                const Divider(),
-                                Row(
-                                  children: [
-                                    Text('Options', style: largeTextStyle),
-                                  ],
-                                ),
-                                space,
-                                if (options != null && !updateMode)
-                                  ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount: options!.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      final currentOption = options![index];
-                                      return Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(currentOption.title!,
-                                                  style: mediumTextStyle),
-                                              Text(' *',
-                                                  style:
-                                                      mediumTextStyle?.copyWith(
-                                                          color: Colors.red)),
-                                            ],
-                                          ),
-                                          const Gap(6.0),
-                                          if (currentOption.values != null)
-                                            DropdownButtonFormField(
-                                              style: context.bodyMedium,
-                                              validator: (val) {
-                                                if (val == null) {
-                                                  return 'Field is required';
-                                                }
-                                                return null;
-                                              },
-                                              items: currentOption.values!
-                                                  .map((e) => DropdownMenuItem(
-                                                      value: e,
-                                                      child: Text(e.value!)))
-                                                  .toList(),
-                                              hint: const Text(
-                                                  'Choose an option'),
-                                              onChanged: (value) {
-                                                if (value != null) {
-                                                  selectedOptionsValue[index] =
-                                                      value;
-                                                }
-                                              },
-                                            ),
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder: (_, __) => space,
-                                  ),
-                                if (options != null && updateMode)
-                                  ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount: options!.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      final currentOption = options![index];
-                                      final textCtrl =
-                                          productOptionCtrlMap[currentOption];
-                                      return LabeledTextField(
-                                        label: currentOption.title ?? '',
-                                        required: true,
-                                        controller: textCtrl,
-                                      );
-                                    },
-                                    separatorBuilder: (_, __) => space,
-                                  ),
-                                space,
+                                Text('Options', style: largeTextStyle),
                               ],
                             ),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            key: pricingKey,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await pricingKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            title: const Text('Pricing'),
-                            childPadding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 4.0),
-                            child: Column(
-                              children: [
-                                Text('Configure the pricing for this variant.',
-                                    style: smallTextStyle?.copyWith(
-                                        color: manatee)),
-                                space,
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: updateMode
-                                        ? variant!.prices!.length
-                                        : currencies.length,
-                                    itemBuilder: (context, index) {
-                                      final currency =
-                                          currencyCtrlMap.keys.toList()[index];
-                                      final currencyCtrl =
-                                          currencyCtrlMap[currency];
-                                      return Column(
+                            space,
+                            if (options != null && !updateMode)
+                              ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: options!.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final currentOption = options![index];
+                                  return Column(
+                                    children: [
+                                      Row(
                                         children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(12.0)),
-                                              color: Theme.of(context)
-                                                  .scaffoldBackgroundColor,
+                                          Text(currentOption.title!,
+                                              style: mediumTextStyle),
+                                          Text(' *',
+                                              style: mediumTextStyle?.copyWith(
+                                                  color: Colors.red)),
+                                        ],
+                                      ),
+                                      const Gap(6.0),
+                                      if (currentOption.values != null)
+                                        DropdownButtonFormField(
+                                          style: context.bodyMedium,
+                                          validator: (val) {
+                                            if (val == null) {
+                                              return 'Field is required';
+                                            }
+                                            return null;
+                                          },
+                                          items: currentOption.values!
+                                              .map((e) => DropdownMenuItem(
+                                                  value: e,
+                                                  child: Text(e.value!)))
+                                              .toList(),
+                                          hint: const Text('Choose an option'),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              selectedOptionsValue[index] =
+                                                  value;
+                                            }
+                                          },
+                                        ),
+                                    ],
+                                  );
+                                },
+                                separatorBuilder: (_, __) => space,
+                              ),
+                            if (options != null && updateMode)
+                              ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: options!.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final currentOption = options![index];
+                                  final textCtrl =
+                                      productOptionCtrlMap[currentOption];
+                                  return LabeledTextField(
+                                    label: currentOption.title ?? '',
+                                    required: true,
+                                    controller: textCtrl,
+                                  );
+                                },
+                                separatorBuilder: (_, __) => space,
+                              ),
+                            space,
+                          ],
+                        ),
+                      ),
+                      space,
+                      FlexExpansionTile(
+                        key: pricingKey,
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await pricingKey.currentContext.ensureVisibility();
+                          }
+                        },
+                        title: const Text('Pricing'),
+                        childPadding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 4.0),
+                        child: Column(
+                          children: [
+                            Text('Configure the pricing for this variant.',
+                                style:
+                                    smallTextStyle?.copyWith(color: manatee)),
+                            space,
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: updateMode
+                                    ? variant!.prices!.length
+                                    : currencies.length,
+                                itemBuilder: (context, index) {
+                                  final currency =
+                                      currencyCtrlMap.keys.toList()[index];
+                                  final currencyCtrl =
+                                      currencyCtrlMap[currency];
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(12.0)),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0, vertical: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                      currency.code
+                                                              ?.toUpperCase() ??
+                                                          '',
+                                                      style: mediumTextStyle),
+                                                  space,
+                                                  Expanded(
+                                                      child: Text(
+                                                          currency.name ?? '',
+                                                          style: mediumTextStyle
+                                                              ?.copyWith(
+                                                                  color:
+                                                                      manatee)))
+                                                ],
+                                              ),
                                             ),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12.0,
-                                                vertical: 8.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Flexible(
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                          currency.code
-                                                                  ?.toUpperCase() ??
+                                            Flexible(
+                                              child: TextField(
+                                                controller: currencyCtrl,
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                keyboardType:
+                                                    const TextInputType
+                                                        .numberWithOptions(
+                                                        decimal: true),
+                                                inputFormatters: [
+                                                  CurrencyTextInputFormatter(
+                                                      name: currency.code)
+                                                ],
+                                                decoration: InputDecoration(
+                                                  hintTextDirection:
+                                                      TextDirection.rtl,
+                                                  prefixIcon: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 10),
+                                                      child: Text(
+                                                          currency.symbolNative ??
                                                               '',
-                                                          style:
-                                                              mediumTextStyle),
-                                                      space,
-                                                      Expanded(
-                                                          child: Text(
-                                                              currency.name ??
-                                                                  '',
-                                                              style: mediumTextStyle
-                                                                  ?.copyWith(
-                                                                      color:
-                                                                          manatee)))
-                                                    ],
+                                                          style: mediumTextStyle
+                                                              ?.copyWith(
+                                                                  color:
+                                                                      manatee))),
+                                                  prefixIconConstraints:
+                                                      const BoxConstraints(
+                                                          minWidth: 0,
+                                                          minHeight: 0),
+                                                  hintText: '-',
+                                                  isDense: true,
+                                                  border:
+                                                      const OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                4.0)),
                                                   ),
                                                 ),
-                                                Flexible(
-                                                  child: TextField(
-                                                    controller: currencyCtrl,
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                    keyboardType:
-                                                        const TextInputType
-                                                            .numberWithOptions(
-                                                            decimal: true),
-                                                    inputFormatters: [
-                                                      CurrencyTextInputFormatter(
-                                                          name: currency.code)
-                                                    ],
-                                                    decoration: InputDecoration(
-                                                      hintTextDirection:
-                                                          TextDirection.rtl,
-                                                      prefixIcon: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 10),
-                                                          child: Text(
-                                                              currency.symbolNative ??
-                                                                  '',
-                                                              style: mediumTextStyle
-                                                                  ?.copyWith(
-                                                                      color:
-                                                                          manatee))),
-                                                      prefixIconConstraints:
-                                                          const BoxConstraints(
-                                                              minWidth: 0,
-                                                              minHeight: 0),
-                                                      hintText: '-',
-                                                      isDense: true,
-                                                      border:
-                                                          const OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    4.0)),
-                                                      ),
-                                                    ),
-                                                    style: smallTextStyle,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          space,
-                                        ],
-                                      );
-                                    }),
-                              ],
-                            ),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            title: const Text('Stock & Inventory'),
-                            key: stockKey,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await stockKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            child: Column(
-                              children: [
-                                Text(
-                                    'Configure the inventory and stock for this variant.',
-                                    style: smallTextStyle?.copyWith(
-                                        color: manatee)),
-                                space,
-                                SwitchListTile.adaptive(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: Text('Manage inventory',
-                                      style: largeTextStyle),
-                                  subtitle: Text(
-                                      'When checked Medusa will regulate the inventory when orders and returns are made.',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                  value: manageInventory,
-                                  onChanged: (val) =>
-                                      setState(() => manageInventory = val),
-                                  activeColor: Platform.isIOS
-                                      ? ColorManager.primary
-                                      : null,
-                                ),
-                                space,
-                                SwitchListTile.adaptive(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: Text('Allow backorders',
-                                      style: largeTextStyle),
-                                  subtitle: Text(
-                                      'When checked the product will be available for purchase despite the product being sold out',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                  value: allowBackorder,
-                                  onChanged: (val) =>
-                                      setState(() => allowBackorder = val),
-                                  activeColor: Platform.isIOS
-                                      ? ColorManager.primary
-                                      : null,
-                                ),
-                                space,
-                                LabeledTextField(
-                                  label: 'Stock keeping unit (SKU)',
-                                  controller: TextEditingController(),
-                                  hintText: 'SUN-G, JK1234...',
-                                ),
-                                LabeledNumericTextField(
-                                  controller: quantityCtrl,
-                                  label: 'Quantity in stock',
-                                ),
-                                space,
-                                LabeledTextField(
-                                  label: 'EAN (Barcode)',
-                                  controller: eanCtrl,
-                                  hintText: '123456789123...',
-                                ),
-                                LabeledTextField(
-                                  label: 'UPC (Barcode)',
-                                  controller: upcCtrl,
-                                  hintText: '023456789104',
-                                ),
-                                LabeledTextField(
-                                  label: 'Barcode',
-                                  controller: barcodeCtrl,
-                                  hintText: '123456789104...',
-                                ),
-                              ],
-                            ),
-                          ),
-                          space,
-                        ],
+                                                style: smallTextStyle,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      space,
+                                    ],
+                                  );
+                                }),
+                          ],
+                        ),
                       ),
+                      space,
+                      FlexExpansionTile(
+                        title: const Text('Stock & Inventory'),
+                        key: stockKey,
+                        onExpansionChanged: (expanded) async {
+                          if (expanded) {
+                            await stockKey.currentContext.ensureVisibility();
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                                'Configure the inventory and stock for this variant.',
+                                style:
+                                    smallTextStyle?.copyWith(color: manatee)),
+                            space,
+                            SwitchListTile.adaptive(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text('Manage inventory',
+                                  style: largeTextStyle),
+                              subtitle: Text(
+                                  'When checked Medusa will regulate the inventory when orders and returns are made.',
+                                  style:
+                                      smallTextStyle?.copyWith(color: manatee)),
+                              value: manageInventory,
+                              onChanged: (val) =>
+                                  setState(() => manageInventory = val),
+                              activeColor:
+                                  Platform.isIOS ? ColorManager.primary : null,
+                            ),
+                            space,
+                            SwitchListTile.adaptive(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text('Allow backorders',
+                                  style: largeTextStyle),
+                              subtitle: Text(
+                                  'When checked the product will be available for purchase despite the product being sold out',
+                                  style:
+                                      smallTextStyle?.copyWith(color: manatee)),
+                              value: allowBackorder,
+                              onChanged: (val) =>
+                                  setState(() => allowBackorder = val),
+                              activeColor:
+                                  Platform.isIOS ? ColorManager.primary : null,
+                            ),
+                            space,
+                            LabeledTextField(
+                              label: 'Stock keeping unit (SKU)',
+                              controller: TextEditingController(),
+                              hintText: 'SUN-G, JK1234...',
+                            ),
+                            LabeledNumericTextField(
+                              controller: quantityCtrl,
+                              label: 'Quantity in stock',
+                            ),
+                            space,
+                            LabeledTextField(
+                              label: 'EAN (Barcode)',
+                              controller: eanCtrl,
+                              hintText: '123456789123...',
+                            ),
+                            LabeledTextField(
+                              label: 'UPC (Barcode)',
+                              controller: upcCtrl,
+                              hintText: '023456789104',
+                            ),
+                            LabeledTextField(
+                              label: 'Barcode',
+                              controller: barcodeCtrl,
+                              hintText: '123456789104...',
+                            ),
+                          ],
+                        ),
+                      ),
+                      space,
                       FlexExpansionTile(
                         title: const Text('Shipping'),
                         key: shippingKey,
@@ -652,9 +637,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
 
   Future<void> save(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
-      if (!generalTileCtrl.isExpanded) {
-        generalTileCtrl.expand();
-      }
+      generalTileCtrl.expand();
       return;
     }
     String variantTitle = '';
@@ -711,4 +694,3 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
     );
   }
 }
-

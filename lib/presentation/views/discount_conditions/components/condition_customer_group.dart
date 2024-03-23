@@ -162,6 +162,7 @@ class _ConditionCustomerGroupViewState
                     const Divider(height: 0, indent: 16),
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
+                  animateTransitions: true,
                   itemBuilder: (context, customerGroup, index) =>
                       ConditionCustomerGroupTile(
                           customerGroup: customerGroup,

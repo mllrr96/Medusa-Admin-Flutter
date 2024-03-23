@@ -131,6 +131,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                 pagingController: pagingController,
                 padding: const EdgeInsets.only(bottom: 80, top: 8),
                 builderDelegate: PagedChildBuilderDelegate<GiftCard>(
+                  animateTransitions: true,
                   itemBuilder: (context, giftCard, index) {
                     final isDisabled = giftCard.isDisabled;
                     final listTile = CustomGiftCardTile(

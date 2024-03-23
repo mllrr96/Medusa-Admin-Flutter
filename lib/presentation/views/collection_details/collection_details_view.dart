@@ -272,6 +272,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 ))
                             : null,
                         trailing: IconButton(
+                          padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
                               if (await _showDeleteCollectionDialog &&
                                   context.mounted) {

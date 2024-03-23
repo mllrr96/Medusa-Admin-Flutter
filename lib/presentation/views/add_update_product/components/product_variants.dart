@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
 import 'package:medusa_admin_flutter/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
@@ -76,65 +77,80 @@ class _ProductVariantsState extends State<ProductVariants> {
                 Text('Product options', style: largeTextStyle),
               ],
             ),
-            if (options.isNotEmpty) space,
             if (options.isNotEmpty)
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => ProductOptionCard(
-                        productOption: options[index],
-                        delete: () {
-                          setState(() => options.removeAt(index));
-                        },
-                      ),
-                  separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                  itemCount: options.length),
+              Column(
+                children: [
+                  space,
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => ProductOptionCard(
+                            productOption: options[index],
+                            delete: () {
+                              setState(() => options.removeAt(index));
+                            },
+                          ),
+                      separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                      itemCount: options.length),
+                ],
+              ),
             space,
-            TextButton(
-                onPressed: () async {
-                  final result = await showModalBottomSheet(
-                      context: context,
-                      builder: (context) => const AddOptionView(),
-                      isScrollControlled: true);
-                  if (result is ProductOption) {
-                    setState(() => options.add(result));
-                  }
-                },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [Icon(Icons.add), Text('Add an option')],
-                )),
+            TextButton.icon(
+              onPressed: () async {
+                final result = await showModalBottomSheet(
+                    context: context,
+                    builder: (context) => const AddOptionView(),
+                    isScrollControlled: true);
+                if (result is ProductOption) {
+                  setState(() => options.add(result));
+                  widget.onSaved?.call(Product(
+                    options: options,
+                    variants: variants,
+                  ));
+                }
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('Add an option'),
+            ),
             space,
             Row(
               children: [
                 Text('Product variants', style: largeTextStyle),
               ],
             ),
-            if (variants.isNotEmpty) space,
             if (variants.isNotEmpty)
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      ProductVariantCard(variant: variants[index]),
-                  separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                  itemCount: variants.length),
-            TextButton(
+              Column(
+                children: [
+                  space,
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) =>
+                          ProductVariantCard(variant: variants[index]),
+                      separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                      itemCount: variants.length),
+                ],
+              ),
+            TextButton.icon(
               onPressed: options.isEmpty
                   ? null
                   : () async {
-                      final result = await context.pushRoute(
-                          ProductAddVariantRoute(
-                              productVariantReq:
-                                  ProductVariantReq(product: product)));
+                      final result =
+                          await context.pushRoute(ProductAddVariantRoute(
+                              productVariantReq: ProductVariantReq(
+                                  product: product.copyWith(
+                        options: options,
+                      ))));
                       if (result is ProductVariant) {
                         setState(() => variants.add(result));
+                        widget.onSaved?.call(Product(
+                          options: options,
+                          variants: variants,
+                        ));
                       }
                     },
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [Icon(Icons.add), Text('Add a variant')],
-              ),
+              label: const Text('Add a variant'),
+              icon: const Icon(Icons.add),
             ),
           ],
         ),
@@ -216,7 +232,7 @@ class ProductOptionCard extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         color: context.theme.scaffoldBackgroundColor,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -234,6 +250,7 @@ class ProductOptionCard extends StatelessWidget {
                 ),
               ),
               IconButton(
+                  padding: const EdgeInsets.all(16.0),
                   onPressed: delete,
                   icon: const Icon(Icons.delete_forever, color: Colors.red))
             ],

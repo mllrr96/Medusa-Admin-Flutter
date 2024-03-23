@@ -325,6 +325,7 @@ class _AllCurrenciesViewState extends State<AllCurrenciesView> {
                 padding: const EdgeInsets.all(12.0),
                 pagingController: pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Currency>(
+                  animateTransitions: true,
                   itemBuilder: (context, currency, index) => CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
                     controlAffinity: ListTileControlAffinity.trailing,

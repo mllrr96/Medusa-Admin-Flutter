@@ -12,7 +12,7 @@ part 'group_crud_bloc.freezed.dart';
 
 @injectable
 class GroupCrudBloc extends Bloc<GroupCrudEvent, GroupCrudState> {
-  GroupCrudBloc(this.groupCrudUseCase) : super(const GroupCrudState.initial()) {
+  GroupCrudBloc(this.groupCrudUseCase) : super(const _Initial()) {
     on<_Load>(_load);
     on<_LoadAll>(_loadAll);
     on<_Create>(_create);

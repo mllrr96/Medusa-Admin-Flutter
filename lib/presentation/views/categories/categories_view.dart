@@ -49,6 +49,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CategoryCrudBloc, CategoryCrudState>(
+      bloc: categoryCrudBloc,
       listener: (context, state) {
         state.mapOrNull(
           categories: (state) async {
@@ -93,6 +94,7 @@ class _CategoriesViewState extends State<CategoriesView> {
               pagingController: pagingController,
               padding: const EdgeInsets.only(bottom: kToolbarHeight),
               builderDelegate: PagedChildBuilderDelegate<ProductCategory>(
+                  animateTransitions: true,
                   itemBuilder: (context, category, index) => ListTile(
                         title: Text(category.name ?? ''),
                       ),

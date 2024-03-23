@@ -130,6 +130,7 @@ class _SalesChannelsViewState extends State<SalesChannelsView> {
             padding: const EdgeInsets.only(bottom: kToolbarHeight),
             pagingController: pagingController,
             builderDelegate: PagedChildBuilderDelegate<SalesChannel>(
+                animateTransitions: true,
                 itemBuilder: (context, salesChannel, index) =>
                     SalesChannelTile(salesChannel),
                 firstPageProgressIndicatorBuilder: (_) =>

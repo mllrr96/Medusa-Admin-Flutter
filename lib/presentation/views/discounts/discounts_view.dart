@@ -193,6 +193,7 @@ class _DiscountsViewState extends State<DiscountsView> {
               padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 80),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Discount>(
+                animateTransitions: true,
                 itemBuilder: (context, discount, index) => Skeletonizer(
                   enabled: loadingDiscountId == discount.id,
                   child: DiscountCard(

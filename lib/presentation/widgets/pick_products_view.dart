@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/list_extension.dart';
 import 'package:medusa_admin/data/models/pick_products_req.dart';
+import 'package:medusa_admin/data/models/pick_products_res.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/products/components/products_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -40,7 +41,8 @@ class _PickProductsViewState extends State<PickProductsView> {
 
   @override
   void initState() {
-    selectedProducts = pickProductsReq.selectedProducts ?? [];
+    selectedProducts =
+        List<Product>.from(pickProductsReq.selectedProducts ?? []);
     productsBloc = ProductCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
@@ -102,9 +104,12 @@ class _PickProductsViewState extends State<PickProductsView> {
                                 .toList() ??
                             [])
                     ? null
-                    : () {
-                        // controller.save(context);
-                      },
+                    : () => context.popRoute(PickProductsRes(
+                        selectedProducts: selectedProducts,
+                        deSelectedProducts: [
+                          ...?pickProductsReq.selectedProducts
+                        ]..removeWhere((e) =>
+                            selectedProducts.map((e) => e.id).contains(e.id)))),
                 child: const Text('Save'))
           ],
         ),
@@ -112,6 +117,7 @@ class _PickProductsViewState extends State<PickProductsView> {
             child: PagedListView(
           pagingController: pagingController,
           builderDelegate: PagedChildBuilderDelegate<Product>(
+            animateTransitions: true,
             itemBuilder: (context, product, index) {
               final enabled = pickProductsReq.disabledProducts != null
                   ? !pickProductsReq.disabledProducts!

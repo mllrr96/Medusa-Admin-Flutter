@@ -115,7 +115,7 @@ class DetailedConditionCard extends StatelessWidget {
         break;
     }
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      // padding: const EdgeInsets.symmetric(vertical: 6.0),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           color: context.theme.scaffoldBackgroundColor),
@@ -145,6 +145,7 @@ class DetailedConditionCard extends StatelessWidget {
             ),
           ),
           IconButton(
+            padding: const EdgeInsets.all(16.0),
               onPressed: () async {
                 await showModalActionSheet<int>(
                     title: 'Manage condition',

@@ -105,6 +105,7 @@ class _PickGroupsViewState extends State<PickGroupsView> {
               separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
+                animateTransitions: true,
                 itemBuilder: (context, group, index) => CheckboxListTile(
                   title: Text(group.name ?? ''),
                   value: selectedGroups

@@ -118,6 +118,7 @@ class _InvitesViewState extends State<InvitesView> {
             child: PagedListView(
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Invite>(
+                animateTransitions: true,
                 itemBuilder: (context, invite, index) {
                   return InviteCard(
                     invite: invite,
