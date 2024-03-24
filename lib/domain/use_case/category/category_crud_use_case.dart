@@ -11,7 +11,7 @@ class CategoryCrudUseCase {
 
   static CategoryCrudUseCase get instance => getIt<CategoryCrudUseCase>();
 
-  Future<Result<UserRetrieveProductCategoriesRes, Failure>> loadAll({
+  Future<Result<RetrieveProductCategoriesRes, Failure>> loadAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -37,7 +37,7 @@ class CategoryCrudUseCase {
   }
 
   Future<Result<ProductCategory, Failure>> create(
-    UserCreateProductCategoryReq userCreateProductCategoryReq, {
+    CreateProductCategoryReq userCreateProductCategoryReq, {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -52,7 +52,7 @@ class CategoryCrudUseCase {
 
   Future<Result<ProductCategory, Failure>> update(
     String id,
-    UserUpdateProductCategoryReq userUpdateProductCategoryReq, {
+    UpdateProductCategoryReq userUpdateProductCategoryReq, {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -67,7 +67,7 @@ class CategoryCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteProductCategoryRes, Failure>> delete(
+  Future<Result<DeleteProductCategoryRes, Failure>> delete(
     String id, {
     Map<String, dynamic>? queryParameters,
   }) async {

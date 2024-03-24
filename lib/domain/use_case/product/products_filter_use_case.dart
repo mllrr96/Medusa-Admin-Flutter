@@ -12,7 +12,7 @@ class ProductsFilterUseCase {
   ProductTagRepository get _productTagRepository =>
       getIt<MedusaAdmin>().productTagRepository;
 
-  Future<Result<(UserCollectionsRes, UserRetrieveProductTagsRes), Failure>>
+  Future<Result<(CollectionsRes, RetrieveProductTagsRes), Failure>>
   call() async {
     try {
       final collections = await _collectionRepository.retrieveAll();

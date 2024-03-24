@@ -70,7 +70,7 @@ class OrderEditCrudUseCase {
       return Error(Failure.from(e));
     }
   }
-  Future<Result<UserDeleteLineItemChangeRes, Failure>> deleteLineItemChange({
+  Future<Result<DeleteLineItemChangeRes, Failure>> deleteLineItemChange({
     required String id,
     required String changeId,
   }) async {
@@ -94,7 +94,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteOrderEditRes, Failure>> deleteOrderEdit({
+  Future<Result<DeleteOrderEditRes, Failure>> deleteOrderEdit({
     required String id,
   }) async {
     try {
@@ -121,18 +121,18 @@ class OrderEditCrudUseCase {
 
   Future<Result<OrderEdit, Failure>> addLineItem({
     required String id,
-    required UserAddLineItemReq userAddLineItemReq,
+    required AddLineItemReq payload,
   }) async {
     try {
       final result = await _orderRepository.addLineItem(
-          id: id, userAddLineItemReq: userAddLineItemReq);
+          id: id, userAddLineItemReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));
     }
   }
 
-  Future<Result<UserRetrieveAllOrderEditRes, Failure>> fetchOrderEdits({
+  Future<Result<RetrieveAllOrderEditRes, Failure>> fetchOrderEdits({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

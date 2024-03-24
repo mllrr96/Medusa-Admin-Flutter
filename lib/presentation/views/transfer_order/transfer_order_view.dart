@@ -84,7 +84,7 @@ class _TransferOrderViewState extends State<TransferOrderView> {
                     ? () {
                   orderCrudBloc.add(OrderCrudEvent.update(
                       order.id!,
-                      UserUpdateOrderReq(
+                      UpdateOrderReq(
                           customerId: selectedCustomer!.id!)));
                 }
                     : null,

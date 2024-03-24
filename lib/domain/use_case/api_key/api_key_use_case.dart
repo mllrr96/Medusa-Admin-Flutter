@@ -31,7 +31,7 @@ class ApiKeyUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<UserDeletePublishableApiKeyRes, Failure>> delete(String id) async {
+  Future<Result<DeletePublishableApiKeyRes, Failure>> delete(String id) async {
     try {
       final result =
           await _apiKeyRepository.deletePublishableApiKey( id: id);
@@ -58,7 +58,7 @@ class ApiKeyUseCase {
     }
   }
 
-  Future<Result<UserRetrievePublishableApiKeysRes, Failure>> loadAll(
+  Future<Result<RetrievePublishableApiKeysRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _apiKeyRepository.retrievePublishableApiKeys(
@@ -69,7 +69,7 @@ class ApiKeyUseCase {
     }
   }
 
-  Future<Result<UserSalesChannelRetrieveAllRes, Failure>> loadAllSalesChannels(
+  Future<Result<SalesChannelRetrieveAllRes, Failure>> loadAllSalesChannels(
       String id,
       {Map<String, dynamic>? queryParameters}) async {
     try {

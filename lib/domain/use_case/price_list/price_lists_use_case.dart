@@ -11,7 +11,7 @@ class PriceListsUseCase {
 
   static PriceListsUseCase get instance => getIt<PriceListsUseCase>();
 
-  Future<Result<UserPriceListsRes, Failure>> call({
+  Future<Result<PriceListsRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

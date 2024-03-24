@@ -23,7 +23,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<UserSalesChannelRetrieveAllRes, Failure>> loadAll(
+  Future<Result<SalesChannelRetrieveAllRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _salesChannelRepository.retrieveAll(
@@ -56,7 +56,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<UserSalesChannelDeleteRes, Failure>> delete(
+  Future<Result<SalesChannelDeleteRes, Failure>> delete(
       String id) async {
     try {
       final result = await _salesChannelRepository.delete(id: id);
@@ -67,7 +67,7 @@ class SalesChannelCrudUseCase {
   }
 
   Future<Result<SalesChannel, Failure>> create(
-      UserSalesChannelCreateReq userSalesChannelCreateReq) async {
+      SalesChannelCreateReq userSalesChannelCreateReq) async {
     try {
       final result = await _salesChannelRepository.create(
           userSalesChannelCreateReq: userSalesChannelCreateReq);
@@ -79,7 +79,7 @@ class SalesChannelCrudUseCase {
 
   Future<Result<SalesChannel, Failure>> update(
       {required String id,
-      required UserSalesChannelUpdateReq userSalesChannelUpdateReq}) async {
+      required SalesChannelUpdateReq userSalesChannelUpdateReq}) async {
     try {
       final result = await _salesChannelRepository.update(
           id: id, userSalesChannelUpdateReq: userSalesChannelUpdateReq);

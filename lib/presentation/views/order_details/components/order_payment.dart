@@ -43,7 +43,7 @@ class OrderPayment extends StatelessWidget {
                   context: context,
                   backgroundColor: context.theme.scaffoldBackgroundColor,
                   builder: (context) => OrderCreateRefund(order));
-              if (result is UserCreateRefundOrdersReq) {
+              if (result is CreateRefundOrdersReq) {
                 // await controller.createRefund(result);
               }
             },

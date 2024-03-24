@@ -12,7 +12,7 @@ class AuthenticationUseCase {
       {required String email, required String password}) async {
     try {
       final result = await _authRepository.signIn(
-          req: UserPostAuthReq(email: email, password: password));
+          req: PostAuthReq(email: email, password: password));
       if (result == null) {
         return Error(Failure.from(result));
       } else {
@@ -27,7 +27,7 @@ class AuthenticationUseCase {
       {required String email, required String password}) async {
     try {
       final result = await _authRepository.signInCookie(
-          req: UserPostAuthReq(email: email, password: password));
+          req: PostAuthReq(email: email, password: password));
       if (result == null) {
         return Error(Failure.from(result));
       } else {
@@ -42,7 +42,7 @@ class AuthenticationUseCase {
       {required String email, required String password}) async {
     try {
       final result = await _authRepository.signInJWT(
-          req: UserPostAuthReq(email: email, password: password));
+          req: PostAuthReq(email: email, password: password));
       if (result == null) {
         return Error(Failure.from(result));
       } else {

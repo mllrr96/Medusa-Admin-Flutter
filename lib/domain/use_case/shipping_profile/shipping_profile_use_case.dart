@@ -11,7 +11,7 @@ class ShippingProfileCrudUseCase {
       getIt<MedusaAdmin>().shippingProfileRepository;
 
   Future<Result<ShippingProfile, Failure>> create(
-      UserCreateShippingProfileReq userCreateShippingProfileReq) async {
+      CreateShippingProfileReq userCreateShippingProfileReq) async {
     try {
       final result = await _shippingProfileRepository.create(
           userCreateShippingProfileReq: userCreateShippingProfileReq);
@@ -23,7 +23,7 @@ class ShippingProfileCrudUseCase {
 
   Future<Result<ShippingProfile, Failure>> update(
       {required String id,
-      required UserUpdateShippingProfileReq
+      required UpdateShippingProfileReq
           userUpdateShippingProfileReq}) async {
     try {
       final result = await _shippingProfileRepository.update(
@@ -34,7 +34,7 @@ class ShippingProfileCrudUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllShippingProfileRes, Failure>> loadAll(
+  Future<Result<RetrieveAllShippingProfileRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingProfileRepository.retrieveAll(
@@ -56,7 +56,7 @@ class ShippingProfileCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteShippingProfileRes, Failure>> delete(
+  Future<Result<DeleteShippingProfileRes, Failure>> delete(
       String id) async {
     try {
       final result = await _shippingProfileRepository.delete(id: id);

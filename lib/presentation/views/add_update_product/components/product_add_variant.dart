@@ -156,7 +156,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                     onPressed: () async => updateMode
                         ? productCrudBloc.add(ProductCrudEvent.update(
                             product.id!,
-                            UserPostUpdateProductReq(
+                            PostUpdateProductReq(
                               status: product.status,
                               discountable: product.discountable,
                               weight: int.tryParse(weightCtrl.text),

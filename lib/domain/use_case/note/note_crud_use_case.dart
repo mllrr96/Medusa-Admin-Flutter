@@ -50,7 +50,7 @@ class NoteCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteNoteRes, Failure>> delete(String id) async {
+  Future<Result<DeleteNoteRes, Failure>> delete(String id) async {
     try {
       final result = await _noteRepository.deleteNote(
         id: id,
@@ -61,7 +61,7 @@ class NoteCrudUseCase {
     }
   }
 
-  Future<Result<UserNotesRes, Failure>> loadAll(
+  Future<Result<NotesRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _noteRepository.retrieveNotes(

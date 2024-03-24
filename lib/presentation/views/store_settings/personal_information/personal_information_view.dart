@@ -144,7 +144,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                       context.unfocus();
                       userCrudBloc.add(UserCrudEvent.update(
                           user.id!,
-                          UserUpdateUserReq(
+                          UpdateUserReq(
                               firstName: firstNameCtrl.text,
                               lastName: lastNameCtrl.text)));
                       context.maybePop();
@@ -185,7 +185,7 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                           context.unfocus();
                           userCrudBloc.add(UserCrudEvent.update(
                               user.id!,
-                              UserUpdateUserReq(
+                              UpdateUserReq(
                                   firstName: firstNameCtrl.text,
                                   lastName: lastNameCtrl.text)));
                           context.maybePop();

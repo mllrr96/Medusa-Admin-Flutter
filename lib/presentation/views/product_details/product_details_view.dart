@@ -73,7 +73,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                               if (result == OkCancelResult.ok) {
                                 productCrudBloc.add(ProductCrudEvent.update(
                                     widget.productId,
-                                    UserPostUpdateProductReq(
+                                    PostUpdateProductReq(
                                         status: isPublished
                                             ? ProductStatus.draft
                                             : ProductStatus.published)));

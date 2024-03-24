@@ -12,7 +12,7 @@ class UpdatePriceListUseCase {
   static UpdatePriceListUseCase get instance => getIt<UpdatePriceListUseCase>();
 
   Future<Result<PriceList, Failure>> create(
-      UserCreatePriceListReq userCreatePriceListReq) async {
+      CreatePriceListReq userCreatePriceListReq) async {
     try {
       final result = await _priceListRepository.createPriceList(
           userCreatePriceListReq: userCreatePriceListReq);
@@ -23,12 +23,12 @@ class UpdatePriceListUseCase {
   }
 
   Future<Result<PriceList, Failure>> update({
-    required UserUpdatePriceListReq userUpdatePriceListReq,
+    required UpdatePriceListReq payload,
     required String id,
   }) async {
     try {
       final result = await _priceListRepository.updatePriceList(
-          id: id, userUpdatePriceListReq: userUpdatePriceListReq);
+          id: id, userUpdatePriceListReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));

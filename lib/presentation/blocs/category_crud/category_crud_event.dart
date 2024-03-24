@@ -7,9 +7,9 @@ class CategoryCrudEvent with _$CategoryCrudEvent {
   const factory CategoryCrudEvent.loadAll(
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory CategoryCrudEvent.create(
-      UserCreateProductCategoryReq userCreateProductCategoryReq) = _Create;
+      CreateProductCategoryReq userCreateProductCategoryReq) = _Create;
   const factory CategoryCrudEvent.update(String id,
-      UserUpdateProductCategoryReq userUpdateProductCategoryReq) = _Update;
+      UpdateProductCategoryReq userUpdateProductCategoryReq) = _Update;
   const factory CategoryCrudEvent.delete(String id) = _Delete;
   const factory CategoryCrudEvent.addProducts(
       String id, List<String> productIds) = _AddProducts;

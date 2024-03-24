@@ -10,7 +10,7 @@ class CollectionCrudUseCase {
       getIt<MedusaAdmin>().collectionRepository;
   static CollectionCrudUseCase get instance =>
       getIt<CollectionCrudUseCase>();
-  Future<Result<UserDeleteCollectionRes, Failure>> deleteCollection(
+  Future<Result<DeleteCollectionRes, Failure>> deleteCollection(
       String collectionId) async {
     try {
       final result = await _collectionRepository.delete(id: collectionId);
@@ -30,7 +30,7 @@ class CollectionCrudUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<UserCollectionsRes, Failure>> getCollections(
+  Future<Result<CollectionsRes, Failure>> getCollections(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _collectionRepository.retrieveAll(
@@ -41,8 +41,8 @@ class CollectionCrudUseCase {
     }
   }
 
-  Future<Result<UserCollectionRemoveProductsRes, Failure>> removeProducts(
-      UserCollectionRemoveProductsReq userCollectionRemoveProductsReq) async {
+  Future<Result<CollectionRemoveProductsRes, Failure>> removeProducts(
+      CollectionRemoveProductsReq userCollectionRemoveProductsReq) async {
     try {
       final result = await _collectionRepository.removeProducts(
           userCollectionRemoveProductsReq: userCollectionRemoveProductsReq);
@@ -53,7 +53,7 @@ class CollectionCrudUseCase {
   }
 
   Future<Result<ProductCollection, Failure>> updateProducts(
-      UserCollectionUpdateProductsReq userCollectionUpdateProductsReq) async {
+      CollectionUpdateProductsReq userCollectionUpdateProductsReq) async {
     try {
       final result = await _collectionRepository.updateProducts(
           userCollectionUpdateProductsReq: userCollectionUpdateProductsReq);
@@ -65,7 +65,7 @@ class CollectionCrudUseCase {
 
 
   Future<Result<ProductCollection, Failure>> create({
-    required UserCreateCollectionReq userCreateCollectionReq,
+    required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionRepository.create(
@@ -78,7 +78,7 @@ class CollectionCrudUseCase {
 
   Future<Result<ProductCollection, Failure>> update({
     required String id,
-    required UserCreateCollectionReq userCreateCollectionReq,
+    required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionRepository.update(id: id, userCreateCollectionReq: userCreateCollectionReq);

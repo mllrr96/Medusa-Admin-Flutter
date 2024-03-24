@@ -12,7 +12,7 @@ class UpdateDiscountUseCase {
 
   Future<Result<Discount, Failure>> updateDiscount({
     required String id,
-    required UserUpdateDiscountReq userUpdateDiscountReq,
+    required UpdateDiscountReq userUpdateDiscountReq,
   }) async {
     try {
       final result = await _discountRepository.updateDiscount(
@@ -24,7 +24,7 @@ class UpdateDiscountUseCase {
   }
 
   Future<Result<Discount, Failure>> createDiscount({
-    required UserCreateDiscountReq userCreateDiscountReq,
+    required CreateDiscountReq userCreateDiscountReq,
   }) async {
     try {
       final result = await _discountRepository.createDiscount(

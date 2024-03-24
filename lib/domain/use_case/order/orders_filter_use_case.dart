@@ -12,7 +12,7 @@ class OrdersFilterUseCase {
   SalesChannelRepository get _salesChannelRepository =>
       getIt<MedusaAdmin>().salesChannelRepository;
 
-  Future<Result<(UserRegionsRes, UserSalesChannelRetrieveAllRes), Failure>>
+  Future<Result<(RegionsRes, SalesChannelRetrieveAllRes), Failure>>
       call() async {
     try {
       final regions = await _regionsRepository.retrieveAll();

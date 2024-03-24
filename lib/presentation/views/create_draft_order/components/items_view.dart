@@ -35,7 +35,7 @@ class CreateDraftOrderItemsView extends StatefulWidget {
 }
 
 class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
-  late Future<Result<UserRegionsRes, Failure>> regionsFuture;
+  late Future<Result<RegionsRes, Failure>> regionsFuture;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
     super.initState();
   }
 
-  Future<Result<UserRegionsRes, Failure>> fetchRegions() async {
+  Future<Result<RegionsRes, Failure>> fetchRegions() async {
     return await RegionCrudUseCase.instance.loadAll();
   }
 
@@ -107,7 +107,7 @@ class _CreateDraftOrderItemsViewState extends State<CreateDraftOrderItemsView> {
 
     return Column(
       children: [
-        FutureBuilder<Result<UserRegionsRes, Failure>>(
+        FutureBuilder<Result<RegionsRes, Failure>>(
             future: regionsFuture,
             builder: (context, asyncSnapshot) {
               final result = asyncSnapshot.data;

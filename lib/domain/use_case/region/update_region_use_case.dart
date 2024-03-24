@@ -22,7 +22,7 @@ class UpdateRegionUseCase {
   }
 
   Future<Result<Region, Failure>> create(
-      UserCreateRegionReq userCreateRegionReq) async {
+      CreateRegionReq userCreateRegionReq) async {
     try {
       final result = await _regionsRepository.create(
           userCreateRegionReq: userCreateRegionReq);
@@ -34,7 +34,7 @@ class UpdateRegionUseCase {
 
   Future<Result<Region, Failure>> update({
     required String id,
-    required UserUpdateRegionReq userUpdateRegionReq,
+    required UpdateRegionReq userUpdateRegionReq,
   }) async {
     try {
       final result = await _regionsRepository.update(

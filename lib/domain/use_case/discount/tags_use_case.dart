@@ -10,7 +10,7 @@ class TagsUseCase {
       getIt<MedusaAdmin>().productTagRepository;
   static TagsUseCase get instance => getIt<TagsUseCase>();
 
-  Future<Result<UserRetrieveProductTagsRes, Failure>> call({
+  Future<Result<RetrieveProductTagsRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

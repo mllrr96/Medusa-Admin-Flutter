@@ -30,7 +30,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<UserRetrieveUserListRes, Failure>> fetchUsers(
+  Future<Result<RetrieveUserListRes, Failure>> fetchUsers(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result =
@@ -43,11 +43,11 @@ class PersonalInfoCrudUseCase {
 
   Future<Result<User, Failure>> updateUser({
     required String id,
-    required UserUpdateUserReq userUpdateUserReq,
+    required UpdateUserReq payload,
   }) async {
     try {
       final result = await _userRepository.update(
-          id: id, userUpdateUserReq: userUpdateUserReq);
+          id: id, userUpdateUserReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
@@ -55,11 +55,11 @@ class PersonalInfoCrudUseCase {
   }
 
   Future<Result<User, Failure>> createUser({
-    required UserCreateUserReq userCreateUserReq,
+    required CreateUserReq payload,
   }) async {
     try {
       final result =
-          await _userRepository.create(userCreateUserReq: userCreateUserReq);
+          await _userRepository.create(userCreateUserReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
@@ -67,18 +67,18 @@ class PersonalInfoCrudUseCase {
   }
 
   Future<Result<User, Failure>> resetPassword({
-    required UserResetPasswordReq userResetPasswordReq,
+    required ResetPasswordReq payload,
   }) async {
     try {
       final result = await _userRepository.resetPassword(
-          userResetPasswordReq: userResetPasswordReq);
+          userResetPasswordReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
     }
   }
 
-  Future<Result<UserDeleteUserRes, Failure>> delete(String id) async {
+  Future<Result<DeleteUserRes, Failure>> delete(String id) async {
     try {
       final result = await _userRepository.delete(id: id);
       return Success(result!);

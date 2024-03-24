@@ -9,7 +9,7 @@ class DraftsUseCase {
   static DraftsUseCase get instance => getIt<DraftsUseCase>();
   DraftOrderRepository get _draftOrderRepository =>
       getIt<MedusaAdmin>().draftOrderRepository;
-  Future<Result<UserDraftOrdersRes, Failure>> call({
+  Future<Result<DraftOrdersRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

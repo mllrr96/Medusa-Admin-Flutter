@@ -10,7 +10,7 @@ class ProductVariantsUseCase {
       getIt<MedusaAdmin>().productVariantRepository;
   static ProductVariantsUseCase get instance =>
       getIt<ProductVariantsUseCase>();
-  Future<Result<UserRetrieveProductVariantsRes, Failure>> call({
+  Future<Result<RetrieveProductVariantsRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

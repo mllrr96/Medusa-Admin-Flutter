@@ -7,7 +7,7 @@ class ShippingProfileCrudEvent with _$ShippingProfileCrudEvent {
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory ShippingProfileCrudEvent.delete(String id) = _Delete;
   const factory ShippingProfileCrudEvent.create(
-      UserCreateShippingProfileReq userCreateShippingProfileReq) = _Create;
+      CreateShippingProfileReq userCreateShippingProfileReq) = _Create;
   const factory ShippingProfileCrudEvent.update(String id,
-      UserUpdateShippingProfileReq userUpdateShippingProfileReq) = _Update;
+      UpdateShippingProfileReq userUpdateShippingProfileReq) = _Update;
 }

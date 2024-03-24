@@ -218,7 +218,7 @@ class _DiscountsViewState extends State<DiscountsView> {
                         : () async {
                             discountCrudBloc.add(DiscountCrudEvent.update(
                                 discount.id!,
-                                UserUpdateDiscountReq(
+                                UpdateDiscountReq(
                                   isDisabled: discount.isDisabled != null
                                       ? !discount.isDisabled!
                                       : null,

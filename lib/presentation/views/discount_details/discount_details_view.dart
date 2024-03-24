@@ -64,7 +64,7 @@ class _DiscountDetailsViewState extends State<DiscountDetailsView> {
                     DiscountDetailsCard(state.discount, toggle: () {
                       discountCrudBloc.add(DiscountCrudEvent.update(
                           state.discount.id!,
-                          UserUpdateDiscountReq(
+                          UpdateDiscountReq(
                             isDisabled: state.discount.isDisabled != null
                                 ? !state.discount.isDisabled!
                                 : true,

@@ -8,9 +8,9 @@ class DraftOrderCrudEvent with _$DraftOrderCrudEvent {
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory DraftOrderCrudEvent.delete(String id) = _Delete;
   const factory DraftOrderCrudEvent.create(
-      UserCreateDraftOrderReq userCreateDraftOrderReq) = _Create;
+      CreateDraftOrderReq userCreateDraftOrderReq) = _Create;
   const factory DraftOrderCrudEvent.update(
-      String id, UserUpdateDraftOrderReq userUpdateDraftOrderReq) = _Update;
+      String id, UpdateDraftOrderReq userUpdateDraftOrderReq) = _Update;
   const factory DraftOrderCrudEvent.registerPayment(
       String id) = _RegisterPayment;
 }

@@ -11,7 +11,7 @@ class CollectionUseCase {
       getIt<MedusaAdmin>().collectionRepository;
 
   Future<Result<ProductCollection, Failure>> create({
-    required UserCreateCollectionReq userCreateCollectionReq,
+    required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionsRepository.create(
@@ -24,7 +24,7 @@ class CollectionUseCase {
 
   Future<Result<ProductCollection, Failure>> update({
     required String id,
-    required UserCreateCollectionReq userCreateCollectionReq,
+    required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionsRepository.update(id: id, userCreateCollectionReq: userCreateCollectionReq);
@@ -33,7 +33,7 @@ class CollectionUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<UserCollectionsRes, Failure>> retrieveAll({
+  Future<Result<CollectionsRes, Failure>> retrieveAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

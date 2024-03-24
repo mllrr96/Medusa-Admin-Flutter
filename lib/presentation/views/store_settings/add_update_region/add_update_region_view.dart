@@ -131,7 +131,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                     if (updateMode) {
                       regionCrudBloc.add(RegionCrudEvent.update(
                         region!.id!,
-                        UserUpdateRegionReq(
+                        UpdateRegionReq(
                           name: titleCtrl.text,
                           currencyCode: selectedCurrency!.code!,
                           countries: countriesIso,
@@ -140,7 +140,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                       ));
                     } else {
                       regionCrudBloc.add(RegionCrudEvent.create(
-                        UserCreateRegionReq(
+                        CreateRegionReq(
                           name: titleCtrl.text,
                           currencyCode: selectedCurrency!.code!,
                           taxRate: double.parse(defaultTaxRateCtrl.text),

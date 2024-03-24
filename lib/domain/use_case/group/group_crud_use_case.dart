@@ -10,7 +10,7 @@ class GroupCrudUseCase {
   CustomerGroupRepository get _customerGroupRepository =>
       getIt<MedusaAdmin>().customerGroupRepository;
 
-  Future<Result<UserRetrieveCustomerGroupsRes, Failure>> retrieveAll(
+  Future<Result<RetrieveCustomerGroupsRes, Failure>> retrieveAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerGroupRepository.retrieveCustomerGroups(
@@ -53,7 +53,7 @@ class GroupCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteCustomerGroupRes, Failure>> delete(
+  Future<Result<DeleteCustomerGroupRes, Failure>> delete(
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerGroupRepository.deleteCustomerGroup(

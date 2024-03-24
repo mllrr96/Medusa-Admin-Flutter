@@ -54,7 +54,7 @@ class ConditionsCard extends StatelessWidget {
                     if (result is DiscountConditionRes && context.mounted) {
                       discountCrudBloc?.add(DiscountCrudEvent.addCondition(
                           discount.id!,
-                          UserCreateConditionReq(
+                          CreateConditionReq(
                             operator: result.operator,
                             productCollectionIds: result.productCollections
                                 ?.map((e) => e.id!)

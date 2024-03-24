@@ -28,7 +28,7 @@ class UpdateShippingOptionUseCase {
   }
 
   Future<Result<ShippingOption, Failure>> createShippingOption(
-      UserCreateShippingOptionReq userCreateShippingOptionReq) async {
+      CreateShippingOptionReq userCreateShippingOptionReq) async {
     try {
       final result = await _shippingOptionsRepository.create(
           userCreateShippingOptionReq: userCreateShippingOptionReq);
@@ -40,7 +40,7 @@ class UpdateShippingOptionUseCase {
 
   Future<Result<ShippingOption, Failure>> updateShippingOption(
       {required String id,
-      required UserUpdateShippingOptionReq userUpdateShippingOptionReq}) async {
+      required UpdateShippingOptionReq userUpdateShippingOptionReq}) async {
     try {
       final result = await _shippingOptionsRepository.update(
           userUpdateShippingOptionReq: userUpdateShippingOptionReq, id: id);
@@ -50,7 +50,7 @@ class UpdateShippingOptionUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllShippingProfileRes, Failure>>
+  Future<Result<RetrieveAllShippingProfileRes, Failure>>
       fetchShippingProfiles({
     Map<String, dynamic>? queryParameters,
   }) async {

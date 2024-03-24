@@ -8,7 +8,7 @@ import 'package:multiple_result/multiple_result.dart';
 class PickProductsUseCase {
   static PickProductsUseCase get instance => getIt<PickProductsUseCase>();
   ProductsRepository get _productsRepository => getIt<MedusaAdmin>().productsRepository;
-  Future<Result<UserProductsListRes, Failure>> call(
+  Future<Result<ProductsListRes, Failure>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _productsRepository.retrieveAll(

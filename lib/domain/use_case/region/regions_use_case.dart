@@ -11,7 +11,7 @@ class RegionCrudUseCase {
 
   static RegionCrudUseCase get instance => getIt<RegionCrudUseCase>();
 
-  Future<Result<UserRegionsRes, Failure>> loadAll(
+  Future<Result<RegionsRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _regionsRepository.retrieveAll(
@@ -36,7 +36,7 @@ class RegionCrudUseCase {
   }
 
   Future<Result<Region, Failure>> create(
-      UserCreateRegionReq userCreateRegionReq) async {
+      CreateRegionReq userCreateRegionReq) async {
     try {
       final result = await _regionsRepository.create(
           userCreateRegionReq: userCreateRegionReq);
@@ -48,7 +48,7 @@ class RegionCrudUseCase {
 
   Future<Result<Region, Failure>> update({
     required String id,
-    required UserUpdateRegionReq userUpdateRegionReq,
+    required UpdateRegionReq userUpdateRegionReq,
   }) async {
     try {
       final result = await _regionsRepository.update(
@@ -59,7 +59,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteRegionRes, Failure>> delete(String id) async {
+  Future<Result<DeleteRegionRes, Failure>> delete(String id) async {
     try {
       final result = await _regionsRepository.delete(id: id);
       return Success(result!);

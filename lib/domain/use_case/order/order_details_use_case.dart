@@ -36,7 +36,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllOrderEditRes, Failure>> retrieveAllOrderEdit({
+  Future<Result<RetrieveAllOrderEditRes, Failure>> retrieveAllOrderEdit({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -75,19 +75,19 @@ class OrderCrudUseCase {
 
   Future<Result<Order, Failure>> createFulfillment({
     required String id,
-    required UserCreateFulfillmentReq userCreateFulfillmentReq,
+    required CreateFulfillmentReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final result = await _fulfillmentRepository.createFulfillment(
-          id: id, userCreateFulfillmentReq: userCreateFulfillmentReq);
+          id: id, userCreateFulfillmentReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));
     }
   }
 
-  Future<Result<UserRetrieveNotificationsRes, Failure>> retrieveNotifications({
+  Future<Result<RetrieveNotificationsRes, Failure>> retrieveNotifications({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -138,10 +138,10 @@ class OrderCrudUseCase {
 
   Future<Result<Order, Failure>> updateOrder(
       {required String id,
-      required UserUpdateOrderReq userUpdateOrderReq}) async {
+      required UpdateOrderReq payload}) async {
     try {
       final response = await _orderRepository.updateOrder(
-          id: id, userUpdateOrderReq: userUpdateOrderReq);
+          id: id, userUpdateOrderReq: payload);
       if (response != null) {
         return Success(response);
       } else {
@@ -174,12 +174,12 @@ class OrderCrudUseCase {
 
   Future<Result<Order, Failure>> createRefund({
     required String id,
-    required UserCreateRefundOrdersReq userCreateRefundOrdersReq,
+    required CreateRefundOrdersReq payload,
   }) async {
     try {
       final response = await _orderRepository.createRefund(
         id: id,
-        userCreateRefundOrdersReq: userCreateRefundOrdersReq,
+        userCreateRefundOrdersReq: payload,
       );
       if (response != null) {
         return Success(response);

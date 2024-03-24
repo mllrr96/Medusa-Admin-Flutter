@@ -585,7 +585,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                   updateMode
                       ? pricingCrudBloc.add(PricingCrudEvent.update(
                           widget.id!,
-                          UserUpdatePriceListReq(
+                          UpdatePriceListReq(
                             name: nameCtrl.text,
                             description: descriptionCtrl.text,
                             type: priceList.type,
@@ -600,7 +600,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                           ),
                         ))
                       : pricingCrudBloc.add(PricingCrudEvent.create(
-                          UserCreatePriceListReq(
+                          CreatePriceListReq(
                             name: nameCtrl.text,
                             description: descriptionCtrl.text,
                             type: priceList.type,

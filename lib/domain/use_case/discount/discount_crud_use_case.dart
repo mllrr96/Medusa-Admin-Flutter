@@ -13,7 +13,7 @@ class DiscountCrudUseCase {
   static DiscountCrudUseCase get instance => getIt<DiscountCrudUseCase>();
 
 
-  Future<Result<UserRetrieveDiscountsRes, Failure>> retrieveDiscounts(
+  Future<Result<RetrieveDiscountsRes, Failure>> retrieveDiscounts(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _discountRepository.retrieveDiscounts(
@@ -38,7 +38,7 @@ class DiscountCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteDiscountRes, Failure>> deleteDiscount(
+  Future<Result<DeleteDiscountRes, Failure>> deleteDiscount(
       {required String id}) async {
     try {
       final result = await _discountRepository.deleteDiscount(id: id);
@@ -49,7 +49,7 @@ class DiscountCrudUseCase {
   }
 
   Future<Result<Discount, Failure>> createDiscount({
-    required UserCreateDiscountReq userCreateDiscountReq,
+    required CreateDiscountReq userCreateDiscountReq,
   }) async {
     try {
       final result = await _discountRepository.createDiscount(
@@ -62,7 +62,7 @@ class DiscountCrudUseCase {
 
   Future<Result<Discount, Failure>> updateDiscount({
     required String id,
-    required UserUpdateDiscountReq userUpdateDiscountReq,
+    required UpdateDiscountReq userUpdateDiscountReq,
   }) async {
     try {
       final result = await _discountRepository.updateDiscount(
@@ -73,7 +73,7 @@ class DiscountCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteDiscountConditionRes, Failure>>
+  Future<Result<DeleteDiscountConditionRes, Failure>>
       deleteDiscountCondition({
     required String discountId,
     required String conditionId,
@@ -89,7 +89,7 @@ class DiscountCrudUseCase {
 
   Future<Result<Discount, Failure>> createDiscountCondition({
     required String discountId,
-    required UserCreateConditionReq userCreateConditionReq,
+    required CreateConditionReq userCreateConditionReq,
   }) async {
     try {
       final result = await _discountConditionRepository.createDiscountCondition(

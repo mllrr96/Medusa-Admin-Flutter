@@ -98,7 +98,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
   ) async {
     emit(const _Loading());
     final result = await productCrudUseCase.createProduct(
-      userPostProductReq: event.userPostProductReq,
+      payload: event.userPostProductReq,
     );
     result.when((product) {
       emit(_Product(product));
@@ -126,7 +126,7 @@ class ProductCrudBloc extends Bloc<ProductCrudEvent, ProductCrudState> {
   ) async {
     emit(_Loading(id: event.id));
     final result = await productCrudUseCase.updateProduct(
-        id: event.id, userPostUpdateProductReq: event.userPostUpdateProductReq);
+        id: event.id, payload: event.userPostUpdateProductReq);
     result.when((success) {
       emit(_Updated(success));
     }, (error) {

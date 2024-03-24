@@ -11,7 +11,7 @@ class CustomerCrudUseCase {
   static CustomerCrudUseCase get instance => getIt<CustomerCrudUseCase>();
 
   Future<Result<Customer, Failure>> create(
-      UserCreateCustomerReq userCreateCustomerReq) async {
+      CreateCustomerReq userCreateCustomerReq) async {
     try {
       final result = await _customerRepository.create(
           userCreateCustomerReq: userCreateCustomerReq);
@@ -22,7 +22,7 @@ class CustomerCrudUseCase {
   }
 
   Future<Result<Customer, Failure>> update(
-      String id, UserUpdateCustomerReq userUpdateCustomerReq) async {
+      String id, UpdateCustomerReq userUpdateCustomerReq) async {
     try {
       final result = await _customerRepository.update(
           id: id, userUpdateCustomerReq: userUpdateCustomerReq);

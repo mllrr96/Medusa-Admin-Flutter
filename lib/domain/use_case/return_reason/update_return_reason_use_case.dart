@@ -13,7 +13,7 @@ class UpdateReturnReasonUseCase {
       getIt<UpdateReturnReasonUseCase>();
 
   Future<Result<ReturnReason, Failure>> create(
-      UserCreateReturnReasonReq userCreateReturnReasonReq) async {
+      CreateReturnReasonReq userCreateReturnReasonReq) async {
     try {
       final result = await _returnReasonRepository.create(
           userCreateReturnReasonReq: userCreateReturnReasonReq);
@@ -25,7 +25,7 @@ class UpdateReturnReasonUseCase {
 
   Future<Result<ReturnReason, Failure>> update({
     required String id,
-    required UserUpdateReturnReasonReq userUpdateReturnReasonReq,
+    required UpdateReturnReasonReq userUpdateReturnReasonReq,
   }) async {
     try {
       final result = await _returnReasonRepository.update(

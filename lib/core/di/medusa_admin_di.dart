@@ -4,10 +4,19 @@ import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'di.dart';
 
 abstract class MedusaAdminDi {
-  static final Interceptor _interceptor = InterceptorsWrapper(
+  static final Interceptor _loggerInterceptor = PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: false,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 90);
+  static final Interceptor _authInterceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
       final authType = AuthPreferenceService.authTypeGetter;
       final secureStorage = getIt<FlutterSecureStorage>();
@@ -75,7 +84,7 @@ abstract class MedusaAdminDi {
       getIt.registerLazySingleton<MedusaAdmin>(
         () => MedusaAdmin.initialize(
           baseUrl: AuthPreferenceService.baseUrlGetter!,
-          interceptors: [_interceptor],
+          interceptors: [_authInterceptor, _loggerInterceptor],
         ),
       );
     }

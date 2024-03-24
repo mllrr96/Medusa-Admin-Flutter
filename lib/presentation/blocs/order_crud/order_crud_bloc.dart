@@ -32,7 +32,7 @@ class OrderCrudBloc extends Bloc<OrderCrudEvent, OrderCrudState> {
   Future<void> _update(_Update event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
     final result = await orderCrudUseCase.updateOrder(
-        id: event.id, userUpdateOrderReq: event.updateOrderReq);
+        id: event.id, payload: event.updateOrderReq);
     result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
   }
 
@@ -46,7 +46,7 @@ class OrderCrudBloc extends Bloc<OrderCrudEvent, OrderCrudState> {
       _CreateFulfillment event, Emitter<OrderCrudState> emit) async {
     emit(const _Loading());
     final result = await orderCrudUseCase.createFulfillment(
-        id: event.id, userCreateFulfillmentReq: event.userCreateFulfillmentReq);
+        id: event.id, payload: event.userCreateFulfillmentReq);
     result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
   }
 
@@ -63,7 +63,7 @@ class OrderCrudBloc extends Bloc<OrderCrudEvent, OrderCrudState> {
     emit(const _Loading());
     final result = await orderCrudUseCase.createRefund(
         id: event.id,
-        userCreateRefundOrdersReq: event.userCreateRefundOrdersReq);
+        payload: event.userCreateRefundOrdersReq);
     result.when((order) => emit(_Order(order)), (error) => emit(_Error(error)));
   }
 

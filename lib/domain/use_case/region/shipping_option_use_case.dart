@@ -10,7 +10,7 @@ class ShippingOptionUseCase {
       getIt<MedusaAdmin>().shippingOptionsRepository;
   static ShippingOptionUseCase get instance => getIt<ShippingOptionUseCase>();
 
-  Future<Result<UserRetrieveAllShippingOptionRes, Failure>> call(
+  Future<Result<RetrieveAllShippingOptionRes, Failure>> call(
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingOptionsRepository.retrieveAll(

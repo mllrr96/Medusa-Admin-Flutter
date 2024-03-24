@@ -100,7 +100,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           // update collection
                           collectionCrudBloc.add(CollectionCrudEvent.update(
                               widget.collection!.id!,
-                              UserCreateCollectionReq(
+                              CreateCollectionReq(
                                 title: titleCtrl.text,
                                 handle: handleCtrl.text,
                               )));
@@ -111,7 +111,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                             return;
                           }
                           collectionCrudBloc.add(CollectionCrudEvent.create(
-                              UserCreateCollectionReq(
+                              CreateCollectionReq(
                             title: titleCtrl.text,
                             handle: handleCtrl.text,
                           )));

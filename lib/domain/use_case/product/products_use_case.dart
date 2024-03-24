@@ -9,7 +9,7 @@ class ProductsUseCase {
   ProductsRepository get _productsRepository =>
       getIt<MedusaAdmin>().productsRepository;
   static ProductsUseCase get instance => getIt<ProductsUseCase>();
-  Future<Result<UserProductsListRes, Failure>> fetchProducts({
+  Future<Result<ProductsListRes, Failure>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -21,7 +21,7 @@ class ProductsUseCase {
     }
   }
 
-  Future<Result<UserDeleteProductRes, Failure>> delete({
+  Future<Result<DeleteProductRes, Failure>> delete({
     required String id,
   }) async {
     try {
@@ -34,7 +34,7 @@ class ProductsUseCase {
 
   Future<Result<Product, Failure>> update({
     required String id,
-    required UserPostUpdateProductReq userPostUpdateProductReq,
+    required PostUpdateProductReq userPostUpdateProductReq,
   }) async {
     try {
       final result = await _productsRepository.update(
@@ -44,7 +44,7 @@ class ProductsUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<Product, Failure>> add(UserPostProductReq userPostProductReq
+  Future<Result<Product, Failure>> add(PostProductReq userPostProductReq
   ) async {
     try {
       final result = await _productsRepository.add(userPostProductReq: userPostProductReq);

@@ -38,7 +38,7 @@ class OrderEditCrudBloc extends Bloc<OrderEditCrudEvent, OrderEditCrudState> {
       _AddLineItem event, Emitter<OrderEditCrudState> emit) async {
     emit(const _Loading());
     final orderEdit = await _useCase.addLineItem(
-        id: event.id, userAddLineItemReq: event.userAddLineItemReq);
+        id: event.id, payload: event.userAddLineItemReq);
     orderEdit.when(
         (success) => emit(_OrderEdit(success)), (error) => emit(_Error(error)));
   }

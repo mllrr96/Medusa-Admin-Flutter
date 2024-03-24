@@ -9,7 +9,7 @@ class ProductTypeUseCase {
   static ProductTypeUseCase get instance => getIt<ProductTypeUseCase>();
   ProductTypeRepository get _typesRepository =>
       getIt<MedusaAdmin>().productTypeRepository;
-  Future<Result<UserRetrieveProductTypesRes, Failure>> call(
+  Future<Result<RetrieveProductTypesRes, Failure>> call(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _typesRepository.retrieveProductTypes(

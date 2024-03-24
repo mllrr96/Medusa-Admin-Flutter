@@ -10,7 +10,7 @@ class DiscountsUseCase {
       getIt<MedusaAdmin>().discountRepository;
   static DiscountsUseCase get instance => getIt<DiscountsUseCase>();
 
-  Future<Result<UserRetrieveDiscountsRes, Failure>> retrieveDiscounts(
+  Future<Result<RetrieveDiscountsRes, Failure>> retrieveDiscounts(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _discountRepository.retrieveDiscounts(
@@ -22,7 +22,7 @@ class DiscountsUseCase {
     }
   }
 
-  Future<Result<UserDeleteDiscountRes, Failure>> deleteDiscount(
+  Future<Result<DeleteDiscountRes, Failure>> deleteDiscount(
       {required String id}) async {
     try {
       final result = await _discountRepository.deleteDiscount(id: id);
@@ -34,7 +34,7 @@ class DiscountsUseCase {
 
   Future<Result<Discount, Failure>> updateDiscount({
     required String id,
-    required UserUpdateDiscountReq userUpdateDiscountReq,
+    required UpdateDiscountReq userUpdateDiscountReq,
   }) async {
     try {
       final result = await _discountRepository.updateDiscount(

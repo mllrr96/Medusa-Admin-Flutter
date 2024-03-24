@@ -73,7 +73,7 @@ class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
                     }
                     productCrudBloc.add(
                       ProductCrudEvent.create(
-                        UserPostProductReq(
+                        PostProductReq(
                           product: Product(
                             title: nameCtrl.text,
                             isGiftCard: true,

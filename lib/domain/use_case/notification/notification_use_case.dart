@@ -21,7 +21,7 @@ class NotificationUseCase {
     }
   }
 
-  Future<Result<UserRetrieveNotificationsRes, Failure>> loadAll({
+  Future<Result<RetrieveNotificationsRes, Failure>> loadAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

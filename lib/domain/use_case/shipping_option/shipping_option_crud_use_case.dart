@@ -10,7 +10,7 @@ class ShippingOptionCrudUseCase {
       getIt<MedusaAdmin>().shippingOptionsRepository;
 
   Future<Result<ShippingOption, Failure>> create(
-      UserCreateShippingOptionReq userCreateShippingOptionReq) async {
+      CreateShippingOptionReq userCreateShippingOptionReq) async {
     try {
       final result = await _shippingOptionsRepository.create(
           userCreateShippingOptionReq: userCreateShippingOptionReq);
@@ -22,7 +22,7 @@ class ShippingOptionCrudUseCase {
 
   Future<Result<ShippingOption, Failure>> update(
       {required String id,
-      required UserUpdateShippingOptionReq userUpdateShippingOptionReq}) async {
+      required UpdateShippingOptionReq userUpdateShippingOptionReq}) async {
     try {
       final result = await _shippingOptionsRepository.update(
           userUpdateShippingOptionReq: userUpdateShippingOptionReq, id: id);
@@ -32,7 +32,7 @@ class ShippingOptionCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteShippingOptionRes, Failure>> delete(String id) async {
+  Future<Result<DeleteShippingOptionRes, Failure>> delete(String id) async {
     try {
       final result = await _shippingOptionsRepository.delete(id: id);
       return Success(result!);
@@ -41,7 +41,7 @@ class ShippingOptionCrudUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllShippingOptionRes, Failure>> loadAll(
+  Future<Result<RetrieveAllShippingOptionRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingOptionsRepository.retrieveAll(

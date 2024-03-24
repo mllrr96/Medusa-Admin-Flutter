@@ -67,7 +67,7 @@ class GiftCardCrudBloc extends Bloc<GiftCardCrudEvent, GiftCardCrudState> {
   ) async {
     emit(const GiftCardCrudState.loading());
     final result = await giftCardsUseCase.update(
-        id: event.id, userUpdateGiftCardReq: event.userUpdateGiftCardReq);
+        id: event.id, payload: event.userUpdateGiftCardReq);
     result.when((giftCard) {
       emit(_GiftCard(giftCard));
     }, (error) {

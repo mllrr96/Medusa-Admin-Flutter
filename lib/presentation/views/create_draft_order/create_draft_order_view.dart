@@ -157,7 +157,7 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
                     if (currentStep == 2) {
                       context.unfocus();
                       draftOrderCrudBloc.add(
-                        DraftOrderCrudEvent.create(UserCreateDraftOrderReq(
+                        DraftOrderCrudEvent.create(CreateDraftOrderReq(
                             discounts: [],
                             email: customer!.email,
                             customerId: customer?.id,

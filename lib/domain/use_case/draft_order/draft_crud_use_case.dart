@@ -23,7 +23,7 @@ class DraftCrudUseCase {
     }
   }
 
-  Future<Result<UserDraftOrdersRes, Failure>> retrieveDraftOrders({
+  Future<Result<DraftOrdersRes, Failure>> retrieveDraftOrders({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -35,7 +35,7 @@ class DraftCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteDraftOrderRes, Failure>> cancelDraft({
+  Future<Result<DeleteDraftOrderRes, Failure>> cancelDraft({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -49,12 +49,12 @@ class DraftCrudUseCase {
 
   Future<Result<DraftOrder, Failure>> update({
     required String id,
-    required UserUpdateDraftOrderReq userUpdateDraftOrderReq,
+    required UpdateDraftOrderReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final result = await _draftRepository.updateDraftOrder(
-          id: id, userUpdateDraftOrderReq: userUpdateDraftOrderReq);
+          id: id, userUpdateDraftOrderReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
@@ -62,12 +62,12 @@ class DraftCrudUseCase {
   }
 
   Future<Result<DraftOrder, Failure>> create({
-    required UserCreateDraftOrderReq userCreateDraftOrderReq,
+    required CreateDraftOrderReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final result = await _draftRepository.createDraftOrder(
-          userCreateDraftOrderReq: userCreateDraftOrderReq);
+          userCreateDraftOrderReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));

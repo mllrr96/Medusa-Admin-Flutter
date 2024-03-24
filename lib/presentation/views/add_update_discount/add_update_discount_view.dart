@@ -24,8 +24,8 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
   bool get updatingDiscount => widget.discount != null;
   DiscountRuleType discountType = DiscountRuleType.percentage;
   AllocationType allocationType = AllocationType.total;
-  UserUpdateDiscountReq? updateDiscountReq;
-  UserCreateDiscountReq? createDiscountReq;
+  UpdateDiscountReq? updateDiscountReq;
+  CreateDiscountReq? createDiscountReq;
   List<DiscountCondition> conditions = [];
   final discountKey = GlobalKey();
   final generalKey = GlobalKey();
@@ -133,7 +133,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                             discountType: discountType,
                             onSaved: (regions, code, description, value) {
                               if (updatingDiscount) {
-                                updateDiscountReq = UserUpdateDiscountReq(
+                                updateDiscountReq = UpdateDiscountReq(
                                   code: code,
                                   regionsIds:
                                       regions.map((e) => e.id!).toList(),
@@ -146,7 +146,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                                   ),
                                 );
                               } else {
-                                createDiscountReq = UserCreateDiscountReq(
+                                createDiscountReq = CreateDiscountReq(
                                   code: code,
                                   regionsIds:
                                       regions.map((e) => e.id!).toList(),

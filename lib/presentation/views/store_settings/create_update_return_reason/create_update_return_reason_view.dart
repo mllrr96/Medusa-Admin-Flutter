@@ -100,14 +100,14 @@ class _CreateUpdateReturnReasonViewState
                   if (updateMode) {
                     returnReasonsCrudBloc.add(ReturnReasonsCrudEvent.update(
                       widget.returnReason!.id!,
-                      UserUpdateReturnReasonReq(
+                      UpdateReturnReasonReq(
                           label: labelCtrl.text,
                           value: valueCtrl.text,
                           description: descriptionCtrl.text),
                     ));
                   } else {
                     returnReasonsCrudBloc.add(
-                      ReturnReasonsCrudEvent.create(UserCreateReturnReasonReq(
+                      ReturnReasonsCrudEvent.create(CreateReturnReasonReq(
                           label: labelCtrl.text,
                           value: valueCtrl.text,
                           description:

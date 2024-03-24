@@ -23,7 +23,7 @@ class ReturnReasonCrudUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllReturnReasonRes, Failure>> loadAll(
+  Future<Result<RetrieveAllReturnReasonRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _returnReasonRepository.retrieveAll(
@@ -34,7 +34,7 @@ class ReturnReasonCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteReturnReasonRes, Failure>> delete(String id) async {
+  Future<Result<DeleteReturnReasonRes, Failure>> delete(String id) async {
     try {
       final result = await _returnReasonRepository.delete(id: id);
       return Success(result!);
@@ -44,7 +44,7 @@ class ReturnReasonCrudUseCase {
   }
 
   Future<Result<ReturnReason, Failure>> create(
-      UserCreateReturnReasonReq userCreateReturnReasonReq) async {
+      CreateReturnReasonReq userCreateReturnReasonReq) async {
     try {
       final result = await _returnReasonRepository.create(
           userCreateReturnReasonReq: userCreateReturnReasonReq);
@@ -56,7 +56,7 @@ class ReturnReasonCrudUseCase {
 
   Future<Result<ReturnReason, Failure>> update({
     required String id,
-    required UserUpdateReturnReasonReq userUpdateReturnReasonReq,
+    required UpdateReturnReasonReq userUpdateReturnReasonReq,
   }) async {
     try {
       final result = await _returnReasonRepository.update(

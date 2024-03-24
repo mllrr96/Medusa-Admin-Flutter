@@ -13,10 +13,10 @@ class PriceListCrudUseCase {
       getIt<PriceListCrudUseCase>();
 
   Future<Result<PriceList, Failure>> create(
-      UserCreatePriceListReq userCreatePriceListReq) async {
+      CreatePriceListReq payload) async {
     try {
       final result = await _priceListRepository.createPriceList(
-          userCreatePriceListReq: userCreatePriceListReq);
+          userCreatePriceListReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));
@@ -24,12 +24,12 @@ class PriceListCrudUseCase {
   }
 
   Future<Result<PriceList, Failure>> update({
-    required UserUpdatePriceListReq userUpdatePriceListReq,
+    required UpdatePriceListReq payload,
     required String id,
   }) async {
     try {
       final result = await _priceListRepository.updatePriceList(
-          id: id, userUpdatePriceListReq: userUpdatePriceListReq);
+          id: id, userUpdatePriceListReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));
@@ -37,19 +37,19 @@ class PriceListCrudUseCase {
   }
 
   Future<Result<PriceList, Failure>> updatePrices({
-    required UserUpdatePricesReq userUpdatePricesReq,
+    required UpdatePricesReq payload,
     required String id,
   }) async {
     try {
       final result = await _priceListRepository.updatePrices(
-          id: id, userUpdatePricesReq: userUpdatePricesReq);
+          id: id, userUpdatePricesReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));
     }
   }
 
-  Future<Result<UserDeleteProductPricesRes, Failure>> deleteProductPrices({
+  Future<Result<DeleteProductPricesRes, Failure>> deleteProductPrices({
     required String id,
     required String productId,
   }) async {
@@ -62,7 +62,7 @@ class PriceListCrudUseCase {
     }
   }
 
-  Future<Result<UserDeletePriceListRes, Failure>> delete({
+  Future<Result<DeletePriceListRes, Failure>> delete({
     required String id,
   }) async {
     try {
@@ -84,7 +84,7 @@ class PriceListCrudUseCase {
     }
   }
 
-  Future<Result<UserPriceListsRes, Failure>> fetchAll({
+  Future<Result<PriceListsRes, Failure>> fetchAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -96,7 +96,7 @@ class PriceListCrudUseCase {
     }
   }
 
-  Future<Result<UserPriceListsProductsRes, Failure>> fetchProducts({
+  Future<Result<PriceListsProductsRes, Failure>> fetchProducts({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {

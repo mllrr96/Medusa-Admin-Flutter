@@ -10,7 +10,7 @@ class GiftCardsUseCase {
       getIt<MedusaAdmin>().giftCardRepository;
   static GiftCardsUseCase get instance => getIt<GiftCardsUseCase>();
 
-  Future<Result<UserGiftCardsRes, Failure>> fetchGiftCards({
+  Future<Result<GiftCardsRes, Failure>> fetchGiftCards({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -30,7 +30,7 @@ class GiftCardsUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<UserDeleteGiftCardRes, Failure>> delete(String id) async {
+  Future<Result<DeleteGiftCardRes, Failure>> delete(String id) async {
     try {
       final result = await _giftCardRepository.deleteGiftCard(id: id);
       return Success(result!);
@@ -40,10 +40,10 @@ class GiftCardsUseCase {
   }
 
   Future<Result<GiftCard, Failure>> create(
-      UserCreateGiftCardReq userCreateGiftCardReq) async {
+      CreateGiftCardReq payload) async {
     try {
       final result = await _giftCardRepository.createGiftCard(
-          userCreateGiftCardReq: userCreateGiftCardReq);
+          userCreateGiftCardReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
@@ -52,11 +52,11 @@ class GiftCardsUseCase {
 
   Future<Result<GiftCard, Failure>> update({
     required String id,
-    required UserUpdateGiftCardReq userUpdateGiftCardReq,
+    required UpdateGiftCardReq payload,
   }) async {
     try {
       final result = await _giftCardRepository.updateGiftCard(
-          id: id, userUpdateGiftCardReq: userUpdateGiftCardReq);
+          id: id, userUpdateGiftCardReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));

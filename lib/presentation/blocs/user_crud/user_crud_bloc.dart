@@ -56,7 +56,7 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
   Future<void> _create(_Create event, Emitter<UserCrudState> emit) async {
     emit(const _Loading());
     final result =
-        await _useCase.createUser(userCreateUserReq: event.userCreateUserReq);
+        await _useCase.createUser(payload: event.userCreateUserReq);
     result.when(
       (user) => emit(_User(user)),
       (error) => emit(_Error(error)),
@@ -76,7 +76,7 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
     emit(const _Loading());
     final result = await _useCase.updateUser(
       id: event.id,
-      userUpdateUserReq: event.userUpdateUserReq,
+      payload: event.userUpdateUserReq,
     );
     result.when(
       (user) => emit(_User(user)),
@@ -88,7 +88,7 @@ class UserCrudBloc extends Bloc<UserCrudEvent, UserCrudState> {
       _ResetPassword event, Emitter<UserCrudState> emit) async {
     emit(const _Loading());
     final result = await _useCase.resetPassword(
-      userResetPasswordReq: event.userResetPasswordReq,
+      payload: event.userResetPasswordReq,
     );
     result.when(
       (user) => emit(_User(user)),

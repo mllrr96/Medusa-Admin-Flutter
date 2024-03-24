@@ -85,7 +85,7 @@ class DraftOrderCrudBloc
   Future<void> _update(_Update event, Emitter<DraftOrderCrudState> emit) async {
     emit(const _Loading());
     final result = await draftCrudUseCase.update(
-        id: event.id, userUpdateDraftOrderReq: event.userUpdateDraftOrderReq);
+        id: event.id, payload: event.userUpdateDraftOrderReq);
     result.when(
       (draftOrder) {
         emit(_DraftOrder(draftOrder));
@@ -99,7 +99,7 @@ class DraftOrderCrudBloc
   Future<void> _create(_Create event, Emitter<DraftOrderCrudState> emit) async {
     emit(const _Loading());
     final result = await draftCrudUseCase.create(
-        userCreateDraftOrderReq: event.userCreateDraftOrderReq);
+        payload: event.userCreateDraftOrderReq);
     result.when(
       (draftOrder) {
         emit(_DraftOrder(draftOrder));

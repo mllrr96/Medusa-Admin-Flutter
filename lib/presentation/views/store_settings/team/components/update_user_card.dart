@@ -7,7 +7,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 class UpdateUserCard extends StatefulWidget {
   const UpdateUserCard({super.key, required this.user, this.onUpdated});
   final User user;
-  final void Function(UserUpdateUserReq)? onUpdated;
+  final void Function(UpdateUserReq)? onUpdated;
   @override
   State<UpdateUserCard> createState() => _UpdateUserCardState();
 }
@@ -74,7 +74,7 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
                           return;
                         }
 
-                        widget.onUpdated?.call(UserUpdateUserReq(
+                        widget.onUpdated?.call(UpdateUserReq(
                           firstName: firstNameCtrl.text,
                           lastName: lastNameCtrl.text,
                           apiToken:

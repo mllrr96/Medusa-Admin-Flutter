@@ -97,7 +97,7 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                               .read<CustomerCrudBloc>()
                               .add(CustomerCrudEvent.update(
                                   customer!.id!,
-                                  UserUpdateCustomerReq(
+                                  UpdateCustomerReq(
                                     email:
                                         emailNameCtrl.text == (customer!.email)
                                             ? null
@@ -122,7 +122,7 @@ class _AddUpdateCustomerViewState extends State<AddUpdateCustomerView> {
                           }
                           context.read<CustomerCrudBloc>().add(
                                   CustomerCrudEvent.create(
-                                      UserCreateCustomerReq(
+                                      CreateCustomerReq(
                                 email: emailNameCtrl.text,
                                 firstName: firstNameCtrl.text,
                                 lastName: lastNameCtrl.text,

@@ -21,7 +21,7 @@ class ProductCrudUseCase{
     }
   }
 
-  Future<Result<UserProductsListRes, Failure>> fetchProducts({
+  Future<Result<ProductsListRes, Failure>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -44,7 +44,7 @@ class ProductCrudUseCase{
       return Error(Failure.from(error));
     }
   }
-  Future<Result<UserDeleteProductRes, Failure>> deleteProduct({
+  Future<Result<DeleteProductRes, Failure>> deleteProduct({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -58,22 +58,22 @@ class ProductCrudUseCase{
 
   Future<Result<Product, Failure>> updateProduct({
     required String id,
-    required UserPostUpdateProductReq userPostUpdateProductReq,
+    required PostUpdateProductReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.update(id: id, userPostUpdateProductReq: userPostUpdateProductReq);
+      final result = await _productsRepository.update(id: id, userPostUpdateProductReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));
     }
   }
   Future<Result<Product, Failure>> createProduct({
-    required UserPostProductReq userPostProductReq,
+    required PostProductReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.add(userPostProductReq: userPostProductReq);
+      final result = await _productsRepository.add(userPostProductReq: payload);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));

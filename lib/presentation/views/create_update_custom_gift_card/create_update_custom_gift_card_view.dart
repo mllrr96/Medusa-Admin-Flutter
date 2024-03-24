@@ -115,13 +115,13 @@ class _CreateUpdateCustomGiftCardViewState
                     if (updateMode) {
                       giftCardCrudBloc.add(GiftCardCrudEvent.update(
                           widget.giftCard!.id!,
-                          UserUpdateGiftCardReq(
+                          UpdateGiftCardReq(
                             regionId: selectedRegion!.id!,
                             endsAt: expiryDate,
                           )));
                     } else {
                       giftCardCrudBloc.add(
-                          GiftCardCrudEvent.create(UserCreateGiftCardReq(
+                          GiftCardCrudEvent.create(CreateGiftCardReq(
                             value: int.tryParse(amountCtrl.text
                                 .replaceAll(RegExp(r'[^0-9]'), '')),
                             regionId: selectedRegion!.id!,

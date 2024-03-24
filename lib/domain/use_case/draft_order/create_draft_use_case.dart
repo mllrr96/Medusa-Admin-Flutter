@@ -11,7 +11,7 @@ class CreateDraftUseCase {
   static CreateDraftUseCase get instance => getIt<CreateDraftUseCase>();
 
   Future<Result<DraftOrder, Failure>> call(
-    UserCreateDraftOrderReq userCreateDraftOrderReq,
+    CreateDraftOrderReq userCreateDraftOrderReq,
   ) async {
     try {
       final result = await _draftRepository.createDraftOrder(

@@ -55,7 +55,7 @@ class ProductDetailsVariants extends StatelessWidget {
                       context.read<ProductCrudBloc>().add(
                           ProductCrudEvent.update(
                               product.id!,
-                              UserPostUpdateProductReq(
+                              PostUpdateProductReq(
                                   variants: [newVariant])));
                     }
                   }

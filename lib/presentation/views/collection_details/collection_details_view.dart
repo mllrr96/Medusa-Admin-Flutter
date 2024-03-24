@@ -171,7 +171,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                           context
                                               .read<CollectionCrudBloc>()
                                               .add(CollectionCrudEvent.addProducts(
-                                                  UserCollectionUpdateProductsReq(
+                                                  CollectionUpdateProductsReq(
                                                 collectionId:
                                                     widget.collectionId,
                                                 productsIds: selectedProducts,
@@ -183,7 +183,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                               .read<CollectionCrudBloc>()
                                               .add(CollectionCrudEvent
                                                   .removeProducts(
-                                                      UserCollectionRemoveProductsReq(
+                                                      CollectionRemoveProductsReq(
                                                 collectionId:
                                                     widget.collectionId,
                                                 productsIds: removedProducts,
@@ -226,7 +226,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                     .toList();
                                 context.read<CollectionCrudBloc>().add(
                                     CollectionCrudEvent.addProducts(
-                                        UserCollectionUpdateProductsReq(
+                                        CollectionUpdateProductsReq(
                                             collectionId: widget.collectionId,
                                             productsIds: selectedProducts)));
                               }
@@ -278,7 +278,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                   context.mounted) {
                                 context.read<CollectionCrudBloc>().add(
                                     CollectionCrudEvent.removeProducts(
-                                        UserCollectionRemoveProductsReq(
+                                        CollectionRemoveProductsReq(
                                             collectionId: widget.collectionId,
                                             productsIds: [product.id!])));
                               }

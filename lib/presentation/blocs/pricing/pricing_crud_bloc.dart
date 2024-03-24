@@ -57,7 +57,7 @@ class PricingCrudBloc extends Bloc<PricingCrudEvent, PricingCrudState> {
   Future<void> _update(_Update event, Emitter<PricingCrudState> emit) async {
     emit(const PricingCrudState.loading());
     final result = await priceListCrudUseCase.update(
-        id: event.id, userUpdatePriceListReq: event.userUpdatePriceListReq);
+        id: event.id, payload: event.userUpdatePriceListReq);
     result.when(
         (priceList) => emit(_PricingList(priceList)), (error) => emit(_Error(error)));
   }

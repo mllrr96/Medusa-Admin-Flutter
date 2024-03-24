@@ -9,7 +9,7 @@ class CurrenciesUseCase {
 
   static CurrenciesUseCase get instance => getIt<CurrenciesUseCase>();
 
-  Future<Result<UserCurrencyRes, Failure>> call({
+  Future<Result<CurrencyRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
 }) async {
     try {

@@ -7,5 +7,5 @@ class InviteCrudEvent with _$InviteCrudEvent {
   const factory InviteCrudEvent.delete(String id) = _Delete;
   const factory InviteCrudEvent.create(String email, UserRole role) = _Create;
   const factory InviteCrudEvent.accept(
-      UserAcceptInvitationReq userAcceptInvitationReq) = _Accept;
+      AcceptInvitationReq userAcceptInvitationReq) = _Accept;
 }

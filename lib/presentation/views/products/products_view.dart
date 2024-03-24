@@ -302,7 +302,7 @@ class _ProductsViewState extends State<ProductsView> {
                     onPublish: () async {
                       productCrudBloc.add(ProductCrudEvent.update(
                           product.id!,
-                          UserPostUpdateProductReq(
+                          PostUpdateProductReq(
                             status: product.status == ProductStatus.draft
                                 ? ProductStatus.published
                                 : ProductStatus.draft,
@@ -310,7 +310,7 @@ class _ProductsViewState extends State<ProductsView> {
                     },
                     onDuplicate: () async {
                       productCrudBloc.add(ProductCrudEvent.create(
-                          UserPostProductReq(
+                          PostProductReq(
                               product: product.duplicate(
                                   title: '${product.title ?? ''} (copy)',
                                   handle: '${product.handle ?? ''}-copy'))));

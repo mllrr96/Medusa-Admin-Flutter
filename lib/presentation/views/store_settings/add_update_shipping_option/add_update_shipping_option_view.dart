@@ -521,7 +521,7 @@ class _AddUpdateShippingOptionViewState
       final shippingOption = addUpdateShippingOptionReq.shippingOption!;
       shippingOptionCrudBloc.add(ShippingOptionCrudEvent.update(
         shippingOption.id!,
-        UserUpdateShippingOptionReq(
+        UpdateShippingOptionReq(
           shippingOption: ShippingOption(
             name: shippingOption.name == titleCtrl.text ? null : titleCtrl.text,
             regionId: null,
@@ -537,7 +537,7 @@ class _AddUpdateShippingOptionViewState
       ));
     } else {
       shippingOptionCrudBloc.add(ShippingOptionCrudEvent.create(
-        UserCreateShippingOptionReq(
+        CreateShippingOptionReq(
           shippingOption: ShippingOption(
             name: titleCtrl.text,
             regionId: addUpdateShippingOptionReq.region.id!,

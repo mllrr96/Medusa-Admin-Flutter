@@ -24,7 +24,7 @@ class OrderEditCrudEvent with _$OrderEditCrudEvent {
 
   const factory OrderEditCrudEvent.addLineItem(
     String id,
-    UserAddLineItemReq userAddLineItemReq,
+    AddLineItemReq userAddLineItemReq,
   ) = _AddLineItem;
 
   const factory OrderEditCrudEvent.deleteLineItem(

@@ -152,7 +152,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                                 context.mounted) {
                               pricingCrudBloc.add(PricingCrudEvent.updatePrices(
                                   id,
-                                  UserUpdatePricesReq(
+                                  UpdatePricesReq(
                                       prices: prices
                                           .map((e) => MoneyAmount(
                                               variantId: e.variantId,
@@ -222,7 +222,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                             if (result is List<MoneyAmount>) {
                               priceListBloc.add(PricingCrudEvent.updatePrices(
                                   id,
-                                  UserUpdatePricesReq(
+                                  UpdatePricesReq(
                                       prices: result
                                           .map((e) => MoneyAmount(
                                               variantId: e.variantId,

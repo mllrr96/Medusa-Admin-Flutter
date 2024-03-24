@@ -303,7 +303,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
 
   Future<void> createProduct() async {
     productCrudBloc
-        .add(ProductCrudEvent.create(UserPostProductReq(product: product!)));
+        .add(ProductCrudEvent.create(PostProductReq(product: product!)));
   }
 
   Future<void> updateProduct() async {
@@ -319,7 +319,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
     final originalProduct = widget.updateProductReq!.product;
     productCrudBloc.add(ProductCrudEvent.update(
       widget.updateProductReq!.product.id!,
-      UserPostUpdateProductReq(
+      PostUpdateProductReq(
         title: originalProduct.title == product!.title ? null : product!.title,
         subtitle: originalProduct.subtitle == product!.subtitle
             ? null

@@ -5,9 +5,9 @@ class RegionCrudEvent with _$RegionCrudEvent {
   // CRUD
   const factory RegionCrudEvent.load(String id) = _Load;
   const factory RegionCrudEvent.create(
-      UserCreateRegionReq userCreateRegionReq) = _Create;
+      CreateRegionReq userCreateRegionReq) = _Create;
   const factory RegionCrudEvent.update(
-      String id, UserUpdateRegionReq userUpdateRegionReq) = _Update;
+      String id, UpdateRegionReq userUpdateRegionReq) = _Update;
   const factory RegionCrudEvent.loadAll(
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory RegionCrudEvent.delete(String id) = _Delete;

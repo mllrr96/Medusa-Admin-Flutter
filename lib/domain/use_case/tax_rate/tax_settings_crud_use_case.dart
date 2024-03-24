@@ -11,7 +11,7 @@ class TaxSettingsCrudUseCase {
 
   static TaxSettingsCrudUseCase get instance => getIt<TaxSettingsCrudUseCase>();
 
-  Future<Result<UserRetrieveTaxRatesRes, Failure>> fetchAll({
+  Future<Result<RetrieveTaxRatesRes, Failure>> fetchAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -36,7 +36,7 @@ class TaxSettingsCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteTaxRateRes, Failure>> delete(String id) async {
+  Future<Result<DeleteTaxRateRes, Failure>> delete(String id) async {
     try {
       final result = await _taxRateRepository.deleteTaxRate(id: id);
       return Success(result!);
@@ -46,7 +46,7 @@ class TaxSettingsCrudUseCase {
   }
 
   Future<Result<TaxRate, Failure>> create(
-      UserCreateTaxRateReq userCreateTaxRateReq) async {
+      CreateTaxRateReq userCreateTaxRateReq) async {
     try {
       final result = await _taxRateRepository.createTaxRate(
           userCreateTaxRateReq: userCreateTaxRateReq);
@@ -58,7 +58,7 @@ class TaxSettingsCrudUseCase {
 
   Future<Result<TaxRate, Failure>> update({
     required String id,
-    required UserUpdateTaxRateReq userUpdateTaxRateReq,
+    required UpdateTaxRateReq userUpdateTaxRateReq,
   }) async {
     try {
       final result = await _taxRateRepository.updateTaxRate(

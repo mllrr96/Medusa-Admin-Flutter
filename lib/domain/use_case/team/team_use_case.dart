@@ -12,7 +12,7 @@ class InviteCrudUseCase {
 
   static InviteCrudUseCase get instance => getIt<InviteCrudUseCase>();
 
-  Future<Result<UserRetrieveUserListRes, Failure>> fetchUsers() async {
+  Future<Result<RetrieveUserListRes, Failure>> fetchUsers() async {
     try {
       final result = await _userRepository.retrieveAll();
       return Success(result!);
@@ -21,7 +21,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<UserRetrieveInvitesRes, Failure>> fetchInvites() async {
+  Future<Result<RetrieveInvitesRes, Failure>> fetchInvites() async {
     try {
       final result = await _inviteRepository.retrieveInvites();
       return Success(result!);
@@ -53,7 +53,7 @@ class InviteCrudUseCase {
   }
 
   Future<Result<bool, Failure>> acceptInvite(
-      UserAcceptInvitationReq userAcceptInvitationReq) async {
+      AcceptInvitationReq userAcceptInvitationReq) async {
     try {
       final result = await _inviteRepository.acceptInvitation(
           userAcceptInvitationReq: userAcceptInvitationReq);
@@ -63,7 +63,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteInvitesRes, Failure>> deleteInvite(
+  Future<Result<DeleteInvitesRes, Failure>> deleteInvite(
       String inviteId) async {
     try {
       final result = await _inviteRepository.deleteInvite(inviteId: inviteId);
@@ -75,7 +75,7 @@ class InviteCrudUseCase {
 
   Future<Result<User, Failure>> updateUser({
     required String id,
-    required UserUpdateUserReq userUpdateUserReq,
+    required UpdateUserReq userUpdateUserReq,
   }) async {
     try {
       final result = await _userRepository.update(
@@ -86,7 +86,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<UserDeleteUserRes, Failure>> deleteUser(
+  Future<Result<DeleteUserRes, Failure>> deleteUser(
     String id,
   ) async {
     try {

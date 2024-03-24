@@ -89,14 +89,14 @@ class _AddUpdateTaxRateViewState extends State<AddUpdateTaxRateView> {
                   if (updateMode) {
                     taxCrudBloc.add(TaxCrudEvent.update(
                         widget.addUpdateTaxRateReq.taxRate!.id!,
-                        UserUpdateTaxRateReq(
+                        UpdateTaxRateReq(
                           code: taxCodeCtrl.text,
                           name: nameCtrl.text,
                           rate: double.tryParse(taxRateCtrl.text),
                           regionId: widget.addUpdateTaxRateReq.regionId,
                         )));
                   } else {
-                    taxCrudBloc.add(TaxCrudEvent.create(UserCreateTaxRateReq(
+                    taxCrudBloc.add(TaxCrudEvent.create(CreateTaxRateReq(
                       code: taxCodeCtrl.text,
                       name: nameCtrl.text,
                       rate: double.tryParse(taxRateCtrl.text),

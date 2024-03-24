@@ -8,13 +8,13 @@ class CollectionCrudEvent with _$CollectionCrudEvent {
       {Map<String, dynamic>? queryParameters}) = _LoadAll;
   const factory CollectionCrudEvent.delete(String id) = _Delete;
   const factory CollectionCrudEvent.create(
-      UserCreateCollectionReq userCreateCollectionReq) = _Create;
+      CreateCollectionReq userCreateCollectionReq) = _Create;
   const factory CollectionCrudEvent.update(
-      String id, UserCreateCollectionReq userCreateCollectionReq) = _Update;
+      String id, CreateCollectionReq userCreateCollectionReq) = _Update;
   const factory CollectionCrudEvent.removeProducts(
-          UserCollectionRemoveProductsReq userCollectionRemoveProductsReq) =
+          CollectionRemoveProductsReq userCollectionRemoveProductsReq) =
       _RemoveProducts;
   const factory CollectionCrudEvent.addProducts(
-          UserCollectionUpdateProductsReq userCollectionUpdateProductsReq) =
+          CollectionUpdateProductsReq userCollectionUpdateProductsReq) =
       _AddProducts;
 }

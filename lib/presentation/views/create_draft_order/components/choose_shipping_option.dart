@@ -41,7 +41,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
   bool isCustomPrice = false;
   final customPriceCtrl = TextEditingController();
 
-  late Future<Result<UserRetrieveAllShippingOptionRes, Failure>>
+  late Future<Result<RetrieveAllShippingOptionRes, Failure>>
       shippingOptionsFuture;
 
   @override
@@ -80,7 +80,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
         ],
       );
     }
-    return FutureBuilder<Result<UserRetrieveAllShippingOptionRes, Failure>>(
+    return FutureBuilder<Result<RetrieveAllShippingOptionRes, Failure>>(
         future: shippingOptionsFuture,
         builder: (context, asyncSnapshot) {
           switch (asyncSnapshot.connectionState) {
