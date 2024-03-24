@@ -1,6 +1,6 @@
 import 'package:medusa_admin/core/extension/money_amount_extension.dart';
 import 'package:medusa_admin/core/extension/product_option_value_extension.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 extension CopyWithProductVariant on ProductVariant {
   ProductVariant copyWith({

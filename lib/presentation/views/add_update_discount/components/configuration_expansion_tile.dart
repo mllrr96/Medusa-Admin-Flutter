@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class ConfigurationExpansionTile extends StatefulWidget {

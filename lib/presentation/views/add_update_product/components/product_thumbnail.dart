@@ -10,7 +10,7 @@ import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/data/helper/image_picker_helper.dart';
 import 'package:medusa_admin/data/models/wrapped.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'image_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';

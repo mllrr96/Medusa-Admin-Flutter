@@ -6,7 +6,7 @@ import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 @RoutePage()

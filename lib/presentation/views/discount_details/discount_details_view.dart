@@ -6,7 +6,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'components/index.dart';
 
 @RoutePage()

@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/gift_card/gift_cards_use_case.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 part 'gift_card_crud_event.dart';
 part 'gift_card_crud_state.dart';

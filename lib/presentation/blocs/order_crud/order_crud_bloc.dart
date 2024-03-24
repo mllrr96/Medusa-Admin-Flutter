@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart' hide Order;
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/order/order_details_use_case.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 part 'order_crud_event.dart';
 part 'order_crud_state.dart';

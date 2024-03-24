@@ -16,7 +16,7 @@ import 'package:medusa_admin/data/models/update_condition_req.dart';
 import 'package:medusa_admin/data/models/update_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/discount_conditions/components/index.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 class ConditionsCard extends StatelessWidget {
   const ConditionsCard(this.discount,{this.discountCrudBloc,super.key});

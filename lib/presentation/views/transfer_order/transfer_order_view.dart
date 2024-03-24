@@ -13,7 +13,7 @@ import 'package:medusa_admin/presentation/views/orders/components/payment_status
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 @RoutePage()
 class TransferOrderView extends StatefulWidget {

@@ -11,7 +11,7 @@ import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_
 import 'package:medusa_admin/presentation/blocs/sales_channel_crud/sales_channel_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/product_types/product_types_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_chip_input_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 

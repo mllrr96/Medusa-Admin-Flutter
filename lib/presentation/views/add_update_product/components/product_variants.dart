@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';

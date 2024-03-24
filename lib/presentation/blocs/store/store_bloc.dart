@@ -5,7 +5,7 @@ import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/store/load_store_use_case.dart';
 import 'package:medusa_admin/domain/use_case/store/update_store_use_case.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart' as medusa;
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 part 'store_event.dart';
 part 'store_state.dart';

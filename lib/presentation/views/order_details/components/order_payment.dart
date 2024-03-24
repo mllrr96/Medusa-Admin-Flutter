@@ -7,7 +7,7 @@ import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/views/orders/components/payment_status_label.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'order_create_refund.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';

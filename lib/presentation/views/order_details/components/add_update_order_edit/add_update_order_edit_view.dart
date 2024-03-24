@@ -10,7 +10,7 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/data/models/select_products_res.dart';
 import 'package:medusa_admin/presentation/blocs/order_edit_crud/order_edit_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';

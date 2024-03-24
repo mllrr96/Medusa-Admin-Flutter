@@ -8,7 +8,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/data/models/discount_condition_req.dart';
 import 'package:medusa_admin/presentation/views/discount_conditions/components/condition_card.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'dart:io';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

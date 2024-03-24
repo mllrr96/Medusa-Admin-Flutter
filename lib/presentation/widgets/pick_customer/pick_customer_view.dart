@@ -6,7 +6,7 @@ import 'package:medusa_admin/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/data/models/pick_customer_res.dart';
 import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 import 'components/pick_customer_app_bar.dart';
 

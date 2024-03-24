@@ -12,7 +12,7 @@ import 'package:medusa_admin/core/di/medusa_admin_di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/domain/use_case/auth/auth_use_case.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';

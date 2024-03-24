@@ -11,7 +11,7 @@ import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/views/orders/components/order_card.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 @RoutePage()
 class OrderSettingsView extends StatefulWidget {

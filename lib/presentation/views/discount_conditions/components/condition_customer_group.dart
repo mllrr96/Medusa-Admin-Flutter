@@ -8,7 +8,7 @@ import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'condition_customer_group_tile.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

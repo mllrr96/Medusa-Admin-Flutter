@@ -15,7 +15,7 @@ import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.d
 import 'package:medusa_admin/presentation/cubits/upload_files/upload_files_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 import '../components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

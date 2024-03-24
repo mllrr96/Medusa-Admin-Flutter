@@ -1,4 +1,4 @@
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 extension MoneyAmountExtension on MoneyAmount {
   MoneyAmount forUpdate({

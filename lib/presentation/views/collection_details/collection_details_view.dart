@@ -14,7 +14,7 @@ import 'package:medusa_admin/data/models/pick_products_req.dart';
 import 'package:medusa_admin/data/models/pick_products_res.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products_view.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 

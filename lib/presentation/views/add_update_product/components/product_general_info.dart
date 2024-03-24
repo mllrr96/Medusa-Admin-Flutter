@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
@@ -33,6 +33,7 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
   final materialCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
   bool discountable = false;
+  final key = GlobalKey();
 
   @override
   void initState() {
@@ -65,11 +66,12 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
     const space = Gap(12);
     return FlexExpansionTile(
       controller: widget.controller,
+      key: key,
       title: const Text('General Information'),
       maintainState: true,
       onExpansionChanged: (expanded) async {
-        if (expanded && widget.key is GlobalKey) {
-          await (widget.key as GlobalKey).currentContext.ensureVisibility();
+        if (expanded) {
+          await key.currentContext.ensureVisibility();
         }
       },
       child: Column(

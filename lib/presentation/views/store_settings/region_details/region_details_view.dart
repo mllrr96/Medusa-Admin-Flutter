@@ -14,7 +14,7 @@ import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/shipping_option_req.dart';
 import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';

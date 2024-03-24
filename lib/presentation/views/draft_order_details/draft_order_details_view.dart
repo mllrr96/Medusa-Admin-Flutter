@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/draft_order_crud/draft_order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';

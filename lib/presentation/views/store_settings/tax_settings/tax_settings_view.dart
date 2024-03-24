@@ -11,7 +11,7 @@ import 'package:medusa_admin/data/models/add_update_tax_rate_req.dart';
 import 'package:medusa_admin/presentation/blocs/tax_crud/tax_crud_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/tax_providers/tax_provider_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';

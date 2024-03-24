@@ -8,7 +8,7 @@ import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.d
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'condition_operator_card.dart';
 import 'condition_product_tile.dart';

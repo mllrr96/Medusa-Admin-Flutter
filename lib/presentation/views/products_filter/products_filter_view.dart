@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/cubits/products_filter/products_filter_cubit.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';

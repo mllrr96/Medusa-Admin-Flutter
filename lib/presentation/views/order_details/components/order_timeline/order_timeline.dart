@@ -8,7 +8,7 @@ import 'package:medusa_admin/presentation/blocs/note_crud/note_crud_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/notification/notification_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/order_edit_crud/order_edit_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'index.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 

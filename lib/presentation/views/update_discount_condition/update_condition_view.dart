@@ -13,7 +13,7 @@ import 'package:medusa_admin/data/models/update_condition_res.dart';
 import 'package:medusa_admin/presentation/blocs/discount_condition/discount_condition_bloc.dart';
 import 'package:medusa_admin/presentation/views/discount_conditions/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()

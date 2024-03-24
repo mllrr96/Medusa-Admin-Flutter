@@ -5,7 +5,7 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/data/models/discount_condition_req.dart';
 import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import '../components/index.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 @RoutePage()
 class DiscountConditionsView extends StatelessWidget {

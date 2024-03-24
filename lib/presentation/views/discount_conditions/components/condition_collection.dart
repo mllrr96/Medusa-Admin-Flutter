@@ -9,7 +9,7 @@ import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'condition_collection_tile.dart';
 import 'condition_operator_card.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';

@@ -12,7 +12,7 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/data/models/pick_customer_req.dart';
 import 'package:medusa_admin/data/models/pick_customer_res.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';

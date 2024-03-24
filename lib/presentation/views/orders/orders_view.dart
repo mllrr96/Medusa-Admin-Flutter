@@ -13,7 +13,7 @@ import 'package:medusa_admin/presentation/views/orders/components/orders_loading
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
@@ -36,7 +36,6 @@ class _OrdersViewState extends State<OrdersView> {
   final PagingController<int, Order> pagingController =
       PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 3);
   OrderFilter? orderFilter;
-
   void _loadPage(int _) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
           'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
@@ -156,6 +155,7 @@ class _OrdersViewState extends State<OrdersView> {
               actions: [
                 Builder(
                   builder: (context) => IconButton(
+                    padding: const EdgeInsets.all(16.0),
                     onPressed: () => context.openEndDrawer(),
                     icon: Icon(Icons.sort,
                         color: (orderFilter?.count() ?? -1) > 0
@@ -197,8 +197,10 @@ class _OrdersViewState extends State<OrdersView> {
                                   orderFilter?.count() == 0) {
                                 return;
                               }
-                              orderFilter = null;
-                              pagingController.refresh();
+                              setState(() {
+                                orderFilter = null;
+                                pagingController.refresh();
+                              });
                             },
                             child: const Text('Clear filters'))
                       ],

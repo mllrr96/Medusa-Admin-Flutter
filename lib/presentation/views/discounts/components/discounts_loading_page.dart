@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discount_card.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class DiscountsLoadingPage extends StatelessWidget {

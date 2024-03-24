@@ -13,7 +13,7 @@ import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/utils/enums.dart';

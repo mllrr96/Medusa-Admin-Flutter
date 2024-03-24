@@ -93,7 +93,7 @@ import 'package:medusa_admin/presentation/widgets/pick_groups_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_product_variants/pick_product_vairants_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_regions_view.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 part 'app_router.gr.dart';
 

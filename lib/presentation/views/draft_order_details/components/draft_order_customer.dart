@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/countries/components/countries.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import '../../../../../core/constant/colors.dart';

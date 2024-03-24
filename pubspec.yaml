@@ -89,12 +89,11 @@ dependencies:
       url: https://github.com/mllrr96/flex_expansion_tile.git
       ref: main
 
-  medusa_admin_flutter:
+  medusa_admin_dart_client:
     git:
-      url: https://github.com/mllrr96/Medusa_Admin_API_Flutter.git
+      url: https://github.com/mllrr96/medusa_admin_dart_client.git
       ref: main
-  #  medusa_admin_flutter:
-  #    path: ../Medusa_Admin_API_Flutter
+
   share_plus: ^8.0.2
   file_picker: ^8.0.0+1
   flutter_secure_storage: ^9.0.0

@@ -3,7 +3,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:gap/gap.dart';
 //
-// import 'package:medusa_admin_flutter/medusa_admin.dart';
+// import 'package:medusa_admin_dart_client/medusa_admin.dart';
 // import 'package:medusa_admin/core/route/app_router.dart';
 //
 // import 'pick_customer/controllers/pick_customer_controller.dart';

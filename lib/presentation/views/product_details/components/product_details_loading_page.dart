@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 

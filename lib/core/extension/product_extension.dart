@@ -1,6 +1,6 @@
 import 'package:medusa_admin/core/extension/product_variant_extension.dart';
 import 'package:medusa_admin/data/models/wrapped.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 extension CopyWithProduct on Product {
   Product copyWith({

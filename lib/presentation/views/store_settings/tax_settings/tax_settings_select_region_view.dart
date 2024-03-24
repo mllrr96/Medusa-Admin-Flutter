@@ -14,7 +14,7 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 @RoutePage()
 class TaxSettingsSelectRegionView extends StatefulWidget {

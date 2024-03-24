@@ -6,7 +6,7 @@ import 'package:medusa_admin/data/models/select_products_req.dart';
 import 'package:medusa_admin/data/models/select_products_res.dart';
 import 'package:medusa_admin/presentation/cubits/product_variants/product_variants_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'components/product_variant_list_tile.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
