@@ -85,11 +85,11 @@ class _ProductGeneralInformationState extends State<ProductGeneralInformation> {
             controller: titleCtrl,
             onSaved: (title) {
               widget.onSaved?.call(Product(
-                title: title,
-                subtitle: subtitleCtrl.text,
-                handle: handleCtrl.text,
-                material: materialCtrl.text,
-                description: descriptionCtrl.text,
+                title: titleCtrl.text,
+                subtitle: subtitleCtrl.text.isEmpty ? null : subtitleCtrl.text,
+                handle: handleCtrl.text.isEmpty ? null : handleCtrl.text,
+                material: materialCtrl.text.isEmpty ? null : materialCtrl.text,
+                description: descriptionCtrl.text.isEmpty ? null : descriptionCtrl.text,
                 discountable: discountable,
               ));
             },

@@ -164,7 +164,7 @@ class _ProductOrganizeState extends State<ProductOrganize> {
                             widget.onSaved?.call(Product(
                               type: selectedType,
                               collection: selectedCollection,
-                              tags: tags,
+                              tags: tags.isEmpty ? null : tags,
                               salesChannels: selectedSalesChannels.isNotEmpty
                                   ? selectedSalesChannels
                                       .map((e) => SalesChannel(name: '', id: e))

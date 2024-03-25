@@ -82,8 +82,8 @@ class _ProductAttributesState extends State<ProductAttributes> {
           length: double.tryParse(lengthCtrl.text),
           height: double.tryParse(heightCtrl.text),
           weight: double.tryParse(weightCtrl.text),
-          midCode: midCodeCtrl.text,
-          hsCode: hsCodeCtrl.text,
+          midCode: midCodeCtrl.text.isEmpty ? null : midCodeCtrl.text,
+          hsCode: hsCodeCtrl.text.isEmpty ? null : hsCodeCtrl.text,
           originCountry: originCountryIso,
         ));
       },

@@ -50,8 +50,8 @@ class _ProductVariantsState extends State<ProductVariants> {
     return FormField(
       onSaved: (_) {
         widget.onSaved?.call(Product(
-          options: options,
-          variants: variants,
+          options: options.isEmpty ? null : options,
+          variants: variants.isEmpty ? null : variants,
         ));
       },
       builder: (_) => FlexExpansionTile(
@@ -103,10 +103,10 @@ class _ProductVariantsState extends State<ProductVariants> {
                     isScrollControlled: true);
                 if (result is ProductOption) {
                   setState(() => options.add(result));
-                  widget.onSaved?.call(Product(
-                    options: options,
-                    variants: variants,
-                  ));
+                  // widget.onSaved?.call(Product(
+                  //   options: options,
+                  //   variants: variants,
+                  // ));
                 }
               },
               icon: const Icon(Icons.add),
@@ -143,10 +143,10 @@ class _ProductVariantsState extends State<ProductVariants> {
                       ))));
                       if (result is ProductVariant) {
                         setState(() => variants.add(result));
-                        widget.onSaved?.call(Product(
-                          options: options,
-                          variants: variants,
-                        ));
+                        // widget.onSaved?.call(Product(
+                        //   options: options,
+                        //   variants: variants,
+                        // ));
                       }
                     },
               label: const Text('Add a variant'),

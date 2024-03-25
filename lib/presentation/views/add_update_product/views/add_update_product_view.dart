@@ -176,102 +176,104 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 10.0),
-                  child: Column(
-                    children: [
-                      Form(
-                          key: keyForm,
-                          child: ProductGeneralInformation(
-                              controller: generalTileCtrl,
-                              product: product,
-                              onSaved: (product) {
-                                if (this.product == null) {
-                                  this.product = const Product();
-                                }
-                                this.product = this.product?.copyWith(
-                                      title: product.title,
-                                      subtitle: product.subtitle,
-                                      handle: product.handle,
-                                      material: product.material,
-                                      description: product.description,
-                                      discountable: product.discountable,
-                                    );
-                              })),
-                      space,
-                      ProductOrganize(
-                        controller: organizeTileCtrl,
-                        updateMode: updateMode,
-                        product: product,
-                        onSaved: (product) {
-                          if (this.product == null) {
-                            this.product = const Product();
-                          }
-                          this.product = this.product?.copyWith(
-                                collection: product.collection,
-                                tags: product.tags,
-                                type: product.type,
-                                salesChannels: product.salesChannels,
-                              );
-                        },
-                      ),
-                      space,
-                      ProductVariants(
-                        product: product,
-                        controller: variantTileCtrl,
-                        onSaved: (product) {
-                          if (this.product == null) {
-                            this.product = const Product();
-                          }
-                          this.product = this.product?.copyWith(
-                                options: product.options,
-                                variants: product.variants,
-                              );
-                        },
-                      ),
-                      space,
-                      ProductAttributes(
-                        controller: attributeTileCtrl,
-                        product: product,
-                        onSaved: (product) {
-                          if (this.product == null) {
-                            this.product = const Product();
-                          }
-                          this.product = this.product?.copyWith(
-                                width: product?.width,
-                                length: product?.length,
-                                height: product?.height,
-                                weight: product?.weight,
-                                midCode: product?.midCode,
-                                hsCode: product?.hsCode,
-                                originCountry:
-                                    Wrapped.value(product?.originCountry),
-                              );
-                        },
-                      ),
-                      space,
-                      ProductThumbnail(
-                        controller: thumbnailTileCtrl,
-                        updateMode: updateMode,
-                        product: product,
-                        thumbnail: thumbnailImage,
-                        onChanged: (thumbnail) {
-                          thumbnailImage = thumbnail;
-                          if (thumbnail == null) {
-                            product = product?.copyWith(
-                                thumbnail: const Wrapped.value(null));
-                          }
-                        },
-                      ),
-                      space,
-                      ProductMedia(
-                        controller: mediaTileCtrl,
-                        product: product,
-                        updateMode: updateMode,
-                        onMediaChanged: (images, imagesToDelete) {
-                          this.images = images;
-                          this.imagesToDelete = imagesToDelete;
-                        },
-                      )
-                    ],
+                  child: Form(
+                    key: keyForm,
+                    child: Column(
+                      children: [
+                        ProductGeneralInformation(
+                            controller: generalTileCtrl,
+                            product: product,
+                            onSaved: (product) {
+                              if (this.product == null) {
+                                this.product = const Product();
+                              }
+                              this.product = this.product?.copyWith(
+                                    title: product.title,
+                                    subtitle: product.subtitle,
+                                    handle: product.handle,
+                                    material: product.material,
+                                    description: product.description,
+                                    discountable: product.discountable,
+                                  );
+                            }),
+                        space,
+                        ProductOrganize(
+                          controller: organizeTileCtrl,
+                          updateMode: updateMode,
+                          product: product,
+                          onSaved: (product) {
+                            if (this.product == null) {
+                              this.product = const Product();
+                            }
+                            this.product = this.product?.copyWith(
+                                  collection: product.collection,
+                                  tags: product.tags,
+                                  type: product.type,
+                                  salesChannels: product.salesChannels,
+                                );
+                            setState(() {});
+                          },
+                        ),
+                        space,
+                        ProductVariants(
+                          product: product,
+                          controller: variantTileCtrl,
+                          onSaved: (product) {
+                            if (this.product == null) {
+                              this.product = const Product();
+                            }
+                            this.product = this.product?.copyWith(
+                                  options: product.options,
+                                  variants: product.variants,
+                                );
+                          },
+                        ),
+                        space,
+                        ProductAttributes(
+                          controller: attributeTileCtrl,
+                          product: product,
+                          onSaved: (product) {
+                            if (this.product == null) {
+                              this.product = const Product();
+                            }
+                            this.product = this.product?.copyWith(
+                                  width: product?.width,
+                                  length: product?.length,
+                                  height: product?.height,
+                                  weight: product?.weight,
+                                  midCode: product?.midCode,
+                                  hsCode: product?.hsCode,
+                                  originCountry:
+                                      Wrapped.value(product?.originCountry),
+                                );
+                          },
+                        ),
+                        space,
+                        ProductThumbnail(
+                          controller: thumbnailTileCtrl,
+                          updateMode: updateMode,
+                          product: product,
+                          thumbnail: thumbnailImage,
+                          onChanged: (thumbnail) {
+                            thumbnailImage = thumbnail;
+                            if (thumbnail == null) {
+                              product = product?.copyWith(
+                                  thumbnail: const Wrapped.value(null));
+                            }
+                          },
+                        ),
+                        space,
+                        ProductMedia(
+                          controller: mediaTileCtrl,
+                          product: product,
+                          updateMode: updateMode,
+                          onMediaChanged: (images, imagesToDelete) {
+                            this.images = images;
+                            this.imagesToDelete = imagesToDelete;
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

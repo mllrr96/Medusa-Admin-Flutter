@@ -85,6 +85,10 @@ Download the latest apk file from [releases](https://github.com/mllrr96/Medusa-A
 ### iOS
 You need to sideload the latest ipa file found in [releases](https://github.com/mllrr96/Medusa-Admin-Flutter/releases) to your iPhone, checkout [Sideloadly](https://sideloadly.io/) or [AltStore](https://altstore.io/) for more info about sideloading.
 
+### How to connect the app to your MedusaJs backend
+- Open the app and click on set URL, then enter your MedusaJs backend URL (e.g. https://your-backend-url.com) and click on save
+- Enter your email and password and click on sign in
+
 ##  Build it yourself
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
 
@@ -130,6 +134,13 @@ flutter build ipa
 - [x] Add and update draft order
 - [x] App settings
 - [x] Support for light/dark mode
+
+## Not implemented yet
+- [] Metadata add/update/read
+- [] Creating a new region has some errors
+- [] Import orders
+- [] Duplicating product
+- [] Denomination in gift card
       
 
 ## Contributing
