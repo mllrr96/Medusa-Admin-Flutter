@@ -136,11 +136,11 @@ flutter build ipa
 - [x] Support for light/dark mode
 
 ## Not implemented yet
-- [] Metadata add/update/read
-- [] Creating a new region has some errors
-- [] Import orders
-- [] Duplicating product
-- [] Denomination in gift card
+- [ ] Metadata add/update/read
+- [ ] Creating a new region has some errors
+- [ ] Import orders
+- [ ] Duplicating product
+- [ ] Denomination in gift card
       
 
 ## Contributing
