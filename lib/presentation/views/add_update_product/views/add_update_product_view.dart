@@ -96,24 +96,23 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
         BlocListener<ProductCrudBloc, ProductCrudState>(
           bloc: productCrudBloc,
           listener: (context, state) {
-            state.mapOrNull(
-              loading: (_) {
-                loading();
-              },
-              product: (_) {
+            state.maybeWhen(
+              loading: (_) => loading(),
+              product: (product) {
                 dismissLoading();
                 context.showSnackBar('Product Created');
-                context.maybePop(_.product);
+                context.maybePop(product);
               },
-              updated: (_) {
+              updated: (product) {
                 dismissLoading();
                 context.showSnackBar('Product Updated');
-                context.maybePop(_.product);
+                context.maybePop(product);
               },
-              error: (state) {
+              error: (failure) {
                 dismissLoading();
-                context.showSnackBar(state.failure.toSnackBarString());
+                context.showSnackBar(failure.toSnackBarString());
               },
+              orElse: () => dismissLoading(),
             );
           },
         ),

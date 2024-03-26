@@ -40,22 +40,23 @@ class _ProductsViewState extends State<ProductsView> {
   SortOptions sortOptions = SortOptions.dateRecent;
   ProductFilter? productFilter;
   late ProductCrudBloc productCrudBloc;
-  late ProductCrudBloc productsBloc;
   String loadingProductId = '';
+  bool get loading => loadingProductId.isNotEmpty;
 
   void _loadPage(int _) {
-    productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
-      'order': sortOptions.map(),
-      'is_giftcard': false,
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-      ...?productFilter?.toJson()
-    }));
+    context
+        .read<ProductCrudBloc>()
+        .add(ProductCrudEvent.loadAll(queryParameters: {
+          'order': sortOptions.map(),
+          'is_giftcard': false,
+          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          ...?productFilter?.toJson()
+        }));
   }
 
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
-    productsBloc = ProductCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
   }
@@ -65,7 +66,6 @@ class _ProductsViewState extends State<ProductsView> {
     pagingController.dispose();
     refreshController.dispose();
     productCrudBloc.close();
-    productsBloc.close();
     super.dispose();
   }
 
@@ -75,7 +75,6 @@ class _ProductsViewState extends State<ProductsView> {
     return MultiBlocListener(
       listeners: [
         BlocListener<ProductCrudBloc, ProductCrudState>(
-          bloc: productsBloc,
           listener: (context, state) {
             state.mapOrNull(
               products: (state) async {
@@ -120,8 +119,14 @@ class _ProductsViewState extends State<ProductsView> {
                   loadingProductId = '';
                 },
                 deleted: (_) {
-                  pagingController.refresh();
-                  loadingProductId = '';
+                  context.showSnackBar('Product deleted successfully');
+                  pagingController.value = PagingState(
+                    nextPageKey: pagingController.nextPageKey,
+                    itemList: pagingController.itemList
+                      ?..removeWhere(
+                          (element) => element.id == loadingProductId),
+                  );
+                  setState(() => loadingProductId = '');
                 },
                 updated: (_) {
                   pagingController.refresh();
@@ -142,11 +147,6 @@ class _ProductsViewState extends State<ProductsView> {
         endDrawer: Drawer(
           child: ProductsFilterView(
             onResetPressed: () {
-              // if (productFilter == null || productFilter?.count() == 0) {
-              //   context.maybePop();
-              //   return;
-              // }
-
               productFilter = null;
               setState(() {});
               context.maybePop();
@@ -194,7 +194,7 @@ class _ProductsViewState extends State<ProductsView> {
                           .pushRoute(
                               AddUpdateProductRoute(updateProductReq: null))
                           .then((result) {
-                        if (result is bool && result == true) {
+                        if (result is Product) {
                           pagingController.refresh();
                         }
                       });
@@ -216,8 +216,8 @@ class _ProductsViewState extends State<ProductsView> {
                     labelStyle: smallTextStyle,
                     onTap: () async {
                       if (await exportProducts) {
-                        final result = await BatchJobCrudUseCase.instance.create(
-                            BatchJobType.productExport);
+                        final result = await BatchJobCrudUseCase.instance
+                            .create(BatchJobType.productExport);
                         result.when((success) {
                           context.showSnackBar('Export started');
                         }, (error) {
@@ -235,11 +235,12 @@ class _ProductsViewState extends State<ProductsView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
-              // centerTitle: true,
               title: Builder(builder: (context) {
-                final productsCount = productsBloc.state
-                        .mapOrNull(products: (state) => state.count) ??
-                    0;
+                final productsCount = context.select<ProductCrudBloc, int>(
+                    (ProductCrudBloc bloc) =>
+                        bloc.state
+                            .mapOrNull(products: (state) => state.count) ??
+                        0);
                 return Text(
                     productsCount > 0
                         ? 'Products ($productsCount)'
@@ -247,16 +248,40 @@ class _ProductsViewState extends State<ProductsView> {
                     overflow: TextOverflow.ellipsis);
               }),
               actions: [
-                IconButton(
+                PopupMenuButton<SortOptions?>(
+                    icon: const Icon(CupertinoIcons.sort_up),
                     padding: const EdgeInsets.all(16.0),
-                    onPressed: () async {
-                      final result = await sortOptionsSheet;
+                    position: PopupMenuPosition.under,
+                    onSelected: (SortOptions? result) {
                       if (result != null) {
                         setState(() => sortOptions = result);
                         pagingController.refresh();
                       }
                     },
-                    icon: const Icon(CupertinoIcons.sort_up)),
+                    itemBuilder: (context) {
+                      TextStyle textStyle(SortOptions a) => TextStyle(
+                          color: a == sortOptions ? Colors.red : null);
+                      return [
+                        PopupMenuItem(
+                          value: SortOptions.aZ,
+                          child: Text('A-Z', style: textStyle(SortOptions.aZ)),
+                        ),
+                        PopupMenuItem(
+                          value: SortOptions.zA,
+                          child: Text('Z-A', style: textStyle(SortOptions.zA)),
+                        ),
+                        PopupMenuItem(
+                          value: SortOptions.dateRecent,
+                          child: Text('Creation Date',
+                              style: textStyle(SortOptions.dateRecent)),
+                        ),
+                        PopupMenuItem(
+                          value: SortOptions.dateOld,
+                          child: Text('Creation Date - Ascending',
+                              style: textStyle(SortOptions.dateOld)),
+                        ),
+                      ];
+                    }),
                 Builder(
                   builder: (context) {
                     final iconColor =
@@ -289,7 +314,7 @@ class _ProductsViewState extends State<ProductsView> {
                           AddUpdateProductRoute(
                               updateProductReq: UpdateProductReq(
                                   product: product, number: 7)));
-                      if (result != null) {
+                      if (result is Product) {
                         pagingController.refresh();
                       }
                     },

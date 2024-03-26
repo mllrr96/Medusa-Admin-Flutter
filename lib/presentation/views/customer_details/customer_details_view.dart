@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
@@ -82,7 +83,47 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            const MedusaSliverAppBar(title: Text('Customer Details')),
+            MedusaSliverAppBar(
+              title: const Text('Customer Details'),
+              actions: [
+                BlocBuilder<CustomerCrudBloc, CustomerCrudState>(
+                  bloc: customerCrudBloc,
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                        customer: (customer) => TextButton(
+                              onPressed: () async {
+                                await showModalActionSheet<int>(
+                                    // title: tr.manageCustomer,
+                                    title: customer.fullName,
+                                    context: context,
+                                    actions: <SheetAction<int>>[
+                                      SheetAction(
+                                          label: context.tr.customerTableEdit,
+                                          key: 0),
+                                    ]).then((value) async {
+                                  switch (value) {
+                                    case 0:
+                                      final result = await context.pushRoute(
+                                          AddUpdateCustomerRoute(
+                                              customer: customer));
+                                      if (result is bool) {
+                                        customerCrudBloc.add(
+                                            CustomerCrudEvent.load(
+                                                widget.customerId));
+                                      }
+                                      break;
+                                    case 1:
+                                      break;
+                                  }
+                                });
+                              },
+                              child: const Text('Edit'),
+                            ),
+                        orElse: () => const SizedBox.shrink());
+                  },
+                ),
+              ],
+            ),
             BlocBuilder<CustomerCrudBloc, CustomerCrudState>(
               bloc: customerCrudBloc,
               builder: (context, state) {
@@ -182,60 +223,30 @@ class Delegate extends SliverPersistentHeaderDelegate {
             color: context.theme.cardColor,
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor:
-                              ColorManager.getAvatarColor(customer.email),
-                          child: Text(
-                              customer.firstName == null
-                                  ? customer.email[0].toUpperCase()
-                                  : customer.firstName![0],
-                              style: largeTextStyle!
-                                  .copyWith(color: Colors.white)),
-                        ),
-                        const SizedBox(width: 12.0),
-                        Flexible(
-                          child: Text(
-                              customer.fullName != null
-                                  ? customer.fullName!
-                                  : customer.email,
-                              style: mediumTextStyle),
-                        ),
-                      ],
-                    ),
+                  CircleAvatar(
+                    backgroundColor:
+                        ColorManager.getAvatarColor(customer.email),
+                    child: Text(
+                        customer.firstName == null
+                            ? customer.email[0].toUpperCase()
+                            : customer.firstName![0],
+                        style: largeTextStyle!
+                            .copyWith(color: Colors.white)),
                   ),
-                  IconButton(
-                      onPressed: () async {
-                        await showModalActionSheet<int>(
-                            // title: tr.manageCustomer,
-                            title: customer.fullName,
-                            context: context,
-                            actions: <SheetAction<int>>[
-                              SheetAction(label: tr.customerTableEdit, key: 0),
-                            ]).then((value) async {
-                          switch (value) {
-                            case 0:
-                              final result = await context.pushRoute(
-                                  AddUpdateCustomerRoute(customer: customer));
-                              if (result is bool) {
-                                onUpdateDone?.call();
-                              }
-                              break;
-                            case 1:
-                              break;
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.more_horiz)),
+                  const Gap(12.0),
+                  Flexible(
+                    child: Text(
+                        customer.fullName != null
+                            ? customer.fullName!
+                            : customer.email,
+                        style: mediumTextStyle),
+                  ),
                 ],
               ),
-              const SizedBox(height: 12.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -276,10 +287,10 @@ class Delegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => kToolbarHeight * 2.4;
+  double get maxExtent => kToolbarHeight * 2;
 
   @override
-  double get minExtent => kToolbarHeight * 2.4;
+  double get minExtent => kToolbarHeight * 2;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

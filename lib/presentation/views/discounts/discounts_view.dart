@@ -92,11 +92,11 @@ class _DiscountsViewState extends State<DiscountsView> {
               },
               deleted: (_) {
                 context.showSnackBar('Discount deleted successfully');
-                List<Discount> discounts = [];
-                discounts.addAll(pagingController.itemList ?? []);
-                discounts
-                    .removeWhere((element) => element.id == loadingDiscountId);
-                pagingController.value = PagingState(itemList: discounts);
+                pagingController.value = PagingState(
+                    itemList: pagingController.itemList
+                      ?..removeWhere(
+                          (element) => element.id == loadingDiscountId),
+                    nextPageKey: pagingController.nextPageKey);
                 setState(() {
                   loadingDiscountId = '';
                   discountCount -= 1;
@@ -167,9 +167,8 @@ class _DiscountsViewState extends State<DiscountsView> {
               onPressed: () async {
                 final result =
                     await context.pushRoute(AddUpdateDiscountRoute());
-                if (result is bool && result == true) {
-                  smartRefresherCtrl.headerMode?.value =
-                      RefreshStatus.refreshing;
+                if (result is Discount) {
+                  pagingController.refresh();
                 }
               },
             ),

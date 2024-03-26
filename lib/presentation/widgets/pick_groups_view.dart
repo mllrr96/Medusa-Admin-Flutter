@@ -8,7 +8,6 @@ import 'package:medusa_admin/presentation/views/groups/components/goups_loading_
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 @RoutePage()
 class PickGroupsView extends StatefulWidget {
@@ -22,7 +21,6 @@ class PickGroupsView extends StatefulWidget {
 class _PickGroupsViewState extends State<PickGroupsView> {
   final PagingController<int, CustomerGroup> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
-  RefreshController refreshController = RefreshController();
   late GroupCrudBloc groupCrudBloc;
   PickGroupsReq get pickGroupsReq => widget.pickGroupsReq ?? PickGroupsReq();
   bool get multipleSelect => pickGroupsReq.multipleSelect;
@@ -48,7 +46,6 @@ class _PickGroupsViewState extends State<PickGroupsView> {
   void dispose() {
     groupCrudBloc.close();
     pagingController.dispose();
-    refreshController.dispose();
     super.dispose();
   }
 
@@ -60,12 +57,6 @@ class _PickGroupsViewState extends State<PickGroupsView> {
         state.mapOrNull(
           groups: (state) async {
             final isLastPage = state.groups.length < GroupCrudBloc.pageSize;
-            if (refreshController.isRefresh) {
-              pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
-              await Future.delayed(const Duration(milliseconds: 250));
-            }
             if (isLastPage) {
               pagingController.appendLastPage(state.groups);
             } else {
@@ -73,13 +64,8 @@ class _PickGroupsViewState extends State<PickGroupsView> {
                   pagingController.nextPageKey ?? 0 + state.groups.length;
               pagingController.appendPage(state.groups, nextPageKey);
             }
-            if (refreshController.isRefresh) {
-              pagingController.addPageRequestListener(_loadPage);
-              refreshController.refreshCompleted();
-            }
           },
           error: (state) {
-            refreshController.refreshFailed();
             pagingController.error = state.failure;
           },
         );
@@ -98,40 +84,36 @@ class _PickGroupsViewState extends State<PickGroupsView> {
               }),
             ),
           ],
-          body: SmartRefresher(
-            controller: refreshController,
-            onRefresh: () => pagingController.refresh(),
-            child: PagedListView.separated(
-              separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
-              pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
-                animateTransitions: true,
-                itemBuilder: (context, group, index) => CheckboxListTile(
-                  title: Text(group.name ?? ''),
-                  value: selectedGroups
-                      .map((e) => e.id)
-                      .toList()
-                      .contains(group.id),
-                  onChanged: (val) {
-                    if (!multipleSelect) {
-                      selectedGroups = [group];
-                      setState(() {});
-                      return;
-                    }
-                    if (val != null && val) {
-                      selectedGroups.add(group);
-                    } else {
-                      selectedGroups
-                          .removeWhere((element) => element.id == group.id);
-                    }
+          body: PagedListView.separated(
+            separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+            pagingController: pagingController,
+            builderDelegate: PagedChildBuilderDelegate<CustomerGroup>(
+              animateTransitions: true,
+              itemBuilder: (context, group, index) => CheckboxListTile(
+                title: Text(group.name ?? ''),
+                value: selectedGroups
+                    .map((e) => e.id)
+                    .toList()
+                    .contains(group.id),
+                onChanged: (val) {
+                  if (!multipleSelect) {
+                    selectedGroups = [group];
                     setState(() {});
-                  },
-                ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const GroupsLoadingPage(),
-                firstPageErrorIndicatorBuilder: (context) =>
-                    PaginationErrorPage(pagingController: pagingController),
+                    return;
+                  }
+                  if (val != null && val) {
+                    selectedGroups.add(group);
+                  } else {
+                    selectedGroups
+                        .removeWhere((element) => element.id == group.id);
+                  }
+                  setState(() {});
+                },
               ),
+              firstPageProgressIndicatorBuilder: (context) =>
+                  const GroupsLoadingPage(),
+              firstPageErrorIndicatorBuilder: (context) =>
+                  PaginationErrorPage(pagingController: pagingController),
             ),
           ),
         ),

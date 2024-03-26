@@ -60,7 +60,7 @@ class DiscountCard extends StatelessWidget {
                 ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                    const EdgeInsets.symmetric(horizontal: 10.0, ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -79,6 +79,7 @@ class DiscountCard extends StatelessWidget {
                           ),
                         ),
                         IconButton(
+                          padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
                               await showModalActionSheet<int>(
                                   title: 'Manage discount',

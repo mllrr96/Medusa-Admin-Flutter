@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
 import 'presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'presentation/blocs/group_crud/group_crud_bloc.dart';
 import 'presentation/blocs/search/search_bloc.dart';
@@ -42,6 +43,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
       ),
       BlocProvider<DiscountCrudBloc>(
         create: (context) => DiscountCrudBloc.instance,
+      ),
+      BlocProvider<ProductCrudBloc>(
+        create: (context) => ProductCrudBloc.instance,
       ),
       // BlocProvider<GiftCardsCubit>(
       //   create: (context) => GiftCardsCubit.instance,
