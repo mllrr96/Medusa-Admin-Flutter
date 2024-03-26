@@ -115,7 +115,7 @@ class DetailedConditionCard extends StatelessWidget {
         break;
     }
     return Container(
-      // padding: const EdgeInsets.symmetric(vertical: 6.0),
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           color: context.theme.scaffoldBackgroundColor),

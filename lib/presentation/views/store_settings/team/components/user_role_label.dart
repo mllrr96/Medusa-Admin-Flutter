@@ -30,14 +30,17 @@ class UserRoleLabel extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
       decoration: BoxDecoration(
         color: containerColor,
         borderRadius: BorderRadius.circular(5.0),
       ),
-      child: Text(
-        text,
-        style: context.bodySmall?.copyWith(color: textColor),
+      child: RotatedBox(
+        quarterTurns: 3,
+        child: Text(
+          text,
+          style: context.bodySmall?.copyWith(color: textColor),
+        ),
       ),
     );
   }

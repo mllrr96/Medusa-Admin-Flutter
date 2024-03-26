@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/extension/paging_controller.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
@@ -113,19 +114,14 @@ class _ProductsViewState extends State<ProductsView> {
                   setState(() => loadingProductId = _.id ?? '');
                 },
                 product: (_) {
-                  // refreshController.headerMode!.value = RefreshStatus.refreshing;
-                  // _loadPage(0);
                   pagingController.refresh();
                   loadingProductId = '';
                 },
                 deleted: (_) {
                   context.showSnackBar('Product deleted successfully');
-                  pagingController.value = PagingState(
-                    nextPageKey: pagingController.nextPageKey,
-                    itemList: pagingController.itemList
-                      ?..removeWhere(
-                          (element) => element.id == loadingProductId),
-                  );
+                  pagingController.removeItem(pagingController.itemList
+                      ?.where((element) => element.id == loadingProductId)
+                      .firstOrNull ?? const Product());
                   setState(() => loadingProductId = '');
                 },
                 updated: (_) {
@@ -195,7 +191,8 @@ class _ProductsViewState extends State<ProductsView> {
                               AddUpdateProductRoute(updateProductReq: null))
                           .then((result) {
                         if (result is Product) {
-                          pagingController.refresh();
+                          pagingController.addItem(result);
+                          setState(() {});
                         }
                       });
                     },

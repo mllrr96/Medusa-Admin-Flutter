@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/extension/paging_controller.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
@@ -73,30 +74,29 @@ class _DiscountsViewState extends State<DiscountsView> {
               loading: (_) =>
                   setState(() => loadingDiscountId = _.discountId ?? ''),
               discount: (_) async {
-                List<Discount> discounts = [];
-                discounts.addAll(pagingController.itemList ?? []);
-                final index = discounts
-                    .indexWhere((element) => element.id == _.discount.id);
+                final index = pagingController.itemList
+                    ?.indexWhere((element) => element.id == _.discount.id);
                 // If for whatever reason we didn't find the discount in the list,
                 // we just reload discounts
-                if (index == -1) {
-                  context.showSnackBar('Discount updated successfully');
+                if (index == -1 || index == null) {
                   smartRefresherCtrl.headerMode?.value =
                       RefreshStatus.refreshing;
-                  return;
+                } else {
+                  pagingController.updateItem(_.discount, index);
                 }
-                discounts.replaceRange(index, index + 1, [_.discount]);
-                pagingController.value = PagingState(itemList: discounts);
                 setState(() => loadingDiscountId = '');
                 context.showSnackBar('Discount updated successfully');
               },
               deleted: (_) {
                 context.showSnackBar('Discount deleted successfully');
-                pagingController.value = PagingState(
-                    itemList: pagingController.itemList
-                      ?..removeWhere(
-                          (element) => element.id == loadingDiscountId),
-                    nextPageKey: pagingController.nextPageKey);
+                final index = pagingController.itemList
+                    ?.indexWhere((element) => element.id == loadingDiscountId);
+                if (index != -1 && index != null) {
+                  pagingController.removeAt(index);
+                } else {
+                  pagingController.refresh();
+                }
+
                 setState(() {
                   loadingDiscountId = '';
                   discountCount -= 1;
