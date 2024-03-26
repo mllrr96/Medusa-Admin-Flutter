@@ -4,18 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../core/utils/enums.dart';
-import '../../../core/route/app_router.dart';
 import 'components/index.dart';
 
 @RoutePage()
@@ -104,13 +103,12 @@ class _CollectionsViewState extends State<CollectionsView> {
               ],
             ),
             const Gap(6.0),
-            ScrollingExpandableFab(
-              controller: ScrollController(),
-              heroTag: UniqueKey(),
-              label: 'New Collection',
-              icon: const Icon(Icons.add),
+            FloatingActionButton.extended(
               onPressed: () => context.pushRoute(CreateCollectionRoute()),
-            ),
+              label: const Text('New Collection'),
+              icon: const Icon(Icons.add),
+              heroTag: UniqueKey(),
+            )
           ],
         ),
         body: NestedScrollView(

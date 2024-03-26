@@ -10,7 +10,6 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -92,10 +91,9 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
       child: Scaffold(
         drawer: const AppDrawer(),
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
-        floatingActionButton: ScrollingExpandableFab(
+        floatingActionButton: FloatingActionButton.extended(
           heroTag: UniqueKey(),
-          controller: ScrollController(),
-          label: 'Gift Card',
+          label: const Text('Gift Card'),
           icon: const Icon(Icons.add),
           onPressed: () async => await showBarModalBottomSheet(
               overlayStyle: context.theme.appBarTheme.systemOverlayStyle,

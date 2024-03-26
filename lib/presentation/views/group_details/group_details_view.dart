@@ -16,7 +16,6 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 @RoutePage()
@@ -106,11 +105,10 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
         ),
       ],
       child: Scaffold(
-          floatingActionButton: ScrollingExpandableFab(
-            controller: ScrollController(),
-            label: 'Add Customers',
-            icon: const Icon(CupertinoIcons.person_add_solid),
+          floatingActionButton: FloatingActionButton.extended(
             onPressed: () async => await addCustomers(),
+            label: const Text('Add Customers'),
+            icon: const Icon(CupertinoIcons.person_add_solid),
           ),
           body: CustomScrollView(
             slivers: [
@@ -119,7 +117,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                 title: Text(widget.customerGroup.name ?? ''),
                 actions: [
                   IconButton(
-                    padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: 'Manage group',

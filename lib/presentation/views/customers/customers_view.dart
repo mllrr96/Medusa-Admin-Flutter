@@ -4,18 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../core/utils/enums.dart';
-import '../../../core/route/app_router.dart';
 import 'components/index.dart';
 
 @RoutePage()
@@ -63,7 +62,8 @@ class _CustomersViewState extends State<CustomersView> {
       listener: (context, state) {
         state.mapOrNull(
           customers: (state) async {
-            final isLastPage = state.customers.length < CustomerCrudBloc.pageSize;
+            final isLastPage =
+                state.customers.length < CustomerCrudBloc.pageSize;
             if (refreshController.isRefresh) {
               pagingController.removePageRequestListener(_loadPage);
               pagingController.value = const PagingState(
@@ -106,11 +106,7 @@ class _CustomersViewState extends State<CustomersView> {
                 ],
               ),
               const Gap(6.0),
-              ScrollingExpandableFab(
-                heroTag: UniqueKey(),
-                controller: ScrollController(),
-                label: 'New Customer',
-                icon: const Icon(Icons.person_add),
+              FloatingActionButton.extended(
                 onPressed: () async {
                   final result = await context
                       .pushRoute(AddUpdateCustomerRoute(customer: null));
@@ -118,6 +114,8 @@ class _CustomersViewState extends State<CustomersView> {
                     pagingController.refresh();
                   }
                 },
+                label: const Text('New Customer'),
+                icon: const Icon(Icons.person_add),
               ),
             ],
           ),
@@ -127,8 +125,9 @@ class _CustomersViewState extends State<CustomersView> {
                 MedusaSliverAppBar(
                   title: Builder(builder: (context) {
                     final customersCount = customerCrudBloc.state.mapOrNull(
-                        customers: (state) =>
-                            state.count > 0 ? state.count : null) ?? 0;
+                            customers: (state) =>
+                                state.count > 0 ? state.count : null) ??
+                        0;
                     return Text(
                         customersCount != 0
                             ? 'Customers ($customersCount)'

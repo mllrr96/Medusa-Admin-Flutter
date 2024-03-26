@@ -13,7 +13,6 @@ import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -159,11 +158,8 @@ class _DiscountsViewState extends State<DiscountsView> {
               ],
             ),
             const Gap(6.0),
-            ScrollingExpandableFab(
-              controller: ScrollController(),
+            FloatingActionButton.extended(
               heroTag: UniqueKey(),
-              label: 'New Discount',
-              icon: const Icon(Icons.add),
               onPressed: () async {
                 final result =
                     await context.pushRoute(AddUpdateDiscountRoute());
@@ -171,6 +167,8 @@ class _DiscountsViewState extends State<DiscountsView> {
                   pagingController.refresh();
                 }
               },
+              label: const Text('New Discount'),
+              icon: const Icon(Icons.add),
             ),
           ],
         ),

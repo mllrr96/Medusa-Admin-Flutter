@@ -11,7 +11,6 @@ import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
 import 'package:medusa_admin/presentation/views/orders_filter/orders_filter_view.dart';
 import 'package:medusa_admin/presentation/views/orders/components/orders_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -121,10 +120,9 @@ class _OrdersViewState extends State<OrdersView> {
               ],
             ),
             const Gap(6.0),
-            ScrollingExpandableFab(
+            FloatingActionButton.extended(
               heroTag: const ValueKey('orders fab'),
-              controller: ScrollController(),
-              label: 'Export Orders',
+              label: const Text('Export Orders'),
               icon: const Icon(MedusaIcons.arrow_up_tray),
               onPressed: () async {
                 if (await exportOrders) {

@@ -13,7 +13,6 @@ import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -108,19 +107,18 @@ class _GroupsViewState extends State<GroupsView> {
                 ],
               ),
               const Gap(6.0),
-              ScrollingExpandableFab(
+              FloatingActionButton.extended(
                 heroTag: UniqueKey(),
-                controller: ScrollController(),
-                label: 'New Group',
+                label: const Text('New Group'),
                 icon: const Icon(Icons.group_add),
                 onPressed: () async {
                   final result =
-                      await context.pushRoute(CreateUpdateGroupRoute());
+                  await context.pushRoute(CreateUpdateGroupRoute());
                   if (result is bool && result) {
                     pagingController.refresh();
                   }
                 },
-              ),
+              )
             ],
           ),
           body: SlidableAutoCloseBehavior(

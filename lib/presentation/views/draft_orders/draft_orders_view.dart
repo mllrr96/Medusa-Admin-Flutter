@@ -8,7 +8,6 @@ import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/draft_order_crud/draft_order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/draft_orders/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
@@ -102,13 +101,12 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               ],
             ),
             const Gap(6.0),
-            ScrollingExpandableFab(
-                controller: ScrollController(),
-                label: 'Draft Order',
-                icon: const Icon(Icons.add),
-                onPressed: () =>
-                    context.pushRoute(const CreateDraftOrderRoute()),
-                heroTag: 'Draft Order'),
+            FloatingActionButton.extended(
+              onPressed: () =>
+                  context.pushRoute(const CreateDraftOrderRoute()),
+              label: const Text('Draft Order'),
+              icon: const Icon(Icons.add),
+            ),
           ],
         ),
         body: NestedScrollView(

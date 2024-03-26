@@ -7,7 +7,6 @@ import 'package:medusa_admin/presentation/blocs/gift_card_crud/gift_card_crud_bl
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:medusa_admin/presentation/widgets/scrolling_expandable_fab.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
@@ -101,12 +100,10 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
               ],
             ),
             const Gap(6.0),
-            ScrollingExpandableFab(
-              controller: ScrollController(),
-              label: 'Custom Gift Card',
+            FloatingActionButton.extended(onPressed: () =>
+          context.pushRoute(CreateUpdateCustomGiftCardRoute()),
+            label: const Text('Custom Gift Card'),
               icon: const Icon(Icons.add),
-              onPressed: () =>
-                  context.pushRoute(CreateUpdateCustomGiftCardRoute()),
             ),
           ],
         ),
