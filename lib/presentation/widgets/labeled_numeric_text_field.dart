@@ -19,7 +19,10 @@ class LabeledNumericTextField extends StatelessWidget {
     this.prefixText,
     this.onTapOutside,
     this.inputFormatters,
-    this.onChanged, this.keyboardType,  this.noEndSpace = false, this.addOrSubtractValue = 1,
+    this.onChanged,
+    this.keyboardType,
+    this.noEndSpace = false,
+    this.addOrSubtractValue = 1,
   });
   final TextEditingController controller;
   final void Function()? onPlusPressed;
@@ -35,7 +38,7 @@ class LabeledNumericTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
   final int addOrSubtractValue;
-final bool noEndSpace;
+  final bool noEndSpace;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -46,62 +49,69 @@ final bool noEndSpace;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if(label !=null)
-        Row(
-          children: [
-            Flexible(child: Text(label!, style: mediumTextStyle!)),
-            if (required) Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
-          ],
-        ),
-        if(label !=null)
-          halfSpace,
+        if (label != null)
+          Row(
+            children: [
+              Flexible(child: Text(label!, style: mediumTextStyle!)),
+              if (required)
+                Text('*', style: mediumTextStyle.copyWith(color: Colors.red)),
+            ],
+          ),
+        if (label != null) halfSpace,
         SizedBox(
           width: width,
           child: TextFormField(
             style: smallTextStyle,
             validator: validator,
             controller: controller,
-
             onTapOutside: onTapOutside,
             onChanged: onChanged,
             inputFormatters: inputFormatters,
-            keyboardType:keyboardType?? TextInputType.number,
+            keyboardType: keyboardType ?? TextInputType.number,
             decoration: InputDecoration(
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // TODO: see if InkWell or GestureDetector is better than IconButton (too much padding, looks bad on small phones e.g. iPhone X)
-                  IconButton(
-                      onPressed: onMinusPressed ??
-                              () {
-                            int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                            if (stock != null && stock != addOrSubtractValue) {
-                              controller.text = (stock - addOrSubtractValue).toString();
-                            }
-                          },
-                      icon: const Icon(Icons.remove)),
-                  IconButton(
-                    // padding: EdgeInsets.zero,
-                      onPressed: onPlusPressed ??
-                              () {
-                            int? stock = int.tryParse(controller.text.removeAllWhitespace);
-                            if (stock != null) {
-                              controller.text = (stock + addOrSubtractValue).toString();
-                            } else {
-                              controller.text = addOrSubtractValue.toString();
-                            }
-                          },
-                      icon: const Icon(Icons.add)),
+                  if (onMinusPressed != null)
+                    IconButton(
+                        onPressed: onMinusPressed ??
+                            () {
+                              int? stock = int.tryParse(
+                                  controller.text.removeAllWhitespace);
+                              if (stock != null &&
+                                  stock != addOrSubtractValue) {
+                                controller.text =
+                                    (stock - addOrSubtractValue).toString();
+                              }
+                            },
+                        icon: const Icon(Icons.remove)),
+                  if (onPlusPressed != null)
+                    IconButton(
+                        // padding: EdgeInsets.zero,
+                        onPressed: onPlusPressed ??
+                            () {
+                              int? stock = int.tryParse(
+                                  controller.text.removeAllWhitespace);
+                              if (stock != null) {
+                                controller.text =
+                                    (stock + addOrSubtractValue).toString();
+                              } else {
+                                controller.text = addOrSubtractValue.toString();
+                              }
+                            },
+                        icon: const Icon(Icons.add)),
                 ],
               ),
               hintText: hintText ?? '100...',
               prefixIcon: prefixText != null
                   ? Text(
-                prefixText!,
-                style: smallTextStyle?.copyWith(color: manatee),
-              )
+                      prefixText!,
+                      style: smallTextStyle?.copyWith(color: manatee),
+                    )
                   : null,
-              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIconConstraints:
+                  const BoxConstraints(minWidth: 0, minHeight: 0),
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
@@ -113,8 +123,7 @@ final bool noEndSpace;
             ),
           ),
         ),
-        if(!noEndSpace)
-        space,
+        if (!noEndSpace) space,
       ],
     );
   }

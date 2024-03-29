@@ -32,6 +32,7 @@ class GiftCardListTile extends StatelessWidget {
               )
             : null,
         trailing: IconButton(
+          padding: const EdgeInsets.all(16.0),
             onPressed: () async {
               await showModalActionSheet<int>(
                   title: 'Manage gift card',

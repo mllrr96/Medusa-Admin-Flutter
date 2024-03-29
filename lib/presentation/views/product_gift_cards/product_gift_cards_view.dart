@@ -136,7 +136,7 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
             onRefresh: () => pagingController.refresh(),
             child: PagedListView.separated(
               pagingController: pagingController,
-              padding: const EdgeInsets.only(bottom: 80),
+              padding: const EdgeInsets.only(bottom: 80, top: 10),
               builderDelegate: PagedChildBuilderDelegate<Product>(
                 animateTransitions: true,
                 itemBuilder: (context, product, index) {

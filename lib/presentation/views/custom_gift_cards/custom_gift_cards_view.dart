@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/core/extension/paging_controller.dart';
+import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/gift_card_crud/gift_card_crud_bloc.dart';
+import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'components/index.dart';
@@ -25,10 +30,12 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
   final pagingController = PagingController<int, GiftCard>(
       firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();
+  late GiftCardCrudBloc giftCardBloc;
   late GiftCardCrudBloc giftCardCrudBloc;
 
   @override
   void initState() {
+    giftCardBloc = GiftCardCrudBloc.instance;
     giftCardCrudBloc = GiftCardCrudBloc.instance;
     pagingController.addPageRequestListener(_loadPage);
     super.initState();
@@ -36,6 +43,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
 
   @override
   void dispose() {
+    giftCardBloc.close();
     giftCardCrudBloc.close();
     pagingController.dispose();
     refreshController.dispose();
@@ -43,7 +51,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
   }
 
   void _loadPage(int _) {
-    giftCardCrudBloc.add(
+    giftCardBloc.add(
       GiftCardCrudEvent.loadAll(
         queryParameters: {
           'offset': pagingController.itemList?.length ?? 0,
@@ -54,37 +62,58 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
-      bloc: giftCardCrudBloc,
-      listener: (context, state) {
-        state.mapOrNull(
-          giftCards: (state) async {
-            final isLastPage =
-                state.giftCards.length < GiftCardCrudBloc.pageSize;
-            if (refreshController.isRefresh) {
-              pagingController.removePageRequestListener(_loadPage);
-              pagingController.value = const PagingState(
-                  nextPageKey: null, error: null, itemList: null);
-              await Future.delayed(const Duration(milliseconds: 250));
-            }
-            if (isLastPage) {
-              pagingController.appendLastPage(state.giftCards);
-            } else {
-              final nextPageKey =
-                  pagingController.nextPageKey ?? 0 + state.giftCards.length;
-              pagingController.appendPage(state.giftCards, nextPageKey);
-            }
-            if (refreshController.isRefresh) {
-              pagingController.addPageRequestListener(_loadPage);
-              refreshController.refreshCompleted();
-            }
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
+          bloc: giftCardBloc,
+          listener: (context, state) {
+            state.mapOrNull(
+              giftCards: (state) async {
+                final isLastPage =
+                    state.giftCards.length < GiftCardCrudBloc.pageSize;
+                if (refreshController.isRefresh) {
+                  pagingController.removePageRequestListener(_loadPage);
+                  pagingController.value = const PagingState(
+                      nextPageKey: null, error: null, itemList: null);
+                  await Future.delayed(const Duration(milliseconds: 250));
+                }
+                if (isLastPage) {
+                  pagingController.appendLastPage(state.giftCards);
+                } else {
+                  final nextPageKey = pagingController.nextPageKey ??
+                      0 + state.giftCards.length;
+                  pagingController.appendPage(state.giftCards, nextPageKey);
+                }
+                if (refreshController.isRefresh) {
+                  pagingController.addPageRequestListener(_loadPage);
+                  refreshController.refreshCompleted();
+                }
+              },
+              error: (state) {
+                refreshController.refreshFailed();
+                pagingController.error = state.failure;
+              },
+            );
           },
-          error: (state) {
-            refreshController.refreshFailed();
-            pagingController.error = state.failure;
+        ),
+        BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
+          bloc: giftCardCrudBloc,
+          listener: (context, state) {
+            state.maybeWhen(
+                loading: (_) => loading(),
+                giftCard: (giftCard) {
+                  context.showSnackBar('Gift card updated');
+                  pagingController.refresh();
+                  dismissLoading();
+                },
+                error: (failure) {
+                  dismissLoading();
+                  context.showSnackBar(failure.toSnackBarString());
+                },
+                orElse: () => dismissLoading());
           },
-        );
-      },
+        ),
+      ],
       child: Scaffold(
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,
@@ -100,9 +129,10 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
               ],
             ),
             const Gap(6.0),
-            FloatingActionButton.extended(onPressed: () =>
-          context.pushRoute(CreateUpdateCustomGiftCardRoute()),
-            label: const Text('Custom Gift Card'),
+            FloatingActionButton.extended(
+              onPressed: () =>
+                  context.pushRoute(CreateUpdateCustomGiftCardRoute()),
+              label: const Text('Custom Gift Card'),
               icon: const Icon(Icons.add),
             ),
           ],
@@ -111,7 +141,7 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
-                final ordersCount = giftCardCrudBloc.state.maybeMap(
+                final ordersCount = giftCardBloc.state.maybeMap(
                     giftCards: (state) => state.count, orElse: () => 0);
                 return Text(
                     ordersCount > 0
@@ -133,14 +163,55 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                     final isDisabled = giftCard.isDisabled;
                     final listTile = CustomGiftCardTile(
                       giftCard,
+                      onTap: () async {
+                        await showBarModalBottomSheet(
+                          context: context,
+                          backgroundColor:
+                              context.theme.scaffoldBackgroundColor,
+                          overlayStyle:
+                              context.theme.appBarTheme.systemOverlayStyle,
+                          builder: (context) => CustomGiftCardView(
+                            giftCard,
+                            onEdit: () async {
+                              final result = await context.pushRoute(
+                                CreateUpdateCustomGiftCardRoute(
+                                  giftCard: giftCard,
+                                ),
+                              );
+                              if (result is GiftCard) {
+                                pagingController.updateItem(result, index);
+                                setState(() {});
+                              }
+                            },
+                            onToggle: () async {
+                              giftCardCrudBloc.add(
+                                GiftCardCrudEvent.update(
+                                  giftCard.id!,
+                                  UpdateGiftCardReq(isDisabled: !isDisabled),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      onEdit: () async {
+                        final result = await context.pushRoute(
+                          CreateUpdateCustomGiftCardRoute(
+                            giftCard: giftCard,
+                          ),
+                        );
+                        if (result is GiftCard) {
+                          pagingController.updateItem(result, index);
+                          setState(() {});
+                        }
+                      },
                       onToggle: () async {
-                        // await controller.updateCustomGiftCard(
-                        //   context: context,
-                        //   id: giftCard.id!,
-                        //   userUpdateGiftCardReq: UserUpdateGiftCardReq(
-                        //       isDisabled: !isDisabled),
-                        //   getBack: false,
-                        // );
+                        giftCardCrudBloc.add(
+                          GiftCardCrudEvent.update(
+                            giftCard.id!,
+                            UpdateGiftCardReq(isDisabled: !isDisabled),
+                          ),
+                        );
                       },
                     );
                     const disabledDot = Padding(

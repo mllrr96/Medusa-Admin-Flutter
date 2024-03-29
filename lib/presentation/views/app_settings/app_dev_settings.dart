@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/data/models/app_preference.dart';
@@ -44,23 +42,6 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
     const manatee = ColorManager.manatee;
     const divider = Divider(height: 0);
 
-    Future<bool> authenticate() async {
-      final localAuth = getIt<LocalAuthentication>();
-      final canCheckBiometric = await localAuth.canCheckBiometrics &&
-          await localAuth.isDeviceSupported();
-      if (!canCheckBiometric) {
-        return false;
-      }
-      return await localAuth
-          .authenticate(localizedReason: 'Please authenticate')
-          .then((authenticated) async {
-        if (!authenticated) {
-          return false;
-        }
-        return true;
-      });
-    }
-
     return Scaffold(
       body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -91,10 +72,6 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                     'Clears ${authType.toString()} used for authentication',
                     style: const TextStyle(color: manatee)),
                 onTap: () async {
-                  await authenticate().then((authenticated) async {
-                    if (!authenticated) {
-                      return;
-                    }
                     final key = switch (authType) {
                       AuthenticationType.cookie => AppConstants.cookieKey,
                       AuthenticationType.token => AppConstants.tokenKey,
@@ -110,16 +87,10 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                                 context.copyToClipboard(value ?? '');
                               }));
                     }
-                  });
                 },
                 onLongPress: () async {
-                  await authenticate().then((authenticated) async {
-                    if (!authenticated) {
-                      return;
-                    }
-                    await authPrefService.clearLoginKey();
-                    Fluttertoast.showToast(msg: 'Cookie cleared');
-                  });
+                  await authPrefService.clearLoginKey();
+                  Fluttertoast.showToast(msg: 'Cookie cleared');
                 },
               ),
               divider,
@@ -139,22 +110,6 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                 onLongPress: () async {
                   await storageService.resetFirstRun();
                   Fluttertoast.showToast(msg: 'First run reset');
-                },
-              ),
-              divider,
-              ListTile(
-                leading: const Icon(Icons.password),
-                title: const Text('Load login data'),
-                subtitle: const Text('Loads saved data credential',
-                    style: TextStyle(color: manatee)),
-                onLongPress: () async {
-                  final result = await authPrefService.loadLoginData();
-                  result.when((success) {
-                    context.showSnackBar(
-                        'Email: ${success.$1}\nPassword: ${success.$2}');
-                  }, (error) {
-                    context.showSnackBar(error);
-                  });
                 },
               ),
               divider,

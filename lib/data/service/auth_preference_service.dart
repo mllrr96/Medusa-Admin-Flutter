@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,10 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/auth_preference.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:multiple_result/multiple_result.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:local_auth/local_auth.dart';
 import '../../../core/constant/strings.dart';
 
 @singleton
@@ -143,34 +140,6 @@ class AuthPreferenceService {
       await _prefs.remove(AppConstants.emailKey);
       _email = null;
     } catch (_) {}
-  }
-
-  Future<Result<(String, String), String>> loadLoginData() async {
-    try {
-      final auth = getIt<LocalAuthentication>();
-      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-      final bool canAuthenticate =
-          canAuthenticateWithBiometrics || await auth.isDeviceSupported();
-      if (!canAuthenticate) {
-        return const Error('Device does not support biometric authentication');
-      }
-      final bool didAuthenticate = await auth.authenticate(
-          localizedReason: 'Please authenticate to sign in to Medusa Admin');
-      if (didAuthenticate) {
-        return Success((
-          _prefs.getString(AppConstants.emailKey) ?? '',
-          await getIt<FlutterSecureStorage>()
-                  .read(key: AppConstants.passwordKey) ??
-              ''
-        ));
-      } else {
-        return const Error('Biometric authentication failed');
-      }
-    } catch (error, stack) {
-      log(error.toString());
-      log(stack.toString());
-      return const Error('Biometric authentication failed, try again later');
-    }
   }
 
   Future<bool> updateUrl(String value) async {

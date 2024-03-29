@@ -94,6 +94,7 @@ class _OrderSettingsViewState extends State<OrderSettingsView> {
             ),
           ],
           body: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             children: [
               // const SizedBox(height: 6.0),
               if (orderPreference.alternativeCard)

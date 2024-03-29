@@ -37,7 +37,7 @@ import 'package:medusa_admin/presentation/views/add_update_product/views/add_upd
 import 'package:medusa_admin/presentation/views/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/views/app_settings/order_settings/order_settings_view.dart';
 import 'package:medusa_admin/presentation/views/app_settings/ui_settings/app_bar_style_view.dart';
-import 'package:medusa_admin/presentation/views/app_settings/views/app_settings_view.dart';
+import 'package:medusa_admin/presentation/views/app_settings/app_settings_view.dart';
 import 'package:medusa_admin/presentation/views/auth/components/url_configure_view.dart';
 import 'package:medusa_admin/presentation/views/auth/reset_password_view.dart';
 import 'package:medusa_admin/presentation/views/auth/sign_in_view.dart';

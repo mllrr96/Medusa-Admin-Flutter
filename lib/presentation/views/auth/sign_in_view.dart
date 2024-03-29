@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/locale_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
-import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
-import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
@@ -77,11 +73,6 @@ class _SignInViewState extends State<SignInView> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         state.mapOrNull(loggedIn: (_) async {
-          // show biometric auth dialog
-          if (AuthPreferenceService.authTypeGetter !=
-              AuthenticationType.token) {
-            await _showBiometricDialog();
-          }
           if (!isSessionExpired) {
             if (context.mounted) {
               context.router.replaceAll([const DashboardRoute()]);
@@ -306,44 +297,6 @@ class _SignInViewState extends State<SignInView> {
                             ),
                           ),
                           space,
-                          if (showAuthenticateButton && !useToken)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Column(
-                                children: [
-                                  const Row(
-                                    children: [
-                                      Expanded(child: Divider()),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          'Or',
-                                          style: TextStyle(
-                                              color: ColorManager.manatee),
-                                        ),
-                                      ),
-                                      Expanded(child: Divider()),
-                                    ],
-                                  ),
-                                  space,
-                                  OutlinedButton.icon(
-                                    style: OutlinedButton.styleFrom(
-                                      minimumSize: const Size(220, 48.0),
-                                      side: BorderSide(
-                                          color: context.theme.primaryColor),
-                                    ),
-                                    onPressed: loading
-                                        ? null
-                                        : () async =>
-                                            await _biometricAuthentication(),
-                                    icon: const Icon(Icons.fingerprint),
-                                    label: const Text('Authenticate'),
-                                  ),
-                                ],
-                              ),
-                            ),
                         ],
                       ),
                     ),
@@ -386,15 +339,6 @@ class _SignInViewState extends State<SignInView> {
     }
   }
 
-  Future<void> _biometricAuthentication() async {
-    if (AuthPreferenceService.authPreferenceGetter.useBiometric == true) {
-      final result = await AuthPreferenceService.instance.loadLoginData();
-      result.when((success) async {
-        // setLoading(true);
-        await _signIn();
-      }, (error) => context.showSignInErrorSnackBar(error));
-    }
-  }
 
   bool _validate() {
     if (AuthPreferenceService.baseUrlGetter == null) {
@@ -407,25 +351,6 @@ class _SignInViewState extends State<SignInView> {
     context.unfocus();
 
     return true;
-  }
-
-  Future<void> _showBiometricDialog() async {
-    final canUseBiometric =
-        await getIt<LocalAuthentication>().canCheckBiometrics &&
-            await getIt<LocalAuthentication>().isDeviceSupported();
-    if (useBiometric == null && mounted && canUseBiometric) {
-      final result = await showModalBottomSheet<bool?>(
-          isDismissible: false,
-          enableDrag: false,
-          context: context,
-          builder: (context) => const UseBiometricReminder());
-      if (result == true) {
-        await AuthPreferenceService.instance
-            .saveLoginData(emailCtrl.text, passwordCtrl.text);
-      }
-      // wait for the modal to close
-      await Future.delayed(const Duration(milliseconds: 200));
-    }
   }
 
   Widget get updateButton => Padding(

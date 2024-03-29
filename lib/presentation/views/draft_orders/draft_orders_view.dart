@@ -102,6 +102,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
             ),
             const Gap(6.0),
             FloatingActionButton.extended(
+              heroTag: UniqueKey(),
               onPressed: () =>
                   context.pushRoute(const CreateDraftOrderRoute()),
               label: const Text('Draft Order'),

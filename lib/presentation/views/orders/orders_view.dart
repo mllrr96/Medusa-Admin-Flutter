@@ -121,7 +121,7 @@ class _OrdersViewState extends State<OrdersView> {
             ),
             const Gap(6.0),
             FloatingActionButton.extended(
-              heroTag: const ValueKey('orders fab'),
+              heroTag: UniqueKey(),
               label: const Text('Export Orders'),
               icon: const Icon(MedusaIcons.arrow_up_tray),
               onPressed: () async {

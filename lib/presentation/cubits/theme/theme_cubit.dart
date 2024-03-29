@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 
 part 'theme_state.dart';
@@ -14,15 +15,18 @@ part 'theme_cubit.freezed.dart';
 @injectable
 class ThemeCubit extends Cubit<ThemeState> {
   static ThemeCubit get instance => getIt<ThemeCubit>();
-  ThemeCubit(this.preferenceService) : super(const ThemeState()){
+  ThemeCubit(PreferenceService preferenceService)
+      : _preferenceService = preferenceService,
+        super(const ThemeState()) {
     loadThemeState();
   }
   void loadThemeState() {
     try {
       emit(ThemeState(
-        themeMode: preferenceService.appSettings.themeMode,
-        flexScheme: preferenceService.appSettings.colorScheme,
-        useMaterial3: preferenceService.appSettings.useMaterial3,
+        themeMode: _preferenceService.appSettings.themeMode,
+        flexScheme: _preferenceService.appSettings.colorScheme,
+        useMaterial3: _preferenceService.appSettings.useMaterial3,
+        appBarStyle: _preferenceService.appSettings.appBarStyle,
       ));
     } catch (e) {
       debugPrint(e.toString());
@@ -34,27 +38,30 @@ class ThemeCubit extends Cubit<ThemeState> {
     ThemeMode? themeMode,
     FlexScheme? flexScheme,
     bool? useMaterial3,
+    AppBarStyle? appBarStyle,
   }) async {
     try {
-      await preferenceService.updateAppSettings(
-        preferenceService.appSettings.copyWith(
+      await _preferenceService.updateAppSettings(
+        _preferenceService.appSettings.copyWith(
           themeMode: themeMode,
           colorScheme: flexScheme,
           useMaterial3: useMaterial3,
+          appBarStyle: appBarStyle,
         ),
       );
-      if(themeMode != null) {
+      if (themeMode != null) {
         await Future.delayed(250.milliseconds);
       }
       emit(state.copyWith(
         themeMode: themeMode ?? state.themeMode,
         flexScheme: flexScheme ?? state.flexScheme,
         useMaterial3: useMaterial3 ?? state.useMaterial3,
+        appBarStyle: appBarStyle ?? state.appBarStyle,
       ));
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  final PreferenceService preferenceService;
+  final PreferenceService _preferenceService;
 }

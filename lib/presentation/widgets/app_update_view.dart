@@ -72,7 +72,7 @@ class _AppUpdateViewState extends State<AppUpdateView> {
           return Scaffold(
             bottomNavigationBar: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              EdgeInsets.fromLTRB(12, 8, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 8),
               child: FilledButton(
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 48),

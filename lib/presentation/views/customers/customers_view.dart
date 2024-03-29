@@ -107,6 +107,7 @@ class _CustomersViewState extends State<CustomersView> {
               ),
               const Gap(6.0),
               FloatingActionButton.extended(
+                heroTag: UniqueKey(),
                 onPressed: () async {
                   final result = await context
                       .pushRoute(AddUpdateCustomerRoute(customer: null));

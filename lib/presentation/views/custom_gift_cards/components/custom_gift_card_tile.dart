@@ -1,21 +1,18 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
-import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'custom_gift_card_view.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class CustomGiftCardTile extends StatelessWidget {
-  const CustomGiftCardTile(this.giftCard, {super.key, this.onToggle});
+  const CustomGiftCardTile(this.giftCard, {super.key, this.onToggle, this.onEdit, this.onTap});
   final GiftCard giftCard;
+  final void Function()? onTap;
   final void Function()? onToggle;
+  final void Function()? onEdit;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -23,14 +20,7 @@ class CustomGiftCardTile extends StatelessWidget {
     final isDisabled = giftCard.isDisabled;
 
     return ListTile(
-      onTap: () {
-        showBarModalBottomSheet(
-          context: context,
-          backgroundColor: context.theme.scaffoldBackgroundColor,
-          overlayStyle: context.theme.appBarTheme.systemOverlayStyle,
-          builder: (context) => CustomGiftCardView(giftCard),
-        );
-      },
+      onTap: onTap,
       onLongPress: () async {
         await showModalActionSheet<int>(
             title: 'Manage Custom Gift Card',
@@ -44,8 +34,7 @@ class CustomGiftCardTile extends StatelessWidget {
             ]).then((value) async {
           switch (value) {
             case 0:
-              context.pushRoute(
-                  CreateUpdateCustomGiftCardRoute(giftCard: giftCard));
+              onEdit?.call();
               break;
             case 1:
               onToggle?.call();

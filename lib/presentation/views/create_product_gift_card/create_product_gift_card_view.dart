@@ -26,7 +26,7 @@ class CreateProductGiftCardView extends StatefulWidget {
 class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
   final nameCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  var denominations = <(Currency? currency, String? amount, int index)>[];
+  // var denominations = <(Currency? currency, String? amount, int index)>[];
   late ProductCrudBloc productCrudBloc;
   @override
   void initState() {
@@ -85,31 +85,31 @@ class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
                                 productId: null,
                               )
                             ],
-                            variants: denominations.map((e) {
-                              return ProductVariant(
-                                  title:
-                                      (denominations.indexOf(e) + 1).toString(),
-                                  inventoryQuantity: 0,
-                                  manageInventory: false,
-                                  allowBackorder: false,
-                                  prices: [
-                                    MoneyAmount(
-                                      amount: int.tryParse(e.$2
-                                                  ?.replaceAll(',', '')
-                                                  .replaceAll('.', '') ??
-                                              '') ??
-                                          0,
-                                      currencyCode: e.$1?.code,
-                                    ),
-                                  ],
-                                  options: [
-                                    ProductOptionValue(
-                                      value: e.$2,
-                                      optionId: null,
-                                      variantId: null,
-                                    )
-                                  ]);
-                            }).toList(),
+                            // variants: denominations.map((e) {
+                            //   return ProductVariant(
+                            //       title:
+                            //           (denominations.indexOf(e) + 1).toString(),
+                            //       inventoryQuantity: 0,
+                            //       manageInventory: false,
+                            //       allowBackorder: false,
+                            //       prices: [
+                            //         MoneyAmount(
+                            //           amount: int.tryParse(e.$2
+                            //                       ?.replaceAll(',', '')
+                            //                       .replaceAll('.', '') ??
+                            //                   '') ??
+                            //               0,
+                            //           currencyCode: e.$1?.code,
+                            //         ),
+                            //       ],
+                            //       options: [
+                            //         ProductOptionValue(
+                            //           value: e.$2,
+                            //           optionId: null,
+                            //           variantId: null,
+                            //         )
+                            //       ]);
+                            // }).toList(),
                           ),
                         ),
                       ),
@@ -157,54 +157,54 @@ class _CreateProductGiftCardViewState extends State<CreateProductGiftCardView> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8.0),
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.theme.appBarTheme.backgroundColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0),
-                        child: Text('Denominations'),
-                      ),
-                      ListView.separated(
-                          separatorBuilder: (_, __) => const Divider(),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: denominations.length,
-                          itemBuilder: (context, index) {
-                            // print('Index is:' + index.toString());
-                            return DenominationWidget(
-                              index,
-                              key: Key(index.toString()),
-                            );
-                          }),
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            denominations
-                                .add((null, null, denominations.length));
-                            setState(() {});
-                          },
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.add),
-                              Text('Add Denomination'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(
+                //       horizontal: 12.0, vertical: 8.0),
+                //   margin: const EdgeInsets.symmetric(
+                //     horizontal: 12.0,
+                //   ),
+                //   decoration: BoxDecoration(
+                //     color: context.theme.appBarTheme.backgroundColor,
+                //     borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                //   ),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       const Padding(
+                //         padding: EdgeInsets.symmetric(vertical: 6.0),
+                //         child: Text('Denominations'),
+                //       ),
+                //       ListView.separated(
+                //           separatorBuilder: (_, __) => const Divider(),
+                //           shrinkWrap: true,
+                //           physics: const NeverScrollableScrollPhysics(),
+                //           itemCount: denominations.length,
+                //           itemBuilder: (context, index) {
+                //             // print('Index is:' + index.toString());
+                //             return DenominationWidget(
+                //               index,
+                //               key: Key(index.toString()),
+                //             );
+                //           }),
+                //       Center(
+                //         child: TextButton(
+                //           onPressed: () {
+                //             denominations
+                //                 .add((null, null, denominations.length));
+                //             setState(() {});
+                //           },
+                //           child: const Row(
+                //             mainAxisSize: MainAxisSize.min,
+                //             children: [
+                //               Icon(Icons.add),
+                //               Text('Add Denomination'),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
