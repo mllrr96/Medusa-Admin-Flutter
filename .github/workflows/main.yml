@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: '12.x'
+          java-version: '17'
           cache: 'gradle'
       - name: Run flutter doctor
         run: flutter doctor -v
