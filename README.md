@@ -85,6 +85,10 @@ Download the latest apk file from [releases](https://github.com/mllrr96/Medusa-A
 ### iOS
 You need to sideload the latest ipa file found in [releases](https://github.com/mllrr96/Medusa-Admin-Flutter/releases) to your iPhone, checkout [Sideloadly](https://sideloadly.io/) or [AltStore](https://altstore.io/) for more info about sideloading.
 
+### How to connect the app to your MedusaJs backend
+- Open the app and click on set URL, then enter your MedusaJs backend URL (e.g. https://your-backend-url.com) and click on save
+- Enter your email and password and click on sign in
+
 ##  Build it yourself
 Add [Flutter](https://docs.flutter.dev/get-started/install) to your machine
 
@@ -97,6 +101,8 @@ then
 flutter pub run build_runner build
 ```
 Optional: change the baseUrl (found in "lib/core/constant/strings.dart") to your backend URL, you can change baseUrl from inside the app
+
+This project uses firebase analytics, so you need to connect your firebase to this project, check [Firebase documentation](https://firebase.google.com/docs/flutter/setup?platform=ios) & [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/get-started?platform=flutter) for more info
 
 - To run the app on Android just run the following command in the root directory of the project:
 ```
@@ -128,6 +134,13 @@ flutter build ipa
 - [x] Add and update draft order
 - [x] App settings
 - [x] Support for light/dark mode
+
+## Not implemented yet
+- [ ] Metadata add/update/read
+- [ ] Creating a new region has some errors
+- [ ] Import orders
+- [ ] Duplicating product
+- [ ] Denomination in gift card
       
 
 ## Contributing

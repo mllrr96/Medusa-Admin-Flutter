@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../../core/di/di.dart';
 
@@ -12,7 +12,7 @@ class AuthenticationUseCase {
       {required String email, required String password}) async {
     try {
       final result = await _authRepository.signIn(
-          req: UserPostAuthReq(email: email, password: password));
+          req: PostAuthReq(email: email, password: password));
       if (result == null) {
         return Error(Failure.from(result));
       } else {
@@ -27,7 +27,7 @@ class AuthenticationUseCase {
       {required String email, required String password}) async {
     try {
       final result = await _authRepository.signInCookie(
-          req: UserPostAuthReq(email: email, password: password));
+          req: PostAuthReq(email: email, password: password));
       if (result == null) {
         return Error(Failure.from(result));
       } else {
@@ -42,7 +42,7 @@ class AuthenticationUseCase {
       {required String email, required String password}) async {
     try {
       final result = await _authRepository.signInJWT(
-          req: UserPostAuthReq(email: email, password: password));
+          req: PostAuthReq(email: email, password: password));
       if (result == null) {
         return Error(Failure.from(result));
       } else {
@@ -53,7 +53,7 @@ class AuthenticationUseCase {
     }
   }
 
-  Future<Result<bool, Failure>> logoutCustomer() async {
+  Future<Result<bool, Failure>> logout() async {
     try {
       final result = await _authRepository.signOut();
       if (result != null) {
@@ -61,8 +61,8 @@ class AuthenticationUseCase {
       } else {
         return Error(Failure(message: 'Error logging out', type: ''));
       }
-    } on Exception catch (_) {
-      return Error(Failure.from(_));
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 

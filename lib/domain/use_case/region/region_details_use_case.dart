@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -24,7 +24,7 @@ class RegionDetailsUseCase {
     }
   }
 
-  Future<Result<UserDeleteRegionRes, Failure>> deleteRegion(String id) async {
+  Future<Result<DeleteRegionRes, Failure>> deleteRegion(String id) async {
     try {
       final result = await _regionsRepository.delete(id: id);
       return Success(result!);
@@ -33,7 +33,7 @@ class RegionDetailsUseCase {
     }
   }
 
-  Future<Result<UserDeleteShippingOptionRes, Failure>> deleteShippingOption(
+  Future<Result<DeleteShippingOptionRes, Failure>> deleteShippingOption(
       String id) async {
     try {
       final result = await _shippingOptionsRepository.delete(id: id);
@@ -43,7 +43,7 @@ class RegionDetailsUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllShippingOptionRes, Failure>>
+  Future<Result<RetrieveAllShippingOptionRes, Failure>>
       fetchShippingOptions({
     Map<String, dynamic>? queryParameters,
   }) async {

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -22,7 +22,7 @@ class UpdateRegionUseCase {
   }
 
   Future<Result<Region, Failure>> create(
-      UserCreateRegionReq userCreateRegionReq) async {
+      CreateRegionReq userCreateRegionReq) async {
     try {
       final result = await _regionsRepository.create(
           userCreateRegionReq: userCreateRegionReq);
@@ -34,7 +34,7 @@ class UpdateRegionUseCase {
 
   Future<Result<Region, Failure>> update({
     required String id,
-    required UserUpdateRegionReq userUpdateRegionReq,
+    required UpdateRegionReq userUpdateRegionReq,
   }) async {
     try {
       final result = await _regionsRepository.update(

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -28,7 +28,7 @@ class UpdateShippingOptionUseCase {
   }
 
   Future<Result<ShippingOption, Failure>> createShippingOption(
-      UserCreateShippingOptionReq userCreateShippingOptionReq) async {
+      CreateShippingOptionReq userCreateShippingOptionReq) async {
     try {
       final result = await _shippingOptionsRepository.create(
           userCreateShippingOptionReq: userCreateShippingOptionReq);
@@ -40,7 +40,7 @@ class UpdateShippingOptionUseCase {
 
   Future<Result<ShippingOption, Failure>> updateShippingOption(
       {required String id,
-      required UserUpdateShippingOptionReq userUpdateShippingOptionReq}) async {
+      required UpdateShippingOptionReq userUpdateShippingOptionReq}) async {
     try {
       final result = await _shippingOptionsRepository.update(
           userUpdateShippingOptionReq: userUpdateShippingOptionReq, id: id);
@@ -50,7 +50,7 @@ class UpdateShippingOptionUseCase {
     }
   }
 
-  Future<Result<UserRetrieveAllShippingProfileRes, Failure>>
+  Future<Result<RetrieveAllShippingProfileRes, Failure>>
       fetchShippingProfiles({
     Map<String, dynamic>? queryParameters,
   }) async {

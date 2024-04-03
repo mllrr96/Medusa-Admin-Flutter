@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class ProductsFilterUseCase {
   ProductTagRepository get _productTagRepository =>
       getIt<MedusaAdmin>().productTagRepository;
 
-  Future<Result<(UserCollectionsRes, UserRetrieveProductTagsRes), Failure>>
+  Future<Result<(CollectionsRes, RetrieveProductTagsRes), Failure>>
   call() async {
     try {
       final collections = await _collectionRepository.retrieveAll();

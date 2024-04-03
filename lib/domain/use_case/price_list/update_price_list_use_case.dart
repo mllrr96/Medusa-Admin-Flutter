@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class UpdatePriceListUseCase {
   static UpdatePriceListUseCase get instance => getIt<UpdatePriceListUseCase>();
 
   Future<Result<PriceList, Failure>> create(
-      UserCreatePriceListReq userCreatePriceListReq) async {
+      CreatePriceListReq userCreatePriceListReq) async {
     try {
       final result = await _priceListRepository.createPriceList(
           userCreatePriceListReq: userCreatePriceListReq);
@@ -23,12 +23,12 @@ class UpdatePriceListUseCase {
   }
 
   Future<Result<PriceList, Failure>> update({
-    required UserUpdatePriceListReq userUpdatePriceListReq,
+    required UpdatePriceListReq payload,
     required String id,
   }) async {
     try {
       final result = await _priceListRepository.updatePriceList(
-          id: id, userUpdatePriceListReq: userUpdatePriceListReq);
+          id: id, userUpdatePriceListReq: payload);
       return Success(result!);
     } catch (e) {
       return Error(Failure.from(e));

@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +11,7 @@ abstract class RegisterCoreDependencies {
   final AppRouter appRouter = AppRouter();
 
   @singleton
-  final LocalAuthentication auth = LocalAuthentication();
+  final Dio dio = Dio();
 
   @singleton
   final FlutterSecureStorage securePrefs =

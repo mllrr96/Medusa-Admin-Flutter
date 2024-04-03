@@ -2,8 +2,8 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
@@ -12,15 +12,17 @@ import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin/domain/use_case/auth/sign_out_use_case.dart';
-import 'package:medusa_admin/data/service/store_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-
+import 'package:medusa_admin/presentation/blocs/app_update/app_update_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
+import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
 import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:simple_icons/simple_icons.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -30,224 +32,116 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  ThemeMode themeMode = PreferenceService.instance.loadThemeMode();
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final store = StoreService.store;
     final packageInfo = PreferenceService.packageInfo;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
-    // String code = packageInfo.buildNumber;
-
-    Future<void> signOut() async {
-      // final usingToken = AuthPreferenceService.authType == AuthenticationType.token;
-      // final message = usingToken
-      //     ? 'Signing out will delete api token from device and set auth method to JWT, Are you sure you want to continue?'
-      //     : 'Are you sure you want to sign out?';
-      await showOkCancelAlertDialog(
-              context: context,
-              title: 'Sign out',
-              message: 'Are you sure you want to sign out?',
-              okLabel: 'Sign Out',
-              isDestructiveAction: true)
-          .then(
-        (value) async {
-          if (value == OkCancelResult.ok) {
-            loading();
-            final result = await SignOutUseCase.instance();
-            await result.when((success) async {
-              await Get.delete(force: true);
-              await AuthPreferenceService.instance.clearLoginData();
-              await AuthPreferenceService.instance.clearExportFiles();
-              await AuthPreferenceService.instance.clearLoginKey();
-              // if (usingToken) {
-              //   await PreferenceService.instance.updateAppSettings(PreferenceService
-              //       .appSettings
-              //       .copyWith(authType: AuthenticationType.jwt));
-              //   await MedusaAdminDi.resetMedusaAdminSingleton();
-              // }
-              if (mounted) {
-                context.router.replaceAll([const SplashRoute()]);
-              }
-              dismissLoading();
-            }, (error) {
-              if (error.code == 401) {
-                context.router.replaceAll([SignInRoute()]);
-              } else {
-                context.showSnackBar(error.toSnackBarString());
-              }
-            });
-          }
-        },
-      );
-    }
-
-    List<Widget> items = const [
-      NavigationDrawerDestination(
+    final divider = Container(
+        color: context.theme.navigationDrawerTheme.backgroundColor,
+        child: const Divider(indent: 28, endIndent: 28));
+    List<Widget> items = [
+      const NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.cart),
         label: Text('Orders'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.cart_badge_plus),
         label: Text('Draft Orders'),
       ),
-      Divider(indent: 28, endIndent: 28),
-      NavigationDrawerDestination(
+      divider,
+      const NavigationDrawerDestination(
         icon: Icon(MedusaIcons.tag),
         label: Text('Products'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(Icons.collections_bookmark),
         label: Text('Collections'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(MedusaIcons.tag),
         label: Text('Categories'),
       ),
-      Divider(indent: 28, endIndent: 28),
-      NavigationDrawerDestination(
+      // space,
+      divider,
+      const NavigationDrawerDestination(
         icon: Icon(Icons.person),
         label: Text('Customers'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(Icons.groups),
         label: Text('Customer Groups'),
       ),
-      Divider(indent: 28, endIndent: 28),
-      NavigationDrawerDestination(
+      // space,
+      divider,
+      const NavigationDrawerDestination(
         icon: Icon(Icons.discount_outlined),
         label: Text('Discounts'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.gift),
         label: Text('Gift Cards'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(MedusaIcons.currency_dollar),
         label: Text('Pricing'),
       ),
-      Divider(indent: 28, endIndent: 28),
-      NavigationDrawerDestination(
+      // space,
+      divider,
+      const NavigationDrawerDestination(
         icon: Icon(Icons.settings_applications),
         label: Text('Store Settings'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(CupertinoIcons.settings),
         label: Text('App Settings'),
       ),
-      NavigationDrawerDestination(
+      const NavigationDrawerDestination(
         icon: Icon(Icons.logout, color: Colors.red),
         label: Text('Sign Out'),
       ),
     ];
 
-    return NavigationDrawer(
-        key: const PageStorageKey<String>('navigationDrawer'),
-        selectedIndex: context.tabsRouter.activeIndex,
-        onDestinationSelected: (index) async {
-          if (index == 12) {
-            await signOut();
-            return;
-          }
-          context.closeDrawer();
-          context.tabsRouter.setActiveIndex(index);
-        },
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 56,
-                    decoration: ShapeDecoration(
-                      shape: const StadiumBorder(),
-                      color: context
-                          .getAlphaBlend(context.theme.scaffoldBackgroundColor),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          padding: const EdgeInsets.all(16.0),
-                          onPressed: () async {
-                            switch (themeMode) {
-                              case ThemeMode.system:
-                                setState(() => themeMode = ThemeMode.light);
-
-                                Future.delayed(
-                                        const Duration(milliseconds: 250))
-                                    .then((value) async => await PreferenceService
-                                        .instance
-                                        .saveThemeMode(ThemeMode.light));
-                                break;
-                              case ThemeMode.light:
-                                setState(() => themeMode = ThemeMode.dark);
-
-                                Future.delayed(
-                                        const Duration(milliseconds: 250))
-                                    .then((value) async => await PreferenceService
-                                        .instance
-                                        .saveThemeMode(ThemeMode.dark));
-                                break;
-                              case ThemeMode.dark:
-                                setState(() => themeMode = ThemeMode.system);
-                                Future.delayed(
-                                        const Duration(milliseconds: 250))
-                                    .then((value) async => await PreferenceService
-                                        .instance
-                                        .saveThemeMode(ThemeMode.system));
-                                break;
-                            }
-                          },
-                          icon: Icon(themeMode.icon),
-                        ),
-                        Flexible(
-                          child: Text(store?.name ?? '',
-                              style: context.bodyLarge,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: SizedBox(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Gap(5.0),
-                IconButton(
-                    style: IconButton.styleFrom(
-                      backgroundColor: context
-                          .getAlphaBlend(context.theme.scaffoldBackgroundColor),
-                    ),
-                    padding: const EdgeInsets.all(16.0),
-                    onPressed: () => context.pushRoute(const ActivityRoute()),
-                    icon: const Badge(
-                        smallSize: 8,
-                        backgroundColor: Colors.red,
-                        alignment: Alignment.topRight,
-                        child: Icon(Icons.notifications_outlined))),
-              ],
-            ),
-          ),
-          const Gap(5),
-          ...items,
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    customBorder: const StadiumBorder(),
-                    onTap: () => _showAppAboutDialog(context),
-                    onLongPress: () =>
-                        context.pushRoute(const AppDevSettingsRoute()),
-                    child: Ink(
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        state.mapOrNull(
+          loading: (_) => loading(),
+          loggedOut: (_) async {
+            await AuthPreferenceService.instance.clearLoginData();
+            await AuthPreferenceService.instance.clearExportFiles();
+            await AuthPreferenceService.instance.clearLoginKey();
+            dismissLoading();
+            if (context.mounted) {
+              context.router.replaceAll([SignInRoute()]);
+            }
+          },
+          error: (e) {
+            dismissLoading();
+            context.showSnackBar(e.failure.toSnackBarString());
+          },
+        );
+      },
+      child: NavigationDrawer(
+          key: const PageStorageKey<String>('navigationDrawer'),
+          selectedIndex: context.tabsRouter.activeIndex,
+          onDestinationSelected: (index) async {
+            if (index == 12) {
+              await signOut();
+              return;
+            }
+            context.closeDrawer();
+            context.tabsRouter.setActiveIndex(index);
+          },
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
                       height: 56,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       decoration: ShapeDecoration(
                         shape: const StadiumBorder(),
                         color: context.getAlphaBlend(
@@ -256,52 +150,202 @@ class _AppDrawerState extends State<AppDrawer> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Hero(
-                                tag: 'medusa',
-                                child: Image.asset(
-                                  'assets/images/medusa.png',
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(appName,
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                  Text('Version $version',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                ],
-                              ),
-                            ],
+                          BlocBuilder<ThemeCubit, ThemeState>(
+                            builder: (context, state) {
+                              return IconButton(
+                                padding: const EdgeInsets.all(16.0),
+                                onPressed: () => context
+                                    .read<ThemeCubit>()
+                                    .updateThemeState(
+                                        themeMode: state.themeMode.next),
+                                icon: Icon(state.themeMode.icon),
+                              );
+                            },
                           ),
-                          const Icon(Icons.info_outline,
-                              color: ColorManager.manatee),
+                          BlocBuilder<StoreBloc, StoreState>(
+                            builder: (context, state) {
+                              final storeName = state.mapOrNull(
+                                  loaded: (_) => _.store.name);
+                              return Flexible(
+                                child: Text(storeName ?? '',
+                                    style: context.bodyLarge,
+                                    overflow: TextOverflow.ellipsis),
+                              );
+                            },
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: SizedBox(),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                ),
-                const Gap(5.0),
-                IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: context
-                        .getAlphaBlend(context.theme.scaffoldBackgroundColor),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  onPressed: () async {
-                    final Uri url = Uri.parse(AppConstants.githubLink);
-                    await launchUrl(url);
-                  },
-                  icon: const Icon(SimpleIcons.github),
-                )
-              ],
+                  const Gap(5.0),
+                  IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: context.getAlphaBlend(
+                            context.theme.scaffoldBackgroundColor),
+                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      onPressed: () =>
+                          context.pushRoute(const ActivityRoute()),
+                      icon: const Badge(
+                          smallSize: 8,
+                          backgroundColor: Colors.red,
+                          alignment: Alignment.topRight,
+                          child: Icon(Icons.notifications_outlined))),
+                ],
+              ),
             ),
-          ),
-        ]);
+            BlocBuilder<AppUpdateBloc, AppUpdateState>(
+              builder: (context, state) {
+                return state.maybeMap(
+                    updateAvailable: (_) => Padding(
+                      padding:
+                          const EdgeInsets.fromLTRB(12, 10, 12, 5),
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 56,
+                            width: double.infinity,
+                            decoration: const ShapeDecoration(
+                              shape: StadiumBorder(),
+                              color: Colors.blue,
+                            ),
+                          )
+                              .animate(
+                                  autoPlay: true,
+                                  onPlay: (controller) => controller
+                                      .repeat(reverse: true))
+                              .shimmer(
+                                  duration:
+                                      const Duration(seconds: 5),
+                                  blendMode: BlendMode.srcIn,
+                                  colors: [
+                                Colors.blue,
+                                Colors.green,
+                                Colors.teal
+                              ]),
+                          Material(
+                            color: Colors.transparent,
+                            shape: const StadiumBorder(),
+                            child: InkWell(
+                              customBorder: const StadiumBorder(),
+                              onTap: () => context
+                                  .pushRoute(const AppUpdateRoute()),
+                              child: Ink(
+                                height: 56,
+                                decoration: const ShapeDecoration(
+                                  shape: StadiumBorder(),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          16, 16, 10, 16),
+                                      child: Icon(Icons.update,
+                                          color: Colors.white),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            'New Update Available ${_.appUpdate.tagName ?? ''}',
+                                            style: const TextStyle(
+                                                color: Colors.white)),
+                                        Text('Tap to install',
+                                            style: smallTextStyle
+                                                ?.copyWith(
+                                                    color: Colors
+                                                        .white)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    orElse: () => const SizedBox.shrink());
+              },
+            ),
+            const Gap(5),
+            ...items,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      customBorder: const StadiumBorder(),
+                      onTap: () => _showAppAboutDialog(context),
+                      onLongPress: () =>
+                          context.pushRoute(const AppDevSettingsRoute()),
+                      child: Ink(
+                        height: 56,
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        decoration: ShapeDecoration(
+                          shape: const StadiumBorder(),
+                          color: context.getAlphaBlend(
+                              context.theme.scaffoldBackgroundColor),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Hero(
+                                  tag: 'medusa',
+                                  child: Image.asset(
+                                    'assets/images/medusa.png',
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(appName,
+                                        style: smallTextStyle?.copyWith(
+                                            color: manatee)),
+                                    Text('Version $version',
+                                        style: smallTextStyle?.copyWith(
+                                            color: manatee)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Icon(Icons.info_outline,
+                                color: ColorManager.manatee),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Gap(5.0),
+                  IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: context.getAlphaBlend(
+                          context.theme.scaffoldBackgroundColor),
+                    ),
+                    padding: const EdgeInsets.all(16.0),
+                    onPressed: () async {
+                      final Uri url = Uri.parse(AppConstants.githubLink);
+                      await launchUrl(url);
+                    },
+                    icon: const Icon(SimpleIcons.github),
+                  )
+                ],
+              ),
+            ),
+          ]),
+    );
 
     // OLD DRAWER, KEEP FOR REFERENCE
     // if (!material3) {
@@ -571,6 +615,24 @@ class _AppDrawerState extends State<AppDrawer> {
     //         )),
     //   );
     // }
+  }
+
+  Future<void> signOut() async {
+    await showOkCancelAlertDialog(
+            context: context,
+            title: 'Sign out',
+            message: 'Are you sure you want to sign out?',
+            okLabel: 'Sign Out',
+            isDestructiveAction: true)
+        .then(
+      (value) async {
+        if (value == OkCancelResult.ok) {
+          context
+              .read<AuthenticationBloc>()
+              .add(const AuthenticationEvent.logOut());
+        }
+      },
+    );
   }
 }
 

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -19,7 +19,7 @@ class UpdateConditionUseCase {
 
   static UpdateConditionUseCase get instance => getIt<UpdateConditionUseCase>();
 
-  Future<Result<UserProductsListRes, Failure>> retrieveProducts(
+  Future<Result<ProductsListRes, Failure>> retrieveProducts(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _productsRepository.retrieveAll(
@@ -30,7 +30,7 @@ class UpdateConditionUseCase {
     }
   }
 
-  Future<Result<UserRetrieveProductTypesRes, Failure>> retrieveProductTypes(
+  Future<Result<RetrieveProductTypesRes, Failure>> retrieveProductTypes(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _typeRepository.retrieveProductTypes(
@@ -41,7 +41,7 @@ class UpdateConditionUseCase {
     }
   }
 
-  Future<Result<UserCollectionsRes, Failure>> retrieveCollections(
+  Future<Result<CollectionsRes, Failure>> retrieveCollections(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _collectionRepository.retrieveAll(
@@ -52,7 +52,7 @@ class UpdateConditionUseCase {
     }
   }
 
-  Future<Result<UserRetrieveProductTagsRes, Failure>> retrieveProductTags(
+  Future<Result<RetrieveProductTagsRes, Failure>> retrieveProductTags(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _tagRepository.retrieveProductTags(
@@ -63,7 +63,7 @@ class UpdateConditionUseCase {
     }
   }
 
-  Future<Result<UserRetrieveCustomerGroupsRes, Failure>> retrieveCustomerGroups(
+  Future<Result<RetrieveCustomerGroupsRes, Failure>> retrieveCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _groupRepository.retrieveCustomerGroups(

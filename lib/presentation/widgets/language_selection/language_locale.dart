@@ -1,5 +1,5 @@
 class LanguageLocal {
-  final langModels = {
+  static const langModels = {
     "ab":LanguageModel(name: "name", nativeName: "аҧсуа"),
     "aa":LanguageModel(name: "Afar", nativeName: "Afaraf"),
     "af":LanguageModel(name: "Afrikaans", nativeName: "Afrikaans"),
@@ -184,17 +184,17 @@ class LanguageLocal {
     "za":LanguageModel(name: "Zhuang, Chuang", nativeName: "Saɯ cueŋƅ, Saw cuengh"),
   };
 
- LanguageModel getDisplayLanguage(String languageCode) {
+ static LanguageModel getDisplayLanguage(String languageCode) {
     if (langModels.containsKey(languageCode)) {
-      return langModels[languageCode] ??  LanguageModel(name: 'Unknown Language', nativeName: 'Unknown Language');
+      return langModels[languageCode] ??  const LanguageModel(name: 'Unknown Language', nativeName: 'Unknown Language');
     } else {
-      return LanguageModel(name: 'Unknown Language', nativeName: 'Unknown Language');
+      return const LanguageModel(name: 'Unknown Language', nativeName: 'Unknown Language');
     }
   }
 }
 
 class LanguageModel {
-  String name;
-  String nativeName;
-  LanguageModel({required this.name, required this.nativeName});
+  final String name;
+  final String nativeName;
+  const LanguageModel({required this.name, required this.nativeName});
 }

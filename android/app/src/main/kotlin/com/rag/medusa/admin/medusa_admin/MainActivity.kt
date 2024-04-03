@@ -1,4 +1,4 @@
-package com.rag.medusa.admin.medusa_admin
+package com.rag.medusa_admin
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

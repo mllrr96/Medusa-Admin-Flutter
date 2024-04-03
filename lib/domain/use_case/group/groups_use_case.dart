@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 
@@ -10,7 +10,7 @@ class GroupsUseCase {
   CustomerGroupRepository get _customerGroupRepository =>
       getIt<MedusaAdmin>().customerGroupRepository;
 
-  Future<Result<UserRetrieveCustomerGroupsRes, Failure>> retrieveCustomerGroups(
+  Future<Result<RetrieveCustomerGroupsRes, Failure>> retrieveCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerGroupRepository.retrieveCustomerGroups(
@@ -21,7 +21,7 @@ class GroupsUseCase {
     }
   }
 
-  Future<Result<UserDeleteCustomerGroupRes, Failure>> deleteCustomerGroup(
+  Future<Result<DeleteCustomerGroupRes, Failure>> deleteCustomerGroup(
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerGroupRepository.deleteCustomerGroup(

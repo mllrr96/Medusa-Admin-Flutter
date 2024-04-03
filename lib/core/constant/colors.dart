@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:medusa_admin/core/extension/string_extension.dart';
+
 
 abstract class ColorManager {
   static const Color primary = Color(0xFF8B5DF6);

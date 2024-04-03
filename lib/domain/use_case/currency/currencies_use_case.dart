@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 @lazySingleton
 class CurrenciesUseCase {
@@ -9,7 +9,7 @@ class CurrenciesUseCase {
 
   static CurrenciesUseCase get instance => getIt<CurrenciesUseCase>();
 
-  Future<Result<UserCurrencyRes, Failure>> call({
+  Future<Result<CurrencyRes, Failure>> call({
     Map<String, dynamic>? queryParameters,
 }) async {
     try {

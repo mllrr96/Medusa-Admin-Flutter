@@ -6,8 +6,10 @@ import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 class PaginationErrorPage extends StatefulWidget {
-  const PaginationErrorPage({super.key, required this.pagingController});
+  const PaginationErrorPage(
+      {super.key, required this.pagingController, this.onRetry});
   final PagingController pagingController;
+  final void Function()? onRetry;
 
   @override
   State<PaginationErrorPage> createState() => _PaginationErrorPageState();
@@ -37,12 +39,10 @@ class _PaginationErrorPageState extends State<PaginationErrorPage> {
         Text('Error retrieving data', style: context.bodyLarge),
         const Gap(10.0),
         FilledButton(
-            onPressed: () async {
-              // When session expires navigate to dashboard to trigger auth guard,
-              // unfortunately this is the only way to do it
-              // since auth guard won't get triggered when navigating between drawer items
-              widget.pagingController.refresh();
-            },
+            onPressed: widget.onRetry ??
+                () async {
+                  widget.pagingController.refresh();
+                },
             child: const Text('   Retry   ')),
         const Gap(10.0),
         Column(

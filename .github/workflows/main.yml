@@ -34,6 +34,8 @@ jobs:
         run: printf "${{ secrets.GOOGLE_INFO_PLIST_IOS }}" > ios/Runner/GoogleService-Info.plist
       - name : Write firebase options file
         run: printf "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
+      - name : Write firebase app id file
+        run: printf "${{ secrets.FIREBASE_APP_ID }}" > lib/ios/firebase_app_id_file.json
       - name: Build APK
         run: | 
           flutter build apk --release

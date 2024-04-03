@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -11,7 +11,7 @@ class CollectionUseCase {
       getIt<MedusaAdmin>().collectionRepository;
 
   Future<Result<ProductCollection, Failure>> create({
-    required UserCreateCollectionReq userCreateCollectionReq,
+    required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionsRepository.create(
@@ -24,7 +24,7 @@ class CollectionUseCase {
 
   Future<Result<ProductCollection, Failure>> update({
     required String id,
-    required UserCreateCollectionReq userCreateCollectionReq,
+    required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionsRepository.update(id: id, userCreateCollectionReq: userCreateCollectionReq);
@@ -33,7 +33,7 @@ class CollectionUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<UserCollectionsRes, Failure>> retrieveAll({
+  Future<Result<CollectionsRes, Failure>> retrieveAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

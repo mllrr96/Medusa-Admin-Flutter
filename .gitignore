@@ -32,6 +32,13 @@ migrate_working_dir/
 .pub/
 /build/
 untranslated.txt
+/lib/firebase_options.dart
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
+/ios/firebase_app_id_file.json
+*.freezed.dart
+*.gr.dart
+*.config.dart
 
 # Symbolication related
 app.*.symbols
@@ -43,3 +50,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/devtools_options.yaml
+/pubspec.lock

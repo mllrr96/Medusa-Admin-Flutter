@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -21,7 +21,7 @@ class UpdateProductUseCase {
   static UpdateProductUseCase get instance => getIt<UpdateProductUseCase>();
 
   Future<Result<Product, Failure>> addProduct(
-      UserPostProductReq userPostProductReq) async {
+      PostProductReq userPostProductReq) async {
     try {
       final result =
           await _productsRepository.add(userPostProductReq: userPostProductReq);
@@ -32,7 +32,7 @@ class UpdateProductUseCase {
   }
 
   Future<Result<Product, Failure>> updateProduct({
-    required UserPostUpdateProductReq userPostUpdateProductReq,
+    required PostUpdateProductReq userPostUpdateProductReq,
     required String id,
   }) async {
     try {
@@ -44,7 +44,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<UserRetrieveProductTypesRes, Failure>> retrieveProductTypes(
+  Future<Result<RetrieveProductTypesRes, Failure>> retrieveProductTypes(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _typeRepository.retrieveProductTypes(
@@ -55,7 +55,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<UserCollectionsRes, Failure>> retrieveCollections(
+  Future<Result<CollectionsRes, Failure>> retrieveCollections(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _collectionRepository.retrieveAll(
@@ -75,7 +75,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<UserDeleteFileRes, Failure>> deleteFile({required String fileKey}) async {
+  Future<Result<DeleteFileRes, Failure>> deleteFile({required String fileKey}) async {
     try {
       final result = await _uploadRepository.deleteFile( fileKey: fileKey);
       return Success(result!);
@@ -84,7 +84,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<UserSalesChannelRetrieveAllRes, Failure>> retrieveSalesChannels(
+  Future<Result<SalesChannelRetrieveAllRes, Failure>> retrieveSalesChannels(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _salesChannelRepository.retrieveAll(

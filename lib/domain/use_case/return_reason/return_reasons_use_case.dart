@@ -1,17 +1,29 @@
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class ReturnReasonsUseCase {
+class ReturnReasonCrudUseCase {
   ReturnReasonRepository get _returnReasonRepository =>
       getIt<MedusaAdmin>().returnReasonRepository;
 
-  static ReturnReasonsUseCase get instance => getIt<ReturnReasonsUseCase>();
+  static ReturnReasonCrudUseCase get instance =>
+      getIt<ReturnReasonCrudUseCase>();
 
-  Future<Result<UserRetrieveAllReturnReasonRes, Failure>> fetchReturnReasons(
+  Future<Result<ReturnReason, Failure>> load(String id,
+      {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _returnReasonRepository.retrieve(
+          id: id, queryParams: queryParameters);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<RetrieveAllReturnReasonRes, Failure>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _returnReasonRepository.retrieveAll(
@@ -22,10 +34,33 @@ class ReturnReasonsUseCase {
     }
   }
 
-  Future<Result<UserDeleteReturnReasonRes, Failure>> deleteReturnReason(
-      String id) async {
+  Future<Result<DeleteReturnReasonRes, Failure>> delete(String id) async {
     try {
       final result = await _returnReasonRepository.delete(id: id);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<ReturnReason, Failure>> create(
+      CreateReturnReasonReq userCreateReturnReasonReq) async {
+    try {
+      final result = await _returnReasonRepository.create(
+          userCreateReturnReasonReq: userCreateReturnReasonReq);
+      return Success(result!);
+    } catch (error) {
+      return Error(Failure.from(error));
+    }
+  }
+
+  Future<Result<ReturnReason, Failure>> update({
+    required String id,
+    required UpdateReturnReasonReq userUpdateReturnReasonReq,
+  }) async {
+    try {
+      final result = await _returnReasonRepository.update(
+          id: id, userUpdateReturnReasonReq: userUpdateReturnReasonReq);
       return Success(result!);
     } catch (error) {
       return Error(Failure.from(error));

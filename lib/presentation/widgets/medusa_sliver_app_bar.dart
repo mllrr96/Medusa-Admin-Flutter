@@ -11,17 +11,27 @@ class MedusaSliverAppBar extends StatelessWidget {
     this.appBarStyle,
     super.key,
     this.title,
+    this.leading,
     this.actions,
     this.floating,
     this.snap,
     this.systemOverlayStyle,
+    this.backgroundColor,
+    this.centerTitle,
+    this.bottom,
+    this.flexibleSpace,
   });
   final AppBarStyle? appBarStyle;
   final Widget? title;
+  final Widget? leading;
+  final Widget? flexibleSpace;
   final List<Widget>? actions;
   final bool? floating;
+  final Color? backgroundColor;
   final bool? snap;
   final SystemUiOverlayStyle? systemOverlayStyle;
+  final PreferredSizeWidget? bottom;
+  final bool? centerTitle;
   @override
   Widget build(BuildContext context) {
     final isDashboardRoute = context.router.current.name == DashboardRoute.name;
@@ -30,26 +40,41 @@ class MedusaSliverAppBar extends StatelessWidget {
             ? context.systemUiOverlayNoAppBarStyle
             : context.defaultSystemUiOverlayStyle);
     final appBarStyle =
-        this.appBarStyle ?? PreferenceService.appSettings.appBarStyle;
+        this.appBarStyle ?? PreferenceService.appSettingsGetter.appBarStyle;
     switch (appBarStyle) {
       case AppBarStyle.normal:
         return SliverAppBar(
           title: title,
+          centerTitle: centerTitle,
+          backgroundColor: backgroundColor,
+          leading: leading,
           actions: actions,
           floating: floating ?? true,
+          flexibleSpace: flexibleSpace,
           snap: snap ?? true,
+          bottom: bottom,
           systemOverlayStyle: overLayStyle,
         );
       case AppBarStyle.medium:
         return SliverAppBar.medium(
           title: title,
+          centerTitle: centerTitle,
+          backgroundColor: backgroundColor,
+          leading: leading,
           actions: actions,
+          flexibleSpace: flexibleSpace,
+          bottom: bottom,
           systemOverlayStyle: overLayStyle,
         );
       case AppBarStyle.large:
         return SliverAppBar.large(
           title: title,
+          centerTitle: centerTitle,
+          backgroundColor: backgroundColor,
+          leading: leading,
           actions: actions,
+          flexibleSpace: flexibleSpace,
+          bottom: bottom,
           systemOverlayStyle: overLayStyle,
         );
     }

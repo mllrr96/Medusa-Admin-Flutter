@@ -2,14 +2,23 @@ import 'package:dio/dio.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
-import 'package:medusa_admin_flutter/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'di.dart';
 
 abstract class MedusaAdminDi {
-  static final Interceptor _interceptor = InterceptorsWrapper(
+  static final Interceptor _loggerInterceptor = PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: false,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 90);
+  static final Interceptor _authInterceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
-      final authType = AuthPreferenceService.authType;
+      final authType = AuthPreferenceService.authTypeGetter;
       final secureStorage = getIt<FlutterSecureStorage>();
       try {
         switch (authType) {
@@ -54,7 +63,7 @@ abstract class MedusaAdminDi {
         return;
       }
       final secureStorage = getIt<FlutterSecureStorage>();
-      final authType = AuthPreferenceService.authType;
+      final authType = AuthPreferenceService.authTypeGetter;
       try {
         AuthPreferenceService.instance.setIsAuthenticated(false);
         if (authType == AuthenticationType.cookie) {
@@ -70,13 +79,12 @@ abstract class MedusaAdminDi {
       handler.next(e);
     },
   );
-  static MedusaAdminDi get instance => getIt<MedusaAdminDi>();
   static Future<void> registerMedusaAdminSingleton() async {
     if (!getIt.isRegistered<MedusaAdmin>()) {
       getIt.registerLazySingleton<MedusaAdmin>(
         () => MedusaAdmin.initialize(
-          baseUrl: AuthPreferenceService.baseUrl!,
-          interceptors: [_interceptor],
+          baseUrl: AuthPreferenceService.baseUrlGetter!,
+          interceptors: [_authInterceptor, _loggerInterceptor],
         ),
       );
     }
