@@ -53,7 +53,7 @@ class GiftCardCrudBloc extends Bloc<GiftCardCrudEvent, GiftCardCrudState> {
     Emitter<GiftCardCrudState> emit,
   ) async {
     emit(const GiftCardCrudState.loading());
-    final result = await giftCardsUseCase.create(event.userCreateGiftCardReq);
+    final result = await giftCardsUseCase.create(event.createGiftCardReq);
     result.when((giftCard) {
       emit(_GiftCard(giftCard));
     }, (error) {
@@ -67,7 +67,7 @@ class GiftCardCrudBloc extends Bloc<GiftCardCrudEvent, GiftCardCrudState> {
   ) async {
     emit(const GiftCardCrudState.loading());
     final result = await giftCardsUseCase.update(
-        id: event.id, payload: event.userUpdateGiftCardReq);
+        id: event.id, payload: event.updateGiftCardReq);
     result.when((giftCard) {
       emit(_GiftCard(giftCard));
     }, (error) {
