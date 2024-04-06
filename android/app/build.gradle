@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.rag.medusa_admin_flutter"
+    namespace "com.rag.medusa_admin"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.rag.medusa_admin_flutter"
+        applicationId "com.rag.medusa_admin"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21

@@ -1,4 +1,4 @@
-package com.rag.medusa_admin_flutter
+package com.rag.medusa_admin
 
 import io.flutter.embedding.android.FlutterActivity
 
