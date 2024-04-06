@@ -62,6 +62,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProductVariantsCubit, ProductVariantsState>(
+      bloc: productVariantsCubit,
       listener: (context, state) {
         state.maybeWhen(
           variants: (variants, _) {

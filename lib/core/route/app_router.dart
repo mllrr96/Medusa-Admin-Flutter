@@ -33,7 +33,7 @@ import 'package:medusa_admin/presentation/views/add_update_price_list/add_update
 import 'package:medusa_admin/presentation/views/add_update_price_list/components/product_price_list.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/components/image_card.dart';
 import 'package:medusa_admin/presentation/views/add_update_product/components/product_add_variant.dart';
-import 'package:medusa_admin/presentation/views/add_update_product/views/add_update_product_view.dart';
+import 'package:medusa_admin/presentation/views/add_update_product/add_update_product_view.dart';
 import 'package:medusa_admin/presentation/views/app_settings/app_dev_settings.dart';
 import 'package:medusa_admin/presentation/views/app_settings/order_settings/order_settings_view.dart';
 import 'package:medusa_admin/presentation/views/app_settings/ui_settings/app_bar_style_view.dart';

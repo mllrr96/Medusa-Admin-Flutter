@@ -17,7 +17,7 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
-import '../components/index.dart';
+import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 @RoutePage()
@@ -36,7 +36,8 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
   Product? product;
   bool get updateMode => widget.updateProductReq != null;
   late ProductCrudBloc productCrudBloc;
-  late UploadFilesCubit uploadFilesCubit;
+  late UploadFilesCubit uploadImagesCubit;
+  late UploadFilesCubit uploadThumbnailCubit;
   final keyForm = GlobalKey<FormState>();
   final generalTileCtrl = FlexExpansionTileController();
   final organizeTileCtrl = FlexExpansionTileController();
@@ -48,7 +49,8 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
-    uploadFilesCubit = UploadFilesCubit.instance;
+    uploadImagesCubit = UploadFilesCubit.instance;
+    uploadThumbnailCubit = UploadFilesCubit.instance;
     product = widget.updateProductReq?.product;
     Future.delayed(350.milliseconds).then((value) {
       switch (widget.updateProductReq?.number) {
@@ -80,8 +82,9 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
 
   @override
   void dispose() {
-    // productCrudBloc.close();
-    // uploadFilesCubit.close();
+    productCrudBloc.close();
+    uploadImagesCubit.close();
+    uploadThumbnailCubit.close();
     super.dispose();
   }
 
@@ -117,7 +120,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
           },
         ),
         BlocListener<UploadFilesCubit, UploadFilesState>(
-          bloc: uploadFilesCubit,
+          bloc: uploadImagesCubit,
           listener: (context, state) {
             state.mapOrNull(
               uploading: (_) {
@@ -136,6 +139,25 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                 dismissLoading();
                 context.showSnackBar(state.failure.toSnackBarString());
               },
+            );
+          },
+        ),
+        BlocListener<UploadFilesCubit, UploadFilesState>(
+          bloc: uploadThumbnailCubit,
+          listener: (context, state) {
+            state.maybeWhen(
+              uploading: () => loading(),
+              uploaded: (urls) {
+                dismissLoading();
+                product =
+                    product?.copyWith(thumbnail: Wrapped.value(urls.first));
+                context.showSnackBar('Thumbnail uploaded');
+              },
+              error: (failure) {
+                dismissLoading();
+                context.showSnackBar(failure.toSnackBarString());
+              },
+              orElse: () {},
             );
           },
         ),
@@ -259,6 +281,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
                               product = product?.copyWith(
                                   thumbnail: const Wrapped.value(null));
                             }
+                            setState(() {});
                           },
                         ),
                         space,
@@ -303,6 +326,14 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
   }
 
   Future<void> createProduct() async {
+    if (images.isNotEmpty) {
+      await uploadImagesCubit.uploadFiles(images);
+    }
+    if (thumbnailImage != null) {
+      await uploadThumbnailCubit.uploadFiles([thumbnailImage!]);
+    }
+
+
     productCrudBloc
         .add(ProductCrudEvent.create(PostProductReq(product: product!)));
   }
@@ -310,12 +341,12 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
   Future<void> updateProduct() async {
     for (var element in imagesToDelete) {
       if (element.url != null) {
-        await uploadFilesCubit.deleteFile(element.url!);
+        await uploadImagesCubit.deleteFile(element.url!);
       }
     }
 
     if (images.isNotEmpty) {
-      uploadFilesCubit.uploadFiles(images);
+      await uploadImagesCubit.uploadFiles(images);
     }
     final originalProduct = widget.updateProductReq!.product;
     productCrudBloc.add(ProductCrudEvent.update(
