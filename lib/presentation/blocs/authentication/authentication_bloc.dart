@@ -22,10 +22,13 @@ part 'authentication_bloc.freezed.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc(
-    this.authPreferenceService,
-    this.authenticationUseCase,
-    this.flutterSecureStorage,
-  ) : super(const _Initial()) {
+    AuthPreferenceService authPreferenceService,
+    AuthenticationUseCase authenticationUseCase,
+    FlutterSecureStorage flutterSecureStorage,
+  )   : _authPreferenceService = authPreferenceService,
+        _authenticationUseCase = authenticationUseCase,
+        _flutterSecureStorage = flutterSecureStorage,
+        super(const _Initial()) {
     on<_Init>(_onInit);
     on<_LogInCookie>(_onLoginCookie);
     on<_LogInJWT>(_onLoginJWT);
@@ -44,15 +47,15 @@ class AuthenticationBloc
     await MedusaAdminDi.registerMedusaAdminSingleton();
 
     // in case baseUrl is not set or not authenticated (no jwt/cookie/token stored) then go to login page
-    if (authPreferenceService.baseUrl == null ||
-        !authPreferenceService.isAuthenticated) {
+    if (_authPreferenceService.baseUrl == null ||
+        !_authPreferenceService.isAuthenticated) {
       // without the delay BlocListener in splash view will be created with the
       // state loggedOut so it won't navigate to login page since there's no change in the state
       // this is a bug in flutter_bloc
       await Future.delayed(500.milliseconds)
           .then((value) => emit(const _LoggedOut()));
     } else {
-      final result = await authenticationUseCase.getCurrentUser();
+      final result = await _authenticationUseCase.getCurrentUser();
       result.when(
           (user) => emit(_LoggedIn(user)), (error) => emit(_Error(error)));
     }
@@ -68,14 +71,14 @@ class AuthenticationBloc
       return;
     }
 
-    final result = await authenticationUseCase.loginCookie(
+    final result = await _authenticationUseCase.loginCookie(
         email: event.email, password: event.password);
     result.when((cookie) async {
-      await flutterSecureStorage.write(
+      await _flutterSecureStorage.write(
           key: AppConstants.cookieKey, value: cookie);
-      authPreferenceService.setIsAuthenticated(true);
-      authPreferenceService.setEmail(event.email);
-      final userResult = await authenticationUseCase.getCurrentUser();
+      _authPreferenceService.setIsAuthenticated(true);
+      _authPreferenceService.setEmail(event.email);
+      final userResult = await _authenticationUseCase.getCurrentUser();
       userResult.when((user) => emit(_LoggedIn(user)), (e) => emit(_Error(e)));
     }, (e) => emit(_Error(e)));
   }
@@ -89,13 +92,13 @@ class AuthenticationBloc
       emit(_Error(Failure(message: AppConstants.noInternetMessage, type: '')));
       return;
     }
-    final result = await authenticationUseCase.loginJWT(
+    final result = await _authenticationUseCase.loginJWT(
         email: event.email, password: event.password);
     await result.when((jwt) async {
-      await flutterSecureStorage.write(key: AppConstants.jwtKey, value: jwt);
-      authPreferenceService.setIsAuthenticated(true);
-      authPreferenceService.setEmail(event.email);
-      final userResult = await authenticationUseCase.getCurrentUser();
+      await _flutterSecureStorage.write(key: AppConstants.jwtKey, value: jwt);
+      _authPreferenceService.setIsAuthenticated(true);
+      _authPreferenceService.setEmail(event.email);
+      final userResult = await _authenticationUseCase.getCurrentUser();
       userResult.when((user) => emit(_LoggedIn(user)), (e) => emit(_Error(e)));
     }, (e) {
       emit(_Error(e));
@@ -111,10 +114,10 @@ class AuthenticationBloc
       emit(_Error(Failure(message: AppConstants.noInternetMessage, type: '')));
       return;
     }
-    final result = await authenticationUseCase.getCurrentUser();
+    final result = await _authenticationUseCase.getCurrentUser();
 
     result.when((user) {
-      authPreferenceService.setIsAuthenticated(true);
+      _authPreferenceService.setIsAuthenticated(true);
       emit(_LoggedIn(user));
     }, (e) => emit(_Error(e)));
   }
@@ -128,9 +131,9 @@ class AuthenticationBloc
       emit(_Error(Failure(message: AppConstants.noInternetMessage, type: '')));
       return;
     }
-    final result = await authenticationUseCase.logout();
+    final result = await _authenticationUseCase.logout();
     result.when((success) {
-      authPreferenceService.setIsAuthenticated(false);
+      _authPreferenceService.setIsAuthenticated(false);
       emit(const _LoggedOut());
     }, (e) => emit(_Error(e)));
   }
@@ -143,8 +146,8 @@ class AuthenticationBloc
     emit(const _Initial());
   }
 
-  final AuthPreferenceService authPreferenceService;
-  final AuthenticationUseCase authenticationUseCase;
-  final FlutterSecureStorage flutterSecureStorage;
+  final AuthPreferenceService _authPreferenceService;
+  final AuthenticationUseCase _authenticationUseCase;
+  final FlutterSecureStorage _flutterSecureStorage;
   static AuthenticationBloc get instance => getIt<AuthenticationBloc>();
 }

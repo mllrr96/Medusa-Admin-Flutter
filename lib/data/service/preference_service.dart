@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -13,7 +12,7 @@ import '../models/app_preference.dart';
 
 @singleton
 class PreferenceService {
-  PreferenceService(SharedPreferences prefs, FlutterSecureStorage securePrefs)
+  PreferenceService(SharedPreferences prefs)
       : _prefs = prefs;
   static PreferenceService get instance => getIt<PreferenceService>();
   final SharedPreferences _prefs;
