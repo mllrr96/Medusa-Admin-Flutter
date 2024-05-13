@@ -164,8 +164,8 @@ class _AppDrawerState extends State<AppDrawer> {
                           ),
                           BlocBuilder<StoreBloc, StoreState>(
                             builder: (context, state) {
-                              final storeName = state.mapOrNull(
-                                  loaded: (_) => _.store.name);
+                              final storeName = state.maybeWhen(
+                                  loaded: (store) => store.name, orElse: () {});
                               return Flexible(
                                 child: Text(storeName ?? '',
                                     style: context.bodyLarge,
@@ -200,8 +200,8 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             BlocBuilder<AppUpdateBloc, AppUpdateState>(
               builder: (context, state) {
-                return state.maybeMap(
-                    updateAvailable: (_) => Padding(
+                return state.maybeWhen(
+                    updateAvailable: (appUpdate) => Padding(
                       padding:
                           const EdgeInsets.fromLTRB(12, 10, 12, 5),
                       child: Stack(
@@ -254,7 +254,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                            'New Update Available ${_.appUpdate.tagName ?? ''}',
+                                            'New Update Available ${appUpdate.tagName ?? ''}',
                                             style: const TextStyle(
                                                 color: Colors.white)),
                                         Text('Tap to install',

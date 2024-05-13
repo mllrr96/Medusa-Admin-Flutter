@@ -80,35 +80,38 @@ class _OrderTimelineState extends State<OrderTimeline> {
         BlocListener<NoteCrudBloc, NoteCrudState>(
           bloc: noteCrudBloc,
           listener: (context, state) {
-            state.mapOrNull(
-              notes: (_) {
-                timeline.addAll(_.notes);
+            state.maybeWhen(
+              notes: (notes, _) {
+                timeline.addAll(notes);
               },
               error: (e) => setState(() => failed = true),
+              orElse: () {},
             );
           },
         ),
         BlocListener<NotificationBloc, NotificationState>(
           bloc: notificationBloc,
           listener: (context, state) {
-            state.mapOrNull(
-              notifications: (_) {
+            state.maybeWhen(
+              notifications: (notifications, _) {
                 // refresh timeline
-                timeline.addAll(_.notifications);
+                timeline.addAll(notifications);
               },
               error: (e) => setState(() => failed = true),
+              orElse: () {},
             );
           },
         ),
         BlocListener<OrderEditCrudBloc, OrderEditCrudState>(
           bloc: orderEditCrudBloc,
           listener: (context, state) {
-            state.mapOrNull(
-              orderEdits: (_) {
+            state.maybeWhen(
+              orderEdits: (orderEdits, _) {
                 // refresh timeline
-                timeline.addAll(_.orderEdits);
+                timeline.addAll(orderEdits);
               },
               error: (e) => setState(() => failed = true),
+              orElse: () {},
             );
           },
         ),

@@ -70,9 +70,11 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
         );
       },
       builder: (context, state) {
-        final orderEdit = state.mapOrNull(
-            orderEdits: (_) => _.orderEdits.where(
-                (element) => element.status == OrderEditStatus.created).firstOrNull);
+        final orderEdit = state.maybeWhen(
+            orderEdits: (orderEdits, _) => orderEdits
+                .where((element) => element.status == OrderEditStatus.created)
+                .firstOrNull,
+            orElse: () => null);
         return Scaffold(
           appBar: AppBar(
             title: const Text('Order edit'),
@@ -120,10 +122,10 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                   contentPadding: const EdgeInsets.symmetric(vertical: 5),
                   textInputAction: TextInputAction.send,
                   textCapitalization: TextCapitalization.sentences,
-                  onSubmitted: (_) async {
-                    if (orderEdit?.id != null && _.isNotEmpty) {
-                      orderEditCrudBloc
-                          .add(OrderEditCrudEvent.update(orderEdit!.id!, _));
+                  onSubmitted: (value) async {
+                    if (orderEdit?.id != null && value.isNotEmpty) {
+                      orderEditCrudBloc.add(
+                          OrderEditCrudEvent.update(orderEdit!.id!, value));
                     }
                   },
                 ),
@@ -158,13 +160,13 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                   return const SizedBox.shrink();
                 }
               },
-              error: (_) => SizedBox(
+              error: (failure) => SizedBox(
                 width: double.maxFinite,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _.failure.toString(),
+                      failure.toString(),
                       style: context.bodyMedium,
                       textAlign: TextAlign.center,
                     ),

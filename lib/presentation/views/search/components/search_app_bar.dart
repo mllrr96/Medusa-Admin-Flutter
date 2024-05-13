@@ -106,6 +106,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                         onPressed: () {
                           widget.searchCtrl.clear();
                           widget.controller.itemList?.clear();
+                          context.read<SearchBloc>().add(const SearchEvent.clearSearch());
                         },
                         icon: const Icon(Icons.clear))
                   ],

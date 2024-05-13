@@ -36,9 +36,9 @@ class _PickGroupsViewState extends State<PickGroupsView> {
     super.initState();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     groupCrudBloc.add(GroupCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 

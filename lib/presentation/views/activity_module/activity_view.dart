@@ -30,10 +30,10 @@ class _ActivityViewState extends State<ActivityView> {
   late Dio dio;
   late BatchJobCrudBloc batchJobCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     batchJobCrudBloc.add(
       BatchJobCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       }),
     );
   }

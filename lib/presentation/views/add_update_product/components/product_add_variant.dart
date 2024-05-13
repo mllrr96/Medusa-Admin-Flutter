@@ -75,10 +75,8 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
   @override
   void initState() {
     productCrudBloc = ProductCrudBloc.instance;
-    currencies = context
-            .read<StoreBloc>()
-            .state
-            .mapOrNull(loaded: (_) => _.store.currencies) ??
+    currencies = context.read<StoreBloc>().state.maybeWhen(
+            loaded: (store) => store.currencies, orElse: () => null) ??
         [];
     currencyCtrlMap = {for (var e in currencies) e: TextEditingController()};
     product = productVariantReq.product;

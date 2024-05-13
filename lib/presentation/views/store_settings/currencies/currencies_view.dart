@@ -62,15 +62,15 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     return BlocConsumer<StoreBloc, StoreState>(
       bloc: storeBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
+        state.maybeWhen(
+          loading: () => loading(),
           loaded: (_) {
             dismissLoading();
             context.maybePop();
           },
-          error: (_) {
+          error: (failure) {
             dismissLoading();
-            context.showSnackBar(_.failure.toSnackBarString());
+            context.showSnackBar(failure.toSnackBarString());
           },
           orElse: () => dismissLoading(),
         );
@@ -87,14 +87,15 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                       final sameCurrencies = listEquals(
                           currencies.map((e) => e.code).toList(),
                           state
-                              .mapOrNull(loaded: (_) => _.store.currencies)
+                              .mapOrNull(loaded: (loaded) => loaded.store.currencies)
                               ?.map((e) => e.code)
                               .toList());
                       if (sameCurrencies &&
                           defaultStoreCurrency?.code ==
                               state
                                   .mapOrNull(
-                                      loaded: (_) => _.store.defaultCurrency)
+                                      loaded: (loaded) =>
+                                          loaded.store.defaultCurrency)
                                   ?.code) {
                         context.maybePop();
                         return;

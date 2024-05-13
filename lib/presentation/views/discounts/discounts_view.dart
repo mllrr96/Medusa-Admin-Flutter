@@ -70,18 +70,18 @@ class _DiscountsViewState extends State<DiscountsView> {
           bloc: discountCrudBloc,
           listener: (context, updateDiscountState) {
             updateDiscountState.mapOrNull(
-              loading: (_) =>
-                  setState(() => loadingDiscountId = _.discountId ?? ''),
-              discount: (_) async {
+              loading: (discount) =>
+                  setState(() => loadingDiscountId = discount.discountId ?? ''),
+              discount: (discount) async {
                 final index = pagingController.itemList
-                    ?.indexWhere((element) => element.id == _.discount.id);
+                    ?.indexWhere((element) => element.id == discount.discount.id);
                 // If for whatever reason we didn't find the discount in the list,
                 // we just reload discounts
                 if (index == -1 || index == null) {
                   smartRefresherCtrl.headerMode?.value =
                       RefreshStatus.refreshing;
                 } else {
-                  pagingController.updateItem(_.discount, index);
+                  pagingController.updateItem(discount.discount, index);
                 }
                 setState(() => loadingDiscountId = '');
                 context.showSnackBar('Discount updated successfully');

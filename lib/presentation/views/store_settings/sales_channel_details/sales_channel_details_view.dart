@@ -128,8 +128,8 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
         BlocListener<SalesChannelCrudBloc, SalesChannelCrudState>(
             bloc: salesChannelCrudBloc,
             listener: (context, state) {
-              state.maybeMap(
-                  loading: (_) => loading(),
+              state.maybeWhen(
+                  loading: () => loading(),
                   salesChannel: (_) {
                     pagingController.refresh();
                     selectedProducts.clear();
@@ -137,14 +137,14 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                     dismissLoading();
                     setState(() {});
                   },
-                  deleted: (_) {
+                  deleted: () {
                     dismissLoading();
                     context.showSnackBar('Sales channel deleted');
                     context.maybePop(true);
                   },
-                  error: (_) {
+                  error: (failure) {
                     dismissLoading();
-                    context.showSnackBar(_.failure.toSnackBarString());
+                    context.showSnackBar(failure.toSnackBarString());
                   },
                   orElse: () => dismissLoading());
             }),

@@ -115,25 +115,25 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   );
                 },
                 builder: (context, state) {
-                  return state.maybeMap(
-                      product: (_) => SingleChildScrollView(
+                  return state.maybeWhen(
+                      product: (product) => SingleChildScrollView(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 10.0),
                             child: Column(
                               children: [
-                                ProductDetailsOverview(product: _.product),
+                                ProductDetailsOverview(product: product),
                                 space,
                                 ProductDetailsVariants(
-                                    product: _.product, key: variantsKey),
+                                    product: product, key: variantsKey),
                                 space,
                                 ProductDetailsAttributes(
-                                    product: _.product, key: attributesKey),
+                                    product: product, key: attributesKey),
                                 space,
                                 ProductDetailsThumbnail(
-                                    product: _.product, key: thumbnailKey),
+                                    product: product, key: thumbnailKey),
                                 space,
                                 ProductDetailsImages(
-                                    product: _.product, key: imagesKey),
+                                    product: product, key: imagesKey),
                               ],
                             ),
                           ),

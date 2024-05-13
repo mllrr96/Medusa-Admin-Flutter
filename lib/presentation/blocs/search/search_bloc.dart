@@ -24,6 +24,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<_SearchTags>(_searchTags);
     on<_SearchRegions>(_searchRegions);
     on<_SearchSalesChannels>(_searchSalesChannels);
+    on<_ClearSearch>(_clearSearch);
+  }
+
+
+  Future<void> _clearSearch(_ClearSearch event, Emitter<SearchState> emit) async {
+    emit(const _Initial());
   }
 
   Future<void> _searchProducts(

@@ -61,7 +61,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
             title: Text(tr.productTableCollection),
             actions: [
               state.maybeMap(
-                  collection: (_) => IconButton(
+                  collection: (collection) => IconButton(
                       padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet(
@@ -78,7 +78,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                           if (result == 0) {
                             await context
                                 .pushRoute(CreateCollectionRoute(
-                                collection: _.collection))
+                                    collection: collection.collection))
                                 .then((result) async {
                               if (result != null) {
                                 context.read<CollectionCrudBloc>().add(
@@ -110,8 +110,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
             ],
             bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
-                child: state.maybeMap(
-                    collection: (_) => Container(
+                child: state.maybeWhen(
+                    collection: (collection) => Container(
                           height: kToolbarHeight,
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           // color: Theme.of(context).appBarTheme.backgroundColor,
@@ -123,16 +123,16 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(_.collection.title ?? '',
+                                  Text(collection.title ?? '',
                                       style: largeTextStyle),
                                   // const SizedBox(height: 6.0),
-                                  Text('/${_.collection.handle ?? ''}',
+                                  Text('/${collection.handle ?? ''}',
                                       style: smallTextStyle!
                                           .copyWith(color: manatee)),
                                 ],
                               ),
-                              if (_.collection.products != null &&
-                                  _.collection.products!.isNotEmpty)
+                              if (collection.products != null &&
+                                  collection.products!.isNotEmpty)
                                 TextButton(
                                     onPressed: () async {
                                       final result =
@@ -149,11 +149,11 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                                       pickProductsReq:
                                                           PickProductsReq(
                                                     selectedProducts:
-                                                        _.collection.products,
+                                                        collection.products,
                                                   )));
                                       if (result is PickProductsRes) {
-                                        final originalProducts = _
-                                            .collection.products
+                                        final originalProducts = collection
+                                            .products
                                             ?.map((e) => e.id!)
                                             .toList();
                                         final selectedProducts = result
@@ -170,8 +170,9 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                             context.mounted) {
                                           context
                                               .read<CollectionCrudBloc>()
-                                              .add(CollectionCrudEvent.addProducts(
-                                                  CollectionUpdateProductsReq(
+                                              .add(CollectionCrudEvent
+                                                  .addProducts(
+                                                      CollectionUpdateProductsReq(
                                                 collectionId:
                                                     widget.collectionId,
                                                 productsIds: selectedProducts,
@@ -198,10 +199,10 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                     orElse: () => const SizedBox.shrink())),
           ),
           body: SafeArea(
-            child: state.maybeMap(
-              collection: (_) {
-                if (_.collection.products == null ||
-                    _.collection.products!.isEmpty) {
+            child: state.maybeWhen(
+              collection: (collection) {
+                if (collection.products == null ||
+                    collection.products!.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -217,7 +218,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                       context.theme.scaffoldBackgroundColor,
                                   builder: (context) => PickProductsView(
                                           pickProductsReq: PickProductsReq(
-                                        selectedProducts: _.collection.products,
+                                        selectedProducts: collection.products,
                                       )));
                               if (result is PickProductsRes &&
                                   context.mounted) {
@@ -238,9 +239,9 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                 }
                 return ListView.separated(
                     separatorBuilder: (_, __) => const Divider(height: 0),
-                    itemCount: _.collection.products!.length,
+                    itemCount: collection.products!.length,
                     itemBuilder: (context, index) {
-                      final product = _.collection.products![index];
+                      final product = collection.products![index];
                       return ListTile(
                         onTap: () async {
                           await context.pushRoute(
@@ -252,8 +253,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                           children: [
                             _getStatusIcon(product.status),
                             const Gap(4),
-                            Text(
-                                product.status.name.capitalize,
+                            Text(product.status.name.capitalize,
                                 style: context.bodySmall),
                           ],
                         ),
@@ -272,7 +272,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 ))
                             : null,
                         trailing: IconButton(
-                          padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
                               if (await _showDeleteCollectionDialog &&
                                   context.mounted) {
@@ -288,9 +288,8 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                       );
                     });
               },
-              error: (error) => Center(
-                child: Text(
-                    'Error loading collection, ${error.failure.toString()}'),
+              error: (failure) => Center(
+                child: Text('Error loading collection, ${failure.toString()}'),
               ),
               orElse: () =>
                   const Center(child: CircularProgressIndicator.adaptive()),

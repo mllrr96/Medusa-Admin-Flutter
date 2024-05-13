@@ -30,7 +30,7 @@ class _AddUpdateVariantsPriceViewState
     final currencies = context
         .read<StoreBloc>()
         .state
-        .mapOrNull(loaded: (_) => _.store.currencies);
+        .mapOrNull(loaded: (store) => store.store.currencies);
     widget.product.variants?.forEach((variant) {
       if (currencies != null) {
         for (Currency currency in currencies) {

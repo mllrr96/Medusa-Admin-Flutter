@@ -95,7 +95,13 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
               title: const Text('Orders Filter'),
             ),
             bottomNavigationBar: Container(
-                padding: EdgeInsets.fromLTRB(12, 0, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 12),
+                padding: EdgeInsets.fromLTRB(
+                    12,
+                    0,
+                    12,
+                    context.bottomViewPadding != 0
+                        ? context.bottomViewPadding
+                        : 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -197,9 +203,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                       ),
                     ),
                   ),
-                  loaded: (_) {
-                    final regions = _.regions;
-                    final salesChannels = _.salesChannels;
+                  loaded: (loaded) {
+                    final regions = loaded.regions;
+                    final salesChannels = loaded.salesChannels;
                     return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 10),
@@ -523,11 +529,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                           }
                                         },
                                         items: DateType.values
-                                            .map((e) =>
-                                                DropdownMenuItem<DateType>(
-                                                    value: e,
-                                                    child: Text(
-                                                        e.name.capitalize)))
+                                            .map((e) => DropdownMenuItem<
+                                                    DateType>(
+                                                value: e,
+                                                child: Text(e.name.capitalize)))
                                             .toList(),
                                       ),
                                     ),
@@ -551,11 +556,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                       dateText: null,
                                       dateTimeTextStyle: smallTextStyle,
                                       onTap: () async {
-                                        final result =
-                                            await context.adaptiveDateTimePicker(
-                                                date:
-                                                    orderFilter
-                                                        .orderDateFilter.date,
+                                        final result = await context
+                                            .adaptiveDateTimePicker(
+                                                date: orderFilter
+                                                    .orderDateFilter.date,
                                                 pickerMode:
                                                     CupertinoDatePickerMode
                                                         .date);

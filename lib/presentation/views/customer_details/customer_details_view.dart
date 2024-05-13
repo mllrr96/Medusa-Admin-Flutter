@@ -35,9 +35,9 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
   late OrdersBloc ordersBloc;
   late CustomerCrudBloc customerCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     ordersBloc.add(OrdersEvent.loadOrders(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       'customer_id': widget.customerId,
     }));
   }
@@ -127,12 +127,12 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
             BlocBuilder<CustomerCrudBloc, CustomerCrudState>(
               bloc: customerCrudBloc,
               builder: (context, state) {
-                return state.maybeMap(
-                    customer: (_) => SliverPersistentHeader(
+                return state.maybeWhen(
+                    customer: (customer) => SliverPersistentHeader(
                           key: const Key('customer_details_header'),
                           pinned: true,
                           delegate: Delegate(
-                              _.customer,
+                              customer,
                               ordersBloc.state.mapOrNull(
                                       orders: (state) => state.count > 0
                                           ? state.count
@@ -142,9 +142,9 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
                                 .add(CustomerCrudEvent.load(widget.customerId));
                           }),
                         ),
-                    error: (e) => SliverToBoxAdapter(
-                        child: Center(child: Text(e.failure.toString()))),
-                    loading: (_) => SliverPersistentHeader(
+                    error: (failure) => SliverToBoxAdapter(
+                        child: Center(child: Text(failure.toString()))),
+                    loading: () => SliverPersistentHeader(
                           pinned: true,
                           delegate: Delegate(
                               Customer(

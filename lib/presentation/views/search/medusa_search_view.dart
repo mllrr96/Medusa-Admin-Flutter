@@ -61,18 +61,20 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
     final smallTextStyle = context.bodySmall;
     return BlocListener<SearchBloc, SearchState>(
       listener: (context, state) {
-        state.mapOrNull(
-            loaded: (_) {
-              final isLastPage = _.items.length < SearchBloc.pageSize;
-              if (isLastPage) {
-                pagingController.appendLastPage(_.items);
-              } else {
-                final nextPageKey =
-                    pagingController.nextPageKey ?? 1 + _.items.length;
-                pagingController.appendPage(_.items, nextPageKey);
-              }
-            },
-            error: (_) => pagingController.error = _.failure);
+        state.maybeWhen(
+          loaded: (items, _) {
+            final isLastPage = items.length < SearchBloc.pageSize;
+            if (isLastPage) {
+              pagingController.appendLastPage(items);
+            } else {
+              final nextPageKey =
+                  pagingController.nextPageKey ?? 1 + items.length;
+              pagingController.appendPage(items, nextPageKey);
+            }
+          },
+          error: (failure) => pagingController.error = failure,
+          orElse: () {},
+        );
       },
       child: HideKeyboard(
         child: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -113,91 +115,92 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                       }
                     },
                     builderDelegate: PagedChildBuilderDelegate<Object>(
-                        animateTransitions: true,
-                        itemBuilder: (context, object, index) {
-                          switch (searchCategory) {
-                            case SearchCategory.orders:
-                              if (object is Order) {
-                                return AlternativeOrderCard(object);
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.draftOrders:
-                              if (object is DraftOrder) {
-                                return DraftOrderCard(object);
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.products:
-                              if (object is Product) {
-                                return ProductListTile(product: object);
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.collections:
-                              if (object is ProductCollection) {
-                                return CollectionListTile(object);
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.customers:
-                              if (object is Customer) {
-                                return CustomerListTile(object, index: index);
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.groups:
-                              if (object is CustomerGroup) {
-                                return GroupCard(
-                                  customerGroup: object,
-                                  index: index,
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.giftCards:
-                              if (object is GiftCard) {
-                                return ListTile(
-                                  title: Text(object.code ?? ''),
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.discounts:
-                              if (object is Discount) {
-                                return DiscountCard(object);
-                              } else {
-                                return const SizedBox();
-                              }
-                            case SearchCategory.priceLists:
-                              if (object is PriceList) {
-                                return ListTile(
-                                  title: Text(object.name ?? ''),
-                                  subtitle: Text(object.description ?? '',
-                                      style: smallTextStyle?.copyWith(
-                                          color: manatee)),
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                          }
-                        },
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            const Center(
-                                child: CircularProgressIndicator.adaptive()),
-                        firstPageErrorIndicatorBuilder: (context) =>
-                            PaginationErrorPage(
-                                pagingController: pagingController),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            SearchHistoryView(
-                              searchCtrl,
-                              onTap: (searchHistory) {
-                                searchCategory = searchHistory.searchableFields;
-                                searchCtrl.text = searchHistory.text;
-                                setState(() {});
-                                pagingController.refresh();
-                              },
-                            )),
+                      animateTransitions: true,
+                      itemBuilder: (context, object, index) {
+                        switch (searchCategory) {
+                          case SearchCategory.orders:
+                            if (object is Order) {
+                              return AlternativeOrderCard(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.draftOrders:
+                            if (object is DraftOrder) {
+                              return DraftOrderCard(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.products:
+                            if (object is Product) {
+                              return ProductListTile(product: object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.collections:
+                            if (object is ProductCollection) {
+                              return CollectionListTile(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.customers:
+                            if (object is Customer) {
+                              return CustomerListTile(object, index: index);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.groups:
+                            if (object is CustomerGroup) {
+                              return GroupCard(
+                                customerGroup: object,
+                                index: index,
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.giftCards:
+                            if (object is GiftCard) {
+                              return ListTile(
+                                title: Text(object.code ?? ''),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.discounts:
+                            if (object is Discount) {
+                              return DiscountCard(object);
+                            } else {
+                              return const SizedBox();
+                            }
+                          case SearchCategory.priceLists:
+                            if (object is PriceList) {
+                              return ListTile(
+                                title: Text(object.name ?? ''),
+                                subtitle: Text(object.description ?? '',
+                                    style: smallTextStyle?.copyWith(
+                                        color: manatee)),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                        }
+                      },
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                      firstPageErrorIndicatorBuilder: (context) =>
+                          PaginationErrorPage(
+                              pagingController: pagingController),
+                      // noItemsFoundIndicatorBuilder: (context) =>
+                      //     SearchHistoryView(
+                      //   searchCtrl,
+                      //   onTap: (searchHistory) {
+                      //     searchCategory = searchHistory.searchableFields;
+                      //     searchCtrl.text = searchHistory.text;
+                      //     setState(() {});
+                      //     pagingController.refresh();
+                      //   },
+                      // ),
+                    ),
                   ),
                 );
               },

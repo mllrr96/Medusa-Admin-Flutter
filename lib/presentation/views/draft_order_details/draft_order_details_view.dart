@@ -81,13 +81,11 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                           false;
                       if (isCompleted) {
                         return TextButton(
-                          onPressed: () => context.pushRoute(
-                              OrderDetailsRoute(
-                                  orderId: draftOrderCrudBloc.state.mapOrNull(
-                                          draftOrder: (draftOrder) =>
-                                              draftOrder
-                                                  .draftOrder.orderId) ??
-                                      '')),
+                          onPressed: () => context.pushRoute(OrderDetailsRoute(
+                              orderId: draftOrderCrudBloc.state.mapOrNull(
+                                      draftOrder: (draftOrder) =>
+                                          draftOrder.draftOrder.orderId) ??
+                                  '')),
                           child: const Text('Go to order'),
                         );
                       } else if (isOpen) {
@@ -103,8 +101,7 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                             ).then((result) async {
                               if (result == OkCancelResult.ok) {
                                 draftOrderCrudBloc.add(
-                                    DraftOrderCrudEvent.delete(
-                                        widget.draftId));
+                                    DraftOrderCrudEvent.delete(widget.draftId));
                                 // await controller.cancelDraftOrder(context);
                               }
                             });
@@ -122,22 +119,22 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                 ],
               ),
             ],
-            body: state.maybeMap(
-                draftOrder: (_) => SingleChildScrollView(
+            body: state.maybeWhen(
+                draftOrder: (draftOrder) => SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 10.0),
                         child: Column(
                           children: [
-                            DraftOrderOverview(_.draftOrder),
+                            DraftOrderOverview(draftOrder),
                             space,
                             DraftOrderSummery(
-                              _.draftOrder,
+                              draftOrder,
                               key: summeryKey,
                             ),
                             space,
                             DraftOrderPayment(
-                              _.draftOrder,
+                              draftOrder,
                               key: paymentKey,
                               markAsPaid: () {
                                 draftOrderCrudBloc.add(
@@ -147,12 +144,12 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                             ),
                             space,
                             DraftOrderShipping(
-                              _.draftOrder,
+                              draftOrder,
                               key: shippingKey,
                             ),
                             space,
                             DraftOrderCustomer(
-                              _.draftOrder,
+                              draftOrder,
                               key: customerKey,
                             ),
                             space,
@@ -160,7 +157,7 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                         ),
                       ),
                     ),
-                error: (_) => Center(
+                error: (error) => Center(
                         child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Row(
@@ -170,7 +167,7 @@ class _DraftOrderDetailsViewState extends State<DraftOrderDetailsView> {
                           const SizedBox(width: 12.0),
                           Flexible(
                               child: Text(
-                            _.error.toString(),
+                            error.toString(),
                             style: smallTextStyle,
                           )),
                         ],

@@ -34,7 +34,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
   @override
   void initState() {
     storeBloc = StoreBloc.instance;
-    store = context.read<StoreBloc>().state.mapOrNull(loaded: (_) => _.store);
+    store = context.read<StoreBloc>().state.mapOrNull(loaded: (loaded) => loaded.store);
     if (store == null) {
       context.read<StoreBloc>().add(const StoreEvent.loadStore());
       context.maybePop();
@@ -64,17 +64,17 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
     return BlocListener<StoreBloc, StoreState>(
       bloc: storeBloc,
       listener: (context, state) {
-        state.maybeMap(
-            loading: (_) => loading(),
+        state.maybeWhen(
+            loading: () => loading(),
             loaded: (_) {
               dismissLoading();
               context.maybePop();
               context.showSnackBar('Store details updated successfully');
               context.read<StoreBloc>().add(const StoreEvent.loadStore());
             },
-            error: (_) {
+            error: (failure) {
               dismissLoading();
-              context.showSnackBar(_.failure.toSnackBarString());
+              context.showSnackBar(failure.toSnackBarString());
             },
             orElse: () => dismissLoading());
       },

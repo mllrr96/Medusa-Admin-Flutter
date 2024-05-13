@@ -194,9 +194,9 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                   SliverToBoxAdapter(
                     child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
                       bloc: pricingCrudBloc,
-                      builder: (context, state) => state.maybeMap(
-                        pricingList: (_) => PriceListDetailsTile(_.priceList),
-                        loading: (_) => PriceListDetailsTile(widget.priceList,
+                      builder: (context, state) => state.maybeWhen(
+                        pricingList: (priceList) => PriceListDetailsTile(priceList),
+                        loading: () => PriceListDetailsTile(widget.priceList,
                             shimmer: true),
                         orElse: () => const SizedBox.shrink(),
                       ),

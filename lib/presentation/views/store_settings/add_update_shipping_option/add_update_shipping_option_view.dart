@@ -269,8 +269,8 @@ class _AddUpdateShippingOptionViewState
                                   ShippingProfileCrudState>(
                                 bloc: shippingProfileCrudBloc,
                                 builder: (context, state) {
-                                  return state.maybeMap(
-                                      shippingProfiles: (_) =>
+                                  return state.maybeWhen(
+                                      shippingProfiles: (shippingProfiles, count) =>
                                           DropdownButtonFormField<
                                               ShippingProfile>(
                                             style: context.bodyMedium,
@@ -297,7 +297,7 @@ class _AddUpdateShippingOptionViewState
                                                   .scaffoldBackgroundColor,
                                               border: border,
                                             ),
-                                            items: _.shippingProfiles
+                                            items: shippingProfiles
                                                 .map((e) => DropdownMenuItem<
                                                         ShippingProfile>(
                                                       value: e,
@@ -310,7 +310,7 @@ class _AddUpdateShippingOptionViewState
                                                       val);
                                             },
                                           ),
-                                      loading: (_) => const Skeletonizer(
+                                      loading: () => const Skeletonizer(
                                           enabled: true,
                                           child: TextField(
                                             readOnly: true,
@@ -357,8 +357,8 @@ class _AddUpdateShippingOptionViewState
                               BlocBuilder<RegionCrudBloc, RegionCrudState>(
                                 bloc: fulfillmentOptionsBloc,
                                 builder: (context, state) {
-                                  return state.maybeMap(
-                                    fulfillmentOptions: (_) =>
+                                  return state.maybeWhen(
+                                    fulfillmentOptions: (fulfillmentOptions) =>
                                         DropdownButtonFormField<
                                             FulfillmentOption>(
                                       style: context.bodyMedium,
@@ -384,7 +384,7 @@ class _AddUpdateShippingOptionViewState
                                             .scaffoldBackgroundColor,
                                         border: border,
                                       ),
-                                      items: _.fulfillmentOptions
+                                      items: fulfillmentOptions
                                           .map((e) => DropdownMenuItem<
                                                   FulfillmentOption>(
                                                 value: e,
@@ -396,7 +396,7 @@ class _AddUpdateShippingOptionViewState
                                             selectedFulfillmentOption = val);
                                       },
                                     ),
-                                    loading: (_) => const Skeletonizer(
+                                    loading: () => const Skeletonizer(
                                         enabled: true,
                                         child: TextField(
                                           readOnly: true,

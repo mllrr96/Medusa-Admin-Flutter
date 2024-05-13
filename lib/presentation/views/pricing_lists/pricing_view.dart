@@ -25,9 +25,9 @@ class _PricingViewState extends State<PricingView> {
   late final PagingController<int, PriceList> pagingController;
   late PricingCrudBloc pricingCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     pricingCrudBloc.add(PricingCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 

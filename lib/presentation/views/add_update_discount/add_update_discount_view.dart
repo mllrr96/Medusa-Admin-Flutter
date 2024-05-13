@@ -66,16 +66,16 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
     const space = Gap(12);
     return BlocListener<DiscountCrudBloc, DiscountCrudState>(
       listener: (context, state) {
-        state.mapOrNull(
-            discount: (_) {
+        state.maybeWhen(
+            discount: (discount) {
               dismissLoading();
-              context.router.popForced(_.discount);
+              context.router.popForced(discount);
             },
-            error: (_) {
+            error: (failure) {
               dismissLoading();
-              context.showSnackBar(_.failure.toSnackBarString());
+              context.showSnackBar(failure.toSnackBarString());
             },
-            loading: (_) => loading());
+            loading: (_) => loading(), orElse: () {  });
       },
       child: PopScope(
         canPop: !updatingDiscount,

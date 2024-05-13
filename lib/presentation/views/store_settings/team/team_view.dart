@@ -25,9 +25,9 @@ class _TeamViewState extends State<TeamView> {
   final pagingController =
       PagingController<int, User>(firstPageKey: 0, invisibleItemsThreshold: 3);
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     userCrudBloc.add(UserCrudEvent.loadAll(queryParameters: {
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 

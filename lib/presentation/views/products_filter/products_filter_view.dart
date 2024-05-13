@@ -108,9 +108,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                       ],
                     ),
                   ),
-                  loaded: (_) {
-                    final collections = _.collections;
-                    final tags = _.tags;
+                  loaded: (loaded) {
+                    final collections = loaded.collections;
+                    final tags = loaded.tags;
                     return Column(
                       children: [
                         FlexExpansionTile(

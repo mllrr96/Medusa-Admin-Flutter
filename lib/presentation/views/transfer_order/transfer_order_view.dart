@@ -56,17 +56,18 @@ class _TransferOrderViewState extends State<TransferOrderView> {
     return BlocListener<OrderCrudBloc, OrderCrudState>(
       bloc: orderCrudBloc,
       listener: (context, state) {
-        state.mapOrNull(
-            loading: (_) => loading(),
+        state.maybeWhen(
+            loading: () => loading(),
             order: (_) {
               dismissLoading();
               context.showSnackBar('Order updated successfully');
               context.maybePop();
             },
-            error: (_) {
+            error: (failure) {
               dismissLoading();
-              context.showSnackBar(_.failure.toSnackBarString());
-            });
+              context.showSnackBar(failure.toSnackBarString());
+            },
+            orElse: () {});
       },
       child: HideKeyboard(
         child: Scaffold(
@@ -82,11 +83,9 @@ class _TransferOrderViewState extends State<TransferOrderView> {
             child: FilledButton(
                 onPressed: selectedCustomer != null
                     ? () {
-                  orderCrudBloc.add(OrderCrudEvent.update(
-                      order.id!,
-                      UpdateOrderReq(
-                          customerId: selectedCustomer!.id!)));
-                }
+                        orderCrudBloc.add(OrderCrudEvent.update(order.id!,
+                            UpdateOrderReq(customerId: selectedCustomer!.id!)));
+                      }
                     : null,
                 child: const Text(
                   'Confirm',

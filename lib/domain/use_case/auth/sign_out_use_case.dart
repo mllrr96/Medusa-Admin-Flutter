@@ -20,8 +20,8 @@ class SignOutUseCase {
       } else {
         return Error(Failure(message: 'Error logging out', type:''));
       }
-    } on Exception catch (_) {
-      return Error(Failure.from(_));
+    } on Exception catch (error) {
+      return Error(Failure.from(error));
     }
   }
 

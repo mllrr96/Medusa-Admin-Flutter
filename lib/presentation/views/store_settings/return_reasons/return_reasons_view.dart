@@ -27,10 +27,10 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
   late ReturnReasonsCrudBloc returnReasonsBloc;
   late ReturnReasonsCrudBloc returnReasonsCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     returnReasonsBloc.add(
       ReturnReasonsCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       }),
     );
   }

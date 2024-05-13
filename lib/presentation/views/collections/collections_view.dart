@@ -31,10 +31,10 @@ class _CollectionsViewState extends State<CollectionsView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   late CollectionCrudBloc collectionCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     collectionCrudBloc.add(CollectionCrudEvent.loadAll(
         queryParameters: {
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
         }
     ));
   }

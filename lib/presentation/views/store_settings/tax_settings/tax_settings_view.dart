@@ -42,10 +42,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
   bool showGiftCardsTaxableHint = false;
   TaxProvider? selectedTaxProvider;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     taxBloc.add(
       TaxCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       }),
     );
   }
@@ -186,8 +186,8 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                     BlocBuilder<TaxProviderCubit, TaxProviderState>(
                       bloc: taxProviderCubit,
                       builder: (context, state) {
-                        return state.maybeMap(
-                            loading: (_) => const Skeletonizer(
+                        return state.maybeWhen(
+                            loading: () => const Skeletonizer(
                                   enabled: true,
                                   child: TextField(
                                     enabled: false,
@@ -197,10 +197,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                     ),
                                   ),
                                 ),
-                            taxProviders: (_) =>
+                            taxProviders: (taxProviders) =>
                                 DropdownButtonFormField<TaxProvider>(
                                   style: context.bodyMedium,
-                                  items: _.taxProviders
+                                  items: taxProviders
                                       .map((e) => DropdownMenuItem<TaxProvider>(
                                             value: e,
                                             child: Text(e.id ?? ''),
@@ -214,10 +214,10 @@ class _TaxSettingsViewState extends State<TaxSettingsView> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)))),
                                 ),
-                            error: (error) => Column(
+                            error: (failure) => Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(error.failure.message),
+                                    Text(failure.message),
                                     const Gap(6.0),
                                     TextButton(
                                         onPressed: () {

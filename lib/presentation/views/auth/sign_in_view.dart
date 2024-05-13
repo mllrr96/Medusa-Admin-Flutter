@@ -50,7 +50,11 @@ class _SignInViewState extends State<SignInView> {
     _onInit();
     timer = Timer(3.seconds, () {
       if (mounted) {
-        setState(() => showUpdateButton = context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => true) ?? false);
+        setState(() => showUpdateButton = context
+                .read<AppUpdateBloc>()
+                .state
+                .mapOrNull(updateAvailable: (_) => true) ??
+            false);
       }
     });
     super.initState();
@@ -135,7 +139,8 @@ class _SignInViewState extends State<SignInView> {
                                   context: context,
                                   overlayStyle:
                                       context.systemUiOverlayNoAppBarStyle,
-                                  builder: (context) => const UrlConfigureView());
+                                  builder: (context) =>
+                                      const UrlConfigureView());
                               if (result == true) {
                                 _onInit();
                                 setState(() {});
@@ -160,8 +165,8 @@ class _SignInViewState extends State<SignInView> {
                                 BlocBuilder<ThemeCubit, ThemeState>(
                                   builder: (context, state) {
                                     return ElevatedButton.icon(
-                                      label: Text(
-                                          state.themeMode.name.capitalize),
+                                      label:
+                                          Text(state.themeMode.name.capitalize),
                                       onPressed: () => context
                                           .read<ThemeCubit>()
                                           .updateThemeState(
@@ -182,8 +187,12 @@ class _SignInViewState extends State<SignInView> {
                                         const LanguageSelectionView(),
                                   ),
                                   icon: const Icon(Icons.language),
-                                  label: Text(
-                                      context.read<LanguageCubit>().state.locale.languageModel.nativeName),
+                                  label: Text(context
+                                      .read<LanguageCubit>()
+                                      .state
+                                      .locale
+                                      .languageModel
+                                      .nativeName),
                                 ),
                               ],
                             ),
@@ -339,7 +348,6 @@ class _SignInViewState extends State<SignInView> {
     }
   }
 
-
   bool _validate() {
     if (AuthPreferenceService.baseUrlGetter == null) {
       context.showSignInErrorSnackBar('Please set your backend URL first');
@@ -394,7 +402,7 @@ class _SignInViewState extends State<SignInView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              'New Update Available ${context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_)=> _.appUpdate)?.tagName ?? ''}',
+                              'New Update Available ${context.read<AppUpdateBloc>().state.maybeWhen(updateAvailable: (appUpdate) => appUpdate, orElse: () => null)?.tagName ?? ''}',
                               style: const TextStyle(color: Colors.white)),
                           Text('Tap to install',
                               style: context.bodySmall

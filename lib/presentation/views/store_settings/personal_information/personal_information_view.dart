@@ -73,28 +73,29 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
             appBar: AppBar(
               title: const Text('Personal Information'),
             ),
-            floatingActionButton: state.mapOrNull(
-              user: (_) => FloatingActionButton.extended(
-                onPressed: () async => await updatePersonalInformation(_.user),
+            floatingActionButton: state.maybeWhen(
+              user: (user) => FloatingActionButton.extended(
+                onPressed: () async => await updatePersonalInformation(user),
                 label: const Text('Edit'),
                 icon: const Icon(MedusaIcons.pencil_square_solid),
               ),
+              orElse: () => null,
             ),
             body: SafeArea(
-              child: state.maybeMap(
-                loading: (_) => const Skeletonizer(
+              child: state.maybeWhen(
+                loading: () => const Skeletonizer(
                     enabled: true,
                     child: PersonalInfoTile(User(
                         email: 'admin@medusa-test.com',
                         firstName: 'Medusa',
                         lastName: 'Js'))),
-                user: (_) => PersonalInfoTile(
-                  _.user,
-                  onTap: () async => await updatePersonalInformation(_.user),
+                user: (user) => PersonalInfoTile(
+                  user,
+                  onTap: () async => await updatePersonalInformation(user),
                 ),
-                error: (e) => Column(
+                error: (failure) => Column(
                   children: [
-                    Center(child: Text(e.failure.message)),
+                    Center(child: Text(failure.message)),
                     const SizedBox(height: 8.0),
                     ElevatedButton(
                         onPressed: () =>
