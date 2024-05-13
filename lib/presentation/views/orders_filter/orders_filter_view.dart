@@ -50,17 +50,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
 
   @override
   void initState() {
-    orderFilter = widget.orderFilter ??
-        OrderFilter(
-            status: [],
-            paymentStatus: [],
-            fulfillmentStatus: [],
-            regions: [],
-            salesChannel: [],
-            orderDateFilter: OrderDateFilter(
-                number: 0,
-                dateType: DateType.day,
-                dateFilterType: DateFilterType.isInTheLast));
+    orderFilter = widget.orderFilter ?? OrderFilter.empty();
 
     numberCtrl.text = orderFilter.orderDateFilter.number.toString();
     super.initState();
@@ -71,11 +61,6 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
     numberCtrl.dispose();
     super.dispose();
   }
-
-  final Widget disabledApplyButton = const Expanded(
-    flex: 4,
-    child: FilledButton(onPressed: null, child: Text('Apply')),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -95,70 +80,72 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
               title: const Text('Orders Filter'),
             ),
             bottomNavigationBar: Container(
-                padding: EdgeInsets.fromLTRB(
-                    12,
-                    0,
-                    12,
-                    context.bottomViewPadding != 0
-                        ? context.bottomViewPadding
-                        : 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: OutlinedButton(
-                        onPressed: widget.onResetTap,
-                        child: const Text('Reset'),
-                      ),
+              padding: EdgeInsets.fromLTRB(
+                  12,
+                  0,
+                  12,
+                  context.bottomViewPadding != 0
+                      ? context.bottomViewPadding
+                      : 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: OutlinedButton(
+                      onPressed: widget.onResetTap,
+                      child: const Text('Reset'),
                     ),
-                    const Gap(8.0),
-                    state.maybeMap(
-                        loaded: (state) => Expanded(
-                              flex: 4,
-                              child: FilledButton(
-                                  onPressed: () {
-                                    if (orderFilter.orderDateFilter.active &&
-                                        !formKey.currentState!.validate()) {
-                                      return;
-                                    }
-                                    final filterType = orderFilter
-                                        .orderDateFilter.dateFilterType;
-                                    final dateType =
-                                        orderFilter.orderDateFilter.dateType;
-                                    if (filterType ==
-                                            DateFilterType.isInTheLast ||
-                                        filterType ==
-                                            DateFilterType.isOlderThan) {
-                                      final count =
-                                          int.tryParse(numberCtrl.text);
-                                      if (count != null) {
-                                        final now = DateTime.now();
-                                        DateTime date;
-                                        switch (dateType) {
-                                          case DateType.day:
-                                            date = now.subtract(
-                                                Duration(days: count));
-                                            break;
-                                          case DateType.month:
-                                            date = now.subtract(
-                                                Duration(days: count * 30));
-                                            break;
-                                        }
-                                        orderFilter.orderDateFilter.date = date;
-                                      }
-                                    }
+                  ),
+                  const Gap(8.0),
+                  state.maybeMap(
+                    loaded: (state) => Expanded(
+                      flex: 4,
+                      child: FilledButton(
+                          onPressed: () {
+                            if (orderFilter.orderDateFilter.active &&
+                                !formKey.currentState!.validate()) {
+                              return;
+                            }
+                            final filterType =
+                                orderFilter.orderDateFilter.dateFilterType;
+                            final dateType =
+                                orderFilter.orderDateFilter.dateType;
+                            if (filterType == DateFilterType.isInTheLast ||
+                                filterType == DateFilterType.isOlderThan) {
+                              final count = int.tryParse(numberCtrl.text);
+                              if (count != null) {
+                                final now = DateTime.now();
+                                DateTime date;
+                                switch (dateType) {
+                                  case DateType.day:
+                                    date = now.subtract(Duration(days: count));
+                                    break;
+                                  case DateType.month:
+                                    date = now
+                                        .subtract(Duration(days: count * 30));
+                                    break;
+                                }
+                                orderFilter.orderDateFilter.date = date;
+                              }
+                            }
 
-                                    orderFilter.orderDateFilter.number =
-                                        int.tryParse(numberCtrl.text) ?? 0;
-                                    widget.onSubmitted?.call(orderFilter);
-                                    context.maybePop();
-                                  },
-                                  child: const Text('Apply')),
-                            ),
-                        orElse: () => disabledApplyButton),
-                  ],
-                )),
+                            orderFilter.orderDateFilter.number =
+                                int.tryParse(numberCtrl.text) ?? 0;
+                            widget.onSubmitted?.call(orderFilter);
+                            context.maybePop();
+                          },
+                          child: const Text('Apply')),
+                    ),
+                    orElse: () => const Expanded(
+                      flex: 4,
+                      child:
+                          FilledButton(onPressed: null, child: Text('Apply')),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             body: Form(
               key: formKey,
               child: SmartRefresher(

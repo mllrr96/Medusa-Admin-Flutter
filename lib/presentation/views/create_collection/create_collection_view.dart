@@ -60,9 +60,9 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
     return BlocListener<CollectionCrudBloc, CollectionCrudState>(
       bloc: collectionCrudBloc,
       listener: (context, state) {
-        state.mapOrNull(
-          loading: (_) => loading(),
-          collection: (_) {
+        state.maybeWhen(
+          loading: () => loading(),
+          collection: (collection) {
             if (updateCollection) {
               context.showSnackBar(
                   tr.collectionModalSuccessfullyUpdatedCollection);
@@ -70,10 +70,15 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
               context.showSnackBar(
                   tr.collectionModalSuccessfullyCreatedCollection);
             }
-            context.maybePop();
+            dismissLoading();
+            context.maybePop(collection);
           },
-          error: (state) {
-            context.showSnackBar(state.failure.toSnackBarString());
+          error: (failure) {
+            dismissLoading();
+            context.showSnackBar(failure.toSnackBarString());
+          },
+          orElse: () {
+            dismissLoading();
           },
         );
       },
@@ -110,8 +115,8 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           if (!formKey.currentState!.validate()) {
                             return;
                           }
-                          collectionCrudBloc.add(CollectionCrudEvent.create(
-                              CreateCollectionReq(
+                          collectionCrudBloc.add(
+                              CollectionCrudEvent.create(CreateCollectionReq(
                             title: titleCtrl.text,
                             handle: handleCtrl.text,
                           )));

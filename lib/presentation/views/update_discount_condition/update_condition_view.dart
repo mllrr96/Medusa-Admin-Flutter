@@ -245,93 +245,104 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
   void save(BuildContext context) {
     switch (updateConditionReq.discountConditionType) {
       case DiscountConditionType.products:
-        if (eq((conditionItems as List<Product>).map((e) => e.id!).toList(),
-            (selectedItems as List<Product>).map((e) => e.id!).toList())) {
+        if (eq((List<Product>.from(conditionItems)).map((e) => e.id!).toList(),
+            (List<Product>.from(selectedItems)).map((e) => e.id!).toList())) {
           context.maybePop();
         } else {
           context.maybePop(UpdateConditionRes(
             updatedItemIds:
-                (selectedItems as List<Product>).map((e) => e.id!).toList(),
+                List<Product>.from(selectedItems).map((e) => e.id!).toList(),
             originalItemIds:
-                (conditionItems as List<Product>).map((e) => e.id!).toList(),
+                List<Product>.from(conditionItems).map((e) => e.id!).toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
-        return;
+        break;
       case DiscountConditionType.productType:
-        if (eq((conditionItems as List<ProductType>).map((e) => e.id!).toList(),
-            (selectedItems as List<ProductType>).map((e) => e.id!).toList())) {
+        if (eq(
+            (List<ProductType>.from(conditionItems)).map((e) => e.id!).toList(),
+            (List<ProductType>.from(selectedItems))
+                .map((e) => e.id!)
+                .toList())) {
           context.maybePop();
         } else {
           context.maybePop(UpdateConditionRes(
-            updatedItemIds:
-                (selectedItems as List<ProductType>).map((e) => e.id!).toList(),
-            originalItemIds: (conditionItems as List<ProductType>)
+            updatedItemIds: List<ProductType>.from(selectedItems)
+                .map((e) => e.id!)
+                .toList(),
+            originalItemIds: List<ProductType>.from(conditionItems)
                 .map((e) => e.id!)
                 .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
-        return;
+        break;
       case DiscountConditionType.productCollections:
         if (eq(
-            (conditionItems as List<ProductCollection>)
+            List<ProductCollection>.from(conditionItems)
                 .map((e) => e.id!)
                 .toList(),
-            (selectedItems as List<ProductCollection>)
+            List<ProductCollection>.from(selectedItems)
                 .map((e) => e.id!)
                 .toList())) {
           context.maybePop();
         } else {
           context.maybePop(UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<ProductCollection>)
+            updatedItemIds: List<ProductCollection>.from(selectedItems)
                 .map((e) => e.id!)
                 .toList(),
-            originalItemIds: (conditionItems as List<ProductCollection>)
+            originalItemIds: List<ProductCollection>.from(conditionItems)
                 .map((e) => e.id!)
                 .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
-        return;
+        break;
       case DiscountConditionType.productTags:
-        if (eq((conditionItems as List<ProductTag>).map((e) => e.id!).toList(),
-            (selectedItems as List<ProductTag>).map((e) => e.id!).toList())) {
+        if (eq(
+            (List<ProductTag>.from(conditionItems)).map((e) => e.id!).toList(),
+            (List<ProductTag>.from(selectedItems))
+                .map((e) => e.id!)
+                .toList())) {
           context.maybePop();
         } else {
           context.maybePop(UpdateConditionRes(
-            updatedItemIds:
-                (selectedItems as List<ProductTag>).map((e) => e.id!).toList(),
-            originalItemIds:
-                (conditionItems as List<ProductTag>).map((e) => e.id!).toList(),
+            updatedItemIds: (List<ProductTag>.from(selectedItems))
+                .map((e) => e.id!)
+                .toList(),
+            originalItemIds: (List<ProductTag>.from(conditionItems))
+                .map((e) => e.id!)
+                .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
-        return;
+        break;
       case DiscountConditionType.customerGroups:
         if (eq(
-            (conditionItems as List<CustomerGroup>).map((e) => e.id!).toList(),
-            (selectedItems as List<CustomerGroup>)
+            (List<CustomerGroup>.from(conditionItems))
+                .map((e) => e.id!)
+                .toList(),
+            (List<CustomerGroup>.from(selectedItems))
                 .map((e) => e.id!)
                 .toList())) {
           context.maybePop();
         } else {
           context.maybePop(UpdateConditionRes(
-            updatedItemIds: (selectedItems as List<CustomerGroup>)
+            updatedItemIds: List<CustomerGroup>.from(selectedItems)
                 .map((e) => e.id!)
                 .toList(),
-            originalItemIds: (conditionItems as List<CustomerGroup>)
+            originalItemIds: List<CustomerGroup>.from(conditionItems)
                 .map((e) => e.id!)
                 .toList(),
             discountCondition: updateConditionReq.discountCondition,
             discountConditionType: updateConditionReq.discountConditionType,
           ));
         }
-        return;
+        break;
     }
   }
 

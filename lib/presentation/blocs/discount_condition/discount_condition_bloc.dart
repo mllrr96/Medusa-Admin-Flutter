@@ -22,6 +22,7 @@ class DiscountConditionBloc
 
   Future<void> _loadTypes(
       _LoadTypes event, Emitter<DiscountConditionState> emit) async {
+    emit(const _Loading());
     final result = await updateConditionUseCase.retrieveProductTypes(
         queryParameters: event.queryParameters);
     result.when(
@@ -32,6 +33,7 @@ class DiscountConditionBloc
 
   Future<void> _loadGroups(
       _LoadGroups event, Emitter<DiscountConditionState> emit) async {
+    emit(const _Loading());
     final result = await updateConditionUseCase.retrieveCustomerGroups(
         queryParameters: event.queryParameters);
     result.when(
@@ -42,6 +44,7 @@ class DiscountConditionBloc
 
   Future<void> _loadProducts(
       _LoadProducts event, Emitter<DiscountConditionState> emit) async {
+    emit(const _Loading());
     final result = await updateConditionUseCase.retrieveProducts(
         queryParameters: event.queryParameters);
     result.when(
@@ -51,6 +54,7 @@ class DiscountConditionBloc
 
   Future<void> _loadTags(
       _LoadTags event, Emitter<DiscountConditionState> emit) async {
+    emit(const _Loading());
     final result = await updateConditionUseCase.retrieveProductTags(
         queryParameters: event.queryParameters);
     result.when(
@@ -60,6 +64,7 @@ class DiscountConditionBloc
 
   Future<void> _loadCollections(
       _LoadCollections event, Emitter<DiscountConditionState> emit) async {
+    emit(const _Loading());
     final result = await updateConditionUseCase.retrieveCollections(
         queryParameters: event.queryParameters);
     result.when(

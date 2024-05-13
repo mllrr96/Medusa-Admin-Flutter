@@ -19,6 +19,17 @@ class OrderFilter {
     required this.orderDateFilter,
   });
 
+  OrderFilter.empty()
+      : status = [],
+        paymentStatus = [],
+        fulfillmentStatus = [],
+        regions = [],
+        salesChannel = [],
+        orderDateFilter = OrderDateFilter(
+            number: 0,
+            dateType: DateType.day,
+            dateFilterType: DateFilterType.isInTheLast);
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     if (status.isNotEmpty) {
