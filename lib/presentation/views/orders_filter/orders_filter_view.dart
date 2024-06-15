@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
 import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/date_time_card.dart';
@@ -16,7 +17,7 @@ import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dar
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../core/utils/enums.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
@@ -72,10 +73,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
     super.dispose();
   }
 
-  final Widget disabledApplyButton = const Expanded(
-    flex: 4,
-    child: FilledButton(onPressed: null, child: Text('Apply')),
-  );
+  final Widget disabledApplyButton = const ShadButton.ghost(
+      size: ShadButtonSize.lg,
+      onPressed: null, text: Text('Apply'));
 
   @override
   Widget build(BuildContext context) {
@@ -99,57 +99,53 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: OutlinedButton(
-                        onPressed: widget.onResetTap,
-                        child: const Text('Reset'),
-                      ),
+                    ShadButton.secondary(
+                      size: ShadButtonSize.lg,
+                      onPressed: widget.onResetTap,
+                      text: const Text('Reset'),
                     ),
                     const Gap(8.0),
                     state.maybeMap(
-                        loaded: (state) => Expanded(
-                              flex: 4,
-                              child: FilledButton(
-                                  onPressed: () {
-                                    if (orderFilter.orderDateFilter.active &&
-                                        !formKey.currentState!.validate()) {
-                                      return;
-                                    }
-                                    final filterType = orderFilter
-                                        .orderDateFilter.dateFilterType;
-                                    final dateType =
-                                        orderFilter.orderDateFilter.dateType;
-                                    if (filterType ==
-                                            DateFilterType.isInTheLast ||
-                                        filterType ==
-                                            DateFilterType.isOlderThan) {
-                                      final count =
-                                          int.tryParse(numberCtrl.text);
-                                      if (count != null) {
-                                        final now = DateTime.now();
-                                        DateTime date;
-                                        switch (dateType) {
-                                          case DateType.day:
-                                            date = now.subtract(
-                                                Duration(days: count));
-                                            break;
-                                          case DateType.month:
-                                            date = now.subtract(
-                                                Duration(days: count * 30));
-                                            break;
-                                        }
-                                        orderFilter.orderDateFilter.date = date;
-                                      }
-                                    }
+                        loaded: (state) => ShadButton(
+                          size: ShadButtonSize.lg,
+                            onPressed: () {
+                              if (orderFilter.orderDateFilter.active &&
+                                  !formKey.currentState!.validate()) {
+                                return;
+                              }
+                              final filterType = orderFilter
+                                  .orderDateFilter.dateFilterType;
+                              final dateType =
+                                  orderFilter.orderDateFilter.dateType;
+                              if (filterType ==
+                                      DateFilterType.isInTheLast ||
+                                  filterType ==
+                                      DateFilterType.isOlderThan) {
+                                final count =
+                                    int.tryParse(numberCtrl.text);
+                                if (count != null) {
+                                  final now = DateTime.now();
+                                  DateTime date;
+                                  switch (dateType) {
+                                    case DateType.day:
+                                      date = now.subtract(
+                                          Duration(days: count));
+                                      break;
+                                    case DateType.month:
+                                      date = now.subtract(
+                                          Duration(days: count * 30));
+                                      break;
+                                  }
+                                  orderFilter.orderDateFilter.date = date;
+                                }
+                              }
 
-                                    orderFilter.orderDateFilter.number =
-                                        int.tryParse(numberCtrl.text) ?? 0;
-                                    widget.onSubmitted?.call(orderFilter);
-                                    context.maybePop();
-                                  },
-                                  child: const Text('Apply')),
-                            ),
+                              orderFilter.orderDateFilter.number =
+                                  int.tryParse(numberCtrl.text) ?? 0;
+                              widget.onSubmitted?.call(orderFilter);
+                              context.maybePop();
+                            },
+                            text: const Text('Apply')),
                         orElse: () => disabledApplyButton),
                   ],
                 )),

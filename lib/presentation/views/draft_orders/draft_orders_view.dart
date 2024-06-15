@@ -15,6 +15,8 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../widgets/shad_drawer_widget.dart';
+
 @RoutePage()
 class DraftOrdersView extends StatefulWidget {
   const DraftOrdersView({super.key});
@@ -85,7 +87,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
         );
       },
       child: Scaffold(
-        drawer: const AppDrawer(),
+        drawer: const ShadDrawer(),
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,

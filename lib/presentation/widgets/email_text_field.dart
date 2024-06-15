@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({
@@ -24,6 +25,21 @@ class EmailTextField extends StatelessWidget {
   final bool readOnly;
   @override
   Widget build(BuildContext context) {
+
+    return ShadInputFormField(
+      controller: controller,
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      textInputAction: textInputAction,
+      validator: validator,
+      enabled: enabled,
+      readOnly: readOnly,
+      prefix: const Icon(LucideIcons.mail),
+      placeholder: Text(context.tr.loginCardEmail),
+
+      // hintText: context.tr.loginCardEmail,
+      // prefixIcon: const Icon(Icons.mail),
+    );
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;

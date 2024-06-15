@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/multi_bloc_provider.dart';
 import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'core/constant/strings.dart';
 import 'core/route/app_router.dart';
-import 'core/theme/flex_theme.dart';
 import 'core/di/di.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -52,17 +51,19 @@ class MedusaAdminApp extends StatelessWidget {
         builder: (context, languageState) {
           return BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {
-              return MaterialApp.router(
+              return ShadApp.router(
                 title: AppConstants.appName,
                 locale: languageState.locale,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 debugShowCheckedModeBanner: false,
                 themeMode: themeState.themeMode,
-                theme: FlexTheme.light(
-                    themeState.flexScheme, themeState.useMaterial3),
-                darkTheme: FlexTheme.dark(
-                    themeState.flexScheme, themeState.useMaterial3),
+                // theme: ShadThemeData(
+                //     colorScheme: ShadSlateColorScheme.light(),
+                //     brightness: Brightness.light),
+                // darkTheme: ShadThemeData(
+                //     colorScheme: ShadSlateColorScheme.dark(),
+                //     brightness: Brightness.dark),
                 builder: EasyLoading.init(),
                 routerConfig: _router.config(),
               );

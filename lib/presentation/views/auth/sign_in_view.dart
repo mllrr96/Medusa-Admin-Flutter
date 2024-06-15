@@ -3,7 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
@@ -24,6 +23,7 @@ import 'package:medusa_admin/presentation/widgets/language_selection/language_se
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'components/index.dart';
 
@@ -50,7 +50,11 @@ class _SignInViewState extends State<SignInView> {
     _onInit();
     timer = Timer(3.seconds, () {
       if (mounted) {
-        setState(() => showUpdateButton = context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => true) ?? false);
+        setState(() => showUpdateButton = context
+                .read<AppUpdateBloc>()
+                .state
+                .mapOrNull(updateAvailable: (_) => true) ??
+            false);
       }
     });
     super.initState();
@@ -135,7 +139,8 @@ class _SignInViewState extends State<SignInView> {
                                   context: context,
                                   overlayStyle:
                                       context.systemUiOverlayNoAppBarStyle,
-                                  builder: (context) => const UrlConfigureView());
+                                  builder: (context) =>
+                                      const UrlConfigureView());
                               if (result == true) {
                                 _onInit();
                                 setState(() {});
@@ -159,31 +164,41 @@ class _SignInViewState extends State<SignInView> {
                               children: [
                                 BlocBuilder<ThemeCubit, ThemeState>(
                                   builder: (context, state) {
-                                    return ElevatedButton.icon(
-                                      label: Text(
-                                          state.themeMode.name.capitalize),
+                                    return ShadButton.outline(
+                                      icon: Icon(
+                                        state.themeMode.icon,
+                                        size: 16,
+                                      ),
+                                      size: ShadButtonSize.icon,
                                       onPressed: () => context
                                           .read<ThemeCubit>()
                                           .updateThemeState(
-                                              themeMode: state.themeMode.next),
-                                      icon: Icon(state.themeMode.icon),
+                                          themeMode: state.themeMode.next),
                                     );
                                   },
                                 ),
-                                ElevatedButton.icon(
+                                ShadButton.outline(
+                                  // text:Text(context
+                                  //     .read<LanguageCubit>()
+                                  //     .state
+                                  //     .locale
+                                  //     .languageModel
+                                  //     .nativeName),
+                                  icon: const Icon(
+                                    LucideIcons.languages,
+                                    size: 16,
+                                  ),
+                                  size: ShadButtonSize.icon,
                                   onPressed: () async =>
-                                      await showBarModalBottomSheet(
+                                  await showBarModalBottomSheet(
                                     backgroundColor:
-                                        context.theme.scaffoldBackgroundColor,
+                                    context.theme.scaffoldBackgroundColor,
                                     overlayStyle: context
                                         .theme.appBarTheme.systemOverlayStyle,
                                     context: context,
                                     builder: (context) =>
-                                        const LanguageSelectionView(),
+                                    const LanguageSelectionView(),
                                   ),
-                                  icon: const Icon(Icons.language),
-                                  label: Text(
-                                      context.read<LanguageCubit>().state.locale.languageModel.nativeName),
                                 ),
                               ],
                             ),
@@ -226,6 +241,7 @@ class _SignInViewState extends State<SignInView> {
                                         },
                                       )),
                                   const SizedBox(height: 12.0),
+
                                   Hero(
                                     tag: 'password',
                                     child: PasswordTextField(
@@ -247,54 +263,45 @@ class _SignInViewState extends State<SignInView> {
                             ),
                           space,
                           if (!isSessionExpired && !useToken)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextButton(
-                                    onPressed: loading
-                                        ? null
-                                        : () {
-                                            if (AuthPreferenceService
-                                                    .baseUrlGetter ==
-                                                null) {
-                                              context.showSignInErrorSnackBar(
-                                                  'Please set your backend URL first');
-                                              return;
-                                            }
-                                            context.pushRoute(
-                                                const ResetPasswordRoute());
-                                          },
-                                    child: Text(
-                                      tr.loginCardForgotYourPassword,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          space,
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Hero(
-                              tag: 'continue',
-                              child: FilledButton.icon(
-                                  style: FilledButton.styleFrom(
-                                    minimumSize: const Size(220, 48.0),
-                                  ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ShadButton.ghost(
+
                                   onPressed: loading
                                       ? null
-                                      : () async {
-                                          if (!_validate()) {
-                                            return;
-                                          }
-                                          await _signIn();
-                                        },
-                                  icon: const Icon(Icons.login),
-                                  label: Text(tr.analyticsPreferencesContinue)),
+                                      : () {
+                                    if (AuthPreferenceService
+                                        .baseUrlGetter ==
+                                        null) {
+                                      context.showSignInErrorSnackBar(
+                                          'Please set your backend URL first');
+                                      return;
+                                    }
+                                    context.pushRoute(
+                                        const ResetPasswordRoute());
+                                  },
+                                  text: Text(
+                                    tr.loginCardForgotYourPassword,
+                                  ),
+                                ),
+                              ],
                             ),
+                          space,
+                          ShadButton(
+                            text: const Text('Continue'),
+                            size: ShadButtonSize.lg,
+                            width: 220,
+                            height: 48.0,
+                            onPressed: loading
+                                ? null
+                                : () async {
+                                    if (!_validate()) {
+                                      return;
+                                    }
+                                    await _signIn();
+                                  },
+                            icon: const Icon(Icons.login),
                           ),
                           space,
                         ],
@@ -338,7 +345,6 @@ class _SignInViewState extends State<SignInView> {
       showAuthenticateButton = false;
     }
   }
-
 
   bool _validate() {
     if (AuthPreferenceService.baseUrlGetter == null) {
@@ -394,7 +400,7 @@ class _SignInViewState extends State<SignInView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              'New Update Available ${context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_)=> _.appUpdate)?.tagName ?? ''}',
+                              'New Update Available ${context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => _.appUpdate)?.tagName ?? ''}',
                               style: const TextStyle(color: Colors.white)),
                           Text('Tap to install',
                               style: context.bodySmall

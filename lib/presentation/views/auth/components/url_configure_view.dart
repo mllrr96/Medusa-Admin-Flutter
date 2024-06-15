@@ -171,112 +171,114 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       AuthenticationType.jwt =>
         'Use a JWT token to send authenticated requests. (Default)',
     };
-    return HideKeyboard(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-          title: setupUrl ? const Text('Set URL') : const Text('Update URL'),
-          actions: [
-            TextButton(
-                onPressed: () async => await _save(),
-                onLongPress: () async => await _save(skipValidation: true),
-                child: const Text('Save'))
-          ],
-        ),
-        body: Padding(
-          padding: EdgeInsets.fromLTRB(
-              12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Form(
-                key: formKey,
-                child: TextFormField(
-                  controller: textCtrl,
-                  style: smallTextStyle,
-                  decoration:
-                      const InputDecoration(hintText: 'https://medusajs.com'),
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return 'Field is required';
-                    }
+    return ScaffoldMessenger(
+      child: HideKeyboard(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
+            title: setupUrl ? const Text('Set URL') : const Text('Update URL'),
+            actions: [
+              TextButton(
+                  onPressed: () async => await _save(),
+                  onLongPress: () async => await _save(skipValidation: true),
+                  child: const Text('Save'))
+            ],
+          ),
+          body: Padding(
+            padding: EdgeInsets.fromLTRB(
+                12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Form(
+                  key: formKey,
+                  child: TextFormField(
+                    controller: textCtrl,
+                    style: smallTextStyle,
+                    decoration:
+                        const InputDecoration(hintText: 'https://medusajs.com'),
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
+                        return 'Field is required';
+                      }
 
-                    if (!val.isUrl) {
-                      return 'Invalid url';
-                    }
-                    return null;
-                  },
+                      if (!val.isUrl) {
+                        return 'Invalid url';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-              ),
-              if (!advancedOption)
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton.icon(
-                      onPressed: () =>
-                          setState(() => advancedOption = !advancedOption),
-                      label: const Text('Advanced Options'),
-                      icon: const Icon(Icons.add_link),
-                    )),
-              const Gap(12.0),
-              if (advancedOption)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Divider(),
-                    Text('Authentication Method', style: context.bodyMedium),
-                    const Gap(12.0),
-                    SizedBox(
-                      width: double.maxFinite,
-                      child: SegmentedButton<AuthenticationType>(
-                          showSelectedIcon: false,
-                          onSelectionChanged: (value) =>
-                              setState(() => authType = value.first),
-                          segments: AuthenticationType.values
-                              .map((e) => ButtonSegment<AuthenticationType>(
-                                  value: e, label: Text(e.toString())))
-                              .toList()
-                              .reversed
-                              .toList(),
-                          selected: {authType}),
-                    ),
-                    const Gap(12.0),
-                    Container(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.info_outline,
-                              color: ColorManager.manatee),
-                          const Gap(12.0),
-                          Flexible(
-                              child: Text(
-                            infoText,
-                            style: context.bodySmall
-                                ?.copyWith(color: ColorManager.manatee),
-                          )),
-                        ],
+                if (!advancedOption)
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton.icon(
+                        onPressed: () =>
+                            setState(() => advancedOption = !advancedOption),
+                        label: const Text('Advanced Options'),
+                        icon: const Icon(Icons.add_link),
+                      )),
+                const Gap(12.0),
+                if (advancedOption)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Divider(),
+                      Text('Authentication Method', style: context.bodyMedium),
+                      const Gap(12.0),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: SegmentedButton<AuthenticationType>(
+                            showSelectedIcon: false,
+                            onSelectionChanged: (value) =>
+                                setState(() => authType = value.first),
+                            segments: AuthenticationType.values
+                                .map((e) => ButtonSegment<AuthenticationType>(
+                                    value: e, label: Text(e.toString())))
+                                .toList()
+                                .reversed
+                                .toList(),
+                            selected: {authType}),
                       ),
-                    ),
-                    const Gap(12.0),
-                    if (authType == AuthenticationType.token)
-                      Form(
-                        key: tokenFormKey,
-                        child: TextFormField(
-                          controller: tokenTextCtrl,
-                          style: smallTextStyle,
-                          decoration:
-                              const InputDecoration(hintText: 'Api token'),
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Field is required';
-                            }
-                            return null;
-                          },
+                      const Gap(12.0),
+                      Container(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.info_outline,
+                                color: ColorManager.manatee),
+                            const Gap(12.0),
+                            Flexible(
+                                child: Text(
+                              infoText,
+                              style: context.bodySmall
+                                  ?.copyWith(color: ColorManager.manatee),
+                            )),
+                          ],
                         ),
                       ),
-                  ],
-                ),
-            ],
+                      const Gap(12.0),
+                      if (authType == AuthenticationType.token)
+                        Form(
+                          key: tokenFormKey,
+                          child: TextFormField(
+                            controller: tokenTextCtrl,
+                            style: smallTextStyle,
+                            decoration:
+                                const InputDecoration(hintText: 'Api token'),
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return 'Field is required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+              ],
+            ),
           ),
         ),
       ),

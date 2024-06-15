@@ -17,10 +17,14 @@ import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import '../../widgets/shad_drawer_widget.dart';
 import 'components/order_card.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
+
+import 'components/order_card_shad.dart';
 
 @RoutePage()
 class OrdersView extends StatefulWidget {
@@ -89,7 +93,7 @@ class _OrdersViewState extends State<OrdersView> {
       },
       child: Scaffold(
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
-        drawer: const AppDrawer(),
+        drawer: const ShadDrawer(),
         endDrawer: Drawer(
           child: OrdersFilterView(
             orderFilter: orderFilter,
@@ -151,15 +155,32 @@ class _OrdersViewState extends State<OrdersView> {
                     overflow: TextOverflow.ellipsis);
               }),
               actions: [
+                // Builder(
+                //   builder: (context) => IconButton(
+                //     padding: const EdgeInsets.all(16.0),
+                //     onPressed: () => context.openEndDrawer(),
+                //     icon: Icon(Icons.sort,
+                //         color: (orderFilter?.count() ?? -1) > 0
+                //             ? Colors.red
+                //             : null),
+                //   ),
+                // ),
                 Builder(
-                  builder: (context) => IconButton(
-                    padding: const EdgeInsets.all(16.0),
-                    onPressed: () => context.openEndDrawer(),
-                    icon: Icon(Icons.sort,
-                        color: (orderFilter?.count() ?? -1) > 0
-                            ? Colors.red
-                            : null),
-                  ),
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ShadButton.outline(
+                        icon: Icon(
+                          LucideIcons.filter,
+                          size: 16,
+                            color: (orderFilter?.count() ?? -1) > 0
+                                ? Colors.red
+                                : null),
+                        size: ShadButtonSize.icon,
+                        onPressed: () => context.openEndDrawer(),
+                      ),
+                    );
+                  }
                 ),
               ],
             ),
@@ -179,7 +200,7 @@ class _OrdersViewState extends State<OrdersView> {
                 animateTransitions: true,
                 itemBuilder: (context, order, index) {
                   if (orderPreference.alternativeCard) {
-                    return AlternativeOrderCard(order);
+                    return ShadOrderCard(order);
                   }
                   return OrderCard(order);
                 },
