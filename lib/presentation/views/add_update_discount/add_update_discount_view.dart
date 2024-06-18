@@ -9,6 +9,7 @@ import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/index.dart';
 
 @RoutePage()
@@ -95,9 +96,9 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
                   ? const Text('Update discount')
                   : const Text('Create new discount'),
               actions: [
-                TextButton(
+                ShadButton(
                     onPressed: () => _save(),
-                    child: updatingDiscount
+                    text: updatingDiscount
                         ? const Text('Update')
                         : const Text('Create')),
               ],

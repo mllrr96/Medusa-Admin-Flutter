@@ -51,7 +51,7 @@ class MedusaAdminApp extends StatelessWidget {
         builder: (context, languageState) {
           return BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {
-              return ShadApp.router(
+              return ShadApp.materialRouter(
                 title: AppConstants.appName,
                 locale: languageState.locale,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,

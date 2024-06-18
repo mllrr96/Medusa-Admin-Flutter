@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SignInMedusaLogo extends StatefulWidget {
-  const SignInMedusaLogo({super.key, this.rotate = false});
+  const SignInMedusaLogo({super.key, this.rotate = false, this.scale});
   final bool rotate;
+  final double? scale;
 
   @override
   State<SignInMedusaLogo> createState() => _SignInMedusaLogoState();
@@ -59,7 +60,7 @@ class _SignInMedusaLogoState extends State<SignInMedusaLogo>
       turns: _animation,
       child: Image.asset(
         'assets/images/medusa.png',
-        scale: 5,
+        scale: widget.scale ?? 5,
       ),
     );
   }

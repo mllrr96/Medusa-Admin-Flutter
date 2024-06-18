@@ -12,8 +12,6 @@ import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
@@ -108,8 +106,8 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
           await authPreferenceService.clearLoginData();
           await authPreferenceService.clearEmail();
           await _handleMedusaSingleton().then((_) {
-            context.maybePop(true);
             context.showSnackBar(setupUrl ? 'URL set' : 'URL updated');
+            context.maybePop(true);
           });
         } else {
           context.maybePop(false);
@@ -172,114 +170,110 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       AuthenticationType.jwt =>
         'Use a JWT token to send authenticated requests. (Default)',
     };
-    return ScaffoldMessenger(
-      child: HideKeyboard(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-            title: setupUrl ? const Text('Set URL') : const Text('Update URL'),
-            actions: [
-              ShadButton.ghost(
-                  onPressed: () async => await _save(),
-                  onLongPress: () async => await _save(skipValidation: true),
-                  text: const Text('Save'))
-            ],
-          ),
-          body: Padding(
-            padding: EdgeInsets.fromLTRB(
-                12.0, 8.0, 12.0, context.bottomViewInsetPadding + 8.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Form(
-                  key: formKey,
-                  child: ShadInputFormField(
-                    controller: textCtrl,
-                    style: smallTextStyle,
-                    placeholder: const Text('https://medusajs.com'),
-                    validator: (val) {
-                      if (val.isEmpty) {
-                        return 'Field is required';
-                      }
+    return ShadDialog(
+      title: Text(setupUrl ? 'Set URL' : 'Update URL'),
+      description: Text(
+          setupUrl
+              ? 'Set the URL of your Medusa instance'
+              : 'Update the URL of your Medusa instance'),
+      actions: [
+        ShadButton.ghost(
+            onPressed: () => context.maybePop(),
+            text: const Text('Cancel')),
+        ShadButton(
+            onPressed: () async => await _save(),
+            onLongPress: () async => await _save(skipValidation: true),
+            text: const Text('Save')),
+      ],
+      content: Column(
+        children: [
+          const Gap(20.0),
+          // const SizedBox(height: 20),
+          Form(
+            key: formKey,
+            child: ShadInputFormField(
+              controller: textCtrl,
+              style: smallTextStyle,
+              placeholder: const Text('https://medusajs.com'),
+              validator: (val) {
+                if (val.isEmpty) {
+                  return 'Field is required';
+                }
 
-                      if (!val.isUrl) {
-                        return 'Invalid url';
-                      }
-                      return null;
-                    },
+                if (!val.isUrl) {
+                  return 'Invalid url';
+                }
+                return null;
+              },
+            ),
+          ),
+          if (!advancedOption)
+            Align(
+                alignment: Alignment.centerRight,
+                child: ShadButton.ghost(
+                  onPressed: () =>
+                      setState(() => advancedOption = !advancedOption),
+                  text: const Text('Advanced Options'),
+                  icon: const Icon(Icons.add_link),
+                )),
+          const Gap(12.0),
+          if (advancedOption)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Divider(),
+                Text('Authentication Method', style: context.bodyMedium),
+                const Gap(12.0),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: SegmentedButton<AuthenticationType>(
+                      showSelectedIcon: false,
+                      onSelectionChanged: (value) =>
+                          setState(() => authType = value.first),
+                      segments: AuthenticationType.values
+                          .map((e) => ButtonSegment<AuthenticationType>(
+                          value: e, label: Text(e.toString())))
+                          .toList()
+                          .reversed
+                          .toList(),
+                      selected: {authType}),
+                ),
+                const Gap(12.0),
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.info_outline,
+                          color: ColorManager.manatee),
+                      const Gap(12.0),
+                      Flexible(
+                          child: Text(
+                            infoText,
+                            style: context.bodySmall
+                                ?.copyWith(color: ColorManager.manatee),
+                          )),
+                    ],
                   ),
                 ),
-                if (!advancedOption)
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton.icon(
-                        onPressed: () =>
-                            setState(() => advancedOption = !advancedOption),
-                        label: const Text('Advanced Options'),
-                        icon: const Icon(Icons.add_link),
-                      )),
                 const Gap(12.0),
-                if (advancedOption)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Divider(),
-                      Text('Authentication Method', style: context.bodyMedium),
-                      const Gap(12.0),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: SegmentedButton<AuthenticationType>(
-                            showSelectedIcon: false,
-                            onSelectionChanged: (value) =>
-                                setState(() => authType = value.first),
-                            segments: AuthenticationType.values
-                                .map((e) => ButtonSegment<AuthenticationType>(
-                                    value: e, label: Text(e.toString())))
-                                .toList()
-                                .reversed
-                                .toList(),
-                            selected: {authType}),
-                      ),
-                      const Gap(12.0),
-                      Container(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.info_outline,
-                                color: ColorManager.manatee),
-                            const Gap(12.0),
-                            Flexible(
-                                child: Text(
-                              infoText,
-                              style: context.bodySmall
-                                  ?.copyWith(color: ColorManager.manatee),
-                            )),
-                          ],
-                        ),
-                      ),
-                      const Gap(12.0),
-                      if (authType == AuthenticationType.token)
-                        Form(
-                          key: tokenFormKey,
-                          child: ShadInputFormField(
-                            controller: tokenTextCtrl,
-                            style: smallTextStyle,
-                            placeholder: const Text('Api token'),
-                            validator: (val) {
-                              if (val.isEmpty) {
-                                return 'Field is required';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                    ],
+                if (authType == AuthenticationType.token)
+                  Form(
+                    key: tokenFormKey,
+                    child: ShadInputFormField(
+                      controller: tokenTextCtrl,
+                      style: smallTextStyle,
+                      placeholder: const Text('Api token'),
+                      validator: (val) {
+                        if (val.isEmpty) {
+                          return 'Field is required';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
               ],
             ),
-          ),
-        ),
+        ],
       ),
     );
   }

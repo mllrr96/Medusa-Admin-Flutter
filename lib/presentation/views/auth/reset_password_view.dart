@@ -11,6 +11,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/cubits/reset_password/reset_password_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/email_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/sign_in_medusa_logo.dart';
 
 @RoutePage()
@@ -52,16 +53,23 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       },
       child: HideKeyboard(
         child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-            leading: const CloseButton(),
-            backgroundColor: context.theme.scaffoldBackgroundColor,
-          ),
+          appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: Container(
+                padding: const EdgeInsets.only(left: 12.0),
+                alignment: Alignment.bottomLeft,
+                child: ShadButton.outline(
+                  size: ShadButtonSize.icon,
+                  icon: const Icon(Icons.chevron_left),
+                  onPressed: () => context.maybePop(),
+                ),
+              )),
           persistentFooterAlignment: AlignmentDirectional.center,
           persistentFooterButtons: [
             Hero(
               tag: 'continue',
-              child: FilledButton(
+              child: ShadButton(
+                size: ShadButtonSize.lg,
                 onPressed: rotate
                     ? null
                     : () {
@@ -72,10 +80,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                             .read<ResetPasswordCubit>()
                             .resetPassword(emailCtrl.text);
                       },
-                style: FilledButton.styleFrom(
-                  minimumSize: Size(context.width / 3, 48.0),
-                ),
-                child: Text(tr.resetTokenCardSendResetInstructions),
+                text: Text(tr.resetTokenCardSendResetInstructions),
               ),
             ),
           ],

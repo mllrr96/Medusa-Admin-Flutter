@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ProductListTile extends StatelessWidget {
   const ProductListTile(
@@ -56,8 +57,8 @@ class ProductListTile extends StatelessWidget {
               color: ColorManager.manatee,
               child: const Icon(Icons.image_not_supported),
             ),
-      trailing: IconButton(
-        padding: const EdgeInsets.all(16.0),
+      trailing: ShadButton.ghost(
+        size: ShadButtonSize.icon,
         onPressed: () async {
           await showModalActionSheet<int>(
               title: 'Manage Product',

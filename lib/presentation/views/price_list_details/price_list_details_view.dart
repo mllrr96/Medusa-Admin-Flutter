@@ -111,181 +111,179 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
           },
         ),
       ],
-      child: ScaffoldMessenger(
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: context.defaultSystemUiOverlayStyle,
-            title: const Text('Price List Details'),
-            actions: [
-              IconButton(
-                padding: const EdgeInsets.all(16.0),
-                  onPressed: () async {
-                    await showModalActionSheet<int>(
-                        context: context,
-                        actions: <SheetAction<int>>[
-                          const SheetAction(
-                              label: 'Edit price list details', key: 0),
-                          const SheetAction(label: 'Add Products', key: 1),
-                          const SheetAction(
-                              label: 'Remove price list',
-                              isDestructiveAction: true,
-                              key: 2),
-                        ]).then((result) async {
-                      switch (result) {
-                        case 0:
-                          context.pushRoute(AddUpdatePriceListRoute(id: id));
-                          return;
-                        case 1:
-                          final pickProductsRes = await addProduct;
-                          if (pickProductsRes is PickProductsRes && context.mounted) {
-                            final prices = await showBarModalBottomSheet(
-                              context: context,
-                              backgroundColor:
-                                  context.theme.scaffoldBackgroundColor,
-                              enableDrag: false,
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
-                              builder: (context) => PriceListAddProducts(
-                                  pickProductsRes.selectedProducts),
-                            );
-                            if (prices is List<MoneyAmount> &&
-                                context.mounted) {
-                              pricingCrudBloc.add(PricingCrudEvent.updatePrices(
-                                  id,
-                                  UpdatePricesReq(
-                                      prices: prices
-                                          .map((e) => MoneyAmount(
-                                              variantId: e.variantId,
-                                              amount: e.amount,
-                                              currencyCode: e.currencyCode))
-                                          .toList())));
-                            }
-                          }
-                          return;
-                        case 2:
-                          final confirmDelete = await showOkCancelAlertDialog(
-                            context: context,
-                            title: 'Delete price list',
-                            message:
-                                'Are you sure you want to delete this price list?',
-                            okLabel: 'Yes, delete',
+      child: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: context.defaultSystemUiOverlayStyle,
+          title: const Text('Price List Details'),
+          actions: [
+            IconButton(
+              padding: const EdgeInsets.all(16.0),
+                onPressed: () async {
+                  await showModalActionSheet<int>(
+                      context: context,
+                      actions: <SheetAction<int>>[
+                        const SheetAction(
+                            label: 'Edit price list details', key: 0),
+                        const SheetAction(label: 'Add Products', key: 1),
+                        const SheetAction(
+                            label: 'Remove price list',
                             isDestructiveAction: true,
+                            key: 2),
+                      ]).then((result) async {
+                    switch (result) {
+                      case 0:
+                        context.pushRoute(AddUpdatePriceListRoute(id: id));
+                        return;
+                      case 1:
+                        final pickProductsRes = await addProduct;
+                        if (pickProductsRes is PickProductsRes && context.mounted) {
+                          final prices = await showBarModalBottomSheet(
+                            context: context,
+                            backgroundColor:
+                                context.theme.scaffoldBackgroundColor,
+                            enableDrag: false,
+                            overlayStyle:
+                                context.theme.appBarTheme.systemOverlayStyle,
+                            builder: (context) => PriceListAddProducts(
+                                pickProductsRes.selectedProducts),
                           );
-                          if (confirmDelete == OkCancelResult.ok &&
+                          if (prices is List<MoneyAmount> &&
                               context.mounted) {
-                            pricingCrudBloc.add(PricingCrudEvent.delete(id));
+                            pricingCrudBloc.add(PricingCrudEvent.updatePrices(
+                                id,
+                                UpdatePricesReq(
+                                    prices: prices
+                                        .map((e) => MoneyAmount(
+                                            variantId: e.variantId,
+                                            amount: e.amount,
+                                            currencyCode: e.currencyCode))
+                                        .toList())));
                           }
-                          return;
-                      }
-                    });
-                  },
-                  icon: const Icon(Icons.more_horiz))
-            ],
-          ),
-          body: SafeArea(
-            child: SmartRefresher(
-              controller: refreshController,
-              onRefresh: () {
-                _loadPage(0);
-                priceListBloc.add(PricingCrudEvent.load(id));
-              },
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
-                      bloc: pricingCrudBloc,
-                      builder: (context, state) => state.maybeMap(
-                        pricingList: (_) => PriceListDetailsTile(_.priceList),
-                        loading: (_) => PriceListDetailsTile(widget.priceList,
-                            shimmer: true),
-                        orElse: () => const SizedBox.shrink(),
-                      ),
+                        }
+                        return;
+                      case 2:
+                        final confirmDelete = await showOkCancelAlertDialog(
+                          context: context,
+                          title: 'Delete price list',
+                          message:
+                              'Are you sure you want to delete this price list?',
+                          okLabel: 'Yes, delete',
+                          isDestructiveAction: true,
+                        );
+                        if (confirmDelete == OkCancelResult.ok &&
+                            context.mounted) {
+                          pricingCrudBloc.add(PricingCrudEvent.delete(id));
+                        }
+                        return;
+                    }
+                  });
+                },
+                icon: const Icon(Icons.more_horiz))
+          ],
+        ),
+        body: SafeArea(
+          child: SmartRefresher(
+            controller: refreshController,
+            onRefresh: () {
+              _loadPage(0);
+              priceListBloc.add(PricingCrudEvent.load(id));
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
+                    bloc: pricingCrudBloc,
+                    builder: (context, state) => state.maybeMap(
+                      pricingList: (_) => PriceListDetailsTile(_.priceList),
+                      loading: (_) => PriceListDetailsTile(widget.priceList,
+                          shimmer: true),
+                      orElse: () => const SizedBox.shrink(),
                     ),
                   ),
-                  PagedSliverList.separated(
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 0, indent: 16),
-                    pagingController: pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<Product>(
-                      animateTransitions: true,
-                      itemBuilder: (context, product, index) =>
-                          PriceListProductTile(
-                        product,
-                        onEditPricesTap: () async {
-                          await context
-                              .pushRoute(AddUpdateVariantsPriceRoute(
-                                  product: product,
-                                  prices: priceListBloc.state.mapOrNull(
-                                      pricingList: (state) =>
-                                          state.priceList.prices)))
-                              .then((result) {
-                            if (result is List<MoneyAmount>) {
-                              priceListBloc.add(PricingCrudEvent.updatePrices(
-                                  id,
-                                  UpdatePricesReq(
-                                      prices: result
-                                          .map((e) => MoneyAmount(
-                                              variantId: e.variantId,
-                                              amount: e.amount,
-                                              currencyCode: e.currencyCode))
-                                          .toList())));
-                            }
-                          });
-                        },
-                        onRemoveProductTap: () async {
-                          pricingCrudBloc.add(
-                              PricingCrudEvent.deleteProduct(id, product.id!));
-                          // await controller.deleteProduct(
-                          //     context, product);
-                        },
-                      ),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const PriceListProductsLoadingPage(),
-                      firstPageErrorIndicatorBuilder: (_) =>
-                          PaginationErrorPage(
-                              pagingController: pagingController,
-                              onRetry: () {
-                                pagingController.refresh();
-                                priceListBloc.add(PricingCrudEvent.load(id));
-                              }),
-                      noItemsFoundIndicatorBuilder: (context) {
-                        return Center(
-                            child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('No prices added yet'),
-                            const SizedBox(height: 12.0),
-                            FilledButton(
-                              onPressed: () async {
-                                final pickProductsRes = await addProduct;
-                                if (pickProductsRes is PickProductsRes &&
-                                    context.mounted) {
-                                  final prices = await showBarModalBottomSheet(
-                                    context: context,
-                                    backgroundColor:
-                                        context.theme.scaffoldBackgroundColor,
-                                    enableDrag: false,
-                                    overlayStyle: context
-                                        .theme.appBarTheme.systemOverlayStyle,
-                                    builder: (context) => PriceListAddProducts(
-                                        pickProductsRes.selectedProducts),
-                                  );
-                                  if (prices is List<MoneyAmount> &&
-                                      context.mounted) {
-                                    // await controller.addPrices(
-                                    //     context, prices);
-                                  }
-                                }
-                              },
-                              child: const Text('Add Products'),
-                            ),
-                          ],
-                        ));
+                ),
+                PagedSliverList.separated(
+                  separatorBuilder: (_, __) =>
+                      const Divider(height: 0, indent: 16),
+                  pagingController: pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Product>(
+                    animateTransitions: true,
+                    itemBuilder: (context, product, index) =>
+                        PriceListProductTile(
+                      product,
+                      onEditPricesTap: () async {
+                        await context
+                            .pushRoute(AddUpdateVariantsPriceRoute(
+                                product: product,
+                                prices: priceListBloc.state.mapOrNull(
+                                    pricingList: (state) =>
+                                        state.priceList.prices)))
+                            .then((result) {
+                          if (result is List<MoneyAmount>) {
+                            priceListBloc.add(PricingCrudEvent.updatePrices(
+                                id,
+                                UpdatePricesReq(
+                                    prices: result
+                                        .map((e) => MoneyAmount(
+                                            variantId: e.variantId,
+                                            amount: e.amount,
+                                            currencyCode: e.currencyCode))
+                                        .toList())));
+                          }
+                        });
+                      },
+                      onRemoveProductTap: () async {
+                        pricingCrudBloc.add(
+                            PricingCrudEvent.deleteProduct(id, product.id!));
+                        // await controller.deleteProduct(
+                        //     context, product);
                       },
                     ),
+                    firstPageProgressIndicatorBuilder: (context) =>
+                        const PriceListProductsLoadingPage(),
+                    firstPageErrorIndicatorBuilder: (_) =>
+                        PaginationErrorPage(
+                            pagingController: pagingController,
+                            onRetry: () {
+                              pagingController.refresh();
+                              priceListBloc.add(PricingCrudEvent.load(id));
+                            }),
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Center(
+                          child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('No prices added yet'),
+                          const SizedBox(height: 12.0),
+                          FilledButton(
+                            onPressed: () async {
+                              final pickProductsRes = await addProduct;
+                              if (pickProductsRes is PickProductsRes &&
+                                  context.mounted) {
+                                final prices = await showBarModalBottomSheet(
+                                  context: context,
+                                  backgroundColor:
+                                      context.theme.scaffoldBackgroundColor,
+                                  enableDrag: false,
+                                  overlayStyle: context
+                                      .theme.appBarTheme.systemOverlayStyle,
+                                  builder: (context) => PriceListAddProducts(
+                                      pickProductsRes.selectedProducts),
+                                );
+                                if (prices is List<MoneyAmount> &&
+                                    context.mounted) {
+                                  // await controller.addPrices(
+                                  //     context, prices);
+                                }
+                              }
+                            },
+                            child: const Text('Add Products'),
+                          ),
+                        ],
+                      ));
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

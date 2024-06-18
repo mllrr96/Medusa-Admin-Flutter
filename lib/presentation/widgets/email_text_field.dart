@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
-import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class EmailTextField extends StatelessWidget {
@@ -36,45 +33,8 @@ class EmailTextField extends StatelessWidget {
       readOnly: readOnly,
       prefix: const Icon(LucideIcons.mail),
       placeholder: Text(context.tr.loginCardEmail),
-
       // hintText: context.tr.loginCardEmail,
       // prefixIcon: const Icon(Icons.mail),
-    );
-    const manatee = ColorManager.manatee;
-    final mediumTextStyle = context.bodyMedium;
-    final tr = context.tr;
-    const border = OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.transparent),
-        borderRadius: BorderRadius.all(Radius.circular(4)));
-    return TextFormField(
-      readOnly: readOnly ,
-      controller: controller,
-      onChanged: onChanged,
-      enabled: enabled,
-      onFieldSubmitted: onSubmitted,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: textInputAction,
-      style: mediumTextStyle,
-      validator: validator,
-      decoration: InputDecoration(
-          filled: true,
-          fillColor: context.theme.appBarTheme.backgroundColor,
-          border: border,
-          enabledBorder: border,
-          hintText: tr.loginCardEmail,
-          contentPadding: EdgeInsets.zero,
-          prefixIcon: const IntrinsicHeight(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(width: 16.0),
-                Icon(Icons.mail, color: manatee),
-                SizedBox(width: 12.0),
-                VerticalDivider(indent: 10, endIndent: 10),
-                SizedBox(width: 12.0),
-              ],
-            ),
-          )),
     );
   }
 }
