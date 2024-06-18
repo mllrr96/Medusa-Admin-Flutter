@@ -50,7 +50,7 @@ class _SplashViewState extends State<SplashView> {
             context.router.replaceAll([SignInRoute()]);
           },
           error: (error) {
-            context.showSignInErrorSnackBar(error.failure.toSnackBarString());
+            // context.showSignInErrorSnackBar(error.failure.toSnackBarString());
             context.router.replaceAll([SignInRoute()]);
           },
         );

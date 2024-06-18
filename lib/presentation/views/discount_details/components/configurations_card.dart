@@ -8,18 +8,59 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 
 class ConfigurationsCard extends StatelessWidget {
-  const ConfigurationsCard(this.discount, {super.key});
+  const ConfigurationsCard(this.discount, {super.key, this.shadStyle = false});
   final Discount discount;
+  final bool shadStyle;
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
     const space = Gap(12);
     const halfSpace = Gap(6);
-
+    if(shadStyle){
+      return ShadCard(
+        title: const Text('Configurations'),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (discount.startsAt != null)
+              DateTimeCard(
+                validator: (date){
+                  if(date == null){
+                    return 'Please select a date';
+                  }
+                  return null;
+                },
+                dateTime: discount.startsAt,
+                dateText: 'Start',
+                dateTimeTextStyle: mediumTextStyle,
+                dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
+                borderColor: Colors.transparent,
+              ),
+            space,
+            if (discount.endsAt != null)
+              DateTimeCard(
+                validator: (date){
+                  if(date == null){
+                    return 'Please select a date';
+                  }
+                  return null;
+                },
+                dateTime: discount.endsAt,
+                dateText: 'Expiry',
+                dateTimeTextStyle: mediumTextStyle?.copyWith(color: discount.isExpired ? Colors.redAccent : null),
+                dateTextStyle: mediumTextStyle?.copyWith(color: manatee),
+                borderColor: Colors.transparent,
+              ),
+            if (discount.endsAt != null) space,
+          ],
+        ),
+      );
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import '../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
+
 class DiscountRuleTypeLabel extends StatelessWidget {
-  const DiscountRuleTypeLabel({super.key, required this.discount});
+  const DiscountRuleTypeLabel(
+      {super.key, required this.discount, this.shadStyle = false});
   final Discount discount;
+  final bool shadStyle;
   @override
   Widget build(BuildContext context) {
     Color containerColor = ColorManager.primary.withOpacity(0.17);
@@ -17,7 +21,9 @@ class DiscountRuleTypeLabel extends StatelessWidget {
       case DiscountRuleType.fixed:
         containerColor = Colors.orangeAccent.withOpacity(0.17);
         textColor = Colors.orangeAccent;
-        text = discount.rule?.value.formatAsPrice(discount.regions?.firstOrNull?.currencyCode) ?? '';
+        text = discount.rule?.value
+                .formatAsPrice(discount.regions?.firstOrNull?.currencyCode) ??
+            '';
         break;
       case DiscountRuleType.percentage:
         containerColor = Colors.blueAccent.withOpacity(0.17);
@@ -29,6 +35,14 @@ class DiscountRuleTypeLabel extends StatelessWidget {
         textColor = Colors.green;
         text = 'Free shipping';
         break;
+    }
+    if (shadStyle) {
+      return ShadBadge(
+          text: Text(
+            text,
+            style: TextStyle(color: textColor),
+          ),
+          backgroundColor: containerColor);
     }
 
     return Container(

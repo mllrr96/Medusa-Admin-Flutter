@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +30,60 @@ class ShadDrawer extends StatefulWidget {
 }
 
 class _ShadDrawerState extends State<ShadDrawer> {
+  Widget _buildShadButton({
+    required String text,
+    required IconData icon,
+    required int index,
+    required bool isSelected,
+    void Function()? onPressed,
+  }) {
+    if (!isSelected) {
+      return ShadButton.secondary(
+        height: 56,
+        onPressed: onPressed,
+        text: Text(text),
+        icon: Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: Icon(
+            icon,
+            size: 16,
+          ),
+        ),
+      );
+    }
+    return ShadButton(
+      height: 56,
+      onPressed: () {
+        context.tabsRouter.setActiveIndex(0);
+        context.closeDrawer();
+      },
+      text: Text(text),
+      icon: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Icon(
+          icon,
+          size: 16,
+        ),
+      ),
+    );
+  }
+
+  final Map<String, (int, IconData)> _drawerItems = {
+    'Orders': (0, CupertinoIcons.cart),
+    'Draft Orders': (1, CupertinoIcons.cart_badge_plus),
+    'Products': (2, MedusaIcons.tag),
+    'Collections': (3, Icons.collections_bookmark),
+    'Categories': (4, MedusaIcons.tag),
+    'Customers': (5, Icons.person),
+    'Customer Groups': (6, Icons.groups),
+    'Discounts': (7, Icons.discount_outlined),
+    'Gift Cards': (8, CupertinoIcons.gift),
+    'Pricing': (9, MedusaIcons.currency_dollar),
+    'Store Settings': (10, Icons.settings_applications),
+    'App Settings': (11, CupertinoIcons.settings),
+    'Sign Out': (12, Icons.logout),
+  };
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -38,269 +91,6 @@ class _ShadDrawerState extends State<ShadDrawer> {
     final packageInfo = PreferenceService.packageInfo;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
-    final divider = Container(
-        color: context.theme.navigationDrawerTheme.backgroundColor,
-        child: const Divider(indent: 28, endIndent: 28));
-    List<Widget> items = [
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.cart),
-        label: Text('Orders'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.cart_badge_plus),
-        label: Text('Draft Orders'),
-      ),
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Products'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.collections_bookmark),
-        label: Text('Collections'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.tag),
-        label: Text('Categories'),
-      ),
-      // space,
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.person),
-        label: Text('Customers'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.groups),
-        label: Text('Customer Groups'),
-      ),
-      // space,
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.discount_outlined),
-        label: Text('Discounts'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.gift),
-        label: Text('Gift Cards'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(MedusaIcons.currency_dollar),
-        label: Text('Pricing'),
-      ),
-      // space,
-      divider,
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.settings_applications),
-        label: Text('Store Settings'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(CupertinoIcons.settings),
-        label: Text('App Settings'),
-      ),
-      const NavigationDrawerDestination(
-        icon: Icon(Icons.logout, color: Colors.red),
-        label: Text('Sign Out'),
-      ),
-    ];
-    List<Widget> shadItems = [
-      ShadButton(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(0);
-          context.closeDrawer();
-        },
-        text: const Text('Orders'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            CupertinoIcons.cart,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(1);
-          context.closeDrawer();
-        },
-        text: const Text('Draft Orders'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            CupertinoIcons.cart_badge_plus,
-            size: 16,
-          ),
-        ),
-      ),
-      divider,
-      ShadButton.secondary(
-        size: ShadButtonSize.lg,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(2);
-          context.closeDrawer();
-        },
-        text: const Text('Products'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            MedusaIcons.tag,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(3);
-          context.closeDrawer();
-        },
-        text: const Text('Collections'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.collections_bookmark,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(4);
-          context.closeDrawer();
-        },
-        text: const Text('Categories'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            MedusaIcons.tag,
-            size: 16,
-          ),
-        ),
-      ),
-      divider,
-      ShadButton.secondary(
-        padding: EdgeInsets.zero,
-        size: ShadButtonSize.lg,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(5);
-          context.closeDrawer();
-        },
-        text: const Text('Customers'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.person,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(6);
-          context.closeDrawer();
-        },
-        text: const Text('Customer Groups'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.groups,
-            size: 16,
-          ),
-        ),
-      ),
-      divider,
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(7);
-          context.closeDrawer();
-        },
-        text: const Text('Discounts'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.discount_outlined,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(8);
-          context.closeDrawer();
-        },
-        text: const Text('Gift Cards'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            CupertinoIcons.gift,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(9);
-          context.closeDrawer();
-        },
-        text: const Text('Pricing'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            MedusaIcons.currency_dollar,
-            size: 16,
-          ),
-        ),
-      ),
-      divider,
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(10);
-          context.closeDrawer();
-        },
-        text: const Text('Store Settings'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.settings_applications,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.secondary(
-        height: 56,
-        onPressed: () {
-          context.tabsRouter.setActiveIndex(11);
-          context.closeDrawer();
-        },
-        text: const Text('App Settings'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            CupertinoIcons.settings,
-            size: 16,
-          ),
-        ),
-      ),
-      ShadButton.destructive(
-        height: 56,
-        onPressed: () async => await signOut(),
-        text: const Text('Sign Out'),
-        icon: const Padding(
-          padding: EdgeInsets.only(right: 8),
-          child: Icon(
-            Icons.logout,
-            size: 16,
-          ),
-        ),
-      ),
-    ];
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -334,48 +124,37 @@ class _ShadDrawerState extends State<ShadDrawer> {
           },
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BlocBuilder<ThemeCubit, ThemeState>(
-                        builder: (context, state) {
-                          return ShadButton.outline(
-                            size: ShadButtonSize.icon,
-                            onPressed: () => context
-                                .read<ThemeCubit>()
-                                .updateThemeState(
-                                    themeMode: state.themeMode.next),
-                            icon: Icon(state.themeMode.icon),
-                          );
-                        },
-                      ),
-                      BlocBuilder<StoreBloc, StoreState>(
-                        builder: (context, state) {
-                          final storeName =
-                              state.mapOrNull(loaded: (_) => _.store.name);
-                          return Flexible(
-                            child: Text(storeName ?? '',
-                                style: context.bodyLarge,
-                                overflow: TextOverflow.ellipsis),
-                          );
-                        },
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: SizedBox(),
-                      ),
-                    ],
-                  ),
+                BlocBuilder<ThemeCubit, ThemeState>(
+                  builder: (context, state) {
+                    return ShadButton.outline(
+                      size: ShadButtonSize.icon,
+                      onPressed: () => context
+                          .read<ThemeCubit>()
+                          .updateThemeState(
+                              themeMode: state.themeMode.next),
+                      icon: Icon(state.themeMode.icon, size: 16.0,),
+                    );
+                  },
                 ),
-                const Gap(5.0),
+                BlocBuilder<StoreBloc, StoreState>(
+                  builder: (context, state) {
+                    final storeName =
+                        state.mapOrNull(loaded: (_) => _.store.name);
+                    return Flexible(
+                      child: Text(storeName ?? '',
+                          style: context.bodyLarge,
+                          overflow: TextOverflow.ellipsis),
+                    );
+                  },
+                ),
                 ShadButton.outline(
                   icon: const Badge(
                       smallSize: 8,
                       backgroundColor: Colors.red,
                       alignment: Alignment.topRight,
-                      child: Icon(Icons.notifications_outlined)),
+                      child: Icon(Icons.notifications_outlined,size: 16.0,)),
                   size: ShadButtonSize.icon,
                   onPressed: () => context.pushRoute(const ActivityRoute()),
                 ),
@@ -418,14 +197,31 @@ class _ShadDrawerState extends State<ShadDrawer> {
               },
             ),
             const Gap(5),
-            ...shadItems,
+            // ...shadItems,
+            ..._drawerItems.entries.map((item) {
+              final name = item.key;
+              final tuple = item.value;
+              return _buildShadButton(
+                  text: name,
+                  icon: tuple.$2,
+                  index: tuple.$1,
+                  isSelected: context.tabsRouter.activeIndex == tuple.$1,
+                  onPressed: () async {
+                    if (tuple.$1 == 12) {
+                      await signOut();
+                      return;
+                    }
+                    context.tabsRouter.setActiveIndex(tuple.$1);
+                    context.closeDrawer();
+                  });
+            }),
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
               child: Row(
                 children: [
                   Expanded(
                     child: ShadButton(
-                      height : 56,
+                      height: 56,
                       onPressed: () => _showAppAboutDialog(context),
                       text: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -734,21 +530,41 @@ class _ShadDrawerState extends State<ShadDrawer> {
   }
 
   Future<void> signOut() async {
-    await showOkCancelAlertDialog(
-            context: context,
-            title: 'Sign out',
-            message: 'Are you sure you want to sign out?',
-            okLabel: 'Sign Out',
-            isDestructiveAction: true)
-        .then(
-      (value) async {
-        if (value == OkCancelResult.ok) {
-          context
-              .read<AuthenticationBloc>()
-              .add(const AuthenticationEvent.logOut());
-        }
-      },
+    await showShadDialog(
+      context: context,
+      variant: ShadDialogVariant.alert,
+      builder: (context) => ShadDialog.alert(
+        title: const Text('Sign Out'),
+        description: const Text('Are you sure you want to sign out?'),
+        actions: [
+          ShadButton.outline(
+            text: const Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          ShadButton(
+            text: const Text('Sign Out'),
+            onPressed: () => context
+                .read<AuthenticationBloc>()
+                .add(const AuthenticationEvent.logOut()),
+          ),
+        ],
+      ),
     );
+    // await showOkCancelAlertDialog(
+    //         context: context,
+    //         title: 'Sign out',
+    //         message: 'Are you sure you want to sign out?',
+    //         okLabel: 'Sign Out',
+    //         isDestructiveAction: true)
+    //     .then(
+    //   (value) async {
+    //     if (value == OkCancelResult.ok) {
+    //       context
+    //           .read<AuthenticationBloc>()
+    //           .add(const AuthenticationEvent.logOut());
+    //     }
+    //   },
+    // );
   }
 }
 

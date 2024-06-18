@@ -24,6 +24,7 @@ import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/language_selection/language_selection_view.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
+import 'package:medusa_admin/presentation/widgets/shad_drawer_widget.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../core/utils/enums.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
@@ -60,7 +61,7 @@ class _AppSettingsViewState extends State<AppSettingsView> {
     final tr = context.tr;
     return Scaffold(
       // appBar: AppBar(title: const Text('App Settings')),
-      drawer: const AppDrawer(),
+      drawer: const ShadDrawer(),
       drawerEdgeDragWidth: context.drawerEdgeDragWidth,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [

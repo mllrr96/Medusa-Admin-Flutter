@@ -11,13 +11,12 @@ import '../../../../core/constant/colors.dart';
 import '../../../../core/utils/medusa_icons_icons.dart';
 
 class DiscountDetailsFab extends StatelessWidget {
-  const DiscountDetailsFab(this.discountCrudBloc,
-      {super.key, this.expandableStyle = true});
+  const DiscountDetailsFab({super.key, this.expandableStyle = true});
   final bool expandableStyle;
-  final DiscountCrudBloc discountCrudBloc;
 
   @override
   Widget build(BuildContext context) {
+    final discountCrudBloc = context.read<DiscountCrudBloc>();
     final smallTextStyle = context.bodySmall;
     onDeleteTap(String id) async {
       await showOkCancelAlertDialog(

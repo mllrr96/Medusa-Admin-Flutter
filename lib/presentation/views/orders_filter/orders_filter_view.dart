@@ -74,8 +74,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   }
 
   final Widget disabledApplyButton = const ShadButton.ghost(
-      size: ShadButtonSize.lg,
-      onPressed: null, text: Text('Apply'));
+      size: ShadButtonSize.lg, onPressed: null, text: Text('Apply'));
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +94,13 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
               title: const Text('Orders Filter'),
             ),
             bottomNavigationBar: Container(
-                padding: EdgeInsets.fromLTRB(12, 0, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 12),
+                padding: EdgeInsets.fromLTRB(
+                    12,
+                    0,
+                    12,
+                    context.bottomViewPadding != 0
+                        ? context.bottomViewPadding
+                        : 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -107,33 +112,30 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     const Gap(8.0),
                     state.maybeMap(
                         loaded: (state) => ShadButton(
-                          size: ShadButtonSize.lg,
+                            size: ShadButtonSize.lg,
                             onPressed: () {
                               if (orderFilter.orderDateFilter.active &&
                                   !formKey.currentState!.validate()) {
                                 return;
                               }
-                              final filterType = orderFilter
-                                  .orderDateFilter.dateFilterType;
+                              final filterType =
+                                  orderFilter.orderDateFilter.dateFilterType;
                               final dateType =
                                   orderFilter.orderDateFilter.dateType;
-                              if (filterType ==
-                                      DateFilterType.isInTheLast ||
-                                  filterType ==
-                                      DateFilterType.isOlderThan) {
-                                final count =
-                                    int.tryParse(numberCtrl.text);
+                              if (filterType == DateFilterType.isInTheLast ||
+                                  filterType == DateFilterType.isOlderThan) {
+                                final count = int.tryParse(numberCtrl.text);
                                 if (count != null) {
                                   final now = DateTime.now();
                                   DateTime date;
                                   switch (dateType) {
                                     case DateType.day:
-                                      date = now.subtract(
-                                          Duration(days: count));
+                                      date =
+                                          now.subtract(Duration(days: count));
                                       break;
                                     case DateType.month:
-                                      date = now.subtract(
-                                          Duration(days: count * 30));
+                                      date = now
+                                          .subtract(Duration(days: count * 30));
                                       break;
                                   }
                                   orderFilter.orderDateFilter.date = date;
@@ -163,34 +165,40 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                         EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                     child: Skeletonizer(
                       enabled: true,
-                      child: Column(
-                        children: [
-                          FlexExpansionTile(
-                            title: Text('Status'),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            title: Text('Payment Status'),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            title: Text('Fulfillment Status'),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            title: Text('Regions'),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            title: Text('Sales Channel'),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            title: Text('Date'),
-                            leading: Icon(Icons.check_box_outline_blank),
-                          ),
-                        ],
-                      ),
+                      child: ShadAccordion<int>.multiple(
+                          maintainState: true,
+                          children: [
+                            ShadAccordionItem(
+                              value: 1,
+                              title: Text('Status'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 2,
+                              title: Text('Payment Status'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 3,
+                              title: Text('Fulfillment Status'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 4,
+                              title: Text('Regions'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 5,
+                              title: Text('Sales Channel'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 6,
+                              title: Text('Date'),
+                              content: SizedBox.shrink(),
+                            ),
+                          ]),
                     ),
                   ),
                   loaded: (_) {
@@ -201,188 +209,154 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           horizontal: 12.0, vertical: 10),
                       child: Column(
                         children: [
-                          FlexExpansionTile(
-                            key: statusKey,
-                            title: const Text('Status'),
-                            initiallyExpanded: orderFilter.status.isNotEmpty,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await statusKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            child: Column(
-                              children: OrderStatus.values
-                                  .map((e) => CheckboxListTile(
-                                      title: Text(e.toString(),
-                                          style: smallTextStyle),
-                                      value: orderFilter.status.contains(e),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      contentPadding: EdgeInsets.zero,
+                          ShadAccordion<
+                              int>.multiple(maintainState: true, children: [
+                            ShadAccordionItem(
+                              value: 1,
+                              title: const Text('Status'),
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: OrderStatus.values
+                                    .map((e) => ShadCheckbox(
+                                        label: Text(e.toString()),
+                                        value: orderFilter.status.contains(e),
+                                        onChanged: (val) {
+                                          if (val) {
+                                            orderFilter.status.add(e);
+                                          } else {
+                                            orderFilter.status.remove(e);
+                                          }
+                                          setState(() {});
+                                        }))
+                                    .toList(),
+                              ),
+                            ),
+                            ShadAccordionItem(
+                              value: 2,
+                              title: const Text('Payment Status'),
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: PaymentStatus.values
+                                    .map((e) => ShadCheckbox(
+                                        label: Text(e.toString()),
+                                        value: orderFilter.paymentStatus
+                                            .contains(e),
+                                        onChanged: (val) {
+                                          if (val) {
+                                            orderFilter.paymentStatus.add(e);
+                                          } else {
+                                            orderFilter.paymentStatus.remove(e);
+                                          }
+                                          setState(() {});
+                                        }))
+                                    .toList(),
+                              ),
+                            ),
+                            ShadAccordionItem(
+                              value: 3,
+                              title: const Text('Fulfillment Status'),
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: FulfillmentStatus.values
+                                    .map((e) => ShadCheckbox(
+                                  // size: 30,
+                                        label: Text(e.toString()),
+                                        value: orderFilter.fulfillmentStatus
+                                            .contains(e),
+                                        onChanged: (val) {
+                                          if (val) {
+                                            orderFilter.fulfillmentStatus
+                                                .add(e);
+                                          } else {
+                                            orderFilter.fulfillmentStatus
+                                                .remove(e);
+                                          }
+                                          setState(() {});
+                                        }))
+                                    .toList(),
+                              ),
+                            ),
+                            ShadAccordionItem(
+                              value: 4,
+                              title: const Text('Regions'),
+                              content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                if (regions.isNotEmpty)
+                                  ...regions.map((e) => ShadCheckbox(
+                                      label: Text(e.name ?? ''),
+                                      value: orderFilter.regions
+                                          .map((e) => e.id)
+                                          .contains(e.id),
                                       onChanged: (val) {
-                                        if (val == null) {
-                                          return;
-                                        }
                                         if (val) {
-                                          orderFilter.status.add(e);
+                                          orderFilter.regions.add(e);
                                         } else {
-                                          orderFilter.status.remove(e);
+                                          orderFilter.regions.removeWhere(
+                                              (element) => element.id == e.id);
+                                        }
+                                        setState(() {});
+                                      })),
+                              ]),
+                            ),
+                            ShadAccordionItem(
+                              value: 5,
+                              title: const Text('Sales Channel'),
+                              content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                if (salesChannels.isNotEmpty)
+                                  ...salesChannels.map((e) => ShadCheckbox(
+                                      label: Text(e.name ?? ''),
+                                      value: orderFilter.salesChannel
+                                          .map((e) => e.id)
+                                          .contains(e.id),
+                                      onChanged: (val) {
+                                        if (val) {
+                                          orderFilter.salesChannel.add(e);
+                                        } else {
+                                          orderFilter.salesChannel.removeWhere(
+                                              (element) => element.id == e.id);
                                         }
                                         setState(() {});
                                       }))
-                                  .toList(),
+                              ]),
                             ),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            key: paymentStatusKey,
-                            initiallyExpanded:
-                                orderFilter.paymentStatus.isNotEmpty,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await paymentStatusKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            title: const Text('Payment Status'),
-                            child: Column(
-                              children: PaymentStatus.values
-                                  .map((e) => CheckboxListTile(
-                                      title: Text(e.toString(),
-                                          style: smallTextStyle),
-                                      value:
-                                          orderFilter.paymentStatus.contains(e),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      contentPadding: EdgeInsets.zero,
-                                      onChanged: (val) {
-                                        if (val == null) {
-                                          return;
-                                        }
-                                        if (val) {
-                                          orderFilter.paymentStatus.add(e);
-                                        } else {
-                                          orderFilter.paymentStatus.remove(e);
-                                        }
-                                        setState(() {});
-                                      }))
-                                  .toList(),
+                            ShadAccordionItem(
+                              value: 6,
+                              title: const Text('Date'),
+                              content: Column(
+                                children: [
+                                  DropdownButtonFormField<DateFilterType>(
+                                    style: context.bodyMedium,
+                                    isDense: true,
+                                    value: orderFilter
+                                        .orderDateFilter.dateFilterType,
+                                    onChanged: (type) {
+                                      if (type != null) {
+                                        setState(() {
+                                          orderFilter.orderDateFilter
+                                              .dateFilterType = type;
+                                          if (!orderFilter
+                                              .orderDateFilter.active) {
+                                            orderFilter.orderDateFilter.active =
+                                                true;
+                                          }
+                                        });
+                                      }
+                                    },
+                                    items: DateFilterType.values
+                                        .map((e) =>
+                                            DropdownMenuItem<DateFilterType>(
+                                                value: e,
+                                                child: Text(e.name())))
+                                        .toList(),
+                                  ),
+                                  space,
+                                ],
+                              ),
                             ),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            key: fulfillmentStatusKey,
-                            initiallyExpanded:
-                                orderFilter.fulfillmentStatus.isNotEmpty,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await fulfillmentStatusKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            title: const Text('Fulfillment Status'),
-                            child: Column(
-                              children: FulfillmentStatus.values
-                                  .map((e) => CheckboxListTile(
-                                      title: Text(e.toString(),
-                                          style: smallTextStyle),
-                                      value: orderFilter.fulfillmentStatus
-                                          .contains(e),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      contentPadding: EdgeInsets.zero,
-                                      onChanged: (val) {
-                                        if (val == null) {
-                                          return;
-                                        }
-                                        if (val) {
-                                          orderFilter.fulfillmentStatus.add(e);
-                                        } else {
-                                          orderFilter.fulfillmentStatus
-                                              .remove(e);
-                                        }
-                                        setState(() {});
-                                      }))
-                                  .toList(),
-                            ),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            key: regionsKey,
-                            initiallyExpanded: orderFilter.regions.isNotEmpty,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await regionsKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            title: const Text('Regions'),
-                            child: Column(children: [
-                              if (regions.isNotEmpty)
-                                ...regions.map((e) => CheckboxListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    contentPadding: EdgeInsets.zero,
-                                    title: Text(e.name ?? '',
-                                        style: smallTextStyle),
-                                    value: orderFilter.regions
-                                        .map((e) => e.id)
-                                        .contains(e.id),
-                                    onChanged: (val) {
-                                      if (val == null) {
-                                        return;
-                                      }
-
-                                      if (val) {
-                                        orderFilter.regions.add(e);
-                                      } else {
-                                        orderFilter.regions.removeWhere(
-                                            (element) => element.id == e.id);
-                                      }
-                                      setState(() {});
-                                    })),
-                            ]),
-                          ),
-                          space,
-                          FlexExpansionTile(
-                            key: salesChannelKey,
-                            initiallyExpanded:
-                                orderFilter.salesChannel.isNotEmpty,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await salesChannelKey.currentContext
-                                    .ensureVisibility();
-                              }
-                            },
-                            title: const Text('Sales Channel'),
-                            child: Column(children: [
-                              if (salesChannels.isNotEmpty)
-                                ...salesChannels.map((e) => CheckboxListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    contentPadding: EdgeInsets.zero,
-                                    title: Text(e.name ?? '',
-                                        style: smallTextStyle),
-                                    value: orderFilter.salesChannel
-                                        .map((e) => e.id)
-                                        .contains(e.id),
-                                    onChanged: (val) {
-                                      if (val == null) {
-                                        return;
-                                      }
-
-                                      if (val) {
-                                        orderFilter.salesChannel.add(e);
-                                      } else {
-                                        orderFilter.salesChannel.removeWhere(
-                                            (element) => element.id == e.id);
-                                      }
-                                      setState(() {});
-                                    }))
-                            ]),
-                          ),
-                          space,
+                          ]),
                           FlexExpansionTile(
                             key: dateKey,
                             initiallyExpanded:
@@ -519,11 +493,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                           }
                                         },
                                         items: DateType.values
-                                            .map((e) =>
-                                                DropdownMenuItem<DateType>(
-                                                    value: e,
-                                                    child: Text(
-                                                        e.name.capitalize)))
+                                            .map((e) => DropdownMenuItem<
+                                                    DateType>(
+                                                value: e,
+                                                child: Text(e.name.capitalize)))
                                             .toList(),
                                       ),
                                     ),
@@ -547,11 +520,10 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                       dateText: null,
                                       dateTimeTextStyle: smallTextStyle,
                                       onTap: () async {
-                                        final result =
-                                            await context.adaptiveDateTimePicker(
-                                                date:
-                                                    orderFilter
-                                                        .orderDateFilter.date,
+                                        final result = await context
+                                            .adaptiveDateTimePicker(
+                                                date: orderFilter
+                                                    .orderDateFilter.date,
                                                 pickerMode:
                                                     CupertinoDatePickerMode
                                                         .date);

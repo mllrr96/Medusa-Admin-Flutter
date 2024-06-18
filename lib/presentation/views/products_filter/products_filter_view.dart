@@ -7,8 +7,8 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/cubits/products_filter/products_filter_cubit.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
 class ProductsFilterView extends StatefulWidget {
@@ -38,13 +38,12 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   final statusKey = GlobalKey();
   final collectionKey = GlobalKey();
   final tagsKey = GlobalKey();
-  static const Widget disabledApplyButton = Expanded(
-      flex: 4, child: FilledButton(onPressed: null, child: Text('Apply')));
+  final Widget disabledApplyButton = const ShadButton.ghost(
+      size: ShadButtonSize.lg, onPressed: null, text: Text('Apply'));
 
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
-    const space = Gap(12);
     return BlocConsumer<ProductsFilterCubit, ProductsFilterState>(
       listener: (context, state) {
         state.mapOrNull(
@@ -58,24 +57,29 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
             title: const Text('Products Filter'),
           ),
           bottomNavigationBar: Padding(
-              padding: EdgeInsets.fromLTRB(12, 0, 12, context.bottomViewPadding != 0 ? context.bottomViewPadding : 12),
+              padding: EdgeInsets.fromLTRB(
+                  12,
+                  0,
+                  12,
+                  context.bottomViewPadding != 0
+                      ? context.bottomViewPadding
+                      : 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  OutlinedButton(
+                  ShadButton.secondary(
+                    size: ShadButtonSize.lg,
                     onPressed: widget.onResetPressed,
-                    child: const Text('Reset'),
+                    text: const Text('Reset'),
                   ),
                   const Gap(8.0),
                   state.maybeMap(
-                    loaded: (_) => Expanded(
-                      flex: 4,
-                      child: FilledButton(
-                          onPressed: () {
-                            widget.onSubmitted?.call(productFilter);
-                          },
-                          child: const Text('Apply')),
-                    ),
+                    loaded: (_) => ShadButton(
+                        size: ShadButtonSize.lg,
+                        onPressed: () {
+                          widget.onSubmitted?.call(productFilter);
+                        },
+                        text: const Text('Apply')),
                     orElse: () => disabledApplyButton,
                   ),
                 ],
@@ -92,20 +96,27 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                   initial: (_) => const SizedBox(),
                   loading: (_) => const Skeletonizer(
                     enabled: true,
-                    child: Column(
-                      children: [
-                        FlexExpansionTile(
-                          title: Text('Status'),
-                        ),
-                        space,
-                        FlexExpansionTile(
-                          title: Text('Collections'),
-                        ),
-                        space,
-                        FlexExpansionTile(
-                          title: Text('Tags'),
-                        ),
-                      ],
+                    child: Skeletonizer(
+                      enabled: true,
+                      child: ShadAccordion<int>.multiple(
+                          maintainState: true,
+                          children: [
+                            ShadAccordionItem(
+                              value: 1,
+                              title: Text('Status'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 2,
+                              title: Text('Collections'),
+                              content: SizedBox.shrink(),
+                            ),
+                            ShadAccordionItem(
+                              value: 3,
+                              title: Text('Tags'),
+                              content: SizedBox.shrink(),
+                            ),
+                          ]),
                     ),
                   ),
                   loaded: (_) {
@@ -113,120 +124,203 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                     final tags = _.tags;
                     return Column(
                       children: [
-                        FlexExpansionTile(
-                          key: statusKey,
-                          title: const Text('Status'),
-                          initiallyExpanded: productFilter.status.isNotEmpty,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await statusKey.currentContext.ensureVisibility();
-                            }
-                          },
-                          child: Column(
-                            children: ProductStatus.values
-                                .map((e) => CheckboxListTile(
-                                      title: Text(e.name.capitalize,
-                                          style: smallTextStyle),
-                                      value: productFilter.status.contains(e),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      contentPadding: EdgeInsets.zero,
-                                      onChanged: (bool? value) {
-                                        if (value == null) {
-                                          return;
-                                        }
-
-                                        if (value) {
-                                          productFilter.status.add(e);
-                                        } else {
-                                          productFilter.status.remove(e);
-                                        }
-                                        setState(() {});
-                                      },
-                                    ))
-                                .toList(),
+                        ShadAccordion<
+                            int>.multiple(maintainState: true, children: [
+                          ShadAccordionItem(
+                            value: 1,
+                            title: const Text('Status'),
+                            content: Column(
+                              children: ProductStatus.values
+                                  .map((e) => ShadCheckbox(
+                                        label: Text(e.name.capitalize,
+                                            style: smallTextStyle),
+                                        value: productFilter.status.contains(e),
+                                        onChanged: (bool value) {
+                                          if (value) {
+                                            productFilter.status.add(e);
+                                          } else {
+                                            productFilter.status.remove(e);
+                                          }
+                                          setState(() {});
+                                        },
+                                      ))
+                                  .toList(),
+                            ),
                           ),
-                        ),
-                        space,
-                        FlexExpansionTile(
-                          key: collectionKey,
-                          title: const Text('Collections'),
-                          initiallyExpanded:
-                              productFilter.collection.isNotEmpty,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await collectionKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              if (collections.isNotEmpty)
-                                ...collections.map((e) => CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      contentPadding: EdgeInsets.zero,
-                                      value: productFilter.collection
-                                          .map((e) => e.id)
-                                          .toList()
-                                          .contains(e.id),
-                                      onChanged: (val) {
-                                        if (val == null) {
-                                          return;
-                                        }
-                                        if (val) {
-                                          productFilter.collection.add(e);
-                                        } else {
-                                          productFilter.collection.removeWhere(
-                                              (element) => element.id == e.id);
-                                        }
-                                        setState(() {});
-                                      },
-                                      title: Text(e.title ?? '',
-                                          style: smallTextStyle),
-                                    ))
-                            ],
+                          ShadAccordionItem(
+                            value: 2,
+                            title: const Text('Collections'),
+                            content: Column(
+                              children: [
+                                if (collections.isNotEmpty)
+                                  ...collections.map((e) => ShadCheckbox(
+                                        value: productFilter.collection
+                                            .map((e) => e.id)
+                                            .toList()
+                                            .contains(e.id),
+                                        onChanged: (val) {
+                                          if (val) {
+                                            productFilter.collection.add(e);
+                                          } else {
+                                            productFilter.collection
+                                                .removeWhere((element) =>
+                                                    element.id == e.id);
+                                          }
+                                          setState(() {});
+                                        },
+                                        label: Text(e.title ?? '',
+                                            style: smallTextStyle),
+                                      ))
+                              ],
+                            ),
                           ),
-                        ),
-                        space,
-                        FlexExpansionTile(
-                          key: tagsKey,
-                          title: const Text('Tags'),
-                          initiallyExpanded: productFilter.tags.isNotEmpty,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await tagsKey.currentContext.ensureVisibility();
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              if (tags.isNotEmpty)
-                                Wrap(
-                                  alignment: WrapAlignment.start,
-                                  spacing: 6.0,
-                                  children: tags
-                                      .map(
-                                        (e) => ChoiceChip(
-                                          label: Text(e.value ?? '',
-                                              style: smallTextStyle),
-                                          labelStyle: smallTextStyle,
-                                          onSelected: (val) {
-                                            if (val) {
-                                              productFilter.tags.add(e);
-                                            } else {
-                                              productFilter.tags.remove(e);
-                                            }
-                                            setState(() {});
-                                          },
-                                          selected:
-                                              productFilter.tags.contains(e),
-                                        ),
-                                      )
-                                      .toList(),
-                                )
-                            ],
+                          ShadAccordionItem(
+                            value: 3,
+                            title: const Text('Tags'),
+                            content: Column(
+                              children: [
+                                if (tags.isNotEmpty)
+                                  Wrap(
+                                    alignment: WrapAlignment.start,
+                                    spacing: 6.0,
+                                    children: tags
+                                        .map(
+                                          (e) => ChoiceChip(
+                                            label: Text(e.value ?? '',
+                                                style: smallTextStyle),
+                                            labelStyle: smallTextStyle,
+                                            onSelected: (val) {
+                                              if (val) {
+                                                productFilter.tags.add(e);
+                                              } else {
+                                                productFilter.tags.remove(e);
+                                              }
+                                              setState(() {});
+                                            },
+                                            selected:
+                                                productFilter.tags.contains(e),
+                                          ),
+                                        )
+                                        .toList(),
+                                  )
+                              ],
+                            ),
                           ),
-                        ),
+                        ]),
+                        // FlexExpansionTile(
+                        //   key: statusKey,
+                        //   title: const Text('Status'),
+                        //   initiallyExpanded: productFilter.status.isNotEmpty,
+                        //   onExpansionChanged: (expanded) async {
+                        //     if (expanded) {
+                        //       await statusKey.currentContext.ensureVisibility();
+                        //     }
+                        //   },
+                        //   child: Column(
+                        //     children: ProductStatus.values
+                        //         .map((e) => CheckboxListTile(
+                        //               title: Text(e.name.capitalize,
+                        //                   style: smallTextStyle),
+                        //               value: productFilter.status.contains(e),
+                        //               controlAffinity:
+                        //                   ListTileControlAffinity.leading,
+                        //               contentPadding: EdgeInsets.zero,
+                        //               onChanged: (bool? value) {
+                        //                 if (value == null) {
+                        //                   return;
+                        //                 }
+                        //
+                        //                 if (value) {
+                        //                   productFilter.status.add(e);
+                        //                 } else {
+                        //                   productFilter.status.remove(e);
+                        //                 }
+                        //                 setState(() {});
+                        //               },
+                        //             ))
+                        //         .toList(),
+                        //   ),
+                        // ),
+                        // space,
+                        // FlexExpansionTile(
+                        //   key: collectionKey,
+                        //   title: const Text('Collections'),
+                        //   initiallyExpanded:
+                        //       productFilter.collection.isNotEmpty,
+                        //   onExpansionChanged: (expanded) async {
+                        //     if (expanded) {
+                        //       await collectionKey.currentContext
+                        //           .ensureVisibility();
+                        //     }
+                        //   },
+                        //   child: Column(
+                        //     children: [
+                        //       if (collections.isNotEmpty)
+                        //         ...collections.map((e) => CheckboxListTile(
+                        //               controlAffinity:
+                        //                   ListTileControlAffinity.leading,
+                        //               contentPadding: EdgeInsets.zero,
+                        //               value: productFilter.collection
+                        //                   .map((e) => e.id)
+                        //                   .toList()
+                        //                   .contains(e.id),
+                        //               onChanged: (val) {
+                        //                 if (val == null) {
+                        //                   return;
+                        //                 }
+                        //                 if (val) {
+                        //                   productFilter.collection.add(e);
+                        //                 } else {
+                        //                   productFilter.collection.removeWhere(
+                        //                       (element) => element.id == e.id);
+                        //                 }
+                        //                 setState(() {});
+                        //               },
+                        //               title: Text(e.title ?? '',
+                        //                   style: smallTextStyle),
+                        //             ))
+                        //     ],
+                        //   ),
+                        // ),
+                        // space,
+                        // FlexExpansionTile(
+                        //   key: tagsKey,
+                        //   title: const Text('Tags'),
+                        //   initiallyExpanded: productFilter.tags.isNotEmpty,
+                        //   onExpansionChanged: (expanded) async {
+                        //     if (expanded) {
+                        //       await tagsKey.currentContext.ensureVisibility();
+                        //     }
+                        //   },
+                        //   child: Column(
+                        //     children: [
+                        //       if (tags.isNotEmpty)
+                        //         Wrap(
+                        //           alignment: WrapAlignment.start,
+                        //           spacing: 6.0,
+                        //           children: tags
+                        //               .map(
+                        //                 (e) => ChoiceChip(
+                        //                   label: Text(e.value ?? '',
+                        //                       style: smallTextStyle),
+                        //                   labelStyle: smallTextStyle,
+                        //                   onSelected: (val) {
+                        //                     if (val) {
+                        //                       productFilter.tags.add(e);
+                        //                     } else {
+                        //                       productFilter.tags.remove(e);
+                        //                     }
+                        //                     setState(() {});
+                        //                   },
+                        //                   selected:
+                        //                       productFilter.tags.contains(e),
+                        //                 ),
+                        //               )
+                        //               .toList(),
+                        //         )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     );
                   },

@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ConditionCard extends StatelessWidget {
   const ConditionCard(
@@ -114,12 +115,12 @@ class DetailedConditionCard extends StatelessWidget {
         defaultEdit = () {};
         break;
     }
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 3.0),
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-          color: context.theme.scaffoldBackgroundColor),
-      child: Row(
+    return ShadCard(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0 ),
+      // decoration: BoxDecoration(
+      //     borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+      //     color: context.theme.scaffoldBackgroundColor),
+      content: Row(
         children: [
           Container(
             width: 4.0,
@@ -144,8 +145,8 @@ class DetailedConditionCard extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            padding: const EdgeInsets.all(16.0),
+          ShadButton.ghost(
+            size: ShadButtonSize.icon,
               onPressed: () async {
                 await showModalActionSheet<int>(
                     title: 'Manage condition',

@@ -7,9 +7,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/collection_crud/collection_crud_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
+import 'package:medusa_admin/presentation/widgets/shad_drawer_widget.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -87,7 +87,7 @@ class _CollectionsViewState extends State<CollectionsView> {
         );
       },
       child: Scaffold(
-        drawer: const AppDrawer(),
+        drawer: const ShadDrawer(),
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,

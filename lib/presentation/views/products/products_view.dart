@@ -19,8 +19,10 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
+import 'package:medusa_admin/presentation/widgets/shad_drawer_widget.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/utils/enums.dart';
 import 'components/index.dart';
@@ -138,7 +140,7 @@ class _ProductsViewState extends State<ProductsView> {
             }),
       ],
       child: Scaffold(
-        drawer: const AppDrawer(),
+        drawer: const ShadDrawer(),
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
         endDrawer: Drawer(
           child: ProductsFilterView(
@@ -246,6 +248,8 @@ class _ProductsViewState extends State<ProductsView> {
               }),
               actions: [
                 PopupMenuButton<SortOptions?>(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12.0))),
                     icon: const Icon(CupertinoIcons.sort_up),
                     padding: const EdgeInsets.all(16.0),
                     position: PopupMenuPosition.under,
@@ -283,10 +287,13 @@ class _ProductsViewState extends State<ProductsView> {
                   builder: (context) {
                     final iconColor =
                         (productFilter?.count() ?? -1) > 0 ? Colors.red : null;
-                    return IconButton(
-                        padding: const EdgeInsets.all(16.0),
-                        onPressed: () => context.openEndDrawer(),
-                        icon: Icon(Icons.sort, color: iconColor));
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ShadButton.outline(
+                          size: ShadButtonSize.icon,
+                          onPressed: () => context.openEndDrawer(),
+                          icon: Icon(Icons.sort, color: iconColor)),
+                    );
                   },
                 ),
               ],

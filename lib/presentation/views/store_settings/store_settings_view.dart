@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
 import 'package:medusa_admin/core/extension/settings_list_tile_extension.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
+import 'package:medusa_admin/presentation/widgets/shad_drawer_widget.dart';
 
 @RoutePage()
 class StoreSettingsView extends StatelessWidget {
@@ -15,7 +14,7 @@ class StoreSettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: const ShadDrawer(),
       drawerEdgeDragWidth: context.drawerEdgeDragWidth,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [

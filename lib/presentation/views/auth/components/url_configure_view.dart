@@ -14,6 +14,7 @@ import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class UrlConfigureView extends StatefulWidget {
@@ -179,10 +180,10 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
             systemOverlayStyle: context.defaultSystemUiOverlayStyle,
             title: setupUrl ? const Text('Set URL') : const Text('Update URL'),
             actions: [
-              TextButton(
+              ShadButton.ghost(
                   onPressed: () async => await _save(),
                   onLongPress: () async => await _save(skipValidation: true),
-                  child: const Text('Save'))
+                  text: const Text('Save'))
             ],
           ),
           body: Padding(
@@ -193,13 +194,12 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                 const SizedBox(height: 20),
                 Form(
                   key: formKey,
-                  child: TextFormField(
+                  child: ShadInputFormField(
                     controller: textCtrl,
                     style: smallTextStyle,
-                    decoration:
-                        const InputDecoration(hintText: 'https://medusajs.com'),
+                    placeholder: const Text('https://medusajs.com'),
                     validator: (val) {
-                      if (val == null || val.isEmpty) {
+                      if (val.isEmpty) {
                         return 'Field is required';
                       }
 
@@ -262,13 +262,12 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                       if (authType == AuthenticationType.token)
                         Form(
                           key: tokenFormKey,
-                          child: TextFormField(
+                          child: ShadInputFormField(
                             controller: tokenTextCtrl,
                             style: smallTextStyle,
-                            decoration:
-                                const InputDecoration(hintText: 'Api token'),
+                            placeholder: const Text('Api token'),
                             validator: (val) {
-                              if (val == null || val.isEmpty) {
+                              if (val.isEmpty) {
                                 return 'Field is required';
                               }
                               return null;

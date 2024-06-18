@@ -7,7 +7,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
@@ -16,6 +15,7 @@ import 'package:medusa_admin/presentation/widgets/search_floating_action_button.
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/index.dart';
+import 'package:medusa_admin/presentation/widgets/shad_drawer_widget.dart';
 
 @RoutePage()
 class CustomersView extends StatefulWidget {
@@ -90,7 +90,7 @@ class _CustomersViewState extends State<CustomersView> {
       },
       child: HideKeyboard(
         child: Scaffold(
-          drawer: const AppDrawer(),
+          drawer: const ShadDrawer(),
           drawerEdgeDragWidth: context.drawerEdgeDragWidth,
           floatingActionButton: Column(
             mainAxisSize: MainAxisSize.min,

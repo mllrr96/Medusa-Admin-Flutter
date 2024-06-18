@@ -9,7 +9,6 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discounts_loading_page.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -19,6 +18,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'components/discount_card.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:medusa_admin/presentation/widgets/shad_drawer_widget.dart';
 
 @RoutePage()
 class DiscountsView extends StatefulWidget {
@@ -142,7 +142,7 @@ class _DiscountsViewState extends State<DiscountsView> {
         )
       ],
       child: Scaffold(
-        drawer: const AppDrawer(),
+        drawer: const ShadDrawer(),
         drawerEdgeDragWidth: context.drawerEdgeDragWidth,
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,
@@ -193,7 +193,7 @@ class _DiscountsViewState extends State<DiscountsView> {
                 animateTransitions: true,
                 itemBuilder: (context, discount, index) => Skeletonizer(
                   enabled: loadingDiscountId == discount.id,
-                  child: DiscountCard(
+                  child: DiscountShadCard(
                     discount,
                     onTap: () async {
                       final result = await context
