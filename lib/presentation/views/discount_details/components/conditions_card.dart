@@ -32,39 +32,43 @@ class ConditionsCard extends StatelessWidget {
     final discountCrudBloc = context.read<DiscountCrudBloc>();
     if(shadStyle) {
       return ShadCard(
-        // padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-        title: const Text('Conditions'),
-        trailing: ShadButton.outline(
-            size: ShadButtonSize.icon,
-            onPressed: () async {
-              final result = await context.pushRoute(
-                  DiscountConditionsRoute(
-                      discountConditionReq: DiscountConditionReq(
-                          discountTypes: discount.rule?.conditions
-                              ?.map((e) => e.type!)
-                              .toList() ??
-                              [])));
-              if (result is DiscountConditionRes && context.mounted) {
-                discountCrudBloc.add(DiscountCrudEvent.addCondition(
-                    discount.id!,
-                    CreateConditionReq(
-                      operator: result.operator,
-                      productCollectionIds: result.productCollections
-                          ?.map((e) => e.id!)
-                          .toList(),
-                      productIds:
-                      result.products?.map((e) => e.id!).toList(),
-                      productTagsIds:
-                      result.productTags?.map((e) => e.id!).toList(),
-                      productTypeIds:
-                      result.productTypes?.map((e) => e.id!).toList(),
-                      customerGroupIds: result.customerGroups
-                          ?.map((e) => e.id!)
-                          .toList(),
-                    )));
-              }
-            },
-            icon: const Icon(LucideIcons.plus)),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Conditions'),
+            ShadButton.outline(
+                size: ShadButtonSize.icon,
+                onPressed: () async {
+                  final result = await context.pushRoute(
+                      DiscountConditionsRoute(
+                          discountConditionReq: DiscountConditionReq(
+                              discountTypes: discount.rule?.conditions
+                                  ?.map((e) => e.type!)
+                                  .toList() ??
+                                  [])));
+                  if (result is DiscountConditionRes && context.mounted) {
+                    discountCrudBloc.add(DiscountCrudEvent.addCondition(
+                        discount.id!,
+                        CreateConditionReq(
+                          operator: result.operator,
+                          productCollectionIds: result.productCollections
+                              ?.map((e) => e.id!)
+                              .toList(),
+                          productIds:
+                          result.products?.map((e) => e.id!).toList(),
+                          productTagsIds:
+                          result.productTags?.map((e) => e.id!).toList(),
+                          productTypeIds:
+                          result.productTypes?.map((e) => e.id!).toList(),
+                          customerGroupIds: result.customerGroups
+                              ?.map((e) => e.id!)
+                              .toList(),
+                        )));
+                  }
+                },
+                icon: const Icon(LucideIcons.plus)),
+          ],
+        ),
         content: Column(
           children: [
             const Gap(20),

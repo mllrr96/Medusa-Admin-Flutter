@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:super_banners/super_banners.dart';
 import 'discount_rule_type_label.dart';
 
@@ -246,64 +247,66 @@ class DiscountShadCard extends StatelessWidget {
                             ],
                           ),
                         ),
-                        ShadButton.ghost(
-                          size: ShadButtonSize.icon,
-                            onPressed: () async {
-                              await showModalActionSheet<int>(
-                                  title: 'Manage discount',
-                                  message: discount.code ?? '',
-                                  context: context,
-                                  actions: <SheetAction<int>>[
-                                    const SheetAction(label: 'Edit', key: 0),
-                                    discount.isDisabled == null ||
-                                            !discount.isDisabled!
-                                        ? const SheetAction(
-                                            label: 'Disable', key: 1)
-                                        : const SheetAction(
-                                            label: 'Enable', key: 1),
-                                    const SheetAction(
-                                        label: 'Delete',
-                                        isDestructiveAction: true,
-                                        key: 2),
-                                  ]).then((value) async {
-                                if (value == null) {
-                                  return;
-                                }
-                                switch (value) {
-                                  case 0:
-                                    await context
-                                        .pushRoute(AddUpdateDiscountRoute(
-                                            discount: discount))
-                                        .then((value) {
-                                      if (value is bool && value == true) {
-                                        // DiscountsController
-                                        //     .instance.pagingController
-                                        //     .refresh();
-                                      }
-                                    });
-                                    break;
-                                  case 1:
-                                    onToggle?.call();
-                                    break;
-                                  case 2:
-                                    await showOkCancelAlertDialog(
-                                            context: context,
-                                            title: 'Delete Promotion',
-                                            message:
-                                                'Are you sure you want to delete this promotion?',
-                                            okLabel: 'Yes, delete',
-                                            cancelLabel: 'Cancel',
-                                            isDestructiveAction: true)
-                                        .then((value) async {
-                                      if (value == OkCancelResult.ok) {
-                                        onDelete?.call();
-                                      }
-                                    });
-                                    break;
-                                }
-                              });
-                            },
-                            icon: const Icon(Icons.more_horiz)),
+                        Skeleton.keep(
+                          child: ShadButton.ghost(
+                            size: ShadButtonSize.icon,
+                              onPressed: () async {
+                                await showModalActionSheet<int>(
+                                    title: 'Manage discount',
+                                    message: discount.code ?? '',
+                                    context: context,
+                                    actions: <SheetAction<int>>[
+                                      const SheetAction(label: 'Edit', key: 0),
+                                      discount.isDisabled == null ||
+                                              !discount.isDisabled!
+                                          ? const SheetAction(
+                                              label: 'Disable', key: 1)
+                                          : const SheetAction(
+                                              label: 'Enable', key: 1),
+                                      const SheetAction(
+                                          label: 'Delete',
+                                          isDestructiveAction: true,
+                                          key: 2),
+                                    ]).then((value) async {
+                                  if (value == null) {
+                                    return;
+                                  }
+                                  switch (value) {
+                                    case 0:
+                                      await context
+                                          .pushRoute(AddUpdateDiscountRoute(
+                                              discount: discount))
+                                          .then((value) {
+                                        if (value is bool && value == true) {
+                                          // DiscountsController
+                                          //     .instance.pagingController
+                                          //     .refresh();
+                                        }
+                                      });
+                                      break;
+                                    case 1:
+                                      onToggle?.call();
+                                      break;
+                                    case 2:
+                                      await showOkCancelAlertDialog(
+                                              context: context,
+                                              title: 'Delete Promotion',
+                                              message:
+                                                  'Are you sure you want to delete this promotion?',
+                                              okLabel: 'Yes, delete',
+                                              cancelLabel: 'Cancel',
+                                              isDestructiveAction: true)
+                                          .then((value) async {
+                                        if (value == OkCancelResult.ok) {
+                                          onDelete?.call();
+                                        }
+                                      });
+                                      break;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.more_horiz)),
+                        ),
                       ],
                     ),
                     Row(

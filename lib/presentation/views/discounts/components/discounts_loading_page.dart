@@ -15,14 +15,16 @@ class DiscountsLoadingPage extends StatelessWidget {
           description: '10% off on all products',
           type: DiscountRuleType.fixed,
           value: 12000,
-        ), isDynamic: null);
+        ),
+        isDynamic: null);
     return Skeletonizer(
       enabled: true,
       child: Column(
         children: List.generate(
-            12,
-            (index) =>
-                index.isEven? const DiscountCard(discount): const Gap(12.0),),
+          12,
+          (index) =>
+              index.isEven ? const DiscountShadCard(discount) : const Gap(12.0),
+        ),
       ),
     );
   }

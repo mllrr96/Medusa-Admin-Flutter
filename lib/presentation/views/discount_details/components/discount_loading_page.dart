@@ -21,9 +21,9 @@ class DiscountLoadingPage extends StatelessWidget {
           children: [
             DiscountDetailsCard(discount),
             space,
-            ConfigurationsCard(discount),
+            ConfigurationsCard(discount, shadStyle: true),
             space,
-            ConditionsCard(discount),
+            ConditionsCard(discount, shadStyle: true),
           ],
         ),
       ),

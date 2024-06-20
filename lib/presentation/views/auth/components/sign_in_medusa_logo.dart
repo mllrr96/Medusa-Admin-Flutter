@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class SignInMedusaLogo extends StatefulWidget {
-  const SignInMedusaLogo({super.key, this.rotate = false, this.scale});
+  const SignInMedusaLogo({super.key, this.rotate = false});
   final bool rotate;
-  final double? scale;
 
   @override
   State<SignInMedusaLogo> createState() => _SignInMedusaLogoState();
@@ -58,10 +58,7 @@ class _SignInMedusaLogoState extends State<SignInMedusaLogo>
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: _animation,
-      child: Image.asset(
-        'assets/images/medusa.png',
-        scale: widget.scale ?? 5,
-      ),
+      child: const ShadImage.square('assets/images/medusa.png', size: 80)
     );
   }
 }

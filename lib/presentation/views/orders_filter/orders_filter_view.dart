@@ -19,7 +19,6 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrdersFilterView extends StatefulWidget {
   const OrdersFilterView({
@@ -207,280 +206,260 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 10),
-                      child: Column(
+                      child: ShadAccordion<int>.multiple(
+                        maintainState: true,
                         children: [
-                          ShadAccordion<
-                              int>.multiple(maintainState: true, children: [
-                            ShadAccordionItem(
-                              value: 1,
-                              title: const Text('Status'),
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: OrderStatus.values
-                                    .map((e) => ShadCheckbox(
-                                        label: Text(e.toString()),
-                                        value: orderFilter.status.contains(e),
-                                        onChanged: (val) {
-                                          if (val) {
-                                            orderFilter.status.add(e);
-                                          } else {
-                                            orderFilter.status.remove(e);
-                                          }
-                                          setState(() {});
-                                        }))
-                                    .toList(),
-                              ),
-                            ),
-                            ShadAccordionItem(
-                              value: 2,
-                              title: const Text('Payment Status'),
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: PaymentStatus.values
-                                    .map((e) => ShadCheckbox(
-                                        label: Text(e.toString()),
-                                        value: orderFilter.paymentStatus
-                                            .contains(e),
-                                        onChanged: (val) {
-                                          if (val) {
-                                            orderFilter.paymentStatus.add(e);
-                                          } else {
-                                            orderFilter.paymentStatus.remove(e);
-                                          }
-                                          setState(() {});
-                                        }))
-                                    .toList(),
-                              ),
-                            ),
-                            ShadAccordionItem(
-                              value: 3,
-                              title: const Text('Fulfillment Status'),
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: FulfillmentStatus.values
-                                    .map((e) => ShadCheckbox(
-                                  // size: 30,
-                                        label: Text(e.toString()),
-                                        value: orderFilter.fulfillmentStatus
-                                            .contains(e),
-                                        onChanged: (val) {
-                                          if (val) {
-                                            orderFilter.fulfillmentStatus
-                                                .add(e);
-                                          } else {
-                                            orderFilter.fulfillmentStatus
-                                                .remove(e);
-                                          }
-                                          setState(() {});
-                                        }))
-                                    .toList(),
-                              ),
-                            ),
-                            ShadAccordionItem(
-                              value: 4,
-                              title: const Text('Regions'),
-                              content: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                if (regions.isNotEmpty)
-                                  ...regions.map((e) => ShadCheckbox(
-                                      label: Text(e.name ?? ''),
-                                      value: orderFilter.regions
-                                          .map((e) => e.id)
-                                          .contains(e.id),
+                          ShadAccordionItem(
+                            value: 1,
+                            title: const Text('Status'),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: OrderStatus.values
+                                  .map((e) => ShadCheckbox(
+                                      label: Text(e.toString()),
+                                      value: orderFilter.status.contains(e),
                                       onChanged: (val) {
                                         if (val) {
-                                          orderFilter.regions.add(e);
+                                          orderFilter.status.add(e);
                                         } else {
-                                          orderFilter.regions.removeWhere(
-                                              (element) => element.id == e.id);
-                                        }
-                                        setState(() {});
-                                      })),
-                              ]),
-                            ),
-                            ShadAccordionItem(
-                              value: 5,
-                              title: const Text('Sales Channel'),
-                              content: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                if (salesChannels.isNotEmpty)
-                                  ...salesChannels.map((e) => ShadCheckbox(
-                                      label: Text(e.name ?? ''),
-                                      value: orderFilter.salesChannel
-                                          .map((e) => e.id)
-                                          .contains(e.id),
-                                      onChanged: (val) {
-                                        if (val) {
-                                          orderFilter.salesChannel.add(e);
-                                        } else {
-                                          orderFilter.salesChannel.removeWhere(
-                                              (element) => element.id == e.id);
+                                          orderFilter.status.remove(e);
                                         }
                                         setState(() {});
                                       }))
-                              ]),
+                                  .toList(),
                             ),
-                            ShadAccordionItem(
-                              value: 6,
-                              title: const Text('Date'),
-                              content: Column(
+                          ),
+                          ShadAccordionItem(
+                            value: 2,
+                            title: const Text('Payment Status'),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: PaymentStatus.values
+                                  .map((e) => ShadCheckbox(
+                                      label: Text(e.toString()),
+                                      value: orderFilter.paymentStatus
+                                          .contains(e),
+                                      onChanged: (val) {
+                                        if (val) {
+                                          orderFilter.paymentStatus.add(e);
+                                        } else {
+                                          orderFilter.paymentStatus
+                                              .remove(e);
+                                        }
+                                        setState(() {});
+                                      }))
+                                  .toList(),
+                            ),
+                          ),
+                          ShadAccordionItem(
+                            value: 3,
+                            title: const Text('Fulfillment Status'),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: FulfillmentStatus.values
+                                  .map((e) => ShadCheckbox(
+                                      // size: 30,
+                                      label: Text(e.toString()),
+                                      value: orderFilter.fulfillmentStatus
+                                          .contains(e),
+                                      onChanged: (val) {
+                                        if (val) {
+                                          orderFilter.fulfillmentStatus
+                                              .add(e);
+                                        } else {
+                                          orderFilter.fulfillmentStatus
+                                              .remove(e);
+                                        }
+                                        setState(() {});
+                                      }))
+                                  .toList(),
+                            ),
+                          ),
+                          ShadAccordionItem(
+                            value: 4,
+                            title: const Text('Regions'),
+                            content: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                 children: [
-                                  DropdownButtonFormField<DateFilterType>(
-                                    style: context.bodyMedium,
-                                    isDense: true,
-                                    value: orderFilter
-                                        .orderDateFilter.dateFilterType,
-                                    onChanged: (type) {
-                                      if (type != null) {
+                                  if (regions.isNotEmpty)
+                                    ...regions.map((e) => ShadCheckbox(
+                                        label: Text(e.name ?? ''),
+                                        value: orderFilter.regions
+                                            .map((e) => e.id)
+                                            .contains(e.id),
+                                        onChanged: (val) {
+                                          if (val) {
+                                            orderFilter.regions.add(e);
+                                          } else {
+                                            orderFilter.regions.removeWhere(
+                                                (element) =>
+                                                    element.id == e.id);
+                                          }
+                                          setState(() {});
+                                        })),
+                                ]),
+                          ),
+                          ShadAccordionItem(
+                            value: 5,
+                            title: const Text('Sales Channel'),
+                            content: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  if (salesChannels.isNotEmpty)
+                                    ...salesChannels.map((e) =>
+                                        ShadCheckbox(
+                                            label: Text(e.name ?? ''),
+                                            value: orderFilter.salesChannel
+                                                .map((e) => e.id)
+                                                .contains(e.id),
+                                            onChanged: (val) {
+                                              if (val) {
+                                                orderFilter.salesChannel
+                                                    .add(e);
+                                              } else {
+                                                orderFilter.salesChannel
+                                                    .removeWhere(
+                                                        (element) =>
+                                                            element.id ==
+                                                            e.id);
+                                              }
+                                              setState(() {});
+                                            }))
+                                ]),
+                          ),
+                          ShadAccordionItem(
+                            value: 6,
+                            title: const Text('Date'),
+                            content: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ShadSelect<DateFilterType>(
+                                      initialValue: orderFilter
+                                          .orderDateFilter.dateFilterType,
+                                      onChanged: (type) {
                                         setState(() {
                                           orderFilter.orderDateFilter
                                               .dateFilterType = type;
                                           if (!orderFilter
                                               .orderDateFilter.active) {
-                                            orderFilter.orderDateFilter.active =
-                                                true;
+                                            orderFilter.orderDateFilter
+                                                .active = true;
                                           }
                                         });
-                                      }
-                                    },
-                                    items: DateFilterType.values
-                                        .map((e) =>
-                                            DropdownMenuItem<DateFilterType>(
-                                                value: e,
-                                                child: Text(e.name())))
-                                        .toList(),
-                                  ),
-                                  space,
-                                ],
-                              ),
-                            ),
-                          ]),
-                          FlexExpansionTile(
-                            key: dateKey,
-                            initiallyExpanded:
-                                orderFilter.orderDateFilter.active,
-                            onExpansionChanged: (expanded) async {
-                              if (expanded) {
-                                await dateKey.currentContext.ensureVisibility();
-                              }
-                            },
-                            title: const Text('Date'),
-                            leading: Checkbox(
-                                value: orderFilter.orderDateFilter.active,
-                                onChanged: (val) {
-                                  if (val == null) {
-                                    return;
-                                  }
-                                  if (val) {
-                                    orderFilter.orderDateFilter.active = true;
-                                  } else {
-                                    orderFilter.orderDateFilter.active = false;
-                                    numberCtrl.clear();
-                                  }
-                                  setState(() {});
-                                }),
-                            child: Column(children: [
-                              DropdownButtonFormField<DateFilterType>(
-                                style: context.bodyMedium,
-                                isDense: true,
-                                value:
-                                    orderFilter.orderDateFilter.dateFilterType,
-                                onChanged: (type) {
-                                  if (type != null) {
-                                    setState(() {
-                                      orderFilter.orderDateFilter
-                                          .dateFilterType = type;
-                                      if (!orderFilter.orderDateFilter.active) {
-                                        orderFilter.orderDateFilter.active =
-                                            true;
-                                      }
-                                    });
-                                  }
-                                },
-                                items: DateFilterType.values
-                                    .map((e) =>
-                                        DropdownMenuItem<DateFilterType>(
-                                            value: e, child: Text(e.name())))
-                                    .toList(),
-                              ),
-                              space,
-                              if (orderFilter.orderDateFilter.dateFilterType ==
-                                      DateFilterType.isInTheLast ||
-                                  orderFilter.orderDateFilter.dateFilterType ==
-                                      DateFilterType.isOlderThan)
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      child: LabeledNumericTextField(
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter
-                                              .digitsOnly,
-                                        ],
-                                        noEndSpace: false,
-                                        onPlusPressed: () {
-                                          int? stock = int.tryParse(numberCtrl
-                                              .text.removeAllWhitespace);
-                                          if (stock != null) {
-                                            numberCtrl.text =
-                                                (stock + 1).toString();
-                                          } else {
-                                            numberCtrl.text = 1.toString();
-                                          }
-                                          if (!orderFilter
-                                              .orderDateFilter.active) {
-                                            setState(() {
-                                              orderFilter.orderDateFilter
-                                                  .active = true;
-                                            });
-                                          }
-                                        },
-                                        onMinusPressed: () {
-                                          int? stock = int.tryParse(numberCtrl
-                                              .text.removeAllWhitespace);
-                                          if (stock != null && stock != 1) {
-                                            numberCtrl.text =
-                                                (stock - 1).toString();
-                                          }
-                                          if (!orderFilter
-                                              .orderDateFilter.active) {
-                                            setState(() {
-                                              orderFilter.orderDateFilter
-                                                  .active = true;
-                                            });
-                                          }
-                                        },
-                                        onChanged: (_) {
-                                          if (!orderFilter
-                                              .orderDateFilter.active) {
-                                            setState(() {
-                                              orderFilter.orderDateFilter
-                                                  .active = true;
-                                            });
-                                          }
-                                        },
-                                        label: null,
-                                        controller: numberCtrl,
-                                        validator: (val) {
-                                          if (val == null ||
-                                              val.isEmpty ||
-                                              int.tryParse(val) == 0) {
-                                            return 'Field is required';
-                                          }
-                                          return null;
-                                        },
-                                      ),
+                                      },
+                                      options: DateFilterType.values
+                                          .map((e) =>
+                                              ShadOption<DateFilterType>(
+                                                  value: e,
+                                                  child: Text(e.name())))
+                                          .toList(),
+                                      selectedOptionBuilder:
+                                          (context, value) {
+                                        return Text(value.name());
+                                      },
                                     ),
-                                    const SizedBox(width: 12.0),
-                                    Flexible(
-                                      child: DropdownButtonFormField<DateType>(
-                                        style: context.bodyMedium,
+                                    ShadCheckbox(
                                         value: orderFilter
-                                            .orderDateFilter.dateType,
-                                        onChanged: (type) {
-                                          if (type != null) {
+                                            .orderDateFilter.active,
+                                        onChanged: (val) {
+                                          if (val) {
+                                            orderFilter.orderDateFilter
+                                                .active = true;
+                                          } else {
+                                            orderFilter.orderDateFilter
+                                                .active = false;
+                                            numberCtrl.clear();
+                                          }
+                                          setState(() {});
+                                        })
+                                  ],
+                                ),
+                                space,
+                                if (orderFilter.orderDateFilter
+                                            .dateFilterType ==
+                                        DateFilterType.isInTheLast ||
+                                    orderFilter.orderDateFilter
+                                            .dateFilterType ==
+                                        DateFilterType.isOlderThan)
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        child: LabeledNumericTextField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
+                                          noEndSpace: false,
+                                          onPlusPressed: () {
+                                            int? stock = int.tryParse(
+                                                numberCtrl.text
+                                                    .removeAllWhitespace);
+                                            if (stock != null) {
+                                              numberCtrl.text =
+                                                  (stock + 1).toString();
+                                            } else {
+                                              numberCtrl.text =
+                                                  1.toString();
+                                            }
+                                            if (!orderFilter
+                                                .orderDateFilter.active) {
+                                              setState(() {
+                                                orderFilter.orderDateFilter
+                                                    .active = true;
+                                              });
+                                            }
+                                          },
+                                          onMinusPressed: () {
+                                            int? stock = int.tryParse(
+                                                numberCtrl.text
+                                                    .removeAllWhitespace);
+                                            if (stock != null &&
+                                                stock != 1) {
+                                              numberCtrl.text =
+                                                  (stock - 1).toString();
+                                            }
+                                            if (!orderFilter
+                                                .orderDateFilter.active) {
+                                              setState(() {
+                                                orderFilter.orderDateFilter
+                                                    .active = true;
+                                              });
+                                            }
+                                          },
+                                          onChanged: (_) {
+                                            if (!orderFilter
+                                                .orderDateFilter.active) {
+                                              setState(() {
+                                                orderFilter.orderDateFilter
+                                                    .active = true;
+                                              });
+                                            }
+                                          },
+                                          label: null,
+                                          controller: numberCtrl,
+                                          validator: (val) {
+                                            if (val == null ||
+                                                val.isEmpty ||
+                                                int.tryParse(val) == 0) {
+                                              return 'Field is required';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12.0),
+                                      Flexible(
+                                        child: ShadSelect<DateType>(
+                                          initialValue: orderFilter
+                                              .orderDateFilter.dateType,
+                                          onChanged: (type) {
                                             setState(() {
                                               orderFilter.orderDateFilter
                                                   .dateType = type;
@@ -490,55 +469,63 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                                     .active = true;
                                               }
                                             });
+                                          },
+                                          options: DateType.values
+                                              .map((e) =>
+                                                  ShadOption<DateType>(
+                                                      value: e,
+                                                      child: Text(e.name
+                                                          .capitalize)))
+                                              .toList(),
+                                          selectedOptionBuilder:
+                                              (context, value) {
+                                            return Text(
+                                                value.name.capitalize);
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                if (orderFilter.orderDateFilter
+                                            .dateFilterType !=
+                                        DateFilterType.isInTheLast &&
+                                    orderFilter.orderDateFilter
+                                            .dateFilterType !=
+                                        DateFilterType.isOlderThan)
+                                  Column(
+                                    children: [
+                                      DateCard(
+                                        validator: (val) {
+                                          if (val == null) {
+                                            return 'Field is required';
+                                          }
+                                          return null;
+                                        },
+                                        dateTime: orderFilter
+                                            .orderDateFilter.date,
+                                        dateText: null,
+                                        dateTimeTextStyle: smallTextStyle,
+                                        onTap: () async {
+                                          final result = await context
+                                              .adaptiveDateTimePicker(
+                                                  date: orderFilter
+                                                      .orderDateFilter.date,
+                                                  pickerMode:
+                                                      CupertinoDatePickerMode
+                                                          .date);
+                                          if (result != null) {
+                                            setState(() {
+                                              orderFilter.orderDateFilter
+                                                  .date = result;
+                                            });
                                           }
                                         },
-                                        items: DateType.values
-                                            .map((e) => DropdownMenuItem<
-                                                    DateType>(
-                                                value: e,
-                                                child: Text(e.name.capitalize)))
-                                            .toList(),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              if (orderFilter.orderDateFilter.dateFilterType !=
-                                      DateFilterType.isInTheLast &&
-                                  orderFilter.orderDateFilter.dateFilterType !=
-                                      DateFilterType.isOlderThan)
-                                Column(
-                                  children: [
-                                    DateCard(
-                                      validator: (val) {
-                                        if (val == null) {
-                                          return 'Field is required';
-                                        }
-                                        return null;
-                                      },
-                                      dateTime:
-                                          orderFilter.orderDateFilter.date,
-                                      dateText: null,
-                                      dateTimeTextStyle: smallTextStyle,
-                                      onTap: () async {
-                                        final result = await context
-                                            .adaptiveDateTimePicker(
-                                                date: orderFilter
-                                                    .orderDateFilter.date,
-                                                pickerMode:
-                                                    CupertinoDatePickerMode
-                                                        .date);
-                                        if (result != null) {
-                                          setState(() {
-                                            orderFilter.orderDateFilter.date =
-                                                result;
-                                          });
-                                        }
-                                      },
-                                    ),
-                                    space,
-                                  ],
-                                ),
-                            ]),
+                                      space,
+                                    ],
+                                  ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

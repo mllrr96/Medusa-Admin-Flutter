@@ -10,7 +10,6 @@ import 'package:medusa_admin/presentation/views/draft_orders/components/index.da
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -135,7 +134,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
               builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
                   animateTransitions: true,
                   itemBuilder: (context, draftOrder, index) =>
-                      DraftOrderCard(draftOrder),
+                      ShadDraftOrderCard(draftOrder),
                   noItemsFoundIndicatorBuilder: (_) =>
                       const Center(child: Text('No draft orders yet!')),
                   firstPageProgressIndicatorBuilder: (context) =>

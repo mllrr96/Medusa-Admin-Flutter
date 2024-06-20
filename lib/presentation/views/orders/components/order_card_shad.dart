@@ -120,82 +120,10 @@ class ShadOrderCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Flexible(
-                    child: PaymentStatusLabel(
-                        paymentStatus: order.paymentStatus,
-                        dotOnly: !orderPreference.paymentStatusDot),
-                  ),
+                  ShadPaymentStatusLabel(
+                      paymentStatus: order.paymentStatus),
                 ],
               ),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text(
-              //           'Payment Status',
-              //           style: smallTextStyle!.copyWith(color: manatee),
-              //         ),
-              //         Text(
-              //           'Customer',
-              //           style: smallTextStyle.copyWith(color: manatee),
-              //         ),
-              //       ],
-              //     ),
-              //     const SizedBox(height: 6.0),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         Flexible(
-              //           child: PaymentStatusLabel(paymentStatus: order.paymentStatus),
-              //         ),
-              //         Flexible(
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.end,
-              //             children: [
-              //               CircleAvatar(
-              //                 radius: 16,
-              //                 child: Text(getName()?[0] ?? order.customer!.email[0]),
-              //               ),
-              //               const SizedBox(width: 6.0),
-              //               if (getName() != null) Flexible(child: Text(getName()!, style: smallTextStyle)),
-              //               if (getName() == null)
-              //                 Flexible(
-              //                     child: Text(order.customer!.email,
-              //                         style: mediumTextStyle, overflow: TextOverflow.ellipsis)),
-              //             ],
-              //           ),
-              //         )
-              //       ],
-              //     )
-              //     // Opacity(
-              //     //   opacity: order.status != OrderStatus.pending ? 1 : 0,
-              //     //   child: InkWell(
-              //     //     onTap: order.status != OrderStatus.pending ? () {} : null,
-              //     //     child: Container(
-              //     //       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
-              //     //       decoration: BoxDecoration(
-              //     //           border: Border.all(
-              //     //             color: ColorManager.primary,
-              //     //             width: 2,
-              //     //           ),
-              //     //           borderRadius: const BorderRadius.all(Radius.circular(4))),
-              //     //       child: Row(
-              //     //         children: [
-              //     //           Icon(Icons.refresh, color: ColorManager.primary),
-              //     //           Text(
-              //     //             'Reorder',
-              //     //             style: Theme.of(context).textTheme.titleSmall!.copyWith(color: ColorManager.primary),
-              //     //           ),
-              //     //         ],
-              //     //       ),
-              //     //     ),
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
             ],
           ),
         ),

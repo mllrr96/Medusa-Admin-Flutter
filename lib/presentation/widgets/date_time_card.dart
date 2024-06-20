@@ -5,6 +5,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class DateTimeCard extends StatelessWidget {
   const DateTimeCard(
@@ -38,21 +39,18 @@ class DateTimeCard extends StatelessWidget {
         final color = field.hasError ? Colors.red : manatee;
         return InkWell(
           onTap: onTap,
-          child: Container(
+          child: ShadCard(
               width: double.maxFinite,
+              // border: Border.all(
+              //     color: borderColor ??
+              //         (dateTime != null
+              //             ? Colors.grey
+              //             : field.hasError
+              //             ? Colors.red
+              //             : Colors.transparent)),
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                  color: context.theme.scaffoldBackgroundColor,
-                  border: Border.all(
-                      color: borderColor ??
-                          (dateTime != null
-                              ? Colors.grey
-                              : field.hasError
-                                  ? Colors.red
-                                  : Colors.transparent))),
-              child: dateTime == null
+              content: dateTime == null
                   ? Center(
                       child: Text(
                         'Tap to select date',

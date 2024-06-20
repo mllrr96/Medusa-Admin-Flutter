@@ -229,103 +229,107 @@ class _SignInViewState extends State<SignInView> {
                         key: formKey,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: ShadCard(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(isSessionExpired
-                                    ? 'Re-authenticate to Medusa'
-                                    : tr.loginCardLogInToMedusa),
-                                Hero(
-                                    tag: 'medusa',
-                                    child: ShadImage.square('assets/images/medusa.png', size: 80)),
-                              ],
-                            ),
-                            footer: Center(
-                              child: ShadButton(
-                                text: const Text('Continue'),
-                                size: ShadButtonSize.lg,
-                                width: 220,
-                                height: 48.0,
-                                onPressed: loading
-                                    ? null
-                                    : () async {
-                                        if (!_validate()) {
-                                          return;
-                                        }
-                                        await _signIn();
-                                      },
-                                icon: const Icon(Icons.login),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 500),
+                            child: ShadCard(
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(isSessionExpired
+                                      ? 'Re-authenticate to Medusa'
+                                      : tr.loginCardLogInToMedusa),
+                                  Hero(
+                                      tag: 'medusa',
+                                      child: SignInMedusaLogo(rotate: loading)),
+                                ],
                               ),
-                            ),
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                if (!useToken)
-                                  Column(
-                                    children: [
-                                      Hero(
-                                          tag: 'email',
-                                          child: EmailTextField(
-                                            controller: emailCtrl,
-                                            validator: (val) {
-                                              if (val?.isEmpty ?? true) {
-                                                return 'Email is required';
-                                              }
+                              footer: Center(
+                                child: ShadButton(
+                                  text: const Text('Continue'),
+                                  size: ShadButtonSize.lg,
+                                  width: 220,
+                                  height: 48.0,
+                                  onPressed: loading
+                                      ? null
+                                      : () async {
+                                          if (!_validate()) {
+                                            return;
+                                          }
+                                          await _signIn();
+                                        },
+                                  icon: const Icon(Icons.login),
+                                ),
+                              ),
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  if (!useToken)
+                                    Column(
+                                      children: [
+                                        Hero(
+                                            tag: 'email',
+                                            child: EmailTextField(
+                                              controller: emailCtrl,
+                                              validator: (val) {
+                                                if (val?.isEmpty ?? true) {
+                                                  return 'Email is required';
+                                                }
 
-                                              if (!val!.isEmail) {
-                                                return 'Invalid Email';
+                                                if (!val!.isEmail) {
+                                                  return 'Invalid Email';
+                                                }
+
+                                                return null;
+                                              },
+                                            )),
+                                        space,
+                                        Hero(
+                                          tag: 'password',
+                                          child: PasswordTextField(
+                                            controller: passwordCtrl,
+                                            validator: (val) {
+                                              if (val != null && val.isEmpty) {
+                                                return 'Password is required';
+                                              }
+                                              if (val!.length < 8) {
+                                                return 'Password should be at least 8 characters long';
                                               }
 
                                               return null;
                                             },
-                                          )),
-                                      space,
-                                      Hero(
-                                        tag: 'password',
-                                        child: PasswordTextField(
-                                          controller: passwordCtrl,
-                                          validator: (val) {
-                                            if (val != null && val.isEmpty) {
-                                              return 'Password is required';
-                                            }
-                                            if (val!.length < 8) {
-                                              return 'Password should be at least 8 characters long';
-                                            }
-
-                                            return null;
-                                          },
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                space,
-                                if (!isSessionExpired && !useToken)
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ShadButton.ghost(
-                                        onPressed: loading
-                                            ? null
-                                            : () {
-                                                if (AuthPreferenceService
-                                                        .baseUrlGetter ==
-                                                    null) {
-                                                  context.showSignInErrorSnackBar(
-                                                      'Please set your backend URL first');
-                                                  return;
-                                                }
-                                                context.pushRoute(
-                                                    const ResetPasswordRoute());
-                                              },
-                                        text: Text(
-                                          tr.loginCardForgotYourPassword,
+                                      ],
+                                    ),
+                                  space,
+                                  if (!isSessionExpired && !useToken)
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ShadButton.ghost(
+                                          onPressed: loading
+                                              ? null
+                                              : () {
+                                                  if (AuthPreferenceService
+                                                          .baseUrlGetter ==
+                                                      null) {
+                                                    context.showSignInErrorSnackBar(
+                                                        'Please set your backend URL first');
+                                                    return;
+                                                  }
+                                                  context.pushRoute(
+                                                      const ResetPasswordRoute());
+                                                },
+                                          text: Text(
+                                            tr.loginCardForgotYourPassword,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                space,
-                              ],
+                                      ],
+                                    ),
+                                  space,
+                                ],
+                              ),
                             ),
                           ),
                         ),

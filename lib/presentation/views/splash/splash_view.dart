@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -10,6 +9,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/blocs/authentication/authentication_bloc.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class SplashView extends StatefulWidget {
@@ -77,8 +77,7 @@ class _SplashViewState extends State<SplashView> {
                       child: Text('Medusa Admin', style: context.headlineLarge),
                     ),
                     const Gap(15),
-                    LoadingAnimationWidget.staggeredDotsWave(
-                        color: context.theme.primaryColor, size: 40),
+                    LoadingAnimationWidget.staggeredDotsWave(size: 40, color: ShadTheme.of(context).colorScheme.secondaryForeground),
                     const Gap(15),
                   ],
                 ),
@@ -89,13 +88,13 @@ class _SplashViewState extends State<SplashView> {
                   children: [
                     const Text('Taking too long to load?'),
                     const Gap(10),
-                    OutlinedButton(
+                    ShadButton.outline(
                         onPressed: () {
                           context.router.replaceAll([SignInRoute()]);
                           context.read<AuthenticationBloc>().add(
                               const AuthenticationEvent.cancel());
                         },
-                        child: const Text('Go to login')),
+                        text: const Text('Go to login')),
                     Gap(context.bottomViewPadding != 0
                         ? context.bottomViewPadding
                         : 10),

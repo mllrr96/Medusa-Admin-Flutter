@@ -17,6 +17,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class CurrenciesView extends StatefulWidget {
@@ -66,6 +67,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
           loading: (_) => loading(),
           loaded: (_) {
             dismissLoading();
+            context.read<StoreBloc>().add(const StoreEvent.loadStore());
             context.maybePop();
           },
           error: (_) {
@@ -82,7 +84,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
               systemOverlayStyle: context.defaultSystemUiOverlayStyle,
               title: const Text('Currencies'),
               actions: [
-                TextButton(
+                ShadButton.ghost(
                     onPressed: () async {
                       final sameCurrencies = listEquals(
                           currencies.map((e) => e.code).toList(),
@@ -107,7 +109,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                           defaultCurrencyCode: defaultStoreCurrency?.code,
                           currencies: currenciesIsoCode)));
                     },
-                    child: const Text('Save')),
+                    text: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -117,15 +119,10 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                   Text('Manage the markets that you will operate within.',
                       style: mediumTextStyle!.copyWith(color: manatee)),
                   space,
-                  Container(
+                  ShadCard(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0)),
-                      color: context.theme.cardColor,
-                    ),
-                    child: Column(
+                    content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Default store currency', style: largeTextStyle),
@@ -135,45 +132,51 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                         if (currencies.length == 1)
                           Text(currencies.first.name ?? ''),
                         if (currencies.length > 1)
-                          DropdownButtonFormField<String>(
-                            value: defaultStoreCurrency?.code,
-                            style: context.bodyMedium,
-                            items: currencies
-                                .map((currency) => DropdownMenuItem(
-                                      value: currency.code,
-                                      child: Text(currency.name ?? ''),
-                                    ))
-                                .toList(),
+                        Center(
+                          child: ShadSelect<String>(
                             onChanged: (value) {
-                              if (value != null) {
+                              setState(() {
                                 defaultStoreCurrency = currencies
                                     .where((element) => element.code == value)
                                     .first;
-                              }
+                              });
                             },
-                            decoration: InputDecoration(
-                              fillColor: context.theme.scaffoldBackgroundColor,
-                              filled: true,
-                              border: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0)),
-                                  borderSide: BorderSide(color: Colors.grey)),
-                            ),
+                            initialValue: defaultStoreCurrency?.code,
+                            options: currencies
+                                .map((currency) => ShadOption<String>(
+                                      value: currency.code!,
+                                      child: Text(currency.name ?? ''),
+                                    ))
+                                .toList(),
+                            selectedOptionBuilder: (context, value) {
+                              final currency = currencies
+                                  .where((element) => element.code == value)
+                                  .first;
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(currency.code.getCurrencySymbol),
+                                  const SizedBox(width: 12.0),
+                                  Text(currency.name ?? ''),
+                                ],
+                              );
+                            },
                           ),
+                        ),
                         const SizedBox(height: 6.0),
                       ],
                     ),
                   ),
                   space,
-                  Container(
+                  ShadCard(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12.0)),
-                      color: context.theme.expansionTileTheme.backgroundColor,
-                    ),
-                    child: Column(
+                    // decoration: BoxDecoration(
+                    //   borderRadius:
+                    //       const BorderRadius.all(Radius.circular(12.0)),
+                    //   color: context.theme.expansionTileTheme.backgroundColor,
+                    // ),
+                    content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -192,7 +195,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                 ],
                               ),
                             ),
-                            TextButton(
+                            ShadButton.ghost(
                                 onPressed: () async {
                                   List<Currency>? result =
                                       await showBarModalBottomSheet(
@@ -214,7 +217,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                     setState(() {});
                                   }
                                 },
-                                child: const Text('Edit'))
+                                text: const Text('Edit'))
                           ],
                         ),
                         space,

@@ -30,7 +30,7 @@ class DraftsLoadingPage extends StatelessWidget {
           children: List.generate(
               20,
               (index) => index.isEven
-                  ? DraftOrderCard(draftOrder, shimmer: true)
+                  ? ShadDraftOrderCard(draftOrder, shimmer: true)
                   : const Gap(12.0))),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
@@ -20,7 +19,6 @@ class DiscountDetailsCard extends StatelessWidget {
     final disabled = discount.isDisabled ?? true;
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    const space = Gap(12);
     Widget discountValueText() {
       String valueText = '';
       Color valueColor = Colors.green;
@@ -71,80 +69,88 @@ class DiscountDetailsCard extends StatelessWidget {
       alignment: Alignment.topRight,
       children: [
         ShadCard(
-          title: Text(discount.code ?? ''),
-          description: discount.rule?.description != null ? Text(discount.rule!.description!)  : null,
-          trailing: ShadButton.ghost(
-            text:DiscountStatusDot(disabled: disabled),
-            onPressed: () async {
-              await showOkCancelAlertDialog(
-                  context: context,
-                  title: disabled ? 'Enable' : 'Disable',
-                  message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
-                  okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
-                  isDestructiveAction: true)
-                  .then((value) async {
-                if (value == OkCancelResult.ok) {
-                  toggle?.call();
-                }
-              });
-            },
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(discount.code ?? ''),
+              ShadButton.ghost(
+                text:DiscountStatusDot(disabled: disabled),
+                onPressed: () async {
+                  await showOkCancelAlertDialog(
+                      context: context,
+                      title: disabled ? 'Enable' : 'Disable',
+                      message: 'Are you sure you want to ${disabled ? 'enable' : 'disable'} discount?',
+                      okLabel: 'Yes, ${disabled ? 'enable' : 'disable'}',
+                      isDestructiveAction: true)
+                      .then((value) async {
+                    if (value == OkCancelResult.ok) {
+                      toggle?.call();
+                    }
+                  });
+                },
+              ),
+            ],
           ),
-          content: IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      discountValueText(),
-                      Text('Discount Amount', style: mediumTextStyle?.copyWith(color: manatee))
-                    ],
+          description: discount.rule?.description != null ? Text(discount.rule!.description!)  : null,
+          content: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        discountValueText(),
+                        Text('Discount Amount', style: mediumTextStyle?.copyWith(color: manatee))
+                      ],
+                    ),
                   ),
-                ),
-                const VerticalDivider(width: 0),
-                Flexible(
-                  child: InfoPopupWidget(
-                    arrowTheme: const InfoPopupArrowTheme(
-                      arrowDirection: ArrowDirection.up,
-                      color: ColorManager.primary,
+                  const VerticalDivider(width: 0),
+                  Flexible(
+                    child: InfoPopupWidget(
+                      arrowTheme: const InfoPopupArrowTheme(
+                        arrowDirection: ArrowDirection.up,
+                        color: ColorManager.primary,
+                      ),
+                      contentTheme: InfoPopupContentTheme(
+                        // infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+                        infoTextStyle: mediumTextStyle!,
+                        contentPadding: const EdgeInsets.all(8),
+                        contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
+                        infoTextAlign: TextAlign.start,
+                      ),
+                      contentTitle: regionsName(discount),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(discount.regions?.length.toString() ?? '',
+                              style: Theme.of(context).textTheme.bodyLarge),
+                          Text('Valid Regions', style: mediumTextStyle.copyWith(color: manatee))
+                        ],
+                      ),
                     ),
-                    contentTheme: InfoPopupContentTheme(
-                      // infoContainerBackgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
-                      infoTextStyle: mediumTextStyle!,
-                      contentPadding: const EdgeInsets.all(8),
-                      contentBorderRadius: const BorderRadius.all(Radius.circular(4)),
-                      infoTextAlign: TextAlign.start,
-                    ),
-                    contentTitle: regionsName(discount),
+                  ),
+                  const VerticalDivider(width: 0),
+                  Flexible(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(discount.regions?.length.toString() ?? '',
-                            style: Theme.of(context).textTheme.bodyLarge),
-                        Text('Valid Regions', style: mediumTextStyle.copyWith(color: manatee))
+                        Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
+                        Text('Total Redemptions',
+                            style: mediumTextStyle.copyWith(color: manatee),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis)
                       ],
                     ),
                   ),
-                ),
-                const VerticalDivider(width: 0),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(discount.usageCount.toString(), style: Theme.of(context).textTheme.bodyLarge),
-                      Text('Total Redemptions',
-                          style: mediumTextStyle.copyWith(color: manatee),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis)
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

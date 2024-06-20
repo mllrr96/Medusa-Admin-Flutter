@@ -8,11 +8,11 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/blocs/store/store_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class StoreDetailsView extends StatefulWidget {
@@ -59,8 +59,6 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final largeTextStyle = context.bodyLarge;
-    const space = Gap(12);
     return BlocListener<StoreBloc, StoreState>(
       bloc: storeBloc,
       listener: (context, state) {
@@ -84,8 +82,8 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
             systemOverlayStyle: context.defaultSystemUiOverlayStyle,
             title: const Text('Store Details'),
             actions: [
-              TextButton(
-                  child: const Text('Save'),
+              ShadButton.ghost(
+                  text: const Text('Save'),
                   onPressed: () async {
                     if (storeCtrl.text == store?.name &&
                         (swapLinkCtrl.text == store?.swapLinkTemplate ||
@@ -95,7 +93,6 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                       context.maybePop();
                       return;
                     }
-
                     if (!keyFrom.currentState!.validate()) {
                       return;
                     }
@@ -136,62 +133,73 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('General', style: largeTextStyle),
-                        space,
-                        LabeledTextField(
-                          label: 'Store Name',
-                          controller: storeCtrl,
-                          validator: (value) {
-                            if (value != null &&
-                                value.removeAllWhitespace.isEmpty) {
-                              return "Store name can't be empty ";
-                            }
-                            return null;
-                          },
+                        ShadCard(title: const Text('General'),
+                        content: Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: ShadInputFormField(
+                            label: const Text('Store Name'),
+                            controller: storeCtrl,
+                            validator: (value) {
+                              if (value.removeAllWhitespace.isEmpty) {
+                                return "Store name can't be empty ";
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                        const Divider(),
-                        Text('Advanced settings', style: largeTextStyle),
-                        space,
-                        LabeledTextField(
-                          label: 'Swap link template',
-                          controller: swapLinkCtrl,
-                          hintText: 'https://acme.inc/swap={swap_id}',
-                          validator: (value) {
-                            if (value != null &&
-                                value.removeAllWhitespace.isNotEmpty &&
-                                !value.isUrl) {
-                              return "Invalid URL";
-                            }
-                            return null;
-                          },
                         ),
-                        LabeledTextField(
-                          label: 'Draft order link template',
-                          controller: draftOrderCtrl,
-                          hintText: 'https://acme.inc/payment={payment_id}',
-                          validator: (value) {
-                            if (value != null &&
-                                value.removeAllWhitespace.isNotEmpty &&
-                                !value.isUrl) {
-                              return "Invalid URL";
-                            }
-                            return null;
-                          },
-                        ),
-                        LabeledTextField(
-                          label: 'Invite link template',
-                          controller: inviteLinkCtrl,
-                          hintText:
-                              'https://acme.inc/invite?token={invite_token}',
-                          textInputAction: TextInputAction.done,
-                          validator: (value) {
-                            if (value != null &&
-                                value.removeAllWhitespace.isNotEmpty &&
-                                !value.isUrl) {
-                              return "Invalid URL";
-                            }
-                            return null;
-                          },
+                        const Gap(10.0),
+                        ShadCard(
+                          title: const Text('Advanced settings'),
+                          content: Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Column(
+                              children: <Widget>[
+                                ShadInputFormField(
+                                  label: const Text('Swap link template'),
+                                  controller: swapLinkCtrl,
+                                  placeholder: const Text('https://acme.inc/swap={swap_id}'),
+                                  validator: (value) {
+                                    if (
+                                        value.removeAllWhitespace.isNotEmpty &&
+                                        !value.isUrl) {
+                                      return "Invalid URL";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                ShadInputFormField(
+                                  label: const Text('Draft order link template'),
+                                  controller: draftOrderCtrl,
+                                  placeholder: const Text('https://acme.inc/payment={payment_id}'),
+                                  validator: (value) {
+                                    if (
+                                        value.removeAllWhitespace.isNotEmpty &&
+                                        !value.isUrl) {
+                                      return "Invalid URL";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                ShadInputFormField(
+                                  label: const Text('Invite link template'),
+                                  controller: inviteLinkCtrl,
+                                  placeholder:
+                                  const Text('https://acme.inc/invite?token={invite_token}'),
+                                  textInputAction: TextInputAction.done,
+                                  validator: (value) {
+                                    if (
+                                        value.removeAllWhitespace.isNotEmpty &&
+                                        !value.isUrl) {
+                                      return "Invalid URL";
+                                    }
+                                    return null;
+                                  },
+                                ),
+
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),

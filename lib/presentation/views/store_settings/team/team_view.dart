@@ -89,6 +89,7 @@ class _TeamViewState extends State<TeamView> {
             child: PagedListView(
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<User>(
+                firstPageProgressIndicatorBuilder: (_)=> const TeamLoadingPage(),
                 animateTransitions: true,
                 itemBuilder: (context, user, index) {
                   return TeamCard(
