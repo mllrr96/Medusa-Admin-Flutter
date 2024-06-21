@@ -9,12 +9,15 @@ import 'package:medusa_admin/presentation/views/orders/components/payment_status
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'order_create_refund.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 
 class OrderPayment extends StatelessWidget {
-  const OrderPayment(this.order, {super.key, this.onExpansionChanged});
+  const OrderPayment(this.order,
+      {super.key, this.onExpansionChanged, this.shadStyle = true});
   final Order order;
+  final bool shadStyle;
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
@@ -28,16 +31,16 @@ class OrderPayment extends StatelessWidget {
     Widget? getButton() {
       switch (order.paymentStatus) {
         case PaymentStatus.refunded:
-          return TextButton(
+          return ShadButton.ghost(
             // onPressed: () async => await controller.capturePayment(),
             onPressed: () {},
-            child: Text(tr.templatesCapturePayment),
+            text: Text(tr.templatesCapturePayment),
           );
         case PaymentStatus.notPaid:
         case PaymentStatus.awaiting:
         case PaymentStatus.partiallyRefunded:
         case PaymentStatus.captured:
-          return TextButton(
+          return ShadButton.ghost(
             onPressed: () async {
               final result = await showBarModalBottomSheet(
                   context: context,
@@ -47,7 +50,7 @@ class OrderPayment extends StatelessWidget {
                 // await controller.createRefund(result);
               }
             },
-            child: Text(tr.templatesRefund),
+            text: Text(tr.templatesRefund),
           );
         case PaymentStatus.canceled:
           break;
@@ -55,6 +58,92 @@ class OrderPayment extends StatelessWidget {
           break;
       }
       return null;
+    }
+
+    if (shadStyle) {
+      return ShadAccordionItem<int>(
+        value: 1,
+        title: Text(tr.detailsPayment),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PaymentStatusLabel(paymentStatus: order.paymentStatus),
+                    getButton() ?? const SizedBox(),
+                  ],
+                ),
+                space,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            order.payments!.first.id!,
+                            style: mediumTextStyle,
+                          ),
+                          halfSpace,
+                          if ((order.payments?.isNotEmpty ?? false) &&
+                              order.payments?.first.capturedAt != null)
+                            Text(
+                                'on ${order.payments?.first.capturedAt.formatDate()} at ${order.payments?.first.capturedAt.formatTime()}',
+                                style:
+                                    mediumTextStyle!.copyWith(color: manatee)),
+                        ],
+                      ),
+                    ),
+                    Text(
+                        order.payments?.first.amount
+                                .formatAsPrice(order.currencyCode) ??
+                            '',
+                        style: largeTextStyle),
+                  ],
+                ),
+                space,
+                if (refunded)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const SizedBox(width: 12.0),
+                          const Icon(Icons.double_arrow_rounded),
+                          Text(
+                            tr.detailsRefunded,
+                            style: mediumTextStyle,
+                          ),
+                        ],
+                      ),
+                      Text(
+                          '- ${order.refundedTotal.formatAsPrice(order.currencyCode)}',
+                          style: mediumTextStyle),
+                    ],
+                  ),
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(tr.detailsTotalPaid, style: largeTextStyle),
+                Text(
+                    (refunded
+                            ? order.refundableAmount
+                            : order.payments?.first.amount)
+                        .formatAsPrice(order.currencyCode),
+                    style: largeTextStyle),
+              ],
+            ),
+          ],
+        ),
+      );
     }
 
     return FlexExpansionTile(

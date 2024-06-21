@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/presentation/blocs/order_crud/order_crud_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
@@ -80,8 +81,9 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             title: Hero(tag: 'order', child: Text(tr.orderTableOrder)),
             actions: [
               state.maybeWhen(
-                order: (order) => IconButton(
-                    padding: const EdgeInsets.all(16.0),
+                order: (order) => ShadButton.ghost(
+                    // padding: const EdgeInsets.all(16.0),
+                    size: ShadButtonSize.icon,
                     onPressed: () async {
                       await showModalActionSheet<int>(
                           context: context,
@@ -123,11 +125,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           body: SafeArea(
             child: SmartRefresher(
               controller: refreshController,
-              onRefresh: () {
-                loadOrder();
-                // await controller.fetchOrderDetails();
-                // controller.timeLineFuture = controller.fetchTimeLine();
-              },
+              onRefresh: () => loadOrder(),
               child: state.maybeWhen(
                 order: (order) => SingleChildScrollView(
                   child: Padding(
@@ -136,62 +134,19 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     child: Column(
                       children: [
                         OrderOverview(order: order),
-                        space,
-                        OrderSummery(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await summeryKey.currentContext!
-                                  .ensureVisibility();
-                            }
-                          },
-                          key: summeryKey,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: ShadAccordion<int>.multiple(
+                              maintainState: true,
+                              children: [
+                                OrderSummery(order),
+                                OrderPayment(order),
+                                OrderFulfillment(order),
+                                OrderCustomer(order),
+                                OrderTimeline(order),
+                                const Gap(25.0),
+                              ]),
                         ),
-                        space,
-                        OrderPayment(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await paymentKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                          key: paymentKey,
-                        ),
-                        space,
-                        OrderFulfillment(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await fulfillmentKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                          key: fulfillmentKey,
-                        ),
-                        space,
-                        OrderCustomer(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await customerKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                          key: customerKey,
-                        ),
-                        space,
-                        OrderTimeline(
-                          order,
-                          onExpansionChanged: (expanded) async {
-                            if (expanded) {
-                              await timelineKey.currentContext
-                                  .ensureVisibility();
-                            }
-                          },
-                          key: timelineKey,
-                        ),
-                        const SizedBox(height: 25.0),
                       ],
                     ),
                   ),

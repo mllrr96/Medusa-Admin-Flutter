@@ -5,7 +5,10 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 
 class SignInFooterButtons extends StatelessWidget {
   const SignInFooterButtons(this.reAuthenticate,
-      {super.key, this.onGoToSignInPressed, this.onUrlPressed, this.onUrlLongPressed});
+      {super.key,
+      this.onGoToSignInPressed,
+      this.onUrlPressed,
+      this.onUrlLongPressed});
   final bool reAuthenticate;
   final void Function()? onGoToSignInPressed;
   final void Function()? onUrlPressed;
@@ -21,36 +24,12 @@ class SignInFooterButtons extends StatelessWidget {
         text: const Text('Go to Sign In'),
         icon: const Icon(Icons.refresh_outlined),
       );
-      return FilledButton.icon(
-          style: FilledButton.styleFrom(
-            minimumSize: const Size(220, 48.0),
-          ),
-          onPressed: onGoToSignInPressed,
-          icon: const Icon(Icons.refresh_outlined),
-          label: const Text('Go to Sign In'));
     }
 
     return ShadButton.destructive(
       onPressed: onUrlPressed,
       onLongPress: onUrlLongPressed,
       text: Text('Configure URL',
-          style: isUrlSet
-              ? null
-              : context.bodySmall?.copyWith(color: Colors.white)),
-      icon: Icon(
-        Icons.link,
-        color: isUrlSet ? null : Colors.white,
-      ),
-    );
-
-    return ElevatedButton.icon(
-      onPressed: onUrlPressed,
-      onLongPress: onUrlLongPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isUrlSet ? null : Colors.red,
-        minimumSize: const Size(110, 48.0),
-      ),
-      label: Text('Configure URL',
           style: isUrlSet
               ? null
               : context.bodySmall?.copyWith(color: Colors.white)),

@@ -9,8 +9,8 @@ import 'package:medusa_admin/presentation/blocs/notification/notification_bloc.d
 import 'package:medusa_admin/presentation/blocs/order_edit_crud/order_edit_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'index.dart';
-import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 
 class OrderTimeline extends StatefulWidget {
   const OrderTimeline(this.order, {super.key, this.onExpansionChanged});
@@ -75,6 +75,97 @@ class _OrderTimelineState extends State<OrderTimeline> {
   @override
   Widget build(BuildContext context) {
     final tr = context.tr;
+    final iconButton = ShadButton.outline(
+        size: ShadButtonSize.icon,
+        onPressed: () async {
+          await showModalActionSheet<int>(
+              context: context,
+              actions: <SheetAction<int>>[
+                SheetAction(label: tr.timelineRequestReturn, key: 0),
+                SheetAction(label: tr.timelineRegisterExchange, key: 1),
+                SheetAction(label: tr.timelineRegisterClaim, key: 2),
+              ]).then((result) {
+            switch (result) {
+              case 0:
+              case 1:
+              case 2:
+            }
+          });
+        },
+        icon: const Icon(Icons.more_horiz));
+
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: SearchTextField(
+                controller: noteCtrl,
+                fillColor: context.theme.scaffoldBackgroundColor,
+                hintText: 'Write a note',
+                prefixIconData: Icons.tag_faces,
+                suffixIconData: Icons.send,
+                onSuffixTap: () => createNote(),
+                maxLines: null,
+                contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                textInputAction: TextInputAction.send,
+                textCapitalization: TextCapitalization.sentences,
+                onSubmitted: (_) => createNote(),
+              ),
+            ),
+            iconButton,
+          ],
+        ),
+        const Divider(),
+        if (failed)
+          Column(
+            children: [
+              const Center(child: Text('Error fetching order edits')),
+              OutlinedButton(
+                  onPressed: () {
+                    loadData();
+                  },
+                  child: const Text('Retry'))
+            ],
+          ),
+        if (!failed)
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: timeline.length,
+            itemBuilder: (context, index) {
+              final item = timeline[index];
+              switch (item.runtimeType) {
+                case const (OrderEdit):
+                  if ((item as OrderEdit).requestedAt != null) {
+                    return OrderEditWidget(item);
+                  } else {
+                    return OrderEditStatusWidget(widget.order, orderEdit: item);
+                  }
+                case const (Note):
+                  return OrderNoteWidget(
+                    item,
+                    onNoteDelete: () {
+                      noteCrudBloc.add(
+                        NoteCrudEvent.delete((item as Note).id ?? ''),
+                      );
+                    },
+                  );
+                case const (Refund):
+                  return RefundWidget(item,
+                      currencyCode: widget.order.currencyCode);
+                case const (Notification):
+                  return const SizedBox();
+                default:
+                  return const SizedBox();
+              }
+            },
+          ),
+        OrderPlacedWidget(widget.order),
+      ],
+    );
+
     return MultiBlocListener(
       listeners: [
         BlocListener<NoteCrudBloc, NoteCrudState>(
@@ -113,92 +204,10 @@ class _OrderTimelineState extends State<OrderTimeline> {
           },
         ),
       ],
-      child: FlexExpansionTile(
-        onExpansionChanged: widget.onExpansionChanged,
-        controlAffinity: ListTileControlAffinity.leading,
+      child: ShadAccordionItem<int>(
+        value: 4,
         title: const Text('Timeline'),
-        trailing: IconButton(
-            onPressed: () async {
-              await showModalActionSheet<int>(
-                  context: context,
-                  actions: <SheetAction<int>>[
-                    SheetAction(label: tr.timelineRequestReturn, key: 0),
-                    SheetAction(label: tr.timelineRegisterExchange, key: 1),
-                    SheetAction(label: tr.timelineRegisterClaim, key: 2),
-                  ]).then((result) {
-                switch (result) {
-                  case 0:
-                  case 1:
-                  case 2:
-                }
-              });
-            },
-            icon: const Icon(Icons.more_horiz)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SearchTextField(
-              controller: noteCtrl,
-              fillColor: context.theme.scaffoldBackgroundColor,
-              hintText: 'Write a note',
-              prefixIconData: Icons.tag_faces,
-              suffixIconData: Icons.send,
-              onSuffixTap: () => createNote(),
-              maxLines: null,
-              contentPadding: const EdgeInsets.symmetric(vertical: 5),
-              textInputAction: TextInputAction.send,
-              textCapitalization: TextCapitalization.sentences,
-              onSubmitted: (_) => createNote(),
-            ),
-            const Divider(),
-            if (failed)
-              Column(
-                children: [
-                  const Center(child: Text('Error fetching order edits')),
-                  OutlinedButton(
-                      onPressed: () {
-                        loadData();
-                      },
-                      child: const Text('Retry'))
-                ],
-              ),
-            if (!failed)
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: timeline.length,
-                itemBuilder: (context, index) {
-                  final item = timeline[index];
-                  switch (item.runtimeType) {
-                    case const (OrderEdit):
-                      if ((item as OrderEdit).requestedAt != null) {
-                        return OrderEditWidget(item);
-                      } else {
-                        return OrderEditStatusWidget(widget.order,
-                            orderEdit: item);
-                      }
-                    case const (Note):
-                      return OrderNoteWidget(
-                        item,
-                        onNoteDelete: () {
-                          noteCrudBloc.add(
-                            NoteCrudEvent.delete((item as Note).id ?? ''),
-                          );
-                        },
-                      );
-                    case const (Refund):
-                      return RefundWidget(item,
-                          currencyCode: widget.order.currencyCode);
-                    case const (Notification):
-                      return const SizedBox();
-                    default:
-                      return const SizedBox();
-                  }
-                },
-              ),
-            OrderPlacedWidget(widget.order),
-          ],
-        ),
+        content: content,
       ),
     );
   }
