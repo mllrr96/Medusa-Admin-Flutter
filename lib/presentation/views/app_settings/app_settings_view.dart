@@ -17,7 +17,6 @@ import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/presentation/cubits/language/language_cubit.dart';
 import 'package:medusa_admin/presentation/cubits/theme/theme_cubit.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';

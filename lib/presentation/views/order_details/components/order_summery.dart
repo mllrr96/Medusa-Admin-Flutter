@@ -4,7 +4,6 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
 import 'order_summery_card.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';

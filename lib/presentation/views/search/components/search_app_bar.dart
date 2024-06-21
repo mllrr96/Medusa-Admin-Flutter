@@ -92,7 +92,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   },
                   hintText: getHintText(searchCategory),
                   padding:
-                      MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+                      WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                   leading: IconButton(
                     padding: const EdgeInsets.all(16),
                     icon: const Icon(Icons.arrow_back),

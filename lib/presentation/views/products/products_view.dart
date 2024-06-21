@@ -11,7 +11,6 @@ import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
-import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
