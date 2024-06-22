@@ -67,16 +67,16 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
               appBar: AppBar(
                 title: const Text('Personal Information'),
               ),
-              floatingActionButton: state.mapOrNull(
-                user: (_) => FloatingActionButton.extended(
+              floatingActionButton: state.whenOrNull(
+                user: (user) => FloatingActionButton.extended(
                   onPressed: () async => await showShadDialog(
                       context: context,
                       builder: (context) {
                         return UpdatePersonalInfoCard(
-                          user: _.user,
+                          user: user,
                           onSubmit: (userUpdate) {
                             userCrudBloc.add(
-                                UserCrudEvent.update(_.user.id!, userUpdate));
+                                UserCrudEvent.update(user.id!, userUpdate));
                           },
                         );
                       }),
@@ -85,30 +85,30 @@ class _PersonalInformationViewState extends State<PersonalInformationView> {
                 ),
               ),
               body: SafeArea(
-                child: state.maybeMap(
-                  loading: (_) => const Skeletonizer(
+                child: state.maybeWhen(
+                  loading: () => const Skeletonizer(
                       enabled: true,
                       child: PersonalInfoTile(User(
                           email: 'admin@medusa-test.com',
                           firstName: 'Medusa',
                           lastName: 'Js'))),
-                  user: (_) => PersonalInfoTile(
-                    _.user,
+                  user: (user) => PersonalInfoTile(
+                    user,
                     onTap: () async => await showShadDialog(
                         context: context,
                         builder: (context) {
                           return UpdatePersonalInfoCard(
-                            user: _.user,
+                            user: user,
                             onSubmit: (userUpdate) {
                               userCrudBloc.add(
-                                  UserCrudEvent.update(_.user.id!, userUpdate));
+                                  UserCrudEvent.update(user.id!, userUpdate));
                             },
                           );
                         }),
                   ),
-                  error: (e) => Column(
+                  error: (failure) => Column(
                     children: [
-                      Center(child: Text(e.failure.message)),
+                      Center(child: Text(failure.message)),
                       const SizedBox(height: 8.0),
                       ElevatedButton(
                           onPressed: () => userBloc

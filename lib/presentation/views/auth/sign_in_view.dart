@@ -154,7 +154,7 @@ class _SignInViewState extends State<SignInView> {
                         final appUpdate = context
                             .read<AppUpdateBloc>()
                             .state
-                            .whenOrNull(updateAvailable: (_) => _);
+                            .whenOrNull(updateAvailable: (update) => update);
                         return ShadButton(
                           // height: 56,
                           onPressed: () {},

@@ -134,7 +134,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
     return BlocConsumer<BatchJobCrudBloc, BatchJobCrudState>(
       bloc: batchJobCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
+        state.maybeWhen(
           // created: (_) {
           //   dismissLoading();
           //   context.showSnackBar('Batch job created');
@@ -143,9 +143,9 @@ class _ImportProductsViewState extends State<ImportProductsView> {
           //   dismissLoading();
           //   context.showSnackBar('Batch job canceled');
           // },
-          batchJob: (_) {
+          batchJob: (batchJob) {
             dismissLoading();
-            batchJobId = _.batchJob.id;
+            batchJobId = batchJob.id;
           },
           // loading: (_) {
           //   if(batchJobId != null) {
@@ -170,11 +170,11 @@ class _ImportProductsViewState extends State<ImportProductsView> {
             }
           },
           child: Scaffold(
-            bottomNavigationBar: state.maybeMap(
-              initial: (_) => templateWidget,
+            bottomNavigationBar: state.maybeWhen(
+              initial: () => templateWidget,
               // loading: (_) => templateWidget,
-              batchJob: (_) {
-                final status = _.batchJob.status;
+              batchJob: (batchJob) {
+                final status = batchJob.status;
                 if (status == BatchJobStatus.preProcessed) {
                   return Container(
                     padding: EdgeInsets.fromLTRB(
@@ -218,10 +218,9 @@ class _ImportProductsViewState extends State<ImportProductsView> {
               body: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                child: state.maybeMap(
-                  batchJob: (_) {
-                    final status = _.batchJob.status;
-                    final batchJob = _.batchJob;
+                child: state.maybeWhen(
+                  batchJob: (batchJob) {
+                    final status = batchJob.status;
                     if (status == BatchJobStatus.created ||
                         status == BatchJobStatus.processing) {
                       Future.delayed(const Duration(seconds: 5), () async {
@@ -312,7 +311,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                           ''),
                     ]);
                   },
-                  loading: (_) => Center(
+                  loading: () => Center(
                     child: LoadingAnimationWidget.threeArchedCircle(
                         color: context.theme.primaryColor, size: 48),
                   ),

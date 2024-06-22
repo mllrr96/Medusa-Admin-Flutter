@@ -32,10 +32,10 @@ class _TaxSettingsSelectRegionViewState
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   final refreshController = RefreshController();
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     regionCrudBloc.add(
       RegionCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       }),
     );
   }

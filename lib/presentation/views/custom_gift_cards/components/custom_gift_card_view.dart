@@ -3,7 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flutter/services.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
@@ -37,7 +36,6 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final mediumTextStyle = context.bodyMedium;
-    final largeTextStyle = context.bodyLarge;
     final isDisabled = widget.giftCard.isDisabled;
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom == 0
         ? 20.0
@@ -74,10 +72,7 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                       ),
                       onPressed: () async {
                         await Clipboard.setData(
-                                ClipboardData(text: widget.giftCard.code ?? ''))
-                            .then((_) {
-                          // context.showSnackBar('Gift card code copied');
-                        });
+                            ClipboardData(text: widget.giftCard.code ?? ''));
                       }),
                 ),
                 const Gap(12.0),

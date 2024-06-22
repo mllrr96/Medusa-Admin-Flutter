@@ -45,13 +45,13 @@ class _ProductsViewState extends State<ProductsView> {
   String loadingProductId = '';
   bool get loading => loadingProductId.isNotEmpty;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     context
         .read<ProductCrudBloc>()
         .add(ProductCrudEvent.loadAll(queryParameters: {
           'order': sortOptions.map(),
           'is_giftcard': false,
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
           ...?productFilter?.toJson()
         }));
   }
@@ -110,19 +110,20 @@ class _ProductsViewState extends State<ProductsView> {
         BlocListener<ProductCrudBloc, ProductCrudState>(
             bloc: productCrudBloc,
             listener: (BuildContext context, ProductCrudState state) {
-              state.mapOrNull(
-                loading: (_) {
-                  setState(() => loadingProductId = _.id ?? '');
+              state.whenOrNull(
+                loading: (id) {
+                  setState(() => loadingProductId = id ?? '');
                 },
                 product: (_) {
                   pagingController.refresh();
                   loadingProductId = '';
                 },
-                deleted: (_) {
+                deleted: () {
                   context.showSnackBar('Product deleted successfully');
                   pagingController.removeItem(pagingController.itemList
-                      ?.where((element) => element.id == loadingProductId)
-                      .firstOrNull ?? const Product());
+                          ?.where((element) => element.id == loadingProductId)
+                          .firstOrNull ??
+                      const Product());
                   setState(() => loadingProductId = '');
                 },
                 updated: (_) {
@@ -130,8 +131,8 @@ class _ProductsViewState extends State<ProductsView> {
                   // _loadPage(0);
                   loadingProductId = '';
                 },
-                error: (state) {
-                  context.showSnackBar(state.failure.toSnackBarString());
+                error: (failure) {
+                  context.showSnackBar(failure.toSnackBarString());
                   loadingProductId = '';
                 },
               );
@@ -247,8 +248,8 @@ class _ProductsViewState extends State<ProductsView> {
               }),
               actions: [
                 PopupMenuButton<SortOptions?>(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
                     icon: const Icon(CupertinoIcons.sort_up),
                     padding: const EdgeInsets.all(16.0),
                     position: PopupMenuPosition.under,

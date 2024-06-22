@@ -33,10 +33,10 @@ class _PickProductsViewState extends State<PickProductsView> {
   RefreshController refreshController = RefreshController();
   late ProductCrudBloc productsBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     productsBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'is_giftcard': false,
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 

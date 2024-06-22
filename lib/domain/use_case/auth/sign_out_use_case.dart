@@ -6,23 +6,20 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class SignOutUseCase {
-  AuthRepository get _authRepository =>
-      getIt<MedusaAdmin>().authRepository;
+  AuthRepository get _authRepository => getIt<MedusaAdmin>().authRepository;
 
   static SignOutUseCase get instance => getIt<SignOutUseCase>();
 
-  Future<Result<bool, Failure>> call(
-      ) async {
+  Future<Result<bool, Failure>> call() async {
     try {
       final result = await _authRepository.signOut();
-      if(result != null){
+      if (result != null) {
         return Success(result);
       } else {
-        return Error(Failure(message: 'Error logging out', type:''));
+        return Error(Failure(message: 'Error logging out', type: ''));
       }
-    } on Exception catch (_) {
-      return Error(Failure.from(_));
+    } on Exception catch (e) {
+      return Error(Failure.from(e));
     }
   }
-
 }

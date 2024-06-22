@@ -117,7 +117,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
           title: const Text('Price List Details'),
           actions: [
             IconButton(
-              padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 onPressed: () async {
                   await showModalActionSheet<int>(
                       context: context,
@@ -136,7 +136,8 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                         return;
                       case 1:
                         final pickProductsRes = await addProduct;
-                        if (pickProductsRes is PickProductsRes && context.mounted) {
+                        if (pickProductsRes is PickProductsRes &&
+                            context.mounted) {
                           final prices = await showBarModalBottomSheet(
                             context: context,
                             backgroundColor:
@@ -147,8 +148,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                             builder: (context) => PriceListAddProducts(
                                 pickProductsRes.selectedProducts),
                           );
-                          if (prices is List<MoneyAmount> &&
-                              context.mounted) {
+                          if (prices is List<MoneyAmount> && context.mounted) {
                             pricingCrudBloc.add(PricingCrudEvent.updatePrices(
                                 id,
                                 UpdatePricesReq(
@@ -193,10 +193,11 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                 SliverToBoxAdapter(
                   child: BlocBuilder<PricingCrudBloc, PricingCrudState>(
                     bloc: pricingCrudBloc,
-                    builder: (context, state) => state.maybeMap(
-                      pricingList: (_) => PriceListDetailsTile(_.priceList),
-                      loading: (_) => PriceListDetailsTile(widget.priceList,
-                          shimmer: true),
+                    builder: (context, state) => state.maybeWhen(
+                      pricingList: (priceList) =>
+                          PriceListDetailsTile(priceList),
+                      loading: () =>
+                          PriceListDetailsTile(widget.priceList, shimmer: true),
                       orElse: () => const SizedBox.shrink(),
                     ),
                   ),
@@ -240,13 +241,12 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                     ),
                     firstPageProgressIndicatorBuilder: (context) =>
                         const PriceListProductsLoadingPage(),
-                    firstPageErrorIndicatorBuilder: (_) =>
-                        PaginationErrorPage(
-                            pagingController: pagingController,
-                            onRetry: () {
-                              pagingController.refresh();
-                              priceListBloc.add(PricingCrudEvent.load(id));
-                            }),
+                    firstPageErrorIndicatorBuilder: (_) => PaginationErrorPage(
+                        pagingController: pagingController,
+                        onRetry: () {
+                          pagingController.refresh();
+                          priceListBloc.add(PricingCrudEvent.load(id));
+                        }),
                     noItemsFoundIndicatorBuilder: (context) {
                       return Center(
                           child: Column(

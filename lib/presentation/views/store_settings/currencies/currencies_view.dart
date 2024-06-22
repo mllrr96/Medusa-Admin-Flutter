@@ -63,16 +63,16 @@ class _CurrenciesViewState extends State<CurrenciesView> {
     return BlocConsumer<StoreBloc, StoreState>(
       bloc: storeBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
+        state.maybeWhen(
+          loading: () => loading(),
           loaded: (_) {
             dismissLoading();
             context.read<StoreBloc>().add(const StoreEvent.loadStore());
             context.maybePop();
           },
-          error: (_) {
+          error: (failure) {
             dismissLoading();
-            context.showSnackBar(_.failure.toSnackBarString());
+            context.showSnackBar(failure.toSnackBarString());
           },
           orElse: () => dismissLoading(),
         );
@@ -89,14 +89,14 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                       final sameCurrencies = listEquals(
                           currencies.map((e) => e.code).toList(),
                           state
-                              .mapOrNull(loaded: (_) => _.store.currencies)
+                              .whenOrNull(loaded: (store) => store.currencies)
                               ?.map((e) => e.code)
                               .toList());
                       if (sameCurrencies &&
                           defaultStoreCurrency?.code ==
                               state
-                                  .mapOrNull(
-                                      loaded: (_) => _.store.defaultCurrency)
+                                  .whenOrNull(
+                                      loaded: (store) => store.defaultCurrency)
                                   ?.code) {
                         context.maybePop();
                         return;
@@ -132,37 +132,37 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                         if (currencies.length == 1)
                           Text(currencies.first.name ?? ''),
                         if (currencies.length > 1)
-                        Center(
-                          child: ShadSelect<String>(
-                            onChanged: (value) {
-                              setState(() {
-                                defaultStoreCurrency = currencies
+                          Center(
+                            child: ShadSelect<String>(
+                              onChanged: (value) {
+                                setState(() {
+                                  defaultStoreCurrency = currencies
+                                      .where((element) => element.code == value)
+                                      .first;
+                                });
+                              },
+                              initialValue: defaultStoreCurrency?.code,
+                              options: currencies
+                                  .map((currency) => ShadOption<String>(
+                                        value: currency.code!,
+                                        child: Text(currency.name ?? ''),
+                                      ))
+                                  .toList(),
+                              selectedOptionBuilder: (context, value) {
+                                final currency = currencies
                                     .where((element) => element.code == value)
                                     .first;
-                              });
-                            },
-                            initialValue: defaultStoreCurrency?.code,
-                            options: currencies
-                                .map((currency) => ShadOption<String>(
-                                      value: currency.code!,
-                                      child: Text(currency.name ?? ''),
-                                    ))
-                                .toList(),
-                            selectedOptionBuilder: (context, value) {
-                              final currency = currencies
-                                  .where((element) => element.code == value)
-                                  .first;
-                              return Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(currency.code.getCurrencySymbol),
-                                  const SizedBox(width: 12.0),
-                                  Text(currency.name ?? ''),
-                                ],
-                              );
-                            },
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(currency.code.getCurrencySymbol),
+                                    const SizedBox(width: 12.0),
+                                    Text(currency.name ?? ''),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
                         const SizedBox(height: 6.0),
                       ],
                     ),

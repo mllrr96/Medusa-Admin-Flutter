@@ -61,18 +61,18 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
     final smallTextStyle = context.bodySmall;
     return BlocListener<SearchBloc, SearchState>(
       listener: (context, state) {
-        state.mapOrNull(
-            loaded: (_) {
-              final isLastPage = _.items.length < SearchBloc.pageSize;
+        state.whenOrNull(
+            loaded: (items, count) {
+              final isLastPage = items.length < SearchBloc.pageSize;
               if (isLastPage) {
-                pagingController.appendLastPage(_.items);
+                pagingController.appendLastPage(items);
               } else {
                 final nextPageKey =
-                    pagingController.nextPageKey ?? 1 + _.items.length;
-                pagingController.appendPage(_.items, nextPageKey);
+                    pagingController.nextPageKey ?? 1 + items.length;
+                pagingController.appendPage(items, nextPageKey);
               }
             },
-            error: (_) => pagingController.error = _.failure);
+            error: (failure) => pagingController.error = failure);
       },
       child: HideKeyboard(
         child: AnnotatedRegion<SystemUiOverlayStyle>(

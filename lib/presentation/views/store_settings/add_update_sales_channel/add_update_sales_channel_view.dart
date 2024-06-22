@@ -52,20 +52,20 @@ class _AddUpdateSalesChannelViewState extends State<AddUpdateSalesChannelView> {
     return BlocListener<SalesChannelCrudBloc, SalesChannelCrudState>(
       bloc: salesChannelCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
-          loading: (_) => loading(),
-          salesChannel: (_) {
+        state.maybeWhen(
+          loading: () => loading(),
+          salesChannel: (salesChannel) {
             dismissLoading();
             if (updateMode) {
               context.showSnackBar('Sales channel updated successfully');
-              context.maybePop(_.salesChannel);
+              context.maybePop(salesChannel);
             } else {
               context.showSnackBar('Sales channel created successfully');
-              context.maybePop(_.salesChannel);
+              context.maybePop(salesChannel);
             }
           },
-          error: (error) {
-            context.showSnackBar(error.failure.toSnackBarString());
+          error: (failure) {
+            context.showSnackBar(failure.toSnackBarString());
             dismissLoading();
           },
           orElse: () => dismissLoading(),

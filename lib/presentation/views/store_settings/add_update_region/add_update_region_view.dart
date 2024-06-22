@@ -54,7 +54,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
     currencies = context
         .read<StoreBloc>()
         .state
-        .mapOrNull(loaded: (_) => _.store.currencies);
+        .whenOrNull(loaded: (store) => store.currencies);
     if (updateMode) {
       titleCtrl.text = region!.name!;
       defaultTaxRateCtrl.text = region!.taxRate.toString();
@@ -63,7 +63,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
       selectedCurrency = context
           .read<StoreBloc>()
           .state
-          .mapOrNull(loaded: (_) => _.store.currencies)
+          .whenOrNull(loaded: (store) => store.currencies)
           ?.where((element) => element.code == region?.currencyCode)
           .firstOrNull;
     }
@@ -373,16 +373,16 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                               PaymentProvidersState>(
                             bloc: paymentProvidersCubit,
                             builder: (context, state) {
-                              return state.maybeMap(
-                                  loading: (_) => Skeletonizer(
+                              return state.maybeWhen(
+                                  loading: () => Skeletonizer(
                                       enabled: true,
                                       child: MultiSelectDropDown(
                                           onOptionSelected: (_) {},
                                           options: const [])),
-                                  paymentProviders: (_) {
+                                  paymentProviders: (paymentProviders) {
                                     return MultiSelectDropDown<String>(
                                       hintStyle: smallTextStyle,
-                                      options: _.paymentProviders
+                                      options: paymentProviders
                                           .map((e) => ValueItem(
                                               label: e.id ?? 'Unknown',
                                               value: e.id))

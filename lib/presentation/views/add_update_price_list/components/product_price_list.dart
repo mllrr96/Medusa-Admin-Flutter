@@ -30,7 +30,7 @@ class _AddUpdateVariantsPriceViewState
     final currencies = context
         .read<StoreBloc>()
         .state
-        .mapOrNull(loaded: (_) => _.store.currencies);
+        .whenOrNull(loaded: (store) => store.currencies);
     widget.product.variants?.forEach((variant) {
       if (currencies != null) {
         for (Currency currency in currencies) {
@@ -45,8 +45,10 @@ class _AddUpdateVariantsPriceViewState
       for (var element in widget.prices!) {
         final variantId = element.variantId;
         final currencyCode = element.currencyCode;
-        final priceListVariant = priceListVariants.where(
-            (e) => e.variantId == variantId && e.currencyCode == currencyCode).firstOrNull;
+        final priceListVariant = priceListVariants
+            .where((e) =>
+                e.variantId == variantId && e.currencyCode == currencyCode)
+            .firstOrNull;
         priceListVariant?.textCtrl.text =
             element.amount?.formatAsPrice(currencyCode) ?? '';
       }

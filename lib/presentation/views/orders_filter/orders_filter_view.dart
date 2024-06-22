@@ -157,9 +157,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                 onRefresh: () => context
                     .read<OrdersFilterBloc>()
                     .add(const OrdersFilterEvent.loadFilters()),
-                child: state.map(
-                  initial: (_) => const SizedBox.shrink(),
-                  loading: (_) => const Padding(
+                child: state.when(
+                  initial: () => const SizedBox.shrink(),
+                  loading: () => const Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
                     child: Skeletonizer(
@@ -200,9 +200,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ]),
                     ),
                   ),
-                  loaded: (_) {
-                    final regions = _.regions;
-                    final salesChannels = _.salesChannels;
+                  loaded: (regions, salesChannels) {
                     return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 10),
@@ -237,14 +235,13 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               children: PaymentStatus.values
                                   .map((e) => ShadCheckbox(
                                       label: Text(e.toString()),
-                                      value: orderFilter.paymentStatus
-                                          .contains(e),
+                                      value:
+                                          orderFilter.paymentStatus.contains(e),
                                       onChanged: (val) {
                                         if (val) {
                                           orderFilter.paymentStatus.add(e);
                                         } else {
-                                          orderFilter.paymentStatus
-                                              .remove(e);
+                                          orderFilter.paymentStatus.remove(e);
                                         }
                                         setState(() {});
                                       }))
@@ -264,8 +261,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                           .contains(e),
                                       onChanged: (val) {
                                         if (val) {
-                                          orderFilter.fulfillmentStatus
-                                              .add(e);
+                                          orderFilter.fulfillmentStatus.add(e);
                                         } else {
                                           orderFilter.fulfillmentStatus
                                               .remove(e);
@@ -279,8 +275,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                             value: 4,
                             title: const Text('Regions'),
                             content: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (regions.isNotEmpty)
                                     ...regions.map((e) => ShadCheckbox(
@@ -304,29 +299,24 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                             value: 5,
                             title: const Text('Sales Channel'),
                             content: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (salesChannels.isNotEmpty)
-                                    ...salesChannels.map((e) =>
-                                        ShadCheckbox(
-                                            label: Text(e.name ?? ''),
-                                            value: orderFilter.salesChannel
-                                                .map((e) => e.id)
-                                                .contains(e.id),
-                                            onChanged: (val) {
-                                              if (val) {
-                                                orderFilter.salesChannel
-                                                    .add(e);
-                                              } else {
-                                                orderFilter.salesChannel
-                                                    .removeWhere(
-                                                        (element) =>
-                                                            element.id ==
-                                                            e.id);
-                                              }
-                                              setState(() {});
-                                            }))
+                                    ...salesChannels.map((e) => ShadCheckbox(
+                                        label: Text(e.name ?? ''),
+                                        value: orderFilter.salesChannel
+                                            .map((e) => e.id)
+                                            .contains(e.id),
+                                        onChanged: (val) {
+                                          if (val) {
+                                            orderFilter.salesChannel.add(e);
+                                          } else {
+                                            orderFilter.salesChannel
+                                                .removeWhere((element) =>
+                                                    element.id == e.id);
+                                          }
+                                          setState(() {});
+                                        }))
                                 ]),
                           ),
                           ShadAccordionItem(
@@ -347,8 +337,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                               .dateFilterType = type;
                                           if (!orderFilter
                                               .orderDateFilter.active) {
-                                            orderFilter.orderDateFilter
-                                                .active = true;
+                                            orderFilter.orderDateFilter.active =
+                                                true;
                                           }
                                         });
                                       },
@@ -358,21 +348,20 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                                   value: e,
                                                   child: Text(e.name())))
                                           .toList(),
-                                      selectedOptionBuilder:
-                                          (context, value) {
+                                      selectedOptionBuilder: (context, value) {
                                         return Text(value.name());
                                       },
                                     ),
                                     ShadCheckbox(
-                                        value: orderFilter
-                                            .orderDateFilter.active,
+                                        value:
+                                            orderFilter.orderDateFilter.active,
                                         onChanged: (val) {
                                           if (val) {
-                                            orderFilter.orderDateFilter
-                                                .active = true;
+                                            orderFilter.orderDateFilter.active =
+                                                true;
                                           } else {
-                                            orderFilter.orderDateFilter
-                                                .active = false;
+                                            orderFilter.orderDateFilter.active =
+                                                false;
                                             numberCtrl.clear();
                                           }
                                           setState(() {});
@@ -380,11 +369,11 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                   ],
                                 ),
                                 space,
-                                if (orderFilter.orderDateFilter
-                                            .dateFilterType ==
+                                if (orderFilter
+                                            .orderDateFilter.dateFilterType ==
                                         DateFilterType.isInTheLast ||
-                                    orderFilter.orderDateFilter
-                                            .dateFilterType ==
+                                    orderFilter
+                                            .orderDateFilter.dateFilterType ==
                                         DateFilterType.isOlderThan)
                                   Row(
                                     crossAxisAlignment:
@@ -398,15 +387,13 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                           ],
                                           noEndSpace: false,
                                           onPlusPressed: () {
-                                            int? stock = int.tryParse(
-                                                numberCtrl.text
-                                                    .removeAllWhitespace);
+                                            int? stock = int.tryParse(numberCtrl
+                                                .text.removeAllWhitespace);
                                             if (stock != null) {
                                               numberCtrl.text =
                                                   (stock + 1).toString();
                                             } else {
-                                              numberCtrl.text =
-                                                  1.toString();
+                                              numberCtrl.text = 1.toString();
                                             }
                                             if (!orderFilter
                                                 .orderDateFilter.active) {
@@ -417,11 +404,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                             }
                                           },
                                           onMinusPressed: () {
-                                            int? stock = int.tryParse(
-                                                numberCtrl.text
-                                                    .removeAllWhitespace);
-                                            if (stock != null &&
-                                                stock != 1) {
+                                            int? stock = int.tryParse(numberCtrl
+                                                .text.removeAllWhitespace);
+                                            if (stock != null && stock != 1) {
                                               numberCtrl.text =
                                                   (stock - 1).toString();
                                             }
@@ -471,26 +456,24 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                             });
                                           },
                                           options: DateType.values
-                                              .map((e) =>
-                                                  ShadOption<DateType>(
-                                                      value: e,
-                                                      child: Text(e.name
-                                                          .capitalize)))
+                                              .map((e) => ShadOption<DateType>(
+                                                  value: e,
+                                                  child:
+                                                      Text(e.name.capitalize)))
                                               .toList(),
                                           selectedOptionBuilder:
                                               (context, value) {
-                                            return Text(
-                                                value.name.capitalize);
+                                            return Text(value.name.capitalize);
                                           },
                                         ),
                                       ),
                                     ],
                                   ),
-                                if (orderFilter.orderDateFilter
-                                            .dateFilterType !=
+                                if (orderFilter
+                                            .orderDateFilter.dateFilterType !=
                                         DateFilterType.isInTheLast &&
-                                    orderFilter.orderDateFilter
-                                            .dateFilterType !=
+                                    orderFilter
+                                            .orderDateFilter.dateFilterType !=
                                         DateFilterType.isOlderThan)
                                   Column(
                                     children: [
@@ -501,8 +484,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                           }
                                           return null;
                                         },
-                                        dateTime: orderFilter
-                                            .orderDateFilter.date,
+                                        dateTime:
+                                            orderFilter.orderDateFilter.date,
                                         dateText: null,
                                         dateTimeTextStyle: smallTextStyle,
                                         onTap: () async {
@@ -515,8 +498,8 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                                           .date);
                                           if (result != null) {
                                             setState(() {
-                                              orderFilter.orderDateFilter
-                                                  .date = result;
+                                              orderFilter.orderDateFilter.date =
+                                                  result;
                                             });
                                           }
                                         },
@@ -531,12 +514,12 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                       ),
                     );
                   },
-                  error: (error) => Column(
+                  error: (failure) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
                         child: Text(
-                            'Error retrieving data \n${error.failure.toString()}'),
+                            'Error retrieving data \n${failure.toString()}'),
                       ),
                       FilledButton(
                           onPressed: () => context

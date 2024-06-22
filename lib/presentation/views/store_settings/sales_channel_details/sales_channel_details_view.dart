@@ -43,9 +43,9 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
   SalesChannel get salesChannel => widget.salesChannel;
   bool selectAll = false;
   List<String> selectedProducts = [];
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     Map<String, dynamic> queryParameters = {
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       'sales_channel_id': [salesChannel.id!, ''],
       'expand': 'collection,type,sales_channels',
       'fields': 'id,title,thumbnail,status',
@@ -128,8 +128,8 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
         BlocListener<SalesChannelCrudBloc, SalesChannelCrudState>(
             bloc: salesChannelCrudBloc,
             listener: (context, state) {
-              state.maybeMap(
-                  loading: (_) => loading(),
+              state.maybeWhen(
+                  loading: () => loading(),
                   salesChannel: (_) {
                     pagingController.refresh();
                     selectedProducts.clear();
@@ -137,14 +137,14 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                     dismissLoading();
                     setState(() {});
                   },
-                  deleted: (_) {
+                  deleted: () {
                     dismissLoading();
                     context.showSnackBar('Sales channel deleted');
                     context.maybePop(true);
                   },
-                  error: (_) {
+                  error: (failure) {
                     dismissLoading();
-                    context.showSnackBar(_.failure.toSnackBarString());
+                    context.showSnackBar(failure.toSnackBarString());
                   },
                   orElse: () => dismissLoading());
             }),

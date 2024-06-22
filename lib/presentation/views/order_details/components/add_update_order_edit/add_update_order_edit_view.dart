@@ -70,9 +70,10 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
         );
       },
       builder: (context, state) {
-        final orderEdit = state.mapOrNull(
-            orderEdits: (_) => _.orderEdits.where(
-                (element) => element.status == OrderEditStatus.created).firstOrNull);
+        final orderEdit = state.whenOrNull(
+            orderEdits: (orderEdits, _) => orderEdits
+                .where((element) => element.status == OrderEditStatus.created)
+                .firstOrNull);
         return Scaffold(
           appBar: AppBar(
             title: const Text('Order edit'),
@@ -120,10 +121,10 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                   contentPadding: const EdgeInsets.symmetric(vertical: 5),
                   textInputAction: TextInputAction.send,
                   textCapitalization: TextCapitalization.sentences,
-                  onSubmitted: (_) async {
-                    if (orderEdit?.id != null && _.isNotEmpty) {
+                  onSubmitted: (val) async {
+                    if (orderEdit?.id != null && val.isNotEmpty) {
                       orderEditCrudBloc
-                          .add(OrderEditCrudEvent.update(orderEdit!.id!, _));
+                          .add(OrderEditCrudEvent.update(orderEdit!.id!, val));
                     }
                   },
                 ),
@@ -131,8 +132,8 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
             ],
           ),
           body: SafeArea(
-            child: state.maybeMap(
-              orderEdits: (_) {
+            child: state.maybeWhen(
+              orderEdits: (_, __) {
                 if (orderEdit != null) {
                   return EditOrderItems(
                     orderEdit: orderEdit,
@@ -158,13 +159,13 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                   return const SizedBox.shrink();
                 }
               },
-              error: (_) => SizedBox(
+              error: (failure) => SizedBox(
                 width: double.maxFinite,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _.failure.toString(),
+                      failure.toString(),
                       style: context.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -177,7 +178,7 @@ class _AddUpdateOrderEditViewState extends State<AddUpdateOrderEditView> {
                   ],
                 ),
               ),
-              loading: (_) =>
+              loading: () =>
                   const Center(child: CircularProgressIndicator.adaptive()),
               orElse: () => const SizedBox.shrink(),
             ),

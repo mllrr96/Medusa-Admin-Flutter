@@ -32,10 +32,10 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   late CustomerCrudBloc customerBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     customerBloc.add(
       CustomerCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
         'expand': 'groups',
         'groups': [widget.customerGroup.id, ''],
       }),

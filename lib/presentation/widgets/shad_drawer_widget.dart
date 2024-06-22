@@ -147,7 +147,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
                 BlocBuilder<StoreBloc, StoreState>(
                   builder: (context, state) {
                     final storeName =
-                        state.mapOrNull(loaded: (_) => _.store.name);
+                        state.whenOrNull(loaded: (store) => store.name);
                     return Flexible(
                       child: Text(storeName ?? '',
                           style: context.bodyLarge,
@@ -171,8 +171,8 @@ class _ShadDrawerState extends State<ShadDrawer> {
             ),
             BlocBuilder<AppUpdateBloc, AppUpdateState>(
               builder: (context, state) {
-                return state.maybeMap(
-                    updateAvailable: (_) => ShadButton(
+                return state.maybeWhen(
+                    updateAvailable: (appUpdate) => ShadButton(
                           height: 56,
                           onPressed: () {},
                           gradient: const LinearGradient(colors: [
@@ -192,7 +192,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'New Update Available ${_.appUpdate.tagName ?? ''}',
+                                'New Update Available ${appUpdate.tagName ?? ''}',
                               ),
                               const Text('Tap to install'),
                             ],

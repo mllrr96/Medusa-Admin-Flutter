@@ -30,10 +30,10 @@ class _ActivityViewState extends State<ActivityView> {
   late Dio dio;
   late BatchJobCrudBloc batchJobCrudBloc;
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     batchJobCrudBloc.add(
       BatchJobCrudEvent.loadAll(queryParameters: {
-        'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+        'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
       }),
     );
   }
@@ -91,7 +91,8 @@ class _ActivityViewState extends State<ActivityView> {
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             const MedusaSliverAppBar(
-              title: Text('Activity'),),
+              title: Text('Activity'),
+            ),
           ],
           body: SmartRefresher(
             controller: refreshController,

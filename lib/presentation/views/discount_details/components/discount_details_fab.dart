@@ -53,8 +53,8 @@ class DiscountDetailsFab extends StatelessWidget {
       return BlocBuilder<DiscountCrudBloc, DiscountCrudState>(
         bloc: discountCrudBloc,
         builder: (context, state) {
-          return state.maybeMap(
-              discount: (_) => SpeedDial(
+          return state.maybeWhen(
+              discount: (discount) => SpeedDial(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
                     animatedIcon: AnimatedIcons.menu_close,
@@ -68,14 +68,14 @@ class DiscountDetailsFab extends StatelessWidget {
                         foregroundColor: Colors.white,
                         labelStyle:
                             smallTextStyle?.copyWith(color: Colors.white),
-                        onTap: () => onDeleteTap(_.discount.id!),
+                        onTap: () => onDeleteTap(discount.id!),
                         onLongPress: () {},
                       ),
                       SpeedDialChild(
                         child: const Icon(MedusaIcons.pencil_square_solid),
                         label: 'Update Discount',
                         labelStyle: smallTextStyle,
-                        onTap: () async => await onUpdateTap(_.discount),
+                        onTap: () async => await onUpdateTap(discount),
                         onLongPress: () {},
                       ),
                     ],
@@ -88,22 +88,22 @@ class DiscountDetailsFab extends StatelessWidget {
     return BlocBuilder<DiscountCrudBloc, DiscountCrudState>(
       bloc: discountCrudBloc,
       builder: (context, state) {
-        return state.maybeMap(
-            discount: (_) => Row(
+        return state.maybeWhen(
+            discount: (discount) => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FloatingActionButton(
                         heroTag: null,
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,
-                        onPressed: () => onDeleteTap(_.discount.id!),
+                        onPressed: () => onDeleteTap(discount.id!),
                         child: const Icon(MedusaIcons.trash)),
                     const SizedBox(width: 12.0),
                     FloatingActionButton(
                         heroTag: null,
                         backgroundColor: ColorManager.primary,
                         foregroundColor: Colors.white,
-                        onPressed: () async => await onUpdateTap(_.discount),
+                        onPressed: () async => await onUpdateTap(discount),
                         child: const Icon(MedusaIcons.pencil_square_solid)),
                   ],
                 ),

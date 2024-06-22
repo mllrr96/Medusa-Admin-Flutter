@@ -44,10 +44,10 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
     super.dispose();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'is_giftcard': true,
-      'offset': pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 
@@ -55,9 +55,8 @@ class _ProductGiftCardsViewState extends State<ProductGiftCardsView> {
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
-    final bottomPadding = context.viewPadding.bottom == 0
-        ? 12.0
-        : context.viewPadding.bottom;
+    final bottomPadding =
+        context.viewPadding.bottom == 0 ? 12.0 : context.viewPadding.bottom;
     return BlocListener<ProductCrudBloc, ProductCrudState>(
       bloc: productCrudBloc,
       listener: (context, state) {

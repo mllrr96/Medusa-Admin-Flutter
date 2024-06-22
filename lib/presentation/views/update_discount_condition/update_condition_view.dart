@@ -74,20 +74,20 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
     return BlocListener<DiscountConditionBloc, DiscountConditionState>(
       bloc: discountConditionBloc,
       listener: (context, state) {
-        state.mapOrNull(
-          loading: (_) => loading(),
-          loaded: (_) {
+        state.whenOrNull(
+          loading: () => loading(),
+          loaded: (val, count) {
             dismissLoading();
-            items = _.items;
+            items = val;
             conditionItems.clear();
-            conditionItems.addAll(_.items);
+            conditionItems.addAll(val);
             selectedItems.clear();
-            selectedItems.addAll(_.items);
+            selectedItems.addAll(val);
             setState(() {});
           },
-          error: (_) {
+          error: (failure) {
             dismissLoading();
-            context.showSnackBar(_.failure.toSnackBarString());
+            context.showSnackBar(failure.toSnackBarString());
           },
         );
       },

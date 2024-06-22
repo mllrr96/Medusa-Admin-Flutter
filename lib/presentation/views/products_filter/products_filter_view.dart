@@ -92,9 +92,9 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
               children: [
-                state.map(
-                  initial: (_) => const SizedBox(),
-                  loading: (_) => const Skeletonizer(
+                state.when(
+                  initial: () => const SizedBox(),
+                  loading: () => const Skeletonizer(
                     enabled: true,
                     child: Skeletonizer(
                       enabled: true,
@@ -119,94 +119,95 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                           ]),
                     ),
                   ),
-                  loaded: (_) {
-                    final collections = _.collections;
-                    final tags = _.tags;
+                  loaded: (collections, tags) {
                     return Column(
                       children: [
-                        ShadAccordion<
-                            int>.multiple(maintainState: true, children: [
-                          ShadAccordionItem(
-                            value: 1,
-                            title: const Text('Status'),
-                            content: Column(
-                              children: ProductStatus.values
-                                  .map((e) => ShadCheckbox(
-                                        label: Text(e.name.capitalize,
-                                            style: smallTextStyle),
-                                        value: productFilter.status.contains(e),
-                                        onChanged: (bool value) {
-                                          if (value) {
-                                            productFilter.status.add(e);
-                                          } else {
-                                            productFilter.status.remove(e);
-                                          }
-                                          setState(() {});
-                                        },
-                                      ))
-                                  .toList(),
-                            ),
-                          ),
-                          ShadAccordionItem(
-                            value: 2,
-                            title: const Text('Collections'),
-                            content: Column(
-                              children: [
-                                if (collections.isNotEmpty)
-                                  ...collections.map((e) => ShadCheckbox(
-                                        value: productFilter.collection
-                                            .map((e) => e.id)
-                                            .toList()
-                                            .contains(e.id),
-                                        onChanged: (val) {
-                                          if (val) {
-                                            productFilter.collection.add(e);
-                                          } else {
-                                            productFilter.collection
-                                                .removeWhere((element) =>
-                                                    element.id == e.id);
-                                          }
-                                          setState(() {});
-                                        },
-                                        label: Text(e.title ?? '',
-                                            style: smallTextStyle),
-                                      ))
-                              ],
-                            ),
-                          ),
-                          ShadAccordionItem(
-                            value: 3,
-                            title: const Text('Tags'),
-                            content: Column(
-                              children: [
-                                if (tags.isNotEmpty)
-                                  Wrap(
-                                    alignment: WrapAlignment.start,
-                                    spacing: 6.0,
-                                    children: tags
-                                        .map(
-                                          (e) => ChoiceChip(
-                                            label: Text(e.value ?? '',
+                        ShadAccordion<int>.multiple(
+                            maintainState: true,
+                            children: [
+                              ShadAccordionItem(
+                                value: 1,
+                                title: const Text('Status'),
+                                content: Column(
+                                  children: ProductStatus.values
+                                      .map((e) => ShadCheckbox(
+                                            label: Text(e.name.capitalize,
                                                 style: smallTextStyle),
-                                            labelStyle: smallTextStyle,
-                                            onSelected: (val) {
-                                              if (val) {
-                                                productFilter.tags.add(e);
+                                            value: productFilter.status
+                                                .contains(e),
+                                            onChanged: (bool value) {
+                                              if (value) {
+                                                productFilter.status.add(e);
                                               } else {
-                                                productFilter.tags.remove(e);
+                                                productFilter.status.remove(e);
                                               }
                                               setState(() {});
                                             },
-                                            selected:
-                                                productFilter.tags.contains(e),
-                                          ),
-                                        )
-                                        .toList(),
-                                  )
-                              ],
-                            ),
-                          ),
-                        ]),
+                                          ))
+                                      .toList(),
+                                ),
+                              ),
+                              ShadAccordionItem(
+                                value: 2,
+                                title: const Text('Collections'),
+                                content: Column(
+                                  children: [
+                                    if (collections.isNotEmpty)
+                                      ...collections.map((e) => ShadCheckbox(
+                                            value: productFilter.collection
+                                                .map((e) => e.id)
+                                                .toList()
+                                                .contains(e.id),
+                                            onChanged: (val) {
+                                              if (val) {
+                                                productFilter.collection.add(e);
+                                              } else {
+                                                productFilter.collection
+                                                    .removeWhere((element) =>
+                                                        element.id == e.id);
+                                              }
+                                              setState(() {});
+                                            },
+                                            label: Text(e.title ?? '',
+                                                style: smallTextStyle),
+                                          ))
+                                  ],
+                                ),
+                              ),
+                              ShadAccordionItem(
+                                value: 3,
+                                title: const Text('Tags'),
+                                content: Column(
+                                  children: [
+                                    if (tags.isNotEmpty)
+                                      Wrap(
+                                        alignment: WrapAlignment.start,
+                                        spacing: 6.0,
+                                        children: tags
+                                            .map(
+                                              (e) => ChoiceChip(
+                                                label: Text(e.value ?? '',
+                                                    style: smallTextStyle),
+                                                labelStyle: smallTextStyle,
+                                                onSelected: (val) {
+                                                  if (val) {
+                                                    productFilter.tags.add(e);
+                                                  } else {
+                                                    productFilter.tags
+                                                        .remove(e);
+                                                  }
+                                                  setState(() {});
+                                                },
+                                                selected: productFilter.tags
+                                                    .contains(e),
+                                              ),
+                                            )
+                                            .toList(),
+                                      )
+                                  ],
+                                ),
+                              ),
+                            ]),
                         // FlexExpansionTile(
                         //   key: statusKey,
                         //   title: const Text('Status'),
@@ -324,10 +325,10 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                       ],
                     );
                   },
-                  error: (error) => Column(
+                  error: (failure) => Column(
                     children: [
                       Center(
-                        child: Text(error.failure.toString()),
+                        child: Text(failure.toString()),
                       ),
                       FilledButton(
                           onPressed: () async => await context

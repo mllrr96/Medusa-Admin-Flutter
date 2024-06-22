@@ -31,12 +31,10 @@ class _CollectionsViewState extends State<CollectionsView> {
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 3);
   late CollectionCrudBloc collectionCrudBloc;
 
-  void _loadPage(int _) {
-    collectionCrudBloc.add(CollectionCrudEvent.loadAll(
-        queryParameters: {
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
-        }
-    ));
+  void _loadPage(int offset) {
+    collectionCrudBloc.add(CollectionCrudEvent.loadAll(queryParameters: {
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
+    }));
   }
 
   @override
@@ -116,7 +114,8 @@ class _CollectionsViewState extends State<CollectionsView> {
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
                 final collectionsCount = collectionCrudBloc.state
-                    .mapOrNull(collections: (state) => state.count) ?? 0;
+                        .mapOrNull(collections: (state) => state.count) ??
+                    0;
                 return Text(
                     collectionsCount != 0
                         ? 'Collections ($collectionsCount)'

@@ -235,7 +235,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
     return BlocBuilder<StoreBloc, StoreState>(
       builder: (context, state) {
         List<Currency>? currencies =
-            state.mapOrNull(loaded: (_) => _.store.currencies);
+            state.whenOrNull(loaded: (store) => store.currencies);
         Currency? selectedCurrency = (currencies?.isNotEmpty ?? false)
             ? currencies?.firstOrNull
             : const Currency(code: 'usd');
@@ -293,8 +293,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 // controller.denominations[widget.index] =
                 //     (selectedCurrency, val, widget.index);
               },
-              prefixText:
-                  '    ${selectedCurrency?.code.getCurrencySymbol} | ',
+              prefixText: '    ${selectedCurrency?.code.getCurrencySymbol} | ',
               noEndSpace: true,
               inputFormatters: [
                 if (selectedCurrency != null)

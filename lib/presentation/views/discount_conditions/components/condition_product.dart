@@ -37,10 +37,10 @@ class _ConditionProductViewState extends State<ConditionProductView> {
   final searchCtrl = TextEditingController();
   String searchTerm = '';
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     productCrudBloc.add(ProductCrudEvent.loadAll(queryParameters: {
       'is_giftcard': false,
-      'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+      'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
 

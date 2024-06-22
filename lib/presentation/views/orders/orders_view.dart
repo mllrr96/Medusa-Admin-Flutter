@@ -37,9 +37,9 @@ class _OrdersViewState extends State<OrdersView> {
   final PagingController<int, Order> pagingController =
       PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 3);
   OrderFilter? orderFilter;
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
-          'offset': _ == 0 ? 0 : pagingController.itemList?.length ?? 0,
+          'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
           ...?orderFilter?.toJson()
         }));
   }
@@ -144,15 +144,15 @@ class _OrdersViewState extends State<OrdersView> {
                         text: const Text('Export'),
                         onPressed: () async {
                           await BatchJobCrudUseCase.instance
-                              .create(BatchJobType.orderExport).then((result) {
-                                context.maybePop();
+                              .create(BatchJobType.orderExport)
+                              .then((result) {
+                            context.maybePop();
                             result.when((success) {
                               context.showSnackBar('Export started');
                             }, (error) {
                               context.showSnackBar(error.message);
                             });
                           });
-
                         },
                       ),
                     ],

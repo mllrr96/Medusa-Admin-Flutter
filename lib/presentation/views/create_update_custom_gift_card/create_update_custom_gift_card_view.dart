@@ -27,7 +27,6 @@ class CreateUpdateCustomGiftCardView extends StatefulWidget {
   const CreateUpdateCustomGiftCardView({super.key, this.giftCard});
   final GiftCard? giftCard;
 
-
   @override
   State<CreateUpdateCustomGiftCardView> createState() =>
       _CreateUpdateCustomGiftCardViewState();
@@ -85,17 +84,17 @@ class _CreateUpdateCustomGiftCardViewState
     return BlocListener<GiftCardCrudBloc, GiftCardCrudState>(
       bloc: giftCardCrudBloc,
       listener: (context, state) {
-        state.maybeMap(
+        state.maybeWhen(
             loading: (_) => loading(),
-            giftCard: (_) {
-              context.maybePop(_.giftCard);
+            giftCard: (giftCard) {
+              context.maybePop(giftCard);
               context.showSnackBar(
                   'Gift card ${updateMode ? 'updated' : 'created'}');
               dismissLoading();
             },
-            error: (error) {
+            error: (failure) {
               dismissLoading();
-              context.showSnackBar(error.failure.toSnackBarString());
+              context.showSnackBar(failure.toSnackBarString());
             },
             orElse: () => dismissLoading());
       },

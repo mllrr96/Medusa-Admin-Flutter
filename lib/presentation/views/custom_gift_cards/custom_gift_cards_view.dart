@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/paging_controller.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/presentation/blocs/gift_card_crud/gift_card_crud_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/search_floating_action_button.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -51,11 +49,11 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
     super.dispose();
   }
 
-  void _loadPage(int _) {
+  void _loadPage(int offset) {
     giftCardBloc.add(
       GiftCardCrudEvent.loadAll(
         queryParameters: {
-          'offset': pagingController.itemList?.length ?? 0,
+          'offset': offset == 0 ? 0 : pagingController.itemList?.length ?? 0,
         },
       ),
     );

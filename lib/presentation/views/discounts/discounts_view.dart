@@ -69,24 +69,24 @@ class _DiscountsViewState extends State<DiscountsView> {
         BlocListener<DiscountCrudBloc, DiscountCrudState>(
           bloc: discountCrudBloc,
           listener: (context, updateDiscountState) {
-            updateDiscountState.mapOrNull(
-              loading: (_) =>
-                  setState(() => loadingDiscountId = _.discountId ?? ''),
-              discount: (_) async {
+            updateDiscountState.whenOrNull(
+              loading: (discountId) =>
+                  setState(() => loadingDiscountId = discountId ?? ''),
+              discount: (discount) async {
                 final index = pagingController.itemList
-                    ?.indexWhere((element) => element.id == _.discount.id);
+                    ?.indexWhere((element) => element.id == discount.id);
                 // If for whatever reason we didn't find the discount in the list,
                 // we just reload discounts
                 if (index == -1 || index == null) {
                   smartRefresherCtrl.headerMode?.value =
                       RefreshStatus.refreshing;
                 } else {
-                  pagingController.updateItem(_.discount, index);
+                  pagingController.updateItem(discount, index);
                 }
                 setState(() => loadingDiscountId = '');
                 context.showSnackBar('Discount updated successfully');
               },
-              deleted: (_) {
+              deleted: () {
                 context.showSnackBar('Discount deleted successfully');
                 final index = pagingController.itemList
                     ?.indexWhere((element) => element.id == loadingDiscountId);
@@ -101,9 +101,9 @@ class _DiscountsViewState extends State<DiscountsView> {
                   discountCount -= 1;
                 });
               },
-              error: (state) {
+              error: (failure) {
                 setState(() => loadingDiscountId = '');
-                context.showSnackBar(state.failure.message);
+                context.showSnackBar(failure.message);
               },
             );
           },
