@@ -54,3 +54,4 @@ app.*.map.json
 /pubspec.lock
 firebase.json
 .idx/dev.nix
+.vscode/
