@@ -9,6 +9,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'components/region_card.dart';
 import 'components/regions_loading_page.dart';
@@ -83,8 +84,8 @@ class _RegionsViewState extends State<RegionsView> {
         );
       },
       child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          label: const Text('New Region'),
+        floatingActionButton: ShadButton(
+          text: const Text('New Region'),
           icon: const Icon(Icons.add),
           onPressed: () async {
             final result = await context.pushRoute(AddUpdateRegionRoute());
@@ -110,8 +111,7 @@ class _RegionsViewState extends State<RegionsView> {
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<Region>(
                 animateTransitions: true,
-                itemBuilder: (context, region, index) =>
-                    RegionCard(region: region),
+                itemBuilder: (context, region, index) => RegionCard(region),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const RegionsLoadingPage(),
                 firstPageErrorIndicatorBuilder: (context) =>

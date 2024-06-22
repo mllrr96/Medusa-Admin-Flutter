@@ -13,6 +13,7 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class PickProductsView extends StatefulWidget {
@@ -95,7 +96,7 @@ class _PickProductsViewState extends State<PickProductsView> {
           leading: const CloseButton(),
           title: const Text('Products'),
           actions: [
-            TextButton(
+            ShadButton.ghost(
                 onPressed: selectedProducts
                         .map((e) => e.id!)
                         .toList()
@@ -110,7 +111,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                           ...?pickProductsReq.selectedProducts
                         ]..removeWhere((e) =>
                             selectedProducts.map((e) => e.id).contains(e.id)))),
-                child: const Text('Save'))
+                text: const Text('Save'))
           ],
         ),
         body: SafeArea(

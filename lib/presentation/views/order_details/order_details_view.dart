@@ -60,9 +60,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    const space = Gap(12);
     final tr = context.tr;
-
     return BlocConsumer<OrderCrudBloc, OrderCrudState>(
       bloc: orderCrudBloc,
       listener: (context, state) {

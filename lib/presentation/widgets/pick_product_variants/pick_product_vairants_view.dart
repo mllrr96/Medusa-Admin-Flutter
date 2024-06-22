@@ -7,6 +7,7 @@ import 'package:medusa_admin/data/models/select_products_res.dart';
 import 'package:medusa_admin/presentation/cubits/product_variants/product_variants_cubit.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/product_variant_list_tile.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -66,8 +67,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
       listener: (context, state) {
         state.maybeWhen(
           variants: (variants, _) {
-            final isLastPage =
-                variants.length < ProductVariantsCubit.pageSize;
+            final isLastPage = variants.length < ProductVariantsCubit.pageSize;
             if (isLastPage) {
               pagingController.appendLastPage(variants);
             } else {
@@ -84,47 +84,45 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
           leading: const CloseButton(),
           title: const Text('Add Products'),
           actions: [
-            TextButton(
+            ShadButton.ghost(
                 onPressed: isEqual
                     ? null
                     : () => context.maybePop(SelectProductsRes(
-                    selectedProductVariants: newlySelectedProducts)),
-                child: const Text('Add'))
+                        selectedProductVariants: newlySelectedProducts)),
+                text: const Text('Add'))
           ],
         ),
         body: SafeArea(
             child: PagedListView.separated(
-              pagingController: pagingController,
-              separatorBuilder: (_, __) =>
-              const Divider(height: 0, indent: 16.0),
-              builderDelegate: PagedChildBuilderDelegate<ProductVariant>(
-                animateTransitions: true,
-                itemBuilder: (context, productVariant, index) =>
-                    ProductVariantListTile(
-                      productVariant: productVariant,
-                      value: newlySelectedProducts
-                          .map((e) => e.id)
-                          .toList()
-                          .contains(productVariant.id),
-                      onChanged: (value) {
-                        if (value != null && value) {
-                          newlySelectedProducts.add(productVariant);
-                        } else if (value != null && !value) {
-                          newlySelectedProducts.removeWhere(
-                                  (element) => element.id == productVariant.id);
-                        }
-                        setState(() {});
-                      },
-                      index: index,
-                    ),
-                firstPageProgressIndicatorBuilder: (context) =>
+          pagingController: pagingController,
+          separatorBuilder: (_, __) => const Divider(height: 0, indent: 16.0),
+          builderDelegate: PagedChildBuilderDelegate<ProductVariant>(
+            animateTransitions: true,
+            itemBuilder: (context, productVariant, index) =>
+                ProductVariantListTile(
+              productVariant: productVariant,
+              value: newlySelectedProducts
+                  .map((e) => e.id)
+                  .toList()
+                  .contains(productVariant.id),
+              onChanged: (value) {
+                if (value != null && value) {
+                  newlySelectedProducts.add(productVariant);
+                } else if (value != null && !value) {
+                  newlySelectedProducts.removeWhere(
+                      (element) => element.id == productVariant.id);
+                }
+                setState(() {});
+              },
+              index: index,
+            ),
+            firstPageProgressIndicatorBuilder: (context) =>
                 const Center(child: CircularProgressIndicator.adaptive()),
-                firstPageErrorIndicatorBuilder: (_) =>
-                    PaginationErrorPage(pagingController: pagingController),
-              ),
-            )),
+            firstPageErrorIndicatorBuilder: (_) =>
+                PaginationErrorPage(pagingController: pagingController),
+          ),
+        )),
       ),
     );
-
   }
 }

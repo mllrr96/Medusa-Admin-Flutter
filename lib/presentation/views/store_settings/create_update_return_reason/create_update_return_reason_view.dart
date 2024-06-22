@@ -11,6 +11,7 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class CreateUpdateReturnReasonView extends StatefulWidget {
@@ -81,7 +82,7 @@ class _CreateUpdateReturnReasonViewState
                 ? const Text('Update Return Reason')
                 : const Text('Create Return Reason'),
             actions: [
-              TextButton(
+              ShadButton.ghost(
                 onPressed: () {
                   if (!formKey.currentState!.validate()) {
                     return;
@@ -117,7 +118,7 @@ class _CreateUpdateReturnReasonViewState
                     );
                   }
                 },
-                child: updateMode ? const Text('Update') : const Text('Create'),
+                text: updateMode ? const Text('Update') : const Text('Create'),
               )
             ],
           ),
@@ -128,60 +129,44 @@ class _CreateUpdateReturnReasonViewState
               children: [
                 Form(
                   key: formKey,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: context.theme.cardColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12.0))),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 12.0),
-                    child: Column(
+                  child: ShadCard(
+                    content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        LabeledTextField(
-                          label: 'Label',
+                        ShadInputFormField(
+                          label: const Text('Label'),
                           controller: labelCtrl,
-                          required: true,
-                          hintText: 'Wrong Size',
+                          placeholder: const Text('Wrong Size'),
                           validator: (val) {
-                            if (val == null ||
-                                val.removeAllWhitespace.isEmpty) {
+                            if (val.removeAllWhitespace.isEmpty) {
                               return 'Field is required';
                             }
                             return null;
                           },
                         ),
-                        LabeledTextField(
-                          label: 'Value',
+                        ShadInputFormField(
+                          label: const Text('Value'),
                           controller: valueCtrl,
-                          required: !updateMode,
-                          hintText: 'wrong_size',
+                          placeholder: const Text('wrong_size'),
                           enabled: !updateMode,
                           style: updateMode
                               ? context.bodySmall?.copyWith(color: Colors.grey)
-                              : null,
-                          decoration: updateMode
-                              ? const InputDecoration(
-                                  disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent)),
-                                )
                               : null,
                           validator: (val) {
                             if (updateMode) {
                               return null;
                             }
-                            if (val == null ||
-                                val.removeAllWhitespace.isEmpty) {
+                            if (val.removeAllWhitespace.isEmpty) {
                               return 'Field is required';
                             }
                             return null;
                           },
                         ),
-                        LabeledTextField(
-                          label: 'Description',
+                        ShadInputFormField(
+                          label: const Text('Description'),
                           controller: descriptionCtrl,
-                          hintText: 'Customer received the wrong size',
+                          placeholder:
+                              const Text('Customer received the wrong size'),
                           maxLines: null,
                           textInputAction: TextInputAction.newline,
                         ),

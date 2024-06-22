@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/presentation/blocs/user_crud/user_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/index.dart';
 
 @RoutePage()
@@ -89,32 +88,44 @@ class _TeamViewState extends State<TeamView> {
             child: PagedListView(
               pagingController: pagingController,
               builderDelegate: PagedChildBuilderDelegate<User>(
-                firstPageProgressIndicatorBuilder: (_)=> const TeamLoadingPage(),
+                firstPageProgressIndicatorBuilder: (_) =>
+                    const TeamLoadingPage(),
                 animateTransitions: true,
                 itemBuilder: (context, user, index) {
                   return TeamCard(
                     user: user,
                     onEditTap: () async {
-                      if (Platform.isIOS) {
-                        await showCupertinoModalBottomSheet(
-                            context: context,
-                            builder: (_) => UpdateUserCard(
-                                user: user,
-                                onUpdated: (userUpdateUserReq) {
-                                  userCrudBloc.add(UserCrudEvent.update(
-                                      user.id!, userUpdateUserReq));
-                                }));
-                      } else {
-                        await showModalBottomSheet(
-                            context: context,
-                            builder: (_) => UpdateUserCard(
-                                user: user,
-                                onUpdated: (userUpdateUserReq) {
-                                  userCrudBloc.add(UserCrudEvent.update(
-                                      user.id!, userUpdateUserReq));
-                                }),
-                            isScrollControlled: true);
-                      }
+                      await showShadDialog(
+                        context: context,
+                        builder: (_) => UpdateUserShadCard(
+                          user: user,
+                          onUpdated: (userUpdateUserReq) {
+                            userCrudBloc.add(UserCrudEvent.update(
+                                user.id!, userUpdateUserReq));
+                          },
+                        ),
+                      );
+
+                      // if (Platform.isIOS) {
+                      //   await showCupertinoModalBottomSheet(
+                      //       context: context,
+                      //       builder: (_) => UpdateUserCard(
+                      //           user: user,
+                      //           onUpdated: (userUpdateUserReq) {
+                      //             userCrudBloc.add(UserCrudEvent.update(
+                      //                 user.id!, userUpdateUserReq));
+                      //           }));
+                      // } else {
+                      //   await showModalBottomSheet(
+                      //       context: context,
+                      //       builder: (_) => UpdateUserCard(
+                      //           user: user,
+                      //           onUpdated: (userUpdateUserReq) {
+                      //             userCrudBloc.add(UserCrudEvent.update(
+                      //                 user.id!, userUpdateUserReq));
+                      //           }),
+                      //       isScrollControlled: true);
+                      // }
                     },
                     onDeleteTap: () async {
                       if (await delete) {

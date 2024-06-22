@@ -15,6 +15,7 @@ import 'package:medusa_admin/presentation/widgets/search_floating_action_button.
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/index.dart';
 import '../../../core/utils/enums.dart';
 
@@ -164,12 +165,8 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                     final listTile = CustomGiftCardTile(
                       giftCard,
                       onTap: () async {
-                        await showBarModalBottomSheet(
+                        await showShadDialog(
                           context: context,
-                          backgroundColor:
-                              context.theme.scaffoldBackgroundColor,
-                          overlayStyle:
-                              context.theme.appBarTheme.systemOverlayStyle,
                           builder: (context) => CustomGiftCardView(
                             giftCard,
                             onEdit: () async {
@@ -193,6 +190,35 @@ class _CustomGiftCardsViewState extends State<CustomGiftCardsView> {
                             },
                           ),
                         );
+                        // await showBarModalBottomSheet(
+                        //   context: context,
+                        //   backgroundColor:
+                        //       context.theme.scaffoldBackgroundColor,
+                        //   overlayStyle:
+                        //       context.theme.appBarTheme.systemOverlayStyle,
+                        //   builder: (context) => CustomGiftCardView(
+                        //     giftCard,
+                        //     onEdit: () async {
+                        //       final result = await context.pushRoute(
+                        //         CreateUpdateCustomGiftCardRoute(
+                        //           giftCard: giftCard,
+                        //         ),
+                        //       );
+                        //       if (result is GiftCard) {
+                        //         pagingController.updateItem(result, index);
+                        //         setState(() {});
+                        //       }
+                        //     },
+                        //     onToggle: () async {
+                        //       giftCardCrudBloc.add(
+                        //         GiftCardCrudEvent.update(
+                        //           giftCard.id!,
+                        //           UpdateGiftCardReq(isDisabled: !isDisabled),
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       },
                       onEdit: () async {
                         final result = await context.pushRoute(

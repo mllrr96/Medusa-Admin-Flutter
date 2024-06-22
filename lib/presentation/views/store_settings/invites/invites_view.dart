@@ -9,6 +9,7 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'components/index.dart';
 
@@ -51,92 +52,112 @@ class _InvitesViewState extends State<InvitesView> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
-      listeners: [
-        BlocListener<InviteCrudBloc, InviteCrudState>(
-          bloc: invitesBloc,
-          listener: (context, state) {
-            state.mapOrNull(
-              invites: (state) async {
-                final isLastPage =
-                    state.invites.length < InviteCrudBloc.pageSize;
-                if (refreshController.isRefresh) {
-                  pagingController.removePageRequestListener(_loadPage);
-                  pagingController.value = const PagingState(
-                      nextPageKey: null, error: null, itemList: null);
-                  await Future.delayed(const Duration(milliseconds: 250));
-                }
-                if (isLastPage) {
-                  pagingController.appendLastPage(state.invites);
-                } else {
-                  final nextPageKey =
-                      pagingController.nextPageKey ?? 0 + state.invites.length;
-                  pagingController.appendPage(state.invites, nextPageKey);
-                }
-                if (refreshController.isRefresh) {
-                  pagingController.addPageRequestListener(_loadPage);
-                  refreshController.refreshCompleted();
-                }
-              },
-              error: (state) {
-                refreshController.refreshFailed();
-                pagingController.error = state.failure;
-              },
-            );
-          },
-        ),
-        BlocListener<InviteCrudBloc, InviteCrudState>(
-          bloc: inviteCrudBloc,
-          listener: (context, state) {
-            state.mapOrNull(
-              loading: (_) => loading(),
-              deleted: (_) {
-                dismissLoading();
-                pagingController.refresh();
-                context.showSnackBar('Invite deleted');
-              },
-              resent: (_) {
-                dismissLoading();
-                // pagingController.refresh();
-                context.showSnackBar('Invite resent');
-              },
-              error: (state) {
-                dismissLoading();
-                context.showSnackBar(state.failure.toSnackBarString());
-              },
-            );
-          },
-        ),
-      ],
-      child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            const MedusaSliverAppBar(title: Text('Invites')),
-          ],
-          body: SmartRefresher(
-            controller: refreshController,
-            onRefresh: () => _loadPage(0),
-            child: PagedListView(
-              pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Invite>(
-                animateTransitions: true,
-                itemBuilder: (context, invite, index) {
-                  return InviteCard(
-                    invite: invite,
-                    onResendTap: () =>
-                        inviteCrudBloc.add(InviteCrudEvent.resend(invite.id!)),
-                    onDeleteTap: () async {
-                      if (await delete) {
-                        inviteCrudBloc.add(InviteCrudEvent.delete(invite.id!));
-                      }
-                    },
-                  );
+        listeners: [
+          BlocListener<InviteCrudBloc, InviteCrudState>(
+            bloc: invitesBloc,
+            listener: (context, state) {
+              state.mapOrNull(
+                invites: (state) async {
+                  final isLastPage =
+                      state.invites.length < InviteCrudBloc.pageSize;
+                  if (refreshController.isRefresh) {
+                    pagingController.removePageRequestListener(_loadPage);
+                    pagingController.value = const PagingState(
+                        nextPageKey: null, error: null, itemList: null);
+                    await Future.delayed(const Duration(milliseconds: 250));
+                  }
+                  if (isLastPage) {
+                    pagingController.appendLastPage(state.invites);
+                  } else {
+                    final nextPageKey = pagingController.nextPageKey ??
+                        0 + state.invites.length;
+                    pagingController.appendPage(state.invites, nextPageKey);
+                  }
+                  if (refreshController.isRefresh) {
+                    pagingController.addPageRequestListener(_loadPage);
+                    refreshController.refreshCompleted();
+                  }
                 },
+                error: (state) {
+                  refreshController.refreshFailed();
+                  pagingController.error = state.failure;
+                },
+              );
+            },
+          ),
+          BlocListener<InviteCrudBloc, InviteCrudState>(
+            bloc: inviteCrudBloc,
+            listener: (context, state) {
+              state.mapOrNull(
+                loading: (_) => loading(),
+                created: (_) {
+                  dismissLoading();
+                  pagingController.refresh();
+                  context.showSnackBar('Invite sent');
+                },
+                deleted: (_) {
+                  dismissLoading();
+                  pagingController.refresh();
+                  context.showSnackBar('Invite deleted');
+                },
+                resent: (_) {
+                  dismissLoading();
+                  // pagingController.refresh();
+                  context.showSnackBar('Invite resent');
+                },
+                error: (state) {
+                  dismissLoading();
+                  context.showSnackBar(state.failure.toSnackBarString());
+                },
+              );
+            },
+          ),
+        ],
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          floatingActionButton: ShadButton(
+            onPressed: () async {
+              await showShadDialog(
+                  context: context,
+                  builder: (context) => InviteUserCard(onInvite: (email, role) {
+                        inviteCrudBloc.add(InviteCrudEvent.create(email, role));
+                      }));
+            },
+            icon: const Icon(Icons.add),
+            text: const Text('Invite user'),
+          ),
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              const MedusaSliverAppBar(title: Text('Invites')),
+            ],
+            body: SmartRefresher(
+              controller: refreshController,
+              onRefresh: () => _loadPage(0),
+              child: PagedListView(
+                pagingController: pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Invite>(
+                  animateTransitions: true,
+                  itemBuilder: (context, invite, index) {
+                    return InviteCard(
+                      invite: invite,
+                      onResendTap: () => inviteCrudBloc
+                          .add(InviteCrudEvent.resend(invite.id!)),
+                      onDeleteTap: () async {
+                        if (await delete) {
+                          inviteCrudBloc
+                              .add(InviteCrudEvent.delete(invite.id!));
+                        }
+                      },
+                    );
+                  },
+                  noItemsFoundIndicatorBuilder: (_) => const Center(
+                    child: Text('No invites found'),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Future<bool> get delete async => await showOkCancelAlertDialog(

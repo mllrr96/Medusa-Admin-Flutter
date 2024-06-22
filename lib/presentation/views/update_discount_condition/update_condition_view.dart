@@ -15,6 +15,7 @@ import 'package:medusa_admin/presentation/views/discount_conditions/components/i
 import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class UpdateConditionView extends StatefulWidget {
@@ -94,9 +95,9 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
         appBar: AppBar(
           title: const Text('Update Condition'),
           actions: [
-            TextButton(
+            ShadButton.ghost(
               onPressed: () async => await add(context),
-              child: Row(
+              text: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (Platform.isIOS) const Icon(CupertinoIcons.add),

@@ -1,28 +1,28 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
-import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flutter/services.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class CustomGiftCardView extends StatefulWidget {
-  const CustomGiftCardView(this.giftCard, {super.key, this.onEdit, this.onToggle});
+  const CustomGiftCardView(this.giftCard,
+      {super.key, this.onEdit, this.onToggle});
   final GiftCard giftCard;
   final void Function()? onEdit;
   final void Function()? onToggle;
-
 
   @override
   State<CustomGiftCardView> createState() => _CustomGiftCardViewState();
 }
 
 class _CustomGiftCardViewState extends State<CustomGiftCardView> {
-
   @override
   void initState() {
     super.initState();
@@ -42,62 +42,45 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom == 0
         ? 20.0
         : MediaQuery.of(context).viewPadding.bottom;
-    return Container(
-      color: context.theme.scaffoldBackgroundColor,
-      child: Column(
+    return ShadDialog(
+      title: const Text('Custom Gift Card Details'),
+      actions: [
+        ShadButton(
+            onPressed: () {
+              context.maybePop();
+              widget.onEdit?.call();
+            },
+            text: const Text('Edit')),
+        ShadButton(
+            onPressed: () {
+              context.maybePop();
+              widget.onToggle?.call();
+            },
+            text: Text(isDisabled ? 'Enable' : 'Disable')),
+      ],
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppBar(
-            leading: const CloseButton(),
-            title: const Text('Custom Gift Card Details'),
-            actions: [
-              IconButton(
-                  padding: const EdgeInsets.all(16.0),
-                  onPressed: () async {
-                    await showModalActionSheet<int>(
-                        title: 'Manage Custom Gift Card',
-                        context: context,
-                        actions: <SheetAction<int>>[
-                          const SheetAction(label: 'Edit details', key: 0),
-                          SheetAction(
-                              label: isDisabled ? 'Enable' : 'Disable',
-                              isDestructiveAction: true,
-                              key: 1),
-                        ]).then((value) async {
-                      switch (value) {
-                        case 0:
-                          context.maybePop();
-                          widget.onEdit?.call();
-                          break;
-                        case 1:
-                          context.maybePop();
-                          widget.onToggle?.call();
-                          break;
-                      }
-                    });
-                  },
-                  icon: const Icon(Icons.more_horiz))
-            ],
-          ),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                    onTap: () async {
-                      await Clipboard.setData(
-                              ClipboardData(text: widget.giftCard.code ?? ''))
-                          .then((_) {
-                        context.showSnackBar('Gift card code copied');
-                      });
-                    },
-                    child: Center(
-                        child: Chip(
-                            label: Text(widget.giftCard.code ?? '',
-                                style: largeTextStyle)))),
-                const SizedBox(height: 12.0),
+                Center(
+                  child: ShadButton.outline(
+                      text: Text(
+                        widget.giftCard.code ?? '',
+                      ),
+                      onPressed: () async {
+                        await Clipboard.setData(
+                                ClipboardData(text: widget.giftCard.code ?? ''))
+                            .then((_) {
+                          // context.showSnackBar('Gift card code copied');
+                        });
+                      }),
+                ),
+                const Gap(12.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -134,8 +117,7 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                       children: [
                         Text('Region',
                             style: mediumTextStyle?.copyWith(color: manatee)),
-                        Text(
-                            widget.giftCard.region?.name?.toUpperCase() ?? '',
+                        Text(widget.giftCard.region?.name?.toUpperCase() ?? '',
                             style: mediumTextStyle),
                       ],
                     ),
@@ -172,9 +154,8 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
                               alignment: AlignmentDirectional.center,
                               children: [
                                 Icon(Icons.circle,
-                                    color: isDisabled
-                                        ? Colors.red
-                                        : Colors.green,
+                                    color:
+                                        isDisabled ? Colors.red : Colors.green,
                                     size: 10),
                                 Icon(Icons.circle,
                                     color: isDisabled

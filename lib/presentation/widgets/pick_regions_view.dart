@@ -8,6 +8,7 @@ import 'package:medusa_admin/presentation/blocs/region_crud/region_crud_bloc.dar
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class PickRegionsView extends StatefulWidget {
@@ -83,17 +84,16 @@ class _PickRegionsViewState extends State<PickRegionsView> {
                   ? const Text('Pick Regions')
                   : const Text('Pick Region'),
               actions: [
-                TextButton(
+                ShadButton.ghost(
                     onPressed: selectedRegions.isNotEmpty
                         ? () => context
                             .maybePop(PickRegionsRes(regions: selectedRegions))
                         : null,
-                    child: const Text('Done'))
+                    text: const Text('Done'))
               ],
             ),
           ],
           body: PagedListView.separated(
-
             separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
             pagingController: pagingController,
             builderDelegate: PagedChildBuilderDelegate<Region>(

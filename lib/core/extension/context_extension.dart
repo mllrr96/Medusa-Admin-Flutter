@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 extension ContextEntension<T> on BuildContext? {
   /// Scroll to current widget
@@ -111,13 +112,13 @@ extension DateTimePickerExtension on BuildContext {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(
+                      ShadButton.secondary(
                           onPressed: () => context.maybePop(),
-                          child: const Text('Cancel')),
-                      TextButton(
+                          text: const Text('Cancel')),
+                      ShadButton(
                           onPressed: () => context
                               .maybePop(selectedDate ?? date ?? DateTime.now()),
-                          child: const Text('Done')),
+                          text: const Text('Done')),
                     ],
                   ),
                   Flexible(

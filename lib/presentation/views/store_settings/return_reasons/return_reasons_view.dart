@@ -10,6 +10,7 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/return_reason_list_tile.dart';
 
 @RoutePage()
@@ -111,7 +112,7 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
         appBar: AppBar(
           title: const Text('Return Reasons'),
         ),
-        floatingActionButton: FloatingActionButton.extended(
+        floatingActionButton: ShadButton(
           onPressed: () async => await context
               .pushRoute(CreateUpdateReturnReasonRoute())
               .then((value) {
@@ -119,7 +120,7 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
               pagingController.refresh();
             }
           }),
-          label: const Text('Add Return Reason'),
+          text: const Text('Add Return Reason'),
           icon: const Icon(Icons.add),
         ),
         body: SafeArea(

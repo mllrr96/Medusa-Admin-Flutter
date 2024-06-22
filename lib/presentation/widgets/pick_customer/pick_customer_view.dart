@@ -7,6 +7,7 @@ import 'package:medusa_admin/data/models/pick_customer_res.dart';
 import 'package:medusa_admin/presentation/blocs/customer_crud/customer_crud_bloc.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'components/pick_customer_app_bar.dart';
 
@@ -91,12 +92,12 @@ class _PickCustomerViewState extends State<PickCustomerView> {
                 leading: const CloseButton(),
                 title: const Text('Pick Customer'),
                 actions: [
-                  TextButton(
+                  ShadButton.ghost(
                       onPressed: selectedCustomers.isNotEmpty
                           ? () => context.maybePop(PickCustomerRes(
                               selectedCustomers: selectedCustomers))
                           : null,
-                      child: const Text('Done'))
+                      text: const Text('Done'))
                 ],
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(kToolbarHeight),

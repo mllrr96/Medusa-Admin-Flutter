@@ -8,6 +8,7 @@ import 'package:medusa_admin/presentation/widgets/countries/components/countries
 import 'package:medusa_admin/presentation/widgets/search_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class SelectCountryView extends StatefulWidget {
@@ -56,11 +57,11 @@ class _SelectCountryViewState extends State<SelectCountryView> {
                 'Select Countries ${selectedCountries.isNotEmpty ? '(${selectedCountries.length})' : ''}')
             : const Text('Select Country'),
         actions: [
-          TextButton(
+          ShadButton.ghost(
               onPressed: selectedCountries.isEmpty
                   ? null
                   : () => context.maybePop(selectedCountries),
-              child: const Text('Save'))
+              text: const Text('Save'))
         ],
         bottom: PreferredSize(
             preferredSize: selectCountryOptions.disabledCountriesIso2.isNotEmpty
@@ -82,13 +83,13 @@ class _SelectCountryViewState extends State<SelectCountryView> {
                         fillColor: context.theme.scaffoldBackgroundColor,
                       )),
                       AnimatedCrossFade(
-                          firstChild: TextButton(
+                          firstChild: ShadButton.ghost(
                               onPressed: () {
                                 searchFocusNode.unfocus();
                                 searchCtrl.clear();
                                 setState(() {});
                               },
-                              child: const Text('Cancel')),
+                              text: const Text('Cancel')),
                           secondChild: const SizedBox(),
                           crossFadeState: searchFocusNode.hasFocus
                               ? CrossFadeState.showFirst

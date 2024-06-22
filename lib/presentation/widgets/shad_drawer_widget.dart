@@ -39,7 +39,9 @@ class _ShadDrawerState extends State<ShadDrawer> {
   }) {
     if (!isSelected) {
       return ShadButton.secondary(
+        mainAxisAlignment: MainAxisAlignment.start,
         height: 56,
+        width: double.infinity,
         onPressed: onPressed,
         text: Text(text),
         icon: Padding(
@@ -52,7 +54,9 @@ class _ShadDrawerState extends State<ShadDrawer> {
       );
     }
     return ShadButton(
+      mainAxisAlignment: MainAxisAlignment.start,
       height: 56,
+      width: double.infinity,
       onPressed: () {
         context.tabsRouter.setActiveIndex(0);
         context.closeDrawer();
@@ -132,9 +136,11 @@ class _ShadDrawerState extends State<ShadDrawer> {
                       size: ShadButtonSize.icon,
                       onPressed: () => context
                           .read<ThemeCubit>()
-                          .updateThemeState(
-                              themeMode: state.themeMode.next),
-                      icon: Icon(state.themeMode.icon, size: 16.0,),
+                          .updateThemeState(themeMode: state.themeMode.next),
+                      icon: Icon(
+                        state.themeMode.icon,
+                        size: 16.0,
+                      ),
                     );
                   },
                 ),
@@ -154,7 +160,10 @@ class _ShadDrawerState extends State<ShadDrawer> {
                       smallSize: 8,
                       backgroundColor: Colors.red,
                       alignment: Alignment.topRight,
-                      child: Icon(Icons.notifications_outlined,size: 16.0,)),
+                      child: Icon(
+                        Icons.notifications_outlined,
+                        size: 16.0,
+                      )),
                   size: ShadButtonSize.icon,
                   onPressed: () => context.pushRoute(const ActivityRoute()),
                 ),

@@ -121,7 +121,7 @@ class _TaxSettingsSelectRegionViewState
               builderDelegate: PagedChildBuilderDelegate<Region>(
                 animateTransitions: true,
                 itemBuilder: (context, region, index) => RegionCard(
-                  region: region,
+                  region,
                   onTap: () =>
                       context.pushRoute(TaxSettingsRoute(region: region)),
                   showProviders: false,

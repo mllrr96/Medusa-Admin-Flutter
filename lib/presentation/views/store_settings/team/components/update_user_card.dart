@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/presentation/widgets/custom_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class UpdateUserCard extends StatefulWidget {
   const UpdateUserCard({super.key, required this.user, this.onUpdated});
@@ -126,6 +128,120 @@ class _UpdateUserCardState extends State<UpdateUserCard> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class UpdateUserShadCard extends StatefulWidget {
+  const UpdateUserShadCard({super.key, required this.user, this.onUpdated});
+  final User user;
+  final void Function(UpdateUserReq)? onUpdated;
+  @override
+  State<UpdateUserShadCard> createState() => _UpdateUserShadCardState();
+}
+
+class _UpdateUserShadCardState extends State<UpdateUserShadCard> {
+  final emailCtrl = TextEditingController();
+  final firstNameCtrl = TextEditingController();
+  final lastNameCtrl = TextEditingController();
+  final tokenCtrl = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    emailCtrl.text = widget.user.email ?? '';
+    firstNameCtrl.text = widget.user.firstName ?? '';
+    lastNameCtrl.text = widget.user.lastName ?? '';
+    tokenCtrl.text = widget.user.apiToken ?? '';
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailCtrl.dispose();
+    firstNameCtrl.dispose();
+    lastNameCtrl.dispose();
+    tokenCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = widget.user;
+    return ShadDialog(
+      actions: [
+        ShadButton.outline(
+          text: const Text('Cancel'),
+          onPressed: () => context.maybePop(),
+        ),
+        ShadButton(
+          text: const Text('Update'),
+          onPressed: () async {
+            if (!formKey.currentState!.validate()) {
+              return;
+            }
+
+            if (user.firstName == firstNameCtrl.text &&
+                user.lastName == lastNameCtrl.text &&
+                user.apiToken == tokenCtrl.text) {
+              context.maybePop();
+              return;
+            }
+
+            widget.onUpdated?.call(UpdateUserReq(
+              firstName: firstNameCtrl.text,
+              lastName: lastNameCtrl.text,
+              apiToken: tokenCtrl.text.isNotEmpty ? tokenCtrl.text : null,
+            ));
+          },
+        ),
+      ],
+      content: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ShadInputFormField(
+              label: const Text('First Name'),
+              autofocus: true,
+              controller: firstNameCtrl,
+              placeholder: const Text('First name ...'),
+              validator: (val) {
+                if (val.removeAllWhitespace.isEmpty) {
+                  return 'First name is required';
+                }
+                return null;
+              },
+            ),
+            const Gap(12.0),
+            ShadInputFormField(
+              label: const Text('Last Name'),
+              controller: lastNameCtrl,
+              textInputAction: TextInputAction.done,
+              placeholder: const Text('Last name ...'),
+              validator: (val) {
+                if (val.removeAllWhitespace.isEmpty) {
+                  return 'Last name is required';
+                }
+                return null;
+              },
+            ),
+            const Gap(12.0),
+            ShadInputFormField(
+              label: const Text('Email'),
+              readOnly: true,
+              controller: emailCtrl,
+              placeholder: const Text('Lebron@james.com'),
+            ),
+            const Gap(12.0),
+            ShadInputFormField(
+              label: const Text('Api Token'),
+              controller: tokenCtrl,
+            ),
+          ],
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import '../../../../core/constant/colors.dart';
 
 class BatchJobTile extends StatefulWidget {
@@ -247,13 +248,13 @@ class _BatchJobTileState extends State<BatchJobTile> {
               const Gap(10),
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton(
+                child: ShadButton.ghost(
                   onPressed: () {
                     setState(() {
                       showDate = !showDate;
                     });
                   },
-                  child: Text(
+                  text: Text(
                       showDate
                           ? '${widget.batchJob.createdAt.formatDate()} at ${widget.batchJob.createdAt.formatTime()}'
                           : widget.batchJob.createdAt?.timeAgo() ?? '',
@@ -267,12 +268,12 @@ class _BatchJobTileState extends State<BatchJobTile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        OutlinedButton(
+                        ShadButton.destructive(
                             onPressed: isCompleted ? widget.onDelete : null,
-                            child: const Text('Delete')),
-                        FilledButton.icon(
+                            text: const Text('Delete')),
+                        ShadButton(
                             onPressed: isCompleted ? widget.onShare : null,
-                            label: const Text('Share'),
+                            text: const Text('Share'),
                             icon: const Icon(Icons.file_upload_outlined)),
                       ],
                     ),
