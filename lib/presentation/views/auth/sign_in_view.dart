@@ -121,106 +121,94 @@ class _SignInViewState extends State<SignInView> {
                               );
                             },
                           ),
-                          ShadButton.outline(
-                            // text:Text(context
-                            //     .read<LanguageCubit>()
-                            //     .state
-                            //     .locale
-                            //     .languageModel
-                            //     .nativeName),
-                            icon: const Icon(
-                              LucideIcons.languages,
-                              size: 16,
-                            ),
-                            size: ShadButtonSize.icon,
-                            onPressed: () async =>
-                                await showBarModalBottomSheet(
-                              backgroundColor:
-                                  context.theme.scaffoldBackgroundColor,
-                              overlayStyle:
-                                  context.theme.appBarTheme.systemOverlayStyle,
-                              context: context,
-                              builder: (context) =>
-                                  const LanguageSelectionView(),
-                            ),
+                          Row(
+                            children: [
+                              ShadButton.outline(
+                                // text:Text(context
+                                //     .read<LanguageCubit>()
+                                //     .state
+                                //     .locale
+                                //     .languageModel
+                                //     .nativeName),
+                                icon: const Icon(
+                                  LucideIcons.languages,
+                                  size: 16,
+                                ),
+                                size: ShadButtonSize.icon,
+                                onPressed: () async =>
+                                    await showBarModalBottomSheet(
+                                  backgroundColor:
+                                      context.theme.scaffoldBackgroundColor,
+                                  overlayStyle: context
+                                      .theme.appBarTheme.systemOverlayStyle,
+                                  context: context,
+                                  builder: (context) =>
+                                      const LanguageSelectionView(),
+                                ),
+                              ),
+                              UpdateUrlButton(
+                                onUrlPressed: loading
+                                    ? null
+                                    : () async {
+                                        final result = await showShadDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                const UrlConfigureView());
+                                        if (result == true) {
+                                          emailCtrl.text =
+                                              AuthPreferenceService.email ?? '';
+                                          setState(() {});
+                                        }
+                                      },
+                              )
+                            ],
                           ),
                         ],
                       ),
                     )),
-                bottomNavigationBar: AnimatedCrossFade(
-                    firstChild: const SizedBox.shrink(),
-                    secondChild: BlocBuilder<AppUpdateBloc, AppUpdateState>(
-                      builder: (context, state) {
-                        final appUpdate = context
-                            .read<AppUpdateBloc>()
-                            .state
-                            .whenOrNull(updateAvailable: (update) => update);
-                        return ShadButton(
-                          // height: 56,
-                          onPressed: () {},
-                          gradient: const LinearGradient(colors: [
-                            Colors.cyan,
-                            Colors.indigo,
-                          ]),
-                          shadows: [
-                            BoxShadow(
-                              color: Colors.blue.withOpacity(.4),
-                              spreadRadius: 4,
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                          text: Text(
-                            'New Update Available ${appUpdate?.tagName ?? ''}',
-                          ),
-                          icon: const Icon(LucideIcons.download),
-                        );
-                      },
-                    ),
-                    crossFadeState: showUpdateButton && !loading
-                        ? CrossFadeState.showSecond
-                        : CrossFadeState.showFirst,
-                    duration: 300.ms),
                 persistentFooterAlignment: AlignmentDirectional.center,
                 persistentFooterButtons: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: context.bottomViewPadding),
-                    child: SignInFooterButtons(
-                      isSessionExpired,
-                      onGoToSignInPressed: loading
+                  if (isSessionExpired)
+                    ShadButton(
+                      onPressed: loading
                           ? null
                           : () => context.router.replaceAll([SignInRoute()]),
-                      onUrlPressed: loading
-                          ? null
-                          : () async {
-                              final result = await showShadDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      const UrlConfigureView());
-                              if (result == true) {
-                                emailCtrl.text =
-                                    AuthPreferenceService.email ?? '';
-                                setState(() {});
-                              }
-                            },
-                      onUrlLongPressed: loading
-                          ? null
-                          : () async {
-                              final result = await showBarModalBottomSheet(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  context: context,
-                                  overlayStyle:
-                                      context.systemUiOverlayNoAppBarStyle,
-                                  builder: (context) =>
-                                      const UrlConfigureView());
-                              if (result == true) {
-                                emailCtrl.text =
-                                    AuthPreferenceService.email ?? '';
-                                setState(() {});
-                              }
-                            },
+                      text: const Text('Go to Sign In'),
+                      icon: const Icon(Icons.refresh_outlined),
                     ),
-                  )
+                  AnimatedCrossFade(
+                      firstChild: const SizedBox.shrink(),
+                      secondChild: BlocBuilder<AppUpdateBloc, AppUpdateState>(
+                        builder: (context, state) {
+                          final appUpdate = context
+                              .read<AppUpdateBloc>()
+                              .state
+                              .whenOrNull(updateAvailable: (update) => update);
+                          return ShadButton(
+                            onPressed: () {},
+                            gradient: const LinearGradient(colors: [
+                              Colors.cyan,
+                              Colors.indigo,
+                            ]),
+                            shadows: [
+                              BoxShadow(
+                                color: Colors.blue.withOpacity(.4),
+                                spreadRadius: 4,
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                            text: Text(
+                              'New Update Available ${appUpdate?.tagName ?? ''}',
+                            ),
+                            icon: const Icon(LucideIcons.download),
+                          );
+                        },
+                      ),
+                      crossFadeState: showUpdateButton && !loading
+                          ? CrossFadeState.showSecond
+                          : CrossFadeState.showFirst,
+                      duration: 300.ms),
                 ],
                 body: SafeArea(
                   child: Center(

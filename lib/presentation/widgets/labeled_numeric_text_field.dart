@@ -72,7 +72,6 @@ class LabeledNumericTextField extends StatelessWidget {
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // TODO: see if InkWell or GestureDetector is better than IconButton (too much padding, looks bad on small phones e.g. iPhone X)
                   if (onMinusPressed != null)
                     IconButton(
                         onPressed: onMinusPressed ??

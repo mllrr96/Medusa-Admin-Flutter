@@ -179,11 +179,13 @@ class _ProductsViewState extends State<ProductsView> {
               const Gap(6.0),
               SpeedDial(
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
                 animatedIcon: AnimatedIcons.menu_close,
                 spacing: 10,
                 children: [
                   SpeedDialChild(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
                     child: const Icon(Icons.add),
                     label: 'New Product',
                     labelStyle: smallTextStyle,
@@ -201,6 +203,8 @@ class _ProductsViewState extends State<ProductsView> {
                     onLongPress: () {},
                   ),
                   SpeedDialChild(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
                     child: const Icon(MedusaIcons.arrow_down_tray),
                     label: 'Import Products',
                     labelStyle: smallTextStyle,
@@ -210,6 +214,8 @@ class _ProductsViewState extends State<ProductsView> {
                     onLongPress: () {},
                   ),
                   SpeedDialChild(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
                     child: const Icon(Icons.cloud_upload_rounded),
                     label: 'Export Products',
                     labelStyle: smallTextStyle,

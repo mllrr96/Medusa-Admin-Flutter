@@ -14,6 +14,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'components/index.dart';
 
@@ -101,12 +102,14 @@ class _CollectionsViewState extends State<CollectionsView> {
               ],
             ),
             const Gap(6.0),
-            FloatingActionButton.extended(
+            ShadButton(
+              text: const Text('New Collection'),
+              icon: const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Icon(Icons.add),
+              ),
               onPressed: () => context.pushRoute(CreateCollectionRoute()),
-              label: const Text('New Collection'),
-              icon: const Icon(Icons.add),
-              heroTag: UniqueKey(),
-            )
+            ),
           ],
         ),
         body: NestedScrollView(
