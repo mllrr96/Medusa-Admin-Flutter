@@ -8,6 +8,7 @@ import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/theme_mode_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_admin/core/utils/platform.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
@@ -40,10 +41,11 @@ class _ShadDrawerState extends State<ShadDrawer> {
     if (!isSelected) {
       return ShadButton.secondary(
         mainAxisAlignment: MainAxisAlignment.start,
-        height: 56,
+        height: kIsDesktop ? null : 56,
         width: double.infinity,
         onPressed: onPressed,
-        text: Text(text),
+        text: Flexible(
+            child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis)),
         icon: Padding(
           padding: const EdgeInsets.only(right: 8),
           child: Icon(
@@ -55,13 +57,19 @@ class _ShadDrawerState extends State<ShadDrawer> {
     }
     return ShadButton(
       mainAxisAlignment: MainAxisAlignment.start,
-      height: 56,
+      height: kIsDesktop ? null : 56,
       width: double.infinity,
       onPressed: () {
         context.tabsRouter.setActiveIndex(0);
         context.closeDrawer();
       },
-      text: Text(text),
+      text: Flexible(
+        child: Text(
+          text,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
       icon: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: Icon(
@@ -88,6 +96,47 @@ class _ShadDrawerState extends State<ShadDrawer> {
     'Sign Out': (12, Icons.logout),
   };
 
+  Widget topBar() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, state) {
+              return ShadButton.outline(
+                size: ShadButtonSize.icon,
+                onPressed: () => context
+                    .read<ThemeCubit>()
+                    .updateThemeState(themeMode: state.themeMode.next),
+                icon: Icon(
+                  state.themeMode.icon,
+                  size: 16.0,
+                ),
+              );
+            },
+          ),
+          BlocBuilder<StoreBloc, StoreState>(
+            builder: (context, state) {
+              final storeName = state.whenOrNull(loaded: (store) => store.name);
+              return Flexible(
+                child: Text(storeName ?? '',
+                    style: context.bodyLarge, overflow: TextOverflow.ellipsis),
+              );
+            },
+          ),
+          ShadButton.outline(
+            icon: const Badge(
+                smallSize: 8,
+                backgroundColor: Colors.red,
+                alignment: Alignment.topRight,
+                child: Icon(
+                  Icons.notifications_outlined,
+                  size: 16.0,
+                )),
+            size: ShadButtonSize.icon,
+            onPressed: () => context.pushRoute(const ActivityRoute()),
+          ),
+        ],
+      );
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -95,6 +144,129 @@ class _ShadDrawerState extends State<ShadDrawer> {
     final packageInfo = PreferenceService.packageInfo;
     String appName = packageInfo.appName;
     String version = packageInfo.version;
+
+    final navDrawer = NavigationDrawer(
+        key: const PageStorageKey<String>('shadNavigationDrawer'),
+        selectedIndex: context.tabsRouter.activeIndex,
+        onDestinationSelected: (index) async {
+          if (index == 12) {
+            await signOut();
+            return;
+          }
+          context.closeDrawer();
+          context.tabsRouter.setActiveIndex(index);
+        },
+        children: [
+          if (kIsMobile) topBar(),
+          BlocBuilder<AppUpdateBloc, AppUpdateState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                  updateAvailable: (appUpdate) => ShadButton(
+                        height: 56,
+                        onPressed: () {},
+                        gradient: const LinearGradient(colors: [
+                          Colors.cyan,
+                          Colors.indigo,
+                        ]),
+                        shadows: [
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(.4),
+                            spreadRadius: 4,
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                        text: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'New Update Available ${appUpdate.tagName ?? ''}',
+                            ),
+                            const Text('Tap to install'),
+                          ],
+                        ),
+                        icon: const Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.update),
+                        ),
+                      ),
+                  orElse: () => const SizedBox.shrink());
+            },
+          ),
+          const Gap(5),
+          // ...shadItems,
+          ..._drawerItems.entries.map((item) {
+            final name = item.key;
+            final tuple = item.value;
+            return _buildShadButton(
+                text: name,
+                icon: tuple.$2,
+                index: tuple.$1,
+                isSelected: context.tabsRouter.activeIndex == tuple.$1,
+                onPressed: () async {
+                  if (tuple.$1 == 12) {
+                    await signOut();
+                    return;
+                  }
+                  context.tabsRouter.setActiveIndex(tuple.$1);
+                  context.closeDrawer();
+                });
+          }),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ShadButton(
+                    height: kIsDesktop ? null : 56,
+                    padding: kIsDesktop ? EdgeInsets.zero : null,
+                    onPressed: () => _showAppAboutDialog(context),
+                    text: Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            appName,
+                            style: smallTextStyle?.copyWith(color: manatee),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            'Version $version',
+                            style: smallTextStyle?.copyWith(color: manatee),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    icon: Hero(
+                      tag: 'medusa',
+                      child: Image.asset(
+                        'assets/images/medusa.png',
+                      ),
+                    ),
+                  ),
+                ),
+                // const Gap(5.0),
+                ShadButton.outline(
+                  height: kIsDesktop ? null : 56,
+                  width: kIsDesktop ? null : 56,
+                  size: ShadButtonSize.icon,
+                  // padding: const EdgeInsets.all(16.0),
+                  onPressed: () async {
+                    final Uri url = Uri.parse(AppConstants.githubLink);
+                    await launchUrl(url);
+                  },
+                  icon: const Icon(SimpleIcons.github),
+                )
+              ],
+            ),
+          ),
+        ]);
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -115,157 +287,14 @@ class _ShadDrawerState extends State<ShadDrawer> {
           },
         );
       },
-      child: NavigationDrawer(
-          key: const PageStorageKey<String>('shadNavigationDrawer'),
-          selectedIndex: context.tabsRouter.activeIndex,
-          onDestinationSelected: (index) async {
-            if (index == 12) {
-              await signOut();
-              return;
-            }
-            context.closeDrawer();
-            context.tabsRouter.setActiveIndex(index);
-          },
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: kIsMobile
+          ? navDrawer
+          : Column(
               children: [
-                BlocBuilder<ThemeCubit, ThemeState>(
-                  builder: (context, state) {
-                    return ShadButton.outline(
-                      size: ShadButtonSize.icon,
-                      onPressed: () => context
-                          .read<ThemeCubit>()
-                          .updateThemeState(themeMode: state.themeMode.next),
-                      icon: Icon(
-                        state.themeMode.icon,
-                        size: 16.0,
-                      ),
-                    );
-                  },
-                ),
-                BlocBuilder<StoreBloc, StoreState>(
-                  builder: (context, state) {
-                    final storeName =
-                        state.whenOrNull(loaded: (store) => store.name);
-                    return Flexible(
-                      child: Text(storeName ?? '',
-                          style: context.bodyLarge,
-                          overflow: TextOverflow.ellipsis),
-                    );
-                  },
-                ),
-                ShadButton.outline(
-                  icon: const Badge(
-                      smallSize: 8,
-                      backgroundColor: Colors.red,
-                      alignment: Alignment.topRight,
-                      child: Icon(
-                        Icons.notifications_outlined,
-                        size: 16.0,
-                      )),
-                  size: ShadButtonSize.icon,
-                  onPressed: () => context.pushRoute(const ActivityRoute()),
-                ),
+                if (kIsDesktop) topBar(),
+                Expanded(child: navDrawer),
               ],
             ),
-            BlocBuilder<AppUpdateBloc, AppUpdateState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                    updateAvailable: (appUpdate) => ShadButton(
-                          height: 56,
-                          onPressed: () {},
-                          gradient: const LinearGradient(colors: [
-                            Colors.cyan,
-                            Colors.indigo,
-                          ]),
-                          shadows: [
-                            BoxShadow(
-                              color: Colors.blue.withOpacity(.4),
-                              spreadRadius: 4,
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                          text: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'New Update Available ${appUpdate.tagName ?? ''}',
-                              ),
-                              const Text('Tap to install'),
-                            ],
-                          ),
-                          icon: const Padding(
-                            padding: EdgeInsets.only(right: 8.0),
-                            child: Icon(Icons.update),
-                          ),
-                        ),
-                    orElse: () => const SizedBox.shrink());
-              },
-            ),
-            const Gap(5),
-            // ...shadItems,
-            ..._drawerItems.entries.map((item) {
-              final name = item.key;
-              final tuple = item.value;
-              return _buildShadButton(
-                  text: name,
-                  icon: tuple.$2,
-                  index: tuple.$1,
-                  isSelected: context.tabsRouter.activeIndex == tuple.$1,
-                  onPressed: () async {
-                    if (tuple.$1 == 12) {
-                      await signOut();
-                      return;
-                    }
-                    context.tabsRouter.setActiveIndex(tuple.$1);
-                    context.closeDrawer();
-                  });
-            }),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ShadButton(
-                      height: 56,
-                      onPressed: () => _showAppAboutDialog(context),
-                      text: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(appName,
-                              style: smallTextStyle?.copyWith(color: manatee)),
-                          Text('Version $version',
-                              style: smallTextStyle?.copyWith(color: manatee)),
-                        ],
-                      ),
-                      icon: Hero(
-                        tag: 'medusa',
-                        child: Image.asset(
-                          'assets/images/medusa.png',
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Gap(5.0),
-                  ShadButton.outline(
-                    height: 56,
-                    width: 56,
-                    // padding: const EdgeInsets.all(16.0),
-                    onPressed: () async {
-                      final Uri url = Uri.parse(AppConstants.githubLink);
-                      await launchUrl(url);
-                    },
-                    icon: const Icon(SimpleIcons.github),
-                  )
-                ],
-              ),
-            ),
-          ]),
     );
 
     // OLD DRAWER, KEEP FOR REFERENCE

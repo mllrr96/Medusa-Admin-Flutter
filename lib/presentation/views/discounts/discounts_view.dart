@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/extension/paging_controller.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/core/utils/platform.dart';
 import 'package:medusa_admin/presentation/blocs/discount_crud/discount_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/discounts/components/discounts_loading_page.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -43,6 +44,105 @@ class _DiscountsViewState extends State<DiscountsView> {
       'offset': pageKey == 0 ? 0 : pagingController.itemList?.length ?? 0,
     }));
   }
+
+  Widget mobileListView() => PagedListView.separated(
+        separatorBuilder: (_, __) => const Gap(12.0),
+        padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 80),
+        pagingController: pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Discount>(
+          animateTransitions: true,
+          itemBuilder: (context, discount, index) => Skeletonizer(
+            enabled: loadingDiscountId == discount.id,
+            child: DiscountShadCard(
+              discount,
+              onTap: () async {
+                final result = await context
+                    .pushRoute(DiscountDetailsRoute(discount: discount));
+                // Discount deleted, reload discounts
+                if (result == true) {
+                  smartRefresherCtrl.headerMode?.value =
+                      RefreshStatus.refreshing;
+                }
+              },
+              onDelete: loading
+                  ? null
+                  : () async {
+                      discountCrudBloc
+                          .add(DiscountCrudEvent.delete(discount.id!));
+                    },
+              onToggle: loading
+                  ? null
+                  : () async {
+                      discountCrudBloc.add(DiscountCrudEvent.update(
+                          discount.id!,
+                          UpdateDiscountReq(
+                            isDisabled: discount.isDisabled != null
+                                ? !discount.isDisabled!
+                                : null,
+                          )));
+                    },
+            ),
+          ),
+          firstPageProgressIndicatorBuilder: (context) =>
+              const DiscountsLoadingPage(),
+          noItemsFoundIndicatorBuilder: (_) => Center(
+              child: Text('No discounts yet!\n Tap on + to add discount',
+                  style: context.bodyLarge, textAlign: TextAlign.center)),
+          firstPageErrorIndicatorBuilder: (context) =>
+              PaginationErrorPage(pagingController: pagingController),
+        ),
+      );
+  Widget desktopListView() => PagedGridView<int, Discount>(
+        pagingController: pagingController,
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 12.0,
+            mainAxisSpacing: 12.0,
+            mainAxisExtent: 125.0),
+        builderDelegate: PagedChildBuilderDelegate<Discount>(
+          animateTransitions: true,
+          itemBuilder: (context, discount, index) => Skeletonizer(
+            enabled: loadingDiscountId == discount.id,
+            child: DiscountShadCard(
+              discount,
+              onTap: () async {
+                final result = await context
+                    .pushRoute(DiscountDetailsRoute(discount: discount));
+                // Discount deleted, reload discounts
+                if (result == true) {
+                  smartRefresherCtrl.headerMode?.value =
+                      RefreshStatus.refreshing;
+                }
+              },
+              onDelete: loading
+                  ? null
+                  : () async {
+                      discountCrudBloc
+                          .add(DiscountCrudEvent.delete(discount.id!));
+                    },
+              onToggle: loading
+                  ? null
+                  : () async {
+                      discountCrudBloc.add(DiscountCrudEvent.update(
+                          discount.id!,
+                          UpdateDiscountReq(
+                            isDisabled: discount.isDisabled != null
+                                ? !discount.isDisabled!
+                                : null,
+                          )));
+                    },
+            ),
+          ),
+          firstPageProgressIndicatorBuilder: (context) =>
+              const DiscountsLoadingPage(),
+          noItemsFoundIndicatorBuilder: (_) => Center(
+              child: Text('No discounts yet!\n Tap on + to add discount',
+                  style: context.bodyLarge, textAlign: TextAlign.center)),
+          firstPageErrorIndicatorBuilder: (context) =>
+              PaginationErrorPage(pagingController: pagingController),
+        ),
+      );
 
   @override
   void initState() {
@@ -185,53 +285,7 @@ class _DiscountsViewState extends State<DiscountsView> {
           body: SmartRefresher(
             controller: smartRefresherCtrl,
             onRefresh: () => _loadPage(0),
-            child: PagedListView.separated(
-              separatorBuilder: (_, __) => const Gap(12.0),
-              padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 80),
-              pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Discount>(
-                animateTransitions: true,
-                itemBuilder: (context, discount, index) => Skeletonizer(
-                  enabled: loadingDiscountId == discount.id,
-                  child: DiscountShadCard(
-                    discount,
-                    onTap: () async {
-                      final result = await context
-                          .pushRoute(DiscountDetailsRoute(discount: discount));
-                      // Discount deleted, reload discounts
-                      if (result == true) {
-                        smartRefresherCtrl.headerMode?.value =
-                            RefreshStatus.refreshing;
-                      }
-                    },
-                    onDelete: loading
-                        ? null
-                        : () async {
-                            discountCrudBloc
-                                .add(DiscountCrudEvent.delete(discount.id!));
-                          },
-                    onToggle: loading
-                        ? null
-                        : () async {
-                            discountCrudBloc.add(DiscountCrudEvent.update(
-                                discount.id!,
-                                UpdateDiscountReq(
-                                  isDisabled: discount.isDisabled != null
-                                      ? !discount.isDisabled!
-                                      : null,
-                                )));
-                          },
-                  ),
-                ),
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const DiscountsLoadingPage(),
-                noItemsFoundIndicatorBuilder: (_) => Center(
-                    child: Text('No discounts yet!\n Tap on + to add discount',
-                        style: largeTextStyle, textAlign: TextAlign.center)),
-                firstPageErrorIndicatorBuilder: (context) =>
-                    PaginationErrorPage(pagingController: pagingController),
-              ),
-            ),
+            child: kIsDesktop ? desktopListView() : mobileListView(),
           ),
         ),
       ),

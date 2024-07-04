@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/core/utils/platform.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
@@ -44,6 +45,100 @@ class _OrdersViewState extends State<OrdersView> {
         }));
   }
 
+  final orderPreference = PreferenceService.orderPreference;
+
+  Widget mobileListView() => PagedListView.separated(
+        padding: EdgeInsets.only(
+            bottom: 120,
+            top: orderPreference.padding,
+            left: orderPreference.padding,
+            right: orderPreference.padding),
+        separatorBuilder: (_, __) => const Gap(8.0),
+        pagingController: pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Order>(
+          animateTransitions: true,
+          itemBuilder: (context, order, index) {
+            if (orderPreference.alternativeCard) {
+              return ShadOrderCard(order);
+            }
+            return OrderCard(order);
+          },
+          noItemsFoundIndicatorBuilder: (_) {
+            if ((orderFilter?.count() ?? -1) > 0) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('No orders found'),
+                  TextButton(
+                      onPressed: () {
+                        if (orderFilter == null || orderFilter?.count() == 0) {
+                          return;
+                        }
+                        setState(() {
+                          orderFilter = null;
+                          pagingController.refresh();
+                        });
+                      },
+                      child: const Text('Clear filters'))
+                ],
+              );
+            }
+            return const Center(child: Text('No orders yet!'));
+          },
+          firstPageProgressIndicatorBuilder: (context) =>
+              const OrdersLoadingPage(),
+          firstPageErrorIndicatorBuilder: (context) =>
+              PaginationErrorPage(pagingController: pagingController),
+        ),
+      );
+
+  Widget desktopGridView() => PagedGridView<int, Order>(
+        pagingController: pagingController,
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          // childAspectRatio: 3.0,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          mainAxisExtent: 120,
+        ),
+        builderDelegate: PagedChildBuilderDelegate<Order>(
+          animateTransitions: true,
+          itemBuilder: (context, order, index) {
+            if (orderPreference.alternativeCard) {
+              return ShadOrderCard(order);
+            }
+            return OrderCard(order);
+          },
+          noItemsFoundIndicatorBuilder: (_) {
+            if ((orderFilter?.count() ?? -1) > 0) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('No orders found'),
+                  TextButton(
+                      onPressed: () {
+                        if (orderFilter == null || orderFilter?.count() == 0) {
+                          return;
+                        }
+                        setState(() {
+                          orderFilter = null;
+                          pagingController.refresh();
+                        });
+                      },
+                      child: const Text('Clear filters'))
+                ],
+              );
+            }
+            return const Center(child: Text('No orders yet!'));
+          },
+          firstPageProgressIndicatorBuilder: (context) =>
+              const OrdersLoadingPage(),
+          firstPageErrorIndicatorBuilder: (context) =>
+              PaginationErrorPage(pagingController: pagingController),
+        ),
+      );
+
   @override
   void initState() {
     pagingController.addPageRequestListener(_loadPage);
@@ -59,7 +154,7 @@ class _OrdersViewState extends State<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
-    final orderPreference = PreferenceService.orderPreference;
+    // final orderPreference = PreferenceService.orderPreference;
     return BlocListener<OrdersBloc, OrdersState>(
       listener: (context, state) {
         state.mapOrNull(
@@ -205,51 +300,7 @@ class _OrdersViewState extends State<OrdersView> {
           body: SmartRefresher(
             controller: smartRefresherCtrl,
             onRefresh: () => _loadPage(0),
-            child: PagedListView.separated(
-              padding: EdgeInsets.only(
-                  bottom: 120,
-                  top: orderPreference.padding,
-                  left: orderPreference.padding,
-                  right: orderPreference.padding),
-              separatorBuilder: (_, __) => const Gap(8.0),
-              pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Order>(
-                animateTransitions: true,
-                itemBuilder: (context, order, index) {
-                  if (orderPreference.alternativeCard) {
-                    return ShadOrderCard(order);
-                  }
-                  return OrderCard(order);
-                },
-                noItemsFoundIndicatorBuilder: (_) {
-                  if ((orderFilter?.count() ?? -1) > 0) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('No orders found'),
-                        TextButton(
-                            onPressed: () {
-                              if (orderFilter == null ||
-                                  orderFilter?.count() == 0) {
-                                return;
-                              }
-                              setState(() {
-                                orderFilter = null;
-                                pagingController.refresh();
-                              });
-                            },
-                            child: const Text('Clear filters'))
-                      ],
-                    );
-                  }
-                  return const Center(child: Text('No orders yet!'));
-                },
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const OrdersLoadingPage(),
-                firstPageErrorIndicatorBuilder: (context) =>
-                    PaginationErrorPage(pagingController: pagingController),
-              ),
-            ),
+            child: kIsDesktop ? desktopGridView() : mobileListView(),
           ),
         ),
       ),

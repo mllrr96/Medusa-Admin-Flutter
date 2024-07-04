@@ -29,27 +29,32 @@ class ShadOrderCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const manatee = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
-    final orderPreference = this.orderPreference ?? PreferenceService.orderPreference;
+    final orderPreference =
+        this.orderPreference ?? PreferenceService.orderPreference;
     final customerName = order.customerName;
 
     return ShadCard(
+      columnMainAxisSize: MainAxisSize.min,
+      rowMainAxisSize: MainAxisSize.min,
       padding: EdgeInsets.zero,
       content: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         onTap: onTap ??
-                () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
+            () => context.pushRoute(OrderDetailsRoute(orderId: order.id!)),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('#${order.displayId}', style: mediumTextStyle),
+                  Text('#${order.displayId}',
+                      style: mediumTextStyle, maxLines: 1),
                   Text(order.total.formatAsPrice(order.currencyCode),
-                      style: mediumTextStyle),
+                      style: mediumTextStyle, maxLines: 1),
                 ],
               ),
               Padding(
@@ -58,19 +63,18 @@ class ShadOrderCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      order.cart?.createdAt != null
-                          ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
-                          : '',
-                      style: smallTextStyle?.copyWith(color: manatee),
-                    ),
+                        order.cart?.createdAt != null
+                            ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
+                            : '',
+                        style: smallTextStyle?.copyWith(color: manatee),
+                        maxLines: 1),
                     Row(
                       children: [
                         if (order.currencyCode != null)
-                          Text(
-                            order.currencyCode!.toUpperCase(),
-                            style: lightMediumTextStyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          Text(order.currencyCode!.toUpperCase(),
+                              style: lightMediumTextStyle,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1),
                         if (order.shippingAddress?.countryCode != null &&
                             !orderPreference.hideFlag)
                           Flag.fromString(order.shippingAddress!.countryCode!,
@@ -91,27 +95,36 @@ class ShadOrderCard extends StatelessWidget {
                           width: 32,
                           decoration: ShapeDecoration(
                             shape: const CircleBorder(),
-                            color:shimmer? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(
-                                order.customer?.email),
+                            color: shimmer
+                                ? context.theme.scaffoldBackgroundColor
+                                : ColorManager.getAvatarColor(
+                                    order.customer?.email),
                           ),
                           alignment: Alignment.center,
-                          child:shimmer? null: Text(
-                              customerName?[0] ?? order.customer?.email[0] ?? '',
-                              style: const TextStyle(color: Colors.white)),
+                          child: shimmer
+                              ? null
+                              : Text(
+                                  customerName?[0] ??
+                                      order.customer?.email[0] ??
+                                      '',
+                                  maxLines: 1,
+                                  style: const TextStyle(color: Colors.white)),
                         ),
                         const SizedBox(width: 6.0),
-                        if (customerName!= null)
+                        if (customerName != null)
                           Flexible(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(customerName, style: smallTextStyle),
-                                  if (orderPreference.includeEmail)
-                                    Text(order.email ?? '',
-                                        style:
-                                        smallTextStyle?.copyWith(color: manatee)),
-                                ],
-                              )),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(customerName,
+                                  style: smallTextStyle, maxLines: 1),
+                              if (orderPreference.includeEmail)
+                                Text(order.email ?? '',
+                                    style: smallTextStyle?.copyWith(
+                                        color: manatee),
+                                    maxLines: 1),
+                            ],
+                          )),
                         if (customerName == null)
                           Flexible(
                               child: Text(order.customer?.email ?? '',
@@ -120,8 +133,7 @@ class ShadOrderCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ShadPaymentStatusLabel(
-                      paymentStatus: order.paymentStatus),
+                  ShadPaymentStatusLabel(paymentStatus: order.paymentStatus),
                 ],
               ),
             ],
@@ -137,23 +149,23 @@ class ShadOrderCard extends StatelessWidget {
         children: [
           ...List.generate(
               3,
-                  (index) => Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(color: Colors.grey.shade300),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                                order.items![index].thumbnail!))),
-                  ),
-                  const SizedBox(width: 10)
-                ],
-              )),
+              (index) => Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(color: Colors.grey.shade300),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                    order.items![index].thumbnail!))),
+                      ),
+                      const SizedBox(width: 10)
+                    ],
+                  )),
           Container(
             height: 40,
             width: 40,
@@ -173,23 +185,23 @@ class ShadOrderCard extends StatelessWidget {
     return Row(
       children: List.generate(
           order.items!.length,
-              (index) => Row(
-            children: [
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.grey.shade300),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(
-                            order.items![index].thumbnail!))),
-              ),
-              const SizedBox(width: 10)
-            ],
-          )),
+          (index) => Row(
+                children: [
+                  Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(color: Colors.grey.shade300),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: CachedNetworkImageProvider(
+                                order.items![index].thumbnail!))),
+                  ),
+                  const SizedBox(width: 10)
+                ],
+              )),
     );
   }
 }

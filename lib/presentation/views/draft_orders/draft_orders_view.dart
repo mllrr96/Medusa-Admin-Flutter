@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
+import 'package:medusa_admin/core/utils/platform.dart';
 import 'package:medusa_admin/presentation/blocs/draft_order_crud/draft_order_crud_bloc.dart';
 import 'package:medusa_admin/presentation/views/draft_orders/components/index.dart';
 import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
@@ -51,6 +52,46 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
     pagingController.dispose();
     super.dispose();
   }
+
+  Widget _buildMobileListView() => PagedListView.separated(
+        pagingController: pagingController,
+        padding:
+            const EdgeInsets.only(bottom: 120, top: 8.0, left: 8.0, right: 8.0),
+        builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
+          animateTransitions: true,
+          itemBuilder: (context, draftOrder, index) =>
+              ShadDraftOrderCard(draftOrder),
+          noItemsFoundIndicatorBuilder: (_) =>
+              const Center(child: Text('No draft orders yet!')),
+          firstPageProgressIndicatorBuilder: (context) =>
+              const DraftsLoadingPage(),
+          firstPageErrorIndicatorBuilder: (context) =>
+              PaginationErrorPage(pagingController: pagingController),
+        ),
+        separatorBuilder: (_, __) => const Gap(8.0),
+      );
+
+  Widget _buildDesktopListView() => PagedGridView<int, DraftOrder>(
+        pagingController: pagingController,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          mainAxisExtent: 120.0,
+        ),
+        builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
+          animateTransitions: true,
+          itemBuilder: (context, draftOrder, index) =>
+              ShadDraftOrderCard(draftOrder),
+          noItemsFoundIndicatorBuilder: (_) =>
+              const Center(child: Text('No draft orders yet!')),
+          firstPageProgressIndicatorBuilder: (context) =>
+              const DraftsLoadingPage(),
+          firstPageErrorIndicatorBuilder: (context) =>
+              PaginationErrorPage(pagingController: pagingController),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +145,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
             const Gap(6.0),
             FloatingActionButton.extended(
               heroTag: UniqueKey(),
-              onPressed: () =>
-                  context.pushRoute(const CreateDraftOrderRoute()),
+              onPressed: () => context.pushRoute(const CreateDraftOrderRoute()),
               label: const Text('Draft Order'),
               icon: const Icon(Icons.add),
             ),
@@ -116,8 +156,7 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
             MedusaSliverAppBar(
               title: Builder(builder: (context) {
                 final ordersCount = draftOrderCrudBloc.state.maybeMap(
-                    draftOrders: (state) =>
-                        state.count, orElse: () => 0 );
+                    draftOrders: (state) => state.count, orElse: () => 0);
                 return Text(
                     ordersCount > 0 ? 'Drafts ($ordersCount)' : 'Drafts',
                     overflow: TextOverflow.ellipsis);
@@ -127,23 +166,8 @@ class _DraftOrdersViewState extends State<DraftOrdersView> {
           body: SmartRefresher(
             controller: smartRefresherCtrl,
             onRefresh: () => _loadPage(0),
-            child: PagedListView.separated(
-              pagingController: pagingController,
-              padding: const EdgeInsets.only(
-                  bottom: 120, top: 8.0, left: 8.0, right: 8.0),
-              builderDelegate: PagedChildBuilderDelegate<DraftOrder>(
-                  animateTransitions: true,
-                  itemBuilder: (context, draftOrder, index) =>
-                      ShadDraftOrderCard(draftOrder),
-                  noItemsFoundIndicatorBuilder: (_) =>
-                      const Center(child: Text('No draft orders yet!')),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const DraftsLoadingPage(),
-                  firstPageErrorIndicatorBuilder: (context) =>
-                      PaginationErrorPage(pagingController: pagingController),
-              ),
-              separatorBuilder: (_, __) => const Gap(8.0),
-            ),
+            child:
+                kIsDesktop ? _buildDesktopListView() : _buildMobileListView(),
           ),
         ),
       ),

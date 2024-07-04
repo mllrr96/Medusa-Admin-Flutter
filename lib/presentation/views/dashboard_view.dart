@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
+import 'package:medusa_admin/core/utils/platform.dart';
 import 'package:medusa_admin/presentation/blocs/orders/orders_bloc.dart';
 import 'package:medusa_admin/presentation/blocs/orders_filter/orders_filter_bloc.dart';
 import 'package:medusa_admin/presentation/cubits/products_filter/products_filter_cubit.dart';
+
+import '../widgets/shad_drawer_widget.dart';
 
 @RoutePage()
 class DashboardView extends StatelessWidget {
@@ -55,7 +60,13 @@ class DashboardView extends StatelessWidget {
               AppSettingsRoute(),
             ],
             transitionBuilder: (context, child, animation) => child,
-            builder: (context, child) => child,
+            builder: (context, child) => Row(
+              children: [
+                // ignore: prefer_const_constructors
+                if (kIsDesktop) Expanded(child: ShadDrawer()),
+                Expanded(flex: 3, child: child),
+              ],
+            ),
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:medusa_admin/core/utils/platform.dart';
 import 'package:medusa_admin/presentation/blocs/order_crud/order_crud_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -125,29 +126,85 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               controller: refreshController,
               onRefresh: () => loadOrder(),
               child: state.maybeWhen(
-                order: (order) => SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10.0),
-                    child: Column(
-                      children: [
-                        OrderOverview(order: order),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: ShadAccordion<int>.multiple(
-                              maintainState: true,
-                              children: [
-                                OrderSummery(order),
-                                OrderPayment(order),
-                                OrderFulfillment(order),
-                                OrderCustomer(order),
-                                OrderTimeline(order),
-                                const Gap(25.0),
-                              ]),
+                order: (order) => Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 10.0),
+                          child: Column(
+                            children: [
+                              ConstrainedBox(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 500),
+                                  child: OrderOverview(order: order)),
+                              if (kIsDesktop)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Flexible(
+                                        child: ShadAccordion<int>.multiple(
+                                          maintainState: true,
+                                          children: [
+                                            OrderSummery(order),
+                                            OrderFulfillment(order),
+                                          ],
+                                        ),
+                                      ),
+                                      const Gap(25.0),
+                                      Flexible(
+                                        child: ShadAccordion<int>.multiple(
+                                            maintainState: true,
+                                            children: [
+                                              OrderPayment(order),
+                                              OrderCustomer(order),
+                                            ]),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              if (kIsMobile)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: ShadAccordion<int>.multiple(
+                                      maintainState: true,
+                                      children: [
+                                        OrderSummery(order),
+                                        OrderPayment(order),
+                                        OrderFulfillment(order),
+                                        OrderCustomer(order),
+                                        OrderTimeline(order),
+                                        const Gap(25.0),
+                                      ]),
+                                ),
+                            ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    if (kIsDesktop)
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ShadAccordion<int>(
+                            maintainState: true,
+                            initialValue: 4,
+                            children: [OrderTimeline(order)],
+                          ),
+                        ),
+                      )
+                  ],
                 ),
                 error: (e) =>
                     OrderDetailsErrorPage(e.toString(), onRetryTap: () async {
