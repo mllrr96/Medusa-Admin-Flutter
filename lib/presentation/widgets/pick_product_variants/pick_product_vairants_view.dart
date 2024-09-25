@@ -89,7 +89,7 @@ class _PickProductVariantsViewState extends State<PickProductVariantsView> {
                     ? null
                     : () => context.maybePop(SelectProductsRes(
                         selectedProductVariants: newlySelectedProducts)),
-                text: const Text('Add'))
+               child: const Text('Add'))
           ],
         ),
         body: SafeArea(

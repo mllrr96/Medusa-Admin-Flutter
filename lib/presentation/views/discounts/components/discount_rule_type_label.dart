@@ -38,11 +38,11 @@ class DiscountRuleTypeLabel extends StatelessWidget {
     }
     if (shadStyle) {
       return ShadBadge(
-          text: Text(
+          backgroundColor: containerColor,
+          child: Text(
             text,
             style: TextStyle(color: textColor),
-          ),
-          backgroundColor: containerColor);
+          ));
     }
 
     return Container(

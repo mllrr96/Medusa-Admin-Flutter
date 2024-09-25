@@ -58,7 +58,7 @@ class ProductListTile extends StatelessWidget {
               child: const Icon(Icons.image_not_supported),
             ),
       trailing: ShadButton.ghost(
-        size: ShadButtonSize.icon,
+        
         onPressed: () async {
           await showModalActionSheet<int>(
               title: 'Manage Product',

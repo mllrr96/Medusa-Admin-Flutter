@@ -143,13 +143,13 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
 
     if (newText.trim() == '' || newText == '00' || newText == '000') {
       return TextEditingValue(
-        text: _isNegative ? '-' : '',
+       text: _isNegative ? '-' : '',
         selection: TextSelection.collapsed(offset: _isNegative ? 1 : 0),
       );
     }
 
     return TextEditingValue(
-      text: _newString,
+     text: _newString,
       selection: TextSelection.collapsed(offset: _newString.length),
     );
   }

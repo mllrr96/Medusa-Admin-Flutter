@@ -113,7 +113,6 @@ class _SignInViewState extends State<SignInView> {
                                   state.themeMode.icon,
                                   size: 16,
                                 ),
-                                size: ShadButtonSize.icon,
                                 onPressed: () => context
                                     .read<ThemeCubit>()
                                     .updateThemeState(
@@ -124,7 +123,7 @@ class _SignInViewState extends State<SignInView> {
                           Row(
                             children: [
                               ShadButton.outline(
-                                // text:Text(context
+                                //child:Text(context
                                 //     .read<LanguageCubit>()
                                 //     .state
                                 //     .locale
@@ -134,7 +133,6 @@ class _SignInViewState extends State<SignInView> {
                                   LucideIcons.languages,
                                   size: 16,
                                 ),
-                                size: ShadButtonSize.icon,
                                 onPressed: () async =>
                                     await showBarModalBottomSheet(
                                   backgroundColor:
@@ -173,8 +171,8 @@ class _SignInViewState extends State<SignInView> {
                       onPressed: loading
                           ? null
                           : () => context.router.replaceAll([SignInRoute()]),
-                      text: const Text('Go to Sign In'),
                       icon: const Icon(Icons.refresh_outlined),
+                      child: const Text('Go to Sign In'),
                     ),
                   AnimatedCrossFade(
                       firstChild: const SizedBox.shrink(),
@@ -198,10 +196,10 @@ class _SignInViewState extends State<SignInView> {
                                 offset: const Offset(0, 2),
                               ),
                             ],
-                            text: Text(
+                            icon: const Icon(LucideIcons.download),
+                            child: Text(
                               'New Update Available ${appUpdate?.tagName ?? ''}',
                             ),
-                            icon: const Icon(LucideIcons.download),
                           );
                         },
                       ),
@@ -234,7 +232,6 @@ class _SignInViewState extends State<SignInView> {
                               ),
                               footer: Center(
                                 child: ShadButton(
-                                  text: const Text('Continue'),
                                   size: ShadButtonSize.lg,
                                   width: 220,
                                   height: 48.0,
@@ -247,9 +244,10 @@ class _SignInViewState extends State<SignInView> {
                                           await _signIn();
                                         },
                                   icon: const Icon(Icons.login),
+                                  child: const Text('Continue'),
                                 ),
                               ),
-                              content: Column(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   if (!useToken)
@@ -309,7 +307,7 @@ class _SignInViewState extends State<SignInView> {
                                                   context.pushRoute(
                                                       const ResetPasswordRoute());
                                                 },
-                                          text: Text(
+                                          child: Text(
                                             tr.loginCardForgotYourPassword,
                                           ),
                                         ),

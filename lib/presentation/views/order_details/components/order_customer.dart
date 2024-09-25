@@ -49,12 +49,11 @@ class OrderCustomer extends StatelessWidget {
     return ShadAccordionItem<int>(
       value: 3,
       title: const Text('Customers'),
-      content: Column(
+      child: Column(
         children: [
           Align(
             alignment: Alignment.centerRight,
             child: ShadButton.outline(
-                size: ShadButtonSize.icon,
                 onPressed: () async {
                   await showModalActionSheet<
                       int>(context: context, actions: <SheetAction<int>>[

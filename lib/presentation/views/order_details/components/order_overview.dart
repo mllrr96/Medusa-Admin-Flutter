@@ -25,7 +25,7 @@ class OrderOverview extends StatelessWidget {
       // color: context.theme.cardColor,
       // color: context.theme.cardColor,
       // ),
-      content: Column(
+      child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,7 +38,6 @@ class OrderOverview extends StatelessWidget {
                       Text('#${order.displayId ?? ''}',
                           style: context.bodyLarge),
                       ShadButton.ghost(
-                          size: ShadButtonSize.icon,
                           onPressed: () {},
                           icon: const Icon(Icons.copy, size: 14))
                     ],

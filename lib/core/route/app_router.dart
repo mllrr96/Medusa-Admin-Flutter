@@ -98,7 +98,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
-class AppRouter extends _$AppRouter implements AutoRouteGuard {
+class AppRouter extends RootStackRouter  implements AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     if (resolver.routeName == SignInRoute.name ||

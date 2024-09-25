@@ -89,7 +89,7 @@ class _PickRegionsViewState extends State<PickRegionsView> {
                         ? () => context
                             .maybePop(PickRegionsRes(regions: selectedRegions))
                         : null,
-                    text: const Text('Done'))
+                   child: const Text('Done'))
               ],
             ),
           ],

@@ -17,6 +17,7 @@ import 'package:medusa_admin/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class CollectionDetailsView extends StatefulWidget {
@@ -61,7 +62,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
             title: Text(tr.productTableCollection),
             actions: [
               state.maybeWhen(
-                  collection: (collection) => IconButton(
+                  collection: (collection) => ShadButton(
                       padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet(
@@ -269,7 +270,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                           color: Colors.redAccent),
                                 ))
                             : null,
-                        trailing: IconButton(
+                        trailing: ShadButton(
                             padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
                               if (await _showDeleteCollectionDialog &&

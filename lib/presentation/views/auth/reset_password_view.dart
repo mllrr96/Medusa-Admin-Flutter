@@ -59,7 +59,6 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 padding: const EdgeInsets.only(left: 12.0),
                 alignment: Alignment.bottomLeft,
                 child: ShadButton.outline(
-                  size: ShadButtonSize.icon,
                   icon: const Icon(Icons.chevron_left),
                   onPressed: () => context.maybePop(),
                 ),
@@ -80,7 +79,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                             .read<ResetPasswordCubit>()
                             .resetPassword(emailCtrl.text);
                       },
-                text: Text(tr.resetTokenCardSendResetInstructions),
+                child: Text(tr.resetTokenCardSendResetInstructions),
               ),
             ),
           ],

@@ -48,15 +48,15 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
               context.maybePop();
               widget.onEdit?.call();
             },
-            text: const Text('Edit')),
+            child: const Text('Edit')),
         ShadButton(
             onPressed: () {
               context.maybePop();
               widget.onToggle?.call();
             },
-            text: Text(isDisabled ? 'Enable' : 'Disable')),
+            child: Text(isDisabled ? 'Enable' : 'Disable')),
       ],
-      content: Column(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
@@ -67,7 +67,7 @@ class _CustomGiftCardViewState extends State<CustomGiftCardView> {
               children: [
                 Center(
                   child: ShadButton.outline(
-                      text: Text(
+                      child: Text(
                         widget.giftCard.code ?? '',
                       ),
                       onPressed: () async {

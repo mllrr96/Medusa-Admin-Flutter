@@ -90,7 +90,7 @@ class _AddCustomItemViewState extends State<AddCustomItemView> {
                           readOnly: true,
                           label: 'Currency',
                           controller: TextEditingController(
-                              text: widget.currencyCode?.toUpperCase()),
+                             text: widget.currencyCode?.toUpperCase()),
                         )),
                         const SizedBox(width: 12.0),
                         Flexible(

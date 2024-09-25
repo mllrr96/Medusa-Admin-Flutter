@@ -61,7 +61,7 @@ class _SelectCountryViewState extends State<SelectCountryView> {
               onPressed: selectedCountries.isEmpty
                   ? null
                   : () => context.maybePop(selectedCountries),
-              text: const Text('Save'))
+             child: const Text('Save'))
         ],
         bottom: PreferredSize(
             preferredSize: selectCountryOptions.disabledCountriesIso2.isNotEmpty
@@ -89,7 +89,7 @@ class _SelectCountryViewState extends State<SelectCountryView> {
                                 searchCtrl.clear();
                                 setState(() {});
                               },
-                              text: const Text('Cancel')),
+                             child: const Text('Cancel')),
                           secondChild: const SizedBox(),
                           crossFadeState: searchFocusNode.hasFocus
                               ? CrossFadeState.showFirst

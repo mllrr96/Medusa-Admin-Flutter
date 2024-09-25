@@ -114,11 +114,11 @@ extension DateTimePickerExtension on BuildContext {
                     children: [
                       ShadButton.secondary(
                           onPressed: () => context.maybePop(),
-                          text: const Text('Cancel')),
+                          child: const Text('Cancel')),
                       ShadButton(
                           onPressed: () => context
                               .maybePop(selectedDate ?? date ?? DateTime.now()),
-                          text: const Text('Done')),
+                          child: const Text('Done')),
                     ],
                   ),
                   Flexible(

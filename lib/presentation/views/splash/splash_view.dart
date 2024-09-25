@@ -94,7 +94,7 @@ class _SplashViewState extends State<SplashView> {
                           context.read<AuthenticationBloc>().add(
                               const AuthenticationEvent.cancel());
                         },
-                        text: const Text('Go to login')),
+                       child: const Text('Go to login')),
                     Gap(context.bottomViewPadding != 0
                         ? context.bottomViewPadding
                         : 10),

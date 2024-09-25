@@ -117,7 +117,7 @@ class _CreateUpdateReturnReasonViewState
                     );
                   }
                 },
-                text: updateMode ? const Text('Update') : const Text('Create'),
+               child: updateMode ? const Text('Update') : const Text('Create'),
               )
             ],
           ),
@@ -129,7 +129,7 @@ class _CreateUpdateReturnReasonViewState
                 Form(
                   key: formKey,
                   child: ShadCard(
-                    content: Column(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ShadInputFormField(

@@ -120,8 +120,8 @@ class _ReturnReasonsViewState extends State<ReturnReasonsView> {
               pagingController.refresh();
             }
           }),
-          text: const Text('Add Return Reason'),
           icon: const Icon(Icons.add),
+         child: const Text('Add Return Reason'),
         ),
         body: SafeArea(
           child: SmartRefresher(

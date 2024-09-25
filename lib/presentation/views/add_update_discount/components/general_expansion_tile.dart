@@ -288,7 +288,7 @@ class _GeneralExpansionTileState extends State<GeneralExpansionTile> {
           //       children: [
           //         Text('This is a template discount',
           //             style: mediumTextStyle),
-          //         IconButton(
+          //         ShadButton(
           //             onPressed: () {
           //               controller.showTemplateDiscountInfo =
           //                   !controller.showTemplateDiscountInfo;

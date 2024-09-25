@@ -109,7 +109,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                           defaultCurrencyCode: defaultStoreCurrency?.code,
                           currencies: currenciesIsoCode)));
                     },
-                    text: const Text('Save')),
+                   child: const Text('Save')),
               ],
             ),
             body: SafeArea(
@@ -122,7 +122,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                   ShadCard(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12.0, vertical: 8.0),
-                    content: Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Default store currency', style: largeTextStyle),
@@ -176,7 +176,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                     //       const BorderRadius.all(Radius.circular(12.0)),
                     //   color: context.theme.expansionTileTheme.backgroundColor,
                     // ),
-                    content: Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -217,7 +217,7 @@ class _CurrenciesViewState extends State<CurrenciesView> {
                                     setState(() {});
                                   }
                                 },
-                                text: const Text('Edit'))
+                               child: const Text('Edit'))
                           ],
                         ),
                         space,

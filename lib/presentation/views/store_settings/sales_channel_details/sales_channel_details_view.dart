@@ -21,6 +21,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/index.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class SalesChannelDetailsView extends StatefulWidget {
@@ -246,7 +247,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
             ),
           ),
           actions: [
-            IconButton(
+            ShadButton(
                 padding: const EdgeInsets.all(16.0),
                 onPressed: () async {
                   await showModalActionSheet<int>(

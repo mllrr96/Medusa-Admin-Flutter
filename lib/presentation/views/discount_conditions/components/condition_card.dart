@@ -120,7 +120,7 @@ class DetailedConditionCard extends StatelessWidget {
       // decoration: BoxDecoration(
       //     borderRadius: const BorderRadius.all(Radius.circular(4.0)),
       //     color: context.theme.scaffoldBackgroundColor),
-      content: Row(
+      child: Row(
         children: [
           Container(
             width: 4.0,
@@ -146,7 +146,6 @@ class DetailedConditionCard extends StatelessWidget {
             ),
           ),
           ShadButton.ghost(
-            size: ShadButtonSize.icon,
               onPressed: () async {
                 await showModalActionSheet<int>(
                     title: 'Manage condition',

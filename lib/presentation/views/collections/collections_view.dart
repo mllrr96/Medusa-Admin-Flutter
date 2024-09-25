@@ -103,12 +103,12 @@ class _CollectionsViewState extends State<CollectionsView> {
             ),
             const Gap(6.0),
             ShadButton(
-              text: const Text('New Collection'),
               icon: const Padding(
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(Icons.add),
               ),
               onPressed: () => context.pushRoute(CreateCollectionRoute()),
+              child: const Text('New Collection'),
             ),
           ],
         ),

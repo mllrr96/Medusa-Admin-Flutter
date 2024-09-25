@@ -173,11 +173,11 @@ class _UpdateUserShadCardState extends State<UpdateUserShadCard> {
     return ShadDialog(
       actions: [
         ShadButton.outline(
-          text: const Text('Cancel'),
+         child: const Text('Cancel'),
           onPressed: () => context.maybePop(),
         ),
         ShadButton(
-          text: const Text('Update'),
+         child: const Text('Update'),
           onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
@@ -198,7 +198,7 @@ class _UpdateUserShadCardState extends State<UpdateUserShadCard> {
           },
         ),
       ],
-      content: Form(
+      child: Form(
         key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

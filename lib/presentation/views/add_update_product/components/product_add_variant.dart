@@ -24,6 +24,7 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class ProductAddVariantView extends StatefulWidget {
@@ -583,7 +584,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                 suffixIcon: countryCtrl.text.isEmpty
                                     ? const Icon(
                                         Icons.keyboard_arrow_down_outlined)
-                                    : IconButton(
+                                    : ShadButton(
                                         onPressed: () {
                                           countryCtrl.clear();
                                           setState(() {});

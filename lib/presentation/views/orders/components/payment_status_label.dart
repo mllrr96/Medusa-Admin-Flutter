@@ -131,9 +131,8 @@ class ShadPaymentStatusLabel extends StatelessWidget {
       );
     }
 
-    return ShadBadge(text: Text(text),
-    backgroundColor: textColor,
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+    return ShadBadge(backgroundColor: textColor,
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),child: Text(text),
     );
   }
 }

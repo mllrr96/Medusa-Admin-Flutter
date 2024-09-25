@@ -50,7 +50,7 @@ class DateTimeCard extends StatelessWidget {
               //             : Colors.transparent)),
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              content: dateTime == null
+              child: dateTime == null
                   ? Center(
                       child: Text(
                         'Tap to select date',

@@ -22,7 +22,7 @@ import 'easy_loading.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:simple_icons/simple_icons.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -152,7 +152,7 @@ class _AppDrawerState extends State<AppDrawer> {
                         children: [
                           BlocBuilder<ThemeCubit, ThemeState>(
                             builder: (context, state) {
-                              return IconButton(
+                              return ShadButton(
                                 padding: const EdgeInsets.all(16.0),
                                 onPressed: () => context
                                     .read<ThemeCubit>()
@@ -182,11 +182,10 @@ class _AppDrawerState extends State<AppDrawer> {
                     ),
                   ),
                   const Gap(5.0),
-                  IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: context.getAlphaBlend(
-                            context.theme.scaffoldBackgroundColor),
-                      ),
+                  ShadButton(
+                    decoration: ShadDecoration(
+                      color: context.getAlphaBlend(
+                        context.theme.scaffoldBackgroundColor,)),
                       padding: const EdgeInsets.all(16.0),
                       onPressed: () => context.pushRoute(const ActivityRoute()),
                       icon: const Badge(
@@ -323,10 +322,11 @@ class _AppDrawerState extends State<AppDrawer> {
                     ),
                   ),
                   const Gap(5.0),
-                  IconButton(
-                    style: IconButton.styleFrom(
-                      backgroundColor: context
-                          .getAlphaBlend(context.theme.scaffoldBackgroundColor),
+                  ShadButton(
+                    decoration: ShadDecoration(
+                      color: context.getAlphaBlend(
+                        context.theme.scaffoldBackgroundColor,
+                      ),
                     ),
                     padding: const EdgeInsets.all(16.0),
                     onPressed: () async {
@@ -371,7 +371,7 @@ class _AppDrawerState extends State<AppDrawer> {
     //                         Text(store.name, style: mediumTextStyle),
     //                       ],
     //                     ),
-    //                     IconButton(
+    //                     ShadButton(
     //                       padding: const EdgeInsets.all(16.0),
     //                       onPressed: () async {
     //                         switch (StorageService.instance.loadThemeMode()) {

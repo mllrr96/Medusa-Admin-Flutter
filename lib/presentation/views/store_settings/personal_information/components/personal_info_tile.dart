@@ -19,7 +19,7 @@ class PersonalInfoTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         child: ShadCard(
           title: const Text('Manage your Medusa profile'),
-          content: Column(
+          child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

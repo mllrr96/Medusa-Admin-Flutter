@@ -24,7 +24,7 @@ class ConfigurationsCard extends StatelessWidget {
     if(shadStyle){
       return ShadCard(
         title: const Text('Configurations'),
-        content: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (discount.startsAt != null)

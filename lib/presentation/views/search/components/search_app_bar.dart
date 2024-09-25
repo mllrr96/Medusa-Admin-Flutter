@@ -20,6 +20,7 @@ import 'pick_search_category.dart';
 import 'search_chip.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/data/models/orders_filter.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SearchAppBar(
@@ -87,13 +88,13 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       _search(0);
                       await PreferenceService.instance.updateSearchHistory(
                           SearchHistory(
-                              text: val, searchableFields: searchCategory));
+                             text: val, searchableFields: searchCategory));
                     }
                   },
                   hintText: getHintText(searchCategory),
                   padding:
                       WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-                  leading: IconButton(
+                  leading: ShadButton(
                     padding: const EdgeInsets.all(16),
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () {
@@ -101,7 +102,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     },
                   ),
                   trailing: [
-                    IconButton(
+                    ShadButton(
                         padding: const EdgeInsets.all(16),
                         onPressed: () {
                           widget.searchCtrl.clear();
@@ -123,7 +124,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                           widget.controller.refresh();
                           await PreferenceService.instance.updateSearchHistory(
                               SearchHistory(
-                                  text: val, searchableFields: searchCategory));
+                                 text: val, searchableFields: searchCategory));
                         }
                       },
                       hintText: getHintText(searchCategory),

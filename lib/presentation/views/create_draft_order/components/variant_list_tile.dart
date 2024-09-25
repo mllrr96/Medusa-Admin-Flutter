@@ -6,6 +6,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class VariantListTile extends StatelessWidget {
   const VariantListTile(
@@ -104,13 +105,13 @@ class VariantListTile extends StatelessWidget {
           // Variant quantity
           Row(
             children: [
-              IconButton(
+              ShadButton(
                 onPressed: onRemoveTap,
                 icon: const Icon(Icons.remove),
                 padding: EdgeInsets.zero,
               ),
               Text(lineItem.quantity?.toString() ?? '0'),
-              IconButton(
+              ShadButton(
                 onPressed: onAddTap,
                 icon: const Icon(Icons.add),
                 padding: EdgeInsets.zero,
@@ -187,13 +188,13 @@ class CustomVariantListTile extends StatelessWidget {
           // Variant quantity
           Row(
             children: [
-              IconButton(
+              ShadButton(
                 onPressed: onRemoveTap,
                 icon: const Icon(Icons.remove),
                 padding: EdgeInsets.zero,
               ),
               Text(lineItem.quantity?.toString() ?? '0'),
-              IconButton(
+              ShadButton(
                 onPressed: onAddTap,
                 icon: const Icon(Icons.add),
                 padding: EdgeInsets.zero,

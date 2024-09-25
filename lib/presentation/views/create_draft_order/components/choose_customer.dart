@@ -50,7 +50,7 @@
 //               decoration: InputDecoration(
 //                 hintText: 'Choose customer',
 //                 suffixIcon: controller.selectedCustomer != null
-//                     ? IconButton(
+//                     ? ShadButton(
 //                         onPressed: () {
 //                           controller.selectedCustomer = null;
 //                           controller.customerCtrl.clear();

@@ -28,6 +28,7 @@ import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class MedusaSearchView extends StatefulWidget {
@@ -229,7 +230,7 @@ class SearchHistoryListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.only(left: 16.0),
       leading: SearchChip(searchableField: searchHistory.searchableFields),
       title: Text(searchHistory.text, style: smallTextStyle),
-      trailing: IconButton(
+      trailing: ShadButton(
         icon: const Icon(CupertinoIcons.xmark_circle_fill, size: 20),
         onPressed: onDeleteTap,
       ),

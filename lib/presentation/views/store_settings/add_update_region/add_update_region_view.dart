@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:medusa_admin/core/extension/snack_bar_extension.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/select_country_req.dart';
@@ -18,7 +18,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -308,7 +308,7 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                                   ? 'Countries'
                                   : 'Choose countries',
                               suffixIcon: selectedCountries.isNotEmpty
-                                  ? IconButton(
+                                  ? ShadButton(
                                       onPressed: () {
                                         selectedCountries.clear();
                                         setState(() {});
@@ -376,29 +376,29 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                               return state.maybeWhen(
                                   loading: () => Skeletonizer(
                                       enabled: true,
-                                      child: MultiSelectDropDown(
-                                          onOptionSelected: (_) {},
-                                          options: const [])),
+                                      child: MultiDropdown<String>(
+                                          onSelectionChange: (_) {},
+                                          items: const [],
+                                          )),
                                   paymentProviders: (paymentProviders) {
-                                    return MultiSelectDropDown<String>(
-                                      hintStyle: smallTextStyle,
-                                      options: paymentProviders
-                                          .map((e) => ValueItem(
+                                    return MultiDropdown<String>(
+                                      // hintStyle: smallTextStyle,
+                                      items: paymentProviders
+                                          .map((e) => DropdownItem<String> (
                                               label: e.id ?? 'Unknown',
-                                              value: e.id))
+                                              value: e.id!))
                                           .toList(),
-                                      inputDecoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0),
-                                        border: Border.all(color: Colors.grey),
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
+                                      chipDecoration: ChipDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          labelStyle: smallTextStyle,
+                                          deleteIcon: const Icon(Icons.close),
                                       ),
-                                      optionsBackgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      optionTextStyle: context.bodySmall,
-                                      onOptionSelected: (List<ValueItem<String>>
-                                          selectedOptions) {},
+                                      onSelectionChange: (value) {
+                                        selectedPaymentProviders = value;
+                                      },
                                     );
                                   },
                                   orElse: () => const SizedBox.shrink());

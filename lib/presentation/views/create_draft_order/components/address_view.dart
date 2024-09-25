@@ -16,6 +16,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class CreateDraftOrderAddressView extends StatefulWidget {
   const CreateDraftOrderAddressView(this.countries, {super.key, this.onSaved});
@@ -127,7 +128,7 @@ class _CreateDraftOrderAddressViewState
           decoration: InputDecoration(
             hintText: 'Choose customer',
             suffixIcon: selectedCustomer != null && !customCustomer
-                ? IconButton(
+                ? ShadButton(
                     onPressed: () {
                       selectedCustomer = null;
                       customCustomer = true;

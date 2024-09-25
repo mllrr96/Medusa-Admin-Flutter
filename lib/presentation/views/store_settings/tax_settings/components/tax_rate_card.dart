@@ -6,6 +6,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import '../../../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class TaxRateCard extends StatelessWidget {
   const TaxRateCard({
@@ -35,7 +36,7 @@ class TaxRateCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(taxRate.name ?? '', style: mediumTextStyle),
-              IconButton(
+              ShadButton(
                   onPressed: () async {
                     await showModalActionSheet<int>(
                         title: 'Manage tax rate',

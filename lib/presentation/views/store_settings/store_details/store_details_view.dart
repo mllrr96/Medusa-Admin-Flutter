@@ -84,7 +84,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
             title: const Text('Store Details'),
             actions: [
               ShadButton.ghost(
-                  text: const Text('Save'),
+                 child: const Text('Save'),
                   onPressed: () async {
                     if (storeCtrl.text == store?.name &&
                         (swapLinkCtrl.text == store?.swapLinkTemplate ||
@@ -136,7 +136,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                       children: [
                         ShadCard(
                           title: const Text('General'),
-                          content: Padding(
+                          child: Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: ShadInputFormField(
                               label: const Text('Store Name'),
@@ -153,7 +153,7 @@ class _StoreDetailsViewState extends State<StoreDetailsView> {
                         const Gap(10.0),
                         ShadCard(
                           title: const Text('Advanced settings'),
-                          content: Padding(
+                          child: Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Column(
                               children: <Widget>[

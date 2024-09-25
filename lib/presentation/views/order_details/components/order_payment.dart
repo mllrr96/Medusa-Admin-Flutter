@@ -34,7 +34,7 @@ class OrderPayment extends StatelessWidget {
           return ShadButton.ghost(
             // onPressed: () async => await controller.capturePayment(),
             onPressed: () {},
-            text: Text(tr.templatesCapturePayment),
+            child: Text(tr.templatesCapturePayment),
           );
         case PaymentStatus.notPaid:
         case PaymentStatus.awaiting:
@@ -50,7 +50,7 @@ class OrderPayment extends StatelessWidget {
                 // await controller.createRefund(result);
               }
             },
-            text: Text(tr.templatesRefund),
+            child: Text(tr.templatesRefund),
           );
         case PaymentStatus.canceled:
           break;
@@ -64,7 +64,7 @@ class OrderPayment extends StatelessWidget {
       return ShadAccordionItem<int>(
         value: 1,
         title: Text(tr.detailsPayment),
-        content: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(

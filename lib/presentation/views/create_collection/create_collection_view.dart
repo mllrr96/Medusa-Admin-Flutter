@@ -12,6 +12,7 @@ import 'package:medusa_admin/presentation/widgets/easy_loading.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class CreateCollectionView extends StatefulWidget {
@@ -182,7 +183,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            IconButton(
+                            ShadButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.delete_forever,
                                     color: Colors.red)),

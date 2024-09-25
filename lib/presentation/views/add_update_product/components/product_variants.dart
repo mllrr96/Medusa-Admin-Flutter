@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
 import 'package:medusa_admin/data/models/product_variant_req.dart';
@@ -11,6 +10,7 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'product_add_option.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ProductVariants extends StatefulWidget {
   const ProductVariants(
@@ -193,7 +193,7 @@ class ProductVariantCard extends StatelessWidget {
                 const Icon(Icons.check_circle, color: Colors.green),
               if (!isVariantCompleted(variant))
                 const Icon(Icons.error, color: Colors.orange),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+              ShadButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
             ],
           )
         ],
@@ -249,7 +249,7 @@ class ProductOptionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
+              ShadButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: delete,
                   icon: const Icon(Icons.delete_forever, color: Colors.red))

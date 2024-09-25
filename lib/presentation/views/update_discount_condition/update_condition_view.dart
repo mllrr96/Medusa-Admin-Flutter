@@ -97,7 +97,7 @@ class _UpdateConditionViewState extends State<UpdateConditionView> {
           actions: [
             ShadButton.ghost(
               onPressed: () async => await add(context),
-              text: Row(
+             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (Platform.isIOS) const Icon(CupertinoIcons.add),

@@ -41,7 +41,7 @@ class OrderDetailsLoadingPage extends StatelessWidget {
                       .map((e) => ShadAccordionItem(
                             value: e,
                             title: Text(e),
-                            content: const SizedBox.shrink(),
+                            child: const SizedBox.shrink(),
                           ))
                       .toList(),
                 )

@@ -9,6 +9,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 
 import '../../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class OrderNoteWidget extends StatelessWidget {
   const OrderNoteWidget(this.note, {super.key, this.onNoteDelete});
@@ -67,7 +68,7 @@ class OrderNoteWidget extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
+            ShadButton(
                 onPressed: () async {
                   await showOkCancelAlertDialog(
                     context: context,

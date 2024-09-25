@@ -16,6 +16,7 @@ import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class AddUpdateOrderEditView extends StatefulWidget {
@@ -283,7 +284,7 @@ class EditOrderItems extends StatelessWidget {
                           style: context.bodyMedium
                               ?.copyWith(color: ColorManager.manatee),
                         ),
-                        IconButton(
+                        ShadButton(
                             onPressed: () async {
                               final result = await showModalActionSheet(
                                   context: context,
@@ -320,7 +321,7 @@ class EditOrderItems extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        IconButton(
+                        ShadButton(
                           onPressed: item.quantity! > 1
                               ? () async {
                                   final canRemove = item.quantity! > 1;
@@ -342,7 +343,7 @@ class EditOrderItems extends StatelessWidget {
                                   (addedItems[item.id] ?? 0))
                               .toString()),
                         ),
-                        IconButton(
+                        ShadButton(
                           onPressed: () async {
                             onUpsetLineItem?.call(
                                 orderEdit.id!, item.id!, item.quantity! + 1);

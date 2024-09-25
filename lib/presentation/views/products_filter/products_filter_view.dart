@@ -41,7 +41,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
   final collectionKey = GlobalKey();
   final tagsKey = GlobalKey();
   final Widget disabledApplyButton = const ShadButton.ghost(
-      size: ShadButtonSize.lg, onPressed: null, text: Text('Apply'));
+      size: ShadButtonSize.lg, onPressed: null,child: Text('Apply'));
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                   ShadButton.secondary(
                     size: ShadButtonSize.lg,
                     onPressed: widget.onResetPressed,
-                    text: const Text('Reset'),
+                   child: const Text('Reset'),
                   ),
                   const Gap(8.0),
                   state.maybeMap(
@@ -81,7 +81,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                         onPressed: () {
                           widget.onSubmitted?.call(productFilter);
                         },
-                        text: const Text('Apply')),
+                       child: const Text('Apply')),
                     orElse: () => disabledApplyButton,
                   ),
                 ],
@@ -106,17 +106,17 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                             ShadAccordionItem(
                               value: 1,
                               title: Text('Status'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 2,
                               title: Text('Collections'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 3,
                               title: Text('Tags'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                           ]),
                     ),
@@ -130,7 +130,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                               ShadAccordionItem(
                                 value: 1,
                                 title: const Text('Status'),
-                                content: Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: ProductStatus.values
                                       .map((e) => ShadCheckbox(
@@ -153,7 +153,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                               ShadAccordionItem(
                                 value: 2,
                                 title: const Text('Collections'),
-                                content: Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: collections
                                       .map((e) => CustomShadCheckbox(
@@ -180,7 +180,7 @@ class _ProductsFilterViewState extends State<ProductsFilterView> {
                               ShadAccordionItem(
                                   value: 3,
                                   title: const Text('Tags'),
-                                  content: Wrap(
+                                  child: Wrap(
                                     alignment: WrapAlignment.start,
                                     spacing: 6.0,
                                     children: tags

@@ -97,7 +97,7 @@ class _PickCustomerViewState extends State<PickCustomerView> {
                           ? () => context.maybePop(PickCustomerRes(
                               selectedCustomers: selectedCustomers))
                           : null,
-                      text: const Text('Done'))
+                     child: const Text('Done'))
                 ],
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(kToolbarHeight),

@@ -43,7 +43,6 @@ class _ShadDrawerState extends State<ShadDrawer> {
         height: 56,
         width: double.infinity,
         onPressed: onPressed,
-        text: Text(text),
         icon: Padding(
           padding: const EdgeInsets.only(right: 8),
           child: Icon(
@@ -51,6 +50,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
             size: 16,
           ),
         ),
+       child: Text(text),
       );
     }
     return ShadButton(
@@ -61,7 +61,6 @@ class _ShadDrawerState extends State<ShadDrawer> {
         context.tabsRouter.setActiveIndex(0);
         context.closeDrawer();
       },
-      text: Text(text),
       icon: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: Icon(
@@ -69,6 +68,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
           size: 16,
         ),
       ),
+     child: Text(text),
     );
   }
 
@@ -133,7 +133,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
                 BlocBuilder<ThemeCubit, ThemeState>(
                   builder: (context, state) {
                     return ShadButton.outline(
-                      size: ShadButtonSize.icon,
+                      
                       onPressed: () => context
                           .read<ThemeCubit>()
                           .updateThemeState(themeMode: state.themeMode.next),
@@ -164,7 +164,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
                         Icons.notifications_outlined,
                         size: 16.0,
                       )),
-                  size: ShadButtonSize.icon,
+                  
                   onPressed: () => context.pushRoute(const ActivityRoute()),
                 ),
               ],
@@ -187,7 +187,11 @@ class _ShadDrawerState extends State<ShadDrawer> {
                               offset: const Offset(0, 2),
                             ),
                           ],
-                          text: Column(
+                          icon: const Padding(
+                            padding: EdgeInsets.only(right: 8.0),
+                            child: Icon(Icons.update),
+                          ),
+                         child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -196,10 +200,6 @@ class _ShadDrawerState extends State<ShadDrawer> {
                               ),
                               const Text('Tap to install'),
                             ],
-                          ),
-                          icon: const Padding(
-                            padding: EdgeInsets.only(right: 8.0),
-                            child: Icon(Icons.update),
                           ),
                         ),
                     orElse: () => const SizedBox.shrink());
@@ -211,7 +211,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
               final name = item.key;
               final tuple = item.value;
               return _buildShadButton(
-                  text: name,
+                 text: name,
                   icon: tuple.$2,
                   index: tuple.$1,
                   isSelected: context.tabsRouter.activeIndex == tuple.$1,
@@ -232,7 +232,13 @@ class _ShadDrawerState extends State<ShadDrawer> {
                     child: ShadButton(
                       height: 56,
                       onPressed: () => _showAppAboutDialog(context),
-                      text: Column(
+                      icon: Hero(
+                        tag: 'medusa',
+                        child: Image.asset(
+                          'assets/images/medusa.png',
+                        ),
+                      ),
+                     child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -242,12 +248,6 @@ class _ShadDrawerState extends State<ShadDrawer> {
                           Text('Version $version',
                               style: smallTextStyle?.copyWith(color: manatee)),
                         ],
-                      ),
-                      icon: Hero(
-                        tag: 'medusa',
-                        child: Image.asset(
-                          'assets/images/medusa.png',
-                        ),
                       ),
                     ),
                   ),
@@ -298,7 +298,7 @@ class _ShadDrawerState extends State<ShadDrawer> {
     //                         Text(store.name, style: mediumTextStyle),
     //                       ],
     //                     ),
-    //                     IconButton(
+    //                     ShadButton(
     //                       padding: const EdgeInsets.all(16.0),
     //                       onPressed: () async {
     //                         switch (StorageService.instance.loadThemeMode()) {
@@ -547,11 +547,11 @@ class _ShadDrawerState extends State<ShadDrawer> {
         description: const Text('Are you sure you want to sign out?'),
         actions: [
           ShadButton.outline(
-            text: const Text('Cancel'),
+           child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(false),
           ),
           ShadButton(
-            text: const Text('Sign Out'),
+           child: const Text('Sign Out'),
             onPressed: () => context
                 .read<AuthenticationBloc>()
                 .add(const AuthenticationEvent.logOut()),
@@ -607,11 +607,11 @@ void _showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
       Padding(
         padding: const EdgeInsets.only(top: 24),
         child: RichText(
-          text: TextSpan(
+         text: TextSpan(
             children: <TextSpan>[
               TextSpan(
                 style: footerStyle,
-                text: 'Built with Flutter ${AppConstants.flutterVersion}, '
+               text: 'Built with Flutter ${AppConstants.flutterVersion}, '
                     '\nMedia size (w:${width.toStringAsFixed(0)}, '
                     'h:${height.toStringAsFixed(0)})',
               ),

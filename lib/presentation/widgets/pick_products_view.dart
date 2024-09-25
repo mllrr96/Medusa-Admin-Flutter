@@ -111,7 +111,7 @@ class _PickProductsViewState extends State<PickProductsView> {
                           ...?pickProductsReq.selectedProducts
                         ]..removeWhere((e) =>
                             selectedProducts.map((e) => e.id).contains(e.id)))),
-                text: const Text('Save'))
+               child: const Text('Save'))
           ],
         ),
         body: SafeArea(

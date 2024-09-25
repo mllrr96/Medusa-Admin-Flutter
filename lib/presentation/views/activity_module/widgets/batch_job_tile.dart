@@ -254,7 +254,7 @@ class _BatchJobTileState extends State<BatchJobTile> {
                       showDate = !showDate;
                     });
                   },
-                  text: Text(
+                 child: Text(
                       showDate
                           ? '${widget.batchJob.createdAt.formatDate()} at ${widget.batchJob.createdAt.formatTime()}'
                           : widget.batchJob.createdAt?.timeAgo() ?? '',
@@ -270,11 +270,11 @@ class _BatchJobTileState extends State<BatchJobTile> {
                       children: [
                         ShadButton.destructive(
                             onPressed: isCompleted ? widget.onDelete : null,
-                            text: const Text('Delete')),
+                            child: const Text('Delete')),
                         ShadButton(
                             onPressed: isCompleted ? widget.onShare : null,
-                            text: const Text('Share'),
-                            icon: const Icon(Icons.file_upload_outlined)),
+                            icon: const Icon(Icons.file_upload_outlined),
+                            child: const Text('Share')),
                       ],
                     ),
                   ],

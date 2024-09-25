@@ -123,7 +123,7 @@ class ShadDraftOrderCard extends StatelessWidget {
     final customerName = draftOrder.order?.customerName;
     return ShadCard(
       padding: EdgeInsets.zero,
-      content: InkWell(
+      child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         onTap: onTap ??
             () => context

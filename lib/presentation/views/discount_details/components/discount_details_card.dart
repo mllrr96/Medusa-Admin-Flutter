@@ -74,7 +74,7 @@ class DiscountDetailsCard extends StatelessWidget {
             children: [
               Text(discount.code ?? ''),
               ShadButton.ghost(
-                text:DiscountStatusDot(disabled: disabled),
+                child:DiscountStatusDot(disabled: disabled),
                 onPressed: () async {
                   await showOkCancelAlertDialog(
                       context: context,
@@ -92,7 +92,7 @@ class DiscountDetailsCard extends StatelessWidget {
             ],
           ),
           description: discount.rule?.description != null ? Text(discount.rule!.description!)  : null,
-          content: Padding(
+          child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: IntrinsicHeight(
               child: Row(

@@ -34,7 +34,7 @@ class ShadAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon,
           size: 16,
         ),
-        size: ShadButtonSize.icon,
+        
         onPressed: () =>  Navigator.maybePop(context),
       ),
       centerTitle: centerTitle,

@@ -98,7 +98,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
               actions: [
                 ShadButton(
                     onPressed: () => _save(),
-                    text: updatingDiscount
+                    child: updatingDiscount
                         ? const Text('Update')
                         : const Text('Create')),
               ],

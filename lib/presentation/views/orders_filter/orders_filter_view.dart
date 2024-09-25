@@ -73,7 +73,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
   }
 
   final Widget disabledApplyButton = const ShadButton.ghost(
-      size: ShadButtonSize.lg, onPressed: null, text: Text('Apply'));
+      size: ShadButtonSize.lg, onPressed: null, child: Text('Apply'));
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                     ShadButton.secondary(
                       size: ShadButtonSize.lg,
                       onPressed: widget.onResetTap,
-                      text: const Text('Reset'),
+                      child: const Text('Reset'),
                     ),
                     const Gap(8.0),
                     state.maybeMap(
@@ -146,7 +146,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                               widget.onSubmitted?.call(orderFilter);
                               context.maybePop();
                             },
-                            text: const Text('Apply')),
+                            child: const Text('Apply')),
                         orElse: () => disabledApplyButton),
                   ],
                 )),
@@ -170,32 +170,32 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                             ShadAccordionItem(
                               value: 1,
                               title: Text('Status'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 2,
                               title: Text('Payment Status'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 3,
                               title: Text('Fulfillment Status'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 4,
                               title: Text('Regions'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 5,
                               title: Text('Sales Channel'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                             ShadAccordionItem(
                               value: 6,
                               title: Text('Date'),
-                              content: SizedBox.shrink(),
+                              child: SizedBox.shrink(),
                             ),
                           ]),
                     ),
@@ -210,7 +210,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ShadAccordionItem(
                             value: 1,
                             title: const Text('Status'),
-                            content: Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: OrderStatus.values
                                   .map((e) => ShadCheckbox(
@@ -230,7 +230,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ShadAccordionItem(
                             value: 2,
                             title: const Text('Payment Status'),
-                            content: Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: PaymentStatus.values
                                   .map((e) => ShadCheckbox(
@@ -251,7 +251,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ShadAccordionItem(
                             value: 3,
                             title: const Text('Fulfillment Status'),
-                            content: Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: FulfillmentStatus.values
                                   .map((e) => ShadCheckbox(
@@ -274,7 +274,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ShadAccordionItem(
                             value: 4,
                             title: const Text('Regions'),
-                            content: Column(
+                            child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (regions.isNotEmpty)
@@ -298,7 +298,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ShadAccordionItem(
                             value: 5,
                             title: const Text('Sales Channel'),
-                            content: Column(
+                            child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (salesChannels.isNotEmpty)
@@ -322,7 +322,7 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                           ShadAccordionItem(
                             value: 6,
                             title: const Text('Date'),
-                            content: Column(
+                            child: Column(
                               children: [
                                 Row(
                                   mainAxisAlignment:

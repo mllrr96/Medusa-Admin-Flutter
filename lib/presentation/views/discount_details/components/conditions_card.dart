@@ -37,7 +37,6 @@ class ConditionsCard extends StatelessWidget {
           children: [
             const Text('Conditions'),
             ShadButton.outline(
-                size: ShadButtonSize.icon,
                 onPressed: () async {
                   final result = await context.pushRoute(
                       DiscountConditionsRoute(
@@ -69,7 +68,7 @@ class ConditionsCard extends StatelessWidget {
                 icon: const Icon(LucideIcons.plus)),
           ],
         ),
-        content: Column(
+        child: Column(
           children: [
             const Gap(20),
             if (discount.rule?.conditions?.isEmpty ?? true)
@@ -168,7 +167,7 @@ class ConditionsCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Conditions'),
-              IconButton(
+              ShadButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
                     final result = await context.pushRoute(

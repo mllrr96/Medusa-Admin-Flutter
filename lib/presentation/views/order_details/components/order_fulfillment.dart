@@ -24,7 +24,7 @@ class OrderFulfillment extends StatelessWidget {
     return ShadAccordionItem<int>(
       value: 2,
       title: Text(tr.detailsFulfillment),
-      content: Column(
+      child: Column(
         children: [
           if (order.fulfillmentStatus != FulfillmentStatus.fulfilled ||
               order.fulfillmentStatus != FulfillmentStatus.shipped)
@@ -36,7 +36,7 @@ class OrderFulfillment extends StatelessWidget {
                   // await controller.createFulfillment(result);
                 }
               },
-              text: Text(tr.detailsCreateFulfillment),
+              child: Text(tr.detailsCreateFulfillment),
             ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +93,7 @@ class OrderFulfillment extends StatelessWidget {
                   ),
                   trailing: canceled || shipped
                       ? null
-                      : IconButton(
+                      : ShadButton(
                           onPressed: () async {
                             await showModalActionSheet<int>(
                                 context: context,

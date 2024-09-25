@@ -124,7 +124,7 @@ class _InvitesViewState extends State<InvitesView> {
                       }));
             },
             icon: const Icon(Icons.add),
-            text: const Text('Invite user'),
+           child: const Text('Invite user'),
           ),
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [

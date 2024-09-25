@@ -36,7 +36,7 @@ class TeamCard extends StatelessWidget {
         //     borderRadius: const BorderRadius.all(Radius.circular(10.0))),
         // margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-        content: Row(
+        child: Row(
           children: [
             if (user.role != null) UserRoleLabel(userRole: user.role!),
             const Gap(5.0),
@@ -67,7 +67,7 @@ class TeamCard extends StatelessWidget {
             ),
             Skeleton.keep(
               child: ShadButton.ghost(
-                size: ShadButtonSize.icon,
+                
                 // padding: const EdgeInsets.all(16.0),
                   onPressed: () async {
                     await showModalActionSheet<int>(

@@ -16,14 +16,12 @@ class UpdateUrlButton extends StatelessWidget {
 
     if (!isUrlSet) {
       return ShadButton.destructive(
-        size: ShadButtonSize.icon,
         onPressed: onUrlPressed,
         icon: const Icon(Icons.link),
       );
     }
 
     return ShadButton.outline(
-      size: ShadButtonSize.icon,
       onPressed: onUrlPressed,
       icon: const Icon(Icons.link),
     );

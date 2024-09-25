@@ -23,6 +23,7 @@ import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/pick_groups_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'components/index.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
@@ -370,7 +371,7 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                             suffixIcon: priceList.customerGroups?.isEmpty ??
                                     true
                                 ? const Icon(Icons.keyboard_arrow_down_outlined)
-                                : IconButton(
+                                : ShadButton(
                                     onPressed: () {
                                       priceList = priceList.copyWith(
                                           customerGroups:

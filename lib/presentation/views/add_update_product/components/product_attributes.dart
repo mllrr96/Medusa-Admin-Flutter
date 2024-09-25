@@ -14,6 +14,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ProductAttributes extends StatefulWidget {
   const ProductAttributes(
@@ -198,7 +199,7 @@ class _ProductAttributesState extends State<ProductAttributes> {
                       : null,
                   suffixIcon: countryCtrl.text.isEmpty
                       ? const Icon(Icons.keyboard_arrow_down_outlined)
-                      : IconButton(
+                      : ShadButton(
                           onPressed: () {
                             countryCtrl.clear();
                             originCountryIso = null;

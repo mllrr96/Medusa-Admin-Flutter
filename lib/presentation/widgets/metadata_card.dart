@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'custom_text_field.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class MetadataCard extends StatelessWidget {
   const MetadataCard({super.key, required this.keyCtrl, required this.valueCtrl, this.onDelete});
@@ -38,7 +39,7 @@ class MetadataCard extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: IconButton(
+                    child: ShadButton(
                       onPressed: onDelete,
                       icon: const Icon(Icons.delete_forever, color: Colors.red),
                     ),

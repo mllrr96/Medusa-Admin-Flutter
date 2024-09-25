@@ -10,6 +10,7 @@ import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import '../../../../../core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class DraftOrderCustomer extends StatelessWidget {
   const DraftOrderCustomer(this.draftOrder, {super.key});
@@ -40,7 +41,7 @@ class DraftOrderCustomer extends StatelessWidget {
       },
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Customer'),
-      trailing: IconButton(
+      trailing: ShadButton(
           onPressed: () async {
             await showModalActionSheet<int>(context: context, actions: <SheetAction<int>>[
               const SheetAction(label: 'Go to Customer', icon: Icons.person, key: 0),

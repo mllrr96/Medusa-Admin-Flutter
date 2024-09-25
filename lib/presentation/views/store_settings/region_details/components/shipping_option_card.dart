@@ -5,6 +5,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'shipping_option_label.dart';
 import 'package:medusa_admin/core/extension/num_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ShippingOptionCard extends StatelessWidget {
   const ShippingOptionCard(
@@ -69,7 +70,7 @@ class ShippingOptionCard extends StatelessWidget {
                       child: Text(shippingOption.name ?? '',
                           style: mediumTextStyle?.copyWith(
                               fontWeight: FontWeight.w500))),
-                  IconButton(
+                  ShadButton(
                       onPressed: () async {
                         await showModalActionSheet<int>(
                             title: (shippingOption.isReturn)

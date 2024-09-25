@@ -9,6 +9,7 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class NetworkImageCard extends StatelessWidget {
   const NetworkImageCard(
@@ -47,7 +48,7 @@ class NetworkImageCard extends StatelessWidget {
                 child: CachedNetworkImage(imageUrl: imageUrl),
               ),
             ),
-            IconButton(
+            ShadButton(
                 onPressed: onDelete,
                 icon: Icon(Icons.delete_forever, color: deleteIconColor)),
           ],
@@ -122,7 +123,7 @@ class ImageCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
+            ShadButton(
                 onPressed: () async {
                   await showModalActionSheet<int>(
                       context: context,

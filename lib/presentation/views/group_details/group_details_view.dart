@@ -17,6 +17,7 @@ import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class GroupDetailsView extends StatefulWidget {
@@ -116,7 +117,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                 pinned: true,
                 title: Text(widget.customerGroup.name ?? ''),
                 actions: [
-                  IconButton(
+                  ShadButton(
                       padding: const EdgeInsets.all(16),
                       onPressed: () async {
                         await showModalActionSheet<int>(
@@ -180,7 +181,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                         subtitle: name != null
                             ? Text(customer.email, style: smallTextStyle)
                             : null,
-                        trailing: IconButton(
+                        trailing: ShadButton(
                             padding: const EdgeInsets.all(16),
                             onPressed: () async {
                               await showModalActionSheet<int>(

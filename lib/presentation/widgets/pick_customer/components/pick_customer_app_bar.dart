@@ -58,7 +58,7 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
                 ),
               )),
             ShadButton.ghost(
-                text: const Text('Cancel'),
+               child: const Text('Cancel'),
                 onPressed: () async {
                   context.unfocus();
                   // await Future.delayed(const Duration(milliseconds: 150));
@@ -79,7 +79,7 @@ class _PickCustomerAppBarState extends State<PickCustomerAppBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
+            ShadButton(
                 onPressed: () async {
                   setState(() {
                     expanded = true;

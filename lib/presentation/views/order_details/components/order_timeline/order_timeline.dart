@@ -75,8 +75,7 @@ class _OrderTimelineState extends State<OrderTimeline> {
   @override
   Widget build(BuildContext context) {
     final tr = context.tr;
-    final iconButton = ShadButton.outline(
-        size: ShadButtonSize.icon,
+    final shadButton = ShadButton.outline(
         onPressed: () async {
           await showModalActionSheet<int>(
               context: context,
@@ -114,7 +113,7 @@ class _OrderTimelineState extends State<OrderTimeline> {
                 onSubmitted: (_) => createNote(),
               ),
             ),
-            iconButton,
+            shadButton,
           ],
         ),
         const Divider(),
@@ -207,7 +206,7 @@ class _OrderTimelineState extends State<OrderTimeline> {
       child: ShadAccordionItem<int>(
         value: 4,
         title: const Text('Timeline'),
-        content: content,
+        child: content,
       ),
     );
   }

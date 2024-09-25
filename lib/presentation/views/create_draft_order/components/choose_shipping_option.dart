@@ -182,7 +182,7 @@ class _ChooseShippingOptionViewState extends State<ChooseShippingOptionView> {
                             readOnly: true,
                             label: 'Currency',
                             controller: TextEditingController(
-                                text:
+                               text:
                                     widget.region?.currencyCode?.toUpperCase()),
                           )),
                           const SizedBox(width: 12.0),

@@ -13,7 +13,7 @@ class SearchFloatingActionButton extends StatelessWidget {
     assert(searchCategory != null || onTap != null,
         'searchCategory or onTap must not be null');
     return ShadButton(
-      size: ShadButtonSize.icon,
+      
       onPressed: onTap ??
           () => context
               .pushRoute(MedusaSearchRoute(searchCategory: searchCategory!)),

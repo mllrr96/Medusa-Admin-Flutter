@@ -80,7 +80,7 @@ class DiscountCard extends StatelessWidget {
                             ],
                           ),
                         ),
-                        IconButton(
+                        ShadButton(
                           padding: const EdgeInsets.all(16.0),
                             onPressed: () async {
                               await showModalActionSheet<int>(
@@ -206,7 +206,7 @@ class DiscountShadCard extends StatelessWidget {
     final smallTextStyle = context.bodySmall;
     return ShadCard(
       padding: EdgeInsets.zero,
-      content: InkWell(
+      child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         onTap: onTap ??
             () => context.pushRoute(DiscountDetailsRoute(discount: discount)),
@@ -249,7 +249,6 @@ class DiscountShadCard extends StatelessWidget {
                         ),
                         Skeleton.keep(
                           child: ShadButton.ghost(
-                            size: ShadButtonSize.icon,
                               onPressed: () async {
                                 await showModalActionSheet<int>(
                                     title: 'Manage discount',

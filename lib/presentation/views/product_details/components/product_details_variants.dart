@@ -11,6 +11,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ProductDetailsVariants extends StatelessWidget {
   const ProductDetailsVariants({super.key, required this.product});
@@ -28,7 +29,7 @@ class ProductDetailsVariants extends StatelessWidget {
       },
       controlAffinity: ListTileControlAffinity.leading,
       title: const Text('Variants'),
-      trailing: IconButton(
+      trailing: ShadButton(
           onPressed: () async {
             await showModalActionSheet(context: context, actions: <SheetAction>[
               const SheetAction(label: 'Add Variants', key: 0),
@@ -142,7 +143,7 @@ class ProductDetailsVariants extends StatelessWidget {
                                       variant.inventoryQuantity?.toString() ??
                                           '-',
                                       style: smallTextStyle)),
-                              IconButton(
+                              ShadButton(
                                   onPressed: () async {
                                     await showModalActionSheet<int>(
                                         context: context,

@@ -53,7 +53,7 @@ class RegionCard extends StatelessWidget {
                 ],
               )
             : null,
-        content: Text(getCountries(),
+        child: Text(getCountries(),
             style: mediumTextStyle!.copyWith(color: manatee),
             overflow: TextOverflow.ellipsis,
             maxLines: 2),

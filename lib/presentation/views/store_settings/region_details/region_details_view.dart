@@ -18,6 +18,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class RegionDetailsView extends StatefulWidget {
@@ -72,7 +73,7 @@ class _RegionDetailsViewState extends State<RegionDetailsView> {
               MedusaSliverAppBar(
                 title: Text(regionName),
                 actions: [
-                  IconButton(
+                  ShadButton(
                       icon: const Icon(Icons.more_horiz_outlined),
                       onPressed: () async {
                         if (region == null) {

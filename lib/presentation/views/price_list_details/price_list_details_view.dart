@@ -17,6 +17,7 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/index.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class PriceListDetailsView extends StatefulWidget {
@@ -116,7 +117,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
           systemOverlayStyle: context.defaultSystemUiOverlayStyle,
           title: const Text('Price List Details'),
           actions: [
-            IconButton(
+            ShadButton(
                 padding: const EdgeInsets.all(16.0),
                 onPressed: () async {
                   await showModalActionSheet<int>(

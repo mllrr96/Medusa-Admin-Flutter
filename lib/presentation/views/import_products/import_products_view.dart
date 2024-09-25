@@ -20,6 +20,7 @@ import 'package:medusa_admin/presentation/widgets/medusa_sliver_app_bar.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class ImportProductsView extends StatefulWidget {
@@ -208,7 +209,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                   snap: false,
                   title: const Text('Import products'),
                   actions: [
-                    IconButton(
+                    ShadButton(
                       onPressed: () {},
                       icon: const Icon(Icons.help_outline),
                     ),
@@ -262,7 +263,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
                                   ],
                                 ),
                               ),
-                              IconButton(
+                              ShadButton(
                                 padding: const EdgeInsets.all(16),
                                 onPressed: () async {
                                   await showOkCancelAlertDialog(

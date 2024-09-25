@@ -28,7 +28,7 @@ class OrderSummery extends StatelessWidget {
       return ShadAccordionItem<int>(
         value: 0,
         title: const Text('Summery'),
-        content: Column(
+        child: Column(
           children: [
             ListView.builder(
                 shrinkWrap: true,

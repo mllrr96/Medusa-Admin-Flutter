@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class LabeledNumericTextField extends StatelessWidget {
   const LabeledNumericTextField({
@@ -73,7 +74,7 @@ class LabeledNumericTextField extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (onMinusPressed != null)
-                    IconButton(
+                    ShadButton(
                         onPressed: onMinusPressed ??
                             () {
                               int? stock = int.tryParse(
@@ -86,7 +87,7 @@ class LabeledNumericTextField extends StatelessWidget {
                             },
                         icon: const Icon(Icons.remove)),
                   if (onPlusPressed != null)
-                    IconButton(
+                    ShadButton(
                         // padding: EdgeInsets.zero,
                         onPressed: onPlusPressed ??
                             () {

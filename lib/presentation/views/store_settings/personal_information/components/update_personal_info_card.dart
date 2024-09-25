@@ -36,7 +36,28 @@ class _UpdatePersonalInfoCardState extends State<UpdatePersonalInfoCard> {
   Widget build(BuildContext context) {
     return ShadDialog(
       title: const Text('Update Personal Information'),
-      content: Form(
+      actions: [
+        ShadButton.ghost(
+            onPressed: () => context.maybePop(),child: const Text('Cancel')),
+        ShadButton(
+            onPressed: () async {
+              if (!formKey.currentState!.validate()) {
+                return;
+              }
+              if (firstNameCtrl.text == user.firstName &&
+                  lastNameCtrl.text == user.lastName) {
+                context.maybePop();
+              } else {
+                context.unfocus();
+                widget.onSubmit?.call(UpdateUserReq(
+                    firstName: firstNameCtrl.text,
+                    lastName: lastNameCtrl.text));
+                context.maybePop();
+              }
+            },
+           child: const Text('Update')),
+      ],
+      child: Form(
           key: formKey,
           child: Column(
             children: [
@@ -81,27 +102,6 @@ class _UpdatePersonalInfoCardState extends State<UpdatePersonalInfoCard> {
               ),
             ],
           )),
-      actions: [
-        ShadButton.ghost(
-            onPressed: () => context.maybePop(), text: const Text('Cancel')),
-        ShadButton(
-            onPressed: () async {
-              if (!formKey.currentState!.validate()) {
-                return;
-              }
-              if (firstNameCtrl.text == user.firstName &&
-                  lastNameCtrl.text == user.lastName) {
-                context.maybePop();
-              } else {
-                context.unfocus();
-                widget.onSubmit?.call(UpdateUserReq(
-                    firstName: firstNameCtrl.text,
-                    lastName: lastNameCtrl.text));
-                context.maybePop();
-              }
-            },
-            text: const Text('Update')),
-      ],
     );
   }
 }

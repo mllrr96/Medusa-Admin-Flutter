@@ -8,6 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import '../../../../../core/constant/colors.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class OrderCreateFulfillmentView extends StatefulWidget {
@@ -115,7 +116,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                         child: Row(
                           children: [
                             Text('${lineItemCount[item.id]!.toString()} / ${item.quantity!}'),
-                            IconButton(
+                            ShadButton(
                               onPressed: () {
                                 if (lineItemCount[item.id!] == 0) {
                                   return;
@@ -126,7 +127,7 @@ class _OrderCreateFulfillmentViewState extends State<OrderCreateFulfillmentView>
                               },
                               icon: const Icon(CupertinoIcons.minus),
                             ),
-                            IconButton(
+                            ShadButton(
                               onPressed: () {
                                 if (lineItemCount[item.id!] == item.quantity!) {
                                   return;

@@ -85,14 +85,14 @@ class _RegionsViewState extends State<RegionsView> {
       },
       child: Scaffold(
         floatingActionButton: ShadButton(
-          text: const Text('New Region'),
-          icon: const Icon(Icons.add),
+         icon: const Icon(Icons.add),
           onPressed: () async {
             final result = await context.pushRoute(AddUpdateRegionRoute());
             if (result is bool && result == true) {
               pagingController.refresh();
             }
           },
+         child: const Text('New Region'),
         ),
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [

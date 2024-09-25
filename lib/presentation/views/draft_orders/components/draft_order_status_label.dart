@@ -61,7 +61,7 @@ class ShadDraftOrderStatusLabel extends StatelessWidget {
     return ShadBadge(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       backgroundColor: textColor,
-      text: Text(text),
+      child: Text(text),
     );
   }
 }

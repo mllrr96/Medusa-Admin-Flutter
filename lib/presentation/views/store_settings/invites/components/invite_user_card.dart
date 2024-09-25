@@ -32,7 +32,7 @@ class _InviteUserCardState extends State<InviteUserCard> {
       actions: [
         ShadButton.outline(
           onPressed: () => context.maybePop(),
-          text: const Text('Cancel'),
+         child: const Text('Cancel'),
         ),
         ShadButton(
           onPressed: () async {
@@ -40,10 +40,10 @@ class _InviteUserCardState extends State<InviteUserCard> {
               widget.onInvite?.call(emailCtrl.text, selectedRole);
             }
           },
-          text: const Text('Invite'),
+         child: const Text('Invite'),
         ),
       ],
-      content: Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [

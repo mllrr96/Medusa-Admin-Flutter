@@ -13,6 +13,7 @@ import 'package:medusa_admin/data/models/discount_condition_res.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'condition_operator_card.dart';
 import 'condition_type_list_tile.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class ConditionTypeView extends StatefulWidget {
@@ -106,7 +107,7 @@ class _ConditionTypeViewState extends State<ConditionTypeView> {
                 pinned: true,
                 title: const Text('Choose types'),
                 actions: [
-                  IconButton(
+                  ShadButton(
                       onPressed: () => pagingController.refresh(),
                       icon: const Icon(Icons.refresh)),
                   TextButton(

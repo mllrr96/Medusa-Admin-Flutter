@@ -81,7 +81,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               state.maybeWhen(
                 order: (order) => ShadButton.ghost(
                     // padding: const EdgeInsets.all(16.0),
-                    size: ShadButtonSize.icon,
+                    
                     onPressed: () async {
                       await showModalActionSheet<int>(
                           context: context,

@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class SalesChannelFAB extends StatelessWidget {
   const SalesChannelFAB({super.key, required this.selectedProductsCount, this.onRemove, this.onClear});
@@ -63,7 +64,7 @@ class SalesChannelFAB extends StatelessWidget {
               // ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(12.0, 0, 3.0, 0),
-                child: IconButton(
+                child: ShadButton(
                   padding: EdgeInsets.zero,
                   onPressed: onClear,
                   //  onPressed: () {

@@ -11,6 +11,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ProductDetailsOverview extends StatelessWidget {
   const ProductDetailsOverview({super.key, required this.product});
@@ -34,7 +35,7 @@ class ProductDetailsOverview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(child: Text(product.title ?? '')),
-              IconButton(
+              ShadButton(
                 onPressed: () async {
                   await showModalActionSheet<int>(context: context, actions: [
                     const SheetAction(

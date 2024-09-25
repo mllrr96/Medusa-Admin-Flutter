@@ -296,7 +296,6 @@ class _ProductsViewState extends State<ProductsView> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ShadButton.outline(
-                          size: ShadButtonSize.icon,
                           onPressed: () => context.openEndDrawer(),
                           icon: Icon(Icons.sort, color: iconColor)),
                     );

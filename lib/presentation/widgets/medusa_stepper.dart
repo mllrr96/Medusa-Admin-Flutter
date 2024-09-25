@@ -286,14 +286,14 @@ class MedusaStepper extends StatefulWidget {
   ///     steps: const <Step>[
   ///       Step(
   ///         title: Text('A'),
-  ///         content: SizedBox(
+  ///         child: SizedBox(
   ///           width: 100.0,
   ///           height: 100.0,
   ///         ),
   ///       ),
   ///       Step(
   ///         title: Text('B'),
-  ///         content: SizedBox(
+  ///         child: SizedBox(
   ///           width: 100.0,
   ///           height: 100.0,
   ///         ),

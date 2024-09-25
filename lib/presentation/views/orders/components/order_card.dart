@@ -1,3 +1,4 @@
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flag/flag.dart';
@@ -460,7 +461,7 @@ class CustomerOrderCard extends StatelessWidget {
                       style: context.bodyMedium
                           ?.copyWith(color: const Color(0xff6B7280)),
                     ),
-                    IconButton(
+                    ShadButton(
                         onPressed: onTransferTap,
                         icon: const Icon(CupertinoIcons.arrow_2_circlepath))
                   ],

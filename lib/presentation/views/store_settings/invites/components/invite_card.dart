@@ -7,6 +7,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 
 import '../../../../../../core/constant/colors.dart';
 import 'invite_status_label.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class InviteCard extends StatelessWidget {
   const InviteCard({
@@ -49,7 +50,7 @@ class InviteCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  IconButton(
+                  ShadButton(
                       onPressed: () async {
                         await showModalActionSheet<
                             int>(context: context, actions: <SheetAction<int>>[

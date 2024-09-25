@@ -7,6 +7,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ReturnReasonCard extends StatelessWidget {
   const ReturnReasonCard(this.returnReason,
@@ -112,7 +113,7 @@ class ReturnReasonCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
+            ShadButton(
               onPressed: () async {
                 await showOkCancelAlertDialog(
                   context: context,

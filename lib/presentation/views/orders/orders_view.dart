@@ -123,8 +123,7 @@ class _OrdersViewState extends State<OrdersView> {
             ),
             const Gap(6.0),
             ShadButton(
-              text: const Text('Export Orders'),
-              icon: const Padding(
+             icon: const Padding(
                 padding: EdgeInsets.only(right: 8.0),
                 child: Icon(MedusaIcons.arrow_up_tray),
               ),
@@ -133,15 +132,13 @@ class _OrdersViewState extends State<OrdersView> {
                   context: context,
                   builder: (context) => ShadDialog(
                     title: const Text('Export Orders'),
-                    content: const Text(
-                        'Are you sure you want to initialize export all orders?'),
                     actions: [
                       ShadButton.ghost(
-                        text: const Text('Cancel'),
+                       child: const Text('Cancel'),
                         onPressed: () => context.maybePop(),
                       ),
                       ShadButton(
-                        text: const Text('Export'),
+                       child: const Text('Export'),
                         onPressed: () async {
                           await BatchJobCrudUseCase.instance
                               .create(BatchJobType.orderExport)
@@ -156,9 +153,12 @@ class _OrdersViewState extends State<OrdersView> {
                         },
                       ),
                     ],
+                    child: const Text(
+                        'Are you sure you want to initialize export all orders?'),
                   ),
                 );
               },
+             child: const Text('Export Orders'),
             ),
           ],
         ),
@@ -176,7 +176,7 @@ class _OrdersViewState extends State<OrdersView> {
               }),
               actions: [
                 // Builder(
-                //   builder: (context) => IconButton(
+                //   builder: (context) => ShadButton(
                 //     padding: const EdgeInsets.all(16.0),
                 //     onPressed: () => context.openEndDrawer(),
                 //     icon: Icon(Icons.sort,
@@ -194,7 +194,7 @@ class _OrdersViewState extends State<OrdersView> {
                           color: (orderFilter?.count() ?? -1) > 0
                               ? Colors.red
                               : null),
-                      size: ShadButtonSize.icon,
+
                       onPressed: () => context.openEndDrawer(),
                     ),
                   );
@@ -260,20 +260,20 @@ class _OrdersViewState extends State<OrdersView> {
         context: context,
         builder: (context) => ShadDialog(
           title: const Text('Export Orders'),
-          content: const Text(
-              'Are you sure you want to initialize export all orders?'),
           actions: [
             ShadButton.ghost(
-              text: const Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 false;
               },
             ),
             ShadButton(
-              text: const Text('Export'),
+              child: const Text('Export'),
               onPressed: () async => true,
             ),
           ],
+          child: const Text(
+              'Are you sure you want to initialize export all orders?'),
         ),
       );
 }

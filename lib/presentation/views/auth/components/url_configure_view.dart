@@ -179,13 +179,13 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
       actions: [
         ShadButton.ghost(
             onPressed: () => context.maybePop(),
-            text: const Text('Cancel')),
+            child: const Text('Cancel')),
         ShadButton(
             onPressed: () async => await _save(),
             onLongPress: () async => await _save(skipValidation: true),
-            text: const Text('Save')),
+            child: const Text('Save')),
       ],
-      content: Column(
+      child: Column(
         children: [
           const Gap(20.0),
           // const SizedBox(height: 20),
@@ -213,8 +213,8 @@ class _UrlConfigureViewState extends State<UrlConfigureView> {
                 child: ShadButton.ghost(
                   onPressed: () =>
                       setState(() => advancedOption = !advancedOption),
-                  text: const Text('Advanced Options'),
                   icon: const Icon(Icons.add_link),
+                  child: const Text('Advanced Options'),
                 )),
           const Gap(12.0),
           if (advancedOption)

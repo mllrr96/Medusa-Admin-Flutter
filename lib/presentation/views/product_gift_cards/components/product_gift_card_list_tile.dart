@@ -4,6 +4,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class GiftCardListTile extends StatelessWidget {
   const GiftCardListTile(
@@ -31,7 +32,7 @@ class GiftCardListTile extends StatelessWidget {
                 style: smallTextStyle?.copyWith(color: manatee),
               )
             : null,
-        trailing: IconButton(
+        trailing: ShadButton(
           padding: const EdgeInsets.all(16.0),
             onPressed: () async {
               await showModalActionSheet<int>(

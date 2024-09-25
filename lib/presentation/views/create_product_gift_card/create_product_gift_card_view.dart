@@ -14,6 +14,7 @@ import 'package:medusa_admin/presentation/widgets/hide_keyboard.dart';
 import 'package:medusa_admin/presentation/widgets/labeled_numeric_text_field.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class CreateProductGiftCardView extends StatefulWidget {
   const CreateProductGiftCardView({super.key});
@@ -271,7 +272,7 @@ class _DenominationWidgetState extends State<DenominationWidget> {
                 const SizedBox(width: 12.0),
                 Flexible(
                     child: Center(
-                        child: IconButton(
+                        child: ShadButton(
                             onPressed: () {
                               // print(controller.denominations.length);
                               // setState(() {

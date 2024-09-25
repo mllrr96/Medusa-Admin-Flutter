@@ -255,7 +255,7 @@ class OrderEditWidget extends StatelessWidget {
                             EditRequestButton(
                               onCopyTap: () {
                                 // TODO: Figure out how to get the link
-                                // await Clipboard.setData(ClipboardData( text: ));
+                                // await Clipboard.setData(ClipboardData(child: ));
                               },
                               onCancelTap: onCancelTap,
                               onForceConfirmTap: onConfirmTap,
@@ -336,7 +336,7 @@ class OrderEditWidget extends StatelessWidget {
                             EditRequestButton(
                               onCopyTap: () {
                                 // TODO: Figure out how to get the link
-                                // await Clipboard.setData(ClipboardData( text: ));
+                                // await Clipboard.setData(ClipboardData(child: ));
                               },
                               onCancelTap: onCancelTap,
                               onForceConfirmTap: onConfirmTap,
