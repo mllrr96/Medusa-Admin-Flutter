@@ -51,6 +51,7 @@ class DraftOrderCustomer extends StatelessWidget {
               if (value == null) return;
               switch (value) {
                 case 0:
+                  if (!context.mounted) return;
                   await context.pushRoute(CustomerDetailsRoute(customerId: draftOrder.cart!.customerId!));
                   break;
                 case 1:

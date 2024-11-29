@@ -42,8 +42,9 @@ class _AppBarStyleViewState extends State<AppBarStyleView> {
                 onPressed: () async {
                   await preferenceService
                       .updateAppSettings(
-                          appSettings.copyWith(appBarStyle: selectedStyle))
-                      .then((_) => context.maybePop());
+                          appSettings.copyWith(appBarStyle: selectedStyle));
+                  if (!context.mounted) return;
+                  context.maybePop();
                 },
                 child: const Text('Save'))
           ],

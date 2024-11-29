@@ -15,7 +15,9 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ProductDetailsVariants extends StatelessWidget {
   const ProductDetailsVariants({super.key, required this.product});
+
   final Product product;
+
   @override
   Widget build(BuildContext context) {
     final smallTextStyle = context.bodySmall;
@@ -35,6 +37,7 @@ class ProductDetailsVariants extends StatelessWidget {
               const SheetAction(label: 'Add Variants', key: 0),
               const SheetAction(label: 'Edit Options', key: 2),
             ]).then((result) async {
+              if (!context.mounted) return;
               switch (result) {
                 case 0:
                   var newVariant = await context.pushRoute(
@@ -54,10 +57,8 @@ class ProductDetailsVariants extends StatelessWidget {
                     newVariant = newVariant.copyWith(options: options);
                     if (context.mounted) {
                       context.read<ProductCrudBloc>().add(
-                          ProductCrudEvent.update(
-                              product.id!,
-                              PostUpdateProductReq(
-                                  variants: [newVariant])));
+                          ProductCrudEvent.update(product.id!,
+                              PostUpdateProductReq(variants: [newVariant])));
                     }
                   }
               }
@@ -157,6 +158,7 @@ class ProductDetailsVariants extends StatelessWidget {
                                         ]).then((result) async {
                                       switch (result) {
                                         case 0:
+                                          if (!context.mounted) return;
                                           await context.pushRoute(
                                               ProductAddVariantRoute(
                                                   productVariantReq:

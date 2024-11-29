@@ -31,6 +31,7 @@ class PriceListProductTile extends StatelessWidget {
               onEditPricesTap?.call();
               return;
             case 1:
+              if (!context.mounted) return;
               final confirmDelete = await showOkCancelAlertDialog(
                 context: context,
                 title: 'Remove product',

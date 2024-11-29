@@ -105,6 +105,7 @@ class DiscountCard extends StatelessWidget {
                                 }
                                 switch (value) {
                                   case 0:
+                                    if (!context.mounted) return;
                                     await context
                                         .pushRoute(AddUpdateDiscountRoute(
                                             discount: discount))
@@ -120,6 +121,7 @@ class DiscountCard extends StatelessWidget {
                                     onToggle?.call();
                                     break;
                                   case 2:
+                                    if (!context.mounted) return;
                                     await showOkCancelAlertDialog(
                                             context: context,
                                             title: 'Delete Promotion',
@@ -272,6 +274,7 @@ class DiscountShadCard extends StatelessWidget {
                                   }
                                   switch (value) {
                                     case 0:
+                                      if (!context.mounted) return;
                                       await context
                                           .pushRoute(AddUpdateDiscountRoute(
                                               discount: discount))
@@ -287,6 +290,7 @@ class DiscountShadCard extends StatelessWidget {
                                       onToggle?.call();
                                       break;
                                     case 2:
+                                      if (!context.mounted) return;
                                       await showOkCancelAlertDialog(
                                               context: context,
                                               title: 'Delete Promotion',

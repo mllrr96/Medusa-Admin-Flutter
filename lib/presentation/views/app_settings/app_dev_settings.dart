@@ -218,6 +218,8 @@ class _AppDevSettingsViewState extends State<AppDevSettingsView> {
                   await storageService
                       .updateAppSettings(AppPreference.defaultSettings())
                       .then((_) {
+                    if (!context.mounted) return;
+
                     context.read<ThemeCubit>().loadThemeState();
                     context.showSnackBar('App settings reset');
                   });

@@ -45,6 +45,7 @@ class _AppSettingsViewState extends State<AppSettingsView> {
       AuthPreferenceService.authPreferenceGetter;
 
   AuthPreferenceService get authPrefService => AuthPreferenceService.instance;
+
   AppBarStyle get appBarStyle =>
       PreferenceService.appSettingsGetter.appBarStyle;
   late AppBarStyle selectedStyle;
@@ -145,9 +146,12 @@ class _AppSettingsViewState extends State<AppSettingsView> {
                             if (result == null) return;
                             await Future.delayed(
                                     const Duration(milliseconds: 150))
-                                .then((value) => context
-                                    .read<ThemeCubit>()
-                                    .updateThemeState(flexScheme: result));
+                                .then((value) {
+                              if (!context.mounted) return;
+                              context
+                                  .read<ThemeCubit>()
+                                  .updateThemeState(flexScheme: result);
+                            });
                           }),
                         ),
                       ],

@@ -37,7 +37,7 @@ class DiscountConditionsView extends StatelessWidget {
                         .pushRoute(
                             ConditionProductRoute(disabledProducts: null))
                         .then((result) {
-                      if (result is DiscountConditionRes) {
+                      if (result is DiscountConditionRes && context.mounted) {
                         context.maybePop(result);
                       }
                     }),
@@ -58,7 +58,7 @@ class DiscountConditionsView extends StatelessWidget {
                         .pushRoute(
                             ConditionCustomerGroupRoute(disabledGroups: null))
                         .then((result) {
-                      if (result is DiscountConditionRes) {
+                      if (result is DiscountConditionRes && context.mounted) {
                         context.maybePop(result);
                       }
                     }),
@@ -78,7 +78,7 @@ class DiscountConditionsView extends StatelessWidget {
                     onTap: () async => await context
                         .pushRoute(ConditionTagRoute(disabledTags: null))
                         .then((result) {
-                      if (result is DiscountConditionRes) {
+                      if (result is DiscountConditionRes && context.mounted) {
                         context.maybePop(result);
                       }
                     }),
@@ -99,7 +99,7 @@ class DiscountConditionsView extends StatelessWidget {
                         .pushRoute(
                             ConditionCollectionRoute(disabledCollections: null))
                         .then((result) {
-                      if (result is DiscountConditionRes) {
+                      if (result is DiscountConditionRes && context.mounted) {
                         context.maybePop(result);
                       }
                     }),
@@ -117,7 +117,7 @@ class DiscountConditionsView extends StatelessWidget {
                 onTap: () async => await context
                     .pushRoute(ConditionTypeRoute(disabledTypes: null))
                     .then((result) {
-                  if (result is DiscountConditionRes) {
+                  if (result is DiscountConditionRes && context.mounted) {
                     context.maybePop(result);
                   }
                 }),

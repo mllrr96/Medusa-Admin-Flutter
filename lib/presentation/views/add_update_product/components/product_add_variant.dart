@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:auto_route/auto_route.dart';
@@ -142,7 +143,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
             okLabel: 'Discard',
             isDestructiveAction: true,
           ).then((result) {
-            if (result == OkCancelResult.ok) {
+            if (result == OkCancelResult.ok && context.mounted) {
               context.router.popForced();
             }
           });
@@ -354,7 +355,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                               child: TextField(
                                                 controller: currencyCtrl,
                                                 textDirection:
-                                                    TextDirection.rtl,
+                                                ui.TextDirection.rtl,
                                                 keyboardType:
                                                     const TextInputType
                                                         .numberWithOptions(
@@ -365,7 +366,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                                 ],
                                                 decoration: InputDecoration(
                                                   hintTextDirection:
-                                                      TextDirection.rtl,
+                                                      ui.TextDirection.rtl,
                                                   prefixIcon: Padding(
                                                       padding:
                                                           const EdgeInsets.only(

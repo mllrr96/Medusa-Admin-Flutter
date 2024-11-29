@@ -133,6 +133,7 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                             ]).then((result) async {
                           switch (result) {
                             case 0:
+                              if (!context.mounted) return;
                               await context
                                   .pushRoute(CreateUpdateGroupRoute(
                                       customerGroup: widget.customerGroup))
@@ -196,10 +197,12 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                   ]).then((result) async {
                                 switch (result) {
                                   case 0:
+                                    if (!context.mounted) return;
                                     context.pushRoute(CustomerDetailsRoute(
                                         customerId: customer.id!));
                                     break;
                                   case 1:
+                                    if (!context.mounted) return;
                                     await showOkCancelAlertDialog(
                                             context: context,
                                             title: 'Delete the group',
@@ -209,7 +212,8 @@ class _GroupDetailsViewState extends State<GroupDetailsView> {
                                             cancelLabel: 'No, cancel',
                                             isDestructiveAction: true)
                                         .then((value) async {
-                                      if (value == OkCancelResult.ok) {
+                                      if (value == OkCancelResult.ok &&
+                                          context.mounted) {
                                         context.read<GroupCrudBloc>().add(
                                             GroupCrudEvent.removeCustomers(
                                                 widget.customerGroup.id!,

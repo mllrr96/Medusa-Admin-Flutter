@@ -54,6 +54,7 @@ class GiftCardListTile extends StatelessWidget {
                     onToggle?.call();
                     break;
                   case 2:
+                    if (!context.mounted) return;
                     await showOkCancelAlertDialog(
                             context: context,
                             title: 'Confirm gift card deletion',

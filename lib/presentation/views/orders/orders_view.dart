@@ -143,6 +143,7 @@ class _OrdersViewState extends State<OrdersView> {
                           await BatchJobCrudUseCase.instance
                               .create(BatchJobType.orderExport)
                               .then((result) {
+                            if (!context.mounted) return;
                             context.maybePop();
                             result.when((success) {
                               context.showSnackBar('Export started');

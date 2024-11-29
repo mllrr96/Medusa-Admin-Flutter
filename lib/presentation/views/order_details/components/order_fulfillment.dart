@@ -111,6 +111,7 @@ class OrderFulfillment extends StatelessWidget {
                                   //     fulfillmentId: fulfillment.id!);
                                   break;
                                 case 1:
+                                  if (!context.mounted) return;
                                   await showOkCancelAlertDialog(
                                     context: context,
                                     title: tr.templatesCancelFulfillment,

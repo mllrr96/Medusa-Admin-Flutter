@@ -332,6 +332,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                       initialValue: orderFilter
                                           .orderDateFilter.dateFilterType,
                                       onChanged: (type) {
+                                        if (type ==null){
+                                          return;
+                                        }
                                         setState(() {
                                           orderFilter.orderDateFilter
                                               .dateFilterType = type;
@@ -445,6 +448,9 @@ class _OrdersFilterViewState extends State<OrdersFilterView> {
                                           initialValue: orderFilter
                                               .orderDateFilter.dateType,
                                           onChanged: (type) {
+                                            if (type ==null){
+                                              return;
+                                            }
                                             setState(() {
                                               orderFilter.orderDateFilter
                                                   .dateType = type;

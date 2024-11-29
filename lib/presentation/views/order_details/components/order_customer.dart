@@ -23,11 +23,13 @@ class OrderCustomer extends StatelessWidget {
       this.onEditShippingAddress,
       this.onEditBillingAddress,
       this.onEditEmailAddress});
+
   final Order order;
   final void Function(bool)? onExpansionChanged;
   final void Function()? onEditShippingAddress;
   final void Function()? onEditBillingAddress;
   final void Function()? onEditEmailAddress;
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -67,14 +69,17 @@ class OrderCustomer extends StatelessWidget {
                     if (value == null) return;
                     switch (value) {
                       case 0:
+                        if (!context.mounted) return;
                         await context.pushRoute(CustomerDetailsRoute(
                             customerId: order.customerId!));
                         break;
                       case 1:
+                        if (!context.mounted) return;
                         await context
                             .pushRoute(TransferOrderRoute(order: order));
                         break;
                       case 2:
+                        if (!context.mounted) return;
                         final result = await showBarModalBottomSheet(
                           context: context,
                           backgroundColor:
@@ -94,6 +99,7 @@ class OrderCustomer extends StatelessWidget {
                         }
                         break;
                       case 3:
+                        if (!context.mounted) return;
                         final result = await showBarModalBottomSheet(
                           context: context,
                           backgroundColor:
@@ -113,6 +119,7 @@ class OrderCustomer extends StatelessWidget {
                         }
                         break;
                       case 4:
+                        if (!context.mounted) return;
                         final result = await showBarModalBottomSheet(
                             context: context,
                             backgroundColor:
@@ -222,7 +229,9 @@ class OrderCustomer extends StatelessWidget {
 
 class EmailUpdateView extends StatefulWidget {
   const EmailUpdateView({super.key, this.currentEmail});
+
   final String? currentEmail;
+
   @override
   State<EmailUpdateView> createState() => _EmailUpdateViewState();
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -50,7 +51,7 @@ extension BuildContextEntension<T> on BuildContext {
 
   // Directionality
   // ===================================================================//
-  bool get isRTL => Directionality.of(this) == TextDirection.rtl;
+  bool get isRTL => Directionality.of(this) == ui.TextDirection.rtl;
 
   /// Unfocus (Hides keyboard)
   // ===================================================================//

@@ -620,7 +620,7 @@ class _AppDrawerState extends State<AppDrawer> {
             isDestructiveAction: true)
         .then(
       (value) async {
-        if (value == OkCancelResult.ok) {
+        if (value == OkCancelResult.ok && mounted) {
           context
               .read<AuthenticationBloc>()
               .add(const AuthenticationEvent.logOut());

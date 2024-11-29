@@ -275,6 +275,7 @@ class _SalesChannelDetailsViewState extends State<SalesChannelDetailsView> {
                         // });
                         break;
                       case 1:
+                        if (!context.mounted) return;
                         final result = await showBarModalBottomSheet(
                           context: context,
                           overlayStyle:

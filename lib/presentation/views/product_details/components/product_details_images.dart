@@ -44,7 +44,7 @@ class ProductDetailsImages extends StatelessWidget {
                     updateProductReq:
                         UpdateProductReq(product: product, number: 5)))
                 .then((result) async {
-              if (result != null) {
+              if (result != null && context.mounted) {
                 context
                     .read<ProductCrudBloc>()
                     .add(ProductCrudEvent.loadWithVariants(product.id!));

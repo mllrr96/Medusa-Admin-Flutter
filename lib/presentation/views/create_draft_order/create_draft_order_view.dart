@@ -33,10 +33,8 @@ class _CreateDraftOrderViewState extends State<CreateDraftOrderView> {
               message: 'Are you sure you want to discard changes?',
               isDestructiveAction: true)
           .then((result) {
-        switch (result) {
-          case OkCancelResult.ok:
-            context.maybePop();
-          case OkCancelResult.cancel:
+        if (result == OkCancelResult.ok && mounted) {
+          context.maybePop();
         }
       });
     } else {

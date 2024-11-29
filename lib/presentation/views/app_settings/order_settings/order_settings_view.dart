@@ -68,7 +68,7 @@ class _OrderSettingsViewState extends State<OrderSettingsView> {
           okLabel: 'Discard',
           isDestructiveAction: true,
         ).then((result) {
-          if (result == OkCancelResult.ok) {
+          if (result == OkCancelResult.ok && context.mounted) {
             context.router.popForced();
           }
         });

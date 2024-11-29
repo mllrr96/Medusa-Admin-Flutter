@@ -49,27 +49,30 @@ class ProductDetailsOverview extends StatelessWidget {
                     if (result != null) {
                       switch (result) {
                         case 0:
+                          if (!context.mounted) return;
                           await context
                               .pushRoute(AddUpdateProductRoute(
                                   updateProductReq: UpdateProductReq(
                                       product: product, number: 0)))
                               .then((result) async {
-                            if (result != null) {
+                            if (result != null && context.mounted) {
                               context.read<ProductCrudBloc>().add(ProductCrudEvent.loadWithVariants(product.id!));
                             }
                           });
                           break;
                         case 1:
+                          if (!context.mounted) return;
                           await context
                               .pushRoute(AddUpdateProductRoute(
                                   updateProductReq: UpdateProductReq(
                                       product: product, number: 1)))
                               .then((result) async {
-                            if (result != null) {
+                            if (result != null && context.mounted) {
                                context.read<ProductCrudBloc>().add(ProductCrudEvent.loadWithVariants(product.id!));
                             }
                           });
                         case 2:
+                          if (!context.mounted) return;
                           await showOkCancelAlertDialog(
                                   context: context,
                                   title: 'Confirm product deletion',
@@ -77,7 +80,8 @@ class ProductDetailsOverview extends StatelessWidget {
                                       'Are you sure you want to delete this product? \n This action is irreversible',
                                   isDestructiveAction: true)
                               .then((result) async {
-                            if (result == OkCancelResult.ok) {
+                            if (result == OkCancelResult.ok &&
+                                context.mounted) {
                               context
                                   .read<ProductCrudBloc>()
                                   .add(ProductCrudEvent.delete(product.id!));

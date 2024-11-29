@@ -434,7 +434,9 @@ class _AddUpdatePriceListViewState extends State<AddUpdatePriceListView> {
                                 key: 1),
                           ]).then((result) async {
                         switch (result) {
+
                           case 0:
+                            if (!context.mounted) return;
                             final result = await showBarModalBottomSheet(
                               backgroundColor:
                                   context.theme.scaffoldBackgroundColor,

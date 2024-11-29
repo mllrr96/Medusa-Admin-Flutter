@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_admin/core/extension/paging_controller.dart';
 import 'package:medusa_admin/core/extension/product_extension.dart';
+import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
 import 'package:medusa_admin/domain/use_case/batch_job/bach_job_crud_use_case.dart';
 import 'package:medusa_admin/presentation/blocs/product_crud/product_crud_bloc.dart';
@@ -23,9 +24,9 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../core/utils/enums.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
+import 'dart:ui' as ui;
 
 @RoutePage()
 class ProductsView extends StatefulWidget {
@@ -162,7 +163,7 @@ class _ProductsViewState extends State<ProductsView> {
           ),
         ),
         floatingActionButton: Directionality(
-          textDirection: context.isRTL ? TextDirection.rtl : TextDirection.ltr,
+          textDirection: context.isRTL ? ui.TextDirection.rtl : ui.TextDirection.ltr,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

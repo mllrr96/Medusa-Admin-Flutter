@@ -133,6 +133,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                       ]).then((result) async {
                     switch (result) {
                       case 0:
+                        if (!context.mounted) return;
                         context.pushRoute(AddUpdatePriceListRoute(id: id));
                         return;
                       case 1:
@@ -163,6 +164,7 @@ class _PriceListDetailsViewState extends State<PriceListDetailsView> {
                         }
                         return;
                       case 2:
+                        if (!context.mounted) return;
                         final confirmDelete = await showOkCancelAlertDialog(
                           context: context,
                           title: 'Delete price list',

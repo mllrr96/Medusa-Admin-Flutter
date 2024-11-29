@@ -32,8 +32,10 @@ class AppUpdateView extends StatefulWidget {
 class _AppUpdateViewState extends State<AppUpdateView> {
   String buttonTitle = 'Install Update';
   double progress = 0.0;
+
   bool get isDownloading => buttonTitle != 'Install Update';
   CancelToken cancelToken = CancelToken();
+
   void setButtonTitle(String val) => setState(() => buttonTitle = val);
 
   Future<bool> get shouldCancel async => await showOkCancelAlertDialog(
@@ -60,8 +62,10 @@ class _AppUpdateViewState extends State<AppUpdateView> {
         if (await shouldCancel && isDownloading) {
           cancelToken.cancel();
           cancelToken.whenCancel.then((_) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            context.router.popForced();
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              context.router.popForced();
+            }
           });
         }
       },
@@ -87,8 +91,10 @@ class _AppUpdateViewState extends State<AppUpdateView> {
                           if (await shouldCancel && isDownloading) {
                             cancelToken.cancel('Download Cancelled');
                             cancelToken.whenCancel.then((_) {
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              context.router.popForced();
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).clearSnackBars();
+                                context.router.popForced();
+                              }
                             });
                           }
                         }

@@ -72,6 +72,7 @@ class _PriceListAddProductsState extends State<PriceListAddProducts> {
                       ]).then((result) async {
                     switch (result) {
                       case 0:
+                        if (!context.mounted) return;
                         final result =
                         await showBarModalBottomSheet(
                           backgroundColor: context.theme.scaffoldBackgroundColor,

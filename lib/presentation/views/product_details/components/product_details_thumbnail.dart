@@ -37,7 +37,7 @@ class ProductDetailsThumbnail extends StatelessWidget {
                     updateProductReq:
                         UpdateProductReq(product: product, number: 4)))
                 .then((result) async {
-              if (result != null) {
+              if (result != null && context.mounted) {
                 context
                     .read<ProductCrudBloc>()
                     .add(ProductCrudEvent.loadWithVariants(product.id!));

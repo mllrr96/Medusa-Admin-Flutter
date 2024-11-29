@@ -94,6 +94,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           ]).then((result) async {
                         switch (result) {
                           case 0:
+                            if (!context.mounted) return;
                             await showTextAnswerDialog(
                               title: tr.detailsCancelOrderHeading,
                               message:

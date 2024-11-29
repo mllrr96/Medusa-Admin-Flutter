@@ -77,17 +77,19 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                   key: 1),
                             ]).then((result) async {
                           if (result == 0) {
+                            if (!context.mounted) return;
                             await context
                                 .pushRoute(CreateCollectionRoute(
                                     collection: collection))
                                 .then((result) async {
-                              if (result != null) {
+                              if (result != null && context.mounted) {
                                 context.read<CollectionCrudBloc>().add(
                                     CollectionCrudEvent.load(
                                         widget.collectionId));
                               }
                             });
                           } else if (result == 1) {
+                            if (!context.mounted) return;
                             await showOkCancelAlertDialog(
                                     context: context,
                                     title: tr.collectionsTableDeleteCollection,
@@ -98,6 +100,7 @@ class _CollectionDetailsViewState extends State<CollectionDetailsView> {
                                 .then((result) async {
                               if (result == OkCancelResult.ok) {
                                 // await controller.deleteCollection(context);
+                                if (!context.mounted) return;
                                 context.read<CollectionCrudBloc>().add(
                                     CollectionCrudEvent.delete(
                                         widget.collectionId));

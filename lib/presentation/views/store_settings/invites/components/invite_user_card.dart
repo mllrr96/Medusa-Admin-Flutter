@@ -70,7 +70,11 @@ class _InviteUserCardState extends State<InviteUserCard> {
             child: ShadSelect<UserRole>(
               initialValue: selectedRole,
               placeholder: const Text('Select role'),
-              onChanged: (role) => selectedRole = role,
+              onChanged: (role) {
+                if (role != null) {
+                  selectedRole = role;
+                }
+              },
               options: UserRole.values
                   .map((e) => ShadOption<UserRole>(
                       value: e, child: Text(e.name.capitalize)))
