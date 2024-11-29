@@ -159,7 +159,7 @@ class _ImportProductsViewState extends State<ImportProductsView> {
       builder: (context, state) {
         return PopScope(
           canPop: batchJobId == null,
-          onPopInvoked: (val) async {
+          onPopInvokedWithResult: (val, _) async {
             if (val) return;
             if (await cancelImport) {
               // Cancel batch job here

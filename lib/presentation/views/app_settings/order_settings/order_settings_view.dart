@@ -59,7 +59,7 @@ class _OrderSettingsViewState extends State<OrderSettingsView> {
     return PopScope(
       canPop: mapEquals(
           orderPreference.toJson(), PreferenceService.orderPreference.toJson()),
-      onPopInvoked: (val) async {
+      onPopInvokedWithResult: (val, _) async {
         if (val) return;
         await showOkCancelAlertDialog(
           context: context,

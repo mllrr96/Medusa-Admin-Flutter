@@ -80,8 +80,7 @@ class _AddUpdateDiscountViewState extends State<AddUpdateDiscountView> {
       },
       child: PopScope(
         canPop: !updatingDiscount,
-        // (updatingDiscount && controller.sameDiscount()),
-        onPopInvoked: (val) async {
+        onPopInvokedWithResult: (val, _) async {
           if (val) return;
           if (await confirmDiscardChanges && context.mounted) {
             context.router.popForced();

@@ -57,7 +57,7 @@ class _AppUpdateViewState extends State<AppUpdateView> {
     const manatee = ColorManager.manatee;
     return PopScope(
       canPop: !isDownloading,
-      onPopInvoked: (val) async {
+      onPopInvokedWithResult: (val, _) async {
         if (val) return;
         if (await shouldCancel && isDownloading) {
           cancelToken.cancel();

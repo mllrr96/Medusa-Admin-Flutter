@@ -30,6 +30,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 @RoutePage()
 class ProductAddVariantView extends StatefulWidget {
   const ProductAddVariantView(this.productVariantReq, {super.key});
+
   final ProductVariantReq productVariantReq;
 
   @override
@@ -40,7 +41,9 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
   late Product product;
   late ProductVariant? variant;
   late ProductCrudBloc productCrudBloc;
+
   List<ProductOption>? get options => productVariantReq.product.options;
+
   ProductVariantReq get productVariantReq => widget.productVariantReq;
   Map<int, ProductOptionValue> selectedOptionsValue = {};
   bool manageInventory = true;
@@ -51,6 +54,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
       <Currency, TextEditingController>{};
   Map<ProductOption, TextEditingController> productOptionCtrlMap =
       <ProductOption, TextEditingController>{};
+
   bool get updateMode => productVariantReq.productVariant != null;
   final quantityCtrl = TextEditingController();
   final customTitleCtrl = TextEditingController();
@@ -134,7 +138,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
       },
       child: PopScope(
         canPop: updateMode || !shouldShowWarning(),
-        onPopInvoked: (val) async {
+        onPopInvokedWithResult: (val, _) async {
           if (val) return;
           await showOkCancelAlertDialog(
             context: context,
@@ -355,7 +359,7 @@ class _ProductAddVariantViewState extends State<ProductAddVariantView> {
                                               child: TextField(
                                                 controller: currencyCtrl,
                                                 textDirection:
-                                                ui.TextDirection.rtl,
+                                                    ui.TextDirection.rtl,
                                                 keyboardType:
                                                     const TextInputType
                                                         .numberWithOptions(

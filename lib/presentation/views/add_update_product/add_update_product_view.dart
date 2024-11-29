@@ -163,7 +163,7 @@ class _AddUpdateProductViewState extends State<AddUpdateProductView> {
         ),
       ],
       child: PopScope(
-        onPopInvoked: (val) => deleteTempImages(),
+        onPopInvokedWithResult: (_,__) => deleteTempImages(),
         child: HideKeyboard(
           child: Scaffold(
             appBar: AppBar(
