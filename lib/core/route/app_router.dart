@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/models/add_update_tax_rate_req.dart';
 import 'package:medusa_admin/data/models/discount_condition_req.dart';
@@ -16,11 +15,12 @@ import 'package:medusa_admin/data/models/select_products_req.dart';
 import 'package:medusa_admin/data/models/shipping_option_req.dart';
 import 'package:medusa_admin/data/models/update_condition_req.dart';
 import 'package:medusa_admin/data/models/update_product_req.dart';
-import 'package:medusa_admin/data/service/auth_preference_service.dart';
 import 'package:medusa_admin/presentation/views/activity_module/activity_view.dart';
+import 'package:medusa_admin/presentation/views/auth/authentication_wrapper.dart';
 import 'package:medusa_admin/presentation/views/categories/categories_view.dart';
 import 'package:medusa_admin/presentation/views/create_update_custom_gift_card/create_update_custom_gift_card_view.dart';
 import 'package:medusa_admin/presentation/views/import_products/import_products_view.dart';
+import 'package:medusa_admin/presentation/views/main_app_wrapper.dart';
 import 'package:medusa_admin/presentation/views/order_details/components/add_update_order_edit/add_update_order_edit_view.dart';
 import 'package:medusa_admin/presentation/views/order_details/components/order_create_fulfillment.dart';
 import 'package:medusa_admin/presentation/views/order_details/order_details_view.dart';
@@ -94,26 +94,31 @@ import 'package:medusa_admin/presentation/widgets/pick_product_variants/pick_pro
 import 'package:medusa_admin/presentation/widgets/pick_products_view.dart';
 import 'package:medusa_admin/presentation/widgets/pick_regions_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:collection/collection.dart';
+
 
 part 'app_router.gr.dart';
 
-@AutoRouterConfig(replaceInRouteName: 'View,Route')
-class AppRouter extends _$AppRouter implements AutoRouteGuard {
+@AutoRouterConfig(replaceInRouteName: 'View|Screen|Wrapper|Page,Route')
+class AppRouter extends RootStackRouter {
+  // @override
+  // void onNavigation(NavigationResolver resolver, StackRouter router) {
+  //   if (resolver.routeName == SignInRoute.name ||
+  //       resolver.routeName == SplashRoute.name ||
+  //       resolver.routeName == ResetPasswordRoute.name ||
+  //       resolver.routeName == UrlConfigureRoute.name ||
+  //       resolver.routeName == AppUpdateRoute.name ||
+  //       AuthPreferenceService.isAuthenticatedGetter) {
+  //     resolver.next();
+  //   } else {
+  //     Fluttertoast.showToast(msg: 'Session expired, please login again');
+  //     resolver.redirect(
+  //         SignInRoute(onResult: (didLogin) => resolver.next(didLogin)));
+  //   }
+  // }
+
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (resolver.routeName == SignInRoute.name ||
-        resolver.routeName == SplashRoute.name ||
-        resolver.routeName == ResetPasswordRoute.name ||
-        resolver.routeName == UrlConfigureRoute.name ||
-        resolver.routeName == AppUpdateRoute.name ||
-        AuthPreferenceService.isAuthenticatedGetter) {
-      resolver.next();
-    } else {
-      Fluttertoast.showToast(msg: 'Session expired, please login again');
-      resolver.redirect(
-          SignInRoute(onResult: (didLogin) => resolver.next(didLogin)));
-    }
-  }
+  List<AutoRouteGuard> get guards => [];
 
   List<AutoRoute> dashboardChildren = [
     AutoRoute(page: OrdersRoute.page),
@@ -134,104 +139,111 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
   List<AutoRoute> get routes {
     return [
       AutoRoute(page: SplashRoute.page, initial: true),
-      AutoRoute(page: DashboardRoute.page, children: dashboardChildren),
-      AutoRoute(page: PickProductsRoute.page),
-      AutoRoute(page: SelectCountryRoute.page),
-      AutoRoute(page: PickGroupsRoute.page),
-      AutoRoute(page: PickRegionsRoute.page),
-      AutoRoute(page: ActivityRoute.page),
-      AutoRoute(page: AppUpdateRoute.page),
 
-      // collections module
-      AutoRoute(page: CollectionDetailsRoute.page),
-      AutoRoute(page: CreateCollectionRoute.page),
-
-      // customers module
-      AutoRoute(page: AddUpdateCustomerRoute.page),
-      AutoRoute(page: CustomerDetailsRoute.page),
-      AutoRoute(page: TransferOrderRoute.page),
       // Auth module
-      AutoRoute(page: SignInRoute.page),
-      AutoRoute(page: ResetPasswordRoute.page),
-      AutoRoute(page: UrlConfigureRoute.page),
-      // Discount module
-      AutoRoute(page: AddUpdateDiscountRoute.page),
-      AutoRoute(page: DiscountDetailsRoute.page),
-      AutoRoute(page: DiscountConditionsRoute.page),
-      AutoRoute(page: UpdateConditionRoute.page),
-      AutoRoute(page: ConditionProductRoute.page),
-      AutoRoute(page: ConditionCustomerGroupRoute.page),
-      AutoRoute(page: ConditionTagRoute.page),
-      AutoRoute(page: ConditionTypeRoute.page),
-      AutoRoute(page: ConditionCollectionRoute.page),
+      AutoRoute(page: AuthenticationRoute.page, children: [
+        AutoRoute(page: SignInRoute.page),
+        AutoRoute(page: ResetPasswordRoute.page),
+        AutoRoute(page: UrlConfigureRoute.page),
+      ]),
 
-      // Draft orders module
-      AutoRoute(page: CreateDraftOrderRoute.page, fullscreenDialog: true),
-      AutoRoute(page: DraftOrderDetailsRoute.page),
-      AutoRoute(page: PickCustomerRoute.page),
-      AutoRoute(page: PickProductVariantsRoute.page),
+      AutoRoute(page: MainAppRoute.page, children: [
+        AutoRoute(page: DashboardRoute.page, children: dashboardChildren),
+        AutoRoute(page: PickProductsRoute.page),
+        AutoRoute(page: SelectCountryRoute.page),
+        AutoRoute(page: PickGroupsRoute.page),
+        AutoRoute(page: PickRegionsRoute.page),
+        AutoRoute(page: ActivityRoute.page),
+        AutoRoute(page: AppUpdateRoute.page),
 
-      // Gift cards module
-      AutoRoute(page: CreateUpdateCustomGiftCardRoute.page),
-      AutoRoute(page: CustomGiftCardsRoute.page),
+        // collections module
+        AutoRoute(page: CollectionDetailsRoute.page),
+        AutoRoute(page: CreateCollectionRoute.page),
 
-      // Groups module
-      AutoRoute(page: GroupDetailsRoute.page),
-      AutoRoute(page: CreateUpdateGroupRoute.page),
+        // customers module
+        AutoRoute(page: AddUpdateCustomerRoute.page),
+        AutoRoute(page: CustomerDetailsRoute.page),
+        AutoRoute(page: TransferOrderRoute.page),
 
-      // Medusa Search
-      AutoRoute(page: MedusaSearchRoute.page),
+        // Discount module
+        AutoRoute(page: AddUpdateDiscountRoute.page),
+        AutoRoute(page: DiscountDetailsRoute.page),
+        AutoRoute(page: DiscountConditionsRoute.page),
+        AutoRoute(page: UpdateConditionRoute.page),
+        AutoRoute(page: ConditionProductRoute.page),
+        AutoRoute(page: ConditionCustomerGroupRoute.page),
+        AutoRoute(page: ConditionTagRoute.page),
+        AutoRoute(page: ConditionTypeRoute.page),
+        AutoRoute(page: ConditionCollectionRoute.page),
 
-      // Orders module
-      AutoRoute(page: OrderDetailsRoute.page),
-      AutoRoute(page: AddUpdateOrderEditRoute.page),
-      AutoRoute(page: OrderCreateFulfillmentRoute.page),
+        // Draft orders module
+        AutoRoute(page: CreateDraftOrderRoute.page, fullscreenDialog: true),
+        AutoRoute(page: DraftOrderDetailsRoute.page),
+        AutoRoute(page: PickCustomerRoute.page),
+        AutoRoute(page: PickProductVariantsRoute.page),
 
-      // Pricing module
-      AutoRoute(page: AddUpdateVariantsPriceRoute.page),
-      AutoRoute(page: AddUpdatePriceListRoute.page),
-      AutoRoute(page: PriceListDetailsRoute.page),
+        // Gift cards module
+        AutoRoute(page: CreateUpdateCustomGiftCardRoute.page),
+        AutoRoute(page: CustomGiftCardsRoute.page),
 
-      // Products module
-      AutoRoute(page: AddUpdateProductRoute.page),
-      AutoRoute(page: ProductDetailsRoute.page, fullscreenDialog: true),
-      AutoRoute(page: ImagePreviewRoute.page),
-      AutoRoute(page: ProductAddVariantRoute.page),
-      AutoRoute(page: ImportProductsRoute.page),
+        // Groups module
+        AutoRoute(page: GroupDetailsRoute.page),
+        AutoRoute(page: CreateUpdateGroupRoute.page),
 
-      // Store settings
-      AutoRoute(page: RegionsRoute.page),
-      AutoRoute(page: RegionDetailsRoute.page),
-      AutoRoute(page: AddUpdateRegionRoute.page),
-      AutoRoute(page: AddUpdateShippingOptionRoute.page),
+        // Medusa Search
+        AutoRoute(page: MedusaSearchRoute.page),
 
-      AutoRoute(page: StoreDetailsRoute.page),
+        // Orders module
+        AutoRoute(page: OrderDetailsRoute.page),
+        AutoRoute(page: AddUpdateOrderEditRoute.page),
+        AutoRoute(page: OrderCreateFulfillmentRoute.page),
 
-      AutoRoute(page: ReturnReasonsRoute.page),
-      AutoRoute(page: CreateUpdateReturnReasonRoute.page),
+        // Pricing module
+        AutoRoute(page: AddUpdateVariantsPriceRoute.page),
+        AutoRoute(page: AddUpdatePriceListRoute.page),
+        AutoRoute(page: PriceListDetailsRoute.page),
 
-      AutoRoute(page: PersonalInformationRoute.page),
+        // Products module
+        AutoRoute(page: AddUpdateProductRoute.page),
+        AutoRoute(page: ProductDetailsRoute.page, fullscreenDialog: true),
+        AutoRoute(page: ImagePreviewRoute.page),
+        AutoRoute(page: ProductAddVariantRoute.page),
+        AutoRoute(page: ImportProductsRoute.page),
 
-      AutoRoute(page: TaxSettingsRoute.page),
-      AutoRoute(page: AddUpdateTaxRateRoute.page),
-      AutoRoute(page: TaxSettingsSelectRegionRoute.page),
+        // Store settings
+        AutoRoute(page: RegionsRoute.page),
+        AutoRoute(page: RegionDetailsRoute.page),
+        AutoRoute(page: AddUpdateRegionRoute.page),
+        AutoRoute(page: AddUpdateShippingOptionRoute.page),
 
-      AutoRoute(page: CurrenciesRoute.page),
+        AutoRoute(page: StoreDetailsRoute.page),
 
-      AutoRoute(page: SalesChannelsRoute.page),
-      AutoRoute(page: AddUpdateSalesChannelRoute.page),
-      AutoRoute(page: SalesChannelDetailsRoute.page),
+        AutoRoute(page: ReturnReasonsRoute.page),
+        AutoRoute(page: CreateUpdateReturnReasonRoute.page),
 
-      AutoRoute(page: ApiKeyManagementRoute.page),
-      AutoRoute(page: AddUpdateApiKeyRoute.page),
+        AutoRoute(page: PersonalInformationRoute.page),
 
-      AutoRoute(page: TeamRoute.page),
-      AutoRoute(page: InvitesRoute.page),
+        AutoRoute(page: TaxSettingsRoute.page),
+        AutoRoute(page: AddUpdateTaxRateRoute.page),
+        AutoRoute(page: TaxSettingsSelectRegionRoute.page),
 
-      // App Settings
-      AutoRoute(page: OrderSettingsRoute.page),
-      AutoRoute(page: AppDevSettingsRoute.page),
-      AutoRoute(page: AppBarStyleRoute.page),
+        AutoRoute(page: CurrenciesRoute.page),
+
+        AutoRoute(page: SalesChannelsRoute.page),
+        AutoRoute(page: AddUpdateSalesChannelRoute.page),
+        AutoRoute(page: SalesChannelDetailsRoute.page),
+
+        AutoRoute(page: ApiKeyManagementRoute.page),
+        AutoRoute(page: AddUpdateApiKeyRoute.page),
+
+        AutoRoute(page: TeamRoute.page),
+        AutoRoute(page: InvitesRoute.page),
+
+        // App Settings
+        AutoRoute(page: OrderSettingsRoute.page),
+        AutoRoute(page: AppDevSettingsRoute.page),
+        AutoRoute(page: AppBarStyleRoute.page),
+      ]),
     ];
   }
 }

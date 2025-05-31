@@ -312,23 +312,16 @@
   "@tableContainerSoothedOffsetOne": {
     "placeholders": {
       "soothedOffset": {
-        "userName": {
           "type": "String"
-        }
       },
       "pageSize": {
-        "userName": {
           "type": "String"
-        }
       },
       "count": {
-        "userName": {
           "type": "String"
-        }
       }  ,"title": {
-        "userName": {
           "type": "String"
-        }
+
       }
     }
   },
@@ -337,7 +330,6 @@
     "placeholders": {
       "soothedOffset": {
         "type": "String"
-
       },
       "pageSize": {
         "type": "String"

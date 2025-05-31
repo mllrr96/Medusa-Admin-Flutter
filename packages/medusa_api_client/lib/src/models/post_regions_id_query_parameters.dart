@@ -1,0 +1,34 @@
+/// PostRegionsIdQueryParameters
+/// {
+///     "properties": {
+///         "fields": {
+///             "type": "string",
+///             "description": "Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.",
+///             "title": "fields"
+///         }
+///     },
+///     "type": "object"
+/// }
+library;
+
+import 'exports.dart';
+part 'post_regions_id_query_parameters.freezed.dart';
+part 'post_regions_id_query_parameters.g.dart'; // PostRegionsIdQueryParameters
+
+@freezed
+abstract class PostRegionsIdQueryParameters
+    with _$PostRegionsIdQueryParameters {
+  const PostRegionsIdQueryParameters._();
+
+  @jsonSerializable
+  const factory PostRegionsIdQueryParameters({
+    /// fields
+    @JsonKey(name: PostRegionsIdQueryParameters.fieldsKey)
+    required String fields,
+  }) = _PostRegionsIdQueryParameters;
+
+  factory PostRegionsIdQueryParameters.fromJson(Map<String, dynamic> json) =>
+      _$PostRegionsIdQueryParametersFromJson(json);
+
+  static const String fieldsKey = r'fields';
+}

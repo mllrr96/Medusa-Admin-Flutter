@@ -18,7 +18,6 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:flex_expansion_tile/flex_expansion_tile.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -373,35 +372,36 @@ class _AddUpdateRegionViewState extends State<AddUpdateRegionView> {
                               PaymentProvidersState>(
                             bloc: paymentProvidersCubit,
                             builder: (context, state) {
-                              return state.maybeMap(
-                                  loading: (_) => Skeletonizer(
-                                      enabled: true,
-                                      child: MultiSelectDropDown(
-                                          onOptionSelected: (_) {},
-                                          options: const [])),
-                                  paymentProviders: (_) {
-                                    return MultiSelectDropDown<String>(
-                                      hintStyle: smallTextStyle,
-                                      options: _.paymentProviders
-                                          .map((e) => ValueItem(
-                                              label: e.id ?? 'Unknown',
-                                              value: e.id))
-                                          .toList(),
-                                      inputDecoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0),
-                                        border: Border.all(color: Colors.grey),
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                      ),
-                                      optionsBackgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      optionTextStyle: context.bodySmall,
-                                      onOptionSelected: (List<ValueItem<String>>
-                                          selectedOptions) {},
-                                    );
-                                  },
-                                  orElse: () => const SizedBox.shrink());
+                              return SizedBox.shrink();
+                              // return state.maybeMap(
+                              //     loading: (_) => Skeletonizer(
+                              //         enabled: true,
+                              //         child: MultiSelectDropDown(
+                              //             onOptionSelected: (_) {},
+                              //             options: const [])),
+                              //     paymentProviders: (_) {
+                              //       return MultiSelectDropDown<String>(
+                              //         hintStyle: smallTextStyle,
+                              //         options: _.paymentProviders
+                              //             .map((e) => ValueItem(
+                              //                 label: e.id ?? 'Unknown',
+                              //                 value: e.id))
+                              //             .toList(),
+                              //         inputDecoration: BoxDecoration(
+                              //           borderRadius:
+                              //               BorderRadius.circular(4.0),
+                              //           border: Border.all(color: Colors.grey),
+                              //           color: Theme.of(context)
+                              //               .scaffoldBackgroundColor,
+                              //         ),
+                              //         optionsBackgroundColor: Theme.of(context)
+                              //             .scaffoldBackgroundColor,
+                              //         optionTextStyle: context.bodySmall,
+                              //         onOptionSelected: (List<ValueItem<String>>
+                              //             selectedOptions) {},
+                              //       );
+                              //     },
+                              //     orElse: () => const SizedBox.shrink());
                             },
                           ),
                           space,

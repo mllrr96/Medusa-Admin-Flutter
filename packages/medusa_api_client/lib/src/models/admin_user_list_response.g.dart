@@ -1,0 +1,29 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'admin_user_list_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_AdminUserListResponse _$AdminUserListResponseFromJson(
+  Map<String, dynamic> json,
+) => _AdminUserListResponse(
+  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toDouble(),
+  count: (json['count'] as num).toDouble(),
+  users: (json['users'] as List<dynamic>)
+      .map((e) => AdminUser.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  estimateCount: (json['estimate_count'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$AdminUserListResponseToJson(
+  _AdminUserListResponse instance,
+) => <String, dynamic>{
+  'limit': instance.limit,
+  'offset': instance.offset,
+  'count': instance.count,
+  'users': instance.users,
+  'estimate_count': instance.estimateCount,
+};

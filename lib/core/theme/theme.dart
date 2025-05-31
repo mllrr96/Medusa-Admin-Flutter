@@ -10,8 +10,9 @@ class AppTheme {
       useMaterial3: true,
       primaryColor: ColorManager.primary,
       cardColor: Colors.white,
-      dialogTheme: const DialogTheme(
-          titleTextStyle: TextStyle(color: Colors.black), contentTextStyle: TextStyle(color: Colors.black)),
+      dialogTheme: const DialogThemeData(
+          titleTextStyle: TextStyle(color: Colors.black),
+          contentTextStyle: TextStyle(color: Colors.black)),
       brightness: Brightness.light,
       listTileTheme: ListTileThemeData(
         textColor: Colors.black,
@@ -30,7 +31,8 @@ class AppTheme {
       scaffoldBackgroundColor: const Color(0xFFF2F2F7),
       // scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       checkboxTheme: const CheckboxThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
       // splashColor: GetPlatform.isIOS ? Colors.transparent : ColorManager.primary,
       // splashColor: Colors.transparent,
@@ -46,7 +48,7 @@ class AppTheme {
         backgroundColor: Colors.white,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor:  Colors.white,
+          statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.dark,
           systemNavigationBarColor: Color(0xFFF2F2F7),
@@ -88,11 +90,12 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: ColorManager.primary, // This is a custom color variable
+          foregroundColor:
+              ColorManager.primary, // This is a custom color variable
         ),
       ),
-      expansionTileTheme:
-          const ExpansionTileThemeData(iconColor: Colors.black, backgroundColor: CupertinoColors.white));
+      expansionTileTheme: const ExpansionTileThemeData(
+          iconColor: Colors.black, backgroundColor: CupertinoColors.white));
 
   static final dark = ThemeData(
       useMaterial3: true,
@@ -108,11 +111,13 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         scrimColor: Colors.black45,
       ),
-      dialogTheme: const DialogTheme(
-          titleTextStyle: TextStyle(color: Colors.white), contentTextStyle: TextStyle(color: Colors.white)),
+      dialogTheme: const DialogThemeData(
+          titleTextStyle: TextStyle(color: Colors.white),
+          contentTextStyle: TextStyle(color: Colors.white)),
       scaffoldBackgroundColor: const Color(0xFF18191A),
       checkboxTheme: const CheckboxThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primary,
@@ -178,23 +183,29 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: ColorManager.primary, // This is a custom color variable
+          foregroundColor:
+              ColorManager.primary, // This is a custom color variable
         ),
       ),
-      expansionTileTheme: const ExpansionTileThemeData(iconColor: Colors.white, backgroundColor: Color(0xff242527)));
+      expansionTileTheme: const ExpansionTileThemeData(
+          iconColor: Colors.white, backgroundColor: Color(0xff242527)));
 
   // ========================================================================================== //
 
   // Headline 1
   // 34px Bold
-  static final headlineLarge = GoogleFonts.cabin(fontSize: 34, color: Colors.black);
+  static final headlineLarge =
+      GoogleFonts.cabin(fontSize: 34, color: Colors.black);
 
   // Headline 2
   // 28px Semi-bold
-  static final headlineMedium = GoogleFonts.cabin(fontSize: 28, color: Colors.black);
+  static final headlineMedium =
+      GoogleFonts.cabin(fontSize: 28, color: Colors.black);
+
   // Headline 3
   // 22px Medium
-  static final headlineSmall = GoogleFonts.cabin(fontSize: 22, color: Colors.black);
+  static final headlineSmall =
+      GoogleFonts.cabin(fontSize: 22, color: Colors.black);
 
   // Body 1
   // 17px Medium
@@ -202,7 +213,8 @@ class AppTheme {
 
   // Body 2
   // 15px Medium
-  static final bodyMedium = GoogleFonts.cabin(fontSize: 15, color: Colors.black);
+  static final bodyMedium =
+      GoogleFonts.cabin(fontSize: 15, color: Colors.black);
 
   // Body 3
   // 13px Medium

@@ -5,9 +5,10 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import '../../l10n/app_localizations.dart';
 
 extension ContextEntension<T> on BuildContext? {
   /// Scroll to current widget

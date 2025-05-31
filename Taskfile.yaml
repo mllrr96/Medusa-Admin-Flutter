@@ -1,0 +1,90 @@
+version: "3"
+
+tasks:
+  get:
+    desc: Get flutter dependencies
+    summary: |
+      Get flutter dependencies
+    cmds:
+      - flutter pub get
+
+  gen:
+    desc: Generate dart files
+    summary: |
+      Run codegen
+    cmds:
+      - dart run build_runner build -d
+
+  upgrade:
+    desc: Upgrade flutter dependencies
+    summary: |
+      Run codegen
+    cmds:
+      - flutter pub upgrade --major-versions
+
+  gen:apk:
+    desc: Generate apk release
+    summary: |
+      Run codegen
+    cmds:
+      - flutter build apk --release
+
+  gen:apk:split:
+    desc: Generate apk release
+    summary: |
+      Run codegen
+    cmds:
+      - |
+        flutter build apk --split-per-abi &&
+        cd build/app/outputs/flutter-apk &&
+        timestamp=$(date +"%Y-%m-%d_%H-%M-%S") &&
+        destination="/Users/mo/Desktop/EMS-$timestamp-v8a.apk" &&
+        cp app-arm64-v8a-release.apk "$destination"
+
+  gen:ipa:
+    desc: Generate ipa release
+    summary: |
+      Run codegen
+    cmds:
+      - |
+        flutter build ios --release --no-codesign &&
+        cd build/ios/iphoneos &&
+        mkdir Payload &&
+        cd Payload &&
+        ln -s ../Runner.app &&
+        cd .. &&
+        zip -r EMS.ipa Payload &&
+        timestamp=$(date +"%Y-%m-%d_%H-%M-%S") &&
+        mv EMS.ipa "/Users/mo/Desktop/EMS-$timestamp.ipa" &&
+        rm -rf Payload
+
+  gen:tr:
+    desc: Generate translations
+    summary: |
+      Run codegen
+    cmds:
+      - flutter gen-l10n
+
+  deploy:supabase:
+    desc: Generate translations
+    summary: |
+      Run codegen
+    cmds:
+      - supabase functions deploy
+
+
+  gen:clean:
+    desc: Generate dart files
+    summary: |
+      Run codegen
+    cmds:
+      - flutter clean
+      - flutter pub get
+      - dart run build_runner build -d
+
+  gen:watch:
+    desc: Generate dart files
+    summary: |
+      Watch codegen
+    cmds:
+      - dart run build_runner watch -d

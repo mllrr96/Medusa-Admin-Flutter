@@ -1,7 +1,7 @@
 part of 'order_crud_bloc.dart';
 
 @freezed
-class OrderCrudEvent with _$OrderCrudEvent {
+sealed class OrderCrudEvent with _$OrderCrudEvent {
   const factory OrderCrudEvent.load(String id,
       {Map<String, dynamic>? queryParameters}) = _Load;
   const factory OrderCrudEvent.update(

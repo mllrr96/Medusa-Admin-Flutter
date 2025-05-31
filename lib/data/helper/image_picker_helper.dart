@@ -26,7 +26,7 @@ class ImagePickerHelper {
     await pickedImage.saveTo(imagePath);
 
     CroppedFile? croppedFile = await _imageCropper.cropImage(
-        sourcePath: imagePath, cropStyle: cropStyle ?? CropStyle.rectangle, aspectRatio: cropAspectRatio);
+        sourcePath: imagePath, aspectRatio: cropAspectRatio);
 
     if (croppedFile == null) {
       return null;
@@ -52,7 +52,7 @@ class ImagePickerHelper {
 
   Future<File?> cropImage(File image, {CropStyle? cropStyle, CropAspectRatio? cropAspectRatio}) async {
     CroppedFile? croppedFile = await _imageCropper.cropImage(
-        sourcePath: image.path, cropStyle: cropStyle ?? CropStyle.rectangle, aspectRatio: cropAspectRatio);
+        sourcePath: image.path,  aspectRatio: cropAspectRatio);
 
     if (croppedFile == null) {
       return null;

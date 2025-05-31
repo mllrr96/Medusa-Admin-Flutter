@@ -8,13 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 @module
 abstract class RegisterCoreDependencies {
   @singleton
-  final AppRouter appRouter = AppRouter();
+  AppRouter appRouter() => AppRouter();
 
   @singleton
-  final Dio dio = Dio();
+  Dio dio() => Dio();
 
   @singleton
-  final FlutterSecureStorage securePrefs =
+  FlutterSecureStorage securePrefs() =>
       FlutterSecureStorage(aOptions: _getAndroidOptions());
 
   @preResolve
@@ -24,6 +24,4 @@ abstract class RegisterCoreDependencies {
   Future<PackageInfo> get packageInfo => PackageInfo.fromPlatform();
 }
 
-AndroidOptions _getAndroidOptions() => const AndroidOptions(
-      encryptedSharedPreferences: true,
-    );
+AndroidOptions _getAndroidOptions() => const AndroidOptions();
