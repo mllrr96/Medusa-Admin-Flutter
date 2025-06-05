@@ -175,7 +175,7 @@
 ///     ],
 ///     "description": "The product's details."
 /// }
-library admin_batch_update_product;
+library;
 
 import 'exports.dart';
 part 'admin_batch_update_product.freezed.dart';

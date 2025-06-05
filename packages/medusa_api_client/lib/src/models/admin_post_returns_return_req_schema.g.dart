@@ -6,16 +6,16 @@ part of 'admin_post_returns_return_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostReturnsReturnReqSchema _$AdminPostReturnsReturnReqSchemaFromJson(
-  Map<String, dynamic> json,
-) => _AdminPostReturnsReturnReqSchema(
-  locationId: json['location_id'] as String,
-  noNotification: json['no_notification'] as bool,
-  metadata: json['metadata'] as Map<String, dynamic>,
-);
+_$AdminPostReturnsReturnReqSchemaImpl
+_$$AdminPostReturnsReturnReqSchemaImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPostReturnsReturnReqSchemaImpl(
+      locationId: json['location_id'] as String,
+      noNotification: json['no_notification'] as bool,
+      metadata: json['metadata'] as Map<String, dynamic>,
+    );
 
-Map<String, dynamic> _$AdminPostReturnsReturnReqSchemaToJson(
-  _AdminPostReturnsReturnReqSchema instance,
+Map<String, dynamic> _$$AdminPostReturnsReturnReqSchemaImplToJson(
+  _$AdminPostReturnsReturnReqSchemaImpl instance,
 ) => <String, dynamic>{
   'location_id': instance.locationId,
   'no_notification': instance.noNotification,

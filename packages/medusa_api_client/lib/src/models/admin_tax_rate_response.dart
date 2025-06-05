@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The tax rate's details."
 /// }
-library admin_tax_rate_response;
+library;
 
 import 'exports.dart';
 part 'admin_tax_rate_response.freezed.dart';

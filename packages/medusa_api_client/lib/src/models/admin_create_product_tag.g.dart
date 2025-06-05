@@ -6,13 +6,13 @@ part of 'admin_create_product_tag.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateProductTag _$AdminCreateProductTagFromJson(
+_$AdminCreateProductTagImpl _$$AdminCreateProductTagImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateProductTag(
+) => _$AdminCreateProductTagImpl(
   value: json['value'] as String,
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateProductTagToJson(
-  _AdminCreateProductTag instance,
+Map<String, dynamic> _$$AdminCreateProductTagImplToJson(
+  _$AdminCreateProductTagImpl instance,
 ) => <String, dynamic>{'value': instance.value, 'metadata': instance.metadata};

@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The promotion's details."
 /// }
-library admin_promotion_response;
+library;
 
 import 'exports.dart';
 part 'admin_promotion_response.freezed.dart';

@@ -6,14 +6,14 @@ part of 'post_exchanges_id_inbound_shipping_method_action_id_query_parameters.da
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostExchangesIdInboundShippingMethodActionIdQueryParameters
-_$PostExchangesIdInboundShippingMethodActionIdQueryParametersFromJson(
+_$PostExchangesIdInboundShippingMethodActionIdQueryParametersImpl
+_$$PostExchangesIdInboundShippingMethodActionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostExchangesIdInboundShippingMethodActionIdQueryParameters(
+) => _$PostExchangesIdInboundShippingMethodActionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostExchangesIdInboundShippingMethodActionIdQueryParametersToJson(
-  _PostExchangesIdInboundShippingMethodActionIdQueryParameters instance,
+_$$PostExchangesIdInboundShippingMethodActionIdQueryParametersImplToJson(
+  _$PostExchangesIdInboundShippingMethodActionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

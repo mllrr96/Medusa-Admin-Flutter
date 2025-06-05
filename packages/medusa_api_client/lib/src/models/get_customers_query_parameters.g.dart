@@ -6,12 +6,12 @@ part of 'get_customers_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetCustomersQueryParameters _$GetCustomersQueryParametersFromJson(
+_$GetCustomersQueryParametersImpl _$$GetCustomersQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetCustomersQueryParameters(
+) => _$GetCustomersQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   groups: json['groups'],
   q: json['q'] as String,
@@ -33,8 +33,8 @@ _GetCustomersQueryParameters _$GetCustomersQueryParametersFromJson(
   hasAccount: json['has_account'] as bool,
 );
 
-Map<String, dynamic> _$GetCustomersQueryParametersToJson(
-  _GetCustomersQueryParameters instance,
+Map<String, dynamic> _$$GetCustomersQueryParametersImplToJson(
+  _$GetCustomersQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

@@ -6,8 +6,8 @@ part of 'store_product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreProduct _$StoreProductFromJson(Map<String, dynamic> json) =>
-    _StoreProduct(
+_$StoreProductImpl _$$StoreProductImplFromJson(Map<String, dynamic> json) =>
+    _$StoreProductImpl(
       categories: (json['categories'] as List<dynamic>)
           .map((e) => e as Map<String, dynamic>)
           .toList(),
@@ -53,7 +53,7 @@ _StoreProduct _$StoreProductFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$StoreProductToJson(_StoreProduct instance) =>
+Map<String, dynamic> _$$StoreProductImplToJson(_$StoreProductImpl instance) =>
     <String, dynamic>{
       'categories': instance.categories,
       'type': instance.type,

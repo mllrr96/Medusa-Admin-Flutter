@@ -83,7 +83,7 @@
 ///     ],
 ///     "description": "The tax region's details."
 /// }
-library admin_tax_region;
+library;
 
 import 'exports.dart';
 part 'admin_tax_region.freezed.dart';

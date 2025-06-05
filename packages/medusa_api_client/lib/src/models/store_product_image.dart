@@ -47,7 +47,7 @@
 ///     ],
 ///     "description": "The image's details."
 /// }
-library store_product_image;
+library;
 
 import 'exports.dart';
 part 'store_product_image.freezed.dart';

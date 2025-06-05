@@ -6,10 +6,10 @@ part of 'post_tax_rates_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostTaxRatesQueryParameters _$PostTaxRatesQueryParametersFromJson(
+_$PostTaxRatesQueryParametersImpl _$$PostTaxRatesQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostTaxRatesQueryParameters(fields: json['fields'] as String);
+) => _$PostTaxRatesQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostTaxRatesQueryParametersToJson(
-  _PostTaxRatesQueryParameters instance,
+Map<String, dynamic> _$$PostTaxRatesQueryParametersImplToJson(
+  _$PostTaxRatesQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

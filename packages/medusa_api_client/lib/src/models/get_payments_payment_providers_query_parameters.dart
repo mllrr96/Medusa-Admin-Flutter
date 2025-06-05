@@ -82,11 +82,11 @@ abstract class GetPaymentsPaymentProvidersQueryParameters
 
     /// offset
     @JsonKey(name: GetPaymentsPaymentProvidersQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetPaymentsPaymentProvidersQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetPaymentsPaymentProvidersQueryParameters.orderKey)

@@ -43,7 +43,7 @@
 ///     "type": "object",
 ///     "description": "The details of the cart to be created."
 /// }
-library store_create_cart;
+library;
 
 import 'exports.dart';
 part 'store_create_cart.freezed.dart';

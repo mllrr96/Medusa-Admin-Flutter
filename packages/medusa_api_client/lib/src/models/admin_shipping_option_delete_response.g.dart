@@ -6,16 +6,16 @@ part of 'admin_shipping_option_delete_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminShippingOptionDeleteResponse _$AdminShippingOptionDeleteResponseFromJson(
-  Map<String, dynamic> json,
-) => _AdminShippingOptionDeleteResponse(
-  id: json['id'] as String,
-  object: json['object'] as String? ?? 'shipping_option',
-  deleted: json['deleted'] as bool,
-);
+_$AdminShippingOptionDeleteResponseImpl
+_$$AdminShippingOptionDeleteResponseImplFromJson(Map<String, dynamic> json) =>
+    _$AdminShippingOptionDeleteResponseImpl(
+      id: json['id'] as String,
+      object: json['object'] as String? ?? 'shipping_option',
+      deleted: json['deleted'] as bool,
+    );
 
-Map<String, dynamic> _$AdminShippingOptionDeleteResponseToJson(
-  _AdminShippingOptionDeleteResponse instance,
+Map<String, dynamic> _$$AdminShippingOptionDeleteResponseImplToJson(
+  _$AdminShippingOptionDeleteResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

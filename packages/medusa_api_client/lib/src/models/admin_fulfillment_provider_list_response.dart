@@ -53,15 +53,15 @@ abstract class AdminFulfillmentProviderListResponse
   const factory AdminFulfillmentProviderListResponse({
     /// limit
     @JsonKey(name: AdminFulfillmentProviderListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: AdminFulfillmentProviderListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: AdminFulfillmentProviderListResponse.countKey)
-    required double count,
+    required int count,
 
     /// fulfillmentProviders
     @JsonKey(name: AdminFulfillmentProviderListResponse.fulfillmentProvidersKey)

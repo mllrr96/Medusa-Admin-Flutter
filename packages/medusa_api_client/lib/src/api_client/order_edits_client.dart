@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_order_edit_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'order_edits_client.g.dart';
@@ -120,7 +121,7 @@ abstract class OrderEditsClient {
   ///     }
   /// }
   @DELETE("/admin/order-edits/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteOrderEditsId({
+  Future<HttpResponse<AdminOrderEditDeleteResponse>> deleteOrderEditsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

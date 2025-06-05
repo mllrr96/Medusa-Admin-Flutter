@@ -6,13 +6,13 @@ part of 'get_inventory_items_id_location_levels_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetInventoryItemsIdLocationLevelsQueryParameters
-_$GetInventoryItemsIdLocationLevelsQueryParametersFromJson(
+_$GetInventoryItemsIdLocationLevelsQueryParametersImpl
+_$$GetInventoryItemsIdLocationLevelsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetInventoryItemsIdLocationLevelsQueryParameters(
+) => _$GetInventoryItemsIdLocationLevelsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   and: (json[r'$and'] as List<dynamic>)
       .map((e) => e as Map<String, dynamic>)
@@ -22,8 +22,9 @@ _$GetInventoryItemsIdLocationLevelsQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetInventoryItemsIdLocationLevelsQueryParametersToJson(
-  _GetInventoryItemsIdLocationLevelsQueryParameters instance,
+Map<String, dynamic>
+_$$GetInventoryItemsIdLocationLevelsQueryParametersImplToJson(
+  _$GetInventoryItemsIdLocationLevelsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

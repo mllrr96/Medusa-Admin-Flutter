@@ -6,33 +6,33 @@ part of 'get_draft_orders_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetDraftOrdersQueryParameters _$GetDraftOrdersQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetDraftOrdersQueryParameters(
-  fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
-  order: json['order'] as String,
-  id: json['id'],
-  status: json['status'],
-  and: (json[r'$and'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  or: (json[r'$or'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  salesChannelId: (json['sales_channel_id'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
-  regionId: json['region_id'],
-  q: json['q'] as String,
-  createdAt: json['created_at'] as Map<String, dynamic>,
-  updatedAt: json['updated_at'] as Map<String, dynamic>,
-  customerId: json['customer_id'],
-);
+_$GetDraftOrdersQueryParametersImpl
+_$$GetDraftOrdersQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetDraftOrdersQueryParametersImpl(
+      fields: json['fields'] as String,
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      order: json['order'] as String,
+      id: json['id'],
+      status: json['status'],
+      and: (json[r'$and'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      or: (json[r'$or'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      salesChannelId: (json['sales_channel_id'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      regionId: json['region_id'],
+      q: json['q'] as String,
+      createdAt: json['created_at'] as Map<String, dynamic>,
+      updatedAt: json['updated_at'] as Map<String, dynamic>,
+      customerId: json['customer_id'],
+    );
 
-Map<String, dynamic> _$GetDraftOrdersQueryParametersToJson(
-  _GetDraftOrdersQueryParameters instance,
+Map<String, dynamic> _$$GetDraftOrdersQueryParametersImplToJson(
+  _$GetDraftOrdersQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

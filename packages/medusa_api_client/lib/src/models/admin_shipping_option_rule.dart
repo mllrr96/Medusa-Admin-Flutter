@@ -66,7 +66,7 @@
 ///     ],
 ///     "description": "The shipping option rule's details."
 /// }
-library admin_shipping_option_rule;
+library;
 
 import 'exports.dart';
 part 'admin_shipping_option_rule.freezed.dart';

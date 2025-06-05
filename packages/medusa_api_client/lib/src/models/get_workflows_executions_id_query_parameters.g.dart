@@ -6,10 +6,13 @@ part of 'get_workflows_executions_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetWorkflowsExecutionsIdQueryParameters
-_$GetWorkflowsExecutionsIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetWorkflowsExecutionsIdQueryParameters(fields: json['fields'] as String);
+_$GetWorkflowsExecutionsIdQueryParametersImpl
+_$$GetWorkflowsExecutionsIdQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$GetWorkflowsExecutionsIdQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$GetWorkflowsExecutionsIdQueryParametersToJson(
-  _GetWorkflowsExecutionsIdQueryParameters instance,
+Map<String, dynamic> _$$GetWorkflowsExecutionsIdQueryParametersImplToJson(
+  _$GetWorkflowsExecutionsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

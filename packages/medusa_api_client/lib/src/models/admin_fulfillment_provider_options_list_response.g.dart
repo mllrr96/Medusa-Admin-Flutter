@@ -6,13 +6,13 @@ part of 'admin_fulfillment_provider_options_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFulfillmentProviderOptionsListResponse
-_$AdminFulfillmentProviderOptionsListResponseFromJson(
+_$AdminFulfillmentProviderOptionsListResponseImpl
+_$$AdminFulfillmentProviderOptionsListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminFulfillmentProviderOptionsListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
+) => _$AdminFulfillmentProviderOptionsListResponseImpl(
+  limit: (json['limit'] as num).toInt(),
+  offset: (json['offset'] as num).toInt(),
+  count: (json['count'] as num).toInt(),
   fulfillmentOptions: (json['fulfillment_options'] as List<dynamic>)
       .map(
         (e) =>
@@ -22,8 +22,8 @@ _$AdminFulfillmentProviderOptionsListResponseFromJson(
   estimateCount: (json['estimate_count'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$AdminFulfillmentProviderOptionsListResponseToJson(
-  _AdminFulfillmentProviderOptionsListResponse instance,
+Map<String, dynamic> _$$AdminFulfillmentProviderOptionsListResponseImplToJson(
+  _$AdminFulfillmentProviderOptionsListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

@@ -6,9 +6,9 @@ part of 'admin_batch_update_product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminBatchUpdateProduct _$AdminBatchUpdateProductFromJson(
+_$AdminBatchUpdateProductImpl _$$AdminBatchUpdateProductImplFromJson(
   Map<String, dynamic> json,
-) => _AdminBatchUpdateProduct(
+) => _$AdminBatchUpdateProductImpl(
   title: json['title'] as String,
   subtitle: json['subtitle'] as String,
   description: json['description'] as String,
@@ -55,8 +55,8 @@ _AdminBatchUpdateProduct _$AdminBatchUpdateProductFromJson(
   shippingProfileId: json['shipping_profile_id'] as String,
 );
 
-Map<String, dynamic> _$AdminBatchUpdateProductToJson(
-  _AdminBatchUpdateProduct instance,
+Map<String, dynamic> _$$AdminBatchUpdateProductImplToJson(
+  _$AdminBatchUpdateProductImpl instance,
 ) => <String, dynamic>{
   'title': instance.title,
   'subtitle': instance.subtitle,

@@ -38,7 +38,7 @@
 ///     ],
 ///     "description": "The paginated list of users."
 /// }
-library admin_user_list_response;
+library;
 
 import 'exports.dart';
 part 'admin_user_list_response.freezed.dart';
@@ -51,13 +51,13 @@ abstract class AdminUserListResponse with _$AdminUserListResponse {
   @jsonSerializable
   const factory AdminUserListResponse({
     /// limit
-    @JsonKey(name: AdminUserListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminUserListResponse.limitKey) required int limit,
 
     /// offset
-    @JsonKey(name: AdminUserListResponse.offsetKey) required double offset,
+    @JsonKey(name: AdminUserListResponse.offsetKey) required int offset,
 
     /// count
-    @JsonKey(name: AdminUserListResponse.countKey) required double count,
+    @JsonKey(name: AdminUserListResponse.countKey) required int count,
 
     /// users
     @JsonKey(name: AdminUserListResponse.usersKey)

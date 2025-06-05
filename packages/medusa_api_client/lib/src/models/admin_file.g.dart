@@ -6,8 +6,8 @@ part of 'admin_file.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFile _$AdminFileFromJson(Map<String, dynamic> json) =>
-    _AdminFile(id: json['id'] as String, url: json['url'] as String);
+_$AdminFileImpl _$$AdminFileImplFromJson(Map<String, dynamic> json) =>
+    _$AdminFileImpl(id: json['id'] as String, url: json['url'] as String);
 
-Map<String, dynamic> _$AdminFileToJson(_AdminFile instance) =>
+Map<String, dynamic> _$$AdminFileImplToJson(_$AdminFileImpl instance) =>
     <String, dynamic>{'id': instance.id, 'url': instance.url};

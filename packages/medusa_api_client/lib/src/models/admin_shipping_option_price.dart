@@ -89,7 +89,7 @@
 ///     ],
 ///     "description": "The details of the shipping option's price."
 /// }
-library admin_shipping_option_price;
+library;
 
 import 'exports.dart';
 part 'admin_shipping_option_price.freezed.dart';

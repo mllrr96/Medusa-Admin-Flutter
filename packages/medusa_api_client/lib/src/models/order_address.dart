@@ -86,7 +86,7 @@
 ///     ],
 ///     "description": "The address's details."
 /// }
-library order_address;
+library;
 
 import 'exports.dart';
 part 'order_address.freezed.dart';

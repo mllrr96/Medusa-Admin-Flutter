@@ -6,13 +6,13 @@ part of 'store_create_return_shipping.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCreateReturnShipping _$StoreCreateReturnShippingFromJson(
+_$StoreCreateReturnShippingImpl _$$StoreCreateReturnShippingImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCreateReturnShipping(
+) => _$StoreCreateReturnShippingImpl(
   optionId: json['option_id'] as String,
   price: (json['price'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$StoreCreateReturnShippingToJson(
-  _StoreCreateReturnShipping instance,
+Map<String, dynamic> _$$StoreCreateReturnShippingImplToJson(
+  _$StoreCreateReturnShippingImpl instance,
 ) => <String, dynamic>{'option_id': instance.optionId, 'price': instance.price};

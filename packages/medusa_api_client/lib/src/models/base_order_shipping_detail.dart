@@ -52,7 +52,7 @@
 ///     ],
 ///     "description": "Details of changes to a shipping method."
 /// }
-library base_order_shipping_detail;
+library;
 
 import 'exports.dart';
 part 'base_order_shipping_detail.freezed.dart';

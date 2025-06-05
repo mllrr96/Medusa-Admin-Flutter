@@ -6,25 +6,26 @@ part of 'admin_price_list_price.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPriceListPrice _$AdminPriceListPriceFromJson(Map<String, dynamic> json) =>
-    _AdminPriceListPrice(
-      variantId: json['variant_id'] as String,
-      rules: json['rules'] as Map<String, dynamic>,
-      id: json['id'] as String,
-      title: json['title'] as String,
-      currencyCode: json['currency_code'] as String,
-      amount: (json['amount'] as num).toDouble(),
-      rawAmount: json['raw_amount'] as Map<String, dynamic>,
-      minQuantity: (json['min_quantity'] as num).toDouble(),
-      maxQuantity: (json['max_quantity'] as num).toDouble(),
-      priceSetId: json['price_set_id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: DateTime.parse(json['deleted_at'] as String),
-    );
+_$AdminPriceListPriceImpl _$$AdminPriceListPriceImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminPriceListPriceImpl(
+  variantId: json['variant_id'] as String,
+  rules: json['rules'] as Map<String, dynamic>,
+  id: json['id'] as String,
+  title: json['title'] as String,
+  currencyCode: json['currency_code'] as String,
+  amount: (json['amount'] as num).toDouble(),
+  rawAmount: json['raw_amount'] as Map<String, dynamic>,
+  minQuantity: (json['min_quantity'] as num).toDouble(),
+  maxQuantity: (json['max_quantity'] as num).toDouble(),
+  priceSetId: json['price_set_id'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  deletedAt: DateTime.parse(json['deleted_at'] as String),
+);
 
-Map<String, dynamic> _$AdminPriceListPriceToJson(
-  _AdminPriceListPrice instance,
+Map<String, dynamic> _$$AdminPriceListPriceImplToJson(
+  _$AdminPriceListPriceImpl instance,
 ) => <String, dynamic>{
   'variant_id': instance.variantId,
   'rules': instance.rules,

@@ -3,7 +3,7 @@
 ///     "type": "object",
 ///     "description": "The cart's shipping address."
 /// }
-library base_cart_address;
+library;
 
 import 'exports.dart';
 part 'base_cart_address.freezed.dart';

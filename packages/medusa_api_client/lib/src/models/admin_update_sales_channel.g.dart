@@ -6,17 +6,17 @@ part of 'admin_update_sales_channel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateSalesChannel _$AdminUpdateSalesChannelFromJson(
+_$AdminUpdateSalesChannelImpl _$$AdminUpdateSalesChannelImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdateSalesChannel(
+) => _$AdminUpdateSalesChannelImpl(
   name: json['name'] as String,
   description: json['description'] as String,
   isDisabled: json['is_disabled'] as bool,
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminUpdateSalesChannelToJson(
-  _AdminUpdateSalesChannel instance,
+Map<String, dynamic> _$$AdminUpdateSalesChannelImplToJson(
+  _$AdminUpdateSalesChannelImpl instance,
 ) => <String, dynamic>{
   'name': instance.name,
   'description': instance.description,

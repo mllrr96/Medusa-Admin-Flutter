@@ -6,10 +6,10 @@ part of 'post_price_lists_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostPriceListsQueryParameters _$PostPriceListsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostPriceListsQueryParameters(fields: json['fields'] as String);
+_$PostPriceListsQueryParametersImpl
+_$$PostPriceListsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostPriceListsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostPriceListsQueryParametersToJson(
-  _PostPriceListsQueryParameters instance,
+Map<String, dynamic> _$$PostPriceListsQueryParametersImplToJson(
+  _$PostPriceListsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

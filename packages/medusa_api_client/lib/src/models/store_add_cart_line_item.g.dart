@@ -6,16 +6,16 @@ part of 'store_add_cart_line_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreAddCartLineItem _$StoreAddCartLineItemFromJson(
+_$StoreAddCartLineItemImpl _$$StoreAddCartLineItemImplFromJson(
   Map<String, dynamic> json,
-) => _StoreAddCartLineItem(
+) => _$StoreAddCartLineItemImpl(
   variantId: json['variant_id'] as String,
   quantity: (json['quantity'] as num).toDouble(),
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$StoreAddCartLineItemToJson(
-  _StoreAddCartLineItem instance,
+Map<String, dynamic> _$$StoreAddCartLineItemImplToJson(
+  _$StoreAddCartLineItemImpl instance,
 ) => <String, dynamic>{
   'variant_id': instance.variantId,
   'quantity': instance.quantity,

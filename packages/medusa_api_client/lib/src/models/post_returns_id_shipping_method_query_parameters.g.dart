@@ -6,13 +6,13 @@ part of 'post_returns_id_shipping_method_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostReturnsIdShippingMethodQueryParameters
-_$PostReturnsIdShippingMethodQueryParametersFromJson(
+_$PostReturnsIdShippingMethodQueryParametersImpl
+_$$PostReturnsIdShippingMethodQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostReturnsIdShippingMethodQueryParameters(
+) => _$PostReturnsIdShippingMethodQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostReturnsIdShippingMethodQueryParametersToJson(
-  _PostReturnsIdShippingMethodQueryParameters instance,
+Map<String, dynamic> _$$PostReturnsIdShippingMethodQueryParametersImplToJson(
+  _$PostReturnsIdShippingMethodQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

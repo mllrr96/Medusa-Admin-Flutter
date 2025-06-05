@@ -1,4 +1,4 @@
-library models;
+library;
 
 export 'admin_add_draft_order_items.dart';
 export 'admin_add_draft_order_promotions.dart';

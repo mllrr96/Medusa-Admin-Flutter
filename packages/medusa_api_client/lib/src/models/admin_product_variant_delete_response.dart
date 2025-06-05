@@ -50,7 +50,7 @@ abstract class AdminProductVariantDeleteResponse
     required String object,
 
     /// deleted
-    @Default('variant')
+    @Default(false)
     @JsonKey(name: AdminProductVariantDeleteResponse.deletedKey)
     bool deleted,
 

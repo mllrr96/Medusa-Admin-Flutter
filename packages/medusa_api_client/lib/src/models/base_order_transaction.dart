@@ -66,7 +66,7 @@
 ///     ],
 ///     "description": "An order transaction's details."
 /// }
-library base_order_transaction;
+library;
 
 import 'exports.dart';
 part 'base_order_transaction.freezed.dart';

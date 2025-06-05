@@ -6,9 +6,9 @@ part of 'base_order_fulfillment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseOrderFulfillment _$BaseOrderFulfillmentFromJson(
+_$BaseOrderFulfillmentImpl _$$BaseOrderFulfillmentImplFromJson(
   Map<String, dynamic> json,
-) => _BaseOrderFulfillment(
+) => _$BaseOrderFulfillmentImpl(
   id: json['id'] as String,
   locationId: json['location_id'] as String,
   packedAt: DateTime.parse(json['packed_at'] as String),
@@ -24,8 +24,8 @@ _BaseOrderFulfillment _$BaseOrderFulfillmentFromJson(
   requiresShipping: json['requires_shipping'] as bool,
 );
 
-Map<String, dynamic> _$BaseOrderFulfillmentToJson(
-  _BaseOrderFulfillment instance,
+Map<String, dynamic> _$$BaseOrderFulfillmentImplToJson(
+  _$BaseOrderFulfillmentImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'location_id': instance.locationId,

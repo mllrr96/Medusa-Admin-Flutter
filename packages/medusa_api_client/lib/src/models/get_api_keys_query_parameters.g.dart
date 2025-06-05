@@ -6,12 +6,12 @@ part of 'get_api_keys_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetApiKeysQueryParameters _$GetApiKeysQueryParametersFromJson(
+_$GetApiKeysQueryParametersImpl _$$GetApiKeysQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetApiKeysQueryParameters(
+) => _$GetApiKeysQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -30,8 +30,8 @@ _GetApiKeysQueryParameters _$GetApiKeysQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetApiKeysQueryParametersToJson(
-  _GetApiKeysQueryParameters instance,
+Map<String, dynamic> _$$GetApiKeysQueryParametersImplToJson(
+  _$GetApiKeysQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

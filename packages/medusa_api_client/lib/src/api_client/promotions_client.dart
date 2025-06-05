@@ -1,6 +1,9 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_batch_promotion_response.dart';
+import 'package:medusa_api_client/src/models/admin_promotion_delete_response.dart';
+import 'package:medusa_api_client/src/models/admin_promotion_rule_list_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'promotions_client.g.dart';
@@ -429,7 +432,7 @@ abstract class PromotionsClient {
   ///     }
   /// }
   @GET("/admin/promotions/rule-attribute-options/{rule_type}")
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminPromotionRuleListResponse>>
   getPromotionsRuleAttributeOptionsRuleType({
     @Queries()
     required GetPromotionsRuleAttributeOptionsRuleTypeQueryParameters queries,
@@ -567,7 +570,7 @@ abstract class PromotionsClient {
   ///     }
   /// }
   @GET("/admin/promotions/rule-value-options/{rule_type}/{rule_attribute_id}")
-  Future<HttpResponse<dynamic>>
+  Future<HttpResponse>
   getPromotionsRuleValueOptionsRuleTypeRuleAttributeId({
     @Queries()
     required GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParameters
@@ -781,7 +784,7 @@ abstract class PromotionsClient {
   ///     }
   /// }
   @DELETE("/admin/promotions/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deletePromotionsId({
+  Future<HttpResponse<AdminPromotionDeleteResponse>> deletePromotionsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,
@@ -861,7 +864,7 @@ abstract class PromotionsClient {
   ///     }
   /// }
   @POST("/admin/promotions/{id}/buy-rules/batch")
-  Future<HttpResponse<Map<String, dynamic>>> postPromotionsIdBuyRulesBatch({
+  Future<HttpResponse<AdminBatchPromotionResponse>> postPromotionsIdBuyRulesBatch({
     @Body() required Map<String, dynamic> requestBody,
     @Queries() required PostPromotionsIdBuyRulesBatchQueryParameters queries,
     @Path("id") required String id,
@@ -943,7 +946,7 @@ abstract class PromotionsClient {
   ///     }
   /// }
   @POST("/admin/promotions/{id}/rules/batch")
-  Future<HttpResponse<Map<String, dynamic>>> postPromotionsIdRulesBatch({
+  Future<HttpResponse<AdminBatchPromotionResponse>> postPromotionsIdRulesBatch({
     @Body() required Map<String, dynamic> requestBody,
     @Queries() required PostPromotionsIdRulesBatchQueryParameters queries,
     @Path("id") required String id,
@@ -1025,7 +1028,7 @@ abstract class PromotionsClient {
   ///     }
   /// }
   @POST("/admin/promotions/{id}/target-rules/batch")
-  Future<HttpResponse<Map<String, dynamic>>> postPromotionsIdTargetRulesBatch({
+  Future<HttpResponse<AdminBatchPromotionResponse>> postPromotionsIdTargetRulesBatch({
     @Body() required Map<String, dynamic> requestBody,
     @Queries() required PostPromotionsIdTargetRulesBatchQueryParameters queries,
     @Path("id") required String id,
@@ -1110,8 +1113,9 @@ abstract class PromotionsClient {
   ///         "500": {}
   ///     }
   /// }
+  //TODO: Add response type
   @GET("/admin/promotions/{id}/{rule_type}")
-  Future<HttpResponse<Map<String, dynamic>>> getPromotionsIdRuleType({
+  Future<HttpResponse> getPromotionsIdRuleType({
     @Queries() required GetPromotionsIdRuleTypeQueryParameters queries,
     @Path("id") required String id,
     @Path("rule_type") required NullEnum ruleType,

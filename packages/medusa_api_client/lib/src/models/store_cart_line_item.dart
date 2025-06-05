@@ -241,7 +241,7 @@
 ///     ],
 ///     "description": "The item's details."
 /// }
-library store_cart_line_item;
+library;
 
 import 'exports.dart';
 part 'store_cart_line_item.freezed.dart';

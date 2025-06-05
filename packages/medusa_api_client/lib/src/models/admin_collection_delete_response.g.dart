@@ -6,16 +6,16 @@ part of 'admin_collection_delete_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCollectionDeleteResponse _$AdminCollectionDeleteResponseFromJson(
-  Map<String, dynamic> json,
-) => _AdminCollectionDeleteResponse(
-  id: json['id'] as String,
-  object: json['object'] as String? ?? 'collection',
-  deleted: json['deleted'] as bool,
-);
+_$AdminCollectionDeleteResponseImpl
+_$$AdminCollectionDeleteResponseImplFromJson(Map<String, dynamic> json) =>
+    _$AdminCollectionDeleteResponseImpl(
+      id: json['id'] as String,
+      object: json['object'] as String? ?? 'collection',
+      deleted: json['deleted'] as bool,
+    );
 
-Map<String, dynamic> _$AdminCollectionDeleteResponseToJson(
-  _AdminCollectionDeleteResponse instance,
+Map<String, dynamic> _$$AdminCollectionDeleteResponseImplToJson(
+  _$AdminCollectionDeleteResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

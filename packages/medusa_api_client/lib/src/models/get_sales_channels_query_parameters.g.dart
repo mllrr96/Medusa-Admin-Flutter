@@ -6,33 +6,33 @@ part of 'get_sales_channels_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetSalesChannelsQueryParameters _$GetSalesChannelsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetSalesChannelsQueryParameters(
-  fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
-  order: json['order'] as String,
-  q: json['q'] as String,
-  id: json['id'],
-  name: json['name'],
-  description: json['description'] as String,
-  isDisabled: json['is_disabled'] as bool,
-  createdAt: json['created_at'] as Map<String, dynamic>,
-  updatedAt: json['updated_at'] as Map<String, dynamic>,
-  deletedAt: json['deleted_at'] as Map<String, dynamic>,
-  locationId: json['location_id'],
-  publishableKeyId: json['publishable_key_id'],
-  and: (json[r'$and'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  or: (json[r'$or'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-);
+_$GetSalesChannelsQueryParametersImpl
+_$$GetSalesChannelsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetSalesChannelsQueryParametersImpl(
+      fields: json['fields'] as String,
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      order: json['order'] as String,
+      q: json['q'] as String,
+      id: json['id'],
+      name: json['name'],
+      description: json['description'] as String,
+      isDisabled: json['is_disabled'] as bool,
+      createdAt: json['created_at'] as Map<String, dynamic>,
+      updatedAt: json['updated_at'] as Map<String, dynamic>,
+      deletedAt: json['deleted_at'] as Map<String, dynamic>,
+      locationId: json['location_id'],
+      publishableKeyId: json['publishable_key_id'],
+      and: (json[r'$and'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      or: (json[r'$or'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
 
-Map<String, dynamic> _$GetSalesChannelsQueryParametersToJson(
-  _GetSalesChannelsQueryParameters instance,
+Map<String, dynamic> _$$GetSalesChannelsQueryParametersImplToJson(
+  _$GetSalesChannelsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

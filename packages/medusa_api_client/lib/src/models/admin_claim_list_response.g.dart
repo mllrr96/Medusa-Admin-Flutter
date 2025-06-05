@@ -6,20 +6,20 @@ part of 'admin_claim_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminClaimListResponse _$AdminClaimListResponseFromJson(
+_$AdminClaimListResponseImpl _$$AdminClaimListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminClaimListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
+) => _$AdminClaimListResponseImpl(
+  limit: (json['limit'] as num).toInt(),
+  offset: (json['offset'] as num).toInt(),
+  count: (json['count'] as num).toInt(),
   claims: (json['claims'] as List<dynamic>)
       .map((e) => AdminClaim.fromJson(e as Map<String, dynamic>))
       .toList(),
   estimateCount: (json['estimate_count'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$AdminClaimListResponseToJson(
-  _AdminClaimListResponse instance,
+Map<String, dynamic> _$$AdminClaimListResponseImplToJson(
+  _$AdminClaimListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

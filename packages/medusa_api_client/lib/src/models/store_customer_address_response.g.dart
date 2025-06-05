@@ -6,14 +6,14 @@ part of 'store_customer_address_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCustomerAddressResponse _$StoreCustomerAddressResponseFromJson(
+_$StoreCustomerAddressResponseImpl _$$StoreCustomerAddressResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCustomerAddressResponse(
+) => _$StoreCustomerAddressResponseImpl(
   address: StoreCustomerAddress.fromJson(
     json['address'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$StoreCustomerAddressResponseToJson(
-  _StoreCustomerAddressResponse instance,
+Map<String, dynamic> _$$StoreCustomerAddressResponseImplToJson(
+  _$StoreCustomerAddressResponseImpl instance,
 ) => <String, dynamic>{'address': instance.address};

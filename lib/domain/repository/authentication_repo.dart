@@ -40,4 +40,11 @@ class AuthenticationRepository {
       authProvider: 'emailpass',
     );
   }
+
+  Future<void> requestPasswordReset(String email) async {
+    await _authClient.postActorTypeAuthProviderResetPassword(
+      requestBody: {'email': email}, authProvider: 'emailpass',
+    );
+  }
+
 }

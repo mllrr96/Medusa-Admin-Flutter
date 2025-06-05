@@ -127,10 +127,10 @@ abstract class GetRegionsQueryParameters with _$GetRegionsQueryParameters {
     @JsonKey(name: GetRegionsQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetRegionsQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetRegionsQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetRegionsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetRegionsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetRegionsQueryParameters.orderKey) required String order,

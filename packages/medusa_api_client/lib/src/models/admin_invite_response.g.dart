@@ -6,11 +6,12 @@ part of 'admin_invite_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminInviteResponse _$AdminInviteResponseFromJson(Map<String, dynamic> json) =>
-    _AdminInviteResponse(
-      invite: AdminInvite.fromJson(json['invite'] as Map<String, dynamic>),
-    );
+_$AdminInviteResponseImpl _$$AdminInviteResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminInviteResponseImpl(
+  invite: AdminInvite.fromJson(json['invite'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$AdminInviteResponseToJson(
-  _AdminInviteResponse instance,
+Map<String, dynamic> _$$AdminInviteResponseImplToJson(
+  _$AdminInviteResponseImpl instance,
 ) => <String, dynamic>{'invite': instance.invite};

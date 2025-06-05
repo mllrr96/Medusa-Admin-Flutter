@@ -37,7 +37,7 @@
 ///     ],
 ///     "description": "The price rule's details."
 /// }
-library store_price_rule;
+library;
 
 import 'exports.dart';
 part 'store_price_rule.freezed.dart';

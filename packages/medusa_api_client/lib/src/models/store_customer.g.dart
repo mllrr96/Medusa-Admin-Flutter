@@ -6,8 +6,8 @@ part of 'store_customer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCustomer _$StoreCustomerFromJson(Map<String, dynamic> json) =>
-    _StoreCustomer(
+_$StoreCustomerImpl _$$StoreCustomerImplFromJson(Map<String, dynamic> json) =>
+    _$StoreCustomerImpl(
       id: json['id'] as String,
       email: json['email'] as String,
       defaultBillingAddressId: json['default_billing_address_id'] as String,
@@ -25,7 +25,7 @@ _StoreCustomer _$StoreCustomerFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$StoreCustomerToJson(_StoreCustomer instance) =>
+Map<String, dynamic> _$$StoreCustomerImplToJson(_$StoreCustomerImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'email': instance.email,

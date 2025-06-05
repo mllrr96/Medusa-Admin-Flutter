@@ -53,15 +53,15 @@ abstract class AdminPricePreferenceListResponse
   const factory AdminPricePreferenceListResponse({
     /// limit
     @JsonKey(name: AdminPricePreferenceListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: AdminPricePreferenceListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: AdminPricePreferenceListResponse.countKey)
-    required double count,
+    required int count,
 
     /// pricePreferences
     @JsonKey(name: AdminPricePreferenceListResponse.pricePreferencesKey)

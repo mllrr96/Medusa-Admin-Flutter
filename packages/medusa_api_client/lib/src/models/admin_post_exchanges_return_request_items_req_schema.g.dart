@@ -6,15 +6,15 @@ part of 'admin_post_exchanges_return_request_items_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostExchangesReturnRequestItemsReqSchema
-_$AdminPostExchangesReturnRequestItemsReqSchemaFromJson(
+_$AdminPostExchangesReturnRequestItemsReqSchemaImpl
+_$$AdminPostExchangesReturnRequestItemsReqSchemaImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPostExchangesReturnRequestItemsReqSchema(
+) => _$AdminPostExchangesReturnRequestItemsReqSchemaImpl(
   items: (json['items'] as List<dynamic>)
       .map((e) => e as Map<String, dynamic>)
       .toList(),
 );
 
-Map<String, dynamic> _$AdminPostExchangesReturnRequestItemsReqSchemaToJson(
-  _AdminPostExchangesReturnRequestItemsReqSchema instance,
+Map<String, dynamic> _$$AdminPostExchangesReturnRequestItemsReqSchemaImplToJson(
+  _$AdminPostExchangesReturnRequestItemsReqSchemaImpl instance,
 ) => <String, dynamic>{'items': instance.items};

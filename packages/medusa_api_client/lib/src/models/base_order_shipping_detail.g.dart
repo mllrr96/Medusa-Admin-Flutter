@@ -6,9 +6,9 @@ part of 'base_order_shipping_detail.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseOrderShippingDetail _$BaseOrderShippingDetailFromJson(
+_$BaseOrderShippingDetailImpl _$$BaseOrderShippingDetailImplFromJson(
   Map<String, dynamic> json,
-) => _BaseOrderShippingDetail(
+) => _$BaseOrderShippingDetailImpl(
   id: json['id'] as String,
   shippingMethodId: json['shipping_method_id'] as String,
   shippingMethod: json['shipping_method'] as Map<String, dynamic>,
@@ -19,8 +19,8 @@ _BaseOrderShippingDetail _$BaseOrderShippingDetailFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$BaseOrderShippingDetailToJson(
-  _BaseOrderShippingDetail instance,
+Map<String, dynamic> _$$BaseOrderShippingDetailImplToJson(
+  _$BaseOrderShippingDetailImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'shipping_method_id': instance.shippingMethodId,

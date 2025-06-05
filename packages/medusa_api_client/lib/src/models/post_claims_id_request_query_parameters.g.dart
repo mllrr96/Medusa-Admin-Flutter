@@ -6,10 +6,10 @@ part of 'post_claims_id_request_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostClaimsIdRequestQueryParameters
-_$PostClaimsIdRequestQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostClaimsIdRequestQueryParameters(fields: json['fields'] as String);
+_$PostClaimsIdRequestQueryParametersImpl
+_$$PostClaimsIdRequestQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostClaimsIdRequestQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostClaimsIdRequestQueryParametersToJson(
-  _PostClaimsIdRequestQueryParameters instance,
+Map<String, dynamic> _$$PostClaimsIdRequestQueryParametersImplToJson(
+  _$PostClaimsIdRequestQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

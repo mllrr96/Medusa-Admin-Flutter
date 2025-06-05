@@ -6,13 +6,13 @@ part of 'admin_create_customer_group.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateCustomerGroup _$AdminCreateCustomerGroupFromJson(
+_$AdminCreateCustomerGroupImpl _$$AdminCreateCustomerGroupImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateCustomerGroup(
+) => _$AdminCreateCustomerGroupImpl(
   name: json['name'] as String,
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateCustomerGroupToJson(
-  _AdminCreateCustomerGroup instance,
+Map<String, dynamic> _$$AdminCreateCustomerGroupImplToJson(
+  _$AdminCreateCustomerGroupImpl instance,
 ) => <String, dynamic>{'name': instance.name, 'metadata': instance.metadata};

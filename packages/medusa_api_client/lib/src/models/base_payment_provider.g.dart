@@ -6,9 +6,10 @@ part of 'base_payment_provider.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BasePaymentProvider _$BasePaymentProviderFromJson(Map<String, dynamic> json) =>
-    _BasePaymentProvider(id: json['id'] as String);
+_$BasePaymentProviderImpl _$$BasePaymentProviderImplFromJson(
+  Map<String, dynamic> json,
+) => _$BasePaymentProviderImpl(id: json['id'] as String);
 
-Map<String, dynamic> _$BasePaymentProviderToJson(
-  _BasePaymentProvider instance,
+Map<String, dynamic> _$$BasePaymentProviderImplToJson(
+  _$BasePaymentProviderImpl instance,
 ) => <String, dynamic>{'id': instance.id};

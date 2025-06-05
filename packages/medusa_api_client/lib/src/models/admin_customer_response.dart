@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The customer's details."
 /// }
-library admin_customer_response;
+library;
 
 import 'exports.dart';
 part 'admin_customer_response.freezed.dart';

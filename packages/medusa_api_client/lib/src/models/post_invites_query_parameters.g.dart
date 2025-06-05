@@ -6,10 +6,10 @@ part of 'post_invites_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostInvitesQueryParameters _$PostInvitesQueryParametersFromJson(
+_$PostInvitesQueryParametersImpl _$$PostInvitesQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostInvitesQueryParameters(fields: json['fields'] as String);
+) => _$PostInvitesQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostInvitesQueryParametersToJson(
-  _PostInvitesQueryParameters instance,
+Map<String, dynamic> _$$PostInvitesQueryParametersImplToJson(
+  _$PostInvitesQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

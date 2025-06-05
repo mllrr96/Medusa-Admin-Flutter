@@ -6,20 +6,20 @@ part of 'admin_currency_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCurrencyListResponse _$AdminCurrencyListResponseFromJson(
+_$AdminCurrencyListResponseImpl _$$AdminCurrencyListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCurrencyListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
+) => _$AdminCurrencyListResponseImpl(
+  limit: (json['limit'] as num).toInt(),
+  offset: (json['offset'] as num).toInt(),
+  count: (json['count'] as num).toInt(),
   currencies: (json['currencies'] as List<dynamic>)
       .map((e) => AdminCurrency.fromJson(e as Map<String, dynamic>))
       .toList(),
   estimateCount: (json['estimate_count'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$AdminCurrencyListResponseToJson(
-  _AdminCurrencyListResponse instance,
+Map<String, dynamic> _$$AdminCurrencyListResponseImplToJson(
+  _$AdminCurrencyListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

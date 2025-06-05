@@ -23,7 +23,7 @@
 ///     ],
 ///     "description": "The details of the request to transfer the order."
 /// }
-library admin_transfer_order;
+library;
 
 import 'exports.dart';
 part 'admin_transfer_order.freezed.dart';

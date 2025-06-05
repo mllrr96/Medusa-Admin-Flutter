@@ -64,7 +64,7 @@
 ///     ],
 ///     "description": "The currency's details."
 /// }
-library store_currency;
+library;
 
 import 'exports.dart';
 part 'store_currency.freezed.dart';

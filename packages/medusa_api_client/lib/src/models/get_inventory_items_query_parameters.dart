@@ -193,11 +193,11 @@ abstract class GetInventoryItemsQueryParameters
 
     /// offset
     @JsonKey(name: GetInventoryItemsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetInventoryItemsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetInventoryItemsQueryParameters.orderKey)

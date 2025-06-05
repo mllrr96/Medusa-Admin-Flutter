@@ -6,10 +6,13 @@ part of 'get_price_preferences_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPricePreferencesIdQueryParameters
-_$GetPricePreferencesIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetPricePreferencesIdQueryParameters(fields: json['fields'] as String);
+_$GetPricePreferencesIdQueryParametersImpl
+_$$GetPricePreferencesIdQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$GetPricePreferencesIdQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$GetPricePreferencesIdQueryParametersToJson(
-  _GetPricePreferencesIdQueryParameters instance,
+Map<String, dynamic> _$$GetPricePreferencesIdQueryParametersImplToJson(
+  _$GetPricePreferencesIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -15,7 +15,7 @@
 ///     ],
 ///     "description": "The list of uploaded files."
 /// }
-library admin_file_list_response;
+library;
 
 import 'exports.dart';
 part 'admin_file_list_response.freezed.dart';

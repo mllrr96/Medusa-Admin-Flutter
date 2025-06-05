@@ -6,14 +6,14 @@ part of 'store_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCollectionResponse _$StoreCollectionResponseFromJson(
+_$StoreCollectionResponseImpl _$$StoreCollectionResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCollectionResponse(
+) => _$StoreCollectionResponseImpl(
   collection: StoreCollection.fromJson(
     json['collection'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$StoreCollectionResponseToJson(
-  _StoreCollectionResponse instance,
+Map<String, dynamic> _$$StoreCollectionResponseImplToJson(
+  _$StoreCollectionResponseImpl instance,
 ) => <String, dynamic>{'collection': instance.collection};

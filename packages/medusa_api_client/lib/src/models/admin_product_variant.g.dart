@@ -6,9 +6,9 @@ part of 'admin_product_variant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductVariant _$AdminProductVariantFromJson(
+_$AdminProductVariantImpl _$$AdminProductVariantImplFromJson(
   Map<String, dynamic> json,
-) => _AdminProductVariant(
+) => _$AdminProductVariantImpl(
   prices: (json['prices'] as List<dynamic>)
       .map((e) => AdminPrice.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -51,8 +51,8 @@ _AdminProductVariant _$AdminProductVariantFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminProductVariantToJson(
-  _AdminProductVariant instance,
+Map<String, dynamic> _$$AdminProductVariantImplToJson(
+  _$AdminProductVariantImpl instance,
 ) => <String, dynamic>{
   'prices': instance.prices,
   'id': instance.id,

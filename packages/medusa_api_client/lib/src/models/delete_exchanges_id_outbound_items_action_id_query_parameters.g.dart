@@ -6,14 +6,14 @@ part of 'delete_exchanges_id_outbound_items_action_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_DeleteExchangesIdOutboundItemsActionIdQueryParameters
-_$DeleteExchangesIdOutboundItemsActionIdQueryParametersFromJson(
+_$DeleteExchangesIdOutboundItemsActionIdQueryParametersImpl
+_$$DeleteExchangesIdOutboundItemsActionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _DeleteExchangesIdOutboundItemsActionIdQueryParameters(
+) => _$DeleteExchangesIdOutboundItemsActionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$DeleteExchangesIdOutboundItemsActionIdQueryParametersToJson(
-  _DeleteExchangesIdOutboundItemsActionIdQueryParameters instance,
+_$$DeleteExchangesIdOutboundItemsActionIdQueryParametersImplToJson(
+  _$DeleteExchangesIdOutboundItemsActionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

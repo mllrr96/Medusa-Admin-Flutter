@@ -6,17 +6,17 @@ part of 'admin_update_shipping_option_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateShippingOptionRule _$AdminUpdateShippingOptionRuleFromJson(
-  Map<String, dynamic> json,
-) => _AdminUpdateShippingOptionRule(
-  id: json['id'] as String,
-  operatorAA: $enumDecode(_$NullEnumEnumMap, json['operator']),
-  attribute: json['attribute'] as String,
-  value: json['value'],
-);
+_$AdminUpdateShippingOptionRuleImpl
+_$$AdminUpdateShippingOptionRuleImplFromJson(Map<String, dynamic> json) =>
+    _$AdminUpdateShippingOptionRuleImpl(
+      id: json['id'] as String,
+      operatorAA: $enumDecode(_$NullEnumEnumMap, json['operator']),
+      attribute: json['attribute'] as String,
+      value: json['value'],
+    );
 
-Map<String, dynamic> _$AdminUpdateShippingOptionRuleToJson(
-  _AdminUpdateShippingOptionRule instance,
+Map<String, dynamic> _$$AdminUpdateShippingOptionRuleImplToJson(
+  _$AdminUpdateShippingOptionRuleImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'operator': instance.operatorAA,

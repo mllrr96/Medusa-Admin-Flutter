@@ -115,7 +115,7 @@
 ///     ],
 ///     "description": "The shipping option's details."
 /// }
-library admin_shipping_option;
+library;
 
 import 'exports.dart';
 part 'admin_shipping_option.freezed.dart';

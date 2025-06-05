@@ -26,7 +26,7 @@
 ///     ],
 ///     "description": "The details of the deleted user."
 /// }
-library admin_user_delete_response;
+library;
 
 import 'exports.dart';
 part 'admin_user_delete_response.freezed.dart';

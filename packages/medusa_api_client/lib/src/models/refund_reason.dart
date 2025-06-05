@@ -43,7 +43,7 @@
 ///     ],
 ///     "description": "The refund reason's details."
 /// }
-library refund_reason;
+library;
 
 import 'exports.dart';
 part 'refund_reason.freezed.dart';

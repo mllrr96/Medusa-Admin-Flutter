@@ -73,7 +73,7 @@
 ///     ],
 ///     "description": "The API key's details."
 /// }
-library api_key_response;
+library;
 
 import 'exports.dart';
 part 'api_key_response.freezed.dart';

@@ -6,12 +6,12 @@ part of 'store_currency_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCurrencyResponse _$StoreCurrencyResponseFromJson(
+_$StoreCurrencyResponseImpl _$$StoreCurrencyResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCurrencyResponse(
+) => _$StoreCurrencyResponseImpl(
   currency: StoreCurrency.fromJson(json['currency'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$StoreCurrencyResponseToJson(
-  _StoreCurrencyResponse instance,
+Map<String, dynamic> _$$StoreCurrencyResponseImplToJson(
+  _$StoreCurrencyResponseImpl instance,
 ) => <String, dynamic>{'currency': instance.currency};

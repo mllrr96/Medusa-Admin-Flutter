@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The authentication's details."
 /// }
-library auth_response;
+library;
 
 import 'exports.dart';
 part 'auth_response.freezed.dart';

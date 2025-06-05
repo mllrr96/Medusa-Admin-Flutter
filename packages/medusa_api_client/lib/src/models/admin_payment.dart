@@ -94,7 +94,7 @@
 ///     ],
 ///     "description": "The payment's details."
 /// }
-library admin_payment;
+library;
 
 import 'exports.dart';
 part 'admin_payment.freezed.dart';

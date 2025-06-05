@@ -6,8 +6,8 @@ part of 'admin_price_list.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPriceList _$AdminPriceListFromJson(Map<String, dynamic> json) =>
-    _AdminPriceList(
+_$AdminPriceListImpl _$$AdminPriceListImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPriceListImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
@@ -24,21 +24,22 @@ _AdminPriceList _$AdminPriceListFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$AdminPriceListToJson(_AdminPriceList instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'description': instance.description,
-      'rules': instance.rules,
-      'starts_at': instance.startsAt,
-      'ends_at': instance.endsAt,
-      'status': instance.status,
-      'type': instance.type,
-      'prices': instance.prices,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt.toIso8601String(),
-    };
+Map<String, dynamic> _$$AdminPriceListImplToJson(
+  _$AdminPriceListImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'description': instance.description,
+  'rules': instance.rules,
+  'starts_at': instance.startsAt,
+  'ends_at': instance.endsAt,
+  'status': instance.status,
+  'type': instance.type,
+  'prices': instance.prices,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'deleted_at': instance.deletedAt.toIso8601String(),
+};
 
 const _$NullEnumEnumMap = {
   NullEnum.secret: 'secret',

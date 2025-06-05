@@ -162,7 +162,7 @@
 ///     ],
 ///     "description": "The return's details."
 /// }
-library return_aa;
+library;
 
 import 'exports.dart';
 part 'return_aa.freezed.dart';

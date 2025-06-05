@@ -130,11 +130,11 @@ abstract class GetCollectionsQueryParameters
 
     /// offset
     @JsonKey(name: GetCollectionsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetCollectionsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetCollectionsQueryParameters.orderKey)

@@ -6,14 +6,14 @@ part of 'post_orders_id_fulfillments_fulfillment_id_shipments_query_parameters.d
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParameters
-_$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersFromJson(
+_$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersImpl
+_$$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParameters(
+) => _$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersToJson(
-  _PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParameters instance,
+_$$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersImplToJson(
+  _$PostOrdersIdFulfillmentsFulfillmentIdShipmentsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

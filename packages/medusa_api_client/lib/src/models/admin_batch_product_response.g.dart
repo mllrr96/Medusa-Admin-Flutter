@@ -6,9 +6,9 @@ part of 'admin_batch_product_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminBatchProductResponse _$AdminBatchProductResponseFromJson(
+_$AdminBatchProductResponseImpl _$$AdminBatchProductResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminBatchProductResponse(
+) => _$AdminBatchProductResponseImpl(
   created: (json['created'] as List<dynamic>)
       .map((e) => AdminProduct.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -18,8 +18,8 @@ _AdminBatchProductResponse _$AdminBatchProductResponseFromJson(
   deleted: json['deleted'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminBatchProductResponseToJson(
-  _AdminBatchProductResponse instance,
+Map<String, dynamic> _$$AdminBatchProductResponseImplToJson(
+  _$AdminBatchProductResponseImpl instance,
 ) => <String, dynamic>{
   'created': instance.created,
   'updated': instance.updated,

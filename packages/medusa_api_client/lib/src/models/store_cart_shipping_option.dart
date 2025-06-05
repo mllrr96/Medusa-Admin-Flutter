@@ -85,7 +85,7 @@
 ///     ],
 ///     "description": "The shipping option's details."
 /// }
-library store_cart_shipping_option;
+library;
 
 import 'exports.dart';
 part 'store_cart_shipping_option.freezed.dart';

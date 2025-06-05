@@ -214,7 +214,7 @@
 ///     ],
 ///     "description": "The item's cart."
 /// }
-library base_cart;
+library;
 
 import 'exports.dart';
 part 'base_cart.freezed.dart';

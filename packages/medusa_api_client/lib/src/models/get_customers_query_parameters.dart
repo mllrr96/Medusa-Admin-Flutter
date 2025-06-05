@@ -235,10 +235,10 @@ abstract class GetCustomersQueryParameters with _$GetCustomersQueryParameters {
 
     /// offset
     @JsonKey(name: GetCustomersQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
-    @JsonKey(name: GetCustomersQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetCustomersQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetCustomersQueryParameters.orderKey) required String order,

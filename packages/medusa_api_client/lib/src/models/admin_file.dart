@@ -19,7 +19,7 @@
 ///     ],
 ///     "description": "A file's details."
 /// }
-library admin_file;
+library;
 
 import 'exports.dart';
 part 'admin_file.freezed.dart';

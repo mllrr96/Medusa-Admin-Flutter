@@ -178,11 +178,11 @@ abstract class GetShippingOptionsQueryParameters
 
     /// offset
     @JsonKey(name: GetShippingOptionsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetShippingOptionsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetShippingOptionsQueryParameters.orderKey)

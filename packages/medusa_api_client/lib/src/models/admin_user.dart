@@ -64,7 +64,7 @@
 ///     ],
 ///     "description": "The user's details."
 /// }
-library admin_user;
+library;
 
 import 'exports.dart';
 part 'admin_user.freezed.dart';

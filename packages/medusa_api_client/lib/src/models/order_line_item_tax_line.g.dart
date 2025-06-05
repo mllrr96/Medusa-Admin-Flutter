@@ -6,9 +6,9 @@ part of 'order_line_item_tax_line.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_OrderLineItemTaxLine _$OrderLineItemTaxLineFromJson(
+_$OrderLineItemTaxLineImpl _$$OrderLineItemTaxLineImplFromJson(
   Map<String, dynamic> json,
-) => _OrderLineItemTaxLine(
+) => _$OrderLineItemTaxLineImpl(
   item: json['item'] as Map<String, dynamic>,
   itemId: json['item_id'] as String,
   total: (json['total'] as num).toDouble(),
@@ -23,8 +23,8 @@ _OrderLineItemTaxLine _$OrderLineItemTaxLineFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$OrderLineItemTaxLineToJson(
-  _OrderLineItemTaxLine instance,
+Map<String, dynamic> _$$OrderLineItemTaxLineImplToJson(
+  _$OrderLineItemTaxLineImpl instance,
 ) => <String, dynamic>{
   'item': instance.item,
   'item_id': instance.itemId,

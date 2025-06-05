@@ -43,7 +43,7 @@
 ///     ],
 ///     "description": "The tag's details."
 /// }
-library store_product_tag;
+library;
 
 import 'exports.dart';
 part 'store_product_tag.freezed.dart';

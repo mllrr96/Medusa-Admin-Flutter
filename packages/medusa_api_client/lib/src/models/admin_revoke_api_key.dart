@@ -10,7 +10,7 @@
 ///     "type": "object",
 ///     "description": "The details of revoking the API key."
 /// }
-library admin_revoke_api_key;
+library;
 
 import 'exports.dart';
 part 'admin_revoke_api_key.freezed.dart';

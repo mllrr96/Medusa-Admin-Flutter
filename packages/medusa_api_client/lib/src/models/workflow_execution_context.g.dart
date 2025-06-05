@@ -6,9 +6,9 @@ part of 'workflow_execution_context.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_WorkflowExecutionContext _$WorkflowExecutionContextFromJson(
+_$WorkflowExecutionContextImpl _$$WorkflowExecutionContextImplFromJson(
   Map<String, dynamic> json,
-) => _WorkflowExecutionContext(
+) => _$WorkflowExecutionContextImpl(
   data: json['data'] as Map<String, dynamic>,
   compensate: json['compensate'] as Map<String, dynamic>,
   errors: (json['errors'] as List<dynamic>)
@@ -16,8 +16,8 @@ _WorkflowExecutionContext _$WorkflowExecutionContextFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$WorkflowExecutionContextToJson(
-  _WorkflowExecutionContext instance,
+Map<String, dynamic> _$$WorkflowExecutionContextImplToJson(
+  _$WorkflowExecutionContextImpl instance,
 ) => <String, dynamic>{
   'data': instance.data,
   'compensate': instance.compensate,

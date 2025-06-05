@@ -6,9 +6,9 @@ part of 'admin_create_inventory_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateInventoryItem _$AdminCreateInventoryItemFromJson(
+_$AdminCreateInventoryItemImpl _$$AdminCreateInventoryItemImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateInventoryItem(
+) => _$AdminCreateInventoryItemImpl(
   sku: json['sku'] as String,
   hsCode: json['hs_code'] as String,
   weight: (json['weight'] as num).toDouble(),
@@ -25,8 +25,8 @@ _AdminCreateInventoryItem _$AdminCreateInventoryItemFromJson(
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateInventoryItemToJson(
-  _AdminCreateInventoryItem instance,
+Map<String, dynamic> _$$AdminCreateInventoryItemImplToJson(
+  _$AdminCreateInventoryItemImpl instance,
 ) => <String, dynamic>{
   'sku': instance.sku,
   'hs_code': instance.hsCode,

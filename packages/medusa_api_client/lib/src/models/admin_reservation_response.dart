@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The reservation's details."
 /// }
-library admin_reservation_response;
+library;
 
 import 'exports.dart';
 part 'admin_reservation_response.freezed.dart';

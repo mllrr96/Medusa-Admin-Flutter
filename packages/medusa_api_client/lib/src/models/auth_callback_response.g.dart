@@ -6,10 +6,10 @@ part of 'auth_callback_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AuthCallbackResponse _$AuthCallbackResponseFromJson(
+_$AuthCallbackResponseImpl _$$AuthCallbackResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AuthCallbackResponse(location: json['location'] as String);
+) => _$AuthCallbackResponseImpl(location: json['location'] as String);
 
-Map<String, dynamic> _$AuthCallbackResponseToJson(
-  _AuthCallbackResponse instance,
+Map<String, dynamic> _$$AuthCallbackResponseImplToJson(
+  _$AuthCallbackResponseImpl instance,
 ) => <String, dynamic>{'location': instance.location};

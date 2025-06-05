@@ -251,10 +251,10 @@ abstract class GetProductsQueryParameters with _$GetProductsQueryParameters {
     @JsonKey(name: GetProductsQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetProductsQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetProductsQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetProductsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetProductsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetProductsQueryParameters.orderKey) required String order,

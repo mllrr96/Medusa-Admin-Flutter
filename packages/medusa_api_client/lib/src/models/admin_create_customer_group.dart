@@ -17,7 +17,7 @@
 ///     ],
 ///     "description": "The customer group's details."
 /// }
-library admin_create_customer_group;
+library;
 
 import 'exports.dart';
 part 'admin_create_customer_group.freezed.dart';

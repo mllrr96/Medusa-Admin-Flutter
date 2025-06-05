@@ -78,7 +78,7 @@
 ///     ],
 ///     "description": "The location level's location levels."
 /// }
-library admin_inventory_level;
+library;
 
 import 'exports.dart';
 part 'admin_inventory_level.freezed.dart';

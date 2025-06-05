@@ -65,7 +65,7 @@
 ///     "type": "object",
 ///     "description": "The details to update in a cart."
 /// }
-library update_cart_data;
+library;
 
 import 'exports.dart';
 part 'update_cart_data.freezed.dart';

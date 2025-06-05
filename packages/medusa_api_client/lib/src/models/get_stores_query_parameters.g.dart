@@ -6,12 +6,12 @@ part of 'get_stores_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetStoresQueryParameters _$GetStoresQueryParametersFromJson(
+_$GetStoresQueryParametersImpl _$$GetStoresQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetStoresQueryParameters(
+) => _$GetStoresQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -24,8 +24,8 @@ _GetStoresQueryParameters _$GetStoresQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetStoresQueryParametersToJson(
-  _GetStoresQueryParameters instance,
+Map<String, dynamic> _$$GetStoresQueryParametersImplToJson(
+  _$GetStoresQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

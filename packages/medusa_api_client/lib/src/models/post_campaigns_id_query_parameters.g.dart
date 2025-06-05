@@ -6,10 +6,10 @@ part of 'post_campaigns_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostCampaignsIdQueryParameters _$PostCampaignsIdQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostCampaignsIdQueryParameters(fields: json['fields'] as String);
+_$PostCampaignsIdQueryParametersImpl
+_$$PostCampaignsIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostCampaignsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostCampaignsIdQueryParametersToJson(
-  _PostCampaignsIdQueryParameters instance,
+Map<String, dynamic> _$$PostCampaignsIdQueryParametersImplToJson(
+  _$PostCampaignsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

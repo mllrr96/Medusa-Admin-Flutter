@@ -42,10 +42,10 @@ abstract class GetCampaignsQueryParameters with _$GetCampaignsQueryParameters {
 
     /// offset
     @JsonKey(name: GetCampaignsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
-    @JsonKey(name: GetCampaignsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetCampaignsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetCampaignsQueryParameters.orderKey) required String order,

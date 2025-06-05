@@ -6,14 +6,14 @@ part of 'admin_product_type_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductTypeResponse _$AdminProductTypeResponseFromJson(
+_$AdminProductTypeResponseImpl _$$AdminProductTypeResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminProductTypeResponse(
+) => _$AdminProductTypeResponseImpl(
   productType: AdminProductType.fromJson(
     json['product_type'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminProductTypeResponseToJson(
-  _AdminProductTypeResponse instance,
+Map<String, dynamic> _$$AdminProductTypeResponseImplToJson(
+  _$AdminProductTypeResponseImpl instance,
 ) => <String, dynamic>{'product_type': instance.productType};

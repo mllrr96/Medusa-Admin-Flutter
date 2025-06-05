@@ -45,7 +45,7 @@
 ///     "type": "object",
 ///     "description": "the details to update in a price list."
 /// }
-library admin_update_price_list;
+library;
 
 import 'exports.dart';
 part 'admin_update_price_list.freezed.dart';

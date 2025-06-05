@@ -131,11 +131,11 @@ abstract class GetOrdersIdLineItemsQueryParameters
 
     /// limit
     @JsonKey(name: GetOrdersIdLineItemsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: GetOrdersIdLineItemsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// order
     @JsonKey(name: GetOrdersIdLineItemsQueryParameters.orderKey)

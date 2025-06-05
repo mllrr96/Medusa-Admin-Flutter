@@ -6,10 +6,11 @@ part of 'store_request_order_transfer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreRequestOrderTransfer _$StoreRequestOrderTransferFromJson(
+_$StoreRequestOrderTransferImpl _$$StoreRequestOrderTransferImplFromJson(
   Map<String, dynamic> json,
-) => _StoreRequestOrderTransfer(description: json['description'] as String);
+) =>
+    _$StoreRequestOrderTransferImpl(description: json['description'] as String);
 
-Map<String, dynamic> _$StoreRequestOrderTransferToJson(
-  _StoreRequestOrderTransfer instance,
+Map<String, dynamic> _$$StoreRequestOrderTransferImplToJson(
+  _$StoreRequestOrderTransferImpl instance,
 ) => <String, dynamic>{'description': instance.description};

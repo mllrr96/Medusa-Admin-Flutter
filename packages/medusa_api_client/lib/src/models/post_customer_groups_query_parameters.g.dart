@@ -6,10 +6,10 @@ part of 'post_customer_groups_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostCustomerGroupsQueryParameters _$PostCustomerGroupsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostCustomerGroupsQueryParameters(fields: json['fields'] as String);
+_$PostCustomerGroupsQueryParametersImpl
+_$$PostCustomerGroupsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostCustomerGroupsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostCustomerGroupsQueryParametersToJson(
-  _PostCustomerGroupsQueryParameters instance,
+Map<String, dynamic> _$$PostCustomerGroupsQueryParametersImplToJson(
+  _$PostCustomerGroupsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

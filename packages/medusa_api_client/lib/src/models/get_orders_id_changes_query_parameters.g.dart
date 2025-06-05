@@ -6,10 +6,10 @@ part of 'get_orders_id_changes_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetOrdersIdChangesQueryParameters _$GetOrdersIdChangesQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetOrdersIdChangesQueryParameters(fields: json['fields'] as String);
+_$GetOrdersIdChangesQueryParametersImpl
+_$$GetOrdersIdChangesQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetOrdersIdChangesQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetOrdersIdChangesQueryParametersToJson(
-  _GetOrdersIdChangesQueryParameters instance,
+Map<String, dynamic> _$$GetOrdersIdChangesQueryParametersImplToJson(
+  _$GetOrdersIdChangesQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

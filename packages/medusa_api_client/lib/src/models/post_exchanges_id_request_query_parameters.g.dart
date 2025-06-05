@@ -6,10 +6,13 @@ part of 'post_exchanges_id_request_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostExchangesIdRequestQueryParameters
-_$PostExchangesIdRequestQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostExchangesIdRequestQueryParameters(fields: json['fields'] as String);
+_$PostExchangesIdRequestQueryParametersImpl
+_$$PostExchangesIdRequestQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$PostExchangesIdRequestQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$PostExchangesIdRequestQueryParametersToJson(
-  _PostExchangesIdRequestQueryParameters instance,
+Map<String, dynamic> _$$PostExchangesIdRequestQueryParametersImplToJson(
+  _$PostExchangesIdRequestQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -6,13 +6,14 @@ part of 'post_customers_id_addresses_address_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostCustomersIdAddressesAddressIdQueryParameters
-_$PostCustomersIdAddressesAddressIdQueryParametersFromJson(
+_$PostCustomersIdAddressesAddressIdQueryParametersImpl
+_$$PostCustomersIdAddressesAddressIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostCustomersIdAddressesAddressIdQueryParameters(
+) => _$PostCustomersIdAddressesAddressIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostCustomersIdAddressesAddressIdQueryParametersToJson(
-  _PostCustomersIdAddressesAddressIdQueryParameters instance,
+Map<String, dynamic>
+_$$PostCustomersIdAddressesAddressIdQueryParametersImplToJson(
+  _$PostCustomersIdAddressesAddressIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

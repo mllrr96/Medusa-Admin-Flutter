@@ -6,10 +6,10 @@ part of 'post_product_tags_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostProductTagsQueryParameters _$PostProductTagsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostProductTagsQueryParameters(fields: json['fields'] as String);
+_$PostProductTagsQueryParametersImpl
+_$$PostProductTagsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostProductTagsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostProductTagsQueryParametersToJson(
-  _PostProductTagsQueryParameters instance,
+Map<String, dynamic> _$$PostProductTagsQueryParametersImplToJson(
+  _$PostProductTagsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -6,13 +6,14 @@ part of 'delete_customers_id_addresses_address_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_DeleteCustomersIdAddressesAddressIdQueryParameters
-_$DeleteCustomersIdAddressesAddressIdQueryParametersFromJson(
+_$DeleteCustomersIdAddressesAddressIdQueryParametersImpl
+_$$DeleteCustomersIdAddressesAddressIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _DeleteCustomersIdAddressesAddressIdQueryParameters(
+) => _$DeleteCustomersIdAddressesAddressIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$DeleteCustomersIdAddressesAddressIdQueryParametersToJson(
-  _DeleteCustomersIdAddressesAddressIdQueryParameters instance,
+Map<String, dynamic>
+_$$DeleteCustomersIdAddressesAddressIdQueryParametersImplToJson(
+  _$DeleteCustomersIdAddressesAddressIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

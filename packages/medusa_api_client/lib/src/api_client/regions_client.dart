@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_region_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'regions_client.g.dart';
@@ -512,7 +513,7 @@ abstract class RegionsClient {
   ///     }
   /// }
   @DELETE("/admin/regions/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteRegionsId({
+  Future<HttpResponse<AdminRegionDeleteResponse>> deleteRegionsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

@@ -6,9 +6,9 @@ part of 'admin_create_return_reason.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateReturnReason _$AdminCreateReturnReasonFromJson(
+_$AdminCreateReturnReasonImpl _$$AdminCreateReturnReasonImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateReturnReason(
+) => _$AdminCreateReturnReasonImpl(
   value: json['value'] as String,
   label: json['label'] as String,
   description: json['description'] as String,
@@ -16,8 +16,8 @@ _AdminCreateReturnReason _$AdminCreateReturnReasonFromJson(
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateReturnReasonToJson(
-  _AdminCreateReturnReason instance,
+Map<String, dynamic> _$$AdminCreateReturnReasonImplToJson(
+  _$AdminCreateReturnReasonImpl instance,
 ) => <String, dynamic>{
   'value': instance.value,
   'label': instance.label,

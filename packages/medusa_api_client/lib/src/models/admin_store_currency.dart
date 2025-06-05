@@ -56,7 +56,7 @@
 ///     ],
 ///     "description": "The details of a store's currency."
 /// }
-library admin_store_currency;
+library;
 
 import 'exports.dart';
 part 'admin_store_currency.freezed.dart';

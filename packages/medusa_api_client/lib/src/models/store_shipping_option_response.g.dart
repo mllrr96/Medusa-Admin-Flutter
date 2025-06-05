@@ -6,14 +6,14 @@ part of 'store_shipping_option_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreShippingOptionResponse _$StoreShippingOptionResponseFromJson(
+_$StoreShippingOptionResponseImpl _$$StoreShippingOptionResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreShippingOptionResponse(
+) => _$StoreShippingOptionResponseImpl(
   shippingOption: StoreCartShippingOption.fromJson(
     json['shipping_option'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$StoreShippingOptionResponseToJson(
-  _StoreShippingOptionResponse instance,
+Map<String, dynamic> _$$StoreShippingOptionResponseImplToJson(
+  _$StoreShippingOptionResponseImpl instance,
 ) => <String, dynamic>{'shipping_option': instance.shippingOption};

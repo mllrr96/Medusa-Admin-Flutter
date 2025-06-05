@@ -6,9 +6,9 @@ part of 'admin_shipping_option_price.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminShippingOptionPrice _$AdminShippingOptionPriceFromJson(
+_$AdminShippingOptionPriceImpl _$$AdminShippingOptionPriceImplFromJson(
   Map<String, dynamic> json,
-) => _AdminShippingOptionPrice(
+) => _$AdminShippingOptionPriceImpl(
   priceRules: (json['price_rules'] as List<dynamic>)
       .map(
         (e) => AdminShippingOptionPriceRule.fromJson(e as Map<String, dynamic>),
@@ -28,8 +28,8 @@ _AdminShippingOptionPrice _$AdminShippingOptionPriceFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminShippingOptionPriceToJson(
-  _AdminShippingOptionPrice instance,
+Map<String, dynamic> _$$AdminShippingOptionPriceImplToJson(
+  _$AdminShippingOptionPriceImpl instance,
 ) => <String, dynamic>{
   'price_rules': instance.priceRules,
   'rules_count': instance.rulesCount,

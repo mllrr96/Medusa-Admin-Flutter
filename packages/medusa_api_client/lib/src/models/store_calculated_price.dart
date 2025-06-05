@@ -81,7 +81,7 @@
 ///     ],
 ///     "description": "The shipping option's calculated price."
 /// }
-library store_calculated_price;
+library;
 
 import 'exports.dart';
 part 'store_calculated_price.freezed.dart';

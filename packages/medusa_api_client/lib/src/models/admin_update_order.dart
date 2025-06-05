@@ -23,7 +23,7 @@
 ///     "type": "object",
 ///     "description": "The details to update in the order."
 /// }
-library admin_update_order;
+library;
 
 import 'exports.dart';
 part 'admin_update_order.freezed.dart';

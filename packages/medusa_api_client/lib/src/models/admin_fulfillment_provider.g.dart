@@ -6,13 +6,13 @@ part of 'admin_fulfillment_provider.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFulfillmentProvider _$AdminFulfillmentProviderFromJson(
+_$AdminFulfillmentProviderImpl _$$AdminFulfillmentProviderImplFromJson(
   Map<String, dynamic> json,
-) => _AdminFulfillmentProvider(
+) => _$AdminFulfillmentProviderImpl(
   id: json['id'] as String,
   isEnabled: json['is_enabled'] as bool,
 );
 
-Map<String, dynamic> _$AdminFulfillmentProviderToJson(
-  _AdminFulfillmentProvider instance,
+Map<String, dynamic> _$$AdminFulfillmentProviderImplToJson(
+  _$AdminFulfillmentProviderImpl instance,
 ) => <String, dynamic>{'id': instance.id, 'is_enabled': instance.isEnabled};

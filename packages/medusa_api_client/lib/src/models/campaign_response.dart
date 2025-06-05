@@ -54,7 +54,7 @@
 ///     ],
 ///     "description": "The campaign's details."
 /// }
-library campaign_response;
+library;
 
 import 'exports.dart';
 part 'campaign_response.freezed.dart';

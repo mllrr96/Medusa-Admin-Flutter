@@ -24,7 +24,7 @@
 ///     "type": "object",
 ///     "description": "The properties to update in the sales channel."
 /// }
-library admin_update_sales_channel;
+library;
 
 import 'exports.dart';
 part 'admin_update_sales_channel.freezed.dart';

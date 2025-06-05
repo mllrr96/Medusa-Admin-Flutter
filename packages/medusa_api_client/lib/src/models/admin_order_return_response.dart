@@ -15,7 +15,7 @@
 ///     ],
 ///     "description": "The order return details."
 /// }
-library admin_order_return_response;
+library;
 
 import 'exports.dart';
 part 'admin_order_return_response.freezed.dart';

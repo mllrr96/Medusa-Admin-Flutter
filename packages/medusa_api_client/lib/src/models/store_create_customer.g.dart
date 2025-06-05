@@ -6,18 +6,19 @@ part of 'store_create_customer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCreateCustomer _$StoreCreateCustomerFromJson(Map<String, dynamic> json) =>
-    _StoreCreateCustomer(
-      email: json['email'] as String,
-      companyName: json['company_name'] as String,
-      firstName: json['first_name'] as String,
-      lastName: json['last_name'] as String,
-      phone: json['phone'] as String,
-      metadata: json['metadata'] as Map<String, dynamic>,
-    );
+_$StoreCreateCustomerImpl _$$StoreCreateCustomerImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreCreateCustomerImpl(
+  email: json['email'] as String,
+  companyName: json['company_name'] as String,
+  firstName: json['first_name'] as String,
+  lastName: json['last_name'] as String,
+  phone: json['phone'] as String,
+  metadata: json['metadata'] as Map<String, dynamic>,
+);
 
-Map<String, dynamic> _$StoreCreateCustomerToJson(
-  _StoreCreateCustomer instance,
+Map<String, dynamic> _$$StoreCreateCustomerImplToJson(
+  _$StoreCreateCustomerImpl instance,
 ) => <String, dynamic>{
   'email': instance.email,
   'company_name': instance.companyName,

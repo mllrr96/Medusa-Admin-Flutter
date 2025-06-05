@@ -6,10 +6,10 @@ part of 'get_regions_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetRegionsIdQueryParameters _$GetRegionsIdQueryParametersFromJson(
+_$GetRegionsIdQueryParametersImpl _$$GetRegionsIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetRegionsIdQueryParameters(fields: json['fields'] as String);
+) => _$GetRegionsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetRegionsIdQueryParametersToJson(
-  _GetRegionsIdQueryParameters instance,
+Map<String, dynamic> _$$GetRegionsIdQueryParametersImplToJson(
+  _$GetRegionsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

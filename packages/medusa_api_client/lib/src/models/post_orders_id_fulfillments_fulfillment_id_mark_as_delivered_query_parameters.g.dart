@@ -6,14 +6,15 @@ part of 'post_orders_id_fulfillments_fulfillment_id_mark_as_delivered_query_para
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParameters
-_$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersFromJson(
+_$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersImpl
+_$$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParameters(
+) => _$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersToJson(
-  _PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParameters instance,
+_$$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersImplToJson(
+  _$PostOrdersIdFulfillmentsFulfillmentIdMarkAsDeliveredQueryParametersImpl
+  instance,
 ) => <String, dynamic>{'fields': instance.fields};

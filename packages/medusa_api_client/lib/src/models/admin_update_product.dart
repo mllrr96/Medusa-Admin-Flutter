@@ -162,7 +162,7 @@
 ///     "type": "object",
 ///     "description": "The product's details."
 /// }
-library admin_update_product;
+library;
 
 import 'exports.dart';
 part 'admin_update_product.freezed.dart';

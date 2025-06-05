@@ -6,23 +6,24 @@ part of 'base_region.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseRegion _$BaseRegionFromJson(Map<String, dynamic> json) => _BaseRegion(
-  id: json['id'] as String,
-  name: json['name'] as String,
-  currencyCode: json['currency_code'] as String,
-  automaticTaxes: json['automatic_taxes'] as bool,
-  countries: (json['countries'] as List<dynamic>)
-      .map((e) => BaseRegionCountry.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  paymentProviders: (json['payment_providers'] as List<dynamic>)
-      .map((e) => AdminPaymentProvider.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  metadata: json['metadata'] as Map<String, dynamic>,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-);
+_$BaseRegionImpl _$$BaseRegionImplFromJson(Map<String, dynamic> json) =>
+    _$BaseRegionImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      currencyCode: json['currency_code'] as String,
+      automaticTaxes: json['automatic_taxes'] as bool,
+      countries: (json['countries'] as List<dynamic>)
+          .map((e) => BaseRegionCountry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      paymentProviders: (json['payment_providers'] as List<dynamic>)
+          .map((e) => AdminPaymentProvider.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metadata: json['metadata'] as Map<String, dynamic>,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+    );
 
-Map<String, dynamic> _$BaseRegionToJson(_BaseRegion instance) =>
+Map<String, dynamic> _$$BaseRegionImplToJson(_$BaseRegionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

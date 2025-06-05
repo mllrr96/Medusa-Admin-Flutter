@@ -14,7 +14,7 @@
 ///     "type": "object",
 ///     "description": "The details to update in a customer group."
 /// }
-library admin_update_customer_group;
+library;
 
 import 'exports.dart';
 part 'admin_update_customer_group.freezed.dart';

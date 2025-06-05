@@ -6,12 +6,12 @@ part of 'get_regions_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetRegionsQueryParameters _$GetRegionsQueryParametersFromJson(
+_$GetRegionsQueryParametersImpl _$$GetRegionsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetRegionsQueryParameters(
+) => _$GetRegionsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -28,8 +28,8 @@ _GetRegionsQueryParameters _$GetRegionsQueryParametersFromJson(
   currencyCode: json['currency_code'],
 );
 
-Map<String, dynamic> _$GetRegionsQueryParametersToJson(
-  _GetRegionsQueryParameters instance,
+Map<String, dynamic> _$$GetRegionsQueryParametersImplToJson(
+  _$GetRegionsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

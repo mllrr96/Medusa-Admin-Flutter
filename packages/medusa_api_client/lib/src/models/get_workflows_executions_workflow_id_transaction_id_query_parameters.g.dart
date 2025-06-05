@@ -6,14 +6,14 @@ part of 'get_workflows_executions_workflow_id_transaction_id_query_parameters.da
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParameters
-_$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersFromJson(
+_$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersImpl
+_$$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParameters(
+) => _$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersToJson(
-  _GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParameters instance,
+_$$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersImplToJson(
+  _$GetWorkflowsExecutionsWorkflowIdTransactionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -6,8 +6,8 @@ part of 'order_exchange.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_OrderExchange _$OrderExchangeFromJson(Map<String, dynamic> json) =>
-    _OrderExchange(
+_$OrderExchangeImpl _$$OrderExchangeImplFromJson(Map<String, dynamic> json) =>
+    _$OrderExchangeImpl(
       orderId: json['order_id'] as String,
       additionalItems: (json['additional_items'] as List<dynamic>)
           .map((e) => BaseExchangeItem.fromJson(e as Map<String, dynamic>))
@@ -36,7 +36,7 @@ _OrderExchange _$OrderExchangeFromJson(Map<String, dynamic> json) =>
       canceledAt: DateTime.parse(json['canceled_at'] as String),
     );
 
-Map<String, dynamic> _$OrderExchangeToJson(_OrderExchange instance) =>
+Map<String, dynamic> _$$OrderExchangeImplToJson(_$OrderExchangeImpl instance) =>
     <String, dynamic>{
       'order_id': instance.orderId,
       'additional_items': instance.additionalItems,

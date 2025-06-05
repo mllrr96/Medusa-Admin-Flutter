@@ -307,7 +307,7 @@
 ///     ],
 ///     "description": "The draft order's details."
 /// }
-library admin_draft_order;
+library;
 
 import 'exports.dart';
 part 'admin_draft_order.freezed.dart';

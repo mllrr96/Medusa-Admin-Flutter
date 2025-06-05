@@ -6,31 +6,31 @@ part of 'get_stock_locations_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetStockLocationsQueryParameters _$GetStockLocationsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetStockLocationsQueryParameters(
-  fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
-  order: json['order'] as String,
-  q: json['q'] as String,
-  id: json['id'],
-  name: json['name'],
-  addressId: json['address_id'],
-  salesChannelId: json['sales_channel_id'],
-  createdAt: json['created_at'] as Map<String, dynamic>,
-  updatedAt: json['updated_at'] as Map<String, dynamic>,
-  deletedAt: json['deleted_at'] as Map<String, dynamic>,
-  and: (json[r'$and'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  or: (json[r'$or'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-);
+_$GetStockLocationsQueryParametersImpl
+_$$GetStockLocationsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetStockLocationsQueryParametersImpl(
+      fields: json['fields'] as String,
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      order: json['order'] as String,
+      q: json['q'] as String,
+      id: json['id'],
+      name: json['name'],
+      addressId: json['address_id'],
+      salesChannelId: json['sales_channel_id'],
+      createdAt: json['created_at'] as Map<String, dynamic>,
+      updatedAt: json['updated_at'] as Map<String, dynamic>,
+      deletedAt: json['deleted_at'] as Map<String, dynamic>,
+      and: (json[r'$and'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      or: (json[r'$or'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
 
-Map<String, dynamic> _$GetStockLocationsQueryParametersToJson(
-  _GetStockLocationsQueryParameters instance,
+Map<String, dynamic> _$$GetStockLocationsQueryParametersImplToJson(
+  _$GetStockLocationsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

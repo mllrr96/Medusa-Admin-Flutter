@@ -6,25 +6,25 @@ part of 'get_tax_providers_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetTaxProvidersQueryParameters _$GetTaxProvidersQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetTaxProvidersQueryParameters(
-  fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
-  order: json['order'] as String,
-  id: json['id'],
-  isEnabled: json['is_enabled'] as bool,
-  and: (json[r'$and'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  or: (json[r'$or'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-);
+_$GetTaxProvidersQueryParametersImpl
+_$$GetTaxProvidersQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetTaxProvidersQueryParametersImpl(
+      fields: json['fields'] as String,
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      order: json['order'] as String,
+      id: json['id'],
+      isEnabled: json['is_enabled'] as bool,
+      and: (json[r'$and'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      or: (json[r'$or'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
 
-Map<String, dynamic> _$GetTaxProvidersQueryParametersToJson(
-  _GetTaxProvidersQueryParameters instance,
+Map<String, dynamic> _$$GetTaxProvidersQueryParametersImplToJson(
+  _$GetTaxProvidersQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

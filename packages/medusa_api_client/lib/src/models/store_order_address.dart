@@ -90,7 +90,7 @@
 ///     ],
 ///     "description": "An order address"
 /// }
-library store_order_address;
+library;
 
 import 'exports.dart';
 part 'store_order_address.freezed.dart';

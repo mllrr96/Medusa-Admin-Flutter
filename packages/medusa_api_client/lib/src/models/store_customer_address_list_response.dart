@@ -53,15 +53,15 @@ abstract class StoreCustomerAddressListResponse
   const factory StoreCustomerAddressListResponse({
     /// limit
     @JsonKey(name: StoreCustomerAddressListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: StoreCustomerAddressListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: StoreCustomerAddressListResponse.countKey)
-    required double count,
+    required int count,
 
     /// addresses
     @JsonKey(name: StoreCustomerAddressListResponse.addressesKey)

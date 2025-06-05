@@ -51,14 +51,14 @@ abstract class AdminCollectionListResponse with _$AdminCollectionListResponse {
   @jsonSerializable
   const factory AdminCollectionListResponse({
     /// limit
-    @JsonKey(name: AdminCollectionListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminCollectionListResponse.limitKey) required int limit,
 
     /// offset
     @JsonKey(name: AdminCollectionListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
-    @JsonKey(name: AdminCollectionListResponse.countKey) required double count,
+    @JsonKey(name: AdminCollectionListResponse.countKey) required int count,
 
     /// collections
     @JsonKey(name: AdminCollectionListResponse.collectionsKey)

@@ -6,14 +6,14 @@ part of 'admin_fulfillment_set_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFulfillmentSetResponse _$AdminFulfillmentSetResponseFromJson(
+_$AdminFulfillmentSetResponseImpl _$$AdminFulfillmentSetResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminFulfillmentSetResponse(
+) => _$AdminFulfillmentSetResponseImpl(
   fulfillmentSet: AdminFulfillmentSet.fromJson(
     json['fulfillment_set'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminFulfillmentSetResponseToJson(
-  _AdminFulfillmentSetResponse instance,
+Map<String, dynamic> _$$AdminFulfillmentSetResponseImplToJson(
+  _$AdminFulfillmentSetResponseImpl instance,
 ) => <String, dynamic>{'fulfillment_set': instance.fulfillmentSet};

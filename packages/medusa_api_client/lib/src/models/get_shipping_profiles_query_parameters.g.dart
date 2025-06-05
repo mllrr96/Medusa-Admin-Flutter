@@ -6,12 +6,12 @@ part of 'get_shipping_profiles_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetShippingProfilesQueryParameters
-_$GetShippingProfilesQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetShippingProfilesQueryParameters(
+_$GetShippingProfilesQueryParametersImpl
+_$$GetShippingProfilesQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetShippingProfilesQueryParametersImpl(
       fields: json['fields'] as String,
-      offset: (json['offset'] as num).toDouble(),
-      limit: (json['limit'] as num).toDouble(),
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
       order: json['order'] as String,
       id: json['id'],
       q: json['q'] as String,
@@ -28,8 +28,8 @@ _$GetShippingProfilesQueryParametersFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$GetShippingProfilesQueryParametersToJson(
-  _GetShippingProfilesQueryParameters instance,
+Map<String, dynamic> _$$GetShippingProfilesQueryParametersImplToJson(
+  _$GetShippingProfilesQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

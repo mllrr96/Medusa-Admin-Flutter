@@ -64,7 +64,7 @@
 ///     ],
 ///     "description": "The store's details."
 /// }
-library admin_store;
+library;
 
 import 'exports.dart';
 part 'admin_store.freezed.dart';

@@ -6,10 +6,10 @@ part of 'get_api_keys_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetApiKeysIdQueryParameters _$GetApiKeysIdQueryParametersFromJson(
+_$GetApiKeysIdQueryParametersImpl _$$GetApiKeysIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetApiKeysIdQueryParameters(fields: json['fields'] as String);
+) => _$GetApiKeysIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetApiKeysIdQueryParametersToJson(
-  _GetApiKeysIdQueryParameters instance,
+Map<String, dynamic> _$$GetApiKeysIdQueryParametersImplToJson(
+  _$GetApiKeysIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

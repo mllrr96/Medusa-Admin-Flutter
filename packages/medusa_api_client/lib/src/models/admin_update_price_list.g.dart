@@ -6,9 +6,9 @@ part of 'admin_update_price_list.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdatePriceList _$AdminUpdatePriceListFromJson(
+_$AdminUpdatePriceListImpl _$$AdminUpdatePriceListImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdatePriceList(
+) => _$AdminUpdatePriceListImpl(
   title: json['title'] as String,
   description: json['description'] as String,
   startsAt: json['starts_at'] as String,
@@ -18,8 +18,8 @@ _AdminUpdatePriceList _$AdminUpdatePriceListFromJson(
   rules: json['rules'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminUpdatePriceListToJson(
-  _AdminUpdatePriceList instance,
+Map<String, dynamic> _$$AdminUpdatePriceListImplToJson(
+  _$AdminUpdatePriceListImpl instance,
 ) => <String, dynamic>{
   'title': instance.title,
   'description': instance.description,

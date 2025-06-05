@@ -6,9 +6,9 @@ part of 'admin_rule_attribute_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminRuleAttributeOption _$AdminRuleAttributeOptionFromJson(
+_$AdminRuleAttributeOptionImpl _$$AdminRuleAttributeOptionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminRuleAttributeOption(
+) => _$AdminRuleAttributeOptionImpl(
   id: json['id'] as String,
   value: json['value'] as String,
   label: json['label'] as String,
@@ -17,8 +17,8 @@ _AdminRuleAttributeOption _$AdminRuleAttributeOptionFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminRuleAttributeOptionToJson(
-  _AdminRuleAttributeOption instance,
+Map<String, dynamic> _$$AdminRuleAttributeOptionImplToJson(
+  _$AdminRuleAttributeOptionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'value': instance.value,

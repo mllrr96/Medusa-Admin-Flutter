@@ -6,13 +6,13 @@ part of 'base_fulfillment_provider.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseFulfillmentProvider _$BaseFulfillmentProviderFromJson(
+_$BaseFulfillmentProviderImpl _$$BaseFulfillmentProviderImplFromJson(
   Map<String, dynamic> json,
-) => _BaseFulfillmentProvider(
+) => _$BaseFulfillmentProviderImpl(
   id: json['id'] as String,
   isEnabled: json['is_enabled'] as bool,
 );
 
-Map<String, dynamic> _$BaseFulfillmentProviderToJson(
-  _BaseFulfillmentProvider instance,
+Map<String, dynamic> _$$BaseFulfillmentProviderImplToJson(
+  _$BaseFulfillmentProviderImpl instance,
 ) => <String, dynamic>{'id': instance.id, 'is_enabled': instance.isEnabled};

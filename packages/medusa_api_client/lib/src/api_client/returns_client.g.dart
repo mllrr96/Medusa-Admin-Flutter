@@ -393,7 +393,7 @@ class _ReturnsClient implements ReturnsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deleteReturnsIdReceive({
+  Future<HttpResponse<AdminReturnDeleteResponse>> deleteReturnsIdReceive({
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -406,7 +406,7 @@ class _ReturnsClient implements ReturnsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminReturnDeleteResponse>>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -420,12 +420,9 @@ class _ReturnsClient implements ReturnsClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminReturnDeleteResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminReturnDeleteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -652,7 +649,7 @@ class _ReturnsClient implements ReturnsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deleteReturnsIdRequest({
+  Future<HttpResponse<AdminReturnDeleteResponse>> deleteReturnsIdRequest({
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -665,7 +662,7 @@ class _ReturnsClient implements ReturnsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminReturnDeleteResponse>>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -679,12 +676,9 @@ class _ReturnsClient implements ReturnsClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminReturnDeleteResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminReturnDeleteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

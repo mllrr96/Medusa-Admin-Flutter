@@ -6,21 +6,22 @@ part of 'admin_price.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPrice _$AdminPriceFromJson(Map<String, dynamic> json) => _AdminPrice(
-  id: json['id'] as String,
-  title: json['title'] as String,
-  currencyCode: json['currency_code'] as String,
-  amount: (json['amount'] as num).toDouble(),
-  rawAmount: json['raw_amount'] as Map<String, dynamic>,
-  minQuantity: (json['min_quantity'] as num).toDouble(),
-  maxQuantity: (json['max_quantity'] as num).toDouble(),
-  priceSetId: json['price_set_id'] as String,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-  deletedAt: DateTime.parse(json['deleted_at'] as String),
-);
+_$AdminPriceImpl _$$AdminPriceImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPriceImpl(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      currencyCode: json['currency_code'] as String,
+      amount: (json['amount'] as num).toDouble(),
+      rawAmount: json['raw_amount'] as Map<String, dynamic>,
+      minQuantity: (json['min_quantity'] as num).toDouble(),
+      maxQuantity: (json['max_quantity'] as num).toDouble(),
+      priceSetId: json['price_set_id'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      deletedAt: DateTime.parse(json['deleted_at'] as String),
+    );
 
-Map<String, dynamic> _$AdminPriceToJson(_AdminPrice instance) =>
+Map<String, dynamic> _$$AdminPriceImplToJson(_$AdminPriceImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

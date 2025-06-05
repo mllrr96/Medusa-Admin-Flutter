@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The collection's details."
 /// }
-library store_collection_response;
+library;
 
 import 'exports.dart';
 part 'store_collection_response.freezed.dart';

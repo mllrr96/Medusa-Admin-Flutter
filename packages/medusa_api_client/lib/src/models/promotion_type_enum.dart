@@ -8,7 +8,7 @@
 //     ]
 // }
 
-library promotion_type_enum;
+library;
 
 import 'exports.dart';
 part 'promotion_type_enum.g.dart';

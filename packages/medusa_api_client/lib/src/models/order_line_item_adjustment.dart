@@ -69,7 +69,7 @@
 ///     ],
 ///     "description": "The line item adjustment's details."
 /// }
-library order_line_item_adjustment;
+library;
 
 import 'exports.dart';
 part 'order_line_item_adjustment.freezed.dart';

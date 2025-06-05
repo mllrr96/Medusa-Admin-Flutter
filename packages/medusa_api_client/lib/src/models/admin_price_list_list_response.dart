@@ -51,13 +51,13 @@ abstract class AdminPriceListListResponse with _$AdminPriceListListResponse {
   @jsonSerializable
   const factory AdminPriceListListResponse({
     /// limit
-    @JsonKey(name: AdminPriceListListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminPriceListListResponse.limitKey) required int limit,
 
     /// offset
-    @JsonKey(name: AdminPriceListListResponse.offsetKey) required double offset,
+    @JsonKey(name: AdminPriceListListResponse.offsetKey) required int offset,
 
     /// count
-    @JsonKey(name: AdminPriceListListResponse.countKey) required double count,
+    @JsonKey(name: AdminPriceListListResponse.countKey) required int count,
 
     /// priceLists
     @JsonKey(name: AdminPriceListListResponse.priceListsKey)

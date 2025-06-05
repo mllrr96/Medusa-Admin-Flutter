@@ -6,8 +6,10 @@ part of 'admin_update_api_key.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateApiKey _$AdminUpdateApiKeyFromJson(Map<String, dynamic> json) =>
-    _AdminUpdateApiKey(title: json['title'] as String);
+_$AdminUpdateApiKeyImpl _$$AdminUpdateApiKeyImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminUpdateApiKeyImpl(title: json['title'] as String);
 
-Map<String, dynamic> _$AdminUpdateApiKeyToJson(_AdminUpdateApiKey instance) =>
-    <String, dynamic>{'title': instance.title};
+Map<String, dynamic> _$$AdminUpdateApiKeyImplToJson(
+  _$AdminUpdateApiKeyImpl instance,
+) => <String, dynamic>{'title': instance.title};

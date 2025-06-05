@@ -6,9 +6,9 @@ part of 'store_order_fulfillment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreOrderFulfillment _$StoreOrderFulfillmentFromJson(
+_$StoreOrderFulfillmentImpl _$$StoreOrderFulfillmentImplFromJson(
   Map<String, dynamic> json,
-) => _StoreOrderFulfillment(
+) => _$StoreOrderFulfillmentImpl(
   id: json['id'] as String,
   locationId: json['location_id'] as String,
   packedAt: DateTime.parse(json['packed_at'] as String),
@@ -24,8 +24,8 @@ _StoreOrderFulfillment _$StoreOrderFulfillmentFromJson(
   requiresShipping: json['requires_shipping'] as bool,
 );
 
-Map<String, dynamic> _$StoreOrderFulfillmentToJson(
-  _StoreOrderFulfillment instance,
+Map<String, dynamic> _$$StoreOrderFulfillmentImplToJson(
+  _$StoreOrderFulfillmentImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'location_id': instance.locationId,

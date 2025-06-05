@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The payment provider's details"
 /// }
-library store_payment_provider;
+library;
 
 import 'exports.dart';
 part 'store_payment_provider.freezed.dart';

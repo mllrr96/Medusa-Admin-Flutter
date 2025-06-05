@@ -18,7 +18,7 @@ class _OrdersClient implements OrdersClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<dynamic>> getOrders({
+  Future<HttpResponse<AdminOrderListResponse>> getOrders({
     required GetOrdersQueryParameters queries,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -32,7 +32,7 @@ class _OrdersClient implements OrdersClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<dynamic>>(
+    final _options = _setStreamType<HttpResponse<AdminOrderListResponse>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -45,8 +45,14 @@ class _OrdersClient implements OrdersClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch(_options);
-    final _value = _result.data;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AdminOrderListResponse _value;
+    try {
+      _value = AdminOrderListResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
     final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
@@ -520,7 +526,7 @@ class _OrdersClient implements OrdersClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> getOrdersIdLineItems({
+  Future<HttpResponse<AdminOrderItemListResponse>> getOrdersIdLineItems({
     required GetOrdersIdLineItemsQueryParameters queries,
     required String id,
     Map<String, dynamic>? extras,
@@ -535,7 +541,7 @@ class _OrdersClient implements OrdersClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminOrderItemListResponse>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -549,12 +555,9 @@ class _OrdersClient implements OrdersClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminOrderItemListResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminOrderItemListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

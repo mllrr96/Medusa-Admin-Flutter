@@ -29,7 +29,7 @@
 ///     "type": "object",
 ///     "description": "The details to update in the customer."
 /// }
-library store_update_customer;
+library;
 
 import 'exports.dart';
 part 'store_update_customer.freezed.dart';

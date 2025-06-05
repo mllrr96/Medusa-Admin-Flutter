@@ -6,16 +6,16 @@ part of 'admin_claim_delete_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminClaimDeleteResponse _$AdminClaimDeleteResponseFromJson(
+_$AdminClaimDeleteResponseImpl _$$AdminClaimDeleteResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminClaimDeleteResponse(
+) => _$AdminClaimDeleteResponseImpl(
   id: json['id'] as String,
   object: json['object'] as String? ?? 'claim',
   deleted: json['deleted'] as bool,
 );
 
-Map<String, dynamic> _$AdminClaimDeleteResponseToJson(
-  _AdminClaimDeleteResponse instance,
+Map<String, dynamic> _$$AdminClaimDeleteResponseImplToJson(
+  _$AdminClaimDeleteResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

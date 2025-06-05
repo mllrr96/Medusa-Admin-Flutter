@@ -6,8 +6,8 @@ part of 'admin_payment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPayment _$AdminPaymentFromJson(Map<String, dynamic> json) =>
-    _AdminPayment(
+_$AdminPaymentImpl _$$AdminPaymentImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPaymentImpl(
       id: json['id'] as String,
       amount: (json['amount'] as num).toDouble(),
       authorizedAmount: (json['authorized_amount'] as num).toDouble(),
@@ -32,7 +32,7 @@ _AdminPayment _$AdminPaymentFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$AdminPaymentToJson(_AdminPayment instance) =>
+Map<String, dynamic> _$$AdminPaymentImplToJson(_$AdminPaymentImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'amount': instance.amount,

@@ -6,10 +6,12 @@ part of 'admin_file_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFileResponse _$AdminFileResponseFromJson(Map<String, dynamic> json) =>
-    _AdminFileResponse(
-      file: AdminFile.fromJson(json['file'] as Map<String, dynamic>),
-    );
+_$AdminFileResponseImpl _$$AdminFileResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminFileResponseImpl(
+  file: AdminFile.fromJson(json['file'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$AdminFileResponseToJson(_AdminFileResponse instance) =>
-    <String, dynamic>{'file': instance.file};
+Map<String, dynamic> _$$AdminFileResponseImplToJson(
+  _$AdminFileResponseImpl instance,
+) => <String, dynamic>{'file': instance.file};

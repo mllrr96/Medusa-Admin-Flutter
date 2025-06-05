@@ -85,7 +85,7 @@
 ///     ],
 ///     "description": "The customer's details."
 /// }
-library store_customer;
+library;
 
 import 'exports.dart';
 part 'store_customer.freezed.dart';

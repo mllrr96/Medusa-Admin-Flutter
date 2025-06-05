@@ -6,12 +6,12 @@ part of 'get_payments_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPaymentsQueryParameters _$GetPaymentsQueryParametersFromJson(
+_$GetPaymentsQueryParametersImpl _$$GetPaymentsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetPaymentsQueryParameters(
+) => _$GetPaymentsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -27,8 +27,8 @@ _GetPaymentsQueryParameters _$GetPaymentsQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetPaymentsQueryParametersToJson(
-  _GetPaymentsQueryParameters instance,
+Map<String, dynamic> _$$GetPaymentsQueryParametersImplToJson(
+  _$GetPaymentsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

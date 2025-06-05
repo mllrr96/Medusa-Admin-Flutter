@@ -6,13 +6,13 @@ part of 'post_fulfillments_id_shipment_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostFulfillmentsIdShipmentQueryParameters
-_$PostFulfillmentsIdShipmentQueryParametersFromJson(
+_$PostFulfillmentsIdShipmentQueryParametersImpl
+_$$PostFulfillmentsIdShipmentQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostFulfillmentsIdShipmentQueryParameters(
+) => _$PostFulfillmentsIdShipmentQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostFulfillmentsIdShipmentQueryParametersToJson(
-  _PostFulfillmentsIdShipmentQueryParameters instance,
+Map<String, dynamic> _$$PostFulfillmentsIdShipmentQueryParametersImplToJson(
+  _$PostFulfillmentsIdShipmentQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

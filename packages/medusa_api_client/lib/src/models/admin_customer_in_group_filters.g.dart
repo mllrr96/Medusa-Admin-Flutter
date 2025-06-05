@@ -6,9 +6,9 @@ part of 'admin_customer_in_group_filters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCustomerInGroupFilters _$AdminCustomerInGroupFiltersFromJson(
+_$AdminCustomerInGroupFiltersImpl _$$AdminCustomerInGroupFiltersImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCustomerInGroupFilters(
+) => _$AdminCustomerInGroupFiltersImpl(
   id: json['id'],
   email: json['email'],
   defaultBillingAddressId: json['default_billing_address_id'],
@@ -22,8 +22,8 @@ _AdminCustomerInGroupFilters _$AdminCustomerInGroupFiltersFromJson(
   deletedAt: json['deleted_at'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCustomerInGroupFiltersToJson(
-  _AdminCustomerInGroupFilters instance,
+Map<String, dynamic> _$$AdminCustomerInGroupFiltersImplToJson(
+  _$AdminCustomerInGroupFiltersImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'email': instance.email,

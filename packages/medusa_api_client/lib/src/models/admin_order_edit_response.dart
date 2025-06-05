@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "An order edit's details."
 /// }
-library admin_order_edit_response;
+library;
 
 import 'exports.dart';
 part 'admin_order_edit_response.freezed.dart';

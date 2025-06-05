@@ -6,12 +6,12 @@ part of 'get_promotions_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPromotionsQueryParameters _$GetPromotionsQueryParametersFromJson(
+_$GetPromotionsQueryParametersImpl _$$GetPromotionsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetPromotionsQueryParameters(
+) => _$GetPromotionsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   code: json['code'],
@@ -30,8 +30,8 @@ _GetPromotionsQueryParameters _$GetPromotionsQueryParametersFromJson(
   applicationMethodType: json['application_method_type'],
 );
 
-Map<String, dynamic> _$GetPromotionsQueryParametersToJson(
-  _GetPromotionsQueryParameters instance,
+Map<String, dynamic> _$$GetPromotionsQueryParametersImplToJson(
+  _$GetPromotionsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

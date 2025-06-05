@@ -6,8 +6,8 @@ part of 'admin_campaign.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCampaign _$AdminCampaignFromJson(Map<String, dynamic> json) =>
-    _AdminCampaign(
+_$AdminCampaignImpl _$$AdminCampaignImplFromJson(Map<String, dynamic> json) =>
+    _$AdminCampaignImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
@@ -21,7 +21,7 @@ _AdminCampaign _$AdminCampaignFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$AdminCampaignToJson(_AdminCampaign instance) =>
+Map<String, dynamic> _$$AdminCampaignImplToJson(_$AdminCampaignImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

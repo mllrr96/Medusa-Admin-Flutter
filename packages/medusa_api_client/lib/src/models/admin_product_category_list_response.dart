@@ -53,15 +53,15 @@ abstract class AdminProductCategoryListResponse
   const factory AdminProductCategoryListResponse({
     /// limit
     @JsonKey(name: AdminProductCategoryListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: AdminProductCategoryListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: AdminProductCategoryListResponse.countKey)
-    required double count,
+    required int count,
 
     /// productCategories
     @JsonKey(name: AdminProductCategoryListResponse.productCategoriesKey)

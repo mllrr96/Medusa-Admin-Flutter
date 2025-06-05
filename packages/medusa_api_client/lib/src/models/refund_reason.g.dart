@@ -6,8 +6,8 @@ part of 'refund_reason.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_RefundReason _$RefundReasonFromJson(Map<String, dynamic> json) =>
-    _RefundReason(
+_$RefundReasonImpl _$$RefundReasonImplFromJson(Map<String, dynamic> json) =>
+    _$RefundReasonImpl(
       id: json['id'] as String,
       label: json['label'] as String,
       description: json['description'] as String,
@@ -16,7 +16,7 @@ _RefundReason _$RefundReasonFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$RefundReasonToJson(_RefundReason instance) =>
+Map<String, dynamic> _$$RefundReasonImplToJson(_$RefundReasonImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,

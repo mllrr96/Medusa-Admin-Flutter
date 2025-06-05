@@ -6,26 +6,28 @@ part of 'create_address_or_update_address_union.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateAddressOrUpdateAddressUnionCreateAddress
-_$CreateAddressOrUpdateAddressUnionCreateAddressFromJson(
+_$CreateAddressOrUpdateAddressUnionCreateAddressImpl
+_$$CreateAddressOrUpdateAddressUnionCreateAddressImplFromJson(
   Map<String, dynamic> json,
-) => CreateAddressOrUpdateAddressUnionCreateAddress(
+) => _$CreateAddressOrUpdateAddressUnionCreateAddressImpl(
   CreateAddress.fromJson(json['value'] as Map<String, dynamic>),
   $type: json['runtimeType'] as String?,
 );
 
-Map<String, dynamic> _$CreateAddressOrUpdateAddressUnionCreateAddressToJson(
-  CreateAddressOrUpdateAddressUnionCreateAddress instance,
+Map<String, dynamic>
+_$$CreateAddressOrUpdateAddressUnionCreateAddressImplToJson(
+  _$CreateAddressOrUpdateAddressUnionCreateAddressImpl instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};
 
-CreateAddressOrUpdateAddressUnionUpdateAddress
-_$CreateAddressOrUpdateAddressUnionUpdateAddressFromJson(
+_$CreateAddressOrUpdateAddressUnionUpdateAddressImpl
+_$$CreateAddressOrUpdateAddressUnionUpdateAddressImplFromJson(
   Map<String, dynamic> json,
-) => CreateAddressOrUpdateAddressUnionUpdateAddress(
+) => _$CreateAddressOrUpdateAddressUnionUpdateAddressImpl(
   UpdateAddress.fromJson(json['value'] as Map<String, dynamic>),
   $type: json['runtimeType'] as String?,
 );
 
-Map<String, dynamic> _$CreateAddressOrUpdateAddressUnionUpdateAddressToJson(
-  CreateAddressOrUpdateAddressUnionUpdateAddress instance,
+Map<String, dynamic>
+_$$CreateAddressOrUpdateAddressUnionUpdateAddressImplToJson(
+  _$CreateAddressOrUpdateAddressUnionUpdateAddressImpl instance,
 ) => <String, dynamic>{'value': instance.value, 'runtimeType': instance.$type};

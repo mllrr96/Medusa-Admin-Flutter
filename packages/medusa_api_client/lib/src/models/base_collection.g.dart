@@ -6,8 +6,8 @@ part of 'base_collection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseCollection _$BaseCollectionFromJson(Map<String, dynamic> json) =>
-    _BaseCollection(
+_$BaseCollectionImpl _$$BaseCollectionImplFromJson(Map<String, dynamic> json) =>
+    _$BaseCollectionImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       handle: json['handle'] as String,
@@ -20,14 +20,15 @@ _BaseCollection _$BaseCollectionFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$BaseCollectionToJson(_BaseCollection instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'handle': instance.handle,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt.toIso8601String(),
-      'products': instance.products,
-      'metadata': instance.metadata,
-    };
+Map<String, dynamic> _$$BaseCollectionImplToJson(
+  _$BaseCollectionImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'handle': instance.handle,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'deleted_at': instance.deletedAt.toIso8601String(),
+  'products': instance.products,
+  'metadata': instance.metadata,
+};

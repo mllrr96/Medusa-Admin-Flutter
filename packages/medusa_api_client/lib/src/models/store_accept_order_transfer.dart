@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The details of accepting the order transfer."
 /// }
-library store_accept_order_transfer;
+library;
 
 import 'exports.dart';
 part 'store_accept_order_transfer.freezed.dart';

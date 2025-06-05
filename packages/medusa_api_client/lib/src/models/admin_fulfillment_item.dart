@@ -76,7 +76,7 @@
 ///     ],
 ///     "description": "The details of a fulfillment's item."
 /// }
-library admin_fulfillment_item;
+library;
 
 import 'exports.dart';
 part 'admin_fulfillment_item.freezed.dart';

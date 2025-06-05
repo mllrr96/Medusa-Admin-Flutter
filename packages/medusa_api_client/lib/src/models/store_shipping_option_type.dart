@@ -58,7 +58,7 @@
 ///     ],
 ///     "description": "The shipping option type's details."
 /// }
-library store_shipping_option_type;
+library;
 
 import 'exports.dart';
 part 'store_shipping_option_type.freezed.dart';

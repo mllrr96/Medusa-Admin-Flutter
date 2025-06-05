@@ -6,9 +6,9 @@ part of 'admin_payment_collection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPaymentCollection _$AdminPaymentCollectionFromJson(
+_$AdminPaymentCollectionImpl _$$AdminPaymentCollectionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPaymentCollection(
+) => _$AdminPaymentCollectionImpl(
   id: json['id'] as String,
   currencyCode: json['currency_code'] as String,
   amount: (json['amount'] as num).toDouble(),
@@ -31,8 +31,8 @@ _AdminPaymentCollection _$AdminPaymentCollectionFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminPaymentCollectionToJson(
-  _AdminPaymentCollection instance,
+Map<String, dynamic> _$$AdminPaymentCollectionImplToJson(
+  _$AdminPaymentCollectionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'currency_code': instance.currencyCode,

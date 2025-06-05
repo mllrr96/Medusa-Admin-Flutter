@@ -137,7 +137,7 @@
 ///     ],
 ///     "description": "The order change's exchange."
 /// }
-library order_exchange;
+library;
 
 import 'exports.dart';
 part 'order_exchange.freezed.dart';

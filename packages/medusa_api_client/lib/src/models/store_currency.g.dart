@@ -6,8 +6,8 @@ part of 'store_currency.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCurrency _$StoreCurrencyFromJson(Map<String, dynamic> json) =>
-    _StoreCurrency(
+_$StoreCurrencyImpl _$$StoreCurrencyImplFromJson(Map<String, dynamic> json) =>
+    _$StoreCurrencyImpl(
       code: json['code'] as String,
       symbol: json['symbol'] as String,
       symbolNative: json['symbol_native'] as String,
@@ -19,7 +19,7 @@ _StoreCurrency _$StoreCurrencyFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$StoreCurrencyToJson(_StoreCurrency instance) =>
+Map<String, dynamic> _$$StoreCurrencyImplToJson(_$StoreCurrencyImpl instance) =>
     <String, dynamic>{
       'code': instance.code,
       'symbol': instance.symbol,

@@ -6,10 +6,10 @@ part of 'get_customer_groups_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetCustomerGroupsIdQueryParameters
-_$GetCustomerGroupsIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetCustomerGroupsIdQueryParameters(fields: json['fields'] as String);
+_$GetCustomerGroupsIdQueryParametersImpl
+_$$GetCustomerGroupsIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetCustomerGroupsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetCustomerGroupsIdQueryParametersToJson(
-  _GetCustomerGroupsIdQueryParameters instance,
+Map<String, dynamic> _$$GetCustomerGroupsIdQueryParametersImplToJson(
+  _$GetCustomerGroupsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

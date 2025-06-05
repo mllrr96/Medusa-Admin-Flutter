@@ -6,13 +6,14 @@ part of 'post_draft_orders_id_convert_to_order_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostDraftOrdersIdConvertToOrderQueryParameters
-_$PostDraftOrdersIdConvertToOrderQueryParametersFromJson(
+_$PostDraftOrdersIdConvertToOrderQueryParametersImpl
+_$$PostDraftOrdersIdConvertToOrderQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostDraftOrdersIdConvertToOrderQueryParameters(
+) => _$PostDraftOrdersIdConvertToOrderQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostDraftOrdersIdConvertToOrderQueryParametersToJson(
-  _PostDraftOrdersIdConvertToOrderQueryParameters instance,
+Map<String, dynamic>
+_$$PostDraftOrdersIdConvertToOrderQueryParametersImplToJson(
+  _$PostDraftOrdersIdConvertToOrderQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

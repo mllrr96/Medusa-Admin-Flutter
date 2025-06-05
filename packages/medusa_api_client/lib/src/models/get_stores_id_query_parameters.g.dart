@@ -6,10 +6,10 @@ part of 'get_stores_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetStoresIdQueryParameters _$GetStoresIdQueryParametersFromJson(
+_$GetStoresIdQueryParametersImpl _$$GetStoresIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetStoresIdQueryParameters(fields: json['fields'] as String);
+) => _$GetStoresIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetStoresIdQueryParametersToJson(
-  _GetStoresIdQueryParameters instance,
+Map<String, dynamic> _$$GetStoresIdQueryParametersImplToJson(
+  _$GetStoresIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -69,7 +69,7 @@
 ///     ],
 ///     "description": "The adjustment's details."
 /// }
-library base_line_item_adjustment;
+library;
 
 import 'exports.dart';
 part 'base_line_item_adjustment.freezed.dart';

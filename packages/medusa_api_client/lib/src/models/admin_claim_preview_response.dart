@@ -15,7 +15,7 @@
 ///     ],
 ///     "description": "The details of the claim, as well as a preview of the order when the claim is applied."
 /// }
-library admin_claim_preview_response;
+library;
 
 import 'exports.dart';
 part 'admin_claim_preview_response.freezed.dart';

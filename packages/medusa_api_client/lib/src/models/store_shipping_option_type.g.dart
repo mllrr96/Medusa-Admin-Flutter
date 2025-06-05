@@ -6,9 +6,9 @@ part of 'store_shipping_option_type.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreShippingOptionType _$StoreShippingOptionTypeFromJson(
+_$StoreShippingOptionTypeImpl _$$StoreShippingOptionTypeImplFromJson(
   Map<String, dynamic> json,
-) => _StoreShippingOptionType(
+) => _$StoreShippingOptionTypeImpl(
   id: json['id'] as String,
   label: json['label'] as String,
   description: json['description'] as String,
@@ -19,8 +19,8 @@ _StoreShippingOptionType _$StoreShippingOptionTypeFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$StoreShippingOptionTypeToJson(
-  _StoreShippingOptionType instance,
+Map<String, dynamic> _$$StoreShippingOptionTypeImplToJson(
+  _$StoreShippingOptionTypeImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'label': instance.label,

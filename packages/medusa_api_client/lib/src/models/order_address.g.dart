@@ -6,8 +6,8 @@ part of 'order_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_OrderAddress _$OrderAddressFromJson(Map<String, dynamic> json) =>
-    _OrderAddress(
+_$OrderAddressImpl _$$OrderAddressImplFromJson(Map<String, dynamic> json) =>
+    _$OrderAddressImpl(
       id: json['id'] as String,
       customerId: json['customer_id'] as String,
       firstName: json['first_name'] as String,
@@ -25,7 +25,7 @@ _OrderAddress _$OrderAddressFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$OrderAddressToJson(_OrderAddress instance) =>
+Map<String, dynamic> _$$OrderAddressImplToJson(_$OrderAddressImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'customer_id': instance.customerId,

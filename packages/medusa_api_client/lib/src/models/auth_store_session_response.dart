@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The authenticated customer's details."
 /// }
-library auth_store_session_response;
+library;
 
 import 'exports.dart';
 part 'auth_store_session_response.freezed.dart';

@@ -6,10 +6,10 @@ part of 'get_promotions_rule_attribute_options_rule_type_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPromotionsRuleAttributeOptionsRuleTypeQueryParameters
-_$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersFromJson(
+_$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersImpl
+_$$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetPromotionsRuleAttributeOptionsRuleTypeQueryParameters(
+) => _$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersImpl(
   promotionType: $enumDecode(
     _$PromotionTypeEnumEnumMap,
     json['promotion_type'],
@@ -21,8 +21,8 @@ _$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersFromJson(
 );
 
 Map<String, dynamic>
-_$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersToJson(
-  _GetPromotionsRuleAttributeOptionsRuleTypeQueryParameters instance,
+_$$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersImplToJson(
+  _$GetPromotionsRuleAttributeOptionsRuleTypeQueryParametersImpl instance,
 ) => <String, dynamic>{
   'promotion_type': instance.promotionType,
   'application_method_type': instance.applicationMethodType,

@@ -82,11 +82,11 @@ abstract class GetTaxProvidersQueryParameters
 
     /// offset
     @JsonKey(name: GetTaxProvidersQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetTaxProvidersQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetTaxProvidersQueryParameters.orderKey)

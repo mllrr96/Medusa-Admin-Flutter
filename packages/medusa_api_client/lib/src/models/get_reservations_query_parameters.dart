@@ -140,11 +140,11 @@ abstract class GetReservationsQueryParameters
 
     /// offset
     @JsonKey(name: GetReservationsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetReservationsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetReservationsQueryParameters.orderKey)

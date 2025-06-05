@@ -6,12 +6,12 @@ part of 'admin_update_variant_inventory_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateVariantInventoryItem _$AdminUpdateVariantInventoryItemFromJson(
-  Map<String, dynamic> json,
-) => _AdminUpdateVariantInventoryItem(
-  requiredQuantity: (json['required_quantity'] as num).toDouble(),
-);
+_$AdminUpdateVariantInventoryItemImpl
+_$$AdminUpdateVariantInventoryItemImplFromJson(Map<String, dynamic> json) =>
+    _$AdminUpdateVariantInventoryItemImpl(
+      requiredQuantity: (json['required_quantity'] as num).toDouble(),
+    );
 
-Map<String, dynamic> _$AdminUpdateVariantInventoryItemToJson(
-  _AdminUpdateVariantInventoryItem instance,
+Map<String, dynamic> _$$AdminUpdateVariantInventoryItemImplToJson(
+  _$AdminUpdateVariantInventoryItemImpl instance,
 ) => <String, dynamic>{'required_quantity': instance.requiredQuantity};

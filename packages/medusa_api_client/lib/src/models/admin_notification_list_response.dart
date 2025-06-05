@@ -53,15 +53,15 @@ abstract class AdminNotificationListResponse
   const factory AdminNotificationListResponse({
     /// limit
     @JsonKey(name: AdminNotificationListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: AdminNotificationListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: AdminNotificationListResponse.countKey)
-    required double count,
+    required int count,
 
     /// notifications
     @JsonKey(name: AdminNotificationListResponse.notificationsKey)

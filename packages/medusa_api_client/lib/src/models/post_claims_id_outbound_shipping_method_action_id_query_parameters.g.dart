@@ -6,14 +6,14 @@ part of 'post_claims_id_outbound_shipping_method_action_id_query_parameters.dart
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostClaimsIdOutboundShippingMethodActionIdQueryParameters
-_$PostClaimsIdOutboundShippingMethodActionIdQueryParametersFromJson(
+_$PostClaimsIdOutboundShippingMethodActionIdQueryParametersImpl
+_$$PostClaimsIdOutboundShippingMethodActionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostClaimsIdOutboundShippingMethodActionIdQueryParameters(
+) => _$PostClaimsIdOutboundShippingMethodActionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostClaimsIdOutboundShippingMethodActionIdQueryParametersToJson(
-  _PostClaimsIdOutboundShippingMethodActionIdQueryParameters instance,
+_$$PostClaimsIdOutboundShippingMethodActionIdQueryParametersImplToJson(
+  _$PostClaimsIdOutboundShippingMethodActionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

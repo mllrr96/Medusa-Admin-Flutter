@@ -44,7 +44,7 @@
 ///     ],
 ///     "description": "The price's details."
 /// }
-library store_price;
+library;
 
 import 'exports.dart';
 part 'store_price.freezed.dart';

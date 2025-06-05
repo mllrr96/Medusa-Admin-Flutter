@@ -38,7 +38,7 @@
 ///     ],
 ///     "description": "The details of the customer to create."
 /// }
-library store_create_customer;
+library;
 
 import 'exports.dart';
 part 'store_create_customer.freezed.dart';

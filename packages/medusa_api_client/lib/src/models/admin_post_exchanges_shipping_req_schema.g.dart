@@ -6,9 +6,9 @@ part of 'admin_post_exchanges_shipping_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostExchangesShippingReqSchema
-_$AdminPostExchangesShippingReqSchemaFromJson(Map<String, dynamic> json) =>
-    _AdminPostExchangesShippingReqSchema(
+_$AdminPostExchangesShippingReqSchemaImpl
+_$$AdminPostExchangesShippingReqSchemaImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPostExchangesShippingReqSchemaImpl(
       shippingOptionId: json['shipping_option_id'] as String,
       customAmount: (json['custom_amount'] as num).toDouble(),
       description: json['description'] as String,
@@ -16,8 +16,8 @@ _$AdminPostExchangesShippingReqSchemaFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$AdminPostExchangesShippingReqSchemaToJson(
-  _AdminPostExchangesShippingReqSchema instance,
+Map<String, dynamic> _$$AdminPostExchangesShippingReqSchemaImplToJson(
+  _$AdminPostExchangesShippingReqSchemaImpl instance,
 ) => <String, dynamic>{
   'shipping_option_id': instance.shippingOptionId,
   'custom_amount': instance.customAmount,

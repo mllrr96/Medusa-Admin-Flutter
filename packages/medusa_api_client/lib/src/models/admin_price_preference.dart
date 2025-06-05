@@ -52,7 +52,7 @@
 ///     ],
 ///     "description": "The price preference's details."
 /// }
-library admin_price_preference;
+library;
 
 import 'exports.dart';
 part 'admin_price_preference.freezed.dart';

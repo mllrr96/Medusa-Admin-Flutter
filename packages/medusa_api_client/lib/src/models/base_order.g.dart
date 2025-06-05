@@ -6,7 +6,9 @@ part of 'base_order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseOrder _$BaseOrderFromJson(Map<String, dynamic> json) => _BaseOrder(
+_$BaseOrderImpl _$$BaseOrderImplFromJson(
+  Map<String, dynamic> json,
+) => _$BaseOrderImpl(
   paymentCollections: (json['payment_collections'] as List<dynamic>)
       .map((e) => BasePaymentCollection.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -69,7 +71,7 @@ _BaseOrder _$BaseOrderFromJson(Map<String, dynamic> json) => _BaseOrder(
   status: json['status'] as String,
 );
 
-Map<String, dynamic> _$BaseOrderToJson(_BaseOrder instance) =>
+Map<String, dynamic> _$$BaseOrderImplToJson(_$BaseOrderImpl instance) =>
     <String, dynamic>{
       'payment_collections': instance.paymentCollections,
       'fulfillments': instance.fulfillments,

@@ -83,7 +83,7 @@
 ///     ],
 ///     "description": "The return's details."
 /// }
-library store_return;
+library;
 
 import 'exports.dart';
 part 'store_return.freezed.dart';

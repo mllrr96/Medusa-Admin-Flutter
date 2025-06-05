@@ -89,7 +89,7 @@
 ///     ],
 ///     "description": "The price list's details."
 /// }
-library admin_price_list;
+library;
 
 import 'exports.dart';
 part 'admin_price_list.freezed.dart';

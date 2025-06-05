@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The user's details."
 /// }
-library admin_user_response;
+library;
 
 import 'exports.dart';
 part 'admin_user_response.freezed.dart';

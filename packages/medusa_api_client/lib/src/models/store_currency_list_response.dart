@@ -51,13 +51,13 @@ abstract class StoreCurrencyListResponse with _$StoreCurrencyListResponse {
   @jsonSerializable
   const factory StoreCurrencyListResponse({
     /// limit
-    @JsonKey(name: StoreCurrencyListResponse.limitKey) required double limit,
+    @JsonKey(name: StoreCurrencyListResponse.limitKey) required int limit,
 
     /// offset
-    @JsonKey(name: StoreCurrencyListResponse.offsetKey) required double offset,
+    @JsonKey(name: StoreCurrencyListResponse.offsetKey) required int offset,
 
     /// count
-    @JsonKey(name: StoreCurrencyListResponse.countKey) required double count,
+    @JsonKey(name: StoreCurrencyListResponse.countKey) required int count,
 
     /// currencies
     @JsonKey(name: StoreCurrencyListResponse.currenciesKey)

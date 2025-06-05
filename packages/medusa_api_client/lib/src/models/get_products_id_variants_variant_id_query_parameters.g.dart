@@ -6,13 +6,13 @@ part of 'get_products_id_variants_variant_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetProductsIdVariantsVariantIdQueryParameters
-_$GetProductsIdVariantsVariantIdQueryParametersFromJson(
+_$GetProductsIdVariantsVariantIdQueryParametersImpl
+_$$GetProductsIdVariantsVariantIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetProductsIdVariantsVariantIdQueryParameters(
+) => _$GetProductsIdVariantsVariantIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$GetProductsIdVariantsVariantIdQueryParametersToJson(
-  _GetProductsIdVariantsVariantIdQueryParameters instance,
+Map<String, dynamic> _$$GetProductsIdVariantsVariantIdQueryParametersImplToJson(
+  _$GetProductsIdVariantsVariantIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

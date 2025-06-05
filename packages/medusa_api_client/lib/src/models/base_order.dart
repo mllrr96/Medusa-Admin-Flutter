@@ -290,7 +290,7 @@
 ///     ],
 ///     "description": "The order's details."
 /// }
-library base_order;
+library;
 
 import 'exports.dart';
 part 'base_order.freezed.dart';

@@ -6,24 +6,26 @@ part of 'admin_product_image.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductImage _$AdminProductImageFromJson(Map<String, dynamic> json) =>
-    _AdminProductImage(
-      id: json['id'] as String,
-      url: json['url'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: DateTime.parse(json['deleted_at'] as String),
-      metadata: json['metadata'] as Map<String, dynamic>,
-      rank: (json['rank'] as num).toDouble(),
-    );
+_$AdminProductImageImpl _$$AdminProductImageImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminProductImageImpl(
+  id: json['id'] as String,
+  url: json['url'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  deletedAt: DateTime.parse(json['deleted_at'] as String),
+  metadata: json['metadata'] as Map<String, dynamic>,
+  rank: (json['rank'] as num).toDouble(),
+);
 
-Map<String, dynamic> _$AdminProductImageToJson(_AdminProductImage instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'url': instance.url,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt.toIso8601String(),
-      'metadata': instance.metadata,
-      'rank': instance.rank,
-    };
+Map<String, dynamic> _$$AdminProductImageImplToJson(
+  _$AdminProductImageImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'url': instance.url,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'deleted_at': instance.deletedAt.toIso8601String(),
+  'metadata': instance.metadata,
+  'rank': instance.rank,
+};

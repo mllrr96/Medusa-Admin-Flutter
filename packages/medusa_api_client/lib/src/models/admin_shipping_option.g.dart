@@ -6,9 +6,9 @@ part of 'admin_shipping_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminShippingOption _$AdminShippingOptionFromJson(
+_$AdminShippingOptionImpl _$$AdminShippingOptionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminShippingOption(
+) => _$AdminShippingOptionImpl(
   id: json['id'] as String,
   name: json['name'] as String,
   priceType: $enumDecode(_$NullEnumEnumMap, json['price_type']),
@@ -37,8 +37,8 @@ _AdminShippingOption _$AdminShippingOptionFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminShippingOptionToJson(
-  _AdminShippingOption instance,
+Map<String, dynamic> _$$AdminShippingOptionImplToJson(
+  _$AdminShippingOptionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,

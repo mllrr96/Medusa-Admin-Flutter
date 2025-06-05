@@ -6,10 +6,10 @@ part of 'get_exchanges_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetExchangesIdQueryParameters _$GetExchangesIdQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetExchangesIdQueryParameters(fields: json['fields'] as String);
+_$GetExchangesIdQueryParametersImpl
+_$$GetExchangesIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetExchangesIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetExchangesIdQueryParametersToJson(
-  _GetExchangesIdQueryParameters instance,
+Map<String, dynamic> _$$GetExchangesIdQueryParametersImplToJson(
+  _$GetExchangesIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

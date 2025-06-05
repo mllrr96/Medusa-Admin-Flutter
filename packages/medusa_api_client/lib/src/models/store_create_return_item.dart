@@ -29,7 +29,7 @@
 ///     ],
 ///     "description": "The details of the line item to create."
 /// }
-library store_create_return_item;
+library;
 
 import 'exports.dart';
 part 'store_create_return_item.freezed.dart';

@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The currency's details."
 /// }
-library admin_currency_response;
+library;
 
 import 'exports.dart';
 part 'admin_currency_response.freezed.dart';

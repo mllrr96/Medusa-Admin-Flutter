@@ -154,11 +154,11 @@ abstract class GetCustomersIdAddressesQueryParameters
 
     /// offset
     @JsonKey(name: GetCustomersIdAddressesQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetCustomersIdAddressesQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetCustomersIdAddressesQueryParameters.orderKey)

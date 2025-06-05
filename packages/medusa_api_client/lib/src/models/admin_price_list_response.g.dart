@@ -6,14 +6,14 @@ part of 'admin_price_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPriceListResponse _$AdminPriceListResponseFromJson(
+_$AdminPriceListResponseImpl _$$AdminPriceListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPriceListResponse(
+) => _$AdminPriceListResponseImpl(
   priceList: AdminPriceList.fromJson(
     json['price_list'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminPriceListResponseToJson(
-  _AdminPriceListResponse instance,
+Map<String, dynamic> _$$AdminPriceListResponseImplToJson(
+  _$AdminPriceListResponseImpl instance,
 ) => <String, dynamic>{'price_list': instance.priceList};

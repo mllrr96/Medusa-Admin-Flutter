@@ -6,10 +6,10 @@ part of 'admin_post_exchanges_request_items_return_action_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostExchangesRequestItemsReturnActionReqSchema
-_$AdminPostExchangesRequestItemsReturnActionReqSchemaFromJson(
+_$AdminPostExchangesRequestItemsReturnActionReqSchemaImpl
+_$$AdminPostExchangesRequestItemsReturnActionReqSchemaImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPostExchangesRequestItemsReturnActionReqSchema(
+) => _$AdminPostExchangesRequestItemsReturnActionReqSchemaImpl(
   quantity: (json['quantity'] as num).toDouble(),
   internalNote: json['internal_note'] as String,
   reasonId: json['reason_id'] as String,
@@ -17,8 +17,8 @@ _$AdminPostExchangesRequestItemsReturnActionReqSchemaFromJson(
 );
 
 Map<String, dynamic>
-_$AdminPostExchangesRequestItemsReturnActionReqSchemaToJson(
-  _AdminPostExchangesRequestItemsReturnActionReqSchema instance,
+_$$AdminPostExchangesRequestItemsReturnActionReqSchemaImplToJson(
+  _$AdminPostExchangesRequestItemsReturnActionReqSchemaImpl instance,
 ) => <String, dynamic>{
   'quantity': instance.quantity,
   'internal_note': instance.internalNote,

@@ -6,53 +6,54 @@ part of 'base_product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseProduct _$BaseProductFromJson(Map<String, dynamic> json) => _BaseProduct(
-  collection: BaseCollection.fromJson(
-    json['collection'] as Map<String, dynamic>,
-  ),
-  categories: (json['categories'] as List<dynamic>)
-      .map((e) => BaseProductCategory.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  variants: (json['variants'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  type: BaseProductType.fromJson(json['type'] as Map<String, dynamic>),
-  tags: (json['tags'] as List<dynamic>)
-      .map((e) => BaseProductTag.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  length: (json['length'] as num).toDouble(),
-  title: json['title'] as String,
-  status: $enumDecode(_$NullEnumEnumMap, json['status']),
-  options: (json['options'] as List<dynamic>)
-      .map((e) => BaseProductOption.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  description: json['description'] as String,
-  id: json['id'] as String,
-  metadata: json['metadata'] as Map<String, dynamic>,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-  handle: json['handle'] as String,
-  subtitle: json['subtitle'] as String,
-  isGiftcard: json['is_giftcard'] as bool,
-  thumbnail: json['thumbnail'] as String,
-  width: (json['width'] as num).toDouble(),
-  weight: (json['weight'] as num).toDouble(),
-  height: (json['height'] as num).toDouble(),
-  originCountry: json['origin_country'] as String,
-  hsCode: json['hs_code'] as String,
-  midCode: json['mid_code'] as String,
-  material: json['material'] as String,
-  collectionId: json['collection_id'] as String,
-  typeId: json['type_id'] as String,
-  images: (json['images'] as List<dynamic>)
-      .map((e) => BaseProductImage.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  discountable: json['discountable'] as bool,
-  externalId: json['external_id'] as String,
-  deletedAt: DateTime.parse(json['deleted_at'] as String),
-);
+_$BaseProductImpl _$$BaseProductImplFromJson(Map<String, dynamic> json) =>
+    _$BaseProductImpl(
+      collection: BaseCollection.fromJson(
+        json['collection'] as Map<String, dynamic>,
+      ),
+      categories: (json['categories'] as List<dynamic>)
+          .map((e) => BaseProductCategory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      variants: (json['variants'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      type: BaseProductType.fromJson(json['type'] as Map<String, dynamic>),
+      tags: (json['tags'] as List<dynamic>)
+          .map((e) => BaseProductTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      length: (json['length'] as num).toDouble(),
+      title: json['title'] as String,
+      status: $enumDecode(_$NullEnumEnumMap, json['status']),
+      options: (json['options'] as List<dynamic>)
+          .map((e) => BaseProductOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String,
+      id: json['id'] as String,
+      metadata: json['metadata'] as Map<String, dynamic>,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      handle: json['handle'] as String,
+      subtitle: json['subtitle'] as String,
+      isGiftcard: json['is_giftcard'] as bool,
+      thumbnail: json['thumbnail'] as String,
+      width: (json['width'] as num).toDouble(),
+      weight: (json['weight'] as num).toDouble(),
+      height: (json['height'] as num).toDouble(),
+      originCountry: json['origin_country'] as String,
+      hsCode: json['hs_code'] as String,
+      midCode: json['mid_code'] as String,
+      material: json['material'] as String,
+      collectionId: json['collection_id'] as String,
+      typeId: json['type_id'] as String,
+      images: (json['images'] as List<dynamic>)
+          .map((e) => BaseProductImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      discountable: json['discountable'] as bool,
+      externalId: json['external_id'] as String,
+      deletedAt: DateTime.parse(json['deleted_at'] as String),
+    );
 
-Map<String, dynamic> _$BaseProductToJson(_BaseProduct instance) =>
+Map<String, dynamic> _$$BaseProductImplToJson(_$BaseProductImpl instance) =>
     <String, dynamic>{
       'collection': instance.collection,
       'categories': instance.categories,

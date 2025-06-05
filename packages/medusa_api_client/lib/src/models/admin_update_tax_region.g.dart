@@ -6,16 +6,16 @@ part of 'admin_update_tax_region.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateTaxRegion _$AdminUpdateTaxRegionFromJson(
+_$AdminUpdateTaxRegionImpl _$$AdminUpdateTaxRegionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdateTaxRegion(
+) => _$AdminUpdateTaxRegionImpl(
   provinceCode: json['province_code'] as String,
   metadata: json['metadata'] as Map<String, dynamic>,
   providerId: json['provider_id'] as String,
 );
 
-Map<String, dynamic> _$AdminUpdateTaxRegionToJson(
-  _AdminUpdateTaxRegion instance,
+Map<String, dynamic> _$$AdminUpdateTaxRegionImplToJson(
+  _$AdminUpdateTaxRegionImpl instance,
 ) => <String, dynamic>{
   'province_code': instance.provinceCode,
   'metadata': instance.metadata,

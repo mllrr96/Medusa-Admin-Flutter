@@ -55,7 +55,7 @@
 ///     ],
 ///     "description": "The item's details."
 /// }
-library base_exchange_item;
+library;
 
 import 'exports.dart';
 part 'base_exchange_item.freezed.dart';

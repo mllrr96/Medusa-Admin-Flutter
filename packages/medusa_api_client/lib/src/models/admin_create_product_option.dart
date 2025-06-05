@@ -23,7 +23,7 @@
 ///     ],
 ///     "description": "The product option's details."
 /// }
-library admin_create_product_option;
+library;
 
 import 'exports.dart';
 part 'admin_create_product_option.freezed.dart';

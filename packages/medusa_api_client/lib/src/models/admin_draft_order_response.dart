@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The draft order's details."
 /// }
-library admin_draft_order_response;
+library;
 
 import 'exports.dart';
 part 'admin_draft_order_response.freezed.dart';

@@ -6,12 +6,12 @@ part of 'get_products_id_options_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetProductsIdOptionsQueryParameters
-_$GetProductsIdOptionsQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetProductsIdOptionsQueryParameters(
+_$GetProductsIdOptionsQueryParametersImpl
+_$$GetProductsIdOptionsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetProductsIdOptionsQueryParametersImpl(
       fields: json['fields'] as String,
-      offset: (json['offset'] as num).toDouble(),
-      limit: (json['limit'] as num).toDouble(),
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
       order: json['order'] as String,
       q: json['q'] as String,
       id: json['id'],
@@ -24,8 +24,8 @@ _$GetProductsIdOptionsQueryParametersFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$GetProductsIdOptionsQueryParametersToJson(
-  _GetProductsIdOptionsQueryParameters instance,
+Map<String, dynamic> _$$GetProductsIdOptionsQueryParametersImplToJson(
+  _$GetProductsIdOptionsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

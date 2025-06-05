@@ -19,7 +19,7 @@
 ///     ],
 ///     "description": "The tax rate rule's details."
 /// }
-library admin_create_tax_rate_rule;
+library;
 
 import 'exports.dart';
 part 'admin_create_tax_rate_rule.freezed.dart';

@@ -6,14 +6,14 @@ part of 'post_inventory_items_id_location_levels_location_id_query_parameters.da
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostInventoryItemsIdLocationLevelsLocationIdQueryParameters
-_$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersFromJson(
+_$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersImpl
+_$$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostInventoryItemsIdLocationLevelsLocationIdQueryParameters(
+) => _$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersToJson(
-  _PostInventoryItemsIdLocationLevelsLocationIdQueryParameters instance,
+_$$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersImplToJson(
+  _$PostInventoryItemsIdLocationLevelsLocationIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

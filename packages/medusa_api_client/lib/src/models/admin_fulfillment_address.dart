@@ -105,7 +105,7 @@
 ///     ],
 ///     "description": "An address's details."
 /// }
-library admin_fulfillment_address;
+library;
 
 import 'exports.dart';
 part 'admin_fulfillment_address.freezed.dart';

@@ -6,17 +6,17 @@ part of 'get_campaigns_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetCampaignsQueryParameters _$GetCampaignsQueryParametersFromJson(
+_$GetCampaignsQueryParametersImpl _$$GetCampaignsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetCampaignsQueryParameters(
+) => _$GetCampaignsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
 );
 
-Map<String, dynamic> _$GetCampaignsQueryParametersToJson(
-  _GetCampaignsQueryParameters instance,
+Map<String, dynamic> _$$GetCampaignsQueryParametersImplToJson(
+  _$GetCampaignsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

@@ -6,9 +6,9 @@ part of 'admin_order_fulfillment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrderFulfillment _$AdminOrderFulfillmentFromJson(
+_$AdminOrderFulfillmentImpl _$$AdminOrderFulfillmentImplFromJson(
   Map<String, dynamic> json,
-) => _AdminOrderFulfillment(
+) => _$AdminOrderFulfillmentImpl(
   id: json['id'] as String,
   locationId: json['location_id'] as String,
   packedAt: DateTime.parse(json['packed_at'] as String),
@@ -24,8 +24,8 @@ _AdminOrderFulfillment _$AdminOrderFulfillmentFromJson(
   requiresShipping: json['requires_shipping'] as bool,
 );
 
-Map<String, dynamic> _$AdminOrderFulfillmentToJson(
-  _AdminOrderFulfillment instance,
+Map<String, dynamic> _$$AdminOrderFulfillmentImplToJson(
+  _$AdminOrderFulfillmentImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'location_id': instance.locationId,

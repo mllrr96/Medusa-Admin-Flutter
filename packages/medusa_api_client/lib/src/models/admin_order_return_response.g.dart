@@ -6,13 +6,13 @@ part of 'admin_order_return_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrderReturnResponse _$AdminOrderReturnResponseFromJson(
+_$AdminOrderReturnResponseImpl _$$AdminOrderReturnResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminOrderReturnResponse(
+) => _$AdminOrderReturnResponseImpl(
   order: Order.fromJson(json['order'] as Map<String, dynamic>),
   returnAA: AdminReturn.fromJson(json['return'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminOrderReturnResponseToJson(
-  _AdminOrderReturnResponse instance,
+Map<String, dynamic> _$$AdminOrderReturnResponseImplToJson(
+  _$AdminOrderReturnResponseImpl instance,
 ) => <String, dynamic>{'order': instance.order, 'return': instance.returnAA};

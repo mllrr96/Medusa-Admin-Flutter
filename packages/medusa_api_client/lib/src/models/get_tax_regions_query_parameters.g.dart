@@ -6,12 +6,12 @@ part of 'get_tax_regions_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetTaxRegionsQueryParameters _$GetTaxRegionsQueryParametersFromJson(
+_$GetTaxRegionsQueryParametersImpl _$$GetTaxRegionsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetTaxRegionsQueryParameters(
+) => _$GetTaxRegionsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -30,8 +30,8 @@ _GetTaxRegionsQueryParameters _$GetTaxRegionsQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetTaxRegionsQueryParametersToJson(
-  _GetTaxRegionsQueryParameters instance,
+Map<String, dynamic> _$$GetTaxRegionsQueryParametersImplToJson(
+  _$GetTaxRegionsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

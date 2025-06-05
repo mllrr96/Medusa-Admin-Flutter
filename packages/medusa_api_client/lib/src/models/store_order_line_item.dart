@@ -264,7 +264,7 @@
 ///     ],
 ///     "description": "The item's details."
 /// }
-library store_order_line_item;
+library;
 
 import 'exports.dart';
 part 'store_order_line_item.freezed.dart';

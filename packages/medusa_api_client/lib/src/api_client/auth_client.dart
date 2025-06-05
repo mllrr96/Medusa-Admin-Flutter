@@ -78,7 +78,7 @@ abstract class AuthClient {
   ///     }
   /// }
   @DELETE("/auth/session")
-  Future<HttpResponse<Map<String, dynamic>>> deleteSession({
+  Future<HttpResponse> deleteSession({
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,
     @SendProgress() ProgressCallback? onSendProgress,
@@ -401,7 +401,7 @@ abstract class AuthClient {
   ///     }
   /// }
   @POST("/auth/user/{auth_provider}/update")
-  Future<HttpResponse<Map<String, dynamic>>> postActorTypeAuthProviderUpdate({
+  Future<HttpResponse> postActorTypeAuthProviderUpdate({
     @Body() required Map<String, dynamic> requestBody,
     @Path("auth_provider") required String authProvider,
     @Extras() Map<String, dynamic>? extras,

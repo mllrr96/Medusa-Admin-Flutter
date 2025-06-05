@@ -6,14 +6,14 @@ part of 'post_stock_locations_id_fulfillment_providers_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostStockLocationsIdFulfillmentProvidersQueryParameters
-_$PostStockLocationsIdFulfillmentProvidersQueryParametersFromJson(
+_$PostStockLocationsIdFulfillmentProvidersQueryParametersImpl
+_$$PostStockLocationsIdFulfillmentProvidersQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostStockLocationsIdFulfillmentProvidersQueryParameters(
+) => _$PostStockLocationsIdFulfillmentProvidersQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostStockLocationsIdFulfillmentProvidersQueryParametersToJson(
-  _PostStockLocationsIdFulfillmentProvidersQueryParameters instance,
+_$$PostStockLocationsIdFulfillmentProvidersQueryParametersImplToJson(
+  _$PostStockLocationsIdFulfillmentProvidersQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

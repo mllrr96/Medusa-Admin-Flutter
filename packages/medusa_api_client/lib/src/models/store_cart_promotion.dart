@@ -27,7 +27,7 @@
 ///     ],
 ///     "description": "The promotion's promotions."
 /// }
-library store_cart_promotion;
+library;
 
 import 'exports.dart';
 part 'store_cart_promotion.freezed.dart';

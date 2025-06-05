@@ -60,7 +60,7 @@
 ///     ],
 ///     "description": "The region's details."
 /// }
-library admin_region;
+library;
 
 import 'exports.dart';
 part 'admin_region.freezed.dart';

@@ -6,10 +6,10 @@ part of 'get_invites_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetInvitesIdQueryParameters _$GetInvitesIdQueryParametersFromJson(
+_$GetInvitesIdQueryParametersImpl _$$GetInvitesIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetInvitesIdQueryParameters(fields: json['fields'] as String);
+) => _$GetInvitesIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetInvitesIdQueryParametersToJson(
-  _GetInvitesIdQueryParameters instance,
+Map<String, dynamic> _$$GetInvitesIdQueryParametersImplToJson(
+  _$GetInvitesIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

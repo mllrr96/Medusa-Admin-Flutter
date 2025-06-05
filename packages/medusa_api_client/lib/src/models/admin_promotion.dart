@@ -79,7 +79,7 @@
 ///     ],
 ///     "description": "The promotion's details."
 /// }
-library admin_promotion;
+library;
 
 import 'exports.dart';
 part 'admin_promotion.freezed.dart';

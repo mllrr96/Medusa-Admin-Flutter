@@ -51,7 +51,7 @@
 ///     ],
 ///     "description": "The promotion rule's details."
 /// }
-library admin_create_promotion_rule;
+library;
 
 import 'exports.dart';
 part 'admin_create_promotion_rule.freezed.dart';

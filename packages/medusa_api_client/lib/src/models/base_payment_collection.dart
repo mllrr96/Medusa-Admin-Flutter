@@ -98,7 +98,7 @@
 ///     ],
 ///     "description": "The payment collection's details."
 /// }
-library base_payment_collection;
+library;
 
 import 'exports.dart';
 part 'base_payment_collection.freezed.dart';

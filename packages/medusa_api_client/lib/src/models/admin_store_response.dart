@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The store's details."
 /// }
-library admin_store_response;
+library;
 
 import 'exports.dart';
 part 'admin_store_response.freezed.dart';

@@ -6,13 +6,14 @@ part of 'post_payment_collections_id_mark_as_paid_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostPaymentCollectionsIdMarkAsPaidQueryParameters
-_$PostPaymentCollectionsIdMarkAsPaidQueryParametersFromJson(
+_$PostPaymentCollectionsIdMarkAsPaidQueryParametersImpl
+_$$PostPaymentCollectionsIdMarkAsPaidQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostPaymentCollectionsIdMarkAsPaidQueryParameters(
+) => _$PostPaymentCollectionsIdMarkAsPaidQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostPaymentCollectionsIdMarkAsPaidQueryParametersToJson(
-  _PostPaymentCollectionsIdMarkAsPaidQueryParameters instance,
+Map<String, dynamic>
+_$$PostPaymentCollectionsIdMarkAsPaidQueryParametersImplToJson(
+  _$PostPaymentCollectionsIdMarkAsPaidQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

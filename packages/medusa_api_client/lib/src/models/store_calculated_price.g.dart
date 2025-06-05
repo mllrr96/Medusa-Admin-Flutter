@@ -6,9 +6,9 @@ part of 'store_calculated_price.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCalculatedPrice _$StoreCalculatedPriceFromJson(
+_$StoreCalculatedPriceImpl _$$StoreCalculatedPriceImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCalculatedPrice(
+) => _$StoreCalculatedPriceImpl(
   id: json['id'] as String,
   isCalculatedPricePriceList: json['is_calculated_price_price_list'] as bool,
   isCalculatedPriceTaxInclusive:
@@ -29,8 +29,8 @@ _StoreCalculatedPrice _$StoreCalculatedPriceFromJson(
       .toDouble(),
 );
 
-Map<String, dynamic> _$StoreCalculatedPriceToJson(
-  _StoreCalculatedPrice instance,
+Map<String, dynamic> _$$StoreCalculatedPriceImplToJson(
+  _$StoreCalculatedPriceImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'is_calculated_price_price_list': instance.isCalculatedPricePriceList,

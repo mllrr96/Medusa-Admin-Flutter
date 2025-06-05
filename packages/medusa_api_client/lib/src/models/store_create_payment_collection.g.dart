@@ -6,10 +6,10 @@ part of 'store_create_payment_collection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCreatePaymentCollection _$StoreCreatePaymentCollectionFromJson(
+_$StoreCreatePaymentCollectionImpl _$$StoreCreatePaymentCollectionImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCreatePaymentCollection(cartId: json['cart_id'] as String);
+) => _$StoreCreatePaymentCollectionImpl(cartId: json['cart_id'] as String);
 
-Map<String, dynamic> _$StoreCreatePaymentCollectionToJson(
-  _StoreCreatePaymentCollection instance,
+Map<String, dynamic> _$$StoreCreatePaymentCollectionImplToJson(
+  _$StoreCreatePaymentCollectionImpl instance,
 ) => <String, dynamic>{'cart_id': instance.cartId};

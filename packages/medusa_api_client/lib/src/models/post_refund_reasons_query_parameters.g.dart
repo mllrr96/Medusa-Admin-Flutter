@@ -6,10 +6,10 @@ part of 'post_refund_reasons_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostRefundReasonsQueryParameters _$PostRefundReasonsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostRefundReasonsQueryParameters(fields: json['fields'] as String);
+_$PostRefundReasonsQueryParametersImpl
+_$$PostRefundReasonsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostRefundReasonsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostRefundReasonsQueryParametersToJson(
-  _PostRefundReasonsQueryParameters instance,
+Map<String, dynamic> _$$PostRefundReasonsQueryParametersImplToJson(
+  _$PostRefundReasonsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

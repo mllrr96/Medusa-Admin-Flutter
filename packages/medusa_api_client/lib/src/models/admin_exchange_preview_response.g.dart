@@ -6,17 +6,17 @@ part of 'admin_exchange_preview_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminExchangePreviewResponse _$AdminExchangePreviewResponseFromJson(
+_$AdminExchangePreviewResponseImpl _$$AdminExchangePreviewResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminExchangePreviewResponse(
+) => _$AdminExchangePreviewResponseImpl(
   orderPreview: AdminOrderPreview.fromJson(
     json['order_preview'] as Map<String, dynamic>,
   ),
   exchange: AdminExchange.fromJson(json['exchange'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminExchangePreviewResponseToJson(
-  _AdminExchangePreviewResponse instance,
+Map<String, dynamic> _$$AdminExchangePreviewResponseImplToJson(
+  _$AdminExchangePreviewResponseImpl instance,
 ) => <String, dynamic>{
   'order_preview': instance.orderPreview,
   'exchange': instance.exchange,

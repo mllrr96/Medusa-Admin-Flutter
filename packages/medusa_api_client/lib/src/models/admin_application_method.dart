@@ -80,7 +80,7 @@
 ///     ],
 ///     "description": "The application method's details."
 /// }
-library admin_application_method;
+library;
 
 import 'exports.dart';
 part 'admin_application_method.freezed.dart';

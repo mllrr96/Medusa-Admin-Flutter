@@ -6,8 +6,8 @@ part of 'admin_tax_region.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminTaxRegion _$AdminTaxRegionFromJson(Map<String, dynamic> json) =>
-    _AdminTaxRegion(
+_$AdminTaxRegionImpl _$$AdminTaxRegionImplFromJson(Map<String, dynamic> json) =>
+    _$AdminTaxRegionImpl(
       id: json['id'] as String,
       countryCode: json['country_code'] as String,
       provinceCode: json['province_code'] as String,
@@ -26,18 +26,19 @@ _AdminTaxRegion _$AdminTaxRegionFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$AdminTaxRegionToJson(_AdminTaxRegion instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'country_code': instance.countryCode,
-      'province_code': instance.provinceCode,
-      'metadata': instance.metadata,
-      'parent_id': instance.parentId,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt.toIso8601String(),
-      'created_by': instance.createdBy,
-      'tax_rates': instance.taxRates,
-      'parent': instance.parent,
-      'children': instance.children,
-    };
+Map<String, dynamic> _$$AdminTaxRegionImplToJson(
+  _$AdminTaxRegionImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'country_code': instance.countryCode,
+  'province_code': instance.provinceCode,
+  'metadata': instance.metadata,
+  'parent_id': instance.parentId,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'deleted_at': instance.deletedAt.toIso8601String(),
+  'created_by': instance.createdBy,
+  'tax_rates': instance.taxRates,
+  'parent': instance.parent,
+  'children': instance.children,
+};

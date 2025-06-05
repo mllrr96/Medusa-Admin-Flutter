@@ -6,8 +6,8 @@ part of 'base_product_tag.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseProductTag _$BaseProductTagFromJson(Map<String, dynamic> json) =>
-    _BaseProductTag(
+_$BaseProductTagImpl _$$BaseProductTagImplFromJson(Map<String, dynamic> json) =>
+    _$BaseProductTagImpl(
       id: json['id'] as String,
       value: json['value'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -16,12 +16,13 @@ _BaseProductTag _$BaseProductTagFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$BaseProductTagToJson(_BaseProductTag instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'value': instance.value,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt.toIso8601String(),
-      'metadata': instance.metadata,
-    };
+Map<String, dynamic> _$$BaseProductTagImplToJson(
+  _$BaseProductTagImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'value': instance.value,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'deleted_at': instance.deletedAt.toIso8601String(),
+  'metadata': instance.metadata,
+};

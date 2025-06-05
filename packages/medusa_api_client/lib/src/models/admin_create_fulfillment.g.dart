@@ -6,9 +6,9 @@ part of 'admin_create_fulfillment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateFulfillment _$AdminCreateFulfillmentFromJson(
+_$AdminCreateFulfillmentImpl _$$AdminCreateFulfillmentImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateFulfillment(
+) => _$AdminCreateFulfillmentImpl(
   locationId: json['location_id'] as String,
   providerId: json['provider_id'] as String,
   deliveryAddress: json['delivery_address'] as Map<String, dynamic>,
@@ -28,8 +28,8 @@ _AdminCreateFulfillment _$AdminCreateFulfillmentFromJson(
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateFulfillmentToJson(
-  _AdminCreateFulfillment instance,
+Map<String, dynamic> _$$AdminCreateFulfillmentImplToJson(
+  _$AdminCreateFulfillmentImpl instance,
 ) => <String, dynamic>{
   'location_id': instance.locationId,
   'provider_id': instance.providerId,

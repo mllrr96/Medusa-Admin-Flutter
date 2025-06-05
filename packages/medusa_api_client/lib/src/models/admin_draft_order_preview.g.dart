@@ -6,9 +6,9 @@ part of 'admin_draft_order_preview.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminDraftOrderPreview _$AdminDraftOrderPreviewFromJson(
+_$AdminDraftOrderPreviewImpl _$$AdminDraftOrderPreviewImplFromJson(
   Map<String, dynamic> json,
-) => _AdminDraftOrderPreview(
+) => _$AdminDraftOrderPreviewImpl(
   returnRequestedTotal: (json['return_requested_total'] as num).toDouble(),
   orderChange: AdminOrderChange.fromJson(
     json['order_change'] as Map<String, dynamic>,
@@ -79,8 +79,8 @@ _AdminDraftOrderPreview _$AdminDraftOrderPreviewFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminDraftOrderPreviewToJson(
-  _AdminDraftOrderPreview instance,
+Map<String, dynamic> _$$AdminDraftOrderPreviewImplToJson(
+  _$AdminDraftOrderPreviewImpl instance,
 ) => <String, dynamic>{
   'return_requested_total': instance.returnRequestedTotal,
   'order_change': instance.orderChange,

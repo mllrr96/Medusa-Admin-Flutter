@@ -6,12 +6,12 @@ part of 'get_price_lists_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPriceListsQueryParameters _$GetPriceListsQueryParametersFromJson(
+_$GetPriceListsQueryParametersImpl _$$GetPriceListsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetPriceListsQueryParameters(
+) => _$GetPriceListsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -31,8 +31,8 @@ _GetPriceListsQueryParameters _$GetPriceListsQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetPriceListsQueryParametersToJson(
-  _GetPriceListsQueryParameters instance,
+Map<String, dynamic> _$$GetPriceListsQueryParametersImplToJson(
+  _$GetPriceListsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

@@ -241,7 +241,7 @@
 ///     ],
 ///     "description": "The tax line's item."
 /// }
-library base_cart_line_item;
+library;
 
 import 'exports.dart';
 part 'base_cart_line_item.freezed.dart';

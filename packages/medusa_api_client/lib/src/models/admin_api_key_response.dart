@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The API key's details."
 /// }
-library admin_api_key_response;
+library;
 
 import 'exports.dart';
 part 'admin_api_key_response.freezed.dart';

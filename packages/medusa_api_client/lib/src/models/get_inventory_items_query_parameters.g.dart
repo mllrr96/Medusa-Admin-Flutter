@@ -6,36 +6,36 @@ part of 'get_inventory_items_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetInventoryItemsQueryParameters _$GetInventoryItemsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetInventoryItemsQueryParameters(
-  fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
-  order: json['order'] as String,
-  q: json['q'] as String,
-  id: json['id'],
-  sku: json['sku'],
-  originCountry: json['origin_country'],
-  midCode: json['mid_code'],
-  hsCode: json['hs_code'],
-  material: json['material'],
-  requiresShipping: json['requires_shipping'] as bool,
-  weight: json['weight'],
-  length: json['length'],
-  height: json['height'],
-  width: json['width'],
-  locationLevels: json['location_levels'] as Map<String, dynamic>,
-  and: (json[r'$and'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  or: (json[r'$or'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-);
+_$GetInventoryItemsQueryParametersImpl
+_$$GetInventoryItemsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetInventoryItemsQueryParametersImpl(
+      fields: json['fields'] as String,
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      order: json['order'] as String,
+      q: json['q'] as String,
+      id: json['id'],
+      sku: json['sku'],
+      originCountry: json['origin_country'],
+      midCode: json['mid_code'],
+      hsCode: json['hs_code'],
+      material: json['material'],
+      requiresShipping: json['requires_shipping'] as bool,
+      weight: json['weight'],
+      length: json['length'],
+      height: json['height'],
+      width: json['width'],
+      locationLevels: json['location_levels'] as Map<String, dynamic>,
+      and: (json[r'$and'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      or: (json[r'$or'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
 
-Map<String, dynamic> _$GetInventoryItemsQueryParametersToJson(
-  _GetInventoryItemsQueryParameters instance,
+Map<String, dynamic> _$$GetInventoryItemsQueryParametersImplToJson(
+  _$GetInventoryItemsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

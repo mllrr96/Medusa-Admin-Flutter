@@ -6,9 +6,9 @@ part of 'admin_create_reservation.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateReservation _$AdminCreateReservationFromJson(
+_$AdminCreateReservationImpl _$$AdminCreateReservationImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateReservation(
+) => _$AdminCreateReservationImpl(
   lineItemId: json['line_item_id'] as String,
   locationId: json['location_id'] as String,
   inventoryItemId: json['inventory_item_id'] as String,
@@ -17,8 +17,8 @@ _AdminCreateReservation _$AdminCreateReservationFromJson(
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateReservationToJson(
-  _AdminCreateReservation instance,
+Map<String, dynamic> _$$AdminCreateReservationImplToJson(
+  _$AdminCreateReservationImpl instance,
 ) => <String, dynamic>{
   'line_item_id': instance.lineItemId,
   'location_id': instance.locationId,

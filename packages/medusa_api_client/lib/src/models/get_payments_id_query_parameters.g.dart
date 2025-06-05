@@ -6,10 +6,10 @@ part of 'get_payments_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPaymentsIdQueryParameters _$GetPaymentsIdQueryParametersFromJson(
+_$GetPaymentsIdQueryParametersImpl _$$GetPaymentsIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetPaymentsIdQueryParameters(fields: json['fields'] as String);
+) => _$GetPaymentsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetPaymentsIdQueryParametersToJson(
-  _GetPaymentsIdQueryParameters instance,
+Map<String, dynamic> _$$GetPaymentsIdQueryParametersImplToJson(
+  _$GetPaymentsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

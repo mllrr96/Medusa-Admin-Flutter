@@ -6,12 +6,12 @@ part of 'admin_tax_rate_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminTaxRateResponse _$AdminTaxRateResponseFromJson(
+_$AdminTaxRateResponseImpl _$$AdminTaxRateResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminTaxRateResponse(
+) => _$AdminTaxRateResponseImpl(
   taxRate: AdminTaxRate.fromJson(json['tax_rate'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminTaxRateResponseToJson(
-  _AdminTaxRateResponse instance,
+Map<String, dynamic> _$$AdminTaxRateResponseImplToJson(
+  _$AdminTaxRateResponseImpl instance,
 ) => <String, dynamic>{'tax_rate': instance.taxRate};

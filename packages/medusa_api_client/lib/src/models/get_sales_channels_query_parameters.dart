@@ -158,11 +158,11 @@ abstract class GetSalesChannelsQueryParameters
 
     /// offset
     @JsonKey(name: GetSalesChannelsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetSalesChannelsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetSalesChannelsQueryParameters.orderKey)

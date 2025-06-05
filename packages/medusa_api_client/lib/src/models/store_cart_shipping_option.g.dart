@@ -6,9 +6,9 @@ part of 'store_cart_shipping_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCartShippingOption _$StoreCartShippingOptionFromJson(
+_$StoreCartShippingOptionImpl _$$StoreCartShippingOptionImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCartShippingOption(
+) => _$StoreCartShippingOptionImpl(
   id: json['id'] as String,
   name: json['name'] as String,
   priceType: $enumDecode(_$NullEnumEnumMap, json['price_type']),
@@ -28,8 +28,8 @@ _StoreCartShippingOption _$StoreCartShippingOptionFromJson(
   insufficientInventory: json['insufficient_inventory'] as bool,
 );
 
-Map<String, dynamic> _$StoreCartShippingOptionToJson(
-  _StoreCartShippingOption instance,
+Map<String, dynamic> _$$StoreCartShippingOptionImplToJson(
+  _$StoreCartShippingOptionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,

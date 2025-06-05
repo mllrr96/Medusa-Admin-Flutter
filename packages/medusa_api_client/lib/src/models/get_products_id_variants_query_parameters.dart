@@ -104,11 +104,11 @@ abstract class GetProductsIdVariantsQueryParameters
 
     /// offset
     @JsonKey(name: GetProductsIdVariantsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetProductsIdVariantsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetProductsIdVariantsQueryParameters.orderKey)

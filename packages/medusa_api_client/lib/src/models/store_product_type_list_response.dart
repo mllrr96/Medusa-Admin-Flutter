@@ -52,14 +52,14 @@ abstract class StoreProductTypeListResponse
   @jsonSerializable
   const factory StoreProductTypeListResponse({
     /// limit
-    @JsonKey(name: StoreProductTypeListResponse.limitKey) required double limit,
+    @JsonKey(name: StoreProductTypeListResponse.limitKey) required int limit,
 
     /// offset
     @JsonKey(name: StoreProductTypeListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
-    @JsonKey(name: StoreProductTypeListResponse.countKey) required double count,
+    @JsonKey(name: StoreProductTypeListResponse.countKey) required int count,
 
     /// productTypes
     @JsonKey(name: StoreProductTypeListResponse.productTypesKey)

@@ -6,12 +6,12 @@ part of 'get_exchanges_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetExchangesQueryParameters _$GetExchangesQueryParametersFromJson(
+_$GetExchangesQueryParametersImpl _$$GetExchangesQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetExchangesQueryParameters(
+) => _$GetExchangesQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   deletedAt: json['deleted_at'] as Map<String, dynamic>,
   id: json['id'],
@@ -21,8 +21,8 @@ _GetExchangesQueryParameters _$GetExchangesQueryParametersFromJson(
   updatedAt: json['updated_at'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$GetExchangesQueryParametersToJson(
-  _GetExchangesQueryParameters instance,
+Map<String, dynamic> _$$GetExchangesQueryParametersImplToJson(
+  _$GetExchangesQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

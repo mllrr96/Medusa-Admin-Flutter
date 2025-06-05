@@ -25,7 +25,7 @@
 ///     ],
 ///     "description": "The operator's details."
 /// }
-library base_rule_operator_options;
+library;
 
 import 'exports.dart';
 part 'base_rule_operator_options.freezed.dart';

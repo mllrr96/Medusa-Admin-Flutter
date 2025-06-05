@@ -6,17 +6,17 @@ part of 'admin_post_order_edits_shipping_action_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostOrderEditsShippingActionReqSchema
-_$AdminPostOrderEditsShippingActionReqSchemaFromJson(
+_$AdminPostOrderEditsShippingActionReqSchemaImpl
+_$$AdminPostOrderEditsShippingActionReqSchemaImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPostOrderEditsShippingActionReqSchema(
+) => _$AdminPostOrderEditsShippingActionReqSchemaImpl(
   customAmount: (json['custom_amount'] as num).toDouble(),
   internalNote: json['internal_note'] as String,
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminPostOrderEditsShippingActionReqSchemaToJson(
-  _AdminPostOrderEditsShippingActionReqSchema instance,
+Map<String, dynamic> _$$AdminPostOrderEditsShippingActionReqSchemaImplToJson(
+  _$AdminPostOrderEditsShippingActionReqSchemaImpl instance,
 ) => <String, dynamic>{
   'custom_amount': instance.customAmount,
   'internal_note': instance.internalNote,

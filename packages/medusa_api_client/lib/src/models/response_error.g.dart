@@ -6,14 +6,14 @@ part of 'response_error.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ResponseError _$ResponseErrorFromJson(Map<String, dynamic> json) =>
-    _ResponseError(
+_$ResponseErrorImpl _$$ResponseErrorImplFromJson(Map<String, dynamic> json) =>
+    _$ResponseErrorImpl(
       code: $enumDecode(_$NullEnumEnumMap, json['code']),
       message: json['message'] as String,
       type: $enumDecode(_$NullEnumEnumMap, json['type']),
     );
 
-Map<String, dynamic> _$ResponseErrorToJson(_ResponseError instance) =>
+Map<String, dynamic> _$$ResponseErrorImplToJson(_$ResponseErrorImpl instance) =>
     <String, dynamic>{
       'code': instance.code,
       'message': instance.message,

@@ -138,10 +138,10 @@ abstract class GetApiKeysQueryParameters with _$GetApiKeysQueryParameters {
     @JsonKey(name: GetApiKeysQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetApiKeysQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetApiKeysQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetApiKeysQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetApiKeysQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetApiKeysQueryParameters.orderKey) required String order,

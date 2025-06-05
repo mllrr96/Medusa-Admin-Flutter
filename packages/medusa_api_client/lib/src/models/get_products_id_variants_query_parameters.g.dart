@@ -6,30 +6,31 @@ part of 'get_products_id_variants_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetProductsIdVariantsQueryParameters
-_$GetProductsIdVariantsQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetProductsIdVariantsQueryParameters(
-      fields: json['fields'] as String,
-      offset: (json['offset'] as num).toDouble(),
-      limit: (json['limit'] as num).toDouble(),
-      order: json['order'] as String,
-      q: json['q'] as String,
-      id: json['id'],
-      manageInventory: json['manage_inventory'] as bool,
-      allowBackorder: json['allow_backorder'] as bool,
-      createdAt: json['created_at'] as Map<String, dynamic>,
-      updatedAt: json['updated_at'] as Map<String, dynamic>,
-      deletedAt: json['deleted_at'] as Map<String, dynamic>,
-      and: (json[r'$and'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-      or: (json[r'$or'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-    );
+_$GetProductsIdVariantsQueryParametersImpl
+_$$GetProductsIdVariantsQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$GetProductsIdVariantsQueryParametersImpl(
+  fields: json['fields'] as String,
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
+  order: json['order'] as String,
+  q: json['q'] as String,
+  id: json['id'],
+  manageInventory: json['manage_inventory'] as bool,
+  allowBackorder: json['allow_backorder'] as bool,
+  createdAt: json['created_at'] as Map<String, dynamic>,
+  updatedAt: json['updated_at'] as Map<String, dynamic>,
+  deletedAt: json['deleted_at'] as Map<String, dynamic>,
+  and: (json[r'$and'] as List<dynamic>)
+      .map((e) => e as Map<String, dynamic>)
+      .toList(),
+  or: (json[r'$or'] as List<dynamic>)
+      .map((e) => e as Map<String, dynamic>)
+      .toList(),
+);
 
-Map<String, dynamic> _$GetProductsIdVariantsQueryParametersToJson(
-  _GetProductsIdVariantsQueryParameters instance,
+Map<String, dynamic> _$$GetProductsIdVariantsQueryParametersImplToJson(
+  _$GetProductsIdVariantsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

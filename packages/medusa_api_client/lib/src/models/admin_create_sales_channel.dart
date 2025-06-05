@@ -27,7 +27,7 @@
 ///     ],
 ///     "description": "The sales channel's details."
 /// }
-library admin_create_sales_channel;
+library;
 
 import 'exports.dart';
 part 'admin_create_sales_channel.freezed.dart';

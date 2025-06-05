@@ -6,10 +6,10 @@ part of 'admin_batch_update_inventory_items_location_levels.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminBatchUpdateInventoryItemsLocationLevels
-_$AdminBatchUpdateInventoryItemsLocationLevelsFromJson(
+_$AdminBatchUpdateInventoryItemsLocationLevelsImpl
+_$$AdminBatchUpdateInventoryItemsLocationLevelsImplFromJson(
   Map<String, dynamic> json,
-) => _AdminBatchUpdateInventoryItemsLocationLevels(
+) => _$AdminBatchUpdateInventoryItemsLocationLevelsImpl(
   locationId: json['location_id'] as String,
   inventoryItemId: json['inventory_item_id'] as String,
   stockedQuantity: (json['stocked_quantity'] as num).toDouble(),
@@ -17,8 +17,8 @@ _$AdminBatchUpdateInventoryItemsLocationLevelsFromJson(
   id: json['id'] as String,
 );
 
-Map<String, dynamic> _$AdminBatchUpdateInventoryItemsLocationLevelsToJson(
-  _AdminBatchUpdateInventoryItemsLocationLevels instance,
+Map<String, dynamic> _$$AdminBatchUpdateInventoryItemsLocationLevelsImplToJson(
+  _$AdminBatchUpdateInventoryItemsLocationLevelsImpl instance,
 ) => <String, dynamic>{
   'location_id': instance.locationId,
   'inventory_item_id': instance.inventoryItemId,

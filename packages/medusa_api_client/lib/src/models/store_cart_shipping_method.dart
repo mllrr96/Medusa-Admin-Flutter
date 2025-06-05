@@ -131,7 +131,7 @@
 ///     ],
 ///     "description": "A cart's shipping method."
 /// }
-library store_cart_shipping_method;
+library;
 
 import 'exports.dart';
 part 'store_cart_shipping_method.freezed.dart';

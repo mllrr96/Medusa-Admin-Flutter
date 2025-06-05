@@ -6,20 +6,20 @@ part of 'store_customer_address_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCustomerAddressListResponse _$StoreCustomerAddressListResponseFromJson(
-  Map<String, dynamic> json,
-) => _StoreCustomerAddressListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
-  addresses: (json['addresses'] as List<dynamic>)
-      .map((e) => StoreCustomerAddress.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  estimateCount: (json['estimate_count'] as num).toDouble(),
-);
+_$StoreCustomerAddressListResponseImpl
+_$$StoreCustomerAddressListResponseImplFromJson(Map<String, dynamic> json) =>
+    _$StoreCustomerAddressListResponseImpl(
+      limit: (json['limit'] as num).toInt(),
+      offset: (json['offset'] as num).toInt(),
+      count: (json['count'] as num).toInt(),
+      addresses: (json['addresses'] as List<dynamic>)
+          .map((e) => StoreCustomerAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      estimateCount: (json['estimate_count'] as num).toDouble(),
+    );
 
-Map<String, dynamic> _$StoreCustomerAddressListResponseToJson(
-  _StoreCustomerAddressListResponse instance,
+Map<String, dynamic> _$$StoreCustomerAddressListResponseImplToJson(
+  _$StoreCustomerAddressListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

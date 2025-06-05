@@ -94,7 +94,7 @@
 ///     ],
 ///     "description": "The payment's details."
 /// }
-library base_payment;
+library;
 
 import 'exports.dart';
 part 'base_payment.freezed.dart';

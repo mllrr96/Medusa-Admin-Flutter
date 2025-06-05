@@ -60,7 +60,7 @@
 ///     ],
 ///     "description": "The region's details."
 /// }
-library store_region;
+library;
 
 import 'exports.dart';
 part 'store_region.freezed.dart';

@@ -6,8 +6,8 @@ part of 'create_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_CreateAddress _$CreateAddressFromJson(Map<String, dynamic> json) =>
-    _CreateAddress(
+_$CreateAddressImpl _$$CreateAddressImplFromJson(Map<String, dynamic> json) =>
+    _$CreateAddressImpl(
       customerId: json['customer_id'] as String,
       company: json['company'] as String,
       firstName: json['first_name'] as String,
@@ -22,7 +22,7 @@ _CreateAddress _$CreateAddressFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$CreateAddressToJson(_CreateAddress instance) =>
+Map<String, dynamic> _$$CreateAddressImplToJson(_$CreateAddressImpl instance) =>
     <String, dynamic>{
       'customer_id': instance.customerId,
       'company': instance.company,

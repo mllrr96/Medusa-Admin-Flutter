@@ -6,9 +6,9 @@ part of 'admin_exchange_request_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminExchangeRequestResponse _$AdminExchangeRequestResponseFromJson(
+_$AdminExchangeRequestResponseImpl _$$AdminExchangeRequestResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminExchangeRequestResponse(
+) => _$AdminExchangeRequestResponseImpl(
   returnAA: AdminReturn.fromJson(json['return'] as Map<String, dynamic>),
   orderPreview: AdminOrderPreview.fromJson(
     json['order_preview'] as Map<String, dynamic>,
@@ -16,8 +16,8 @@ _AdminExchangeRequestResponse _$AdminExchangeRequestResponseFromJson(
   exchange: AdminExchange.fromJson(json['exchange'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminExchangeRequestResponseToJson(
-  _AdminExchangeRequestResponse instance,
+Map<String, dynamic> _$$AdminExchangeRequestResponseImplToJson(
+  _$AdminExchangeRequestResponseImpl instance,
 ) => <String, dynamic>{
   'return': instance.returnAA,
   'order_preview': instance.orderPreview,

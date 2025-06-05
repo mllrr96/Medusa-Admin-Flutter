@@ -6,8 +6,8 @@ part of 'admin_product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProduct _$AdminProductFromJson(Map<String, dynamic> json) =>
-    _AdminProduct(
+_$AdminProductImpl _$$AdminProductImplFromJson(Map<String, dynamic> json) =>
+    _$AdminProductImpl(
       collection: AdminCollection.fromJson(
         json['collection'] as Map<String, dynamic>,
       ),
@@ -59,7 +59,7 @@ _AdminProduct _$AdminProductFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$AdminProductToJson(_AdminProduct instance) =>
+Map<String, dynamic> _$$AdminProductImplToJson(_$AdminProductImpl instance) =>
     <String, dynamic>{
       'collection': instance.collection,
       'categories': instance.categories,

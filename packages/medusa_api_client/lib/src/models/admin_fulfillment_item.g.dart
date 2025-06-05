@@ -6,9 +6,9 @@ part of 'admin_fulfillment_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFulfillmentItem _$AdminFulfillmentItemFromJson(
+_$AdminFulfillmentItemImpl _$$AdminFulfillmentItemImplFromJson(
   Map<String, dynamic> json,
-) => _AdminFulfillmentItem(
+) => _$AdminFulfillmentItemImpl(
   id: json['id'] as String,
   title: json['title'] as String,
   quantity: (json['quantity'] as num).toDouble(),
@@ -22,8 +22,8 @@ _AdminFulfillmentItem _$AdminFulfillmentItemFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminFulfillmentItemToJson(
-  _AdminFulfillmentItem instance,
+Map<String, dynamic> _$$AdminFulfillmentItemImplToJson(
+  _$AdminFulfillmentItemImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'title': instance.title,

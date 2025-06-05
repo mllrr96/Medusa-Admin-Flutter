@@ -110,7 +110,7 @@
 ///     ],
 ///     "description": "The fulfillment's details."
 /// }
-library admin_fulfillment;
+library;
 
 import 'exports.dart';
 part 'admin_fulfillment.freezed.dart';

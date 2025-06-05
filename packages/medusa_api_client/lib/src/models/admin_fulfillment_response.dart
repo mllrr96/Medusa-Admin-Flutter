@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "A fulfillment's details."
 /// }
-library admin_fulfillment_response;
+library;
 
 import 'exports.dart';
 part 'admin_fulfillment_response.freezed.dart';

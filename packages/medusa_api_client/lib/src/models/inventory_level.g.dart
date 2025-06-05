@@ -6,8 +6,8 @@ part of 'inventory_level.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InventoryLevel _$InventoryLevelFromJson(Map<String, dynamic> json) =>
-    _InventoryLevel(
+_$InventoryLevelImpl _$$InventoryLevelImplFromJson(Map<String, dynamic> json) =>
+    _$InventoryLevelImpl(
       id: json['id'] as String,
       inventoryItemId: json['inventory_item_id'] as String,
       locationId: json['location_id'] as String,
@@ -18,14 +18,15 @@ _InventoryLevel _$InventoryLevelFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$InventoryLevelToJson(_InventoryLevel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'inventory_item_id': instance.inventoryItemId,
-      'location_id': instance.locationId,
-      'stocked_quantity': instance.stockedQuantity,
-      'reserved_quantity': instance.reservedQuantity,
-      'available_quantity': instance.availableQuantity,
-      'incoming_quantity': instance.incomingQuantity,
-      'metadata': instance.metadata,
-    };
+Map<String, dynamic> _$$InventoryLevelImplToJson(
+  _$InventoryLevelImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'inventory_item_id': instance.inventoryItemId,
+  'location_id': instance.locationId,
+  'stocked_quantity': instance.stockedQuantity,
+  'reserved_quantity': instance.reservedQuantity,
+  'available_quantity': instance.availableQuantity,
+  'incoming_quantity': instance.incomingQuantity,
+  'metadata': instance.metadata,
+};

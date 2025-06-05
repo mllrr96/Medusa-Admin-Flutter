@@ -6,21 +6,21 @@ part of 'get_orders_id_line_items_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetOrdersIdLineItemsQueryParameters
-_$GetOrdersIdLineItemsQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetOrdersIdLineItemsQueryParameters(
+_$GetOrdersIdLineItemsQueryParametersImpl
+_$$GetOrdersIdLineItemsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetOrdersIdLineItemsQueryParametersImpl(
       fields: json['fields'] as String,
       id: json['id'],
       itemId: json['item_id'],
       orderId: json['order_id'],
       version: json['version'],
-      limit: (json['limit'] as num).toDouble(),
-      offset: (json['offset'] as num).toDouble(),
+      limit: (json['limit'] as num).toInt(),
+      offset: (json['offset'] as num).toInt(),
       order: json['order'] as String,
     );
 
-Map<String, dynamic> _$GetOrdersIdLineItemsQueryParametersToJson(
-  _GetOrdersIdLineItemsQueryParameters instance,
+Map<String, dynamic> _$$GetOrdersIdLineItemsQueryParametersImplToJson(
+  _$GetOrdersIdLineItemsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'id': instance.id,

@@ -23,7 +23,7 @@
 ///     ],
 ///     "description": "The details of the line item to add."
 /// }
-library store_add_cart_line_item;
+library;
 
 import 'exports.dart';
 part 'store_add_cart_line_item.freezed.dart';

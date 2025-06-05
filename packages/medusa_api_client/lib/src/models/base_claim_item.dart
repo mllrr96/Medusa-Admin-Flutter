@@ -69,7 +69,7 @@
 ///     ],
 ///     "description": "The claim item's details."
 /// }
-library base_claim_item;
+library;
 
 import 'exports.dart';
 part 'base_claim_item.freezed.dart';

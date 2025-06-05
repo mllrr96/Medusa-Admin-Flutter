@@ -6,10 +6,10 @@ part of 'admin_product_variant_inventory_link_delete_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductVariantInventoryLinkDeleteResponse
-_$AdminProductVariantInventoryLinkDeleteResponseFromJson(
+_$AdminProductVariantInventoryLinkDeleteResponseImpl
+_$$AdminProductVariantInventoryLinkDeleteResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminProductVariantInventoryLinkDeleteResponse(
+) => _$AdminProductVariantInventoryLinkDeleteResponseImpl(
   id: AdminProductVariantInventoryLink.fromJson(
     json['id'] as Map<String, dynamic>,
   ),
@@ -18,8 +18,9 @@ _$AdminProductVariantInventoryLinkDeleteResponseFromJson(
   parent: AdminProductVariant.fromJson(json['parent'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminProductVariantInventoryLinkDeleteResponseToJson(
-  _AdminProductVariantInventoryLinkDeleteResponse instance,
+Map<String, dynamic>
+_$$AdminProductVariantInventoryLinkDeleteResponseImplToJson(
+  _$AdminProductVariantInventoryLinkDeleteResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

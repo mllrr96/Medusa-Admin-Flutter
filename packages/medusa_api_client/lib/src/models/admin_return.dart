@@ -94,7 +94,7 @@
 ///     ],
 ///     "description": "The return's details."
 /// }
-library admin_return;
+library;
 
 import 'exports.dart';
 part 'admin_return.freezed.dart';

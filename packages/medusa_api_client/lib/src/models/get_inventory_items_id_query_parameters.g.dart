@@ -6,10 +6,10 @@ part of 'get_inventory_items_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetInventoryItemsIdQueryParameters
-_$GetInventoryItemsIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetInventoryItemsIdQueryParameters(fields: json['fields'] as String);
+_$GetInventoryItemsIdQueryParametersImpl
+_$$GetInventoryItemsIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetInventoryItemsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetInventoryItemsIdQueryParametersToJson(
-  _GetInventoryItemsIdQueryParameters instance,
+Map<String, dynamic> _$$GetInventoryItemsIdQueryParametersImplToJson(
+  _$GetInventoryItemsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

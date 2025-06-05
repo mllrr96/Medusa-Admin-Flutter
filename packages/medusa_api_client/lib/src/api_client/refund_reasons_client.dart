@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/refund_reason_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'refund_reasons_client.g.dart';
@@ -438,7 +439,7 @@ abstract class RefundReasonsClient {
   ///     }
   /// }
   @DELETE("/admin/refund-reasons/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteRefundReasonsId({
+  Future<HttpResponse<RefundReasonDeleteResponse>> deleteRefundReasonsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

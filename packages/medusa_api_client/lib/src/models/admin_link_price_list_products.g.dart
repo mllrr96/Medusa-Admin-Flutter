@@ -6,12 +6,12 @@ part of 'admin_link_price_list_products.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminLinkPriceListProducts _$AdminLinkPriceListProductsFromJson(
+_$AdminLinkPriceListProductsImpl _$$AdminLinkPriceListProductsImplFromJson(
   Map<String, dynamic> json,
-) => _AdminLinkPriceListProducts(
+) => _$AdminLinkPriceListProductsImpl(
   remove: (json['remove'] as List<dynamic>).map((e) => e as String).toList(),
 );
 
-Map<String, dynamic> _$AdminLinkPriceListProductsToJson(
-  _AdminLinkPriceListProducts instance,
+Map<String, dynamic> _$$AdminLinkPriceListProductsImplToJson(
+  _$AdminLinkPriceListProductsImpl instance,
 ) => <String, dynamic>{'remove': instance.remove};

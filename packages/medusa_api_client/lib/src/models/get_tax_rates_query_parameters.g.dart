@@ -6,12 +6,12 @@ part of 'get_tax_rates_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetTaxRatesQueryParameters _$GetTaxRatesQueryParametersFromJson(
+_$GetTaxRatesQueryParametersImpl _$$GetTaxRatesQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetTaxRatesQueryParameters(
+) => _$GetTaxRatesQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   taxRegionId: json['tax_region_id'],
@@ -31,8 +31,8 @@ _GetTaxRatesQueryParameters _$GetTaxRatesQueryParametersFromJson(
   shippingOptionTypeId: json['shipping_option_type_id'] as String,
 );
 
-Map<String, dynamic> _$GetTaxRatesQueryParametersToJson(
-  _GetTaxRatesQueryParameters instance,
+Map<String, dynamic> _$$GetTaxRatesQueryParametersImplToJson(
+  _$GetTaxRatesQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

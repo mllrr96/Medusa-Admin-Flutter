@@ -87,7 +87,7 @@
 ///     ],
 ///     "description": "The filfillment's details."
 /// }
-library admin_create_fulfillment;
+library;
 
 import 'exports.dart';
 part 'admin_create_fulfillment.freezed.dart';

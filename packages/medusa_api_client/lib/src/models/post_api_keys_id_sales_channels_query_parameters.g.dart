@@ -6,13 +6,13 @@ part of 'post_api_keys_id_sales_channels_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostApiKeysIdSalesChannelsQueryParameters
-_$PostApiKeysIdSalesChannelsQueryParametersFromJson(
+_$PostApiKeysIdSalesChannelsQueryParametersImpl
+_$$PostApiKeysIdSalesChannelsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostApiKeysIdSalesChannelsQueryParameters(
+) => _$PostApiKeysIdSalesChannelsQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostApiKeysIdSalesChannelsQueryParametersToJson(
-  _PostApiKeysIdSalesChannelsQueryParameters instance,
+Map<String, dynamic> _$$PostApiKeysIdSalesChannelsQueryParametersImplToJson(
+  _$PostApiKeysIdSalesChannelsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

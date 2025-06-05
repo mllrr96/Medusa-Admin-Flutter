@@ -81,7 +81,7 @@
 ///     ],
 ///     "description": "The calculated price's details."
 /// }
-library base_calculated_price_set;
+library;
 
 import 'exports.dart';
 part 'base_calculated_price_set.freezed.dart';

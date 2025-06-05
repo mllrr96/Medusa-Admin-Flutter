@@ -6,9 +6,9 @@ part of 'admin_create_shipping_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateShippingOption _$AdminCreateShippingOptionFromJson(
+_$AdminCreateShippingOptionImpl _$$AdminCreateShippingOptionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateShippingOption(
+) => _$AdminCreateShippingOptionImpl(
   name: json['name'] as String,
   serviceZoneId: json['service_zone_id'] as String,
   shippingProfileId: json['shipping_profile_id'] as String,
@@ -27,8 +27,8 @@ _AdminCreateShippingOption _$AdminCreateShippingOptionFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminCreateShippingOptionToJson(
-  _AdminCreateShippingOption instance,
+Map<String, dynamic> _$$AdminCreateShippingOptionImplToJson(
+  _$AdminCreateShippingOptionImpl instance,
 ) => <String, dynamic>{
   'name': instance.name,
   'service_zone_id': instance.serviceZoneId,

@@ -38,7 +38,7 @@
 ///     ],
 ///     "description": "The country's details."
 /// }
-library base_region_country;
+library;
 
 import 'exports.dart';
 part 'base_region_country.freezed.dart';

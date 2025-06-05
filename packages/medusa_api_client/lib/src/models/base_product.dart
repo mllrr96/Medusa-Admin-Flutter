@@ -201,7 +201,7 @@
 ///     ],
 ///     "description": "The product's details."
 /// }
-library base_product;
+library;
 
 import 'exports.dart';
 part 'base_product.freezed.dart';

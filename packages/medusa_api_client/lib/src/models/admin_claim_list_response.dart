@@ -38,7 +38,7 @@
 ///     ],
 ///     "description": "The paginated list of claims."
 /// }
-library admin_claim_list_response;
+library;
 
 import 'exports.dart';
 part 'admin_claim_list_response.freezed.dart';
@@ -51,13 +51,13 @@ abstract class AdminClaimListResponse with _$AdminClaimListResponse {
   @jsonSerializable
   const factory AdminClaimListResponse({
     /// limit
-    @JsonKey(name: AdminClaimListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminClaimListResponse.limitKey) required int limit,
 
     /// offset
-    @JsonKey(name: AdminClaimListResponse.offsetKey) required double offset,
+    @JsonKey(name: AdminClaimListResponse.offsetKey) required int offset,
 
     /// count
-    @JsonKey(name: AdminClaimListResponse.countKey) required double count,
+    @JsonKey(name: AdminClaimListResponse.countKey) required int count,
 
     /// claims
     @JsonKey(name: AdminClaimListResponse.claimsKey)

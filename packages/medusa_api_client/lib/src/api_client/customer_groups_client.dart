@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_customer_group_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'customer_groups_client.g.dart';
@@ -539,7 +540,7 @@ abstract class CustomerGroupsClient {
   ///     }
   /// }
   @DELETE("/admin/customer-groups/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteCustomerGroupsId({
+  Future<HttpResponse<AdminCustomerGroupDeleteResponse>> deleteCustomerGroupsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

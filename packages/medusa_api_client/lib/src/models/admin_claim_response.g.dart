@@ -6,10 +6,12 @@ part of 'admin_claim_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminClaimResponse _$AdminClaimResponseFromJson(Map<String, dynamic> json) =>
-    _AdminClaimResponse(
-      claim: AdminClaim.fromJson(json['claim'] as Map<String, dynamic>),
-    );
+_$AdminClaimResponseImpl _$$AdminClaimResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminClaimResponseImpl(
+  claim: AdminClaim.fromJson(json['claim'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$AdminClaimResponseToJson(_AdminClaimResponse instance) =>
-    <String, dynamic>{'claim': instance.claim};
+Map<String, dynamic> _$$AdminClaimResponseImplToJson(
+  _$AdminClaimResponseImpl instance,
+) => <String, dynamic>{'claim': instance.claim};

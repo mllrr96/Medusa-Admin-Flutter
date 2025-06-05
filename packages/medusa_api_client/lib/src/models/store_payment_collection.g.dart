@@ -6,9 +6,9 @@ part of 'store_payment_collection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StorePaymentCollection _$StorePaymentCollectionFromJson(
+_$StorePaymentCollectionImpl _$$StorePaymentCollectionImplFromJson(
   Map<String, dynamic> json,
-) => _StorePaymentCollection(
+) => _$StorePaymentCollectionImpl(
   id: json['id'] as String,
   currencyCode: json['currency_code'] as String,
   amount: (json['amount'] as num).toDouble(),
@@ -31,8 +31,8 @@ _StorePaymentCollection _$StorePaymentCollectionFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$StorePaymentCollectionToJson(
-  _StorePaymentCollection instance,
+Map<String, dynamic> _$$StorePaymentCollectionImplToJson(
+  _$StorePaymentCollectionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'currency_code': instance.currencyCode,

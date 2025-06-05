@@ -222,7 +222,7 @@
 ///     ],
 ///     "description": "The cart's details."
 /// }
-library store_cart;
+library;
 
 import 'exports.dart';
 part 'store_cart.freezed.dart';

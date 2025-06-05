@@ -6,14 +6,14 @@ part of 'admin_draft_order_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminDraftOrderResponse _$AdminDraftOrderResponseFromJson(
+_$AdminDraftOrderResponseImpl _$$AdminDraftOrderResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminDraftOrderResponse(
+) => _$AdminDraftOrderResponseImpl(
   draftOrder: AdminDraftOrder.fromJson(
     json['draft_order'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminDraftOrderResponseToJson(
-  _AdminDraftOrderResponse instance,
+Map<String, dynamic> _$$AdminDraftOrderResponseImplToJson(
+  _$AdminDraftOrderResponseImpl instance,
 ) => <String, dynamic>{'draft_order': instance.draftOrder};

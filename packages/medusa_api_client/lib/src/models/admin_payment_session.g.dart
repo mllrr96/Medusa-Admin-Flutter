@@ -6,22 +6,23 @@ part of 'admin_payment_session.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPaymentSession _$AdminPaymentSessionFromJson(Map<String, dynamic> json) =>
-    _AdminPaymentSession(
-      id: json['id'] as String,
-      amount: (json['amount'] as num).toDouble(),
-      currencyCode: json['currency_code'] as String,
-      providerId: json['provider_id'] as String,
-      data: json['data'] as Map<String, dynamic>,
-      context: json['context'] as Map<String, dynamic>,
-      status: $enumDecode(_$NullEnumEnumMap, json['status']),
-      authorizedAt: DateTime.parse(json['authorized_at'] as String),
-      paymentCollection: json['payment_collection'] as Map<String, dynamic>,
-      payment: BasePayment.fromJson(json['payment'] as Map<String, dynamic>),
-    );
+_$AdminPaymentSessionImpl _$$AdminPaymentSessionImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminPaymentSessionImpl(
+  id: json['id'] as String,
+  amount: (json['amount'] as num).toDouble(),
+  currencyCode: json['currency_code'] as String,
+  providerId: json['provider_id'] as String,
+  data: json['data'] as Map<String, dynamic>,
+  context: json['context'] as Map<String, dynamic>,
+  status: $enumDecode(_$NullEnumEnumMap, json['status']),
+  authorizedAt: DateTime.parse(json['authorized_at'] as String),
+  paymentCollection: json['payment_collection'] as Map<String, dynamic>,
+  payment: BasePayment.fromJson(json['payment'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$AdminPaymentSessionToJson(
-  _AdminPaymentSession instance,
+Map<String, dynamic> _$$AdminPaymentSessionImplToJson(
+  _$AdminPaymentSessionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'amount': instance.amount,

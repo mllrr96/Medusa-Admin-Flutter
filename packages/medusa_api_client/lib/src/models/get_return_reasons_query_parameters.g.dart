@@ -6,32 +6,32 @@ part of 'get_return_reasons_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetReturnReasonsQueryParameters _$GetReturnReasonsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetReturnReasonsQueryParameters(
-  fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
-  order: json['order'] as String,
-  q: json['q'] as String,
-  id: json['id'],
-  value: json['value'],
-  label: json['label'],
-  description: json['description'],
-  parentReturnReasonId: json['parent_return_reason_id'],
-  createdAt: json['created_at'] as Map<String, dynamic>,
-  updatedAt: json['updated_at'] as Map<String, dynamic>,
-  deletedAt: json['deleted_at'] as Map<String, dynamic>,
-  and: (json[r'$and'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-  or: (json[r'$or'] as List<dynamic>)
-      .map((e) => e as Map<String, dynamic>)
-      .toList(),
-);
+_$GetReturnReasonsQueryParametersImpl
+_$$GetReturnReasonsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetReturnReasonsQueryParametersImpl(
+      fields: json['fields'] as String,
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      order: json['order'] as String,
+      q: json['q'] as String,
+      id: json['id'],
+      value: json['value'],
+      label: json['label'],
+      description: json['description'],
+      parentReturnReasonId: json['parent_return_reason_id'],
+      createdAt: json['created_at'] as Map<String, dynamic>,
+      updatedAt: json['updated_at'] as Map<String, dynamic>,
+      deletedAt: json['deleted_at'] as Map<String, dynamic>,
+      and: (json[r'$and'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      or: (json[r'$or'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
 
-Map<String, dynamic> _$GetReturnReasonsQueryParametersToJson(
-  _GetReturnReasonsQueryParameters instance,
+Map<String, dynamic> _$$GetReturnReasonsQueryParametersImplToJson(
+  _$GetReturnReasonsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

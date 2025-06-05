@@ -57,7 +57,7 @@
 ///     ],
 ///     "description": "The return item's details."
 /// }
-library admin_return_item;
+library;
 
 import 'exports.dart';
 part 'admin_return_item.freezed.dart';

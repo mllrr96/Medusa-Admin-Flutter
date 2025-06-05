@@ -311,7 +311,7 @@
 ///     ],
 ///     "description": "A preview of an order if a change, such as exchange, return, edit, or claim is applied on it."
 /// }
-library admin_order_preview;
+library;
 
 import 'exports.dart';
 part 'admin_order_preview.freezed.dart';

@@ -6,12 +6,12 @@ part of 'get_currencies_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetCurrenciesQueryParameters _$GetCurrenciesQueryParametersFromJson(
+_$GetCurrenciesQueryParametersImpl _$$GetCurrenciesQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetCurrenciesQueryParameters(
+) => _$GetCurrenciesQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   code: json['code'],
@@ -23,8 +23,8 @@ _GetCurrenciesQueryParameters _$GetCurrenciesQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetCurrenciesQueryParametersToJson(
-  _GetCurrenciesQueryParameters instance,
+Map<String, dynamic> _$$GetCurrenciesQueryParametersImplToJson(
+  _$GetCurrenciesQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

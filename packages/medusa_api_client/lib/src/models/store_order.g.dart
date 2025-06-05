@@ -6,7 +6,9 @@ part of 'store_order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreOrder _$StoreOrderFromJson(Map<String, dynamic> json) => _StoreOrder(
+_$StoreOrderImpl _$$StoreOrderImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreOrderImpl(
   id: json['id'] as String,
   regionId: json['region_id'] as String,
   customerId: json['customer_id'] as String,
@@ -69,7 +71,7 @@ _StoreOrder _$StoreOrderFromJson(Map<String, dynamic> json) => _StoreOrder(
   status: json['status'] as String,
 );
 
-Map<String, dynamic> _$StoreOrderToJson(_StoreOrder instance) =>
+Map<String, dynamic> _$$StoreOrderImplToJson(_$StoreOrderImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'region_id': instance.regionId,

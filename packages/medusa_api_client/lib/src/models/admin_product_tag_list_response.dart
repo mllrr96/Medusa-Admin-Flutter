@@ -51,14 +51,14 @@ abstract class AdminProductTagListResponse with _$AdminProductTagListResponse {
   @jsonSerializable
   const factory AdminProductTagListResponse({
     /// limit
-    @JsonKey(name: AdminProductTagListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminProductTagListResponse.limitKey) required int limit,
 
     /// offset
     @JsonKey(name: AdminProductTagListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
-    @JsonKey(name: AdminProductTagListResponse.countKey) required double count,
+    @JsonKey(name: AdminProductTagListResponse.countKey) required int count,
 
     /// productTags
     @JsonKey(name: AdminProductTagListResponse.productTagsKey)

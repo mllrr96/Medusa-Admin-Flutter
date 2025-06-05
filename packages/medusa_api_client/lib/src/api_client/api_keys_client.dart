@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_api_key_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'api_keys_client.g.dart';
@@ -522,7 +523,7 @@ abstract class ApiKeysClient {
   ///     }
   /// }
   @DELETE("/admin/api-keys/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteApiKeysId({
+  Future<HttpResponse<AdminApiKeyDeleteResponse>> deleteApiKeysId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

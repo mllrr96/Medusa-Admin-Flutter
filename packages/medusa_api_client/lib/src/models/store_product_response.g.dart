@@ -6,12 +6,12 @@ part of 'store_product_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreProductResponse _$StoreProductResponseFromJson(
+_$StoreProductResponseImpl _$$StoreProductResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreProductResponse(
+) => _$StoreProductResponseImpl(
   product: StoreProduct.fromJson(json['product'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$StoreProductResponseToJson(
-  _StoreProductResponse instance,
+Map<String, dynamic> _$$StoreProductResponseImplToJson(
+  _$StoreProductResponseImpl instance,
 ) => <String, dynamic>{'product': instance.product};

@@ -6,12 +6,12 @@ part of 'get_returns_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetReturnsQueryParameters _$GetReturnsQueryParametersFromJson(
+_$GetReturnsQueryParametersImpl _$$GetReturnsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetReturnsQueryParameters(
+) => _$GetReturnsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   id: json['id'],
   status: json['status'],
@@ -31,8 +31,8 @@ _GetReturnsQueryParameters _$GetReturnsQueryParametersFromJson(
   customerId: json['customer_id'],
 );
 
-Map<String, dynamic> _$GetReturnsQueryParametersToJson(
-  _GetReturnsQueryParameters instance,
+Map<String, dynamic> _$$GetReturnsQueryParametersImplToJson(
+  _$GetReturnsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

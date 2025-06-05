@@ -6,14 +6,14 @@ part of 'get_fulfillment_sets_id_service_zones_zone_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetFulfillmentSetsIdServiceZonesZoneIdQueryParameters
-_$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersFromJson(
+_$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersImpl
+_$$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetFulfillmentSetsIdServiceZonesZoneIdQueryParameters(
+) => _$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersToJson(
-  _GetFulfillmentSetsIdServiceZonesZoneIdQueryParameters instance,
+_$$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersImplToJson(
+  _$GetFulfillmentSetsIdServiceZonesZoneIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

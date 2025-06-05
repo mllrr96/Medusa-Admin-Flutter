@@ -6,16 +6,17 @@ part of 'admin_delete_payment_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminDeletePaymentCollectionResponse
-_$AdminDeletePaymentCollectionResponseFromJson(Map<String, dynamic> json) =>
-    _AdminDeletePaymentCollectionResponse(
-      id: json['id'] as String,
-      object: json['object'] as String? ?? 'payment-collection',
-      deleted: json['deleted'] as bool,
-    );
+_$AdminDeletePaymentCollectionResponseImpl
+_$$AdminDeletePaymentCollectionResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminDeletePaymentCollectionResponseImpl(
+  id: json['id'] as String,
+  object: json['object'] as String? ?? 'payment-collection',
+  deleted: json['deleted'] as bool,
+);
 
-Map<String, dynamic> _$AdminDeletePaymentCollectionResponseToJson(
-  _AdminDeletePaymentCollectionResponse instance,
+Map<String, dynamic> _$$AdminDeletePaymentCollectionResponseImplToJson(
+  _$AdminDeletePaymentCollectionResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

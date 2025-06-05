@@ -221,7 +221,8 @@ class _ShippingOptionsClient implements ShippingOptionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> postShippingOptionsIdRulesBatch({
+  Future<HttpResponse<AdminBatchShippingOptionResponse>>
+  postShippingOptionsIdRulesBatch({
     required Map<String, dynamic> requestBody,
     required PostShippingOptionsIdRulesBatchQueryParameters queries,
     required String id,
@@ -238,26 +239,26 @@ class _ShippingOptionsClient implements ShippingOptionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/shipping-options/${id}/rules/batch',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminBatchShippingOptionResponse>>(
+          Options(method: 'POST', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/shipping-options/${id}/rules/batch',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminBatchShippingOptionResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminBatchShippingOptionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

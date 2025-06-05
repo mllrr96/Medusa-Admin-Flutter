@@ -90,7 +90,7 @@
 ///     ],
 ///     "description": "The order item's detail."
 /// }
-library order_item;
+library;
 
 import 'exports.dart';
 part 'order_item.freezed.dart';

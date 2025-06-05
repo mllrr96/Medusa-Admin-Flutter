@@ -111,10 +111,10 @@ abstract class GetInvitesQueryParameters with _$GetInvitesQueryParameters {
     @JsonKey(name: GetInvitesQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetInvitesQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetInvitesQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetInvitesQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetInvitesQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetInvitesQueryParameters.orderKey) required String order,

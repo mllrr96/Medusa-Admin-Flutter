@@ -149,7 +149,7 @@
 ///     ],
 ///     "description": "The order change's claim."
 /// }
-library order_claim;
+library;
 
 import 'exports.dart';
 part 'order_claim.freezed.dart';

@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_invite_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'invites_client.g.dart';
@@ -474,7 +475,7 @@ abstract class InvitesClient {
   ///     }
   /// }
   @DELETE("/admin/invites/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteInvitesId({
+  Future<HttpResponse<AdminInviteDeleteResponse>> deleteInvitesId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

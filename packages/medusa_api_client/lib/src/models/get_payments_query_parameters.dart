@@ -109,10 +109,10 @@ abstract class GetPaymentsQueryParameters with _$GetPaymentsQueryParameters {
     @JsonKey(name: GetPaymentsQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetPaymentsQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetPaymentsQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetPaymentsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetPaymentsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetPaymentsQueryParameters.orderKey) required String order,

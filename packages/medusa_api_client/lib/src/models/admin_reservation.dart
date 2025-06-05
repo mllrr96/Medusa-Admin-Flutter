@@ -79,7 +79,7 @@
 ///     ],
 ///     "description": "The reservation's details."
 /// }
-library admin_reservation;
+library;
 
 import 'exports.dart';
 part 'admin_reservation.freezed.dart';

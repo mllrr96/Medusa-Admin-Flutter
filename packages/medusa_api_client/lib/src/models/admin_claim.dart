@@ -129,7 +129,7 @@
 ///     ],
 ///     "description": "The claim's details."
 /// }
-library admin_claim;
+library;
 
 import 'exports.dart';
 part 'admin_claim.freezed.dart';

@@ -6,13 +6,13 @@ part of 'post_promotions_id_rules_batch_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostPromotionsIdRulesBatchQueryParameters
-_$PostPromotionsIdRulesBatchQueryParametersFromJson(
+_$PostPromotionsIdRulesBatchQueryParametersImpl
+_$$PostPromotionsIdRulesBatchQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostPromotionsIdRulesBatchQueryParameters(
+) => _$PostPromotionsIdRulesBatchQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostPromotionsIdRulesBatchQueryParametersToJson(
-  _PostPromotionsIdRulesBatchQueryParameters instance,
+Map<String, dynamic> _$$PostPromotionsIdRulesBatchQueryParametersImplToJson(
+  _$PostPromotionsIdRulesBatchQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

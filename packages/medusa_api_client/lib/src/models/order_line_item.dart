@@ -248,7 +248,7 @@
 ///     ],
 ///     "description": "The order line item's details."
 /// }
-library order_line_item;
+library;
 
 import 'exports.dart';
 part 'order_line_item.freezed.dart';

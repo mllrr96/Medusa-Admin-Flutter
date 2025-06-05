@@ -6,30 +6,32 @@ part of 'admin_product_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductOption _$AdminProductOptionFromJson(Map<String, dynamic> json) =>
-    _AdminProductOption(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      product: json['product'] as Map<String, dynamic>,
-      productId: json['product_id'] as String,
-      values: (json['values'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-      metadata: json['metadata'] as Map<String, dynamic>,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: DateTime.parse(json['deleted_at'] as String),
-    );
+_$AdminProductOptionImpl _$$AdminProductOptionImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminProductOptionImpl(
+  id: json['id'] as String,
+  title: json['title'] as String,
+  product: json['product'] as Map<String, dynamic>,
+  productId: json['product_id'] as String,
+  values: (json['values'] as List<dynamic>)
+      .map((e) => e as Map<String, dynamic>)
+      .toList(),
+  metadata: json['metadata'] as Map<String, dynamic>,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  deletedAt: DateTime.parse(json['deleted_at'] as String),
+);
 
-Map<String, dynamic> _$AdminProductOptionToJson(_AdminProductOption instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'product': instance.product,
-      'product_id': instance.productId,
-      'values': instance.values,
-      'metadata': instance.metadata,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt.toIso8601String(),
-    };
+Map<String, dynamic> _$$AdminProductOptionImplToJson(
+  _$AdminProductOptionImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'product': instance.product,
+  'product_id': instance.productId,
+  'values': instance.values,
+  'metadata': instance.metadata,
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+  'deleted_at': instance.deletedAt.toIso8601String(),
+};

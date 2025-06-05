@@ -116,7 +116,7 @@
 ///     ],
 ///     "description": "The customer address's details"
 /// }
-library store_customer_address;
+library;
 
 import 'exports.dart';
 part 'store_customer_address.freezed.dart';

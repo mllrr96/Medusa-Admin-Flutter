@@ -82,10 +82,10 @@ abstract class GetCurrenciesQueryParameters
 
     /// offset
     @JsonKey(name: GetCurrenciesQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
-    @JsonKey(name: GetCurrenciesQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetCurrenciesQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetCurrenciesQueryParameters.orderKey) required String order,

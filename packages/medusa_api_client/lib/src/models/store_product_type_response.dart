@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The product type's details."
 /// }
-library store_product_type_response;
+library;
 
 import 'exports.dart';
 part 'store_product_type_response.freezed.dart';

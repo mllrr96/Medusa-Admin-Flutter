@@ -6,18 +6,19 @@ part of 'admin_post_order_edits_update_item_quantity_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostOrderEditsUpdateItemQuantityReqSchema
-_$AdminPostOrderEditsUpdateItemQuantityReqSchemaFromJson(
+_$AdminPostOrderEditsUpdateItemQuantityReqSchemaImpl
+_$$AdminPostOrderEditsUpdateItemQuantityReqSchemaImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPostOrderEditsUpdateItemQuantityReqSchema(
+) => _$AdminPostOrderEditsUpdateItemQuantityReqSchemaImpl(
   quantity: (json['quantity'] as num).toDouble(),
   internalNote: json['internal_note'] as String,
   unitPrice: (json['unit_price'] as num).toDouble(),
   compareAtUnitPrice: (json['compare_at_unit_price'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$AdminPostOrderEditsUpdateItemQuantityReqSchemaToJson(
-  _AdminPostOrderEditsUpdateItemQuantityReqSchema instance,
+Map<String, dynamic>
+_$$AdminPostOrderEditsUpdateItemQuantityReqSchemaImplToJson(
+  _$AdminPostOrderEditsUpdateItemQuantityReqSchemaImpl instance,
 ) => <String, dynamic>{
   'quantity': instance.quantity,
   'internal_note': instance.internalNote,

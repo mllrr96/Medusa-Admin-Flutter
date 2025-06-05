@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The region's details."
 /// }
-library admin_region_response;
+library;
 
 import 'exports.dart';
 part 'admin_region_response.freezed.dart';

@@ -6,10 +6,12 @@ part of 'admin_store_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminStoreResponse _$AdminStoreResponseFromJson(Map<String, dynamic> json) =>
-    _AdminStoreResponse(
-      store: AdminStore.fromJson(json['store'] as Map<String, dynamic>),
-    );
+_$AdminStoreResponseImpl _$$AdminStoreResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminStoreResponseImpl(
+  store: AdminStore.fromJson(json['store'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$AdminStoreResponseToJson(_AdminStoreResponse instance) =>
-    <String, dynamic>{'store': instance.store};
+Map<String, dynamic> _$$AdminStoreResponseImplToJson(
+  _$AdminStoreResponseImpl instance,
+) => <String, dynamic>{'store': instance.store};

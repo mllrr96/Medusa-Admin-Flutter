@@ -82,7 +82,7 @@
 ///     ],
 ///     "description": "The shipping option's details."
 /// }
-library store_shipping_option;
+library;
 
 import 'exports.dart';
 part 'store_shipping_option.freezed.dart';

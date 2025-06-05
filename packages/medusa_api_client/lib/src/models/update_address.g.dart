@@ -6,8 +6,8 @@ part of 'update_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_UpdateAddress _$UpdateAddressFromJson(Map<String, dynamic> json) =>
-    _UpdateAddress(
+_$UpdateAddressImpl _$$UpdateAddressImplFromJson(Map<String, dynamic> json) =>
+    _$UpdateAddressImpl(
       id: json['id'] as String,
       customerId: json['customer_id'] as String,
       company: json['company'] as String,
@@ -23,7 +23,7 @@ _UpdateAddress _$UpdateAddressFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$UpdateAddressToJson(_UpdateAddress instance) =>
+Map<String, dynamic> _$$UpdateAddressImplToJson(_$UpdateAddressImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'customer_id': instance.customerId,

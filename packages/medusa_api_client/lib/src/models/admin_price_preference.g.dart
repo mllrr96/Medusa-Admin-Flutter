@@ -6,9 +6,9 @@ part of 'admin_price_preference.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPricePreference _$AdminPricePreferenceFromJson(
+_$AdminPricePreferenceImpl _$$AdminPricePreferenceImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPricePreference(
+) => _$AdminPricePreferenceImpl(
   id: json['id'] as String,
   attribute: json['attribute'] as String,
   value: json['value'] as String,
@@ -18,8 +18,8 @@ _AdminPricePreference _$AdminPricePreferenceFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminPricePreferenceToJson(
-  _AdminPricePreference instance,
+Map<String, dynamic> _$$AdminPricePreferenceImplToJson(
+  _$AdminPricePreferenceImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'attribute': instance.attribute,

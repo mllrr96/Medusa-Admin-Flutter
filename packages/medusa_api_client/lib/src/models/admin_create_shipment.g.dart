@@ -6,13 +6,14 @@ part of 'admin_create_shipment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateShipment _$AdminCreateShipmentFromJson(Map<String, dynamic> json) =>
-    _AdminCreateShipment(
-      labels: (json['labels'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-    );
+_$AdminCreateShipmentImpl _$$AdminCreateShipmentImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminCreateShipmentImpl(
+  labels: (json['labels'] as List<dynamic>)
+      .map((e) => e as Map<String, dynamic>)
+      .toList(),
+);
 
-Map<String, dynamic> _$AdminCreateShipmentToJson(
-  _AdminCreateShipment instance,
+Map<String, dynamic> _$$AdminCreateShipmentImplToJson(
+  _$AdminCreateShipmentImpl instance,
 ) => <String, dynamic>{'labels': instance.labels};

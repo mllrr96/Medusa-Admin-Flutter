@@ -6,15 +6,15 @@ part of 'admin_create_refund_reason.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateRefundReason _$AdminCreateRefundReasonFromJson(
+_$AdminCreateRefundReasonImpl _$$AdminCreateRefundReasonImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateRefundReason(
+) => _$AdminCreateRefundReasonImpl(
   label: json['label'] as String,
   description: json['description'] as String,
 );
 
-Map<String, dynamic> _$AdminCreateRefundReasonToJson(
-  _AdminCreateRefundReason instance,
+Map<String, dynamic> _$$AdminCreateRefundReasonImplToJson(
+  _$AdminCreateRefundReasonImpl instance,
 ) => <String, dynamic>{
   'label': instance.label,
   'description': instance.description,

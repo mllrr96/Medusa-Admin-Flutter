@@ -6,9 +6,9 @@ part of 'admin_customer_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCustomerAddress _$AdminCustomerAddressFromJson(
+_$AdminCustomerAddressImpl _$$AdminCustomerAddressImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCustomerAddress(
+) => _$AdminCustomerAddressImpl(
   id: json['id'] as String,
   addressName: json['address_name'] as String,
   isDefaultShipping: json['is_default_shipping'] as bool,
@@ -29,8 +29,8 @@ _AdminCustomerAddress _$AdminCustomerAddressFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$AdminCustomerAddressToJson(
-  _AdminCustomerAddress instance,
+Map<String, dynamic> _$$AdminCustomerAddressImplToJson(
+  _$AdminCustomerAddressImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'address_name': instance.addressName,

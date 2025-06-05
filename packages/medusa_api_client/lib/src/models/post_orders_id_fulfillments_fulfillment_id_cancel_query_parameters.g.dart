@@ -6,14 +6,14 @@ part of 'post_orders_id_fulfillments_fulfillment_id_cancel_query_parameters.dart
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParameters
-_$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersFromJson(
+_$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersImpl
+_$$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParameters(
+) => _$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersToJson(
-  _PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParameters instance,
+_$$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersImplToJson(
+  _$PostOrdersIdFulfillmentsFulfillmentIdCancelQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

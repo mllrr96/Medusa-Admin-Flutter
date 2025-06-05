@@ -1,8 +1,11 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_workflow_execution_run_response.dart';
+import 'package:medusa_api_client/src/models/admin_workflow_execution_step_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
+
 part 'workflows_executions_client.g.dart';
 
 @RestApi()
@@ -292,7 +295,7 @@ abstract class WorkflowsExecutionsClient {
   ///     }
   /// }
   @POST("/admin/workflows-executions/{workflow_id}/run")
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminWorkflowExecutionRunResponse>>
   postWorkflowsExecutionsWorkflowIdRun({
     @Body() required AdminCreateWorkflowsRun requestBody,
     @Path("workflow_id") required String workflowId,
@@ -362,7 +365,7 @@ abstract class WorkflowsExecutionsClient {
   ///     }
   /// }
   @POST("/admin/workflows-executions/{workflow_id}/steps/failure")
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminWorkflowExecutionStepResponse>>
   postWorkflowsExecutionsWorkflowIdStepsFailure({
     @Body() required AdminCreateWorkflowsAsyncResponse requestBody,
     @Path("workflow_id") required String workflowId,
@@ -432,7 +435,7 @@ abstract class WorkflowsExecutionsClient {
   ///     }
   /// }
   @POST("/admin/workflows-executions/{workflow_id}/steps/success")
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminWorkflowExecutionStepResponse>>
   postWorkflowsExecutionsWorkflowIdStepsSuccess({
     @Body() required AdminCreateWorkflowsAsyncResponse requestBody,
     @Path("workflow_id") required String workflowId,

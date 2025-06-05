@@ -6,14 +6,14 @@ part of 'admin_service_zone_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminServiceZoneResponse _$AdminServiceZoneResponseFromJson(
+_$AdminServiceZoneResponseImpl _$$AdminServiceZoneResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminServiceZoneResponse(
+) => _$AdminServiceZoneResponseImpl(
   serviceZone: AdminServiceZone.fromJson(
     json['service_zone'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminServiceZoneResponseToJson(
-  _AdminServiceZoneResponse instance,
+Map<String, dynamic> _$$AdminServiceZoneResponseImplToJson(
+  _$AdminServiceZoneResponseImpl instance,
 ) => <String, dynamic>{'service_zone': instance.serviceZone};

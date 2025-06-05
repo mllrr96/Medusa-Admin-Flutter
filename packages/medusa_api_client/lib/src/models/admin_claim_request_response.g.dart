@@ -6,9 +6,9 @@ part of 'admin_claim_request_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminClaimRequestResponse _$AdminClaimRequestResponseFromJson(
+_$AdminClaimRequestResponseImpl _$$AdminClaimRequestResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminClaimRequestResponse(
+) => _$AdminClaimRequestResponseImpl(
   returnAA: AdminReturn.fromJson(json['return'] as Map<String, dynamic>),
   orderPreview: AdminOrderPreview.fromJson(
     json['order_preview'] as Map<String, dynamic>,
@@ -16,8 +16,8 @@ _AdminClaimRequestResponse _$AdminClaimRequestResponseFromJson(
   claim: AdminClaim.fromJson(json['claim'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminClaimRequestResponseToJson(
-  _AdminClaimRequestResponse instance,
+Map<String, dynamic> _$$AdminClaimRequestResponseImplToJson(
+  _$AdminClaimRequestResponseImpl instance,
 ) => <String, dynamic>{
   'return': instance.returnAA,
   'order_preview': instance.orderPreview,

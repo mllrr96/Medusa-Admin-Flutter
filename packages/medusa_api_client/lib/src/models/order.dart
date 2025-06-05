@@ -273,7 +273,7 @@
 ///     ],
 ///     "description": "The order change's order."
 /// }
-library order;
+library;
 
 import 'exports.dart';
 part 'order.freezed.dart';

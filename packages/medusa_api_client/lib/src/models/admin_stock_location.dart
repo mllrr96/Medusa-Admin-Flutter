@@ -49,7 +49,7 @@
 ///     ],
 ///     "description": "The stock location's details."
 /// }
-library admin_stock_location;
+library;
 
 import 'exports.dart';
 part 'admin_stock_location.freezed.dart';

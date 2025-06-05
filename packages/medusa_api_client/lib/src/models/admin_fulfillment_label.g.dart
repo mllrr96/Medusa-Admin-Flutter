@@ -6,9 +6,9 @@ part of 'admin_fulfillment_label.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFulfillmentLabel _$AdminFulfillmentLabelFromJson(
+_$AdminFulfillmentLabelImpl _$$AdminFulfillmentLabelImplFromJson(
   Map<String, dynamic> json,
-) => _AdminFulfillmentLabel(
+) => _$AdminFulfillmentLabelImpl(
   id: json['id'] as String,
   trackingNumber: json['tracking_number'] as String,
   trackingUrl: json['tracking_url'] as String,
@@ -19,8 +19,8 @@ _AdminFulfillmentLabel _$AdminFulfillmentLabelFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminFulfillmentLabelToJson(
-  _AdminFulfillmentLabel instance,
+Map<String, dynamic> _$$AdminFulfillmentLabelImplToJson(
+  _$AdminFulfillmentLabelImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'tracking_number': instance.trackingNumber,

@@ -6,8 +6,8 @@ part of 'api_key_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ApiKeyResponse _$ApiKeyResponseFromJson(Map<String, dynamic> json) =>
-    _ApiKeyResponse(
+_$ApiKeyResponseImpl _$$ApiKeyResponseImplFromJson(Map<String, dynamic> json) =>
+    _$ApiKeyResponseImpl(
       id: json['id'] as String,
       token: json['token'] as String,
       redacted: json['redacted'] as String,
@@ -20,19 +20,20 @@ _ApiKeyResponse _$ApiKeyResponseFromJson(Map<String, dynamic> json) =>
       revokedAt: DateTime.parse(json['revoked_at'] as String),
     );
 
-Map<String, dynamic> _$ApiKeyResponseToJson(_ApiKeyResponse instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'token': instance.token,
-      'redacted': instance.redacted,
-      'title': instance.title,
-      'type': instance.type,
-      'last_used_at': instance.lastUsedAt.toIso8601String(),
-      'created_by': instance.createdBy,
-      'created_at': instance.createdAt.toIso8601String(),
-      'revoked_by': instance.revokedBy,
-      'revoked_at': instance.revokedAt.toIso8601String(),
-    };
+Map<String, dynamic> _$$ApiKeyResponseImplToJson(
+  _$ApiKeyResponseImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'token': instance.token,
+  'redacted': instance.redacted,
+  'title': instance.title,
+  'type': instance.type,
+  'last_used_at': instance.lastUsedAt.toIso8601String(),
+  'created_by': instance.createdBy,
+  'created_at': instance.createdAt.toIso8601String(),
+  'revoked_by': instance.revokedBy,
+  'revoked_at': instance.revokedAt.toIso8601String(),
+};
 
 const _$NullEnumEnumMap = {
   NullEnum.secret: 'secret',

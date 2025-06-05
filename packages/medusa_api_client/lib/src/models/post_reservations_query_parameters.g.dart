@@ -6,10 +6,10 @@ part of 'post_reservations_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostReservationsQueryParameters _$PostReservationsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostReservationsQueryParameters(fields: json['fields'] as String);
+_$PostReservationsQueryParametersImpl
+_$$PostReservationsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostReservationsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostReservationsQueryParametersToJson(
-  _PostReservationsQueryParameters instance,
+Map<String, dynamic> _$$PostReservationsQueryParametersImplToJson(
+  _$PostReservationsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

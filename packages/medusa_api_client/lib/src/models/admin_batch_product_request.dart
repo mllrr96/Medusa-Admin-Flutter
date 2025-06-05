@@ -28,7 +28,7 @@
 ///     "type": "object",
 ///     "description": "The products to create, update, or delete."
 /// }
-library admin_batch_product_request;
+library;
 
 import 'exports.dart';
 part 'admin_batch_product_request.freezed.dart';

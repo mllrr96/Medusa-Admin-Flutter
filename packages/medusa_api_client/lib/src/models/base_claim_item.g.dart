@@ -6,8 +6,8 @@ part of 'base_claim_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseClaimItem _$BaseClaimItemFromJson(Map<String, dynamic> json) =>
-    _BaseClaimItem(
+_$BaseClaimItemImpl _$$BaseClaimItemImplFromJson(Map<String, dynamic> json) =>
+    _$BaseClaimItemImpl(
       id: json['id'] as String,
       claimId: json['claim_id'] as String,
       orderId: json['order_id'] as String,
@@ -20,7 +20,7 @@ _BaseClaimItem _$BaseClaimItemFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$BaseClaimItemToJson(_BaseClaimItem instance) =>
+Map<String, dynamic> _$$BaseClaimItemImplToJson(_$BaseClaimItemImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'claim_id': instance.claimId,

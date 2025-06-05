@@ -6,12 +6,12 @@ part of 'get_claims_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetClaimsQueryParameters _$GetClaimsQueryParametersFromJson(
+_$GetClaimsQueryParametersImpl _$$GetClaimsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetClaimsQueryParameters(
+) => _$GetClaimsQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   deletedAt: json['deleted_at'] as Map<String, dynamic>,
   q: json['q'] as String,
@@ -28,8 +28,8 @@ _GetClaimsQueryParameters _$GetClaimsQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetClaimsQueryParametersToJson(
-  _GetClaimsQueryParameters instance,
+Map<String, dynamic> _$$GetClaimsQueryParametersImplToJson(
+  _$GetClaimsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

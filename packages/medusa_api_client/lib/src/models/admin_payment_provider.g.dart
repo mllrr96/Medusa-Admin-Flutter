@@ -6,13 +6,13 @@ part of 'admin_payment_provider.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPaymentProvider _$AdminPaymentProviderFromJson(
+_$AdminPaymentProviderImpl _$$AdminPaymentProviderImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPaymentProvider(
+) => _$AdminPaymentProviderImpl(
   id: json['id'] as String,
   isEnabled: json['is_enabled'] as bool,
 );
 
-Map<String, dynamic> _$AdminPaymentProviderToJson(
-  _AdminPaymentProvider instance,
+Map<String, dynamic> _$$AdminPaymentProviderImplToJson(
+  _$AdminPaymentProviderImpl instance,
 ) => <String, dynamic>{'id': instance.id, 'is_enabled': instance.isEnabled};

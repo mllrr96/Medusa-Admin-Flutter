@@ -6,30 +6,31 @@ part of 'base_payment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BasePayment _$BasePaymentFromJson(Map<String, dynamic> json) => _BasePayment(
-  id: json['id'] as String,
-  amount: (json['amount'] as num).toDouble(),
-  authorizedAmount: (json['authorized_amount'] as num).toDouble(),
-  currencyCode: json['currency_code'] as String,
-  providerId: json['provider_id'] as String,
-  data: json['data'] as Map<String, dynamic>,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-  capturedAt: DateTime.parse(json['captured_at'] as String),
-  canceledAt: DateTime.parse(json['canceled_at'] as String),
-  capturedAmount: (json['captured_amount'] as num).toDouble(),
-  refundedAmount: (json['refunded_amount'] as num).toDouble(),
-  captures: (json['captures'] as List<dynamic>)
-      .map((e) => BaseCapture.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  refunds: (json['refunds'] as List<dynamic>)
-      .map((e) => BaseRefund.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  paymentCollection: json['payment_collection'] as Map<String, dynamic>,
-  paymentSession: json['payment_session'] as Map<String, dynamic>,
-);
+_$BasePaymentImpl _$$BasePaymentImplFromJson(Map<String, dynamic> json) =>
+    _$BasePaymentImpl(
+      id: json['id'] as String,
+      amount: (json['amount'] as num).toDouble(),
+      authorizedAmount: (json['authorized_amount'] as num).toDouble(),
+      currencyCode: json['currency_code'] as String,
+      providerId: json['provider_id'] as String,
+      data: json['data'] as Map<String, dynamic>,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      capturedAt: DateTime.parse(json['captured_at'] as String),
+      canceledAt: DateTime.parse(json['canceled_at'] as String),
+      capturedAmount: (json['captured_amount'] as num).toDouble(),
+      refundedAmount: (json['refunded_amount'] as num).toDouble(),
+      captures: (json['captures'] as List<dynamic>)
+          .map((e) => BaseCapture.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      refunds: (json['refunds'] as List<dynamic>)
+          .map((e) => BaseRefund.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      paymentCollection: json['payment_collection'] as Map<String, dynamic>,
+      paymentSession: json['payment_session'] as Map<String, dynamic>,
+    );
 
-Map<String, dynamic> _$BasePaymentToJson(_BasePayment instance) =>
+Map<String, dynamic> _$$BasePaymentImplToJson(_$BasePaymentImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'amount': instance.amount,

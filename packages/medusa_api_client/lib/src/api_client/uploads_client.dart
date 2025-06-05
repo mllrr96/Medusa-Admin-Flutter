@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_delete_file_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'uploads_client.g.dart';
@@ -205,7 +206,7 @@ abstract class UploadsClient {
   ///     }
   /// }
   @DELETE("/admin/uploads/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteUploadsId({
+  Future<HttpResponse<AdminDeleteFileResponse>> deleteUploadsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

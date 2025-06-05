@@ -6,8 +6,8 @@ part of 'admin_customer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCustomer _$AdminCustomerFromJson(Map<String, dynamic> json) =>
-    _AdminCustomer(
+_$AdminCustomerImpl _$$AdminCustomerImplFromJson(Map<String, dynamic> json) =>
+    _$AdminCustomerImpl(
       id: json['id'] as String,
       hasAccount: json['has_account'] as bool,
       groups: (json['groups'] as List<dynamic>)
@@ -30,7 +30,7 @@ _AdminCustomer _$AdminCustomerFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$AdminCustomerToJson(_AdminCustomer instance) =>
+Map<String, dynamic> _$$AdminCustomerImplToJson(_$AdminCustomerImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'has_account': instance.hasAccount,

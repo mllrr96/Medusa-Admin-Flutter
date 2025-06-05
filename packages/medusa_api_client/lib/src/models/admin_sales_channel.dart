@@ -57,7 +57,7 @@
 ///     ],
 ///     "description": "The sales channel's details."
 /// }
-library admin_sales_channel;
+library;
 
 import 'exports.dart';
 part 'admin_sales_channel.freezed.dart';

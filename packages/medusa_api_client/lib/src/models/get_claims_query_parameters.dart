@@ -111,7 +111,7 @@
 ///     },
 ///     "type": "object"
 /// }
-library get_claims_query_parameters;
+library;
 
 import 'exports.dart';
 part 'get_claims_query_parameters.freezed.dart';
@@ -127,10 +127,10 @@ abstract class GetClaimsQueryParameters with _$GetClaimsQueryParameters {
     @JsonKey(name: GetClaimsQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetClaimsQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetClaimsQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetClaimsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetClaimsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetClaimsQueryParameters.orderKey) required String order,

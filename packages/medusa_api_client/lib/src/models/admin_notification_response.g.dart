@@ -6,14 +6,14 @@ part of 'admin_notification_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminNotificationResponse _$AdminNotificationResponseFromJson(
+_$AdminNotificationResponseImpl _$$AdminNotificationResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminNotificationResponse(
+) => _$AdminNotificationResponseImpl(
   notification: AdminNotification.fromJson(
     json['notification'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminNotificationResponseToJson(
-  _AdminNotificationResponse instance,
+Map<String, dynamic> _$$AdminNotificationResponseImplToJson(
+  _$AdminNotificationResponseImpl instance,
 ) => <String, dynamic>{'notification': instance.notification};

@@ -99,7 +99,7 @@
 ///     ],
 ///     "description": "The product category's details."
 /// }
-library base_product_category;
+library;
 
 import 'exports.dart';
 part 'base_product_category.freezed.dart';

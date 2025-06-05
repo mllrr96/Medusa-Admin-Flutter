@@ -68,7 +68,7 @@
 ///     ],
 ///     "description": "The item's items."
 /// }
-library order_return_item;
+library;
 
 import 'exports.dart';
 part 'order_return_item.freezed.dart';

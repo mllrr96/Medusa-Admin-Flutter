@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The return's details."
 /// }
-library store_return_response;
+library;
 
 import 'exports.dart';
 part 'store_return_response.freezed.dart';

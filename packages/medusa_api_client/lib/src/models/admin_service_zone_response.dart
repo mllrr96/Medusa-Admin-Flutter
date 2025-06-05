@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The service zone's details."
 /// }
-library admin_service_zone_response;
+library;
 
 import 'exports.dart';
 part 'admin_service_zone_response.freezed.dart';

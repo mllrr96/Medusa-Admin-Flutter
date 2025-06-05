@@ -75,7 +75,7 @@
 ///     ],
 ///     "description": "The campaign's details."
 /// }
-library admin_campaign;
+library;
 
 import 'exports.dart';
 part 'admin_campaign.freezed.dart';

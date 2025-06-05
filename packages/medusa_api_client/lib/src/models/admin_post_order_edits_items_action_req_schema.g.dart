@@ -6,17 +6,18 @@ part of 'admin_post_order_edits_items_action_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostOrderEditsItemsActionReqSchema
-_$AdminPostOrderEditsItemsActionReqSchemaFromJson(Map<String, dynamic> json) =>
-    _AdminPostOrderEditsItemsActionReqSchema(
-      quantity: (json['quantity'] as num).toDouble(),
-      internalNote: json['internal_note'] as String,
-      unitPrice: (json['unit_price'] as num).toDouble(),
-      compareAtUnitPrice: (json['compare_at_unit_price'] as num).toDouble(),
-    );
+_$AdminPostOrderEditsItemsActionReqSchemaImpl
+_$$AdminPostOrderEditsItemsActionReqSchemaImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminPostOrderEditsItemsActionReqSchemaImpl(
+  quantity: (json['quantity'] as num).toDouble(),
+  internalNote: json['internal_note'] as String,
+  unitPrice: (json['unit_price'] as num).toDouble(),
+  compareAtUnitPrice: (json['compare_at_unit_price'] as num).toDouble(),
+);
 
-Map<String, dynamic> _$AdminPostOrderEditsItemsActionReqSchemaToJson(
-  _AdminPostOrderEditsItemsActionReqSchema instance,
+Map<String, dynamic> _$$AdminPostOrderEditsItemsActionReqSchemaImplToJson(
+  _$AdminPostOrderEditsItemsActionReqSchemaImpl instance,
 ) => <String, dynamic>{
   'quantity': instance.quantity,
   'internal_note': instance.internalNote,

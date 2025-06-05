@@ -26,7 +26,7 @@
 ///     ],
 ///     "description": "The details of the deleted claim."
 /// }
-library admin_claim_delete_response;
+library;
 
 import 'exports.dart';
 part 'admin_claim_delete_response.freezed.dart';

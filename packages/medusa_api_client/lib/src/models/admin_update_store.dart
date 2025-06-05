@@ -37,7 +37,7 @@
 ///     "type": "object",
 ///     "description": "The properties to update in a store."
 /// }
-library admin_update_store;
+library;
 
 import 'exports.dart';
 part 'admin_update_store.freezed.dart';

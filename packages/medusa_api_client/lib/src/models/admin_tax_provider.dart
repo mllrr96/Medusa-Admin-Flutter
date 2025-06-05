@@ -19,7 +19,7 @@
 ///     ],
 ///     "description": "The tax provider's details."
 /// }
-library admin_tax_provider;
+library;
 
 import 'exports.dart';
 part 'admin_tax_provider.freezed.dart';

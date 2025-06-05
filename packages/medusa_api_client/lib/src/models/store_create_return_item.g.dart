@@ -6,17 +6,17 @@ part of 'store_create_return_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCreateReturnItem _$StoreCreateReturnItemFromJson(
+_$StoreCreateReturnItemImpl _$$StoreCreateReturnItemImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCreateReturnItem(
+) => _$StoreCreateReturnItemImpl(
   id: json['id'] as String,
   quantity: (json['quantity'] as num).toDouble(),
   reasonId: json['reason_id'] as String,
   note: json['note'] as String,
 );
 
-Map<String, dynamic> _$StoreCreateReturnItemToJson(
-  _StoreCreateReturnItem instance,
+Map<String, dynamic> _$$StoreCreateReturnItemImplToJson(
+  _$StoreCreateReturnItemImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'quantity': instance.quantity,

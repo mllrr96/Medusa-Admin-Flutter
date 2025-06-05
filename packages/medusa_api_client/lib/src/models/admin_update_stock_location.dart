@@ -23,7 +23,7 @@
 ///     "type": "object",
 ///     "description": "The properties to update in a stock location."
 /// }
-library admin_update_stock_location;
+library;
 
 import 'exports.dart';
 part 'admin_update_stock_location.freezed.dart';

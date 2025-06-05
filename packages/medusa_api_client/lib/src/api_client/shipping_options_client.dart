@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_batch_shipping_option_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'shipping_options_client.g.dart';
@@ -657,7 +658,7 @@ abstract class ShippingOptionsClient {
   ///     }
   /// }
   @POST("/admin/shipping-options/{id}/rules/batch")
-  Future<HttpResponse<Map<String, dynamic>>> postShippingOptionsIdRulesBatch({
+  Future<HttpResponse<AdminBatchShippingOptionResponse>> postShippingOptionsIdRulesBatch({
     @Body() required Map<String, dynamic> requestBody,
     @Queries() required PostShippingOptionsIdRulesBatchQueryParameters queries,
     @Path("id") required String id,

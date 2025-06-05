@@ -56,7 +56,7 @@
 ///     ],
 ///     "description": "The product option's details."
 /// }
-library base_product_option;
+library;
 
 import 'exports.dart';
 part 'base_product_option.freezed.dart';

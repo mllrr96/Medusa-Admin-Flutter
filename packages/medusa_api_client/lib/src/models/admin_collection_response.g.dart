@@ -6,14 +6,14 @@ part of 'admin_collection_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCollectionResponse _$AdminCollectionResponseFromJson(
+_$AdminCollectionResponseImpl _$$AdminCollectionResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCollectionResponse(
+) => _$AdminCollectionResponseImpl(
   collection: AdminCollection.fromJson(
     json['collection'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminCollectionResponseToJson(
-  _AdminCollectionResponse instance,
+Map<String, dynamic> _$$AdminCollectionResponseImplToJson(
+  _$AdminCollectionResponseImpl instance,
 ) => <String, dynamic>{'collection': instance.collection};

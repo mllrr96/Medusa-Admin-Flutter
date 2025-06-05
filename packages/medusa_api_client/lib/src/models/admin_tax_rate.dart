@@ -93,7 +93,7 @@
 ///     ],
 ///     "description": "The tax rate's details."
 /// }
-library admin_tax_rate;
+library;
 
 import 'exports.dart';
 part 'admin_tax_rate.freezed.dart';

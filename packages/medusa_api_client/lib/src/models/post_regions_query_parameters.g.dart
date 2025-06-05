@@ -6,10 +6,10 @@ part of 'post_regions_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostRegionsQueryParameters _$PostRegionsQueryParametersFromJson(
+_$PostRegionsQueryParametersImpl _$$PostRegionsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostRegionsQueryParameters(fields: json['fields'] as String);
+) => _$PostRegionsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostRegionsQueryParametersToJson(
-  _PostRegionsQueryParameters instance,
+Map<String, dynamic> _$$PostRegionsQueryParametersImplToJson(
+  _$PostRegionsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

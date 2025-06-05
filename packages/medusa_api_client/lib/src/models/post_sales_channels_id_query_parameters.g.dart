@@ -6,10 +6,10 @@ part of 'post_sales_channels_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostSalesChannelsIdQueryParameters
-_$PostSalesChannelsIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostSalesChannelsIdQueryParameters(fields: json['fields'] as String);
+_$PostSalesChannelsIdQueryParametersImpl
+_$$PostSalesChannelsIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostSalesChannelsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostSalesChannelsIdQueryParametersToJson(
-  _PostSalesChannelsIdQueryParameters instance,
+Map<String, dynamic> _$$PostSalesChannelsIdQueryParametersImplToJson(
+  _$PostSalesChannelsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

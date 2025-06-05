@@ -6,12 +6,12 @@ part of 'get_orders_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetOrdersQueryParameters _$GetOrdersQueryParametersFromJson(
+_$GetOrdersQueryParametersImpl _$$GetOrdersQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetOrdersQueryParameters(
+) => _$GetOrdersQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   id: json['id'],
   status: json['status'],
@@ -31,8 +31,8 @@ _GetOrdersQueryParameters _$GetOrdersQueryParametersFromJson(
   customerId: json['customer_id'],
 );
 
-Map<String, dynamic> _$GetOrdersQueryParametersToJson(
-  _GetOrdersQueryParameters instance,
+Map<String, dynamic> _$$GetOrdersQueryParametersImplToJson(
+  _$GetOrdersQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

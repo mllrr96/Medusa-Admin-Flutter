@@ -6,20 +6,20 @@ part of 'store_currency_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCurrencyListResponse _$StoreCurrencyListResponseFromJson(
+_$StoreCurrencyListResponseImpl _$$StoreCurrencyListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCurrencyListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
+) => _$StoreCurrencyListResponseImpl(
+  limit: (json['limit'] as num).toInt(),
+  offset: (json['offset'] as num).toInt(),
+  count: (json['count'] as num).toInt(),
   currencies: (json['currencies'] as List<dynamic>)
       .map((e) => StoreCurrency.fromJson(e as Map<String, dynamic>))
       .toList(),
   estimateCount: (json['estimate_count'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$StoreCurrencyListResponseToJson(
-  _StoreCurrencyListResponse instance,
+Map<String, dynamic> _$$StoreCurrencyListResponseImplToJson(
+  _$StoreCurrencyListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

@@ -21,6 +21,7 @@ class _AuthClient implements AuthClient {
   Future<HttpResponse<AuthAdminSessionResponse>> postSession({
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
+    String? authorization,
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
   }) async {
@@ -28,7 +29,8 @@ class _AuthClient implements AuthClient {
     _extra.addAll(extras ?? <String, dynamic>{});
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': authorization};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<AuthAdminSessionResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
@@ -56,7 +58,7 @@ class _AuthClient implements AuthClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deleteSession({
+  Future<HttpResponse<dynamic>> deleteSession({
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
     void Function(int, int)? onSendProgress,
@@ -68,7 +70,7 @@ class _AuthClient implements AuthClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<dynamic>>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -81,17 +83,8 @@ class _AuthClient implements AuthClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
-    try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
@@ -295,7 +288,7 @@ class _AuthClient implements AuthClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> postActorTypeAuthProviderUpdate({
+  Future<HttpResponse<dynamic>> postActorTypeAuthProviderUpdate({
     required Map<String, dynamic> requestBody,
     required String authProvider,
     Map<String, dynamic>? extras,
@@ -310,7 +303,7 @@ class _AuthClient implements AuthClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<dynamic>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -323,17 +316,8 @@ class _AuthClient implements AuthClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
-    try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }

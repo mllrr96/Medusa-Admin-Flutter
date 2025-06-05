@@ -6,14 +6,14 @@ part of 'admin_order_edit_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrderEditResponse _$AdminOrderEditResponseFromJson(
+_$AdminOrderEditResponseImpl _$$AdminOrderEditResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminOrderEditResponse(
+) => _$AdminOrderEditResponseImpl(
   orderChange: AdminOrderChange.fromJson(
     json['order_change'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminOrderEditResponseToJson(
-  _AdminOrderEditResponse instance,
+Map<String, dynamic> _$$AdminOrderEditResponseImplToJson(
+  _$AdminOrderEditResponseImpl instance,
 ) => <String, dynamic>{'order_change': instance.orderChange};

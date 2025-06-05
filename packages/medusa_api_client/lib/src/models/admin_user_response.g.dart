@@ -6,10 +6,12 @@ part of 'admin_user_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUserResponse _$AdminUserResponseFromJson(Map<String, dynamic> json) =>
-    _AdminUserResponse(
-      user: AdminUser.fromJson(json['user'] as Map<String, dynamic>),
-    );
+_$AdminUserResponseImpl _$$AdminUserResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminUserResponseImpl(
+  user: AdminUser.fromJson(json['user'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$AdminUserResponseToJson(_AdminUserResponse instance) =>
-    <String, dynamic>{'user': instance.user};
+Map<String, dynamic> _$$AdminUserResponseImplToJson(
+  _$AdminUserResponseImpl instance,
+) => <String, dynamic>{'user': instance.user};

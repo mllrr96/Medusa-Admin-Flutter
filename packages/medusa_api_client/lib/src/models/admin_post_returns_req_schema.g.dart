@@ -6,9 +6,9 @@ part of 'admin_post_returns_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostReturnsReqSchema _$AdminPostReturnsReqSchemaFromJson(
+_$AdminPostReturnsReqSchemaImpl _$$AdminPostReturnsReqSchemaImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPostReturnsReqSchema(
+) => _$AdminPostReturnsReqSchemaImpl(
   orderId: json['order_id'] as String,
   locationId: json['location_id'] as String,
   description: json['description'] as String,
@@ -17,8 +17,8 @@ _AdminPostReturnsReqSchema _$AdminPostReturnsReqSchemaFromJson(
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminPostReturnsReqSchemaToJson(
-  _AdminPostReturnsReqSchema instance,
+Map<String, dynamic> _$$AdminPostReturnsReqSchemaImplToJson(
+  _$AdminPostReturnsReqSchemaImpl instance,
 ) => <String, dynamic>{
   'order_id': instance.orderId,
   'location_id': instance.locationId,

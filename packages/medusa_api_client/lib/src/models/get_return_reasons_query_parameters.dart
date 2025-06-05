@@ -166,11 +166,11 @@ abstract class GetReturnReasonsQueryParameters
 
     /// offset
     @JsonKey(name: GetReturnReasonsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetReturnReasonsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetReturnReasonsQueryParameters.orderKey)

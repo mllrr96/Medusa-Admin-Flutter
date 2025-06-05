@@ -6,13 +6,13 @@ part of 'post_orders_id_transfer_cancel_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostOrdersIdTransferCancelQueryParameters
-_$PostOrdersIdTransferCancelQueryParametersFromJson(
+_$PostOrdersIdTransferCancelQueryParametersImpl
+_$$PostOrdersIdTransferCancelQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostOrdersIdTransferCancelQueryParameters(
+) => _$PostOrdersIdTransferCancelQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostOrdersIdTransferCancelQueryParametersToJson(
-  _PostOrdersIdTransferCancelQueryParameters instance,
+Map<String, dynamic> _$$PostOrdersIdTransferCancelQueryParametersImplToJson(
+  _$PostOrdersIdTransferCancelQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

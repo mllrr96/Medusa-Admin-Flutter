@@ -6,14 +6,14 @@ part of 'admin_add_draft_order_promotions.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminAddDraftOrderPromotions _$AdminAddDraftOrderPromotionsFromJson(
+_$AdminAddDraftOrderPromotionsImpl _$$AdminAddDraftOrderPromotionsImplFromJson(
   Map<String, dynamic> json,
-) => _AdminAddDraftOrderPromotions(
+) => _$AdminAddDraftOrderPromotionsImpl(
   promoCodes: (json['promo_codes'] as List<dynamic>)
       .map((e) => e as String)
       .toList(),
 );
 
-Map<String, dynamic> _$AdminAddDraftOrderPromotionsToJson(
-  _AdminAddDraftOrderPromotions instance,
+Map<String, dynamic> _$$AdminAddDraftOrderPromotionsImplToJson(
+  _$AdminAddDraftOrderPromotionsImpl instance,
 ) => <String, dynamic>{'promo_codes': instance.promoCodes};

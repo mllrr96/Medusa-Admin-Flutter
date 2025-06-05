@@ -6,24 +6,24 @@ part of 'base_order_shipping_method_adjustment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseOrderShippingMethodAdjustment _$BaseOrderShippingMethodAdjustmentFromJson(
-  Map<String, dynamic> json,
-) => _BaseOrderShippingMethodAdjustment(
-  shippingMethod: json['shipping_method'] as Map<String, dynamic>,
-  shippingMethodId: json['shipping_method_id'] as String,
-  id: json['id'] as String,
-  code: json['code'] as String,
-  amount: (json['amount'] as num).toDouble(),
-  orderId: json['order_id'] as String,
-  description: json['description'] as String,
-  promotionId: json['promotion_id'] as String,
-  providerId: json['provider_id'] as String,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-);
+_$BaseOrderShippingMethodAdjustmentImpl
+_$$BaseOrderShippingMethodAdjustmentImplFromJson(Map<String, dynamic> json) =>
+    _$BaseOrderShippingMethodAdjustmentImpl(
+      shippingMethod: json['shipping_method'] as Map<String, dynamic>,
+      shippingMethodId: json['shipping_method_id'] as String,
+      id: json['id'] as String,
+      code: json['code'] as String,
+      amount: (json['amount'] as num).toDouble(),
+      orderId: json['order_id'] as String,
+      description: json['description'] as String,
+      promotionId: json['promotion_id'] as String,
+      providerId: json['provider_id'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+    );
 
-Map<String, dynamic> _$BaseOrderShippingMethodAdjustmentToJson(
-  _BaseOrderShippingMethodAdjustment instance,
+Map<String, dynamic> _$$BaseOrderShippingMethodAdjustmentImplToJson(
+  _$BaseOrderShippingMethodAdjustmentImpl instance,
 ) => <String, dynamic>{
   'shipping_method': instance.shippingMethod,
   'shipping_method_id': instance.shippingMethodId,

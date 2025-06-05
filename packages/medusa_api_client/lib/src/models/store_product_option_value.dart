@@ -49,7 +49,7 @@
 ///     ],
 ///     "description": "The product option value's details."
 /// }
-library store_product_option_value;
+library;
 
 import 'exports.dart';
 part 'store_product_option_value.freezed.dart';

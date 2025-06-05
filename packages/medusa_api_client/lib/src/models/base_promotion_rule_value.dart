@@ -18,7 +18,7 @@
 ///     ],
 ///     "description": "The rule value's details."
 /// }
-library base_promotion_rule_value;
+library;
 
 import 'exports.dart';
 part 'base_promotion_rule_value.freezed.dart';

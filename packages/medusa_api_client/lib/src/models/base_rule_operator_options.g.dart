@@ -6,16 +6,16 @@ part of 'base_rule_operator_options.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseRuleOperatorOptions _$BaseRuleOperatorOptionsFromJson(
+_$BaseRuleOperatorOptionsImpl _$$BaseRuleOperatorOptionsImplFromJson(
   Map<String, dynamic> json,
-) => _BaseRuleOperatorOptions(
+) => _$BaseRuleOperatorOptionsImpl(
   id: json['id'] as String,
   value: json['value'] as String,
   label: json['label'] as String,
 );
 
-Map<String, dynamic> _$BaseRuleOperatorOptionsToJson(
-  _BaseRuleOperatorOptions instance,
+Map<String, dynamic> _$$BaseRuleOperatorOptionsImplToJson(
+  _$BaseRuleOperatorOptionsImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'value': instance.value,

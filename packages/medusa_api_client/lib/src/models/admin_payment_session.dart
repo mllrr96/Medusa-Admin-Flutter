@@ -65,7 +65,7 @@
 ///     ],
 ///     "description": "The payment session's details."
 /// }
-library admin_payment_session;
+library;
 
 import 'exports.dart';
 part 'admin_payment_session.freezed.dart';

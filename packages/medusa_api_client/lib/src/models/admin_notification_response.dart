@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The notification's details."
 /// }
-library admin_notification_response;
+library;
 
 import 'exports.dart';
 part 'admin_notification_response.freezed.dart';

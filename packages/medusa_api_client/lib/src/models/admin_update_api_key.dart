@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The details to update in an API key."
 /// }
-library admin_update_api_key;
+library;
 
 import 'exports.dart';
 part 'admin_update_api_key.freezed.dart';

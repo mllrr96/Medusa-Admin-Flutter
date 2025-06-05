@@ -76,7 +76,7 @@
 ///     ],
 ///     "description": "The tax line's details"
 /// }
-library base_line_item_tax_line;
+library;
 
 import 'exports.dart';
 part 'base_line_item_tax_line.freezed.dart';

@@ -6,8 +6,10 @@ part of 'base_cart_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseCartAddress _$BaseCartAddressFromJson(Map<String, dynamic> json) =>
-    _BaseCartAddress();
+_$BaseCartAddressImpl _$$BaseCartAddressImplFromJson(
+  Map<String, dynamic> json,
+) => _$BaseCartAddressImpl();
 
-Map<String, dynamic> _$BaseCartAddressToJson(_BaseCartAddress instance) =>
-    <String, dynamic>{};
+Map<String, dynamic> _$$BaseCartAddressImplToJson(
+  _$BaseCartAddressImpl instance,
+) => <String, dynamic>{};

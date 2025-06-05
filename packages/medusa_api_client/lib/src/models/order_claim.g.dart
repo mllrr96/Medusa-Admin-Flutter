@@ -6,39 +6,40 @@ part of 'order_claim.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_OrderClaim _$OrderClaimFromJson(Map<String, dynamic> json) => _OrderClaim(
-  id: json['id'] as String,
-  orderId: json['order_id'] as String,
-  claimItems: (json['claim_items'] as List<dynamic>)
-      .map((e) => BaseClaimItem.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  additionalItems: (json['additional_items'] as List<dynamic>)
-      .map((e) => BaseClaimItem.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  returnAA: json['return'] as Map<String, dynamic>,
-  returnId: json['return_id'] as String,
-  noNotification: json['no_notification'] as bool,
-  refundAmount: (json['refund_amount'] as num).toDouble(),
-  displayId: (json['display_id'] as num).toDouble(),
-  shippingMethods: (json['shipping_methods'] as List<dynamic>)
-      .map((e) => OrderShippingMethod.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  transactions: (json['transactions'] as List<dynamic>)
-      .map((e) => OrderTransaction.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  metadata: json['metadata'] as Map<String, dynamic>,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-  type: $enumDecode(_$NullEnumEnumMap, json['type']),
-  order: Order.fromJson(json['order'] as Map<String, dynamic>),
-  orderVersion: (json['order_version'] as num).toDouble(),
-  rawRefundAmount: json['raw_refund_amount'],
-  createdBy: json['created_by'] as String,
-  deletedAt: DateTime.parse(json['deleted_at'] as String),
-  canceledAt: DateTime.parse(json['canceled_at'] as String),
-);
+_$OrderClaimImpl _$$OrderClaimImplFromJson(Map<String, dynamic> json) =>
+    _$OrderClaimImpl(
+      id: json['id'] as String,
+      orderId: json['order_id'] as String,
+      claimItems: (json['claim_items'] as List<dynamic>)
+          .map((e) => BaseClaimItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      additionalItems: (json['additional_items'] as List<dynamic>)
+          .map((e) => BaseClaimItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      returnAA: json['return'] as Map<String, dynamic>,
+      returnId: json['return_id'] as String,
+      noNotification: json['no_notification'] as bool,
+      refundAmount: (json['refund_amount'] as num).toDouble(),
+      displayId: (json['display_id'] as num).toDouble(),
+      shippingMethods: (json['shipping_methods'] as List<dynamic>)
+          .map((e) => OrderShippingMethod.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transactions: (json['transactions'] as List<dynamic>)
+          .map((e) => OrderTransaction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metadata: json['metadata'] as Map<String, dynamic>,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      type: $enumDecode(_$NullEnumEnumMap, json['type']),
+      order: Order.fromJson(json['order'] as Map<String, dynamic>),
+      orderVersion: (json['order_version'] as num).toDouble(),
+      rawRefundAmount: json['raw_refund_amount'],
+      createdBy: json['created_by'] as String,
+      deletedAt: DateTime.parse(json['deleted_at'] as String),
+      canceledAt: DateTime.parse(json['canceled_at'] as String),
+    );
 
-Map<String, dynamic> _$OrderClaimToJson(_OrderClaim instance) =>
+Map<String, dynamic> _$$OrderClaimImplToJson(_$OrderClaimImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'order_id': instance.orderId,

@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The product's details."
 /// }
-library admin_product_response;
+library;
 
 import 'exports.dart';
 part 'admin_product_response.freezed.dart';

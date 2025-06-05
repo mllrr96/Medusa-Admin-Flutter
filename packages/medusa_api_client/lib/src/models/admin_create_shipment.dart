@@ -16,7 +16,7 @@
 ///     ],
 ///     "description": "The shipment's details."
 /// }
-library admin_create_shipment;
+library;
 
 import 'exports.dart';
 part 'admin_create_shipment.freezed.dart';

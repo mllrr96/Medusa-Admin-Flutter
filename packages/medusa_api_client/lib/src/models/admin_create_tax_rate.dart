@@ -51,7 +51,7 @@
 ///     ],
 ///     "description": "The tax rate's details."
 /// }
-library admin_create_tax_rate;
+library;
 
 import 'exports.dart';
 part 'admin_create_tax_rate.freezed.dart';

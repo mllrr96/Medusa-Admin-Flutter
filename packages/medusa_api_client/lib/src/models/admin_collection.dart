@@ -58,7 +58,7 @@
 ///     ],
 ///     "description": "The product collection's details."
 /// }
-library admin_collection;
+library;
 
 import 'exports.dart';
 part 'admin_collection.freezed.dart';

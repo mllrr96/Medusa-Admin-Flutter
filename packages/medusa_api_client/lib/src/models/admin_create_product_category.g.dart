@@ -6,9 +6,9 @@ part of 'admin_create_product_category.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateProductCategory _$AdminCreateProductCategoryFromJson(
+_$AdminCreateProductCategoryImpl _$$AdminCreateProductCategoryImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateProductCategory(
+) => _$AdminCreateProductCategoryImpl(
   name: json['name'] as String,
   description: json['description'] as String,
   handle: json['handle'] as String,
@@ -19,8 +19,8 @@ _AdminCreateProductCategory _$AdminCreateProductCategoryFromJson(
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminCreateProductCategoryToJson(
-  _AdminCreateProductCategory instance,
+Map<String, dynamic> _$$AdminCreateProductCategoryImplToJson(
+  _$AdminCreateProductCategoryImpl instance,
 ) => <String, dynamic>{
   'name': instance.name,
   'description': instance.description,

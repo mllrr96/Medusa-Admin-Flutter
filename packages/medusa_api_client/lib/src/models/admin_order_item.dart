@@ -34,7 +34,7 @@
 ///     ],
 ///     "description": "The order item's details."
 /// }
-library admin_order_item;
+library;
 
 import 'exports.dart';
 part 'admin_order_item.freezed.dart';

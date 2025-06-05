@@ -24,7 +24,7 @@
 ///     "type": "object",
 ///     "description": "The properties to update in a user."
 /// }
-library admin_update_user;
+library;
 
 import 'exports.dart';
 part 'admin_update_user.freezed.dart';

@@ -6,10 +6,10 @@ part of 'get_users_me_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetUsersMeQueryParameters _$GetUsersMeQueryParametersFromJson(
+_$GetUsersMeQueryParametersImpl _$$GetUsersMeQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetUsersMeQueryParameters(fields: json['fields'] as String);
+) => _$GetUsersMeQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetUsersMeQueryParametersToJson(
-  _GetUsersMeQueryParameters instance,
+Map<String, dynamic> _$$GetUsersMeQueryParametersImplToJson(
+  _$GetUsersMeQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

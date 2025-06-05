@@ -2,6 +2,7 @@ library;
 
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import '../models/admin_return_delete_response.dart';
 import '../models/models.dart';
 part 'returns_client.g.dart';
 
@@ -929,8 +930,7 @@ abstract class ReturnsClient {
   ///             "content": {
   ///                 "application/json": {
   ///                     "schema": {
-  ///                         "type": "object",
-  ///                         "description": "The deletion's details."
+  ///                         "$ref": "#/components/schemas/AdminReturnDeleteResponse"
   ///                     }
   ///                 }
   ///             }
@@ -944,7 +944,7 @@ abstract class ReturnsClient {
   ///     }
   /// }
   @DELETE("/admin/returns/{id}/receive")
-  Future<HttpResponse<Map<String, dynamic>>> deleteReturnsIdReceive({
+  Future<HttpResponse<AdminReturnDeleteResponse>> deleteReturnsIdReceive({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,
@@ -1417,7 +1417,7 @@ abstract class ReturnsClient {
   ///     }
   /// }
   @DELETE("/admin/returns/{id}/request")
-  Future<HttpResponse<Map<String, dynamic>>> deleteReturnsIdRequest({
+  Future<HttpResponse<AdminReturnDeleteResponse>> deleteReturnsIdRequest({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

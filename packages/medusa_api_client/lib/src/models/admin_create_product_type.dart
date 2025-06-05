@@ -17,7 +17,7 @@
 ///     ],
 ///     "description": "The details of the product type to create."
 /// }
-library admin_create_product_type;
+library;
 
 import 'exports.dart';
 part 'admin_create_product_type.freezed.dart';

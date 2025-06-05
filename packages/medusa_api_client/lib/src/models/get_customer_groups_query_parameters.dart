@@ -151,11 +151,11 @@ abstract class GetCustomerGroupsQueryParameters
 
     /// offset
     @JsonKey(name: GetCustomerGroupsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetCustomerGroupsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetCustomerGroupsQueryParameters.orderKey)

@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The exchange's details."
 /// }
-library admin_exchange_response;
+library;
 
 import 'exports.dart';
 part 'admin_exchange_response.freezed.dart';

@@ -6,9 +6,9 @@ part of 'store_order_shipping_method.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreOrderShippingMethod _$StoreOrderShippingMethodFromJson(
+_$StoreOrderShippingMethodImpl _$$StoreOrderShippingMethodImplFromJson(
   Map<String, dynamic> json,
-) => _StoreOrderShippingMethod(
+) => _$StoreOrderShippingMethodImpl(
   id: json['id'] as String,
   orderId: json['order_id'] as String,
   name: json['name'] as String,
@@ -33,8 +33,8 @@ _StoreOrderShippingMethod _$StoreOrderShippingMethodFromJson(
   detail: json['detail'],
 );
 
-Map<String, dynamic> _$StoreOrderShippingMethodToJson(
-  _StoreOrderShippingMethod instance,
+Map<String, dynamic> _$$StoreOrderShippingMethodImplToJson(
+  _$StoreOrderShippingMethodImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'order_id': instance.orderId,

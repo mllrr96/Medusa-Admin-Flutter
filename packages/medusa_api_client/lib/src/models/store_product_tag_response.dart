@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The product tag's details."
 /// }
-library store_product_tag_response;
+library;
 
 import 'exports.dart';
 part 'store_product_tag_response.freezed.dart';

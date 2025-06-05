@@ -6,14 +6,14 @@ part of 'post_exchanges_id_outbound_items_action_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostExchangesIdOutboundItemsActionIdQueryParameters
-_$PostExchangesIdOutboundItemsActionIdQueryParametersFromJson(
+_$PostExchangesIdOutboundItemsActionIdQueryParametersImpl
+_$$PostExchangesIdOutboundItemsActionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostExchangesIdOutboundItemsActionIdQueryParameters(
+) => _$PostExchangesIdOutboundItemsActionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostExchangesIdOutboundItemsActionIdQueryParametersToJson(
-  _PostExchangesIdOutboundItemsActionIdQueryParameters instance,
+_$$PostExchangesIdOutboundItemsActionIdQueryParametersImplToJson(
+  _$PostExchangesIdOutboundItemsActionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

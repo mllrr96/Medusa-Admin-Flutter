@@ -6,14 +6,14 @@ part of 'admin_inventory_item_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminInventoryItemResponse _$AdminInventoryItemResponseFromJson(
+_$AdminInventoryItemResponseImpl _$$AdminInventoryItemResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminInventoryItemResponse(
+) => _$AdminInventoryItemResponseImpl(
   inventoryItem: AdminInventoryItem.fromJson(
     json['inventory_item'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminInventoryItemResponseToJson(
-  _AdminInventoryItemResponse instance,
+Map<String, dynamic> _$$AdminInventoryItemResponseImplToJson(
+  _$AdminInventoryItemResponseImpl instance,
 ) => <String, dynamic>{'inventory_item': instance.inventoryItem};

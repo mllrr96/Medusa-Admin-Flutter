@@ -42,7 +42,7 @@
 ///     "type": "object",
 ///     "description": "The properties to update in the tax rate."
 /// }
-library admin_update_tax_rate;
+library;
 
 import 'exports.dart';
 part 'admin_update_tax_rate.freezed.dart';

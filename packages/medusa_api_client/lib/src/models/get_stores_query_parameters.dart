@@ -81,7 +81,7 @@
 ///     },
 ///     "type": "object"
 /// }
-library get_stores_query_parameters;
+library;
 
 import 'exports.dart';
 part 'get_stores_query_parameters.freezed.dart';
@@ -97,10 +97,10 @@ abstract class GetStoresQueryParameters with _$GetStoresQueryParameters {
     @JsonKey(name: GetStoresQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetStoresQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetStoresQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetStoresQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetStoresQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetStoresQueryParameters.orderKey) required String order,

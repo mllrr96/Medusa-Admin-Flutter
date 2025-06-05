@@ -6,13 +6,13 @@ part of 'admin_rule_value_option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminRuleValueOption _$AdminRuleValueOptionFromJson(
+_$AdminRuleValueOptionImpl _$$AdminRuleValueOptionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminRuleValueOption(
+) => _$AdminRuleValueOptionImpl(
   value: json['value'] as String,
   label: json['label'] as String,
 );
 
-Map<String, dynamic> _$AdminRuleValueOptionToJson(
-  _AdminRuleValueOption instance,
+Map<String, dynamic> _$$AdminRuleValueOptionImplToJson(
+  _$AdminRuleValueOptionImpl instance,
 ) => <String, dynamic>{'value': instance.value, 'label': instance.label};

@@ -33,7 +33,7 @@
 ///     "type": "object",
 ///     "description": "The data to update in the draft order."
 /// }
-library admin_update_draft_order;
+library;
 
 import 'exports.dart';
 part 'admin_update_draft_order.freezed.dart';

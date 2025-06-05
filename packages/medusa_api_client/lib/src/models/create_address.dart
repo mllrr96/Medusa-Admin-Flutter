@@ -64,7 +64,7 @@
 ///     "type": "object",
 ///     "description": "The address to create."
 /// }
-library create_address;
+library;
 
 import 'exports.dart';
 part 'create_address.freezed.dart';

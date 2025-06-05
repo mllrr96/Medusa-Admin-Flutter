@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/di/medusa_client.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/repository/authentication_repo.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
@@ -12,7 +11,6 @@ class AuthenticationUseCase {
   static AuthenticationUseCase get instance => getIt<AuthenticationUseCase>();
   final AuthenticationRepository _authenticationRepository;
   AuthRepository get _authRepository => getIt<MedusaAdmin>().authRepository;
-  MedusaClient get _medusa => getIt<MedusaClient>();
 
   Future<Result<User, Failure>> login(
       {required String email, required String password}) async {

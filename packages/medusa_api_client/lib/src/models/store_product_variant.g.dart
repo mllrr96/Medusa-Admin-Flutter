@@ -6,44 +6,43 @@ part of 'store_product_variant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreProductVariant _$StoreProductVariantFromJson(Map<String, dynamic> json) =>
-    _StoreProductVariant(
-      options: (json['options'] as List<dynamic>)
-          .map(
-            (e) => StoreProductOptionValue.fromJson(e as Map<String, dynamic>),
-          )
-          .toList(),
-      product: json['product'] as Map<String, dynamic>,
-      length: (json['length'] as num).toDouble(),
-      title: json['title'] as String,
-      metadata: json['metadata'] as Map<String, dynamic>,
-      id: json['id'] as String,
-      width: (json['width'] as num).toDouble(),
-      weight: (json['weight'] as num).toDouble(),
-      height: (json['height'] as num).toDouble(),
-      originCountry: json['origin_country'] as String,
-      hsCode: json['hs_code'] as String,
-      midCode: json['mid_code'] as String,
-      material: json['material'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: DateTime.parse(json['deleted_at'] as String),
-      productId: json['product_id'] as String,
-      sku: json['sku'] as String,
-      barcode: json['barcode'] as String,
-      ean: json['ean'] as String,
-      upc: json['upc'] as String,
-      allowBackorder: json['allow_backorder'] as bool,
-      manageInventory: json['manage_inventory'] as bool,
-      inventoryQuantity: (json['inventory_quantity'] as num).toDouble(),
-      variantRank: (json['variant_rank'] as num).toDouble(),
-      calculatedPrice: BaseCalculatedPriceSet.fromJson(
-        json['calculated_price'] as Map<String, dynamic>,
-      ),
-    );
+_$StoreProductVariantImpl _$$StoreProductVariantImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreProductVariantImpl(
+  options: (json['options'] as List<dynamic>)
+      .map((e) => StoreProductOptionValue.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  product: json['product'] as Map<String, dynamic>,
+  length: (json['length'] as num).toDouble(),
+  title: json['title'] as String,
+  metadata: json['metadata'] as Map<String, dynamic>,
+  id: json['id'] as String,
+  width: (json['width'] as num).toDouble(),
+  weight: (json['weight'] as num).toDouble(),
+  height: (json['height'] as num).toDouble(),
+  originCountry: json['origin_country'] as String,
+  hsCode: json['hs_code'] as String,
+  midCode: json['mid_code'] as String,
+  material: json['material'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  deletedAt: DateTime.parse(json['deleted_at'] as String),
+  productId: json['product_id'] as String,
+  sku: json['sku'] as String,
+  barcode: json['barcode'] as String,
+  ean: json['ean'] as String,
+  upc: json['upc'] as String,
+  allowBackorder: json['allow_backorder'] as bool,
+  manageInventory: json['manage_inventory'] as bool,
+  inventoryQuantity: (json['inventory_quantity'] as num).toDouble(),
+  variantRank: (json['variant_rank'] as num).toDouble(),
+  calculatedPrice: BaseCalculatedPriceSet.fromJson(
+    json['calculated_price'] as Map<String, dynamic>,
+  ),
+);
 
-Map<String, dynamic> _$StoreProductVariantToJson(
-  _StoreProductVariant instance,
+Map<String, dynamic> _$$StoreProductVariantImplToJson(
+  _$StoreProductVariantImpl instance,
 ) => <String, dynamic>{
   'options': instance.options,
   'product': instance.product,

@@ -55,14 +55,14 @@ abstract class GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParamete
       name: GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParameters
           .offsetKey,
     )
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(
       name: GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParameters
           .limitKey,
     )
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(

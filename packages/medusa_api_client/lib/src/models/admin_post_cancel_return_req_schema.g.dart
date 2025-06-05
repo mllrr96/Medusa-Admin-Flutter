@@ -6,12 +6,12 @@ part of 'admin_post_cancel_return_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostCancelReturnReqSchema _$AdminPostCancelReturnReqSchemaFromJson(
-  Map<String, dynamic> json,
-) => _AdminPostCancelReturnReqSchema(
-  noNotification: json['no_notification'] as bool,
-);
+_$AdminPostCancelReturnReqSchemaImpl
+_$$AdminPostCancelReturnReqSchemaImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPostCancelReturnReqSchemaImpl(
+      noNotification: json['no_notification'] as bool,
+    );
 
-Map<String, dynamic> _$AdminPostCancelReturnReqSchemaToJson(
-  _AdminPostCancelReturnReqSchema instance,
+Map<String, dynamic> _$$AdminPostCancelReturnReqSchemaImplToJson(
+  _$AdminPostCancelReturnReqSchemaImpl instance,
 ) => <String, dynamic>{'no_notification': instance.noNotification};

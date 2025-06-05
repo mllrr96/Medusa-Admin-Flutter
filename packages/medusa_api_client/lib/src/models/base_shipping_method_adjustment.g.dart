@@ -6,9 +6,9 @@ part of 'base_shipping_method_adjustment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseShippingMethodAdjustment _$BaseShippingMethodAdjustmentFromJson(
+_$BaseShippingMethodAdjustmentImpl _$$BaseShippingMethodAdjustmentImplFromJson(
   Map<String, dynamic> json,
-) => _BaseShippingMethodAdjustment(
+) => _$BaseShippingMethodAdjustmentImpl(
   shippingMethod: json['shipping_method'] as Map<String, dynamic>,
   shippingMethodId: json['shipping_method_id'] as String,
   id: json['id'] as String,
@@ -22,8 +22,8 @@ _BaseShippingMethodAdjustment _$BaseShippingMethodAdjustmentFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$BaseShippingMethodAdjustmentToJson(
-  _BaseShippingMethodAdjustment instance,
+Map<String, dynamic> _$$BaseShippingMethodAdjustmentImplToJson(
+  _$BaseShippingMethodAdjustmentImpl instance,
 ) => <String, dynamic>{
   'shipping_method': instance.shippingMethod,
   'shipping_method_id': instance.shippingMethodId,

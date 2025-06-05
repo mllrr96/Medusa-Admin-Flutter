@@ -91,7 +91,7 @@
 ///     ],
 ///     "description": "The item's detail."
 /// }
-library base_order_item_detail;
+library;
 
 import 'exports.dart';
 part 'base_order_item_detail.freezed.dart';

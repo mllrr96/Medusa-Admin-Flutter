@@ -57,7 +57,7 @@
 ///     ],
 ///     "description": "The invite's details."
 /// }
-library admin_invite;
+library;
 
 import 'exports.dart';
 part 'admin_invite.freezed.dart';

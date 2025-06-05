@@ -6,9 +6,9 @@ part of 'admin_shipping_profile.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminShippingProfile _$AdminShippingProfileFromJson(
+_$AdminShippingProfileImpl _$$AdminShippingProfileImplFromJson(
   Map<String, dynamic> json,
-) => _AdminShippingProfile(
+) => _$AdminShippingProfileImpl(
   id: json['id'] as String,
   name: json['name'] as String,
   type: json['type'] as String,
@@ -18,8 +18,8 @@ _AdminShippingProfile _$AdminShippingProfileFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminShippingProfileToJson(
-  _AdminShippingProfile instance,
+Map<String, dynamic> _$$AdminShippingProfileImplToJson(
+  _$AdminShippingProfileImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,

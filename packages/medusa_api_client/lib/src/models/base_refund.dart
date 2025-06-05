@@ -48,7 +48,7 @@
 ///     ],
 ///     "description": "The refund's details."
 /// }
-library base_refund;
+library;
 
 import 'exports.dart';
 part 'base_refund.freezed.dart';

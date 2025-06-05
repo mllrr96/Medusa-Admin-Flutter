@@ -28,7 +28,7 @@
 ///     ],
 ///     "description": "The details of the products created, updated, or deleted."
 /// }
-library admin_batch_product_response;
+library;
 
 import 'exports.dart';
 part 'admin_batch_product_response.freezed.dart';

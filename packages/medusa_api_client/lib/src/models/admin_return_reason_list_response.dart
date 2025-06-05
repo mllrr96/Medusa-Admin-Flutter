@@ -53,15 +53,15 @@ abstract class AdminReturnReasonListResponse
   const factory AdminReturnReasonListResponse({
     /// limit
     @JsonKey(name: AdminReturnReasonListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: AdminReturnReasonListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: AdminReturnReasonListResponse.countKey)
-    required double count,
+    required int count,
 
     /// returnReasons
     @JsonKey(name: AdminReturnReasonListResponse.returnReasonsKey)

@@ -148,11 +148,11 @@ abstract class GetStockLocationsQueryParameters
 
     /// offset
     @JsonKey(name: GetStockLocationsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetStockLocationsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetStockLocationsQueryParameters.orderKey)

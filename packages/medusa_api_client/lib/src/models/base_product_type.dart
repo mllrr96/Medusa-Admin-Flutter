@@ -43,7 +43,7 @@
 ///     ],
 ///     "description": "The product type's details."
 /// }
-library base_product_type;
+library;
 
 import 'exports.dart';
 part 'base_product_type.freezed.dart';

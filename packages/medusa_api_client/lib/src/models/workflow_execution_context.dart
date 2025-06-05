@@ -25,7 +25,7 @@
 ///     ],
 ///     "description": "The workflow execution's context."
 /// }
-library workflow_execution_context;
+library;
 
 import 'exports.dart';
 part 'workflow_execution_context.freezed.dart';

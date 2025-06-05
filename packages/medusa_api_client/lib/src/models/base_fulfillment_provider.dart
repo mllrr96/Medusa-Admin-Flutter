@@ -19,7 +19,7 @@
 ///     ],
 ///     "description": "The fulfillment provider's details."
 /// }
-library base_fulfillment_provider;
+library;
 
 import 'exports.dart';
 part 'base_fulfillment_provider.freezed.dart';

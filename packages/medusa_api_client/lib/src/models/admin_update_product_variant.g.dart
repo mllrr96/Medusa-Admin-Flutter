@@ -6,9 +6,9 @@ part of 'admin_update_product_variant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateProductVariant _$AdminUpdateProductVariantFromJson(
+_$AdminUpdateProductVariantImpl _$$AdminUpdateProductVariantImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdateProductVariant(
+) => _$AdminUpdateProductVariantImpl(
   title: json['title'] as String,
   sku: json['sku'] as String,
   ean: json['ean'] as String,
@@ -35,8 +35,8 @@ _AdminUpdateProductVariant _$AdminUpdateProductVariantFromJson(
   options: json['options'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminUpdateProductVariantToJson(
-  _AdminUpdateProductVariant instance,
+Map<String, dynamic> _$$AdminUpdateProductVariantImplToJson(
+  _$AdminUpdateProductVariantImpl instance,
 ) => <String, dynamic>{
   'title': instance.title,
   'sku': instance.sku,

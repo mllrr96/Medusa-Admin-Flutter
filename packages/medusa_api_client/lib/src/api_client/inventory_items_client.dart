@@ -1,6 +1,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import 'package:medusa_api_client/src/models/admin_inventory_item_delete_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/models.dart';
 part 'inventory_items_client.g.dart';
@@ -665,7 +666,7 @@ abstract class InventoryItemsClient {
   ///     }
   /// }
   @DELETE("/admin/inventory-items/{id}")
-  Future<HttpResponse<Map<String, dynamic>>> deleteInventoryItemsId({
+  Future<HttpResponse<AdminInventoryItemDeleteResponse>> deleteInventoryItemsId({
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

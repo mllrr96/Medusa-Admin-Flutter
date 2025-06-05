@@ -6,9 +6,9 @@ part of 'admin_workflow_execution.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminWorkflowExecution _$AdminWorkflowExecutionFromJson(
+_$AdminWorkflowExecutionImpl _$$AdminWorkflowExecutionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminWorkflowExecution(
+) => _$AdminWorkflowExecutionImpl(
   id: json['id'] as String,
   workflowId: json['workflow_id'] as String,
   transactionId: json['transaction_id'] as String,
@@ -24,8 +24,8 @@ _AdminWorkflowExecution _$AdminWorkflowExecutionFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminWorkflowExecutionToJson(
-  _AdminWorkflowExecution instance,
+Map<String, dynamic> _$$AdminWorkflowExecutionImplToJson(
+  _$AdminWorkflowExecutionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'workflow_id': instance.workflowId,

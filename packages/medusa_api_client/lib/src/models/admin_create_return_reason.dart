@@ -33,7 +33,7 @@
 ///     ],
 ///     "description": "The details of the return reason to create."
 /// }
-library admin_create_return_reason;
+library;
 
 import 'exports.dart';
 part 'admin_create_return_reason.freezed.dart';

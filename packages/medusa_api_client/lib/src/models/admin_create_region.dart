@@ -51,7 +51,7 @@
 ///     ],
 ///     "description": "The region's details."
 /// }
-library admin_create_region;
+library;
 
 import 'exports.dart';
 part 'admin_create_region.freezed.dart';

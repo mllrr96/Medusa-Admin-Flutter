@@ -99,7 +99,7 @@
 ///     ],
 ///     "description": "The product category's details."
 /// }
-library admin_product_category;
+library;
 
 import 'exports.dart';
 part 'admin_product_category.freezed.dart';

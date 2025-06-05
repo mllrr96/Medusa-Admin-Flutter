@@ -6,10 +6,10 @@ part of 'get_uploads_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetUploadsIdQueryParameters _$GetUploadsIdQueryParametersFromJson(
+_$GetUploadsIdQueryParametersImpl _$$GetUploadsIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetUploadsIdQueryParameters(fields: json['fields'] as String);
+) => _$GetUploadsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetUploadsIdQueryParametersToJson(
-  _GetUploadsIdQueryParameters instance,
+Map<String, dynamic> _$$GetUploadsIdQueryParametersImplToJson(
+  _$GetUploadsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -103,7 +103,7 @@
 ///     ],
 ///     "description": "The customer's details."
 /// }
-library admin_customer;
+library;
 
 import 'exports.dart';
 part 'admin_customer.freezed.dart';

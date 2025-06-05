@@ -6,22 +6,23 @@ part of 'admin_api_key.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminApiKey _$AdminApiKeyFromJson(Map<String, dynamic> json) => _AdminApiKey(
-  id: json['id'] as String,
-  token: json['token'] as String,
-  redacted: json['redacted'] as String,
-  title: json['title'] as String,
-  type: $enumDecode(_$NullEnumEnumMap, json['type']),
-  lastUsedAt: DateTime.parse(json['last_used_at'] as String),
-  createdBy: json['created_by'] as String,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  revokedBy: json['revoked_by'] as String,
-  revokedAt: DateTime.parse(json['revoked_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-  deletedAt: DateTime.parse(json['deleted_at'] as String),
-);
+_$AdminApiKeyImpl _$$AdminApiKeyImplFromJson(Map<String, dynamic> json) =>
+    _$AdminApiKeyImpl(
+      id: json['id'] as String,
+      token: json['token'] as String,
+      redacted: json['redacted'] as String,
+      title: json['title'] as String,
+      type: $enumDecode(_$NullEnumEnumMap, json['type']),
+      lastUsedAt: DateTime.parse(json['last_used_at'] as String),
+      createdBy: json['created_by'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      revokedBy: json['revoked_by'] as String,
+      revokedAt: DateTime.parse(json['revoked_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      deletedAt: DateTime.parse(json['deleted_at'] as String),
+    );
 
-Map<String, dynamic> _$AdminApiKeyToJson(_AdminApiKey instance) =>
+Map<String, dynamic> _$$AdminApiKeyImplToJson(_$AdminApiKeyImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'token': instance.token,

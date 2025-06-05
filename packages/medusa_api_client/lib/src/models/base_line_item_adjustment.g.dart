@@ -6,9 +6,9 @@ part of 'base_line_item_adjustment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseLineItemAdjustment _$BaseLineItemAdjustmentFromJson(
+_$BaseLineItemAdjustmentImpl _$$BaseLineItemAdjustmentImplFromJson(
   Map<String, dynamic> json,
-) => _BaseLineItemAdjustment(
+) => _$BaseLineItemAdjustmentImpl(
   item: json['item'] as Map<String, dynamic>,
   itemId: json['item_id'] as String,
   id: json['id'] as String,
@@ -22,8 +22,8 @@ _BaseLineItemAdjustment _$BaseLineItemAdjustmentFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$BaseLineItemAdjustmentToJson(
-  _BaseLineItemAdjustment instance,
+Map<String, dynamic> _$$BaseLineItemAdjustmentImplToJson(
+  _$BaseLineItemAdjustmentImpl instance,
 ) => <String, dynamic>{
   'item': instance.item,
   'item_id': instance.itemId,

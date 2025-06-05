@@ -28,7 +28,7 @@
 ///     ],
 ///     "description": "The details to update in a return reason."
 /// }
-library admin_update_return_reason;
+library;
 
 import 'exports.dart';
 part 'admin_update_return_reason.freezed.dart';

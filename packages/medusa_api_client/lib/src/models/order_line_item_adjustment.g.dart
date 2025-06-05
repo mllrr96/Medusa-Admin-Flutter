@@ -6,9 +6,9 @@ part of 'order_line_item_adjustment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_OrderLineItemAdjustment _$OrderLineItemAdjustmentFromJson(
+_$OrderLineItemAdjustmentImpl _$$OrderLineItemAdjustmentImplFromJson(
   Map<String, dynamic> json,
-) => _OrderLineItemAdjustment(
+) => _$OrderLineItemAdjustmentImpl(
   item: json['item'] as Map<String, dynamic>,
   itemId: json['item_id'] as String,
   id: json['id'] as String,
@@ -22,8 +22,8 @@ _OrderLineItemAdjustment _$OrderLineItemAdjustmentFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$OrderLineItemAdjustmentToJson(
-  _OrderLineItemAdjustment instance,
+Map<String, dynamic> _$$OrderLineItemAdjustmentImplToJson(
+  _$OrderLineItemAdjustmentImpl instance,
 ) => <String, dynamic>{
   'item': instance.item,
   'item_id': instance.itemId,

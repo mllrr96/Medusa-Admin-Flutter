@@ -19,7 +19,7 @@
 ///     "type": "object",
 ///     "description": "The details to update in a tax region."
 /// }
-library admin_update_tax_region;
+library;
 
 import 'exports.dart';
 part 'admin_update_tax_region.freezed.dart';

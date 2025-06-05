@@ -6,10 +6,13 @@ part of 'get_promotions_id_rule_type_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPromotionsIdRuleTypeQueryParameters
-_$GetPromotionsIdRuleTypeQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetPromotionsIdRuleTypeQueryParameters(fields: json['fields'] as String);
+_$GetPromotionsIdRuleTypeQueryParametersImpl
+_$$GetPromotionsIdRuleTypeQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$GetPromotionsIdRuleTypeQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$GetPromotionsIdRuleTypeQueryParametersToJson(
-  _GetPromotionsIdRuleTypeQueryParameters instance,
+Map<String, dynamic> _$$GetPromotionsIdRuleTypeQueryParametersImplToJson(
+  _$GetPromotionsIdRuleTypeQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

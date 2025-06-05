@@ -6,9 +6,9 @@ part of 'admin_application_method.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminApplicationMethod _$AdminApplicationMethodFromJson(
+_$AdminApplicationMethodImpl _$$AdminApplicationMethodImplFromJson(
   Map<String, dynamic> json,
-) => _AdminApplicationMethod(
+) => _$AdminApplicationMethodImpl(
   promotion: json['promotion'] as Map<String, dynamic>,
   targetRules: (json['target_rules'] as List<dynamic>)
       .map((e) => AdminPromotionRule.fromJson(e as Map<String, dynamic>))
@@ -27,8 +27,8 @@ _AdminApplicationMethod _$AdminApplicationMethodFromJson(
   applyToQuantity: (json['apply_to_quantity'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$AdminApplicationMethodToJson(
-  _AdminApplicationMethod instance,
+Map<String, dynamic> _$$AdminApplicationMethodImplToJson(
+  _$AdminApplicationMethodImpl instance,
 ) => <String, dynamic>{
   'promotion': instance.promotion,
   'target_rules': instance.targetRules,

@@ -134,7 +134,7 @@
 ///     },
 ///     "type": "object"
 /// }
-library get_orders_query_parameters;
+library;
 
 import 'exports.dart';
 part 'get_orders_query_parameters.freezed.dart';
@@ -150,10 +150,10 @@ abstract class GetOrdersQueryParameters with _$GetOrdersQueryParameters {
     @JsonKey(name: GetOrdersQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetOrdersQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetOrdersQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetOrdersQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetOrdersQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetOrdersQueryParameters.orderKey) required String order,

@@ -6,21 +6,21 @@ part of 'admin_upsert_stock_location_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpsertStockLocationAddress _$AdminUpsertStockLocationAddressFromJson(
-  Map<String, dynamic> json,
-) => _AdminUpsertStockLocationAddress(
-  address1: json['address_1'] as String,
-  address2: json['address_2'] as String,
-  company: json['company'] as String,
-  countryCode: json['country_code'] as String,
-  city: json['city'] as String,
-  phone: json['phone'] as String,
-  postalCode: json['postal_code'] as String,
-  province: json['province'] as String,
-);
+_$AdminUpsertStockLocationAddressImpl
+_$$AdminUpsertStockLocationAddressImplFromJson(Map<String, dynamic> json) =>
+    _$AdminUpsertStockLocationAddressImpl(
+      address1: json['address_1'] as String,
+      address2: json['address_2'] as String,
+      company: json['company'] as String,
+      countryCode: json['country_code'] as String,
+      city: json['city'] as String,
+      phone: json['phone'] as String,
+      postalCode: json['postal_code'] as String,
+      province: json['province'] as String,
+    );
 
-Map<String, dynamic> _$AdminUpsertStockLocationAddressToJson(
-  _AdminUpsertStockLocationAddress instance,
+Map<String, dynamic> _$$AdminUpsertStockLocationAddressImplToJson(
+  _$AdminUpsertStockLocationAddressImpl instance,
 ) => <String, dynamic>{
   'address_1': instance.address1,
   'address_2': instance.address2,

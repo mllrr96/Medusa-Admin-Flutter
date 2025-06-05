@@ -6,10 +6,10 @@ part of 'post_promotions_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostPromotionsQueryParameters _$PostPromotionsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostPromotionsQueryParameters(fields: json['fields'] as String);
+_$PostPromotionsQueryParametersImpl
+_$$PostPromotionsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostPromotionsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostPromotionsQueryParametersToJson(
-  _PostPromotionsQueryParameters instance,
+Map<String, dynamic> _$$PostPromotionsQueryParametersImplToJson(
+  _$PostPromotionsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

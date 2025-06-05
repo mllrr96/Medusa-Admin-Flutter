@@ -6,13 +6,13 @@ part of 'post_customer_groups_id_customers_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostCustomerGroupsIdCustomersQueryParameters
-_$PostCustomerGroupsIdCustomersQueryParametersFromJson(
+_$PostCustomerGroupsIdCustomersQueryParametersImpl
+_$$PostCustomerGroupsIdCustomersQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostCustomerGroupsIdCustomersQueryParameters(
+) => _$PostCustomerGroupsIdCustomersQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostCustomerGroupsIdCustomersQueryParametersToJson(
-  _PostCustomerGroupsIdCustomersQueryParameters instance,
+Map<String, dynamic> _$$PostCustomerGroupsIdCustomersQueryParametersImplToJson(
+  _$PostCustomerGroupsIdCustomersQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

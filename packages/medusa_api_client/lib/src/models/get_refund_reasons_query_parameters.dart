@@ -82,11 +82,11 @@ abstract class GetRefundReasonsQueryParameters
 
     /// offset
     @JsonKey(name: GetRefundReasonsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetRefundReasonsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetRefundReasonsQueryParameters.orderKey)

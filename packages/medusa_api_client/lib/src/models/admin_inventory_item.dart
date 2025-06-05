@@ -90,7 +90,7 @@
 ///     ],
 ///     "description": "The inventory item's details."
 /// }
-library admin_inventory_item;
+library;
 
 import 'exports.dart';
 part 'admin_inventory_item.freezed.dart';

@@ -6,10 +6,10 @@ part of 'get_currencies_code_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetCurrenciesCodeQueryParameters _$GetCurrenciesCodeQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _GetCurrenciesCodeQueryParameters(fields: json['fields'] as String);
+_$GetCurrenciesCodeQueryParametersImpl
+_$$GetCurrenciesCodeQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetCurrenciesCodeQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$GetCurrenciesCodeQueryParametersToJson(
-  _GetCurrenciesCodeQueryParameters instance,
+Map<String, dynamic> _$$GetCurrenciesCodeQueryParametersImplToJson(
+  _$GetCurrenciesCodeQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

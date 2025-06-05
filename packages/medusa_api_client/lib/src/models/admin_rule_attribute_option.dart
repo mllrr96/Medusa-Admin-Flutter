@@ -33,7 +33,7 @@
 ///     ],
 ///     "description": "The details of a potential rule attribute."
 /// }
-library admin_rule_attribute_option;
+library;
 
 import 'exports.dart';
 part 'admin_rule_attribute_option.freezed.dart';

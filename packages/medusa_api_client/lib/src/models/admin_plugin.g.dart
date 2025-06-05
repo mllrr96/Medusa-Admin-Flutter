@@ -6,8 +6,8 @@ part of 'admin_plugin.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPlugin _$AdminPluginFromJson(Map<String, dynamic> json) =>
-    _AdminPlugin(name: json['name'] as String);
+_$AdminPluginImpl _$$AdminPluginImplFromJson(Map<String, dynamic> json) =>
+    _$AdminPluginImpl(name: json['name'] as String);
 
-Map<String, dynamic> _$AdminPluginToJson(_AdminPlugin instance) =>
+Map<String, dynamic> _$$AdminPluginImplToJson(_$AdminPluginImpl instance) =>
     <String, dynamic>{'name': instance.name};

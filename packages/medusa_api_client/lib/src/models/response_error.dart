@@ -39,7 +39,7 @@
 ///     "type": "object",
 ///     "title": "Response Error"
 /// }
-library response_error;
+library;
 
 import 'exports.dart';
 part 'response_error.freezed.dart';

@@ -6,9 +6,9 @@ part of 'base_shipping_method_tax_line.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseShippingMethodTaxLine _$BaseShippingMethodTaxLineFromJson(
+_$BaseShippingMethodTaxLineImpl _$$BaseShippingMethodTaxLineImplFromJson(
   Map<String, dynamic> json,
-) => _BaseShippingMethodTaxLine(
+) => _$BaseShippingMethodTaxLineImpl(
   shippingMethod: json['shipping_method'] as Map<String, dynamic>,
   shippingMethodId: json['shipping_method_id'] as String,
   total: (json['total'] as num).toDouble(),
@@ -23,8 +23,8 @@ _BaseShippingMethodTaxLine _$BaseShippingMethodTaxLineFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$BaseShippingMethodTaxLineToJson(
-  _BaseShippingMethodTaxLine instance,
+Map<String, dynamic> _$$BaseShippingMethodTaxLineImplToJson(
+  _$BaseShippingMethodTaxLineImpl instance,
 ) => <String, dynamic>{
   'shipping_method': instance.shippingMethod,
   'shipping_method_id': instance.shippingMethodId,

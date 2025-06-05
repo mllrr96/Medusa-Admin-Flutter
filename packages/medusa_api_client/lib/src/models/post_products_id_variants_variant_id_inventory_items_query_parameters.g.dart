@@ -6,14 +6,14 @@ part of 'post_products_id_variants_variant_id_inventory_items_query_parameters.d
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostProductsIdVariantsVariantIdInventoryItemsQueryParameters
-_$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersFromJson(
+_$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersImpl
+_$$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostProductsIdVariantsVariantIdInventoryItemsQueryParameters(
+) => _$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersToJson(
-  _PostProductsIdVariantsVariantIdInventoryItemsQueryParameters instance,
+_$$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersImplToJson(
+  _$PostProductsIdVariantsVariantIdInventoryItemsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

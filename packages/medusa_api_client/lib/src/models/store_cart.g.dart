@@ -6,7 +6,9 @@ part of 'store_cart.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCart _$StoreCartFromJson(Map<String, dynamic> json) => _StoreCart(
+_$StoreCartImpl _$$StoreCartImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreCartImpl(
   id: json['id'] as String,
   region: StoreRegion.fromJson(json['region'] as Map<String, dynamic>),
   regionId: json['region_id'] as String,
@@ -61,7 +63,7 @@ _StoreCart _$StoreCartFromJson(Map<String, dynamic> json) => _StoreCart(
       .toList(),
 );
 
-Map<String, dynamic> _$StoreCartToJson(_StoreCart instance) =>
+Map<String, dynamic> _$$StoreCartImplToJson(_$StoreCartImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'region': instance.region,

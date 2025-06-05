@@ -49,7 +49,7 @@
 ///     ],
 ///     "description": "The order's summary details."
 /// }
-library base_order_summary;
+library;
 
 import 'exports.dart';
 part 'base_order_summary.freezed.dart';

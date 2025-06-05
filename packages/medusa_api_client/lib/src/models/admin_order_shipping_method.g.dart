@@ -6,9 +6,9 @@ part of 'admin_order_shipping_method.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrderShippingMethod _$AdminOrderShippingMethodFromJson(
+_$AdminOrderShippingMethodImpl _$$AdminOrderShippingMethodImplFromJson(
   Map<String, dynamic> json,
-) => _AdminOrderShippingMethod(
+) => _$AdminOrderShippingMethodImpl(
   id: json['id'] as String,
   orderId: json['order_id'] as String,
   name: json['name'] as String,
@@ -46,8 +46,8 @@ _AdminOrderShippingMethod _$AdminOrderShippingMethodFromJson(
   ),
 );
 
-Map<String, dynamic> _$AdminOrderShippingMethodToJson(
-  _AdminOrderShippingMethod instance,
+Map<String, dynamic> _$$AdminOrderShippingMethodImplToJson(
+  _$AdminOrderShippingMethodImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'order_id': instance.orderId,

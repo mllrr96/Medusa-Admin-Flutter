@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The plugin's details."
 /// }
-library admin_plugin;
+library;
 
 import 'exports.dart';
 part 'admin_plugin.freezed.dart';

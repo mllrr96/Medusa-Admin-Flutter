@@ -67,7 +67,7 @@
 ///     ],
 ///     "description": "The workflows execution's details."
 /// }
-library admin_workflow_execution;
+library;
 
 import 'exports.dart';
 part 'admin_workflow_execution.freezed.dart';

@@ -53,15 +53,15 @@ abstract class AdminStockLocationListResponse
   const factory AdminStockLocationListResponse({
     /// limit
     @JsonKey(name: AdminStockLocationListResponse.limitKey)
-    required double limit,
+    required int limit,
 
     /// offset
     @JsonKey(name: AdminStockLocationListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
     @JsonKey(name: AdminStockLocationListResponse.countKey)
-    required double count,
+    required int count,
 
     /// stockLocations
     @JsonKey(name: AdminStockLocationListResponse.stockLocationsKey)

@@ -13,7 +13,7 @@
 ///     "type": "object",
 ///     "description": "The details of the items to add to a draft order."
 /// }
-library admin_add_draft_order_items;
+library;
 
 import 'exports.dart';
 part 'admin_add_draft_order_items.freezed.dart';

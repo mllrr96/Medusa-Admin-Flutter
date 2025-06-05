@@ -6,12 +6,12 @@ part of 'admin_exchange_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminExchangeResponse _$AdminExchangeResponseFromJson(
+_$AdminExchangeResponseImpl _$$AdminExchangeResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminExchangeResponse(
+) => _$AdminExchangeResponseImpl(
   exchange: AdminExchange.fromJson(json['exchange'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminExchangeResponseToJson(
-  _AdminExchangeResponse instance,
+Map<String, dynamic> _$$AdminExchangeResponseImplToJson(
+  _$AdminExchangeResponseImpl instance,
 ) => <String, dynamic>{'exchange': instance.exchange};

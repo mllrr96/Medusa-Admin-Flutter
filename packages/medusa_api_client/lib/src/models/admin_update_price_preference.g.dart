@@ -6,16 +6,16 @@ part of 'admin_update_price_preference.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdatePricePreference _$AdminUpdatePricePreferenceFromJson(
+_$AdminUpdatePricePreferenceImpl _$$AdminUpdatePricePreferenceImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdatePricePreference(
+) => _$AdminUpdatePricePreferenceImpl(
   attribute: json['attribute'] as String,
   value: json['value'] as String,
   isTaxInclusive: json['is_tax_inclusive'] as bool,
 );
 
-Map<String, dynamic> _$AdminUpdatePricePreferenceToJson(
-  _AdminUpdatePricePreference instance,
+Map<String, dynamic> _$$AdminUpdatePricePreferenceImplToJson(
+  _$AdminUpdatePricePreferenceImpl instance,
 ) => <String, dynamic>{
   'attribute': instance.attribute,
   'value': instance.value,

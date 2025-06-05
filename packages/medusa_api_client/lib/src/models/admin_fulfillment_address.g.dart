@@ -6,9 +6,9 @@ part of 'admin_fulfillment_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminFulfillmentAddress _$AdminFulfillmentAddressFromJson(
+_$AdminFulfillmentAddressImpl _$$AdminFulfillmentAddressImplFromJson(
   Map<String, dynamic> json,
-) => _AdminFulfillmentAddress(
+) => _$AdminFulfillmentAddressImpl(
   id: json['id'] as String,
   fulfillmentId: json['fulfillment_id'] as String,
   company: json['company'] as String,
@@ -27,8 +27,8 @@ _AdminFulfillmentAddress _$AdminFulfillmentAddressFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminFulfillmentAddressToJson(
-  _AdminFulfillmentAddress instance,
+Map<String, dynamic> _$$AdminFulfillmentAddressImplToJson(
+  _$AdminFulfillmentAddressImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'fulfillment_id': instance.fulfillmentId,

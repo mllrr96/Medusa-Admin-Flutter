@@ -74,7 +74,7 @@
 ///     "type": "object",
 ///     "description": "The inventory item's details."
 /// }
-library admin_create_inventory_item;
+library;
 
 import 'exports.dart';
 part 'admin_create_inventory_item.freezed.dart';

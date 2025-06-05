@@ -6,9 +6,9 @@ part of 'admin_update_product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateProduct _$AdminUpdateProductFromJson(
+_$AdminUpdateProductImpl _$$AdminUpdateProductImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdateProduct(
+) => _$AdminUpdateProductImpl(
   title: json['title'] as String,
   subtitle: json['subtitle'] as String,
   description: json['description'] as String,
@@ -53,8 +53,8 @@ _AdminUpdateProduct _$AdminUpdateProductFromJson(
   externalId: json['external_id'] as String,
 );
 
-Map<String, dynamic> _$AdminUpdateProductToJson(
-  _AdminUpdateProduct instance,
+Map<String, dynamic> _$$AdminUpdateProductImplToJson(
+  _$AdminUpdateProductImpl instance,
 ) => <String, dynamic>{
   'title': instance.title,
   'subtitle': instance.subtitle,

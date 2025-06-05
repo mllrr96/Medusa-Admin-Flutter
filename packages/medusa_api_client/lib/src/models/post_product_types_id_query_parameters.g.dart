@@ -6,10 +6,10 @@ part of 'post_product_types_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostProductTypesIdQueryParameters _$PostProductTypesIdQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostProductTypesIdQueryParameters(fields: json['fields'] as String);
+_$PostProductTypesIdQueryParametersImpl
+_$$PostProductTypesIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostProductTypesIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostProductTypesIdQueryParametersToJson(
-  _PostProductTypesIdQueryParameters instance,
+Map<String, dynamic> _$$PostProductTypesIdQueryParametersImplToJson(
+  _$PostProductTypesIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

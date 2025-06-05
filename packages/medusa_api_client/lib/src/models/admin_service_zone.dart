@@ -66,7 +66,7 @@
 ///     ],
 ///     "description": "The shipping option's service zone."
 /// }
-library admin_service_zone;
+library;
 
 import 'exports.dart';
 part 'admin_service_zone.freezed.dart';

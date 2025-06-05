@@ -150,10 +150,10 @@ abstract class GetReturnsQueryParameters with _$GetReturnsQueryParameters {
     @JsonKey(name: GetReturnsQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetReturnsQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetReturnsQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetReturnsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetReturnsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetReturnsQueryParameters.orderKey) required String order,

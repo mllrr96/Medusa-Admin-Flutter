@@ -6,12 +6,12 @@ part of 'auth_admin_session_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AuthAdminSessionResponse _$AuthAdminSessionResponseFromJson(
+_$AuthAdminSessionResponseImpl _$$AuthAdminSessionResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AuthAdminSessionResponse(
+) => _$AuthAdminSessionResponseImpl(
   user: AdminUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AuthAdminSessionResponseToJson(
-  _AuthAdminSessionResponse instance,
+Map<String, dynamic> _$$AuthAdminSessionResponseImplToJson(
+  _$AuthAdminSessionResponseImpl instance,
 ) => <String, dynamic>{'user': instance.user};

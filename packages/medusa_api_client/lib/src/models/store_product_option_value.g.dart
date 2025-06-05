@@ -6,9 +6,9 @@ part of 'store_product_option_value.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreProductOptionValue _$StoreProductOptionValueFromJson(
+_$StoreProductOptionValueImpl _$$StoreProductOptionValueImplFromJson(
   Map<String, dynamic> json,
-) => _StoreProductOptionValue(
+) => _$StoreProductOptionValueImpl(
   id: json['id'] as String,
   value: json['value'] as String,
   option: json['option'] as Map<String, dynamic>,
@@ -19,8 +19,8 @@ _StoreProductOptionValue _$StoreProductOptionValueFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$StoreProductOptionValueToJson(
-  _StoreProductOptionValue instance,
+Map<String, dynamic> _$$StoreProductOptionValueImplToJson(
+  _$StoreProductOptionValueImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'value': instance.value,

@@ -6,10 +6,10 @@ part of 'post_api_keys_id_revoke_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostApiKeysIdRevokeQueryParameters
-_$PostApiKeysIdRevokeQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostApiKeysIdRevokeQueryParameters(fields: json['fields'] as String);
+_$PostApiKeysIdRevokeQueryParametersImpl
+_$$PostApiKeysIdRevokeQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostApiKeysIdRevokeQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostApiKeysIdRevokeQueryParametersToJson(
-  _PostApiKeysIdRevokeQueryParameters instance,
+Map<String, dynamic> _$$PostApiKeysIdRevokeQueryParametersImplToJson(
+  _$PostApiKeysIdRevokeQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

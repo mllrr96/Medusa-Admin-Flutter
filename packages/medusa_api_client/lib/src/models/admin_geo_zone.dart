@@ -68,7 +68,7 @@
 ///     ],
 ///     "description": "The geo zone's geo zones."
 /// }
-library admin_geo_zone;
+library;
 
 import 'exports.dart';
 part 'admin_geo_zone.freezed.dart';

@@ -6,16 +6,16 @@ part of 'admin_create_shipping_option_type.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateShippingOptionType _$AdminCreateShippingOptionTypeFromJson(
-  Map<String, dynamic> json,
-) => _AdminCreateShippingOptionType(
-  label: json['label'] as String,
-  description: json['description'] as String,
-  code: json['code'] as String,
-);
+_$AdminCreateShippingOptionTypeImpl
+_$$AdminCreateShippingOptionTypeImplFromJson(Map<String, dynamic> json) =>
+    _$AdminCreateShippingOptionTypeImpl(
+      label: json['label'] as String,
+      description: json['description'] as String,
+      code: json['code'] as String,
+    );
 
-Map<String, dynamic> _$AdminCreateShippingOptionTypeToJson(
-  _AdminCreateShippingOptionType instance,
+Map<String, dynamic> _$$AdminCreateShippingOptionTypeImplToJson(
+  _$AdminCreateShippingOptionTypeImpl instance,
 ) => <String, dynamic>{
   'label': instance.label,
   'description': instance.description,

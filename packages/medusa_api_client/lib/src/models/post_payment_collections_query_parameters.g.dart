@@ -6,10 +6,13 @@ part of 'post_payment_collections_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostPaymentCollectionsQueryParameters
-_$PostPaymentCollectionsQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostPaymentCollectionsQueryParameters(fields: json['fields'] as String);
+_$PostPaymentCollectionsQueryParametersImpl
+_$$PostPaymentCollectionsQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$PostPaymentCollectionsQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$PostPaymentCollectionsQueryParametersToJson(
-  _PostPaymentCollectionsQueryParameters instance,
+Map<String, dynamic> _$$PostPaymentCollectionsQueryParametersImplToJson(
+  _$PostPaymentCollectionsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

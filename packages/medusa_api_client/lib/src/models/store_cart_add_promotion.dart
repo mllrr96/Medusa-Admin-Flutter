@@ -17,7 +17,7 @@
 ///     ],
 ///     "description": "The promotion's details."
 /// }
-library store_cart_add_promotion;
+library;
 
 import 'exports.dart';
 part 'store_cart_add_promotion.freezed.dart';

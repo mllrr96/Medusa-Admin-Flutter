@@ -226,7 +226,8 @@ class _InventoryItemsClient implements InventoryItemsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deleteInventoryItemsId({
+  Future<HttpResponse<AdminInventoryItemDeleteResponse>>
+  deleteInventoryItemsId({
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -239,26 +240,26 @@ class _InventoryItemsClient implements InventoryItemsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'DELETE', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/inventory-items/${id}',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminInventoryItemDeleteResponse>>(
+          Options(method: 'DELETE', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/inventory-items/${id}',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminInventoryItemDeleteResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminInventoryItemDeleteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The order's details."
 /// }
-library store_order_response;
+library;
 
 import 'exports.dart';
 part 'store_order_response.freezed.dart';

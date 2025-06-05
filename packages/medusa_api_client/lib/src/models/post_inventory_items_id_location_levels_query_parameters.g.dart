@@ -6,13 +6,14 @@ part of 'post_inventory_items_id_location_levels_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostInventoryItemsIdLocationLevelsQueryParameters
-_$PostInventoryItemsIdLocationLevelsQueryParametersFromJson(
+_$PostInventoryItemsIdLocationLevelsQueryParametersImpl
+_$$PostInventoryItemsIdLocationLevelsQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostInventoryItemsIdLocationLevelsQueryParameters(
+) => _$PostInventoryItemsIdLocationLevelsQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostInventoryItemsIdLocationLevelsQueryParametersToJson(
-  _PostInventoryItemsIdLocationLevelsQueryParameters instance,
+Map<String, dynamic>
+_$$PostInventoryItemsIdLocationLevelsQueryParametersImplToJson(
+  _$PostInventoryItemsIdLocationLevelsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

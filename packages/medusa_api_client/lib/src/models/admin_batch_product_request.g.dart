@@ -6,9 +6,9 @@ part of 'admin_batch_product_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminBatchProductRequest _$AdminBatchProductRequestFromJson(
+_$AdminBatchProductRequestImpl _$$AdminBatchProductRequestImplFromJson(
   Map<String, dynamic> json,
-) => _AdminBatchProductRequest(
+) => _$AdminBatchProductRequestImpl(
   create: (json['create'] as List<dynamic>)
       .map((e) => AdminCreateProduct.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -18,8 +18,8 @@ _AdminBatchProductRequest _$AdminBatchProductRequestFromJson(
   delete: (json['delete'] as List<dynamic>).map((e) => e as String).toList(),
 );
 
-Map<String, dynamic> _$AdminBatchProductRequestToJson(
-  _AdminBatchProductRequest instance,
+Map<String, dynamic> _$$AdminBatchProductRequestImplToJson(
+  _$AdminBatchProductRequestImpl instance,
 ) => <String, dynamic>{
   'create': instance.create,
   'update': instance.update,

@@ -6,14 +6,14 @@ part of 'admin_customer_group_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCustomerGroupResponse _$AdminCustomerGroupResponseFromJson(
+_$AdminCustomerGroupResponseImpl _$$AdminCustomerGroupResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCustomerGroupResponse(
+) => _$AdminCustomerGroupResponseImpl(
   customerGroup: AdminCustomerGroup.fromJson(
     json['customer_group'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminCustomerGroupResponseToJson(
-  _AdminCustomerGroupResponse instance,
+Map<String, dynamic> _$$AdminCustomerGroupResponseImplToJson(
+  _$AdminCustomerGroupResponseImpl instance,
 ) => <String, dynamic>{'customer_group': instance.customerGroup};

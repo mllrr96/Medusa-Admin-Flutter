@@ -76,7 +76,7 @@
 ///     ],
 ///     "description": "The line item tax line's details."
 /// }
-library order_line_item_tax_line;
+library;
 
 import 'exports.dart';
 part 'order_line_item_tax_line.freezed.dart';

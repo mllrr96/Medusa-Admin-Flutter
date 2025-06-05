@@ -6,14 +6,14 @@ part of 'admin_reservation_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminReservationResponse _$AdminReservationResponseFromJson(
+_$AdminReservationResponseImpl _$$AdminReservationResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminReservationResponse(
+) => _$AdminReservationResponseImpl(
   reservation: AdminReservation.fromJson(
     json['reservation'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminReservationResponseToJson(
-  _AdminReservationResponse instance,
+Map<String, dynamic> _$$AdminReservationResponseImplToJson(
+  _$AdminReservationResponseImpl instance,
 ) => <String, dynamic>{'reservation': instance.reservation};

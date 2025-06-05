@@ -35,7 +35,7 @@
 ///     ],
 ///     "description": "The details of a captured payment."
 /// }
-library base_capture;
+library;
 
 import 'exports.dart';
 part 'base_capture.freezed.dart';

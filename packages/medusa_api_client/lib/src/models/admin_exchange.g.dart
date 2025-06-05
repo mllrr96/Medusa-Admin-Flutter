@@ -6,8 +6,8 @@ part of 'admin_exchange.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminExchange _$AdminExchangeFromJson(Map<String, dynamic> json) =>
-    _AdminExchange(
+_$AdminExchangeImpl _$$AdminExchangeImplFromJson(Map<String, dynamic> json) =>
+    _$AdminExchangeImpl(
       orderId: json['order_id'] as String,
       returnItems: (json['return_items'] as List<dynamic>)
           .map((e) => AdminReturnItem.fromJson(e as Map<String, dynamic>))
@@ -40,7 +40,7 @@ _AdminExchange _$AdminExchangeFromJson(Map<String, dynamic> json) =>
       allowBackorder: json['allow_backorder'] as bool,
     );
 
-Map<String, dynamic> _$AdminExchangeToJson(_AdminExchange instance) =>
+Map<String, dynamic> _$$AdminExchangeImplToJson(_$AdminExchangeImpl instance) =>
     <String, dynamic>{
       'order_id': instance.orderId,
       'return_items': instance.returnItems,

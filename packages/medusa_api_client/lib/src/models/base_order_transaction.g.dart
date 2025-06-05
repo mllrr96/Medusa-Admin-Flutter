@@ -6,9 +6,9 @@ part of 'base_order_transaction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseOrderTransaction _$BaseOrderTransactionFromJson(
+_$BaseOrderTransactionImpl _$$BaseOrderTransactionImplFromJson(
   Map<String, dynamic> json,
-) => _BaseOrderTransaction(
+) => _$BaseOrderTransactionImpl(
   id: json['id'] as String,
   orderId: json['order_id'] as String,
   amount: (json['amount'] as num).toDouble(),
@@ -20,8 +20,8 @@ _BaseOrderTransaction _$BaseOrderTransactionFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$BaseOrderTransactionToJson(
-  _BaseOrderTransaction instance,
+Map<String, dynamic> _$$BaseOrderTransactionImplToJson(
+  _$BaseOrderTransactionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'order_id': instance.orderId,

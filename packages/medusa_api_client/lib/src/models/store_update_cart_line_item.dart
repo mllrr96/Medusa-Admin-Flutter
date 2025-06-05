@@ -17,7 +17,7 @@
 ///     ],
 ///     "description": "The details to update in the line item."
 /// }
-library store_update_cart_line_item;
+library;
 
 import 'exports.dart';
 part 'store_update_cart_line_item.freezed.dart';

@@ -6,17 +6,17 @@ part of 'admin_update_return_reason.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateReturnReason _$AdminUpdateReturnReasonFromJson(
+_$AdminUpdateReturnReasonImpl _$$AdminUpdateReturnReasonImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdateReturnReason(
+) => _$AdminUpdateReturnReasonImpl(
   label: json['label'] as String,
   value: json['value'] as String,
   description: json['description'] as String,
   metadata: json['metadata'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$AdminUpdateReturnReasonToJson(
-  _AdminUpdateReturnReason instance,
+Map<String, dynamic> _$$AdminUpdateReturnReasonImplToJson(
+  _$AdminUpdateReturnReasonImpl instance,
 ) => <String, dynamic>{
   'label': instance.label,
   'value': instance.value,

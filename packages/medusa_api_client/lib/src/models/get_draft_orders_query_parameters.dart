@@ -161,11 +161,11 @@ abstract class GetDraftOrdersQueryParameters
 
     /// offset
     @JsonKey(name: GetDraftOrdersQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetDraftOrdersQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetDraftOrdersQueryParameters.orderKey)

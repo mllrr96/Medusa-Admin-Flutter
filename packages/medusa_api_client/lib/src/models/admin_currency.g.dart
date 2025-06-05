@@ -6,8 +6,8 @@ part of 'admin_currency.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCurrency _$AdminCurrencyFromJson(Map<String, dynamic> json) =>
-    _AdminCurrency(
+_$AdminCurrencyImpl _$$AdminCurrencyImplFromJson(Map<String, dynamic> json) =>
+    _$AdminCurrencyImpl(
       code: json['code'] as String,
       symbol: json['symbol'] as String,
       symbolNative: json['symbol_native'] as String,
@@ -19,7 +19,7 @@ _AdminCurrency _$AdminCurrencyFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$AdminCurrencyToJson(_AdminCurrency instance) =>
+Map<String, dynamic> _$$AdminCurrencyImplToJson(_$AdminCurrencyImpl instance) =>
     <String, dynamic>{
       'code': instance.code,
       'symbol': instance.symbol,

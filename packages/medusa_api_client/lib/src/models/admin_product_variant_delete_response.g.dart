@@ -6,17 +6,17 @@ part of 'admin_product_variant_delete_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductVariantDeleteResponse _$AdminProductVariantDeleteResponseFromJson(
-  Map<String, dynamic> json,
-) => _AdminProductVariantDeleteResponse(
-  id: json['id'] as String,
-  object: json['object'] as String,
-  deleted: json['deleted'] as bool? ?? 'variant',
-  parent: AdminProduct.fromJson(json['parent'] as Map<String, dynamic>),
-);
+_$AdminProductVariantDeleteResponseImpl
+_$$AdminProductVariantDeleteResponseImplFromJson(Map<String, dynamic> json) =>
+    _$AdminProductVariantDeleteResponseImpl(
+      id: json['id'] as String,
+      object: json['object'] as String,
+      deleted: json['deleted'] as bool? ?? false,
+      parent: AdminProduct.fromJson(json['parent'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$AdminProductVariantDeleteResponseToJson(
-  _AdminProductVariantDeleteResponse instance,
+Map<String, dynamic> _$$AdminProductVariantDeleteResponseImplToJson(
+  _$AdminProductVariantDeleteResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

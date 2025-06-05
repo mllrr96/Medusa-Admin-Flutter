@@ -75,7 +75,7 @@
 ///     },
 ///     "type": "object"
 /// }
-library get_users_query_parameters;
+library;
 
 import 'exports.dart';
 part 'get_users_query_parameters.freezed.dart';
@@ -91,10 +91,10 @@ abstract class GetUsersQueryParameters with _$GetUsersQueryParameters {
     @JsonKey(name: GetUsersQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetUsersQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetUsersQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetUsersQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetUsersQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetUsersQueryParameters.orderKey) required String order,

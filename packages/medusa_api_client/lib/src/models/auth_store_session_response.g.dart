@@ -6,12 +6,12 @@ part of 'auth_store_session_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AuthStoreSessionResponse _$AuthStoreSessionResponseFromJson(
+_$AuthStoreSessionResponseImpl _$$AuthStoreSessionResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AuthStoreSessionResponse(
+) => _$AuthStoreSessionResponseImpl(
   user: StoreCustomer.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AuthStoreSessionResponseToJson(
-  _AuthStoreSessionResponse instance,
+Map<String, dynamic> _$$AuthStoreSessionResponseImplToJson(
+  _$AuthStoreSessionResponseImpl instance,
 ) => <String, dynamic>{'user': instance.user};

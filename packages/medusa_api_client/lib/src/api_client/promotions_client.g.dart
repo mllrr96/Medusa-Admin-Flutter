@@ -93,7 +93,7 @@ class _PromotionsClient implements PromotionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminPromotionRuleListResponse>>
   getPromotionsRuleAttributeOptionsRuleType({
     required GetPromotionsRuleAttributeOptionsRuleTypeQueryParameters queries,
     required NullEnum ruleType,
@@ -109,26 +109,26 @@ class _PromotionsClient implements PromotionsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/promotions/rule-attribute-options/${ruleType.toJson()}',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminPromotionRuleListResponse>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/promotions/rule-attribute-options/${ruleType.toJson()}',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminPromotionRuleListResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminPromotionRuleListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -259,7 +259,7 @@ class _PromotionsClient implements PromotionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deletePromotionsId({
+  Future<HttpResponse<AdminPromotionDeleteResponse>> deletePromotionsId({
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -272,7 +272,7 @@ class _PromotionsClient implements PromotionsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminPromotionDeleteResponse>>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -286,12 +286,9 @@ class _PromotionsClient implements PromotionsClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminPromotionDeleteResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminPromotionDeleteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -301,7 +298,8 @@ class _PromotionsClient implements PromotionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> postPromotionsIdBuyRulesBatch({
+  Future<HttpResponse<AdminBatchPromotionResponse>>
+  postPromotionsIdBuyRulesBatch({
     required Map<String, dynamic> requestBody,
     required PostPromotionsIdBuyRulesBatchQueryParameters queries,
     required String id,
@@ -318,7 +316,7 @@ class _PromotionsClient implements PromotionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminBatchPromotionResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -332,12 +330,9 @@ class _PromotionsClient implements PromotionsClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminBatchPromotionResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminBatchPromotionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -347,7 +342,7 @@ class _PromotionsClient implements PromotionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> postPromotionsIdRulesBatch({
+  Future<HttpResponse<AdminBatchPromotionResponse>> postPromotionsIdRulesBatch({
     required Map<String, dynamic> requestBody,
     required PostPromotionsIdRulesBatchQueryParameters queries,
     required String id,
@@ -364,7 +359,7 @@ class _PromotionsClient implements PromotionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminBatchPromotionResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -378,12 +373,9 @@ class _PromotionsClient implements PromotionsClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminBatchPromotionResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminBatchPromotionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -393,7 +385,8 @@ class _PromotionsClient implements PromotionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> postPromotionsIdTargetRulesBatch({
+  Future<HttpResponse<AdminBatchPromotionResponse>>
+  postPromotionsIdTargetRulesBatch({
     required Map<String, dynamic> requestBody,
     required PostPromotionsIdTargetRulesBatchQueryParameters queries,
     required String id,
@@ -410,7 +403,7 @@ class _PromotionsClient implements PromotionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminBatchPromotionResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -424,12 +417,9 @@ class _PromotionsClient implements PromotionsClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminBatchPromotionResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminBatchPromotionResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -439,7 +429,7 @@ class _PromotionsClient implements PromotionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> getPromotionsIdRuleType({
+  Future<HttpResponse<dynamic>> getPromotionsIdRuleType({
     required GetPromotionsIdRuleTypeQueryParameters queries,
     required String id,
     required NullEnum ruleType,
@@ -455,7 +445,7 @@ class _PromotionsClient implements PromotionsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<dynamic>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -468,17 +458,8 @@ class _PromotionsClient implements PromotionsClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
-    try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }

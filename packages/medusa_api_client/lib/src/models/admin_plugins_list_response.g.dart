@@ -6,14 +6,14 @@ part of 'admin_plugins_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPluginsListResponse _$AdminPluginsListResponseFromJson(
+_$AdminPluginsListResponseImpl _$$AdminPluginsListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPluginsListResponse(
+) => _$AdminPluginsListResponseImpl(
   plugins: (json['plugins'] as List<dynamic>)
       .map((e) => AdminPlugin.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
-Map<String, dynamic> _$AdminPluginsListResponseToJson(
-  _AdminPluginsListResponse instance,
+Map<String, dynamic> _$$AdminPluginsListResponseImplToJson(
+  _$AdminPluginsListResponseImpl instance,
 ) => <String, dynamic>{'plugins': instance.plugins};

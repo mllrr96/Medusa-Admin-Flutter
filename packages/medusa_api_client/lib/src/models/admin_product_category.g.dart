@@ -6,9 +6,9 @@ part of 'admin_product_category.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductCategory _$AdminProductCategoryFromJson(
+_$AdminProductCategoryImpl _$$AdminProductCategoryImplFromJson(
   Map<String, dynamic> json,
-) => _AdminProductCategory(
+) => _$AdminProductCategoryImpl(
   categoryChildren: (json['category_children'] as List<dynamic>)
       .map((e) => e as Map<String, dynamic>)
       .toList(),
@@ -30,8 +30,8 @@ _AdminProductCategory _$AdminProductCategoryFromJson(
   parentCategoryId: json['parent_category_id'] as String,
 );
 
-Map<String, dynamic> _$AdminProductCategoryToJson(
-  _AdminProductCategory instance,
+Map<String, dynamic> _$$AdminProductCategoryImplToJson(
+  _$AdminProductCategoryImpl instance,
 ) => <String, dynamic>{
   'category_children': instance.categoryChildren,
   'parent_category': instance.parentCategory,

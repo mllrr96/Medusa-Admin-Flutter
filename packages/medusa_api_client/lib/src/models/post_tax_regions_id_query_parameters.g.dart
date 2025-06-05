@@ -6,10 +6,10 @@ part of 'post_tax_regions_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostTaxRegionsIdQueryParameters _$PostTaxRegionsIdQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostTaxRegionsIdQueryParameters(fields: json['fields'] as String);
+_$PostTaxRegionsIdQueryParametersImpl
+_$$PostTaxRegionsIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostTaxRegionsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostTaxRegionsIdQueryParametersToJson(
-  _PostTaxRegionsIdQueryParameters instance,
+Map<String, dynamic> _$$PostTaxRegionsIdQueryParametersImplToJson(
+  _$PostTaxRegionsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

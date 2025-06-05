@@ -6,12 +6,12 @@ part of 'admin_payment_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPaymentResponse _$AdminPaymentResponseFromJson(
+_$AdminPaymentResponseImpl _$$AdminPaymentResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPaymentResponse(
+) => _$AdminPaymentResponseImpl(
   payment: AdminPayment.fromJson(json['payment'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminPaymentResponseToJson(
-  _AdminPaymentResponse instance,
+Map<String, dynamic> _$$AdminPaymentResponseImplToJson(
+  _$AdminPaymentResponseImpl instance,
 ) => <String, dynamic>{'payment': instance.payment};

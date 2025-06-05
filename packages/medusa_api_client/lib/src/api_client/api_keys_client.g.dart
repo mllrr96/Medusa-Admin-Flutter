@@ -176,7 +176,7 @@ class _ApiKeysClient implements ApiKeysClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deleteApiKeysId({
+  Future<HttpResponse<AdminApiKeyDeleteResponse>> deleteApiKeysId({
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -189,7 +189,7 @@ class _ApiKeysClient implements ApiKeysClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
+    final _options = _setStreamType<HttpResponse<AdminApiKeyDeleteResponse>>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -203,12 +203,9 @@ class _ApiKeysClient implements ApiKeysClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminApiKeyDeleteResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminApiKeyDeleteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

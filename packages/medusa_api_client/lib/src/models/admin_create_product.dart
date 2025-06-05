@@ -164,7 +164,7 @@
 ///     ],
 ///     "description": "The product's details."
 /// }
-library admin_create_product;
+library;
 
 import 'exports.dart';
 part 'admin_create_product.freezed.dart';

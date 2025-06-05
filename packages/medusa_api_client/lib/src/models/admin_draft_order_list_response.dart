@@ -51,14 +51,14 @@ abstract class AdminDraftOrderListResponse with _$AdminDraftOrderListResponse {
   @jsonSerializable
   const factory AdminDraftOrderListResponse({
     /// limit
-    @JsonKey(name: AdminDraftOrderListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminDraftOrderListResponse.limitKey) required int limit,
 
     /// offset
     @JsonKey(name: AdminDraftOrderListResponse.offsetKey)
-    required double offset,
+    required int offset,
 
     /// count
-    @JsonKey(name: AdminDraftOrderListResponse.countKey) required double count,
+    @JsonKey(name: AdminDraftOrderListResponse.countKey) required int count,
 
     /// draftOrders
     @JsonKey(name: AdminDraftOrderListResponse.draftOrdersKey)

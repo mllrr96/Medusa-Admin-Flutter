@@ -6,24 +6,25 @@ part of 'admin_inventory_level.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminInventoryLevel _$AdminInventoryLevelFromJson(Map<String, dynamic> json) =>
-    _AdminInventoryLevel(
-      id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: DateTime.parse(json['deleted_at'] as String),
-      inventoryItemId: json['inventory_item_id'] as String,
-      locationId: json['location_id'] as String,
-      stockedQuantity: (json['stocked_quantity'] as num).toDouble(),
-      reservedQuantity: (json['reserved_quantity'] as num).toDouble(),
-      incomingQuantity: (json['incoming_quantity'] as num).toDouble(),
-      metadata: json['metadata'] as Map<String, dynamic>,
-      inventoryItem: json['inventory_item'] as Map<String, dynamic>,
-      availableQuantity: (json['available_quantity'] as num).toDouble(),
-    );
+_$AdminInventoryLevelImpl _$$AdminInventoryLevelImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminInventoryLevelImpl(
+  id: json['id'] as String,
+  createdAt: DateTime.parse(json['created_at'] as String),
+  updatedAt: DateTime.parse(json['updated_at'] as String),
+  deletedAt: DateTime.parse(json['deleted_at'] as String),
+  inventoryItemId: json['inventory_item_id'] as String,
+  locationId: json['location_id'] as String,
+  stockedQuantity: (json['stocked_quantity'] as num).toDouble(),
+  reservedQuantity: (json['reserved_quantity'] as num).toDouble(),
+  incomingQuantity: (json['incoming_quantity'] as num).toDouble(),
+  metadata: json['metadata'] as Map<String, dynamic>,
+  inventoryItem: json['inventory_item'] as Map<String, dynamic>,
+  availableQuantity: (json['available_quantity'] as num).toDouble(),
+);
 
-Map<String, dynamic> _$AdminInventoryLevelToJson(
-  _AdminInventoryLevel instance,
+Map<String, dynamic> _$$AdminInventoryLevelImplToJson(
+  _$AdminInventoryLevelImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'created_at': instance.createdAt.toIso8601String(),

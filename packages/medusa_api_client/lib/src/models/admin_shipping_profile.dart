@@ -51,7 +51,7 @@
 ///     ],
 ///     "description": "The shipping profile's details.."
 /// }
-library admin_shipping_profile;
+library;
 
 import 'exports.dart';
 part 'admin_shipping_profile.freezed.dart';

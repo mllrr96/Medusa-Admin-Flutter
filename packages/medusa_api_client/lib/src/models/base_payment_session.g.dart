@@ -6,33 +6,35 @@ part of 'base_payment_session.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BasePaymentSession _$BasePaymentSessionFromJson(Map<String, dynamic> json) =>
-    _BasePaymentSession(
-      id: json['id'] as String,
-      amount: (json['amount'] as num).toDouble(),
-      currencyCode: json['currency_code'] as String,
-      providerId: json['provider_id'] as String,
-      data: json['data'] as Map<String, dynamic>,
-      context: json['context'] as Map<String, dynamic>,
-      status: $enumDecode(_$NullEnumEnumMap, json['status']),
-      authorizedAt: DateTime.parse(json['authorized_at'] as String),
-      paymentCollection: json['payment_collection'] as Map<String, dynamic>,
-      payment: BasePayment.fromJson(json['payment'] as Map<String, dynamic>),
-    );
+_$BasePaymentSessionImpl _$$BasePaymentSessionImplFromJson(
+  Map<String, dynamic> json,
+) => _$BasePaymentSessionImpl(
+  id: json['id'] as String,
+  amount: (json['amount'] as num).toDouble(),
+  currencyCode: json['currency_code'] as String,
+  providerId: json['provider_id'] as String,
+  data: json['data'] as Map<String, dynamic>,
+  context: json['context'] as Map<String, dynamic>,
+  status: $enumDecode(_$NullEnumEnumMap, json['status']),
+  authorizedAt: DateTime.parse(json['authorized_at'] as String),
+  paymentCollection: json['payment_collection'] as Map<String, dynamic>,
+  payment: BasePayment.fromJson(json['payment'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$BasePaymentSessionToJson(_BasePaymentSession instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'amount': instance.amount,
-      'currency_code': instance.currencyCode,
-      'provider_id': instance.providerId,
-      'data': instance.data,
-      'context': instance.context,
-      'status': instance.status,
-      'authorized_at': instance.authorizedAt.toIso8601String(),
-      'payment_collection': instance.paymentCollection,
-      'payment': instance.payment,
-    };
+Map<String, dynamic> _$$BasePaymentSessionImplToJson(
+  _$BasePaymentSessionImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'amount': instance.amount,
+  'currency_code': instance.currencyCode,
+  'provider_id': instance.providerId,
+  'data': instance.data,
+  'context': instance.context,
+  'status': instance.status,
+  'authorized_at': instance.authorizedAt.toIso8601String(),
+  'payment_collection': instance.paymentCollection,
+  'payment': instance.payment,
+};
 
 const _$NullEnumEnumMap = {
   NullEnum.secret: 'secret',

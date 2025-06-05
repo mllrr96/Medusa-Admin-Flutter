@@ -17,7 +17,7 @@
 ///     ],
 ///     "description": "The product tag's details."
 /// }
-library admin_create_product_tag;
+library;
 
 import 'exports.dart';
 part 'admin_create_product_tag.freezed.dart';

@@ -75,7 +75,7 @@
 ///     ],
 ///     "description": "The price's details."
 /// }
-library admin_price;
+library;
 
 import 'exports.dart';
 part 'admin_price.freezed.dart';

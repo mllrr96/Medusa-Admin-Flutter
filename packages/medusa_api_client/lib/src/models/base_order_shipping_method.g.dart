@@ -6,9 +6,9 @@ part of 'base_order_shipping_method.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseOrderShippingMethod _$BaseOrderShippingMethodFromJson(
+_$BaseOrderShippingMethodImpl _$$BaseOrderShippingMethodImplFromJson(
   Map<String, dynamic> json,
-) => _BaseOrderShippingMethod(
+) => _$BaseOrderShippingMethodImpl(
   id: json['id'] as String,
   orderId: json['order_id'] as String,
   name: json['name'] as String,
@@ -46,8 +46,8 @@ _BaseOrderShippingMethod _$BaseOrderShippingMethodFromJson(
   ),
 );
 
-Map<String, dynamic> _$BaseOrderShippingMethodToJson(
-  _BaseOrderShippingMethod instance,
+Map<String, dynamic> _$$BaseOrderShippingMethodImplToJson(
+  _$BaseOrderShippingMethodImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'order_id': instance.orderId,

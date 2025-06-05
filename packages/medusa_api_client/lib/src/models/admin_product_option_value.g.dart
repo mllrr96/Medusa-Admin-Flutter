@@ -6,9 +6,9 @@ part of 'admin_product_option_value.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminProductOptionValue _$AdminProductOptionValueFromJson(
+_$AdminProductOptionValueImpl _$$AdminProductOptionValueImplFromJson(
   Map<String, dynamic> json,
-) => _AdminProductOptionValue(
+) => _$AdminProductOptionValueImpl(
   id: json['id'] as String,
   value: json['value'] as String,
   option: AdminProductOption.fromJson(json['option'] as Map<String, dynamic>),
@@ -19,8 +19,8 @@ _AdminProductOptionValue _$AdminProductOptionValueFromJson(
   deletedAt: DateTime.parse(json['deleted_at'] as String),
 );
 
-Map<String, dynamic> _$AdminProductOptionValueToJson(
-  _AdminProductOptionValue instance,
+Map<String, dynamic> _$$AdminProductOptionValueImplToJson(
+  _$AdminProductOptionValueImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'value': instance.value,

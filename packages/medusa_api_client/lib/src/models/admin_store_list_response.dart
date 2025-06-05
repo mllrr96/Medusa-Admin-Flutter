@@ -38,7 +38,7 @@
 ///     ],
 ///     "description": "The paginated list of stores."
 /// }
-library admin_store_list_response;
+library;
 
 import 'exports.dart';
 part 'admin_store_list_response.freezed.dart';
@@ -51,13 +51,13 @@ abstract class AdminStoreListResponse with _$AdminStoreListResponse {
   @jsonSerializable
   const factory AdminStoreListResponse({
     /// limit
-    @JsonKey(name: AdminStoreListResponse.limitKey) required double limit,
+    @JsonKey(name: AdminStoreListResponse.limitKey) required int limit,
 
     /// offset
-    @JsonKey(name: AdminStoreListResponse.offsetKey) required double offset,
+    @JsonKey(name: AdminStoreListResponse.offsetKey) required int offset,
 
     /// count
-    @JsonKey(name: AdminStoreListResponse.countKey) required double count,
+    @JsonKey(name: AdminStoreListResponse.countKey) required int count,
 
     /// stores
     @JsonKey(name: AdminStoreListResponse.storesKey)

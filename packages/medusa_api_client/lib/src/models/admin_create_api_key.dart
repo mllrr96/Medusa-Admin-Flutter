@@ -22,7 +22,7 @@
 ///     ],
 ///     "description": "The API key's details."
 /// }
-library admin_create_api_key;
+library;
 
 import 'exports.dart';
 part 'admin_create_api_key.freezed.dart';

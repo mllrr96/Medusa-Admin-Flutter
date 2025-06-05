@@ -15,7 +15,7 @@
 ///     ],
 ///     "description": "The list of plugins."
 /// }
-library admin_plugins_list_response;
+library;
 
 import 'exports.dart';
 part 'admin_plugins_list_response.freezed.dart';

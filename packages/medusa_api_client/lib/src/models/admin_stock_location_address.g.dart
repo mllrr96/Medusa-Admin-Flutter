@@ -6,9 +6,9 @@ part of 'admin_stock_location_address.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminStockLocationAddress _$AdminStockLocationAddressFromJson(
+_$AdminStockLocationAddressImpl _$$AdminStockLocationAddressImplFromJson(
   Map<String, dynamic> json,
-) => _AdminStockLocationAddress(
+) => _$AdminStockLocationAddressImpl(
   id: json['id'] as String,
   address1: json['address_1'] as String,
   address2: json['address_2'] as String,
@@ -20,8 +20,8 @@ _AdminStockLocationAddress _$AdminStockLocationAddressFromJson(
   province: json['province'] as String,
 );
 
-Map<String, dynamic> _$AdminStockLocationAddressToJson(
-  _AdminStockLocationAddress instance,
+Map<String, dynamic> _$$AdminStockLocationAddressImplToJson(
+  _$AdminStockLocationAddressImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'address_1': instance.address1,

@@ -6,9 +6,9 @@ part of 'base_payment_collection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BasePaymentCollection _$BasePaymentCollectionFromJson(
+_$BasePaymentCollectionImpl _$$BasePaymentCollectionImplFromJson(
   Map<String, dynamic> json,
-) => _BasePaymentCollection(
+) => _$BasePaymentCollectionImpl(
   id: json['id'] as String,
   currencyCode: json['currency_code'] as String,
   amount: (json['amount'] as num).toDouble(),
@@ -31,8 +31,8 @@ _BasePaymentCollection _$BasePaymentCollectionFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$BasePaymentCollectionToJson(
-  _BasePaymentCollection instance,
+Map<String, dynamic> _$$BasePaymentCollectionImplToJson(
+  _$BasePaymentCollectionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'currency_code': instance.currencyCode,

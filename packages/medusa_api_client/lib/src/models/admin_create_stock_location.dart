@@ -25,7 +25,7 @@
 ///     ],
 ///     "description": "The stock location's details."
 /// }
-library admin_create_stock_location;
+library;
 
 import 'exports.dart';
 part 'admin_create_stock_location.freezed.dart';

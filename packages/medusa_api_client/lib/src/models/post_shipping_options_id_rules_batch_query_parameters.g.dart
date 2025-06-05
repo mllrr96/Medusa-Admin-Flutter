@@ -6,13 +6,14 @@ part of 'post_shipping_options_id_rules_batch_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostShippingOptionsIdRulesBatchQueryParameters
-_$PostShippingOptionsIdRulesBatchQueryParametersFromJson(
+_$PostShippingOptionsIdRulesBatchQueryParametersImpl
+_$$PostShippingOptionsIdRulesBatchQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostShippingOptionsIdRulesBatchQueryParameters(
+) => _$PostShippingOptionsIdRulesBatchQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostShippingOptionsIdRulesBatchQueryParametersToJson(
-  _PostShippingOptionsIdRulesBatchQueryParameters instance,
+Map<String, dynamic>
+_$$PostShippingOptionsIdRulesBatchQueryParametersImplToJson(
+  _$PostShippingOptionsIdRulesBatchQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

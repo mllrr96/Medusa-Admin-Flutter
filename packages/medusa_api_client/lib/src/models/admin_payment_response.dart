@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The payment's details."
 /// }
-library admin_payment_response;
+library;
 
 import 'exports.dart';
 part 'admin_payment_response.freezed.dart';

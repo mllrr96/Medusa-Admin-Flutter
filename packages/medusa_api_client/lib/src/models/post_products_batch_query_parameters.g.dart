@@ -6,10 +6,10 @@ part of 'post_products_batch_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostProductsBatchQueryParameters _$PostProductsBatchQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostProductsBatchQueryParameters(fields: json['fields'] as String);
+_$PostProductsBatchQueryParametersImpl
+_$$PostProductsBatchQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostProductsBatchQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostProductsBatchQueryParametersToJson(
-  _PostProductsBatchQueryParameters instance,
+Map<String, dynamic> _$$PostProductsBatchQueryParametersImplToJson(
+  _$PostProductsBatchQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

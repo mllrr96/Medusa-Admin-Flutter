@@ -6,10 +6,12 @@ part of 'store_cart_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCartResponse _$StoreCartResponseFromJson(Map<String, dynamic> json) =>
-    _StoreCartResponse(
-      cart: StoreCart.fromJson(json['cart'] as Map<String, dynamic>),
-    );
+_$StoreCartResponseImpl _$$StoreCartResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreCartResponseImpl(
+  cart: StoreCart.fromJson(json['cart'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$StoreCartResponseToJson(_StoreCartResponse instance) =>
-    <String, dynamic>{'cart': instance.cart};
+Map<String, dynamic> _$$StoreCartResponseImplToJson(
+  _$StoreCartResponseImpl instance,
+) => <String, dynamic>{'cart': instance.cart};

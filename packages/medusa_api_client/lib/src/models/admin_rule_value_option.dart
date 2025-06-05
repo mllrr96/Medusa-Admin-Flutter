@@ -19,7 +19,7 @@
 ///     ],
 ///     "description": "The details of a potential rule value."
 /// }
-library admin_rule_value_option;
+library;
 
 import 'exports.dart';
 part 'admin_rule_value_option.freezed.dart';

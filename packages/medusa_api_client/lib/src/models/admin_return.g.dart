@@ -6,26 +6,27 @@ part of 'admin_return.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminReturn _$AdminReturnFromJson(Map<String, dynamic> json) => _AdminReturn(
-  id: json['id'] as String,
-  status: $enumDecode(_$NullEnumEnumMap, json['status']),
-  refundAmount: (json['refund_amount'] as num).toDouble(),
-  orderId: json['order_id'] as String,
-  items: (json['items'] as List<dynamic>)
-      .map((e) => AdminReturnItem.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  createdAt: DateTime.parse(json['created_at'] as String),
-  canceledAt: DateTime.parse(json['canceled_at'] as String),
-  exchangeId: json['exchange_id'] as String,
-  locationId: json['location_id'] as String,
-  claimId: json['claim_id'] as String,
-  orderVersion: (json['order_version'] as num).toDouble(),
-  displayId: (json['display_id'] as num).toDouble(),
-  noNotification: json['no_notification'] as bool,
-  receivedAt: json['received_at'] as String,
-);
+_$AdminReturnImpl _$$AdminReturnImplFromJson(Map<String, dynamic> json) =>
+    _$AdminReturnImpl(
+      id: json['id'] as String,
+      status: $enumDecode(_$NullEnumEnumMap, json['status']),
+      refundAmount: (json['refund_amount'] as num).toDouble(),
+      orderId: json['order_id'] as String,
+      items: (json['items'] as List<dynamic>)
+          .map((e) => AdminReturnItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: DateTime.parse(json['created_at'] as String),
+      canceledAt: DateTime.parse(json['canceled_at'] as String),
+      exchangeId: json['exchange_id'] as String,
+      locationId: json['location_id'] as String,
+      claimId: json['claim_id'] as String,
+      orderVersion: (json['order_version'] as num).toDouble(),
+      displayId: (json['display_id'] as num).toDouble(),
+      noNotification: json['no_notification'] as bool,
+      receivedAt: json['received_at'] as String,
+    );
 
-Map<String, dynamic> _$AdminReturnToJson(_AdminReturn instance) =>
+Map<String, dynamic> _$$AdminReturnImplToJson(_$AdminReturnImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'status': instance.status,

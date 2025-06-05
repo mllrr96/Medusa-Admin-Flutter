@@ -6,12 +6,12 @@ part of 'get_promotions_rule_value_options_rule_type_rule_attribute_id_query_par
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParameters
-_$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersFromJson(
+_$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersImpl
+_$$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParameters(
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+) => _$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersImpl(
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   promotionType: $enumDecode(
     _$PromotionTypeEnumEnumMap,
@@ -24,8 +24,9 @@ _$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersFromJson(
 );
 
 Map<String, dynamic>
-_$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersToJson(
-  _GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParameters instance,
+_$$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersImplToJson(
+  _$GetPromotionsRuleValueOptionsRuleTypeRuleAttributeIdQueryParametersImpl
+  instance,
 ) => <String, dynamic>{
   'offset': instance.offset,
   'limit': instance.limit,

@@ -6,14 +6,14 @@ part of 'admin_post_claim_items_req_schema.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPostClaimItemsReqSchema _$AdminPostClaimItemsReqSchemaFromJson(
+_$AdminPostClaimItemsReqSchemaImpl _$$AdminPostClaimItemsReqSchemaImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPostClaimItemsReqSchema(
+) => _$AdminPostClaimItemsReqSchemaImpl(
   items: (json['items'] as List<dynamic>)
       .map((e) => e as Map<String, dynamic>)
       .toList(),
 );
 
-Map<String, dynamic> _$AdminPostClaimItemsReqSchemaToJson(
-  _AdminPostClaimItemsReqSchema instance,
+Map<String, dynamic> _$$AdminPostClaimItemsReqSchemaImplToJson(
+  _$AdminPostClaimItemsReqSchemaImpl instance,
 ) => <String, dynamic>{'items': instance.items};

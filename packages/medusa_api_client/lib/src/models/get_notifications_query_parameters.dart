@@ -100,11 +100,11 @@ abstract class GetNotificationsQueryParameters
 
     /// offset
     @JsonKey(name: GetNotificationsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetNotificationsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetNotificationsQueryParameters.orderKey)

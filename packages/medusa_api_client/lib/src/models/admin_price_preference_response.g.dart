@@ -6,14 +6,14 @@ part of 'admin_price_preference_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPricePreferenceResponse _$AdminPricePreferenceResponseFromJson(
+_$AdminPricePreferenceResponseImpl _$$AdminPricePreferenceResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPricePreferenceResponse(
+) => _$AdminPricePreferenceResponseImpl(
   pricePreference: AdminPricePreference.fromJson(
     json['price_preference'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminPricePreferenceResponseToJson(
-  _AdminPricePreferenceResponse instance,
+Map<String, dynamic> _$$AdminPricePreferenceResponseImplToJson(
+  _$AdminPricePreferenceResponseImpl instance,
 ) => <String, dynamic>{'price_preference': instance.pricePreference};

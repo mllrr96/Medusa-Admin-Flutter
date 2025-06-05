@@ -40,7 +40,7 @@
 ///     ],
 ///     "description": "The details of the return to create."
 /// }
-library store_create_return;
+library;
 
 import 'exports.dart';
 part 'store_create_return.freezed.dart';

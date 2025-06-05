@@ -6,12 +6,12 @@ part of 'admin_promotion_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminPromotionResponse _$AdminPromotionResponseFromJson(
+_$AdminPromotionResponseImpl _$$AdminPromotionResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminPromotionResponse(
+) => _$AdminPromotionResponseImpl(
   promotion: AdminPromotion.fromJson(json['promotion'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminPromotionResponseToJson(
-  _AdminPromotionResponse instance,
+Map<String, dynamic> _$$AdminPromotionResponseImplToJson(
+  _$AdminPromotionResponseImpl instance,
 ) => <String, dynamic>{'promotion': instance.promotion};

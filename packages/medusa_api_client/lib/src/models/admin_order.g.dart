@@ -6,7 +6,9 @@ part of 'admin_order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrder _$AdminOrderFromJson(Map<String, dynamic> json) => _AdminOrder(
+_$AdminOrderImpl _$$AdminOrderImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminOrderImpl(
   paymentCollections: (json['payment_collections'] as List<dynamic>)
       .map((e) => AdminPaymentCollection.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -77,7 +79,7 @@ _AdminOrder _$AdminOrderFromJson(Map<String, dynamic> json) => _AdminOrder(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminOrderToJson(_AdminOrder instance) =>
+Map<String, dynamic> _$$AdminOrderImplToJson(_$AdminOrderImpl instance) =>
     <String, dynamic>{
       'payment_collections': instance.paymentCollections,
       'fulfillments': instance.fulfillments,

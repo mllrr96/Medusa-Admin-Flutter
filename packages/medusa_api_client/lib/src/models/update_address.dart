@@ -72,7 +72,7 @@
 ///     ],
 ///     "description": "The details to update in the address."
 /// }
-library update_address;
+library;
 
 import 'exports.dart';
 part 'update_address.freezed.dart';

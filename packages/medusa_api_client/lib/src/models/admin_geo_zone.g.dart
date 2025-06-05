@@ -6,8 +6,8 @@ part of 'admin_geo_zone.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminGeoZone _$AdminGeoZoneFromJson(Map<String, dynamic> json) =>
-    _AdminGeoZone(
+_$AdminGeoZoneImpl _$$AdminGeoZoneImplFromJson(Map<String, dynamic> json) =>
+    _$AdminGeoZoneImpl(
       id: json['id'] as String,
       type: $enumDecode(_$NullEnumEnumMap, json['type']),
       countryCode: json['country_code'] as String,
@@ -19,7 +19,7 @@ _AdminGeoZone _$AdminGeoZoneFromJson(Map<String, dynamic> json) =>
       deletedAt: DateTime.parse(json['deleted_at'] as String),
     );
 
-Map<String, dynamic> _$AdminGeoZoneToJson(_AdminGeoZone instance) =>
+Map<String, dynamic> _$$AdminGeoZoneImplToJson(_$AdminGeoZoneImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

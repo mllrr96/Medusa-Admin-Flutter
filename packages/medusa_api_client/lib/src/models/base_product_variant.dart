@@ -157,7 +157,7 @@
 ///     ],
 ///     "description": "The product variant's details."
 /// }
-library base_product_variant;
+library;
 
 import 'exports.dart';
 part 'base_product_variant.freezed.dart';

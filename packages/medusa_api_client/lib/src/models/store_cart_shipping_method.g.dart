@@ -6,9 +6,9 @@ part of 'store_cart_shipping_method.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreCartShippingMethod _$StoreCartShippingMethodFromJson(
+_$StoreCartShippingMethodImpl _$$StoreCartShippingMethodImplFromJson(
   Map<String, dynamic> json,
-) => _StoreCartShippingMethod(
+) => _$StoreCartShippingMethodImpl(
   id: json['id'] as String,
   cartId: json['cart_id'] as String,
   name: json['name'] as String,
@@ -32,8 +32,8 @@ _StoreCartShippingMethod _$StoreCartShippingMethodFromJson(
   discountTaxTotal: (json['discount_tax_total'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$StoreCartShippingMethodToJson(
-  _StoreCartShippingMethod instance,
+Map<String, dynamic> _$$StoreCartShippingMethodImplToJson(
+  _$StoreCartShippingMethodImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'cart_id': instance.cartId,

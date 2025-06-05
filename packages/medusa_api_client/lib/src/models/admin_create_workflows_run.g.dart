@@ -6,15 +6,15 @@ part of 'admin_create_workflows_run.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateWorkflowsRun _$AdminCreateWorkflowsRunFromJson(
+_$AdminCreateWorkflowsRunImpl _$$AdminCreateWorkflowsRunImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateWorkflowsRun(
+) => _$AdminCreateWorkflowsRunImpl(
   input: json['input'],
   transactionId: json['transaction_id'] as String,
 );
 
-Map<String, dynamic> _$AdminCreateWorkflowsRunToJson(
-  _AdminCreateWorkflowsRun instance,
+Map<String, dynamic> _$$AdminCreateWorkflowsRunImplToJson(
+  _$AdminCreateWorkflowsRunImpl instance,
 ) => <String, dynamic>{
   'input': instance.input,
   'transaction_id': instance.transactionId,

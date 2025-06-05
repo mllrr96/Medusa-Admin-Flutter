@@ -64,7 +64,7 @@
 ///     ],
 ///     "description": "The currency's currencies."
 /// }
-library admin_currency;
+library;
 
 import 'exports.dart';
 part 'admin_currency.freezed.dart';

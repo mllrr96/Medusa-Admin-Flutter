@@ -205,10 +205,10 @@ abstract class GetTaxRegionsQueryParameters
 
     /// offset
     @JsonKey(name: GetTaxRegionsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
-    @JsonKey(name: GetTaxRegionsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetTaxRegionsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetTaxRegionsQueryParameters.orderKey) required String order,

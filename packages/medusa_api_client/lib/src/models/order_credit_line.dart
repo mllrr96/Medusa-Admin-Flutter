@@ -60,7 +60,7 @@
 ///     ],
 ///     "description": "The credit line's details."
 /// }
-library order_credit_line;
+library;
 
 import 'exports.dart';
 part 'order_credit_line.freezed.dart';

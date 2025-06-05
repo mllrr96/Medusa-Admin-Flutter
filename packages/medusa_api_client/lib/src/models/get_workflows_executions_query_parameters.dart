@@ -84,11 +84,11 @@ abstract class GetWorkflowsExecutionsQueryParameters
 
     /// offset
     @JsonKey(name: GetWorkflowsExecutionsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetWorkflowsExecutionsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetWorkflowsExecutionsQueryParameters.orderKey)

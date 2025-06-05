@@ -6,9 +6,9 @@ part of 'admin_order_change_action.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrderChangeAction _$AdminOrderChangeActionFromJson(
+_$AdminOrderChangeActionImpl _$$AdminOrderChangeActionImplFromJson(
   Map<String, dynamic> json,
-) => _AdminOrderChangeAction(
+) => _$AdminOrderChangeActionImpl(
   id: json['id'] as String,
   orderChangeId: json['order_change_id'] as String,
   orderChange: json['order_change'] as Map<String, dynamic>,
@@ -26,8 +26,8 @@ _AdminOrderChangeAction _$AdminOrderChangeActionFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$AdminOrderChangeActionToJson(
-  _AdminOrderChangeAction instance,
+Map<String, dynamic> _$$AdminOrderChangeActionImplToJson(
+  _$AdminOrderChangeActionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'order_change_id': instance.orderChangeId,

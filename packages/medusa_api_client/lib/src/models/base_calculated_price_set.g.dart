@@ -6,9 +6,9 @@ part of 'base_calculated_price_set.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BaseCalculatedPriceSet _$BaseCalculatedPriceSetFromJson(
+_$BaseCalculatedPriceSetImpl _$$BaseCalculatedPriceSetImplFromJson(
   Map<String, dynamic> json,
-) => _BaseCalculatedPriceSet(
+) => _$BaseCalculatedPriceSetImpl(
   id: json['id'] as String,
   isCalculatedPricePriceList: json['is_calculated_price_price_list'] as bool,
   isCalculatedPriceTaxInclusive:
@@ -29,8 +29,8 @@ _BaseCalculatedPriceSet _$BaseCalculatedPriceSetFromJson(
       .toDouble(),
 );
 
-Map<String, dynamic> _$BaseCalculatedPriceSetToJson(
-  _BaseCalculatedPriceSet instance,
+Map<String, dynamic> _$$BaseCalculatedPriceSetImplToJson(
+  _$BaseCalculatedPriceSetImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'is_calculated_price_price_list': instance.isCalculatedPricePriceList,

@@ -6,10 +6,13 @@ part of 'post_orders_id_credit_lines_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostOrdersIdCreditLinesQueryParameters
-_$PostOrdersIdCreditLinesQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostOrdersIdCreditLinesQueryParameters(fields: json['fields'] as String);
+_$PostOrdersIdCreditLinesQueryParametersImpl
+_$$PostOrdersIdCreditLinesQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$PostOrdersIdCreditLinesQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$PostOrdersIdCreditLinesQueryParametersToJson(
-  _PostOrdersIdCreditLinesQueryParameters instance,
+Map<String, dynamic> _$$PostOrdersIdCreditLinesQueryParametersImplToJson(
+  _$PostOrdersIdCreditLinesQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

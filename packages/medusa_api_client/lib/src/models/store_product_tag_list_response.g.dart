@@ -6,20 +6,20 @@ part of 'store_product_tag_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreProductTagListResponse _$StoreProductTagListResponseFromJson(
+_$StoreProductTagListResponseImpl _$$StoreProductTagListResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreProductTagListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
+) => _$StoreProductTagListResponseImpl(
+  limit: (json['limit'] as num).toInt(),
+  offset: (json['offset'] as num).toInt(),
+  count: (json['count'] as num).toInt(),
   productTags: (json['product_tags'] as List<dynamic>)
       .map((e) => StoreProductTag.fromJson(e as Map<String, dynamic>))
       .toList(),
   estimateCount: (json['estimate_count'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$StoreProductTagListResponseToJson(
-  _StoreProductTagListResponse instance,
+Map<String, dynamic> _$$StoreProductTagListResponseImplToJson(
+  _$StoreProductTagListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

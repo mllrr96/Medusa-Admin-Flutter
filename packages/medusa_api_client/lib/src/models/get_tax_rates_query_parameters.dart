@@ -122,10 +122,10 @@ abstract class GetTaxRatesQueryParameters with _$GetTaxRatesQueryParameters {
     @JsonKey(name: GetTaxRatesQueryParameters.fieldsKey) required String fields,
 
     /// offset
-    @JsonKey(name: GetTaxRatesQueryParameters.offsetKey) required double offset,
+    @JsonKey(name: GetTaxRatesQueryParameters.offsetKey) required int offset,
 
     /// limit
-    @JsonKey(name: GetTaxRatesQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetTaxRatesQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetTaxRatesQueryParameters.orderKey) required String order,

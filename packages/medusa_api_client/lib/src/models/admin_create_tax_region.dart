@@ -36,7 +36,7 @@
 ///     ],
 ///     "description": "The tax region's details."
 /// }
-library admin_create_tax_region;
+library;
 
 import 'exports.dart';
 part 'admin_create_tax_region.freezed.dart';

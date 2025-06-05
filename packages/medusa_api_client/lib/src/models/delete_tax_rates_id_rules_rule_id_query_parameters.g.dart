@@ -6,13 +6,13 @@ part of 'delete_tax_rates_id_rules_rule_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_DeleteTaxRatesIdRulesRuleIdQueryParameters
-_$DeleteTaxRatesIdRulesRuleIdQueryParametersFromJson(
+_$DeleteTaxRatesIdRulesRuleIdQueryParametersImpl
+_$$DeleteTaxRatesIdRulesRuleIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _DeleteTaxRatesIdRulesRuleIdQueryParameters(
+) => _$DeleteTaxRatesIdRulesRuleIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$DeleteTaxRatesIdRulesRuleIdQueryParametersToJson(
-  _DeleteTaxRatesIdRulesRuleIdQueryParameters instance,
+Map<String, dynamic> _$$DeleteTaxRatesIdRulesRuleIdQueryParametersImplToJson(
+  _$DeleteTaxRatesIdRulesRuleIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

@@ -6,12 +6,12 @@ part of 'get_users_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetUsersQueryParameters _$GetUsersQueryParametersFromJson(
+_$GetUsersQueryParametersImpl _$$GetUsersQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetUsersQueryParameters(
+) => _$GetUsersQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -23,8 +23,8 @@ _GetUsersQueryParameters _$GetUsersQueryParametersFromJson(
   deletedAt: json['deleted_at'] as Map<String, dynamic>,
 );
 
-Map<String, dynamic> _$GetUsersQueryParametersToJson(
-  _GetUsersQueryParameters instance,
+Map<String, dynamic> _$$GetUsersQueryParametersImplToJson(
+  _$GetUsersQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

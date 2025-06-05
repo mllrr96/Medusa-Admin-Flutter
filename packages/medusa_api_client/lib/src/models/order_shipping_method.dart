@@ -131,7 +131,7 @@
 ///     ],
 ///     "description": "The shipping method's details."
 /// }
-library order_shipping_method;
+library;
 
 import 'exports.dart';
 part 'order_shipping_method.freezed.dart';

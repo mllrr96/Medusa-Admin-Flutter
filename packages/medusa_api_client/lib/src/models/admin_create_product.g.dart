@@ -6,9 +6,9 @@ part of 'admin_create_product.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateProduct _$AdminCreateProductFromJson(
+_$AdminCreateProductImpl _$$AdminCreateProductImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateProduct(
+) => _$AdminCreateProductImpl(
   title: json['title'] as String,
   subtitle: json['subtitle'] as String,
   description: json['description'] as String,
@@ -50,36 +50,37 @@ _AdminCreateProduct _$AdminCreateProductFromJson(
   shippingProfileId: json['shipping_profile_id'] as String,
 );
 
-Map<String, dynamic> _$AdminCreateProductToJson(_AdminCreateProduct instance) =>
-    <String, dynamic>{
-      'title': instance.title,
-      'subtitle': instance.subtitle,
-      'description': instance.description,
-      'is_giftcard': instance.isGiftcard,
-      'discountable': instance.discountable,
-      'images': instance.images,
-      'thumbnail': instance.thumbnail,
-      'handle': instance.handle,
-      'status': instance.status,
-      'type_id': instance.typeId,
-      'collection_id': instance.collectionId,
-      'categories': instance.categories,
-      'tags': instance.tags,
-      'options': instance.options,
-      'variants': instance.variants,
-      'sales_channels': instance.salesChannels,
-      'weight': instance.weight,
-      'length': instance.length,
-      'height': instance.height,
-      'width': instance.width,
-      'hs_code': instance.hsCode,
-      'mid_code': instance.midCode,
-      'origin_country': instance.originCountry,
-      'material': instance.material,
-      'metadata': instance.metadata,
-      'external_id': instance.externalId,
-      'shipping_profile_id': instance.shippingProfileId,
-    };
+Map<String, dynamic> _$$AdminCreateProductImplToJson(
+  _$AdminCreateProductImpl instance,
+) => <String, dynamic>{
+  'title': instance.title,
+  'subtitle': instance.subtitle,
+  'description': instance.description,
+  'is_giftcard': instance.isGiftcard,
+  'discountable': instance.discountable,
+  'images': instance.images,
+  'thumbnail': instance.thumbnail,
+  'handle': instance.handle,
+  'status': instance.status,
+  'type_id': instance.typeId,
+  'collection_id': instance.collectionId,
+  'categories': instance.categories,
+  'tags': instance.tags,
+  'options': instance.options,
+  'variants': instance.variants,
+  'sales_channels': instance.salesChannels,
+  'weight': instance.weight,
+  'length': instance.length,
+  'height': instance.height,
+  'width': instance.width,
+  'hs_code': instance.hsCode,
+  'mid_code': instance.midCode,
+  'origin_country': instance.originCountry,
+  'material': instance.material,
+  'metadata': instance.metadata,
+  'external_id': instance.externalId,
+  'shipping_profile_id': instance.shippingProfileId,
+};
 
 const _$NullEnumEnumMap = {
   NullEnum.secret: 'secret',

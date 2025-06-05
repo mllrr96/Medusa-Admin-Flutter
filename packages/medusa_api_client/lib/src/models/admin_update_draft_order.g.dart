@@ -6,9 +6,9 @@ part of 'admin_update_draft_order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUpdateDraftOrder _$AdminUpdateDraftOrderFromJson(
+_$AdminUpdateDraftOrderImpl _$$AdminUpdateDraftOrderImplFromJson(
   Map<String, dynamic> json,
-) => _AdminUpdateDraftOrder(
+) => _$AdminUpdateDraftOrderImpl(
   email: json['email'] as String,
   shippingAddress: json['shipping_address'] as Map<String, dynamic>,
   billingAddress: json['billing_address'] as Map<String, dynamic>,
@@ -17,8 +17,8 @@ _AdminUpdateDraftOrder _$AdminUpdateDraftOrderFromJson(
   salesChannelId: json['sales_channel_id'] as String,
 );
 
-Map<String, dynamic> _$AdminUpdateDraftOrderToJson(
-  _AdminUpdateDraftOrder instance,
+Map<String, dynamic> _$$AdminUpdateDraftOrderImplToJson(
+  _$AdminUpdateDraftOrderImpl instance,
 ) => <String, dynamic>{
   'email': instance.email,
   'shipping_address': instance.shippingAddress,

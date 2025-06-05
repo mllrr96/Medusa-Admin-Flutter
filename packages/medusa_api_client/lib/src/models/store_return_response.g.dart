@@ -6,11 +6,12 @@ part of 'store_return_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreReturnResponse _$StoreReturnResponseFromJson(Map<String, dynamic> json) =>
-    _StoreReturnResponse(
-      returnAA: StoreReturn.fromJson(json['return'] as Map<String, dynamic>),
-    );
+_$StoreReturnResponseImpl _$$StoreReturnResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreReturnResponseImpl(
+  returnAA: StoreReturn.fromJson(json['return'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$StoreReturnResponseToJson(
-  _StoreReturnResponse instance,
+Map<String, dynamic> _$$StoreReturnResponseImplToJson(
+  _$StoreReturnResponseImpl instance,
 ) => <String, dynamic>{'return': instance.returnAA};

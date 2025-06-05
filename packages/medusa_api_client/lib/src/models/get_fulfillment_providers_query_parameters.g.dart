@@ -6,21 +6,22 @@ part of 'get_fulfillment_providers_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetFulfillmentProvidersQueryParameters
-_$GetFulfillmentProvidersQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetFulfillmentProvidersQueryParameters(
-      fields: json['fields'] as String,
-      offset: (json['offset'] as num).toDouble(),
-      limit: (json['limit'] as num).toDouble(),
-      order: json['order'] as String,
-      id: json['id'],
-      isEnabled: json['is_enabled'] as bool,
-      q: json['q'] as String,
-      stockLocationId: json['stock_location_id'],
-    );
+_$GetFulfillmentProvidersQueryParametersImpl
+_$$GetFulfillmentProvidersQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$GetFulfillmentProvidersQueryParametersImpl(
+  fields: json['fields'] as String,
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
+  order: json['order'] as String,
+  id: json['id'],
+  isEnabled: json['is_enabled'] as bool,
+  q: json['q'] as String,
+  stockLocationId: json['stock_location_id'],
+);
 
-Map<String, dynamic> _$GetFulfillmentProvidersQueryParametersToJson(
-  _GetFulfillmentProvidersQueryParameters instance,
+Map<String, dynamic> _$$GetFulfillmentProvidersQueryParametersImplToJson(
+  _$GetFulfillmentProvidersQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

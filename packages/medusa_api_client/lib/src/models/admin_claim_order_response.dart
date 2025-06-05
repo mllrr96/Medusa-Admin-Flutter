@@ -15,7 +15,7 @@
 ///     ],
 ///     "description": "The created claim's details."
 /// }
-library admin_claim_order_response;
+library;
 
 import 'exports.dart';
 part 'admin_claim_order_response.freezed.dart';

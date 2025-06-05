@@ -287,7 +287,7 @@
 ///     ],
 ///     "description": "The order's details."
 /// }
-library store_order;
+library;
 
 import 'exports.dart';
 part 'store_order.freezed.dart';

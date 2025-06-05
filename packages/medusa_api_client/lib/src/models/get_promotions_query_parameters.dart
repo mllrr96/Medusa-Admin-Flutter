@@ -152,10 +152,10 @@ abstract class GetPromotionsQueryParameters
 
     /// offset
     @JsonKey(name: GetPromotionsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
-    @JsonKey(name: GetPromotionsQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetPromotionsQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetPromotionsQueryParameters.orderKey) required String order,

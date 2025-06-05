@@ -55,7 +55,7 @@
 ///     ],
 ///     "description": "The properties to update in a buy rule."
 /// }
-library admin_update_promotion_rule;
+library;
 
 import 'exports.dart';
 part 'admin_update_promotion_rule.freezed.dart';

@@ -6,9 +6,9 @@ part of 'order_line_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_OrderLineItem _$OrderLineItemFromJson(
+_$OrderLineItemImpl _$$OrderLineItemImplFromJson(
   Map<String, dynamic> json,
-) => _OrderLineItem(
+) => _$OrderLineItemImpl(
   id: json['id'] as String,
   title: json['title'] as String,
   subtitle: json['subtitle'] as String,
@@ -58,7 +58,7 @@ _OrderLineItem _$OrderLineItemFromJson(
   isGiftcard: json['is_giftcard'] as bool,
 );
 
-Map<String, dynamic> _$OrderLineItemToJson(_OrderLineItem instance) =>
+Map<String, dynamic> _$$OrderLineItemImplToJson(_$OrderLineItemImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

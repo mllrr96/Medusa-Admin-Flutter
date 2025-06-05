@@ -8,7 +8,7 @@
 //     ]
 // }
 
-library null_enum;
+library;
 
 import 'exports.dart';
 part 'null_enum.g.dart';

@@ -166,7 +166,7 @@
 ///     ],
 ///     "description": "The order change's details."
 /// }
-library admin_order_change;
+library;
 
 import 'exports.dart';
 part 'admin_order_change.freezed.dart';

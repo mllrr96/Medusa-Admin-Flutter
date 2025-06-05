@@ -311,7 +311,7 @@
 ///     ],
 ///     "description": "The draft order preview's details."
 /// }
-library admin_draft_order_preview;
+library;
 
 import 'exports.dart';
 part 'admin_draft_order_preview.freezed.dart';

@@ -53,7 +53,7 @@
 ///     ],
 ///     "description": "The inventory level's details"
 /// }
-library inventory_level;
+library;
 
 import 'exports.dart';
 part 'inventory_level.freezed.dart';

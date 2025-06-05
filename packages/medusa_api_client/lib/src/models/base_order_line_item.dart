@@ -264,7 +264,7 @@
 ///     ],
 ///     "description": "The item's items."
 /// }
-library base_order_line_item;
+library;
 
 import 'exports.dart';
 part 'base_order_line_item.freezed.dart';

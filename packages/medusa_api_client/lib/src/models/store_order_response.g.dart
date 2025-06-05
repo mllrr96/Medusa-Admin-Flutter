@@ -6,10 +6,12 @@ part of 'store_order_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreOrderResponse _$StoreOrderResponseFromJson(Map<String, dynamic> json) =>
-    _StoreOrderResponse(
-      order: StoreOrder.fromJson(json['order'] as Map<String, dynamic>),
-    );
+_$StoreOrderResponseImpl _$$StoreOrderResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$StoreOrderResponseImpl(
+  order: StoreOrder.fromJson(json['order'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$StoreOrderResponseToJson(_StoreOrderResponse instance) =>
-    <String, dynamic>{'order': instance.order};
+Map<String, dynamic> _$$StoreOrderResponseImplToJson(
+  _$StoreOrderResponseImpl instance,
+) => <String, dynamic>{'order': instance.order};

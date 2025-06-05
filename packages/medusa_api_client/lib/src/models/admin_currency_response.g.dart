@@ -6,12 +6,12 @@ part of 'admin_currency_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCurrencyResponse _$AdminCurrencyResponseFromJson(
+_$AdminCurrencyResponseImpl _$$AdminCurrencyResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCurrencyResponse(
+) => _$AdminCurrencyResponseImpl(
   currency: AdminCurrency.fromJson(json['currency'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$AdminCurrencyResponseToJson(
-  _AdminCurrencyResponse instance,
+Map<String, dynamic> _$$AdminCurrencyResponseImplToJson(
+  _$AdminCurrencyResponseImpl instance,
 ) => <String, dynamic>{'currency': instance.currency};

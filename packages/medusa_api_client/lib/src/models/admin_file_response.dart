@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "A file's details."
 /// }
-library admin_file_response;
+library;
 
 import 'exports.dart';
 part 'admin_file_response.freezed.dart';

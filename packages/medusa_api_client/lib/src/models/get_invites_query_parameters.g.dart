@@ -6,12 +6,12 @@ part of 'get_invites_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetInvitesQueryParameters _$GetInvitesQueryParametersFromJson(
+_$GetInvitesQueryParametersImpl _$$GetInvitesQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _GetInvitesQueryParameters(
+) => _$GetInvitesQueryParametersImpl(
   fields: json['fields'] as String,
-  offset: (json['offset'] as num).toDouble(),
-  limit: (json['limit'] as num).toDouble(),
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
   order: json['order'] as String,
   q: json['q'] as String,
   id: json['id'],
@@ -27,8 +27,8 @@ _GetInvitesQueryParameters _$GetInvitesQueryParametersFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$GetInvitesQueryParametersToJson(
-  _GetInvitesQueryParameters instance,
+Map<String, dynamic> _$$GetInvitesQueryParametersImplToJson(
+  _$GetInvitesQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

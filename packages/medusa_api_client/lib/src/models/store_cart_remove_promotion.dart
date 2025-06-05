@@ -17,7 +17,7 @@
 ///     ],
 ///     "description": "The promotion code to remove from the cart."
 /// }
-library store_cart_remove_promotion;
+library;
 
 import 'exports.dart';
 part 'store_cart_remove_promotion.freezed.dart';

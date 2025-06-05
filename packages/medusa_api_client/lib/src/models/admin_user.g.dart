@@ -6,19 +6,20 @@ part of 'admin_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminUser _$AdminUserFromJson(Map<String, dynamic> json) => _AdminUser(
-  id: json['id'] as String,
-  email: json['email'] as String,
-  firstName: json['first_name'] as String,
-  lastName: json['last_name'] as String,
-  avatarUrl: json['avatar_url'] as String,
-  metadata: json['metadata'] as Map<String, dynamic>,
-  createdAt: DateTime.parse(json['created_at'] as String),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-  deletedAt: DateTime.parse(json['deleted_at'] as String),
-);
+_$AdminUserImpl _$$AdminUserImplFromJson(Map<String, dynamic> json) =>
+    _$AdminUserImpl(
+      id: json['id'] as String,
+      email: json['email'] as String,
+      firstName: json['first_name'] as String,
+      lastName: json['last_name'] as String,
+      avatarUrl: json['avatar_url'] as String,
+      metadata: json['metadata'] as Map<String, dynamic>,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      deletedAt: DateTime.parse(json['deleted_at'] as String),
+    );
 
-Map<String, dynamic> _$AdminUserToJson(_AdminUser instance) =>
+Map<String, dynamic> _$$AdminUserImplToJson(_$AdminUserImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'email': instance.email,

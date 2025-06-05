@@ -6,17 +6,19 @@ part of 'admin_service_zone_delete_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminServiceZoneDeleteResponse _$AdminServiceZoneDeleteResponseFromJson(
-  Map<String, dynamic> json,
-) => _AdminServiceZoneDeleteResponse(
-  id: json['id'] as String,
-  object: json['object'] as String? ?? 'service_zone',
-  deleted: json['deleted'] as bool,
-  parent: AdminFulfillmentSet.fromJson(json['parent'] as Map<String, dynamic>),
-);
+_$AdminServiceZoneDeleteResponseImpl
+_$$AdminServiceZoneDeleteResponseImplFromJson(Map<String, dynamic> json) =>
+    _$AdminServiceZoneDeleteResponseImpl(
+      id: json['id'] as String,
+      object: json['object'] as String? ?? 'service_zone',
+      deleted: json['deleted'] as bool,
+      parent: AdminFulfillmentSet.fromJson(
+        json['parent'] as Map<String, dynamic>,
+      ),
+    );
 
-Map<String, dynamic> _$AdminServiceZoneDeleteResponseToJson(
-  _AdminServiceZoneDeleteResponse instance,
+Map<String, dynamic> _$$AdminServiceZoneDeleteResponseImplToJson(
+  _$AdminServiceZoneDeleteResponseImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'object': instance.object,

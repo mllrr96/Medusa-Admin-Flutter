@@ -6,8 +6,8 @@ part of 'update_cart_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_UpdateCartData _$UpdateCartDataFromJson(Map<String, dynamic> json) =>
-    _UpdateCartData(
+_$UpdateCartDataImpl _$$UpdateCartDataImplFromJson(Map<String, dynamic> json) =>
+    _$UpdateCartDataImpl(
       regionId: json['region_id'] as String,
       customerId: json['customer_id'] as String,
       salesChannelId: json['sales_channel_id'] as String,
@@ -22,8 +22,8 @@ _UpdateCartData _$UpdateCartDataFromJson(Map<String, dynamic> json) =>
       metadata: json['metadata'] as Map<String, dynamic>,
     );
 
-Map<String, dynamic> _$UpdateCartDataToJson(
-  _UpdateCartData instance,
+Map<String, dynamic> _$$UpdateCartDataImplToJson(
+  _$UpdateCartDataImpl instance,
 ) => <String, dynamic>{
   'region_id': instance.regionId,
   'customer_id': instance.customerId,

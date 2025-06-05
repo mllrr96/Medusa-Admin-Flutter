@@ -6,14 +6,14 @@ part of 'admin_shipping_profile_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminShippingProfileResponse _$AdminShippingProfileResponseFromJson(
+_$AdminShippingProfileResponseImpl _$$AdminShippingProfileResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminShippingProfileResponse(
+) => _$AdminShippingProfileResponseImpl(
   shippingProfile: AdminShippingProfile.fromJson(
     json['shipping_profile'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminShippingProfileResponseToJson(
-  _AdminShippingProfileResponse instance,
+Map<String, dynamic> _$$AdminShippingProfileResponseImplToJson(
+  _$AdminShippingProfileResponseImpl instance,
 ) => <String, dynamic>{'shipping_profile': instance.shippingProfile};

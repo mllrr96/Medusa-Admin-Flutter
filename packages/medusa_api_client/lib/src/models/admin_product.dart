@@ -212,7 +212,7 @@
 ///     ],
 ///     "description": "The product's details."
 /// }
-library admin_product;
+library;
 
 import 'exports.dart';
 part 'admin_product.freezed.dart';

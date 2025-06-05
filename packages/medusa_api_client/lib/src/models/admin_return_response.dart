@@ -11,7 +11,7 @@
 ///     ],
 ///     "description": "The return's details."
 /// }
-library admin_return_response;
+library;
 
 import 'exports.dart';
 part 'admin_return_response.freezed.dart';

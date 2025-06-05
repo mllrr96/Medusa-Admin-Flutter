@@ -6,10 +6,10 @@ part of 'post_inventory_items_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostInventoryItemsIdQueryParameters
-_$PostInventoryItemsIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostInventoryItemsIdQueryParameters(fields: json['fields'] as String);
+_$PostInventoryItemsIdQueryParametersImpl
+_$$PostInventoryItemsIdQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostInventoryItemsIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostInventoryItemsIdQueryParametersToJson(
-  _PostInventoryItemsIdQueryParameters instance,
+Map<String, dynamic> _$$PostInventoryItemsIdQueryParametersImplToJson(
+  _$PostInventoryItemsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

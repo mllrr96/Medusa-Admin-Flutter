@@ -58,7 +58,7 @@
 ///     ],
 ///     "description": "The details of a fulfillmet's shipment label."
 /// }
-library admin_fulfillment_label;
+library;
 
 import 'exports.dart';
 part 'admin_fulfillment_label.freezed.dart';

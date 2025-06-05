@@ -6,12 +6,12 @@ part of 'admin_export_product_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminExportProductResponse _$AdminExportProductResponseFromJson(
+_$AdminExportProductResponseImpl _$$AdminExportProductResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminExportProductResponse(
+) => _$AdminExportProductResponseImpl(
   transactionId: json['transaction_id'] as String,
 );
 
-Map<String, dynamic> _$AdminExportProductResponseToJson(
-  _AdminExportProductResponse instance,
+Map<String, dynamic> _$$AdminExportProductResponseImplToJson(
+  _$AdminExportProductResponseImpl instance,
 ) => <String, dynamic>{'transaction_id': instance.transactionId};

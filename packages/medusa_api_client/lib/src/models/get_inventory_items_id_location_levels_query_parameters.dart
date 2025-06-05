@@ -59,11 +59,11 @@ abstract class GetInventoryItemsIdLocationLevelsQueryParameters
 
     /// offset
     @JsonKey(name: GetInventoryItemsIdLocationLevelsQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetInventoryItemsIdLocationLevelsQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetInventoryItemsIdLocationLevelsQueryParameters.orderKey)

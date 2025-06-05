@@ -6,12 +6,12 @@ part of 'get_product_categories_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetProductCategoriesQueryParameters
-_$GetProductCategoriesQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetProductCategoriesQueryParameters(
+_$GetProductCategoriesQueryParametersImpl
+_$$GetProductCategoriesQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$GetProductCategoriesQueryParametersImpl(
       fields: json['fields'] as String,
-      offset: (json['offset'] as num).toDouble(),
-      limit: (json['limit'] as num).toDouble(),
+      offset: (json['offset'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
       order: json['order'] as String,
       q: json['q'] as String,
       id: json['id'],
@@ -34,8 +34,8 @@ _$GetProductCategoriesQueryParametersFromJson(Map<String, dynamic> json) =>
       name: json['name'],
     );
 
-Map<String, dynamic> _$GetProductCategoriesQueryParametersToJson(
-  _GetProductCategoriesQueryParameters instance,
+Map<String, dynamic> _$$GetProductCategoriesQueryParametersImplToJson(
+  _$GetProductCategoriesQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

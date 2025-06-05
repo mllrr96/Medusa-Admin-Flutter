@@ -6,14 +6,14 @@ part of 'store_return_reason_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_StoreReturnReasonResponse _$StoreReturnReasonResponseFromJson(
+_$StoreReturnReasonResponseImpl _$$StoreReturnReasonResponseImplFromJson(
   Map<String, dynamic> json,
-) => _StoreReturnReasonResponse(
+) => _$StoreReturnReasonResponseImpl(
   returnReason: StoreReturnReason.fromJson(
     json['return_reason'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$StoreReturnReasonResponseToJson(
-  _StoreReturnReasonResponse instance,
+Map<String, dynamic> _$$StoreReturnReasonResponseImplToJson(
+  _$StoreReturnReasonResponseImpl instance,
 ) => <String, dynamic>{'return_reason': instance.returnReason};

@@ -19,7 +19,7 @@
 ///     "type": "object",
 ///     "description": "The details to update in a product option."
 /// }
-library admin_update_product_option;
+library;
 
 import 'exports.dart';
 part 'admin_update_product_option.freezed.dart';

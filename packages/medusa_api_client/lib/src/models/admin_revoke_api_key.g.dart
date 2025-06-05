@@ -6,8 +6,10 @@ part of 'admin_revoke_api_key.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminRevokeApiKey _$AdminRevokeApiKeyFromJson(Map<String, dynamic> json) =>
-    _AdminRevokeApiKey(revokeIn: (json['revoke_in'] as num).toDouble());
+_$AdminRevokeApiKeyImpl _$$AdminRevokeApiKeyImplFromJson(
+  Map<String, dynamic> json,
+) => _$AdminRevokeApiKeyImpl(revokeIn: (json['revoke_in'] as num).toDouble());
 
-Map<String, dynamic> _$AdminRevokeApiKeyToJson(_AdminRevokeApiKey instance) =>
-    <String, dynamic>{'revoke_in': instance.revokeIn};
+Map<String, dynamic> _$$AdminRevokeApiKeyImplToJson(
+  _$AdminRevokeApiKeyImpl instance,
+) => <String, dynamic>{'revoke_in': instance.revokeIn};

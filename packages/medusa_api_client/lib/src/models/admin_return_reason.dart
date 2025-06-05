@@ -48,7 +48,7 @@
 ///     ],
 ///     "description": "The return reason's details."
 /// }
-library admin_return_reason;
+library;
 
 import 'exports.dart';
 part 'admin_return_reason.freezed.dart';

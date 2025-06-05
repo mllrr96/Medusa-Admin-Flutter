@@ -13,7 +13,7 @@
 ///     "type": "object",
 ///     "description": "The details of the workflow to execute."
 /// }
-library admin_create_workflows_run;
+library;
 
 import 'exports.dart';
 part 'admin_create_workflows_run.freezed.dart';

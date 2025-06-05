@@ -6,13 +6,14 @@ part of 'post_returns_id_receive_items_action_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostReturnsIdReceiveItemsActionIdQueryParameters
-_$PostReturnsIdReceiveItemsActionIdQueryParametersFromJson(
+_$PostReturnsIdReceiveItemsActionIdQueryParametersImpl
+_$$PostReturnsIdReceiveItemsActionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostReturnsIdReceiveItemsActionIdQueryParameters(
+) => _$PostReturnsIdReceiveItemsActionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
-Map<String, dynamic> _$PostReturnsIdReceiveItemsActionIdQueryParametersToJson(
-  _PostReturnsIdReceiveItemsActionIdQueryParameters instance,
+Map<String, dynamic>
+_$$PostReturnsIdReceiveItemsActionIdQueryParametersImplToJson(
+  _$PostReturnsIdReceiveItemsActionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

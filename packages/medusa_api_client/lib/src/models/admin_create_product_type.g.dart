@@ -6,13 +6,13 @@ part of 'admin_create_product_type.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateProductType _$AdminCreateProductTypeFromJson(
+_$AdminCreateProductTypeImpl _$$AdminCreateProductTypeImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateProductType(
+) => _$AdminCreateProductTypeImpl(
   metadata: json['metadata'] as Map<String, dynamic>,
   value: json['value'] as String,
 );
 
-Map<String, dynamic> _$AdminCreateProductTypeToJson(
-  _AdminCreateProductType instance,
+Map<String, dynamic> _$$AdminCreateProductTypeImplToJson(
+  _$AdminCreateProductTypeImpl instance,
 ) => <String, dynamic>{'metadata': instance.metadata, 'value': instance.value};

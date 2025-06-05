@@ -6,14 +6,14 @@ part of 'delete_claims_id_outbound_shipping_method_action_id_query_parameters.da
 // JsonSerializableGenerator
 // **************************************************************************
 
-_DeleteClaimsIdOutboundShippingMethodActionIdQueryParameters
-_$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersFromJson(
+_$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersImpl
+_$$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _DeleteClaimsIdOutboundShippingMethodActionIdQueryParameters(
+) => _$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersImpl(
   fields: json['fields'] as String,
 );
 
 Map<String, dynamic>
-_$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersToJson(
-  _DeleteClaimsIdOutboundShippingMethodActionIdQueryParameters instance,
+_$$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersImplToJson(
+  _$DeleteClaimsIdOutboundShippingMethodActionIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

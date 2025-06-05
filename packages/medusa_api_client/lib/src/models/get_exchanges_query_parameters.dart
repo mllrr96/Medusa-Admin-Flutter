@@ -108,10 +108,10 @@ abstract class GetExchangesQueryParameters with _$GetExchangesQueryParameters {
 
     /// offset
     @JsonKey(name: GetExchangesQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
-    @JsonKey(name: GetExchangesQueryParameters.limitKey) required double limit,
+    @JsonKey(name: GetExchangesQueryParameters.limitKey) required int limit,
 
     /// order
     @JsonKey(name: GetExchangesQueryParameters.orderKey) required String order,

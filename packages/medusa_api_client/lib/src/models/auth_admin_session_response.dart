@@ -13,7 +13,7 @@
 ///     ],
 ///     "description": "The authenticated user's details."
 /// }
-library auth_admin_session_response;
+library;
 
 import 'exports.dart';
 part 'auth_admin_session_response.freezed.dart';

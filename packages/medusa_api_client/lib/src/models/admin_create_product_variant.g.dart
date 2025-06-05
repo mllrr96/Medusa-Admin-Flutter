@@ -6,9 +6,9 @@ part of 'admin_create_product_variant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreateProductVariant _$AdminCreateProductVariantFromJson(
+_$AdminCreateProductVariantImpl _$$AdminCreateProductVariantImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreateProductVariant(
+) => _$AdminCreateProductVariantImpl(
   title: json['title'] as String,
   sku: json['sku'] as String,
   ean: json['ean'] as String,
@@ -42,8 +42,8 @@ _AdminCreateProductVariant _$AdminCreateProductVariantFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminCreateProductVariantToJson(
-  _AdminCreateProductVariant instance,
+Map<String, dynamic> _$$AdminCreateProductVariantImplToJson(
+  _$AdminCreateProductVariantImpl instance,
 ) => <String, dynamic>{
   'title': instance.title,
   'sku': instance.sku,

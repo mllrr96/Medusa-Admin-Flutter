@@ -6,10 +6,10 @@ part of 'post_return_reasons_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostReturnReasonsQueryParameters _$PostReturnReasonsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostReturnReasonsQueryParameters(fields: json['fields'] as String);
+_$PostReturnReasonsQueryParametersImpl
+_$$PostReturnReasonsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostReturnReasonsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostReturnReasonsQueryParametersToJson(
-  _PostReturnReasonsQueryParameters instance,
+Map<String, dynamic> _$$PostReturnReasonsQueryParametersImplToJson(
+  _$PostReturnReasonsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

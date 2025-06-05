@@ -6,10 +6,10 @@ part of 'post_api_keys_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostApiKeysIdQueryParameters _$PostApiKeysIdQueryParametersFromJson(
+_$PostApiKeysIdQueryParametersImpl _$$PostApiKeysIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
-) => _PostApiKeysIdQueryParameters(fields: json['fields'] as String);
+) => _$PostApiKeysIdQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostApiKeysIdQueryParametersToJson(
-  _PostApiKeysIdQueryParameters instance,
+Map<String, dynamic> _$$PostApiKeysIdQueryParametersImplToJson(
+  _$PostApiKeysIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

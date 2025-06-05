@@ -58,7 +58,7 @@
 ///     ],
 ///     "description": "The service zone's fulfillment set."
 /// }
-library admin_fulfillment_set;
+library;
 
 import 'exports.dart';
 part 'admin_fulfillment_set.freezed.dart';

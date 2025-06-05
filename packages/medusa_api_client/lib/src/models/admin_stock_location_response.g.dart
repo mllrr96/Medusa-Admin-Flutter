@@ -6,14 +6,14 @@ part of 'admin_stock_location_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminStockLocationResponse _$AdminStockLocationResponseFromJson(
+_$AdminStockLocationResponseImpl _$$AdminStockLocationResponseImplFromJson(
   Map<String, dynamic> json,
-) => _AdminStockLocationResponse(
+) => _$AdminStockLocationResponseImpl(
   stockLocation: AdminStockLocation.fromJson(
     json['stock_location'] as Map<String, dynamic>,
   ),
 );
 
-Map<String, dynamic> _$AdminStockLocationResponseToJson(
-  _AdminStockLocationResponse instance,
+Map<String, dynamic> _$$AdminStockLocationResponseImplToJson(
+  _$AdminStockLocationResponseImpl instance,
 ) => <String, dynamic>{'stock_location': instance.stockLocation};

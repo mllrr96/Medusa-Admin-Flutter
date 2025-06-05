@@ -6,9 +6,9 @@ part of 'admin_order_change.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminOrderChange _$AdminOrderChangeFromJson(
+_$AdminOrderChangeImpl _$$AdminOrderChangeImplFromJson(
   Map<String, dynamic> json,
-) => _AdminOrderChange(
+) => _$AdminOrderChangeImpl(
   id: json['id'] as String,
   version: (json['version'] as num).toDouble(),
   changeType: $enumDecode(_$NullEnumEnumMap, json['change_type']),
@@ -40,34 +40,35 @@ _AdminOrderChange _$AdminOrderChangeFromJson(
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
-Map<String, dynamic> _$AdminOrderChangeToJson(_AdminOrderChange instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'version': instance.version,
-      'change_type': instance.changeType,
-      'order_id': instance.orderId,
-      'return_id': instance.returnId,
-      'exchange_id': instance.exchangeId,
-      'claim_id': instance.claimId,
-      'order': instance.order,
-      'return_order': instance.returnOrder,
-      'exchange': instance.exchange,
-      'claim': instance.claim,
-      'actions': instance.actions,
-      'status': instance.status,
-      'requested_by': instance.requestedBy,
-      'requested_at': instance.requestedAt.toIso8601String(),
-      'confirmed_by': instance.confirmedBy,
-      'confirmed_at': instance.confirmedAt.toIso8601String(),
-      'declined_by': instance.declinedBy,
-      'declined_reason': instance.declinedReason,
-      'metadata': instance.metadata,
-      'declined_at': instance.declinedAt.toIso8601String(),
-      'canceled_by': instance.canceledBy,
-      'canceled_at': instance.canceledAt.toIso8601String(),
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-    };
+Map<String, dynamic> _$$AdminOrderChangeImplToJson(
+  _$AdminOrderChangeImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'version': instance.version,
+  'change_type': instance.changeType,
+  'order_id': instance.orderId,
+  'return_id': instance.returnId,
+  'exchange_id': instance.exchangeId,
+  'claim_id': instance.claimId,
+  'order': instance.order,
+  'return_order': instance.returnOrder,
+  'exchange': instance.exchange,
+  'claim': instance.claim,
+  'actions': instance.actions,
+  'status': instance.status,
+  'requested_by': instance.requestedBy,
+  'requested_at': instance.requestedAt.toIso8601String(),
+  'confirmed_by': instance.confirmedBy,
+  'confirmed_at': instance.confirmedAt.toIso8601String(),
+  'declined_by': instance.declinedBy,
+  'declined_reason': instance.declinedReason,
+  'metadata': instance.metadata,
+  'declined_at': instance.declinedAt.toIso8601String(),
+  'canceled_by': instance.canceledBy,
+  'canceled_at': instance.canceledAt.toIso8601String(),
+  'created_at': instance.createdAt.toIso8601String(),
+  'updated_at': instance.updatedAt.toIso8601String(),
+};
 
 const _$NullEnumEnumMap = {
   NullEnum.secret: 'secret',

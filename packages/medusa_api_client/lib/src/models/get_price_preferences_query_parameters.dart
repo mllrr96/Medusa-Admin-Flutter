@@ -118,11 +118,11 @@ abstract class GetPricePreferencesQueryParameters
 
     /// offset
     @JsonKey(name: GetPricePreferencesQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetPricePreferencesQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetPricePreferencesQueryParameters.orderKey)

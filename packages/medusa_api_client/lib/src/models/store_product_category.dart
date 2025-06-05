@@ -87,7 +87,7 @@
 ///     ],
 ///     "description": "The category's details."
 /// }
-library store_product_category;
+library;
 
 import 'exports.dart';
 part 'store_product_category.freezed.dart';

@@ -6,20 +6,21 @@ part of 'get_workflows_executions_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_GetWorkflowsExecutionsQueryParameters
-_$GetWorkflowsExecutionsQueryParametersFromJson(Map<String, dynamic> json) =>
-    _GetWorkflowsExecutionsQueryParameters(
-      fields: json['fields'] as String,
-      offset: (json['offset'] as num).toDouble(),
-      limit: (json['limit'] as num).toDouble(),
-      order: json['order'] as String,
-      transactionId: json['transaction_id'],
-      workflowId: json['workflow_id'],
-      q: json['q'] as String,
-    );
+_$GetWorkflowsExecutionsQueryParametersImpl
+_$$GetWorkflowsExecutionsQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$GetWorkflowsExecutionsQueryParametersImpl(
+  fields: json['fields'] as String,
+  offset: (json['offset'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
+  order: json['order'] as String,
+  transactionId: json['transaction_id'],
+  workflowId: json['workflow_id'],
+  q: json['q'] as String,
+);
 
-Map<String, dynamic> _$GetWorkflowsExecutionsQueryParametersToJson(
-  _GetWorkflowsExecutionsQueryParameters instance,
+Map<String, dynamic> _$$GetWorkflowsExecutionsQueryParametersImplToJson(
+  _$GetWorkflowsExecutionsQueryParametersImpl instance,
 ) => <String, dynamic>{
   'fields': instance.fields,
   'offset': instance.offset,

@@ -6,20 +6,20 @@ part of 'admin_notification_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminNotificationListResponse _$AdminNotificationListResponseFromJson(
-  Map<String, dynamic> json,
-) => _AdminNotificationListResponse(
-  limit: (json['limit'] as num).toDouble(),
-  offset: (json['offset'] as num).toDouble(),
-  count: (json['count'] as num).toDouble(),
-  notifications: (json['notifications'] as List<dynamic>)
-      .map((e) => AdminNotification.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  estimateCount: (json['estimate_count'] as num).toDouble(),
-);
+_$AdminNotificationListResponseImpl
+_$$AdminNotificationListResponseImplFromJson(Map<String, dynamic> json) =>
+    _$AdminNotificationListResponseImpl(
+      limit: (json['limit'] as num).toInt(),
+      offset: (json['offset'] as num).toInt(),
+      count: (json['count'] as num).toInt(),
+      notifications: (json['notifications'] as List<dynamic>)
+          .map((e) => AdminNotification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      estimateCount: (json['estimate_count'] as num).toDouble(),
+    );
 
-Map<String, dynamic> _$AdminNotificationListResponseToJson(
-  _AdminNotificationListResponse instance,
+Map<String, dynamic> _$$AdminNotificationListResponseImplToJson(
+  _$AdminNotificationListResponseImpl instance,
 ) => <String, dynamic>{
   'limit': instance.limit,
   'offset': instance.offset,

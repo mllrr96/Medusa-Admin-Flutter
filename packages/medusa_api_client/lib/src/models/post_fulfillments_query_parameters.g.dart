@@ -6,10 +6,10 @@ part of 'post_fulfillments_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostFulfillmentsQueryParameters _$PostFulfillmentsQueryParametersFromJson(
-  Map<String, dynamic> json,
-) => _PostFulfillmentsQueryParameters(fields: json['fields'] as String);
+_$PostFulfillmentsQueryParametersImpl
+_$$PostFulfillmentsQueryParametersImplFromJson(Map<String, dynamic> json) =>
+    _$PostFulfillmentsQueryParametersImpl(fields: json['fields'] as String);
 
-Map<String, dynamic> _$PostFulfillmentsQueryParametersToJson(
-  _PostFulfillmentsQueryParameters instance,
+Map<String, dynamic> _$$PostFulfillmentsQueryParametersImplToJson(
+  _$PostFulfillmentsQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};

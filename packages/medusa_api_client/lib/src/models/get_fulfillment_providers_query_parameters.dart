@@ -89,11 +89,11 @@ abstract class GetFulfillmentProvidersQueryParameters
 
     /// offset
     @JsonKey(name: GetFulfillmentProvidersQueryParameters.offsetKey)
-    required double offset,
+    required int offset,
 
     /// limit
     @JsonKey(name: GetFulfillmentProvidersQueryParameters.limitKey)
-    required double limit,
+    required int limit,
 
     /// order
     @JsonKey(name: GetFulfillmentProvidersQueryParameters.orderKey)

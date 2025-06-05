@@ -6,9 +6,9 @@ part of 'admin_create_price_list.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AdminCreatePriceList _$AdminCreatePriceListFromJson(
+_$AdminCreatePriceListImpl _$$AdminCreatePriceListImplFromJson(
   Map<String, dynamic> json,
-) => _AdminCreatePriceList(
+) => _$AdminCreatePriceListImpl(
   title: json['title'] as String,
   description: json['description'] as String,
   startsAt: DateTime.parse(json['starts_at'] as String),
@@ -21,8 +21,8 @@ _AdminCreatePriceList _$AdminCreatePriceListFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$AdminCreatePriceListToJson(
-  _AdminCreatePriceList instance,
+Map<String, dynamic> _$$AdminCreatePriceListImplToJson(
+  _$AdminCreatePriceListImpl instance,
 ) => <String, dynamic>{
   'title': instance.title,
   'description': instance.description,

@@ -97,7 +97,7 @@ class _WorkflowsExecutionsClient implements WorkflowsExecutionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminWorkflowExecutionRunResponse>>
   postWorkflowsExecutionsWorkflowIdRun({
     required AdminCreateWorkflowsRun requestBody,
     required String workflowId,
@@ -113,26 +113,26 @@ class _WorkflowsExecutionsClient implements WorkflowsExecutionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody.toJson());
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/workflows-executions/${workflowId}/run',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminWorkflowExecutionRunResponse>>(
+          Options(method: 'POST', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/workflows-executions/${workflowId}/run',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminWorkflowExecutionRunResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminWorkflowExecutionRunResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -142,7 +142,7 @@ class _WorkflowsExecutionsClient implements WorkflowsExecutionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminWorkflowExecutionStepResponse>>
   postWorkflowsExecutionsWorkflowIdStepsFailure({
     required AdminCreateWorkflowsAsyncResponse requestBody,
     required String workflowId,
@@ -158,26 +158,26 @@ class _WorkflowsExecutionsClient implements WorkflowsExecutionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody.toJson());
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/workflows-executions/${workflowId}/steps/failure',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminWorkflowExecutionStepResponse>>(
+          Options(method: 'POST', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/workflows-executions/${workflowId}/steps/failure',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminWorkflowExecutionStepResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminWorkflowExecutionStepResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -187,7 +187,7 @@ class _WorkflowsExecutionsClient implements WorkflowsExecutionsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>>
+  Future<HttpResponse<AdminWorkflowExecutionStepResponse>>
   postWorkflowsExecutionsWorkflowIdStepsSuccess({
     required AdminCreateWorkflowsAsyncResponse requestBody,
     required String workflowId,
@@ -203,26 +203,26 @@ class _WorkflowsExecutionsClient implements WorkflowsExecutionsClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody.toJson());
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/workflows-executions/${workflowId}/steps/success',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminWorkflowExecutionStepResponse>>(
+          Options(method: 'POST', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/workflows-executions/${workflowId}/steps/success',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminWorkflowExecutionStepResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminWorkflowExecutionStepResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

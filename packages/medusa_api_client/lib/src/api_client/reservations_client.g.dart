@@ -178,7 +178,7 @@ class _ReservationsClient implements ReservationsClient {
   }
 
   @override
-  Future<HttpResponse<Map<String, dynamic>>> deleteReservationsId({
+  Future<HttpResponse<AdminReservationDeleteResponse>> deleteReservationsId({
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -191,26 +191,26 @@ class _ReservationsClient implements ReservationsClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Map<String, dynamic>>>(
-      Options(method: 'DELETE', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/admin/reservations/${id}',
-            queryParameters: queryParameters,
-            data: _data,
-            cancelToken: cancelToken,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<AdminReservationDeleteResponse>>(
+          Options(method: 'DELETE', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/admin/reservations/${id}',
+                queryParameters: queryParameters,
+                data: _data,
+                cancelToken: cancelToken,
+                onSendProgress: onSendProgress,
+                onReceiveProgress: onReceiveProgress,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Map<String, dynamic> _value;
+    late AdminReservationDeleteResponse _value;
     try {
-      _value = _result.data!.map(
-        (k, dynamic v) =>
-            MapEntry(k, dynamic.fromJson(v as Map<String, dynamic>)),
-      );
+      _value = AdminReservationDeleteResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

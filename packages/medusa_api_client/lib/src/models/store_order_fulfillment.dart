@@ -89,7 +89,7 @@
 ///     ],
 ///     "description": "The fulfillment's details."
 /// }
-library store_order_fulfillment;
+library;
 
 import 'exports.dart';
 part 'store_order_fulfillment.freezed.dart';

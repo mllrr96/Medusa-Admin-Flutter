@@ -6,16 +6,16 @@ part of 'delete_products_id_variants_variant_id_inventory_items_inventory_item_i
 // JsonSerializableGenerator
 // **************************************************************************
 
-_DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParameters
-_$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersFromJson(
+_$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersImpl
+_$$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersImplFromJson(
   Map<String, dynamic> json,
 ) =>
-    _DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParameters(
+    _$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersImpl(
       fields: json['fields'] as String,
     );
 
 Map<String, dynamic>
-_$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersToJson(
-  _DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParameters
+_$$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersImplToJson(
+  _$DeleteProductsIdVariantsVariantIdInventoryItemsInventoryItemIdQueryParametersImpl
   instance,
 ) => <String, dynamic>{'fields': instance.fields};

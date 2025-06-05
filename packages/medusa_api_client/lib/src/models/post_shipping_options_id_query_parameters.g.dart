@@ -6,10 +6,13 @@ part of 'post_shipping_options_id_query_parameters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PostShippingOptionsIdQueryParameters
-_$PostShippingOptionsIdQueryParametersFromJson(Map<String, dynamic> json) =>
-    _PostShippingOptionsIdQueryParameters(fields: json['fields'] as String);
+_$PostShippingOptionsIdQueryParametersImpl
+_$$PostShippingOptionsIdQueryParametersImplFromJson(
+  Map<String, dynamic> json,
+) => _$PostShippingOptionsIdQueryParametersImpl(
+  fields: json['fields'] as String,
+);
 
-Map<String, dynamic> _$PostShippingOptionsIdQueryParametersToJson(
-  _PostShippingOptionsIdQueryParameters instance,
+Map<String, dynamic> _$$PostShippingOptionsIdQueryParametersImplToJson(
+  _$PostShippingOptionsIdQueryParametersImpl instance,
 ) => <String, dynamic>{'fields': instance.fields};
