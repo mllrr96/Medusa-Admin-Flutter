@@ -177,8 +177,7 @@ abstract class AuthClient {
   ///     }
   /// }
   @POST("/auth/user/{auth_provider}")
-  Future<HttpResponse<AuthResponseOrAuthCallbackResponseUnion>>
-  postActorTypeAuthProvider({
+  Future<HttpResponse<AuthResponse>> postActorTypeAuthProvider({
     @Body() required Map<String, dynamic> requestBody,
     @Path("auth_provider") required String authProvider,
     @Extras() Map<String, dynamic>? extras,

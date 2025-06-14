@@ -26,7 +26,9 @@
 library;
 
 import 'exports.dart';
+
 part 'admin_update_order.freezed.dart';
+
 part 'admin_update_order.g.dart'; // AdminUpdateOrder
 
 @freezed
@@ -36,19 +38,18 @@ abstract class AdminUpdateOrder with _$AdminUpdateOrder {
   @jsonSerializable
   const factory AdminUpdateOrder({
     /// email
-    @JsonKey(name: AdminUpdateOrder.emailKey) required String email,
+    @JsonKey(name: AdminUpdateOrder.emailKey) String? email,
 
     /// shippingAddress
     @JsonKey(name: AdminUpdateOrder.shippingAddressKey)
-    required Map<String, dynamic> shippingAddress,
+    Map<String, dynamic>? shippingAddress,
 
     /// billingAddress
     @JsonKey(name: AdminUpdateOrder.billingAddressKey)
-    required Map<String, dynamic> billingAddress,
+    Map<String, dynamic>? billingAddress,
 
     /// metadata
-    @JsonKey(name: AdminUpdateOrder.metadataKey)
-    required Map<String, dynamic> metadata,
+    @JsonKey(name: AdminUpdateOrder.metadataKey) Map<String, dynamic>? metadata,
   }) = _AdminUpdateOrder;
 
   factory AdminUpdateOrder.fromJson(Map<String, dynamic> json) =>

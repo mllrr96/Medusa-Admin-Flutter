@@ -19,7 +19,7 @@ class _OrdersClient implements OrdersClient {
 
   @override
   Future<HttpResponse<AdminOrderListResponse>> getOrders({
-    required GetOrdersQueryParameters queries,
+    GetOrdersQueryParameters? queries,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
     void Function(int, int)? onSendProgress,
@@ -28,7 +28,7 @@ class _OrdersClient implements OrdersClient {
     final _extra = <String, dynamic>{};
     _extra.addAll(extras ?? <String, dynamic>{});
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(queries.toJson());
+    queryParameters.addAll(queries?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -101,7 +101,7 @@ class _OrdersClient implements OrdersClient {
   @override
   Future<HttpResponse<AdminOrderResponse>> postOrdersId({
     required AdminUpdateOrder requestBody,
-    required PostOrdersIdQueryParameters queries,
+    PostOrdersIdQueryParameters? queries,
     required String id,
     Map<String, dynamic>? extras,
     CancelToken? cancelToken,
@@ -111,7 +111,7 @@ class _OrdersClient implements OrdersClient {
     final _extra = <String, dynamic>{};
     _extra.addAll(extras ?? <String, dynamic>{});
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(queries.toJson());
+    queryParameters.addAll(queries?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};

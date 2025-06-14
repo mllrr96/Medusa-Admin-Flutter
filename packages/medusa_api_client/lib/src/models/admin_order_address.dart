@@ -93,7 +93,9 @@
 library;
 
 import 'exports.dart';
+
 part 'admin_order_address.freezed.dart';
+
 part 'admin_order_address.g.dart'; // AdminOrderAddress
 
 @freezed
@@ -103,55 +105,53 @@ abstract class AdminOrderAddress with _$AdminOrderAddress {
   @jsonSerializable
   const factory AdminOrderAddress({
     /// id
-    @JsonKey(name: AdminOrderAddress.idKey) required String id,
+    @JsonKey(name: AdminOrderAddress.idKey) String? id,
 
     /// customerId
-    @JsonKey(name: AdminOrderAddress.customerIdKey) required String customerId,
+    @JsonKey(name: AdminOrderAddress.customerIdKey) String? customerId,
 
     /// firstName
-    @JsonKey(name: AdminOrderAddress.firstNameKey) required String firstName,
+    @JsonKey(name: AdminOrderAddress.firstNameKey) String? firstName,
 
     /// lastName
-    @JsonKey(name: AdminOrderAddress.lastNameKey) required String lastName,
+    @JsonKey(name: AdminOrderAddress.lastNameKey) String? lastName,
 
     /// phone
-    @JsonKey(name: AdminOrderAddress.phoneKey) required String phone,
+    @JsonKey(name: AdminOrderAddress.phoneKey) String? phone,
 
     /// company
-    @JsonKey(name: AdminOrderAddress.companyKey) required String company,
+    @JsonKey(name: AdminOrderAddress.companyKey) String? company,
 
     /// address1
-    @JsonKey(name: AdminOrderAddress.address1Key) required String address1,
+    @JsonKey(name: AdminOrderAddress.address1Key) String? address1,
 
     /// address2
-    @JsonKey(name: AdminOrderAddress.address2Key) required String address2,
+    @JsonKey(name: AdminOrderAddress.address2Key) String? address2,
 
     /// city
-    @JsonKey(name: AdminOrderAddress.cityKey) required String city,
+    @JsonKey(name: AdminOrderAddress.cityKey) String? city,
 
     /// countryCode
-    @JsonKey(name: AdminOrderAddress.countryCodeKey)
-    required String countryCode,
+    @JsonKey(name: AdminOrderAddress.countryCodeKey) String? countryCode,
 
     /// country
-    @JsonKey(name: AdminOrderAddress.countryKey)
-    required AdminRegionCountry country,
+    @JsonKey(name: AdminOrderAddress.countryKey) AdminRegionCountry? country,
 
     /// province
-    @JsonKey(name: AdminOrderAddress.provinceKey) required String province,
+    @JsonKey(name: AdminOrderAddress.provinceKey) String? province,
 
     /// postalCode
-    @JsonKey(name: AdminOrderAddress.postalCodeKey) required String postalCode,
+    @JsonKey(name: AdminOrderAddress.postalCodeKey) String? postalCode,
 
     /// metadata
     @JsonKey(name: AdminOrderAddress.metadataKey)
-    required Map<String, dynamic> metadata,
+    Map<String, dynamic>? metadata,
 
     /// createdAt
-    @JsonKey(name: AdminOrderAddress.createdAtKey) required DateTime createdAt,
+    @JsonKey(name: AdminOrderAddress.createdAtKey) DateTime? createdAt,
 
     /// updatedAt
-    @JsonKey(name: AdminOrderAddress.updatedAtKey) required DateTime updatedAt,
+    @JsonKey(name: AdminOrderAddress.updatedAtKey) DateTime? updatedAt,
   }) = _AdminOrderAddress;
 
   factory AdminOrderAddress.fromJson(Map<String, dynamic> json) =>

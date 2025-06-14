@@ -1,33 +1,29 @@
 import 'package:injectable/injectable.dart';
+import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/repository/authentication_repo.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_api_client/gen.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../../core/di/di.dart';
 
 @lazySingleton
 class AuthenticationUseCase {
   AuthenticationUseCase(this._authenticationRepository);
+
   static AuthenticationUseCase get instance => getIt<AuthenticationUseCase>();
   final AuthenticationRepository _authenticationRepository;
+
   AuthRepository get _authRepository => getIt<MedusaAdmin>().authRepository;
 
-  Future<Result<User, Failure>> login(
+  Future<Result<(AdminUser, String), Failure>> login(
       {required String email, required String password}) async {
     try {
       final token = await _authenticationRepository.login(email, password);
-      final user =
-          await _authenticationRepository.setAuthenticationSession(token);
-      // return Success(user);
-      final result = await _authRepository.signIn(
-          req: PostAuthReq(email: email, password: password));
-      if (result == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result);
-      }
+      await _authenticationRepository.setAuthenticationSession(token);
+      final user = await _authenticationRepository.getCurrentUser(token);
+      return Success((user, token));
     } catch (e) {
-      return Error(Failure.from(e));
+      rethrow;
     }
   }
 
@@ -76,14 +72,10 @@ class AuthenticationUseCase {
     }
   }
 
-  Future<Result<User, Failure>> getCurrentUser() async {
+  Future<Result<AdminUser, Failure>> getCurrentUser(String jwt) async {
     try {
-      final result = await _authRepository.getCurrentUser();
-      if (result == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result);
-      }
+      final result = await _authenticationRepository.getCurrentUser(jwt);
+      return Success(result);
     } catch (e) {
       return Error(Failure.from(e));
     }

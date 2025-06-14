@@ -68,62 +68,34 @@ library;
 
 import 'exports.dart';
 
-part 'admin_user.freezed.dart';
+part 'admin_auth_user.freezed.dart';
 
-part 'admin_user.g.dart'; // AdminUser
+part 'admin_auth_user.g.dart'; // AdminAuthUser
 
 @freezed
-abstract class AdminUser with _$AdminUser {
-  const AdminUser._();
+abstract class AdminAuthUser with _$AdminAuthUser {
+  const AdminAuthUser._();
 
   @jsonSerializable
-  const factory AdminUser({
-    /// id
-    @JsonKey(name: AdminUser.idKey) String? id,
+  const factory AdminAuthUser({
+    @JsonKey(name: AdminAuthUser.actorIdKey) required String actorId,
+    @JsonKey(name: AdminAuthUser.actorTypeKey) required String actorType,
+    @JsonKey(name: AdminAuthUser.authIdentityIdKey)
+    required String authIdentityId,
+    @JsonKey(name: AdminAuthUser.iatKey) required int iat,
+    @JsonKey(name: AdminAuthUser.expKey) required int exp,
+  }) = _AdminAuthUser;
 
-    /// email
-    @JsonKey(name: AdminUser.emailKey) String? email,
+  factory AdminAuthUser.fromJson(Map<String, dynamic> json) =>
+      _$AdminAuthUserFromJson(json);
 
-    /// firstName
-    @JsonKey(name: AdminUser.firstNameKey) String? firstName,
+  static const String actorIdKey = r'actor_id';
 
-    /// lastName
-    @JsonKey(name: AdminUser.lastNameKey) String? lastName,
+  static const String actorTypeKey = r'actor_type';
 
-    /// avatarUrl
-    @JsonKey(name: AdminUser.avatarUrlKey) String? avatarUrl,
+  static const String authIdentityIdKey = r'auth_identity_id';
 
-    /// metadata
-    @JsonKey(name: AdminUser.metadataKey) Map<String, dynamic>? metadata,
+  static const String iatKey = r'iat';
 
-    /// createdAt
-    @JsonKey(name: AdminUser.createdAtKey) DateTime? createdAt,
-
-    /// updatedAt
-    @JsonKey(name: AdminUser.updatedAtKey) DateTime? updatedAt,
-
-    /// deletedAt
-    @JsonKey(name: AdminUser.deletedAtKey) DateTime? deletedAt,
-  }) = _AdminUser;
-
-  factory AdminUser.fromJson(Map<String, dynamic> json) =>
-      _$AdminUserFromJson(json);
-
-  static const String idKey = r'id';
-
-  static const String emailKey = r'email';
-
-  static const String firstNameKey = r'first_name';
-
-  static const String lastNameKey = r'last_name';
-
-  static const String avatarUrlKey = r'avatar_url';
-
-  static const String metadataKey = r'metadata';
-
-  static const String createdAtKey = r'created_at';
-
-  static const String updatedAtKey = r'updated_at';
-
-  static const String deletedAtKey = r'deleted_at';
+  static const String expKey = r'exp';
 }

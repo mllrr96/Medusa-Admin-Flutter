@@ -106,7 +106,9 @@
 library;
 
 import 'exports.dart';
+
 part 'admin_customer.freezed.dart';
+
 part 'admin_customer.g.dart'; // AdminCustomer
 
 @freezed
@@ -116,57 +118,57 @@ abstract class AdminCustomer with _$AdminCustomer {
   @jsonSerializable
   const factory AdminCustomer({
     /// id
-    @JsonKey(name: AdminCustomer.idKey) required String id,
+    @JsonKey(name: AdminCustomer.idKey) String? id,
 
     /// hasAccount
-    @JsonKey(name: AdminCustomer.hasAccountKey) required bool hasAccount,
+    @Default(false)
+    @JsonKey(name: AdminCustomer.hasAccountKey)
+    required bool hasAccount,
 
     /// groups
-    @JsonKey(name: AdminCustomer.groupsKey)
-    required List<AdminCustomerGroup> groups,
+    @JsonKey(name: AdminCustomer.groupsKey) List<AdminCustomerGroup>? groups,
 
     /// email
-    @JsonKey(name: AdminCustomer.emailKey) required String email,
+    @JsonKey(name: AdminCustomer.emailKey) String? email,
 
     /// defaultBillingAddressId
     @JsonKey(name: AdminCustomer.defaultBillingAddressIdKey)
-    required String defaultBillingAddressId,
+    String? defaultBillingAddressId,
 
     /// defaultShippingAddressId
     @JsonKey(name: AdminCustomer.defaultShippingAddressIdKey)
-    required String defaultShippingAddressId,
+    String? defaultShippingAddressId,
 
     /// companyName
-    @JsonKey(name: AdminCustomer.companyNameKey) required String companyName,
+    @JsonKey(name: AdminCustomer.companyNameKey) String? companyName,
 
     /// firstName
-    @JsonKey(name: AdminCustomer.firstNameKey) required String firstName,
+    @JsonKey(name: AdminCustomer.firstNameKey) String? firstName,
 
     /// lastName
-    @JsonKey(name: AdminCustomer.lastNameKey) required String lastName,
+    @JsonKey(name: AdminCustomer.lastNameKey) String? lastName,
 
     /// addresses
     @JsonKey(name: AdminCustomer.addressesKey)
-    required List<AdminCustomerAddress> addresses,
+    List<AdminCustomerAddress>? addresses,
 
     /// phone
-    @JsonKey(name: AdminCustomer.phoneKey) required String phone,
+    @JsonKey(name: AdminCustomer.phoneKey) String? phone,
 
     /// metadata
-    @JsonKey(name: AdminCustomer.metadataKey)
-    required Map<String, dynamic> metadata,
+    @JsonKey(name: AdminCustomer.metadataKey) Map<String, dynamic>? metadata,
 
     /// createdBy
-    @JsonKey(name: AdminCustomer.createdByKey) required String createdBy,
+    @JsonKey(name: AdminCustomer.createdByKey) String? createdBy,
 
     /// createdAt
-    @JsonKey(name: AdminCustomer.createdAtKey) required DateTime createdAt,
+    @JsonKey(name: AdminCustomer.createdAtKey) DateTime? createdAt,
 
     /// updatedAt
-    @JsonKey(name: AdminCustomer.updatedAtKey) required DateTime updatedAt,
+    @JsonKey(name: AdminCustomer.updatedAtKey) DateTime? updatedAt,
 
     /// deletedAt
-    @JsonKey(name: AdminCustomer.deletedAtKey) required DateTime deletedAt,
+    @JsonKey(name: AdminCustomer.deletedAtKey) DateTime? deletedAt,
   }) = _AdminCustomer;
 
   factory AdminCustomer.fromJson(Map<String, dynamic> json) =>

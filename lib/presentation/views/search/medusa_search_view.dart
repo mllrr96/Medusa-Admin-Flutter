@@ -26,6 +26,7 @@ import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_api_client/gen.dart';
 import 'components/index.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 
@@ -117,7 +118,7 @@ class _MedusaSearchViewState extends State<MedusaSearchView> {
                         itemBuilder: (context, object, index) {
                           switch (searchCategory) {
                             case SearchCategory.orders:
-                              if (object is Order) {
+                              if (object is AdminOrder) {
                                 return AlternativeOrderCard(object);
                               } else {
                                 return const SizedBox();

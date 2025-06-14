@@ -97,23 +97,23 @@ class _OrderSettingsViewState extends State<OrderSettingsView> {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             children: [
               // const SizedBox(height: 6.0),
-              if (orderPreference.alternativeCard)
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: orderPreference.padding),
-                  child: AlternativeOrderCard(order,
-                      onTap: () {}, orderPreference: orderPreference),
-                ),
-              if (!orderPreference.alternativeCard)
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: orderPreference.padding),
-                  child: OrderCard(
-                    order,
-                    onTap: () {},
-                    orderPreference: orderPreference,
-                  ),
-                ),
+              // if (orderPreference.alternativeCard)
+              //   Padding(
+              //     padding:
+              //         EdgeInsets.symmetric(horizontal: orderPreference.padding),
+              //     child: AlternativeOrderCard(order,
+              //         onTap: () {}, orderPreference: orderPreference),
+              //   ),
+              // if (!orderPreference.alternativeCard)
+              //   Padding(
+              //     padding:
+              //         EdgeInsets.symmetric(horizontal: orderPreference.padding),
+              //     child: OrderCard(
+              //       order,
+              //       onTap: () {},
+              //       orderPreference: orderPreference,
+              //     ),
+              //   ),
               const SizedBox(height: 6.0),
               SettingsList(
                 shrinkWrap: true,

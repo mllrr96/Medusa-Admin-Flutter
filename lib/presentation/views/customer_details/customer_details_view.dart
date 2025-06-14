@@ -18,11 +18,13 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
+import 'package:medusa_api_client/gen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 @RoutePage()
 class CustomerDetailsView extends StatefulWidget {
   const CustomerDetailsView(this.customerId, {super.key});
+
   final String customerId;
 
   @override
@@ -30,7 +32,7 @@ class CustomerDetailsView extends StatefulWidget {
 }
 
 class _CustomerDetailsViewState extends State<CustomerDetailsView> {
-  final PagingController<int, Order> pagingController =
+  final PagingController<int, AdminOrder> pagingController =
       PagingController(firstPageKey: 0, invisibleItemsThreshold: 6);
   late OrdersBloc ordersBloc;
   late CustomerCrudBloc customerCrudBloc;
@@ -162,24 +164,27 @@ class _CustomerDetailsViewState extends State<CustomerDetailsView> {
               top: false,
               sliver: PagedSliverList(
                 pagingController: pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Order>(
+                builderDelegate: PagedChildBuilderDelegate<AdminOrder>(
                   animateTransitions: true,
                   itemBuilder: (context, order, index) => CustomerOrderCard(
-                      order,
-                      index: index,
-                      onTransferTap: () async => await context
-                              .pushRoute(TransferOrderRoute(order: order))
-                              .then((value) {
-                            if (value is bool) {
-                              // controller.pagingController.refresh();
-                              // CustomersController
-                              //     .instance.pagingController
-                              //     .refresh();
-                              // OrdersController
-                              //     .instance.pagingController
-                              //     .refresh();
-                            }
-                          })),
+                    order,
+                    index: index,
+                    // onTransferTap: () async => await context
+                    //     .pushRoute(TransferOrderRoute(order: order))
+                    //     .then(
+                    //   (value) {
+                    //     if (value is bool) {
+                    //       // controller.pagingController.refresh();
+                    //       // CustomersController
+                    //       //     .instance.pagingController
+                    //       //     .refresh();
+                    //       // OrdersController
+                    //       //     .instance.pagingController
+                    //       //     .refresh();
+                    //     }
+                    //   },
+                    // ),
+                  ),
                   noItemsFoundIndicatorBuilder: (_) =>
                       const Center(child: Text('No orders yet')),
                   firstPageErrorIndicatorBuilder: (_) =>
@@ -201,6 +206,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
   final int ordersCount;
   final bool isSkeleton;
   final void Function()? onUpdateDone;
+
   Delegate(this.customer, this.ordersCount,
       {this.isSkeleton = false, this.onUpdateDone});
 
@@ -234,8 +240,7 @@ class Delegate extends SliverPersistentHeaderDelegate {
                         customer.firstName == null
                             ? customer.email[0].toUpperCase()
                             : customer.firstName![0],
-                        style: largeTextStyle!
-                            .copyWith(color: Colors.white)),
+                        style: largeTextStyle!.copyWith(color: Colors.white)),
                   ),
                   const Gap(12.0),
                   Flexible(

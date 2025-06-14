@@ -98,7 +98,7 @@ class _TransferOrderViewState extends State<TransferOrderView> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             children: [
-              AlternativeOrderCard(order, onTap: null),
+              // AlternativeOrderCard(order, onTap: null),
               space,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

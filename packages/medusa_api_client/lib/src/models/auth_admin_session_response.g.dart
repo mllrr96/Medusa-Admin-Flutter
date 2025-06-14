@@ -9,7 +9,7 @@ part of 'auth_admin_session_response.dart';
 _$AuthAdminSessionResponseImpl _$$AuthAdminSessionResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$AuthAdminSessionResponseImpl(
-  user: AdminUser.fromJson(json['user'] as Map<String, dynamic>),
+  user: AdminAuthUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$$AuthAdminSessionResponseImplToJson(

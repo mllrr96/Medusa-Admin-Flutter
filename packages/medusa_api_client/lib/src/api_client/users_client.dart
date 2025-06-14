@@ -251,8 +251,9 @@ abstract class UsersClient {
   /// }
   @GET("/admin/users/me")
   Future<HttpResponse<AdminUserResponse>> getUsersMe({
-    @Queries() required GetUsersMeQueryParameters queries,
+    @Queries() GetUsersMeQueryParameters? queries,
     @Extras() Map<String, dynamic>? extras,
+    @DioOptions() Options? options,
     @CancelRequest() CancelToken? cancelToken,
     @SendProgress() ProgressCallback? onSendProgress,
     @ReceiveProgress() ProgressCallback? onReceiveProgress,

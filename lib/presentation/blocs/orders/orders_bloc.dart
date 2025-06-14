@@ -5,9 +5,12 @@ import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/order/orders_use_case.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_api_client/gen.dart';
 
 part 'orders_event.dart';
+
 part 'orders_state.dart';
+
 part 'orders_bloc.freezed.dart';
 
 @injectable
@@ -21,11 +24,20 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     Emitter<OrdersState> emit,
   ) async {
     emit(const _Loading());
-    final result = await ordersUseCase.retrieveOrders(queryParameters: {
-      'limit': pageSize,
-      ..._expandParameters,
-      ...?event.queryParameters,
-    });
+    final result = await ordersUseCase.retrieveOrders(
+        queryParameters:
+            // TODO: add event.queryParameters if needed
+            GetOrdersQueryParameters(
+      limit: pageSize,
+      fields: _expandParameters['fields'] as String?,
+    )
+        // {
+        //   'limit': pageSize,
+        //   ..._expandParameters,
+        //   ...?event.queryParameters,
+        // }
+
+        );
     result.when((ordersResponse) {
       emit(_Orders(ordersResponse.orders!, ordersResponse.count ?? 0));
     }, (error) {
@@ -36,11 +48,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   // -------------------------------------------------------------------------//
   static const int pageSize = 20;
   static const Map<String, dynamic> _expandParameters = {
-    'expand': 'items,cart,customer,shipping_address,sales_channel,currency',
     'fields':
-        'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer',
+        'id,status,display_id,created_at,email,fulfillment_status,payment_status,total,currency_code,customer,*items,*cart,*customer,*shipping_address,*sales_channel,*currency',
   };
+
   // -------------------------------------------------------------------------//
   final OrdersUseCase ordersUseCase;
+
   static OrdersBloc get instance => getIt<OrdersBloc>();
 }

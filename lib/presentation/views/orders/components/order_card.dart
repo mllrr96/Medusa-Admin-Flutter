@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 import 'package:medusa_admin/core/constant/colors.dart';
 import 'package:medusa_admin/core/extension/color_extension.dart';
-import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_api_client/gen.dart';
 
 import 'fulfillment_label.dart';
 import 'payment_status_label.dart';
@@ -20,19 +20,24 @@ import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/date_time_extension.dart';
 
 class OrderCard extends StatelessWidget {
-  const OrderCard(this.order, {super.key, this.onTap, this.orderPreference, this.shimmer = false});
-  final Order order;
+  const OrderCard(this.order,
+      {super.key, this.onTap, this.orderPreference, this.shimmer = false});
+
+  final AdminOrder order;
   final void Function()? onTap;
   final OrderPreference? orderPreference;
   final bool shimmer;
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
     final smallTextStyle = context.bodySmall;
     final mediumTextStyle = context.bodyMedium;
     final tr = context.tr;
-    final orderSettingsModel = orderPreference ?? PreferenceService.orderPreference;
-    final customerName = order.customerName;
+    final orderSettingsModel =
+        orderPreference ?? PreferenceService.orderPreference;
+    // TODO: Fix customer name retrieval
+    final customerName = order.customer?.firstName;
 
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
@@ -54,9 +59,7 @@ class OrderCard extends StatelessWidget {
                     Text('#${order.displayId}', style: context.bodyMedium),
                     const SizedBox(height: 2.0),
                     Text(
-                      order.cart?.createdAt != null
-                          ? 'on ${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
-                          : '',
+                      'on ${order.createdAt.formatDate()} at ${order.createdAt.formatTime()}',
                       style: smallTextStyle,
                     ),
                   ],
@@ -99,7 +102,7 @@ class OrderCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: PaymentStatusLabel(
-                        paymentStatus: order.paymentStatus,
+                        paymentStatus: PaymentStatus.captured,
                         dotOnly: !orderSettingsModel.paymentStatusDot,
                       ),
                     ),
@@ -112,13 +115,20 @@ class OrderCard extends StatelessWidget {
                             width: 32,
                             decoration: ShapeDecoration(
                               shape: const CircleBorder(),
-                              color:shimmer? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(
-                                  order.customer?.email),
+                              color: shimmer
+                                  ? context.theme.scaffoldBackgroundColor
+                                  : ColorManager.getAvatarColor(
+                                      order.customer?.email),
                             ),
                             alignment: Alignment.center,
-                            child:shimmer? null: Text(
-                                customerName?[0] ?? order.customer?.email[0] ?? '',
-                                style: const TextStyle(color: Colors.white)),
+                            child: shimmer
+                                ? null
+                                : Text(
+                                    customerName?[0] ??
+                                        order.customer!.email?[0] ??
+                                        '',
+                                    style:
+                                        const TextStyle(color: Colors.white)),
                           ),
                           const SizedBox(width: 6.0),
                           if (customerName != null)
@@ -155,7 +165,8 @@ class OrderCard extends StatelessWidget {
 class AlternativeOrderCard extends StatelessWidget {
   const AlternativeOrderCard(this.order,
       {super.key, this.onTap, this.orderPreference, this.shimmer = false});
-  final Order order;
+
+  final AdminOrder order;
   final void Function()? onTap;
   final OrderPreference? orderPreference;
   final bool shimmer;
@@ -166,8 +177,10 @@ class AlternativeOrderCard extends StatelessWidget {
     final mediumTextStyle = context.bodyMedium;
     const manatee = ColorManager.manatee;
     final lightMediumTextStyle = mediumTextStyle?.copyWith(color: manatee);
-    final orderPreference = this.orderPreference ?? PreferenceService.orderPreference;
-    final customerName = order.customerName;
+    final orderPreference =
+        this.orderPreference ?? PreferenceService.orderPreference;
+    // TODO: Fix customer name retrieval
+    final customerName = order.customer?.firstName;
 
     return Card(
       // color: context.getAlphaBlend(context.theme.cardColor),
@@ -196,9 +209,7 @@ class AlternativeOrderCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      order.cart?.createdAt != null
-                          ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
-                          : '',
+                      '${order.createdAt.formatDate()} at ${order.createdAt.formatTime()}',
                       style: smallTextStyle?.copyWith(color: manatee),
                     ),
                     Row(
@@ -229,16 +240,22 @@ class AlternativeOrderCard extends StatelessWidget {
                           width: 32,
                           decoration: ShapeDecoration(
                             shape: const CircleBorder(),
-                            color:shimmer? context.theme.scaffoldBackgroundColor : ColorManager.getAvatarColor(
-                                order.customer?.email),
+                            color: shimmer
+                                ? context.theme.scaffoldBackgroundColor
+                                : ColorManager.getAvatarColor(
+                                    order.customer?.email),
                           ),
                           alignment: Alignment.center,
-                          child:shimmer? null: Text(
-                              customerName?[0] ?? order.customer?.email[0] ?? '',
-                              style: const TextStyle(color: Colors.white)),
+                          child: shimmer
+                              ? null
+                              : Text(
+                                  customerName?[0] ??
+                                      order.customer!.email?[0] ??
+                                      '',
+                                  style: const TextStyle(color: Colors.white)),
                         ),
                         const SizedBox(width: 6.0),
-                        if (customerName!= null)
+                        if (customerName != null)
                           Flexible(
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,8 +263,8 @@ class AlternativeOrderCard extends StatelessWidget {
                               Text(customerName, style: smallTextStyle),
                               if (orderPreference.includeEmail)
                                 Text(order.email ?? '',
-                                    style:
-                                        smallTextStyle?.copyWith(color: manatee)),
+                                    style: smallTextStyle?.copyWith(
+                                        color: manatee)),
                             ],
                           )),
                         if (customerName == null)
@@ -260,7 +277,7 @@ class AlternativeOrderCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: PaymentStatusLabel(
-                        paymentStatus: order.paymentStatus,
+                        paymentStatus: PaymentStatus.awaiting,
                         dotOnly: !orderPreference.paymentStatusDot),
                   ),
                 ],
@@ -411,11 +428,13 @@ class CustomerOrderCard extends StatelessWidget {
       this.cardColor,
       this.onTransferTap,
       required this.index});
-  final Order order;
+
+  final AdminOrder order;
   final void Function()? onTap;
   final void Function()? onTransferTap;
   final Color? cardColor;
   final int index;
+
   @override
   Widget build(BuildContext context) {
     const manatee = ColorManager.manatee;
@@ -454,9 +473,7 @@ class CustomerOrderCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      order.cart!.createdAt != null
-                          ? '${order.cart!.createdAt.formatDate()} at ${order.cart!.createdAt.formatTime()}'
-                          : '',
+                      '${order.createdAt.formatDate()} at ${order.createdAt.formatTime()}',
                       style: context.bodyMedium
                           ?.copyWith(color: const Color(0xff6B7280)),
                     ),
@@ -480,7 +497,7 @@ class CustomerOrderCard extends StatelessWidget {
                       style: smallTextStyle!.copyWith(color: manatee),
                     ),
                     const SizedBox(height: 6.0),
-                    PaymentStatusLabel(paymentStatus: order.paymentStatus)
+                    PaymentStatusLabel(paymentStatus: PaymentStatus.captured)
                   ],
                 ),
                 Column(
@@ -493,7 +510,7 @@ class CustomerOrderCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6.0),
                     FulfillmentStatusLabel(
-                        fulfillmentStatus: order.fulfillmentStatus)
+                        fulfillmentStatus: FulfillmentStatus.partiallyFulfilled)
                   ],
                 ),
               ],

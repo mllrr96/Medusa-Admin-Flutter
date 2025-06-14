@@ -96,7 +96,6 @@ import 'package:medusa_admin/presentation/widgets/pick_regions_view.dart';
 import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:collection/collection.dart';
 
-
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'View|Screen|Wrapper|Page,Route')
@@ -142,7 +141,7 @@ class AppRouter extends RootStackRouter {
 
       // Auth module
       AutoRoute(page: AuthenticationRoute.page, children: [
-        AutoRoute(page: SignInRoute.page),
+        AutoRoute(page: SignInRoute.page, initial: true),
         AutoRoute(page: ResetPasswordRoute.page),
         AutoRoute(page: UrlConfigureRoute.page),
       ]),

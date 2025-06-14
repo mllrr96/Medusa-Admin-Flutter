@@ -16,6 +16,7 @@ import 'package:medusa_admin_dart_client/medusa_admin.dart';
 import 'package:medusa_admin/presentation/widgets/drawer_widget.dart';
 import 'package:medusa_admin/presentation/widgets/pagination_error_page.dart';
 import 'package:medusa_admin/core/utils/medusa_icons_icons.dart';
+import 'package:medusa_api_client/gen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'components/order_card.dart';
 import 'package:gap/gap.dart';
@@ -32,8 +33,8 @@ class OrdersView extends StatefulWidget {
 
 class _OrdersViewState extends State<OrdersView> {
   final smartRefresherCtrl = RefreshController();
-  final PagingController<int, Order> pagingController =
-      PagingController<int, Order>(firstPageKey: 0, invisibleItemsThreshold: 3);
+  final PagingController<int, AdminOrder> pagingController =
+      PagingController<int, AdminOrder>(firstPageKey: 0, invisibleItemsThreshold: 3);
   OrderFilter? orderFilter;
   void _loadPage(int _) {
     context.read<OrdersBloc>().add(OrdersEvent.loadOrders(queryParameters: {
@@ -175,7 +176,7 @@ class _OrdersViewState extends State<OrdersView> {
                   right: orderPreference.padding),
               separatorBuilder: (_, __) => const Gap(8.0),
               pagingController: pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Order>(
+              builderDelegate: PagedChildBuilderDelegate<AdminOrder>(
                 animateTransitions: true,
                 itemBuilder: (context, order, index) {
                   if (orderPreference.alternativeCard) {

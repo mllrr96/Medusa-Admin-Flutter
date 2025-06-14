@@ -321,169 +321,169 @@ abstract class AdminOrder with _$AdminOrder {
   const factory AdminOrder({
     /// paymentCollections
     @JsonKey(name: AdminOrder.paymentCollectionsKey)
-    required List<AdminPaymentCollection> paymentCollections,
+     List<AdminPaymentCollection>? paymentCollections,
 
     /// fulfillments
     @JsonKey(name: AdminOrder.fulfillmentsKey)
-    required List<AdminOrderFulfillment> fulfillments,
+     List<AdminOrderFulfillment>? fulfillments,
 
     /// salesChannel
     @JsonKey(name: AdminOrder.salesChannelKey)
-    required AdminSalesChannel salesChannel,
+     AdminSalesChannel? salesChannel,
 
     /// customer
-    @JsonKey(name: AdminOrder.customerKey) required AdminCustomer customer,
+    @JsonKey(name: AdminOrder.customerKey)  AdminCustomer? customer,
 
     /// shippingAddress
     @JsonKey(name: AdminOrder.shippingAddressKey)
-    required AdminOrderAddress shippingAddress,
+     AdminOrderAddress? shippingAddress,
 
     /// billingAddress
     @JsonKey(name: AdminOrder.billingAddressKey)
-    required AdminOrderAddress billingAddress,
+     AdminOrderAddress? billingAddress,
 
     /// id
-    @JsonKey(name: AdminOrder.idKey) required String id,
+    @JsonKey(name: AdminOrder.idKey) String? id,
 
     /// version
-    @JsonKey(name: AdminOrder.versionKey) required double version,
+    @JsonKey(name: AdminOrder.versionKey) double? version,
 
     /// regionId
-    @JsonKey(name: AdminOrder.regionIdKey) required String regionId,
+    @JsonKey(name: AdminOrder.regionIdKey)  String? regionId,
 
     /// customerId
-    @JsonKey(name: AdminOrder.customerIdKey) required String customerId,
+    @JsonKey(name: AdminOrder.customerIdKey)  String? customerId,
 
     /// salesChannelId
-    @JsonKey(name: AdminOrder.salesChannelIdKey) required String salesChannelId,
+    @JsonKey(name: AdminOrder.salesChannelIdKey)  String? salesChannelId,
 
     /// email
-    @JsonKey(name: AdminOrder.emailKey) required String email,
+    @JsonKey(name: AdminOrder.emailKey) String? email,
 
     /// currencyCode
-    @JsonKey(name: AdminOrder.currencyCodeKey) required String currencyCode,
+    @JsonKey(name: AdminOrder.currencyCodeKey)  String? currencyCode,
 
     /// displayId
-    @JsonKey(name: AdminOrder.displayIdKey) required double displayId,
+    @JsonKey(name: AdminOrder.displayIdKey) double? displayId,
 
     /// items
-    @JsonKey(name: AdminOrder.itemsKey) required List<AdminOrderLineItem> items,
+    @JsonKey(name: AdminOrder.itemsKey) List<AdminOrderLineItem>? items,
 
     /// shippingMethods
     @JsonKey(name: AdminOrder.shippingMethodsKey)
-    required List<AdminOrderShippingMethod> shippingMethods,
+     List<AdminOrderShippingMethod>? shippingMethods,
 
     /// paymentStatus
-    @JsonKey(name: AdminOrder.paymentStatusKey) required NullEnum paymentStatus,
+    @JsonKey(name: AdminOrder.paymentStatusKey)  NullEnum? paymentStatus,
 
     /// fulfillmentStatus
     @JsonKey(name: AdminOrder.fulfillmentStatusKey)
-    required NullEnum fulfillmentStatus,
+    NullEnum? fulfillmentStatus,
 
     /// transactions
     @JsonKey(name: AdminOrder.transactionsKey)
-    required List<BaseOrderTransaction> transactions,
+     List<BaseOrderTransaction>? transactions,
 
     /// summary
-    @JsonKey(name: AdminOrder.summaryKey) required BaseOrderSummary summary,
+    @JsonKey(name: AdminOrder.summaryKey)  BaseOrderSummary? summary,
 
     /// metadata
     @JsonKey(name: AdminOrder.metadataKey)
-    required Map<String, dynamic> metadata,
+     Map<String, dynamic>? metadata,
 
     /// createdAt
-    @JsonKey(name: AdminOrder.createdAtKey) required DateTime createdAt,
+    @JsonKey(name: AdminOrder.createdAtKey)  DateTime? createdAt,
 
     /// updatedAt
-    @JsonKey(name: AdminOrder.updatedAtKey) required DateTime updatedAt,
+    @JsonKey(name: AdminOrder.updatedAtKey)  DateTime? updatedAt,
 
     /// originalItemTotal
     @JsonKey(name: AdminOrder.originalItemTotalKey)
-    required double originalItemTotal,
+     double? originalItemTotal,
 
     /// originalItemSubtotal
     @JsonKey(name: AdminOrder.originalItemSubtotalKey)
-    required double originalItemSubtotal,
+     double? originalItemSubtotal,
 
     /// originalItemTaxTotal
     @JsonKey(name: AdminOrder.originalItemTaxTotalKey)
-    required double originalItemTaxTotal,
+     double? originalItemTaxTotal,
 
     /// itemTotal
-    @JsonKey(name: AdminOrder.itemTotalKey) required double itemTotal,
+    @JsonKey(name: AdminOrder.itemTotalKey)  double? itemTotal,
 
     /// itemSubtotal
-    @JsonKey(name: AdminOrder.itemSubtotalKey) required double itemSubtotal,
+    @JsonKey(name: AdminOrder.itemSubtotalKey)  double? itemSubtotal,
 
     /// itemTaxTotal
-    @JsonKey(name: AdminOrder.itemTaxTotalKey) required double itemTaxTotal,
+    @JsonKey(name: AdminOrder.itemTaxTotalKey)  double? itemTaxTotal,
 
     /// originalTotal
-    @JsonKey(name: AdminOrder.originalTotalKey) required double originalTotal,
+    @JsonKey(name: AdminOrder.originalTotalKey)  double? originalTotal,
 
     /// originalSubtotal
     @JsonKey(name: AdminOrder.originalSubtotalKey)
-    required double originalSubtotal,
+     double? originalSubtotal,
 
     /// originalTaxTotal
     @JsonKey(name: AdminOrder.originalTaxTotalKey)
-    required double originalTaxTotal,
+     double? originalTaxTotal,
 
     /// total
-    @JsonKey(name: AdminOrder.totalKey) required double total,
+    @JsonKey(name: AdminOrder.totalKey) double? total,
 
     /// subtotal
-    @JsonKey(name: AdminOrder.subtotalKey) required double subtotal,
+    @JsonKey(name: AdminOrder.subtotalKey) double? subtotal,
 
     /// taxTotal
-    @JsonKey(name: AdminOrder.taxTotalKey) required double taxTotal,
+    @JsonKey(name: AdminOrder.taxTotalKey) double? taxTotal,
 
     /// discountTotal
-    @JsonKey(name: AdminOrder.discountTotalKey) required double discountTotal,
+    @JsonKey(name: AdminOrder.discountTotalKey) double? discountTotal,
 
     /// discountTaxTotal
     @JsonKey(name: AdminOrder.discountTaxTotalKey)
-    required double discountTaxTotal,
+    double? discountTaxTotal,
 
     /// giftCardTotal
-    @JsonKey(name: AdminOrder.giftCardTotalKey) required double giftCardTotal,
+    @JsonKey(name: AdminOrder.giftCardTotalKey) double? giftCardTotal,
 
     /// giftCardTaxTotal
     @JsonKey(name: AdminOrder.giftCardTaxTotalKey)
-    required double giftCardTaxTotal,
+    double? giftCardTaxTotal,
 
     /// shippingTotal
-    @JsonKey(name: AdminOrder.shippingTotalKey) required double shippingTotal,
+    @JsonKey(name: AdminOrder.shippingTotalKey) double? shippingTotal,
 
     /// shippingSubtotal
     @JsonKey(name: AdminOrder.shippingSubtotalKey)
-    required double shippingSubtotal,
+    double? shippingSubtotal,
 
     /// shippingTaxTotal
     @JsonKey(name: AdminOrder.shippingTaxTotalKey)
-    required double shippingTaxTotal,
+    double? shippingTaxTotal,
 
     /// originalShippingTotal
     @JsonKey(name: AdminOrder.originalShippingTotalKey)
-    required double originalShippingTotal,
+    double? originalShippingTotal,
 
     /// originalShippingSubtotal
     @JsonKey(name: AdminOrder.originalShippingSubtotalKey)
-    required double originalShippingSubtotal,
+    double? originalShippingSubtotal,
 
     /// originalShippingTaxTotal
     @JsonKey(name: AdminOrder.originalShippingTaxTotalKey)
-    required double originalShippingTaxTotal,
+    double? originalShippingTaxTotal,
 
     /// status
-    @JsonKey(name: AdminOrder.statusKey) required String status,
+    @JsonKey(name: AdminOrder.statusKey) String? status,
 
     /// region
-    @JsonKey(name: AdminOrder.regionKey) required AdminRegion region,
+    @JsonKey(name: AdminOrder.regionKey) AdminRegion? region,
 
     /// creditLines
     @JsonKey(name: AdminOrder.creditLinesKey)
-    required List<OrderCreditLine> creditLines,
+    List<OrderCreditLine>? creditLines,
   }) = _AdminOrder;
 
   factory AdminOrder.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/medusa_client.dart';
 import 'package:medusa_api_client/gen.dart';
@@ -10,11 +11,21 @@ class AuthenticationRepository {
 
   AuthClient get _authClient => _medusaClient.client.authClient;
 
-  Future<AdminUser> setAuthenticationSession(String jwt) async {
-    final session = await _authClient.postSession(
+  UsersClient get _usersClient => _medusaClient.client.usersClient;
+
+  Future<AdminUser> getCurrentUser(String jwt) async {
+    final session = await _usersClient.getUsersMe(options: Options(
+      headers: {
+        'Authorization': 'Bearer $jwt',
+      },
+    ));
+    return session.data.user;
+  }
+
+  Future<void> setAuthenticationSession(String jwt) async {
+    await _authClient.postSession(
       authorization: 'Bearer $jwt',
     );
-    return session.data.user;
   }
 
   Future<String> login(String email, String password) async {
@@ -25,8 +36,7 @@ class AuthenticationRepository {
       },
       authProvider: 'emailpass',
     );
-    // TODO: double check if this is the correct way to handle the response
-    return (response.data.value as AuthResponse).token;
+    return response.data.token;
   }
 
   Future<void> logout() async => await _authClient.deleteSession();
@@ -43,8 +53,8 @@ class AuthenticationRepository {
 
   Future<void> requestPasswordReset(String email) async {
     await _authClient.postActorTypeAuthProviderResetPassword(
-      requestBody: {'email': email}, authProvider: 'emailpass',
+      requestBody: {'email': email},
+      authProvider: 'emailpass',
     );
   }
-
 }

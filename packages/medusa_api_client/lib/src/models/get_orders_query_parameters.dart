@@ -137,7 +137,9 @@
 library;
 
 import 'exports.dart';
+
 part 'get_orders_query_parameters.freezed.dart';
+
 part 'get_orders_query_parameters.g.dart'; // GetOrdersQueryParameters
 
 @freezed
@@ -147,53 +149,49 @@ abstract class GetOrdersQueryParameters with _$GetOrdersQueryParameters {
   @jsonSerializable
   const factory GetOrdersQueryParameters({
     /// fields
-    @JsonKey(name: GetOrdersQueryParameters.fieldsKey) required String fields,
+    @JsonKey(name: GetOrdersQueryParameters.fieldsKey) String? fields,
 
     /// offset
-    @JsonKey(name: GetOrdersQueryParameters.offsetKey) required int offset,
+    @JsonKey(name: GetOrdersQueryParameters.offsetKey) int? offset,
 
     /// limit
-    @JsonKey(name: GetOrdersQueryParameters.limitKey) required int limit,
+    @JsonKey(name: GetOrdersQueryParameters.limitKey) int? limit,
 
     /// order
-    @JsonKey(name: GetOrdersQueryParameters.orderKey) required String order,
+    @JsonKey(name: GetOrdersQueryParameters.orderKey) String? order,
 
     /// id
-    @JsonKey(name: GetOrdersQueryParameters.idKey) required dynamic id,
+    @JsonKey(name: GetOrdersQueryParameters.idKey) String? id,
 
     /// status
-    @JsonKey(name: GetOrdersQueryParameters.statusKey) required dynamic status,
+    @JsonKey(name: GetOrdersQueryParameters.statusKey) String? status,
 
     /// and
     @JsonKey(name: GetOrdersQueryParameters.andKey)
-    required List<Map<String, dynamic>> and,
+    List<Map<String, dynamic>>? and,
 
     /// or
     @JsonKey(name: GetOrdersQueryParameters.orKey)
-    required List<Map<String, dynamic>> or,
+    List<Map<String, dynamic>>? or,
 
     /// salesChannelId
     @JsonKey(name: GetOrdersQueryParameters.salesChannelIdKey)
-    required List<String> salesChannelId,
+    List<String>? salesChannelId,
 
     /// regionId
-    @JsonKey(name: GetOrdersQueryParameters.regionIdKey)
-    required dynamic regionId,
+    @JsonKey(name: GetOrdersQueryParameters.regionIdKey) String? regionId,
 
     /// q
-    @JsonKey(name: GetOrdersQueryParameters.qKey) required String q,
+    @JsonKey(name: GetOrdersQueryParameters.qKey) String? q,
 
     /// createdAt
-    @JsonKey(name: GetOrdersQueryParameters.createdAtKey)
-    required Map<String, dynamic> createdAt,
+    @JsonKey(name: GetOrdersQueryParameters.createdAtKey) DateTime? createdAt,
 
     /// updatedAt
-    @JsonKey(name: GetOrdersQueryParameters.updatedAtKey)
-    required Map<String, dynamic> updatedAt,
+    @JsonKey(name: GetOrdersQueryParameters.updatedAtKey) DateTime? updatedAt,
 
     /// customerId
-    @JsonKey(name: GetOrdersQueryParameters.customerIdKey)
-    required dynamic customerId,
+    @JsonKey(name: GetOrdersQueryParameters.customerIdKey) String? customerId,
   }) = _GetOrdersQueryParameters;
 
   factory GetOrdersQueryParameters.fromJson(Map<String, dynamic> json) =>

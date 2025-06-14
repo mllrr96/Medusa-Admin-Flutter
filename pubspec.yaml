@@ -25,7 +25,7 @@ dependencies:
 
   # Image picker packages
   #--------------------
-  image_picker: ^1.0.2
+  image_picker: ^1.1.2
   image_cropper: ^9.1.0
   uuid: ^4.2.1
   #--------------------

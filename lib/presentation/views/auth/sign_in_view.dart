@@ -30,17 +30,20 @@ import 'components/index.dart';
 @RoutePage()
 class SignInView extends StatefulWidget {
   const SignInView({super.key, this.onResult});
+
   final void Function(bool)? onResult;
+
   @override
   State<SignInView> createState() => _SignInViewState();
 }
 
 class _SignInViewState extends State<SignInView> {
   final formKey = GlobalKey<FormState>();
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
+  final emailCtrl = TextEditingController(text: '1@1.com');
+  final passwordCtrl = TextEditingController(text: '12345678');
   late bool? useBiometric;
   late bool showAuthenticateButton;
+
   bool get isSessionExpired => widget.onResult != null;
   bool showUpdateButton = false;
   late Timer timer;
@@ -50,7 +53,11 @@ class _SignInViewState extends State<SignInView> {
     _onInit();
     timer = Timer(3.seconds, () {
       if (mounted) {
-        setState(() => showUpdateButton = context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => true) ?? false);
+        setState(() => showUpdateButton = context
+                .read<AppUpdateBloc>()
+                .state
+                .mapOrNull(updateAvailable: (_) => true) ??
+            false);
       }
     });
     super.initState();
@@ -75,7 +82,7 @@ class _SignInViewState extends State<SignInView> {
         state.mapOrNull(loggedIn: (_) async {
           if (!isSessionExpired) {
             if (context.mounted) {
-              context.router.replaceAll([const DashboardRoute()]);
+              context.router.replaceAll([const MainAppRoute()]);
             }
           } else if (isSessionExpired) {
             widget.onResult?.call(true);
@@ -135,7 +142,8 @@ class _SignInViewState extends State<SignInView> {
                                   context: context,
                                   overlayStyle:
                                       context.systemUiOverlayNoAppBarStyle,
-                                  builder: (context) => const UrlConfigureView());
+                                  builder: (context) =>
+                                      const UrlConfigureView());
                               if (result == true) {
                                 _onInit();
                                 setState(() {});
@@ -160,8 +168,8 @@ class _SignInViewState extends State<SignInView> {
                                 BlocBuilder<ThemeCubit, ThemeState>(
                                   builder: (context, state) {
                                     return ElevatedButton.icon(
-                                      label: Text(
-                                          state.themeMode.name.capitalize),
+                                      label:
+                                          Text(state.themeMode.name.capitalize),
                                       onPressed: () => context
                                           .read<ThemeCubit>()
                                           .updateThemeState(
@@ -182,8 +190,12 @@ class _SignInViewState extends State<SignInView> {
                                         const LanguageSelectionView(),
                                   ),
                                   icon: const Icon(Icons.language),
-                                  label: Text(
-                                      context.read<LanguageCubit>().state.locale.languageModel.nativeName),
+                                  label: Text(context
+                                      .read<LanguageCubit>()
+                                      .state
+                                      .locale
+                                      .languageModel
+                                      .nativeName),
                                 ),
                               ],
                             ),
@@ -339,7 +351,6 @@ class _SignInViewState extends State<SignInView> {
     }
   }
 
-
   bool _validate() {
     if (AuthPreferenceService.baseUrlGetter == null) {
       context.showSignInErrorSnackBar('Please set your backend URL first');
@@ -394,7 +405,7 @@ class _SignInViewState extends State<SignInView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              'New Update Available ${context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_)=> _.appUpdate)?.tagName ?? ''}',
+                              'New Update Available ${context.read<AppUpdateBloc>().state.mapOrNull(updateAvailable: (_) => _.appUpdate)?.tagName ?? ''}',
                               style: const TextStyle(color: Colors.white)),
                           Text('Tap to install',
                               style: context.bodySmall

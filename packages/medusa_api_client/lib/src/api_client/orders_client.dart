@@ -266,7 +266,7 @@ abstract class OrdersClient {
   /// }
   @GET("/admin/orders")
   Future<HttpResponse<AdminOrderListResponse>> getOrders({
-    @Queries() required GetOrdersQueryParameters queries,
+    @Queries() GetOrdersQueryParameters? queries,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,
     @SendProgress() ProgressCallback? onSendProgress,
@@ -490,7 +490,7 @@ abstract class OrdersClient {
   @POST("/admin/orders/{id}")
   Future<HttpResponse<AdminOrderResponse>> postOrdersId({
     @Body() required AdminUpdateOrder requestBody,
-    @Queries() required PostOrdersIdQueryParameters queries,
+    @Queries() PostOrdersIdQueryParameters? queries,
     @Path("id") required String id,
     @Extras() Map<String, dynamic>? extras,
     @CancelRequest() CancelToken? cancelToken,

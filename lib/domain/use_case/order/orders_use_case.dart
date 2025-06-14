@@ -1,42 +1,40 @@
 import 'package:injectable/injectable.dart' hide Order;
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin/domain/repository/orders_repository.dart';
+import 'package:medusa_api_client/gen.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class OrdersUseCase {
-  static OrdersUseCase get instance => getIt<OrdersUseCase>();
-  OrdersRepository get  _orderRepository => getIt<MedusaAdmin>().orderRepository;
+  OrdersUseCase(this._ordersRepository);
 
-  Future<Result<RetrieveOrdersRes, Failure>> retrieveOrders(
-      {Map<String, dynamic>? queryParameters}) async {
+  final OrdersRepository _ordersRepository;
+
+  static OrdersUseCase get instance => getIt<OrdersUseCase>();
+
+  Future<Result<AdminOrderListResponse, Failure>> retrieveOrders(
+      {GetOrdersQueryParameters? queryParameters}) async {
     try {
-      final orderRepository = _orderRepository;
-      final result = await orderRepository.retrieveOrders(
-          queryParameters: queryParameters);
-      if (result?.orders == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result!);
-      }
+      final result =
+          await _ordersRepository.listOrders(queryParameters: queryParameters);
+      return Success(result);
     } catch (e) {
       return Error(Failure.from(e));
     }
   }
 
-  Future<Result<Order, Failure>> updateOrder(
+  Future<Result<AdminOrder, Failure>> updateOrder(
       {required String id,
-      required UpdateOrderReq payload,
-      Map<String, dynamic>? queryParameters}) async {
+      required AdminUpdateOrder payload,
+      PostOrdersIdQueryParameters? queryParameters}) async {
     try {
-      final orderRepository = _orderRepository;
-      final result = await orderRepository.updateOrder(
+      final result = await _ordersRepository.updateOrder(
         id: id,
-        userUpdateOrderReq: payload,
-        queryParameters: queryParameters,
+        requestBody: payload,
+        query: queryParameters,
       );
-      return Success(result!);
+      return Success(result.order);
     } catch (e) {
       return Error(Failure.from(e));
     }

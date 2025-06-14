@@ -9,10 +9,10 @@ part of 'admin_update_order.dart';
 _$AdminUpdateOrderImpl _$$AdminUpdateOrderImplFromJson(
   Map<String, dynamic> json,
 ) => _$AdminUpdateOrderImpl(
-  email: json['email'] as String,
-  shippingAddress: json['shipping_address'] as Map<String, dynamic>,
-  billingAddress: json['billing_address'] as Map<String, dynamic>,
-  metadata: json['metadata'] as Map<String, dynamic>,
+  email: json['email'] as String?,
+  shippingAddress: json['shipping_address'] as Map<String, dynamic>?,
+  billingAddress: json['billing_address'] as Map<String, dynamic>?,
+  metadata: json['metadata'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$$AdminUpdateOrderImplToJson(

@@ -128,8 +128,7 @@ class _AuthClient implements AuthClient {
   }
 
   @override
-  Future<HttpResponse<AuthResponseOrAuthCallbackResponseUnion>>
-  postActorTypeAuthProvider({
+  Future<HttpResponse<AuthResponse>> postActorTypeAuthProvider({
     required Map<String, dynamic> requestBody,
     required String authProvider,
     Map<String, dynamic>? extras,
@@ -144,26 +143,23 @@ class _AuthClient implements AuthClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
-    final _options =
-        _setStreamType<HttpResponse<AuthResponseOrAuthCallbackResponseUnion>>(
-          Options(method: 'POST', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/auth/user/${authProvider}',
-                queryParameters: queryParameters,
-                data: _data,
-                cancelToken: cancelToken,
-                onSendProgress: onSendProgress,
-                onReceiveProgress: onReceiveProgress,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<AuthResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/user/${authProvider}',
+            queryParameters: queryParameters,
+            data: _data,
+            cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthResponseOrAuthCallbackResponseUnion _value;
+    late AuthResponse _value;
     try {
-      _value = AuthResponseOrAuthCallbackResponseUnion.fromJson(_result.data!);
+      _value = AuthResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

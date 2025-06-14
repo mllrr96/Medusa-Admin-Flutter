@@ -15,6 +15,7 @@
 /// }
 library;
 
+import 'admin_auth_user.dart';
 import 'exports.dart';
 part 'auth_admin_session_response.freezed.dart';
 part 'auth_admin_session_response.g.dart'; // AuthAdminSessionResponse
@@ -26,7 +27,7 @@ abstract class AuthAdminSessionResponse with _$AuthAdminSessionResponse {
   @jsonSerializable
   const factory AuthAdminSessionResponse({
     /// user
-    @JsonKey(name: AuthAdminSessionResponse.userKey) required AdminUser user,
+    @JsonKey(name: AuthAdminSessionResponse.userKey) required AdminAuthUser user,
   }) = _AuthAdminSessionResponse;
 
   factory AuthAdminSessionResponse.fromJson(Map<String, dynamic> json) =>
