@@ -1,15 +1,9 @@
-import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
-import 'package:medusa_api_client/gen.dart';
-
-import 'di.dart';
-
-@singleton
-class MedusaClient {
-  MedusaAdminClient get client => MedusaAdminClient(
-        Dio(),
-        baseUrl: 'http://localhost:9000',
-      );
-
-  static final MedusaClient instance = getIt<MedusaClient>();
-}
+// import 'package:injectable/injectable.dart';
+// import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+//
+// import 'di.dart';
+//
+// @singleton
+// class MedusaClient {
+//   static final MedusaAdminV2 instance = getIt<MedusaAdminV2>();
+// }

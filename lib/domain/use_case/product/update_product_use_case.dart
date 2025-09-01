@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -20,7 +20,7 @@ class UpdateProductUseCase {
 
   static UpdateProductUseCase get instance => getIt<UpdateProductUseCase>();
 
-  Future<Result<Product, Failure>> addProduct(
+  Future<Result<Product, MedusaError>> addProduct(
       PostProductReq userPostProductReq) async {
     try {
       final result =
@@ -31,7 +31,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<Product, Failure>> updateProduct({
+  Future<Result<Product, MedusaError>> updateProduct({
     required PostUpdateProductReq userPostUpdateProductReq,
     required String id,
   }) async {
@@ -44,7 +44,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<RetrieveProductTypesRes, Failure>> retrieveProductTypes(
+  Future<Result<RetrieveProductTypesRes, MedusaError>> retrieveProductTypes(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _typeRepository.retrieveProductTypes(
@@ -55,7 +55,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<CollectionsRes, Failure>> retrieveCollections(
+  Future<Result<CollectionsRes, MedusaError>> retrieveCollections(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _collectionRepository.retrieveAll(
@@ -66,7 +66,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<List<String>, Failure>> uploadFile(List<File> files) async {
+  Future<Result<List<String>, MedusaError>> uploadFile(List<File> files) async {
     try {
       final result = await _uploadRepository.uploadFile(files: files);
       return Success(result!);
@@ -75,7 +75,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<DeleteFileRes, Failure>> deleteFile({required String fileKey}) async {
+  Future<Result<DeleteFileRes, MedusaError>> deleteFile({required String fileKey}) async {
     try {
       final result = await _uploadRepository.deleteFile( fileKey: fileKey);
       return Success(result!);
@@ -84,7 +84,7 @@ class UpdateProductUseCase {
     }
   }
 
-  Future<Result<SalesChannelRetrieveAllRes, Failure>> retrieveSalesChannels(
+  Future<Result<SalesChannelRetrieveAllRes, MedusaError>> retrieveSalesChannels(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _salesChannelRepository.retrieveAll(

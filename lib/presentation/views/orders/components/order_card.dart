@@ -10,8 +10,8 @@ import 'package:medusa_admin/core/route/app_router.dart';
 import 'package:medusa_admin/data/models/order_preference.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
-import 'package:medusa_api_client/gen.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 import 'fulfillment_label.dart';
 import 'payment_status_label.dart';

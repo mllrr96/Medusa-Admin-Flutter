@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -10,7 +10,7 @@ class OrderEditCrudUseCase {
       getIt<MedusaAdmin>().orderEditRepository;
   static OrderEditCrudUseCase get instance => getIt<OrderEditCrudUseCase>();
 
-  Future<Result<OrderEdit, Failure>> cancelOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> cancelOrderEdit({
     required String id,
   }) async {
     try {
@@ -21,7 +21,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> requestOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> requestOrderEdit({
     required String id,
   }) async {
     try {
@@ -32,7 +32,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> deleteLineItem({
+  Future<Result<OrderEdit, MedusaError>> deleteLineItem({
     required String id,
     required String itemId,
   }) async {
@@ -45,7 +45,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> createOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> createOrderEdit({
     required String id,
     String? internalNote,
   }) async {
@@ -58,7 +58,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> updateOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> updateOrderEdit({
     required String id,
     String? internalNote,
   }) async {
@@ -70,7 +70,7 @@ class OrderEditCrudUseCase {
       return Error(Failure.from(e));
     }
   }
-  Future<Result<DeleteLineItemChangeRes, Failure>> deleteLineItemChange({
+  Future<Result<DeleteLineItemChangeRes, MedusaError>> deleteLineItemChange({
     required String id,
     required String changeId,
   }) async {
@@ -83,7 +83,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> confirmOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> confirmOrderEdit({
     required String id,
   }) async {
     try {
@@ -94,7 +94,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<DeleteOrderEditRes, Failure>> deleteOrderEdit({
+  Future<Result<DeleteOrderEditRes, MedusaError>> deleteOrderEdit({
     required String id,
   }) async {
     try {
@@ -105,7 +105,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> upsertLineItemChange({
+  Future<Result<OrderEdit, MedusaError>> upsertLineItemChange({
     required String id,
     required String itemId,
     required int quantity,
@@ -119,7 +119,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> addLineItem({
+  Future<Result<OrderEdit, MedusaError>> addLineItem({
     required String id,
     required AddLineItemReq payload,
   }) async {
@@ -132,7 +132,7 @@ class OrderEditCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveAllOrderEditRes, Failure>> fetchOrderEdits({
+  Future<Result<RetrieveAllOrderEditRes, MedusaError>> fetchOrderEdits({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

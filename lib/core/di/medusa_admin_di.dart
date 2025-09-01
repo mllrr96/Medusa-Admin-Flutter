@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
 import 'package:medusa_admin/core/utils/enums.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'di.dart';
@@ -80,9 +80,9 @@ abstract class MedusaAdminDi {
     },
   );
   static Future<void> registerMedusaAdminSingleton() async {
-    if (!getIt.isRegistered<MedusaAdmin>()) {
-      getIt.registerLazySingleton<MedusaAdmin>(
-        () => MedusaAdmin.initialize(
+    if (!getIt.isRegistered<MedusaAdminV2>()) {
+      getIt.registerLazySingleton<MedusaAdminV2>(
+        () => MedusaAdminV2.initialize(
           baseUrl: AuthPreferenceService.baseUrlGetter!,
           interceptors: [_authInterceptor, _loggerInterceptor],
         ),
@@ -91,6 +91,6 @@ abstract class MedusaAdminDi {
   }
 
   static Future<void> resetMedusaAdminSingleton() async {
-    await getIt.resetLazySingleton<MedusaAdmin>();
+    await getIt.resetLazySingleton<MedusaAdminV2>();
   }
 }

@@ -1,83 +1,77 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin/domain/repository/authentication_repo.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
-import 'package:medusa_api_client/gen.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class AuthenticationUseCase {
-  AuthenticationUseCase(this._authenticationRepository);
+  AuthenticationUseCase(this._medusaAdminV2);
 
   static AuthenticationUseCase get instance => getIt<AuthenticationUseCase>();
-  final AuthenticationRepository _authenticationRepository;
 
-  AuthRepository get _authRepository => getIt<MedusaAdmin>().authRepository;
+  AuthRepository get _authenticationRepository => _medusaAdminV2.auth;
+  final MedusaAdminV2 _medusaAdminV2;
 
-  Future<Result<(AdminUser, String), Failure>> login(
-      {required String email, required String password}) async {
+  Future<Result<User, MedusaError>> login({required String email, required String password}) async {
     try {
-      final token = await _authenticationRepository.login(email, password);
-      await _authenticationRepository.setAuthenticationSession(token);
-      final user = await _authenticationRepository.getCurrentUser(token);
-      return Success((user, token));
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<Result<String, Failure>> loginCookie(
-      {required String email, required String password}) async {
-    try {
-      final result = await _authRepository.signInCookie(
-          req: PostAuthReq(email: email, password: password));
-      if (result == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result);
+      final user = await _authenticationRepository
+          .authProvider('emailpass', {'email': email, 'password': password});
+      return Success(user);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
       }
-    } catch (e) {
-      return Error(Failure.from(e));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<String, Failure>> loginJWT(
-      {required String email, required String password}) async {
-    try {
-      final result = await _authRepository.signInJWT(
-          req: PostAuthReq(email: email, password: password));
-      if (result == null) {
-        return Error(Failure.from(result));
-      } else {
-        return Success(result);
-      }
-    } catch (e) {
-      return Error(Failure.from(e));
-    }
-  }
-
-  Future<Result<bool, Failure>> logout() async {
+  Future<Result<bool, MedusaError>> logout() async {
     try {
       await _authenticationRepository.logout();
-      return Success(true);
-      // final result = await _authRepository.signOut();
-      // if (result != null) {
-      //   return Success(result);
-      // } else {
-      //   return Error(Failure(message: 'Error logging out', type: ''));
-      // }
-    } catch (e) {
-      return Error(Failure.from(e));
+      return const Success(true);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<AdminUser, Failure>> getCurrentUser(String jwt) async {
+  Future<Result<User, MedusaError>> getCurrentUser() async {
     try {
-      final result = await _authenticationRepository.getCurrentUser(jwt);
-      return Success(result);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _authenticationRepository.login();
+      return Success(result.user);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

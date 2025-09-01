@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:medusa_admin/core/extension/medusa_model_extension.dart';
 import 'package:medusa_admin/data/service/auth_preference_service.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 import '../../../../../../core/constant/colors.dart';
 import 'user_role_label.dart';

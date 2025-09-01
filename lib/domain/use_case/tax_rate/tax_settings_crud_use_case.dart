@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -11,7 +11,7 @@ class TaxSettingsCrudUseCase {
 
   static TaxSettingsCrudUseCase get instance => getIt<TaxSettingsCrudUseCase>();
 
-  Future<Result<RetrieveTaxRatesRes, Failure>> fetchAll({
+  Future<Result<RetrieveTaxRatesRes, MedusaError>> fetchAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -23,7 +23,7 @@ class TaxSettingsCrudUseCase {
     }
   }
 
-  Future<Result<TaxRate, Failure>> fetch(
+  Future<Result<TaxRate, MedusaError>> fetch(
     String id, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -36,7 +36,7 @@ class TaxSettingsCrudUseCase {
     }
   }
 
-  Future<Result<DeleteTaxRateRes, Failure>> delete(String id) async {
+  Future<Result<DeleteTaxRateRes, MedusaError>> delete(String id) async {
     try {
       final result = await _taxRateRepository.deleteTaxRate(id: id);
       return Success(result!);
@@ -45,7 +45,7 @@ class TaxSettingsCrudUseCase {
     }
   }
 
-  Future<Result<TaxRate, Failure>> create(
+  Future<Result<TaxRate, MedusaError>> create(
       CreateTaxRateReq userCreateTaxRateReq) async {
     try {
       final result = await _taxRateRepository.createTaxRate(
@@ -56,7 +56,7 @@ class TaxSettingsCrudUseCase {
     }
   }
 
-  Future<Result<TaxRate, Failure>> update({
+  Future<Result<TaxRate, MedusaError>> update({
     required String id,
     required UpdateTaxRateReq userUpdateTaxRateReq,
   }) async {

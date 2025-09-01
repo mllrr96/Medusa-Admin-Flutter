@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class PersonalInfoCrudUseCase {
   static PersonalInfoCrudUseCase get instance =>
       getIt<PersonalInfoCrudUseCase>();
 
-  Future<Result<User, Failure>> currentUser() async {
+  Future<Result<User, MedusaError>> currentUser() async {
     try {
       final result = await _authRepository.getCurrentUser();
       return Success(result!);
@@ -21,7 +21,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<User, Failure>> fetchUser(String id) async {
+  Future<Result<User, MedusaError>> fetchUser(String id) async {
     try {
       final result = await _userRepository.retrieve(id: id);
       return Success(result!);
@@ -30,7 +30,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveUserListRes, Failure>> fetchUsers(
+  Future<Result<RetrieveUserListRes, MedusaError>> fetchUsers(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result =
@@ -41,7 +41,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<User, Failure>> updateUser({
+  Future<Result<User, MedusaError>> updateUser({
     required String id,
     required UpdateUserReq payload,
   }) async {
@@ -54,7 +54,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<User, Failure>> createUser({
+  Future<Result<User, MedusaError>> createUser({
     required CreateUserReq payload,
   }) async {
     try {
@@ -66,7 +66,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<User, Failure>> resetPassword({
+  Future<Result<User, MedusaError>> resetPassword({
     required ResetPasswordReq payload,
   }) async {
     try {
@@ -78,7 +78,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<DeleteUserRes, Failure>> delete(String id) async {
+  Future<Result<DeleteUserRes, MedusaError>> delete(String id) async {
     try {
       final result = await _userRepository.delete(id: id);
       return Success(result!);
@@ -87,7 +87,7 @@ class PersonalInfoCrudUseCase {
     }
   }
 
-  Future<Result<bool, Failure>> requestPasswordReset(
+  Future<Result<bool, MedusaError>> requestPasswordReset(
       {required String email}) async {
     try {
       final result = await _userRepository.requestPasswordReset(email: email);

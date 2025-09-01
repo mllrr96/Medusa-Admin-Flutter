@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'team_card.dart';

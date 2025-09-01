@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/constant/strings.dart';
-import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/extension/string_extension.dart';
 import 'package:medusa_admin/data/models/app_update.dart';
 import 'package:medusa_admin/data/service/preference_service.dart';
@@ -17,7 +17,7 @@ class CheckUpdateUseCase {
   final PackageInfo packageInfo;
   final PreferenceService preferenceService;
 
-  Future<Result<AppUpdate?, Failure>> call() async {
+  Future<Result<AppUpdate?, MedusaError>> call() async {
     try {
       final response =
           await dio.get<List<dynamic>>(AppConstants.githubReleasesLink);
@@ -41,13 +41,20 @@ class CheckUpdateUseCase {
             return const Success(null);
           }
         } else {
-          return Error(Failure(message: 'Error parsing update', type: ''));
+          return Error(MedusaError(
+              code: 'unknown', type: 'parsing_error', message: 'Error parsing update'));
         }
       } else {
-        return Error(Failure.from(response));
+        return Error(MedusaError.fromHttp(status: response.statusCode, body: response.data));
       }
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

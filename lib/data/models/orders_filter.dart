@@ -1,6 +1,7 @@
+/*
 
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 class OrderFilter {
   final List<OrderStatus> status;
@@ -110,4 +111,4 @@ class OrderDateFilter {
         required this.dateType,
         required this.dateFilterType,
         this.active = false});
-}
+}*/

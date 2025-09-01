@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -10,7 +10,7 @@ class ShippingOptionUseCase {
       getIt<MedusaAdmin>().shippingOptionsRepository;
   static ShippingOptionUseCase get instance => getIt<ShippingOptionUseCase>();
 
-  Future<Result<RetrieveAllShippingOptionRes, Failure>> call(
+  Future<Result<RetrieveAllShippingOptionRes, MedusaError>> call(
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingOptionsRepository.retrieveAll(

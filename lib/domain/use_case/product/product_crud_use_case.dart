@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -9,7 +9,7 @@ class ProductCrudUseCase{
   ProductsRepository get _productsRepository =>
       getIt<MedusaAdmin>().productsRepository;
   static ProductCrudUseCase get instance => getIt<ProductCrudUseCase>();
-  Future<Result<Product, Failure>> fetchProduct(String id,{
+  Future<Result<Product, MedusaError>> fetchProduct(String id,{
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -21,7 +21,7 @@ class ProductCrudUseCase{
     }
   }
 
-  Future<Result<ProductsListRes, Failure>> fetchProducts({
+  Future<Result<ProductsListRes, MedusaError>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -33,7 +33,7 @@ class ProductCrudUseCase{
     }
   }
 
-  Future<Result<List<ProductVariant>, Failure>> fetchVariants({
+  Future<Result<List<ProductVariant>, MedusaError>> fetchVariants({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -44,7 +44,7 @@ class ProductCrudUseCase{
       return Error(Failure.from(error));
     }
   }
-  Future<Result<DeleteProductRes, Failure>> deleteProduct({
+  Future<Result<DeleteProductRes, MedusaError>> deleteProduct({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -56,7 +56,7 @@ class ProductCrudUseCase{
     }
   }
 
-  Future<Result<Product, Failure>> updateProduct({
+  Future<Result<Product, MedusaError>> updateProduct({
     required String id,
     required PostUpdateProductReq payload,
     Map<String, dynamic>? queryParameters,
@@ -68,7 +68,7 @@ class ProductCrudUseCase{
       return Error(Failure.from(error));
     }
   }
-  Future<Result<Product, Failure>> createProduct({
+  Future<Result<Product, MedusaError>> createProduct({
     required PostProductReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {

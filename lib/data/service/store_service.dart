@@ -1,6 +1,6 @@
 // import 'package:flutter/foundation.dart';
 //
-// import 'package:medusa_admin_dart_client/medusa_admin.dart';
+// import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 //
 // class StoreService extends GetxService {
 //   StoreService({required this.storeRepo});

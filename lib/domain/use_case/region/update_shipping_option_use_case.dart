@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -16,7 +16,7 @@ class UpdateShippingOptionUseCase {
   static UpdateShippingOptionUseCase get instance =>
       getIt<UpdateShippingOptionUseCase>();
 
-  Future<Result<List<FulfillmentOption>, Failure>> fetchFulfillmentOptions(
+  Future<Result<List<FulfillmentOption>, MedusaError>> fetchFulfillmentOptions(
       String id) async {
     try {
       final result =
@@ -27,7 +27,7 @@ class UpdateShippingOptionUseCase {
     }
   }
 
-  Future<Result<ShippingOption, Failure>> createShippingOption(
+  Future<Result<ShippingOption, MedusaError>> createShippingOption(
       CreateShippingOptionReq userCreateShippingOptionReq) async {
     try {
       final result = await _shippingOptionsRepository.create(
@@ -38,7 +38,7 @@ class UpdateShippingOptionUseCase {
     }
   }
 
-  Future<Result<ShippingOption, Failure>> updateShippingOption(
+  Future<Result<ShippingOption, MedusaError>> updateShippingOption(
       {required String id,
       required UpdateShippingOptionReq userUpdateShippingOptionReq}) async {
     try {
@@ -50,7 +50,7 @@ class UpdateShippingOptionUseCase {
     }
   }
 
-  Future<Result<RetrieveAllShippingProfileRes, Failure>>
+  Future<Result<RetrieveAllShippingProfileRes, MedusaError>>
       fetchShippingProfiles({
     Map<String, dynamic>? queryParameters,
   }) async {

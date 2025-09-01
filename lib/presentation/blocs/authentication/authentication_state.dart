@@ -6,5 +6,5 @@ class AuthenticationState with _$AuthenticationState {
   const factory AuthenticationState.loading() = _Loading;
   const factory AuthenticationState.loggedIn(AdminUser user) = _LoggedIn;
   const factory AuthenticationState.loggedOut() = _LoggedOut;
-  const factory AuthenticationState.error(Failure failure) = _Error;
+  const factory AuthenticationState.error(MedusaError error) = _Error;
 }

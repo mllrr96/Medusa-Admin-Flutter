@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart' hide Order;
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/domain/use_case/order/orders_use_case.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:medusa_api_client/gen.dart';
 
 part 'orders_event.dart';
@@ -25,12 +25,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) async {
     emit(const _Loading());
     final result = await ordersUseCase.retrieveOrders(
-        queryParameters:
-            // TODO: add event.queryParameters if needed
-            GetOrdersQueryParameters(
-      limit: pageSize,
-      fields: _expandParameters['fields'] as String?,
-    )
+        //     queryParameters:
+        //         // TODO: add event.queryParameters if needed
+        //         GetOrdersQueryParameters(
+        //   limit: pageSize,
+        //   fields: _expandParameters['fields'] as String?,
+        // )
         // {
         //   'limit': pageSize,
         //   ..._expandParameters,
@@ -39,7 +39,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
         );
     result.when((ordersResponse) {
-      emit(_Orders(ordersResponse.orders!, ordersResponse.count ?? 0));
+      emit(_Orders(ordersResponse.orders!, ordersResponse.count.toInt() ?? 0));
     }, (error) {
       emit(_Error(error));
     });

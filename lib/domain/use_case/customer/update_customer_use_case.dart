@@ -1,58 +1,87 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class CustomerCrudUseCase {
-  CustomerRepository get _customerRepository =>
-      getIt<MedusaAdmin>().customerRepository;
+  CustomersRepository get _customerRepository => _medusaAdminV2.customers;
+  final MedusaAdminV2 _medusaAdminV2;
+
+  CustomerCrudUseCase(this._medusaAdminV2);
   static CustomerCrudUseCase get instance => getIt<CustomerCrudUseCase>();
 
-  Future<Result<Customer, Failure>> create(
-      CreateCustomerReq userCreateCustomerReq) async {
+  Future<Result<Customer, MedusaError>> create(
+      CustomerCreateReq userCreateCustomerReq) async {
     try {
       final result = await _customerRepository.create(
-          userCreateCustomerReq: userCreateCustomerReq);
-      return Success(result!);
+           userCreateCustomerReq);
+      return Success(result.customer);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<Customer, Failure>> update(
-      String id, UpdateCustomerReq userUpdateCustomerReq) async {
+  Future<Result<Customer, MedusaError>> update(
+      String id, CustomerUpdateReq userUpdateCustomerReq) async {
     try {
       final result = await _customerRepository.update(
-          id: id, userUpdateCustomerReq: userUpdateCustomerReq);
-      return Success(result!);
+          id,  userUpdateCustomerReq);
+      return Success(result.customer);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<Customer, Failure>> retrieve(
+  Future<Result<Customer, MedusaError>> retrieve(
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerRepository.retrieve(
-          queryParameters: queryParameters, id: id);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+          id, query: queryParameters);
+      return Success(result.customer);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-
-  Future<Result<CustomersRes, Failure>> retrieveAll(
+  Future<Result<CustomersListRes, MedusaError>> retrieveAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _customerRepository.retrieveCustomers(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result =
+          await _customerRepository.list(query: queryParameters);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
-
 }

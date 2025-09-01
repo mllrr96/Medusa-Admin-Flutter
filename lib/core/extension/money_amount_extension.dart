@@ -1,4 +1,4 @@
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 extension MoneyAmountExtension on MoneyAmount {
   MoneyAmount forUpdate({
@@ -14,10 +14,10 @@ extension MoneyAmountExtension on MoneyAmount {
       amount: amount ?? this.amount,
       regionId: regionId ?? this.regionId,
       currencyCode: currencyCode ?? this.currencyCode,
-      minQuantity: minQuantity ?? this.minQuantity,
-      maxQuantity: maxQuantity ?? this.maxQuantity,
+      // minQuantity: minQuantity ?? this.minQuantity,
+      // maxQuantity: maxQuantity ?? this.maxQuantity,
       //
-      currency: null,
+      // currency: null,
       createdAt: null,
       updatedAt: null,
       deletedAt: null,
@@ -36,11 +36,10 @@ extension MoneyAmountExtension on MoneyAmount {
       amount: amount ?? this.amount,
       regionId: regionId ?? this.regionId,
       currencyCode: currencyCode ?? this.currencyCode,
-      minQuantity: minQuantity ?? this.minQuantity,
-      maxQuantity: maxQuantity ?? this.maxQuantity,
+      // minQuantity: minQuantity ?? this.minQuantity,
+      // maxQuantity: maxQuantity ?? this.maxQuantity,
       //
-      id: null,
-      currency: null,
+      id: '',
       createdAt: null,
       updatedAt: null,
       deletedAt: null,

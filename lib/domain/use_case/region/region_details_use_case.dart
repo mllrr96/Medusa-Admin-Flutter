@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -13,7 +13,7 @@ class RegionDetailsUseCase {
 
   static RegionDetailsUseCase get instance => getIt<RegionDetailsUseCase>();
 
-  Future<Result<Region, Failure>> fetchRegion(String id, {
+  Future<Result<Region, MedusaError>> fetchRegion(String id, {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -24,7 +24,7 @@ class RegionDetailsUseCase {
     }
   }
 
-  Future<Result<DeleteRegionRes, Failure>> deleteRegion(String id) async {
+  Future<Result<DeleteRegionRes, MedusaError>> deleteRegion(String id) async {
     try {
       final result = await _regionsRepository.delete(id: id);
       return Success(result!);
@@ -33,7 +33,7 @@ class RegionDetailsUseCase {
     }
   }
 
-  Future<Result<DeleteShippingOptionRes, Failure>> deleteShippingOption(
+  Future<Result<DeleteShippingOptionRes, MedusaError>> deleteShippingOption(
       String id) async {
     try {
       final result = await _shippingOptionsRepository.delete(id: id);
@@ -43,7 +43,7 @@ class RegionDetailsUseCase {
     }
   }
 
-  Future<Result<RetrieveAllShippingOptionRes, Failure>>
+  Future<Result<RetrieveAllShippingOptionRes, MedusaError>>
       fetchShippingOptions({
     Map<String, dynamic>? queryParameters,
   }) async {

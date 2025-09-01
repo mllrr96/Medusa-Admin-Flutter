@@ -1,46 +1,72 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class CollectionUseCase {
-  static CollectionUseCase get instance => getIt<CollectionUseCase>();
-  CollectionRepository get _collectionsRepository =>
-      getIt<MedusaAdmin>().collectionRepository;
+  CollectionUseCase(this._medusaAdminV2);
+  final MedusaAdminV2 _medusaAdminV2;
+  CollectionsRepository get _collectionsRepository => _medusaAdminV2.collections;
 
-  Future<Result<ProductCollection, Failure>> create({
+  static CollectionUseCase get instance => getIt<CollectionUseCase>();
+
+  Future<Result<ProductCollection, MedusaError>> create({
     required CreateCollectionReq userCreateCollectionReq,
   }) async {
     try {
       final result = await _collectionsRepository.create(
-          userCreateCollectionReq: userCreateCollectionReq);
-      return Success(result!);
+           userCreateCollectionReq);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ProductCollection, Failure>> update({
+  Future<Result<ProductCollection, MedusaError>> update({
     required String id,
-    required CreateCollectionReq userCreateCollectionReq,
+    required UpdateCollectionReq updateCollectionReq,
   }) async {
     try {
-      final result = await _collectionsRepository.update(id: id, userCreateCollectionReq: userCreateCollectionReq);
-      return Success(result!);
+      final result = await _collectionsRepository.update(
+          id,  updateCollectionReq);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
-  Future<Result<CollectionsRes, Failure>> retrieveAll({
+
+  Future<Result<CollectionListRes, MedusaError>> retrieveAll({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _collectionsRepository.retrieveAll(queryParameters:queryParameters );
-      return Success(result!);
+      final result = await _collectionsRepository.retrieveAll(queryParameters: queryParameters);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

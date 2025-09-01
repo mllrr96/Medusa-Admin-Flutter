@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medusa_admin/core/extension/text_style_extension.dart';
 import '../../../../core/constant/colors.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 class PaymentStatusLabel extends StatelessWidget {
   const PaymentStatusLabel({super.key, required this.paymentStatus, this.dotOnly = false});

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class UpdateReturnReasonUseCase {
   static UpdateReturnReasonUseCase get instance =>
       getIt<UpdateReturnReasonUseCase>();
 
-  Future<Result<ReturnReason, Failure>> create(
+  Future<Result<ReturnReason, MedusaError>> create(
       CreateReturnReasonReq userCreateReturnReasonReq) async {
     try {
       final result = await _returnReasonRepository.create(
@@ -23,7 +23,7 @@ class UpdateReturnReasonUseCase {
     }
   }
 
-  Future<Result<ReturnReason, Failure>> update({
+  Future<Result<ReturnReason, MedusaError>> update({
     required String id,
     required UpdateReturnReasonReq userUpdateReturnReasonReq,
   }) async {

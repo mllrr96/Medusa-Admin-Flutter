@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class ReturnReasonCrudUseCase {
   static ReturnReasonCrudUseCase get instance =>
       getIt<ReturnReasonCrudUseCase>();
 
-  Future<Result<ReturnReason, Failure>> load(String id,
+  Future<Result<ReturnReason, MedusaError>> load(String id,
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _returnReasonRepository.retrieve(
@@ -23,7 +23,7 @@ class ReturnReasonCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveAllReturnReasonRes, Failure>> loadAll(
+  Future<Result<RetrieveAllReturnReasonRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _returnReasonRepository.retrieveAll(
@@ -34,7 +34,7 @@ class ReturnReasonCrudUseCase {
     }
   }
 
-  Future<Result<DeleteReturnReasonRes, Failure>> delete(String id) async {
+  Future<Result<DeleteReturnReasonRes, MedusaError>> delete(String id) async {
     try {
       final result = await _returnReasonRepository.delete(id: id);
       return Success(result!);
@@ -43,7 +43,7 @@ class ReturnReasonCrudUseCase {
     }
   }
 
-  Future<Result<ReturnReason, Failure>> create(
+  Future<Result<ReturnReason, MedusaError>> create(
       CreateReturnReasonReq userCreateReturnReasonReq) async {
     try {
       final result = await _returnReasonRepository.create(
@@ -54,7 +54,7 @@ class ReturnReasonCrudUseCase {
     }
   }
 
-  Future<Result<ReturnReason, Failure>> update({
+  Future<Result<ReturnReason, MedusaError>> update({
     required String id,
     required UpdateReturnReasonReq userUpdateReturnReasonReq,
   }) async {

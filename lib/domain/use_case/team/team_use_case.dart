@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class InviteCrudUseCase {
 
   static InviteCrudUseCase get instance => getIt<InviteCrudUseCase>();
 
-  Future<Result<RetrieveUserListRes, Failure>> fetchUsers() async {
+  Future<Result<RetrieveUserListRes, MedusaError>> fetchUsers() async {
     try {
       final result = await _userRepository.retrieveAll();
       return Success(result!);
@@ -21,7 +21,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveInvitesRes, Failure>> fetchInvites() async {
+  Future<Result<RetrieveInvitesRes, MedusaError>> fetchInvites() async {
     try {
       final result = await _inviteRepository.retrieveInvites();
       return Success(result!);
@@ -30,7 +30,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<bool, Failure>> inviteUser({
+  Future<Result<bool, MedusaError>> inviteUser({
     required String email,
     required UserRole role,
   }) async {
@@ -43,7 +43,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<bool, Failure>> resendInvite(String inviteId) async {
+  Future<Result<bool, MedusaError>> resendInvite(String inviteId) async {
     try {
       final result = await _inviteRepository.resendInvite(inviteId: inviteId);
       return Success(result!);
@@ -52,7 +52,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<bool, Failure>> acceptInvite(
+  Future<Result<bool, MedusaError>> acceptInvite(
       AcceptInvitationReq userAcceptInvitationReq) async {
     try {
       final result = await _inviteRepository.acceptInvitation(
@@ -63,7 +63,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<DeleteInvitesRes, Failure>> deleteInvite(
+  Future<Result<DeleteInvitesRes, MedusaError>> deleteInvite(
       String inviteId) async {
     try {
       final result = await _inviteRepository.deleteInvite(inviteId: inviteId);
@@ -73,7 +73,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<User, Failure>> updateUser({
+  Future<Result<User, MedusaError>> updateUser({
     required String id,
     required UpdateUserReq userUpdateUserReq,
   }) async {
@@ -86,7 +86,7 @@ class InviteCrudUseCase {
     }
   }
 
-  Future<Result<DeleteUserRes, Failure>> deleteUser(
+  Future<Result<DeleteUserRes, MedusaError>> deleteUser(
     String id,
   ) async {
     try {

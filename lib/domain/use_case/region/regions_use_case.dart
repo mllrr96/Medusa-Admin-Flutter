@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -11,7 +11,7 @@ class RegionCrudUseCase {
 
   static RegionCrudUseCase get instance => getIt<RegionCrudUseCase>();
 
-  Future<Result<RegionsRes, Failure>> loadAll(
+  Future<Result<RegionsRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _regionsRepository.retrieveAll(
@@ -22,7 +22,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> load(
+  Future<Result<Region, MedusaError>> load(
     String id, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -35,7 +35,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> create(
+  Future<Result<Region, MedusaError>> create(
       CreateRegionReq userCreateRegionReq) async {
     try {
       final result = await _regionsRepository.create(
@@ -46,7 +46,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> update({
+  Future<Result<Region, MedusaError>> update({
     required String id,
     required UpdateRegionReq userUpdateRegionReq,
   }) async {
@@ -59,7 +59,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<DeleteRegionRes, Failure>> delete(String id) async {
+  Future<Result<DeleteRegionRes, MedusaError>> delete(String id) async {
     try {
       final result = await _regionsRepository.delete(id: id);
       return Success(result!);
@@ -68,7 +68,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> addCountry({
+  Future<Result<Region, MedusaError>> addCountry({
     required String id,
     required String countryCode,
   }) async {
@@ -81,7 +81,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> removeCountry({
+  Future<Result<Region, MedusaError>> removeCountry({
     required String id,
     required String countryCode,
   }) async {
@@ -94,7 +94,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<List<FulfillmentOption>, Failure>> loadFulfillmentOptions(
+  Future<Result<List<FulfillmentOption>, MedusaError>> loadFulfillmentOptions(
     String id,
   ) async {
     try {
@@ -106,7 +106,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> addFulfillmentProvider({
+  Future<Result<Region, MedusaError>> addFulfillmentProvider({
     required String id,
     required String providerId,
   }) async {
@@ -119,7 +119,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> removeFulfillmentProvider({
+  Future<Result<Region, MedusaError>> removeFulfillmentProvider({
     required String id,
     required String providerId,
   }) async {
@@ -132,7 +132,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> addPaymentProvider({
+  Future<Result<Region, MedusaError>> addPaymentProvider({
     required String id,
     required String providerId,
   }) async {
@@ -145,7 +145,7 @@ class RegionCrudUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> removePaymentProvider({
+  Future<Result<Region, MedusaError>> removePaymentProvider({
     required String id,
     required String providerId,
   }) async {

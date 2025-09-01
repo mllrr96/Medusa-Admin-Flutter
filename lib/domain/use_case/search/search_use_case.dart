@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -33,7 +33,7 @@ class SearchUseCase {
 
   static SearchUseCase get instance => getIt<SearchUseCase>();
 
-  Future<Result<SalesChannelRetrieveAllRes, Failure>> fetchSalesChannels({
+  Future<Result<SalesChannelRetrieveAllRes, MedusaError>> fetchSalesChannels({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -45,7 +45,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveProductTagsRes, Failure>> fetchTags({
+  Future<Result<RetrieveProductTagsRes, MedusaError>> fetchTags({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -57,7 +57,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<ProductsListRes, Failure>> fetchProducts({
+  Future<Result<ProductsListRes, MedusaError>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -69,7 +69,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<GiftCardsRes, Failure>> fetchGiftCards({
+  Future<Result<GiftCardsRes, MedusaError>> fetchGiftCards({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -81,7 +81,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveCustomerGroupsRes, Failure>> fetchCustomerGroups(
+  Future<Result<RetrieveCustomerGroupsRes, MedusaError>> fetchCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerGroupRepository.retrieveCustomerGroups(
@@ -92,7 +92,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<PriceListsRes, Failure>> fetchPriceLists({
+  Future<Result<PriceListsRes, MedusaError>> fetchPriceLists({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -104,7 +104,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RegionsRes, Failure>> fetchRegions(
+  Future<Result<RegionsRes, MedusaError>> fetchRegions(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _regionsRepository.retrieveAll(
@@ -115,7 +115,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<CustomersRes, Failure>> fetchCustomers(
+  Future<Result<CustomersRes, MedusaError>> fetchCustomers(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _customerRepository.retrieveCustomers(
@@ -126,7 +126,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveOrdersRes, Failure>> fetchOrders(
+  Future<Result<RetrieveOrdersRes, MedusaError>> fetchOrders(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _ordersRepository.retrieveOrders(
@@ -141,7 +141,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<CollectionsRes, Failure>> fetchCollections({
+  Future<Result<CollectionsRes, MedusaError>> fetchCollections({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -153,7 +153,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<RetrieveDiscountsRes, Failure>> fetchDiscounts(
+  Future<Result<RetrieveDiscountsRes, MedusaError>> fetchDiscounts(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _discountRepository.retrieveDiscounts(
@@ -165,7 +165,7 @@ class SearchUseCase {
     }
   }
 
-  Future<Result<DraftOrdersRes, Failure>> fetchDraftOrders({
+  Future<Result<DraftOrdersRes, MedusaError>> fetchDraftOrders({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {

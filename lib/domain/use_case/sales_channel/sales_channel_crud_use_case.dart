@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class SalesChannelCrudUseCase {
   static SalesChannelCrudUseCase get instance =>
       getIt<SalesChannelCrudUseCase>();
 
-  Future<Result<SalesChannel, Failure>> load(
+  Future<Result<SalesChannel, MedusaError>> load(
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _salesChannelRepository.retrieve(
@@ -23,7 +23,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<SalesChannelRetrieveAllRes, Failure>> loadAll(
+  Future<Result<SalesChannelRetrieveAllRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParameters}) async {
     try {
       final result = await _salesChannelRepository.retrieveAll(
@@ -34,7 +34,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<SalesChannel, Failure>> removeProducts(
+  Future<Result<SalesChannel, MedusaError>> removeProducts(
       {required String id, required List<String> productIds}) async {
     try {
       final result = await _salesChannelRepository
@@ -45,7 +45,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<SalesChannel, Failure>> addProducts(
+  Future<Result<SalesChannel, MedusaError>> addProducts(
       {required String id, required List<String> productIds}) async {
     try {
       final result = await _salesChannelRepository.addProductsToSalesChannel(
@@ -56,7 +56,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<SalesChannelDeleteRes, Failure>> delete(
+  Future<Result<SalesChannelDeleteRes, MedusaError>> delete(
       String id) async {
     try {
       final result = await _salesChannelRepository.delete(id: id);
@@ -66,7 +66,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<SalesChannel, Failure>> create(
+  Future<Result<SalesChannel, MedusaError>> create(
       SalesChannelCreateReq userSalesChannelCreateReq) async {
     try {
       final result = await _salesChannelRepository.create(
@@ -77,7 +77,7 @@ class SalesChannelCrudUseCase {
     }
   }
 
-  Future<Result<SalesChannel, Failure>> update(
+  Future<Result<SalesChannel, MedusaError>> update(
       {required String id,
       required SalesChannelUpdateReq userSalesChannelUpdateReq}) async {
     try {

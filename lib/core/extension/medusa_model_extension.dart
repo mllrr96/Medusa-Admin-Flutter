@@ -1,14 +1,10 @@
 import 'package:medusa_admin/core/utils/enums.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 extension Name on Order {
   String? get customerName {
-    final firstName = billingAddress?.firstName ??
-        shippingAddress?.firstName ??
-        customer?.firstName;
-    final lastName = billingAddress?.lastName ??
-        shippingAddress?.lastName ??
-        customer?.lastName;
+    final firstName = customer?.firstName;
+    final lastName = customer?.lastName;
     if (firstName == null && lastName == null) {
       return null;
     }

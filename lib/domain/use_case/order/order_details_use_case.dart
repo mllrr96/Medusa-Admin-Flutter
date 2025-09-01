@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart' hide Order;
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -17,7 +17,7 @@ class OrderCrudUseCase {
   FulfillmentRepository get _fulfillmentRepository =>
       getIt<MedusaAdmin>().fulfillmentRepository;
 
-  Future<Result<Order, Failure>> retrieveOrder({
+  Future<Result<Order, MedusaError>> retrieveOrder({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -36,7 +36,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveAllOrderEditRes, Failure>> retrieveAllOrderEdit({
+  Future<Result<RetrieveAllOrderEditRes, MedusaError>> retrieveAllOrderEdit({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -49,7 +49,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> cancelOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> cancelOrderEdit({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -61,7 +61,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<OrderEdit, Failure>> confirmOrderEdit({
+  Future<Result<OrderEdit, MedusaError>> confirmOrderEdit({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -73,7 +73,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> createFulfillment({
+  Future<Result<Order, MedusaError>> createFulfillment({
     required String id,
     required CreateFulfillmentReq payload,
     Map<String, dynamic>? queryParameters,
@@ -87,7 +87,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveNotificationsRes, Failure>> retrieveNotifications({
+  Future<Result<RetrieveNotificationsRes, MedusaError>> retrieveNotifications({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -104,7 +104,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> cancelOrder({
+  Future<Result<Order, MedusaError>> cancelOrder({
     required String id,
   }) async {
     try {
@@ -121,7 +121,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<User, Failure>> retrieveUser({
+  Future<Result<User, MedusaError>> retrieveUser({
     required String id,
   }) async {
     try {
@@ -136,7 +136,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> updateOrder(
+  Future<Result<Order, MedusaError>> updateOrder(
       {required String id,
       required UpdateOrderReq payload}) async {
     try {
@@ -152,7 +152,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> createOrderShipment({
+  Future<Result<Order, MedusaError>> createOrderShipment({
     required String id,
     required String fulfillmentId,
     List<String>? trackingNumbers,
@@ -172,7 +172,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> createRefund({
+  Future<Result<Order, MedusaError>> createRefund({
     required String id,
     required CreateRefundOrdersReq payload,
   }) async {
@@ -191,7 +191,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> captureOrderPayment({
+  Future<Result<Order, MedusaError>> captureOrderPayment({
     required String id,
   }) async {
     try {
@@ -208,7 +208,7 @@ class OrderCrudUseCase {
     }
   }
 
-  Future<Result<Order, Failure>> cancelFulfillment({
+  Future<Result<Order, MedusaError>> cancelFulfillment({
     required String id,
     required String fulfillmentId,
   }) async {

@@ -1,111 +1,151 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class ApiKeyUseCase {
-  PublishableApiKeyRepository get _apiKeyRepository =>
-      getIt<MedusaAdmin>().publishableApiKeyRepository;
+  ApiKeyUseCase(this._medusaAdminV2);
+
+  ApiKeysRepository get _apiKeyRepository => _medusaAdminV2.apiKeys;
+
+  final MedusaAdminV2 _medusaAdminV2;
 
   static ApiKeyUseCase get instance => getIt<ApiKeyUseCase>();
 
-  Future<Result<PublishableApiKey, Failure>> create(String title) async {
+  Future<Result<ApiKey, MedusaError>> create(String title) async {
     try {
-      final result =
-          await _apiKeyRepository.createPublishableApiKey(title: title);
-      return Success(result!);
+      // TODO : handle type
+      final result = await _apiKeyRepository.create(CreateApiKeyReq(title: title, type: ''));
+      return Success(result.apiKey);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<PublishableApiKey, Failure>> update(
-      String id, String title) async {
+  Future<Result<ApiKey, MedusaError>> update(String id, String title) async {
     try {
-      final result =
-          await _apiKeyRepository.updatePublishableApiKey(title: title, id: id);
-      return Success(result!);
+      final result = await _apiKeyRepository.update(id, UpdateApiKeyReq(title: title));
+      return Success(result.apiKey);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
-    }
-  }
-  Future<Result<DeletePublishableApiKeyRes, Failure>> delete(String id) async {
-    try {
-      final result =
-          await _apiKeyRepository.deletePublishableApiKey( id: id);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<PublishableApiKey, Failure>> load(String id) async {
+  Future<Result<Unit, MedusaError>> delete(String id) async {
     try {
-      final result = await _apiKeyRepository.retrievePublishableApiKey(id: id);
-      return Success(result!);
+      await _apiKeyRepository.delete(id);
+      return Success(unit);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
-    }
-  }
-  Future<Result<PublishableApiKey, Failure>> revoke(String id) async {
-    try {
-      final result = await _apiKeyRepository.revokePublishableApiKey(id: id);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<RetrievePublishableApiKeysRes, Failure>> loadAll(
+  Future<Result<ApiKey, MedusaError>> load(String id) async {
+    try {
+      final result = await _apiKeyRepository.retrieve(id);
+      return Success(result.apiKey);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<ApiKey, MedusaError>> revoke(String id) async {
+    try {
+      final result = await _apiKeyRepository.revoke(id);
+      return Success(result.apiKey);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<ApiKeysListRes, MedusaError>> loadAll({Map<String, dynamic>? queryParameters}) async {
+    try {
+      final result = await _apiKeyRepository.list(queryParameters: queryParameters);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  // TODO : handle this
+  Future<Result<Unit, MedusaError>> loadAllSalesChannels(String id,
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _apiKeyRepository.retrievePublishableApiKeys(
-          queryParameters: queryParameters);
-      return Success(result!);
+      final result = await _apiKeyRepository.salesChannels(id, queryParameters ?? {});
+      return Success(unit);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<SalesChannelRetrieveAllRes, Failure>> loadAllSalesChannels(
-      String id,
-      {Map<String, dynamic>? queryParameters}) async {
-    try {
-      final result = await _apiKeyRepository.retrieveSalesChannels(
-          id: id, queryParameters: queryParameters);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
-    }
-  }
-
-  Future<Result<PublishableApiKey, Failure>> addSalesChannels(
+  Future<Result<ApiKey, MedusaError>> addSalesChannels(
       String id, List<String> salesChannelsIds,
       {Map<String, dynamic>? queryParameters}) async {
-    try {
-      final result = await _apiKeyRepository.addSalesChannels(
-          id: id,
-          queryParameters: queryParameters,
-          salesChannelsIds: salesChannelsIds);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
-    }
+    throw UnimplementedError();
+    // try {
+    //   final result = await _apiKeyRepository.addSalesChannels(
+    //       id: id, queryParameters: queryParameters, salesChannelsIds: salesChannelsIds);
+    //   return Success(result!);
+    // } catch (error) {
+    //   return Error(Failure.from(error));
+    // }
   }
 
-  Future<Result<PublishableApiKey, Failure>> removeSalesChannels(
+  Future<Result<ApiKey, MedusaError>> removeSalesChannels(
       String id, List<String> salesChannelsIds,
       {Map<String, dynamic>? queryParameters}) async {
-    try {
-      final result = await _apiKeyRepository.deleteSalesChannels(
-          id: id,
-          queryParameters: queryParameters,
-          salesChannelsIds: salesChannelsIds);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
-    }
+    throw UnimplementedError();
+    // try {
+    //   final result = await _apiKeyRepository.deleteSalesChannels(
+    //       id: id, queryParameters: queryParameters, salesChannelsIds: salesChannelsIds);
+    //   return Success(result!);
+    // } catch (error) {
+    //   return Error(Failure.from(error));
+    // }
   }
 }

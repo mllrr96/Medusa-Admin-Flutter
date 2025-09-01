@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -10,7 +10,7 @@ class UpdateStoreUseCase {
 
   static UpdateStoreUseCase get instance => getIt<UpdateStoreUseCase>();
 
-  Future<Result<Store, Failure>> call(StorePostReq storePostReq) async {
+  Future<Result<Store, MedusaError>> call(StorePostReq storePostReq) async {
     try {
       final result = await _storeRepository.update(storePostReq: storePostReq);
       return Success(result!);

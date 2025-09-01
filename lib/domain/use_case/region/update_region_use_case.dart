@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -12,7 +12,7 @@ class UpdateRegionUseCase {
 
   static UpdateRegionUseCase get instance => getIt<UpdateRegionUseCase>();
 
-  Future<Result<List<PaymentProvider>, Failure>> fetchPaymentProviders() async {
+  Future<Result<List<PaymentProvider>, MedusaError>> fetchPaymentProviders() async {
     try {
       final result = await _storeRepository.retrievePaymentProviders();
       return Success(result!);
@@ -21,7 +21,7 @@ class UpdateRegionUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> create(
+  Future<Result<Region, MedusaError>> create(
       CreateRegionReq userCreateRegionReq) async {
     try {
       final result = await _regionsRepository.create(
@@ -32,7 +32,7 @@ class UpdateRegionUseCase {
     }
   }
 
-  Future<Result<Region, Failure>> update({
+  Future<Result<Region, MedusaError>> update({
     required String id,
     required UpdateRegionReq userUpdateRegionReq,
   }) async {

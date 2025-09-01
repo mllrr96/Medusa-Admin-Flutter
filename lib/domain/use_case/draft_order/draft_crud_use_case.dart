@@ -1,88 +1,133 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart' hide Order;
-import 'package:medusa_admin/core/error/failure.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class DraftCrudUseCase {
-  DraftOrderRepository get _draftRepository =>
-      getIt<MedusaAdmin>().draftOrderRepository;
+  DraftOrdersRepository get _draftRepository => _medusaAdminV2.draftOrders;
+  final MedusaAdminV2 _medusaAdminV2;
+
+  DraftCrudUseCase(this._medusaAdminV2);
   static DraftCrudUseCase get instance => getIt<DraftCrudUseCase>();
 
-  Future<Result<DraftOrder, Failure>> retrieveDraftOrder({
+  Future<Result<DraftOrder, MedusaError>> retrieveDraftOrder({
+    required String id,
+    String? fields,
+  }) async {
+    try {
+      final result = await _draftRepository.getDraftOrder(
+          id, fields: fields );
+      return Success(result.draftOrder);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+
+  // TODO: fix this
+  Future<Result<DraftOrdersRes, MedusaError>> retrieveDraftOrders({
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final result =
+          await _draftRepository.getDraftOrders();
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error) {
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+    }
+  }
+
+  Future<Result<DeleteDraftOrderRes, MedusaError>> cancelDraft({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftRepository.retrieveDraftOrder(
-          id: id, queryParameters: queryParameters);
-      return Success(result!);
+      final result = await _draftRepository.delete(id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DraftOrdersRes, Failure>> retrieveDraftOrders({
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final result = await _draftRepository.retrieveDraftOrders(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
-    }
-  }
-
-  Future<Result<DeleteDraftOrderRes, Failure>> cancelDraft({
-    required String id,
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final result = await _draftRepository.deleteDraftOrder(id: id);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
-    }
-  }
-
-  Future<Result<DraftOrder, Failure>> update({
+  Future<Result<DraftOrder, MedusaError>> update({
     required String id,
     required UpdateDraftOrderReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftRepository.updateDraftOrder(
-          id: id, userUpdateDraftOrderReq: payload);
-      return Success(result!);
+      final result = await _draftRepository.update(id, payload);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DraftOrder, Failure>> create({
+  Future<Result<DraftOrder, MedusaError>> create({
     required CreateDraftOrderReq payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftRepository.createDraftOrder(
-          userCreateDraftOrderReq: payload);
-      return Success(result!);
+      final result = await _draftRepository.create(payload);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<Order, Failure>> registerPayment({
+  Future<Result<Order, MedusaError>> registerPayment({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftRepository.registerPayment(id: id);
-      return Success(result!);
+      final result = await _draftRepository.registerPayment(id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
     } catch (error) {
-      return Error(Failure.from(error));
+      return Error(
+          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

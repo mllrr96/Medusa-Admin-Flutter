@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../../core/di/di.dart';
@@ -10,7 +10,7 @@ class ShippingProfileCrudUseCase {
   ShippingProfileRepository get _shippingProfileRepository =>
       getIt<MedusaAdmin>().shippingProfileRepository;
 
-  Future<Result<ShippingProfile, Failure>> create(
+  Future<Result<ShippingProfile, MedusaError>> create(
       CreateShippingProfileReq userCreateShippingProfileReq) async {
     try {
       final result = await _shippingProfileRepository.create(
@@ -21,7 +21,7 @@ class ShippingProfileCrudUseCase {
     }
   }
 
-  Future<Result<ShippingProfile, Failure>> update(
+  Future<Result<ShippingProfile, MedusaError>> update(
       {required String id,
       required UpdateShippingProfileReq
           userUpdateShippingProfileReq}) async {
@@ -34,7 +34,7 @@ class ShippingProfileCrudUseCase {
     }
   }
 
-  Future<Result<RetrieveAllShippingProfileRes, Failure>> loadAll(
+  Future<Result<RetrieveAllShippingProfileRes, MedusaError>> loadAll(
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingProfileRepository.retrieveAll(
@@ -45,7 +45,7 @@ class ShippingProfileCrudUseCase {
     }
   }
 
-  Future<Result<ShippingProfile, Failure>> load(String id,
+  Future<Result<ShippingProfile, MedusaError>> load(String id,
       {Map<String, dynamic>? queryParams}) async {
     try {
       final result = await _shippingProfileRepository.retrieve(
@@ -56,7 +56,7 @@ class ShippingProfileCrudUseCase {
     }
   }
 
-  Future<Result<DeleteShippingProfileRes, Failure>> delete(
+  Future<Result<DeleteShippingProfileRes, MedusaError>> delete(
       String id) async {
     try {
       final result = await _shippingProfileRepository.delete(id: id);

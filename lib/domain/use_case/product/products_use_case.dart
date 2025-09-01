@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin_dart_client/medusa_admin.dart';
+import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
@@ -9,7 +9,7 @@ class ProductsUseCase {
   ProductsRepository get _productsRepository =>
       getIt<MedusaAdmin>().productsRepository;
   static ProductsUseCase get instance => getIt<ProductsUseCase>();
-  Future<Result<ProductsListRes, Failure>> fetchProducts({
+  Future<Result<ProductsListRes, MedusaError>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -21,7 +21,7 @@ class ProductsUseCase {
     }
   }
 
-  Future<Result<DeleteProductRes, Failure>> delete({
+  Future<Result<DeleteProductRes, MedusaError>> delete({
     required String id,
   }) async {
     try {
@@ -32,7 +32,7 @@ class ProductsUseCase {
     }
   }
 
-  Future<Result<Product, Failure>> update({
+  Future<Result<Product, MedusaError>> update({
     required String id,
     required PostUpdateProductReq userPostUpdateProductReq,
   }) async {
@@ -44,7 +44,7 @@ class ProductsUseCase {
       return Error(Failure.from(error));
     }
   }
-  Future<Result<Product, Failure>> add(PostProductReq userPostProductReq
+  Future<Result<Product, MedusaError>> add(PostProductReq userPostProductReq
   ) async {
     try {
       final result = await _productsRepository.add(userPostProductReq: userPostProductReq);
