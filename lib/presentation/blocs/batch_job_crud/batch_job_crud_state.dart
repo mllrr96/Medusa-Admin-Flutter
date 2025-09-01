@@ -7,5 +7,5 @@ class BatchJobCrudState with _$BatchJobCrudState {
   const factory BatchJobCrudState.batchJob(BatchJob batchJob) = _BatchJob;
   const factory BatchJobCrudState.batchJobs(
       List<BatchJob> batchJobs, int count) = _BatchJobs;
-  const factory BatchJobCrudState.error(Failure failure) = _Error;
+  const factory BatchJobCrudState.error(MedusaError failure) = _Error;
 }

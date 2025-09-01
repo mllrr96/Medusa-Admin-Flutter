@@ -16,8 +16,18 @@ class ProductsUseCase {
       final result = await _productsRepository.retrieveAll(
           queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -27,8 +37,18 @@ class ProductsUseCase {
     try {
       final result = await _productsRepository.delete(id: id);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -40,8 +60,18 @@ class ProductsUseCase {
       final result = await _productsRepository.update(
           id: id, userPostUpdateProductReq: userPostUpdateProductReq);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
   Future<Result<Product, MedusaError>> add(PostProductReq userPostProductReq
@@ -49,8 +79,18 @@ class ProductsUseCase {
     try {
       final result = await _productsRepository.add(userPostProductReq: userPostProductReq);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

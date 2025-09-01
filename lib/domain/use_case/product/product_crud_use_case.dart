@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
@@ -5,45 +9,80 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
-class ProductCrudUseCase{
-  ProductsRepository get _productsRepository =>
-      getIt<MedusaAdmin>().productsRepository;
+class ProductCrudUseCase {
+  final MedusaAdminV2 _medusaAdmin;
+
+  ProductCrudUseCase(this._medusaAdmin);
+
+  ProductsRepository get _productsRepository => _medusaAdmin.products;
+
   static ProductCrudUseCase get instance => getIt<ProductCrudUseCase>();
-  Future<Result<Product, MedusaError>> fetchProduct(String id,{
+
+  Future<Result<Product, MedusaError>> fetchProduct(
+    String id, {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.retrieve(id,
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      final result = await _productsRepository.retrieve(id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<ProductsListRes, MedusaError>> fetchProducts({
+  Future<Result<ProductsRes, MedusaError>> fetchProducts({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.retrieveAll(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      final result = await _productsRepository.retrieveAll(queryParameters: queryParameters);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<List<ProductVariant>, MedusaError>> fetchVariants({
+  Future<Result<List<ProductVariant>, MedusaError>> fetchVariants(
+    String id, {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _productsRepository.retrieveVariants(
-          queryParameters: queryParameters);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      final result = await _productsRepository.listVariants(id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
+
   Future<Result<DeleteProductRes, MedusaError>> deleteProduct({
     required String id,
     Map<String, dynamic>? queryParameters,
@@ -51,8 +90,18 @@ class ProductCrudUseCase{
     try {
       final result = await _productsRepository.delete(id: id);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -64,10 +113,21 @@ class ProductCrudUseCase{
     try {
       final result = await _productsRepository.update(id: id, userPostUpdateProductReq: payload);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
+
   Future<Result<Product, MedusaError>> createProduct({
     required PostProductReq payload,
     Map<String, dynamic>? queryParameters,
@@ -75,8 +135,18 @@ class ProductCrudUseCase{
     try {
       final result = await _productsRepository.add(userPostProductReq: payload);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

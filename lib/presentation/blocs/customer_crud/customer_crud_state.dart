@@ -7,5 +7,5 @@ class CustomerCrudState with _$CustomerCrudState {
   const factory CustomerCrudState.customer(Customer customer) = _Customer;
   const factory CustomerCrudState.customers(List<Customer> customers, int count) = _Customers;
   const factory CustomerCrudState.deleted() = _Deleted;
-  const factory CustomerCrudState.error(Failure failure) = _Error;
+  const factory CustomerCrudState.error(MedusaError failure) = _Error;
 }

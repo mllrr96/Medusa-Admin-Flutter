@@ -9,5 +9,5 @@ class ShippingOptionCrudState with _$ShippingOptionCrudState {
       ShippingOption shippingOption) = _ShippingOption;
   const factory ShippingOptionCrudState.shippingOptions(
       List<ShippingOption> shippingOptions, int count) = _ShippingOptions;
-  const factory ShippingOptionCrudState.error(Failure failure) = _Error;
+  const factory ShippingOptionCrudState.error(MedusaError failure) = _Error;
 }

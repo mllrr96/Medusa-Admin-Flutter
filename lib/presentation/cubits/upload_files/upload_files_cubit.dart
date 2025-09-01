@@ -4,24 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/file/delete_file_use_case.dart';
 import 'package:medusa_admin/domain/use_case/file/get_file_url_use_case.dart';
 import 'package:medusa_admin/domain/use_case/file/upload_use_case.dart';
 
 part 'upload_files_state.dart';
+
 part 'upload_files_cubit.freezed.dart';
 
 @injectable
 class UploadFilesCubit extends Cubit<UploadFilesState> {
-  UploadFilesCubit(
-      this.uploadUseCase, this.deleteFileUseCase, this.getFileUrlUseCase)
+  UploadFilesCubit(this.uploadUseCase, this.deleteFileUseCase, this.getFileUrlUseCase)
       : super(const _Initial());
 
   Future<void> uploadFiles(List<File> files) async {
     emit(const _Uploading());
     final result = await uploadUseCase(files);
-    result.when((urls) {
+    result.when((result) {
+      final urls = result.map((e) => e.url).toList();
       emit(_Uploaded(urls));
     }, (error) {
       emit(_Error(error));
@@ -42,7 +43,7 @@ class UploadFilesCubit extends Cubit<UploadFilesState> {
     emit(const _Uploading());
     final result = await getFileUrlUseCase(url);
     result.when((url) {
-      emit(_Uploaded([url]));
+      emit(_Uploaded([url.url]));
     }, (error) {
       emit(_Error(error));
     });
@@ -51,5 +52,6 @@ class UploadFilesCubit extends Cubit<UploadFilesState> {
   final UploadUseCase uploadUseCase;
   final DeleteFileUseCase deleteFileUseCase;
   final GetFileUrlUseCase getFileUrlUseCase;
+
   static UploadFilesCubit get instance => getIt<UploadFilesCubit>();
 }

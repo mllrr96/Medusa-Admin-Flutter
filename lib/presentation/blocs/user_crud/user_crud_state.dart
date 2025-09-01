@@ -9,5 +9,5 @@ class UserCrudState with _$UserCrudState {
   const factory UserCrudState.deleted() = _Deleted;
   const factory UserCrudState.passwordResetRequested() = _PasswordResetRequested;
   const factory UserCrudState.passwordReset() = _PasswordReset;
-  const factory UserCrudState.error(Failure failure) = _Error;
+  const factory UserCrudState.error(MedusaError failure) = _Error;
 }

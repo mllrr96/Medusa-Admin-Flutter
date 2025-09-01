@@ -34,8 +34,7 @@ class DraftCrudUseCase {
   }
 
 
-  // TODO: fix this
-  Future<Result<DraftOrdersRes, MedusaError>> retrieveDraftOrders({
+  Future<Result<DraftOrderListResponse, MedusaError>> retrieveDraftOrders({
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
@@ -54,13 +53,13 @@ class DraftCrudUseCase {
     }
   }
 
-  Future<Result<DeleteDraftOrderRes, MedusaError>> cancelDraft({
+  Future<Result<Unit, MedusaError>> cancelDraft({
     required String id,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftRepository.delete(id);
-      return Success(result);
+       await _draftRepository.cancelEdit(id);
+      return Success(unit);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -75,12 +74,12 @@ class DraftCrudUseCase {
 
   Future<Result<DraftOrder, MedusaError>> update({
     required String id,
-    required UpdateDraftOrderReq payload,
+    required UpdateDraftOrder payload,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final result = await _draftRepository.update(id, payload);
-      return Success(result);
+      final result = await _draftRepository.updateDraftOrder(id, payload);
+      return Success(result.draftOrder);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -94,12 +93,12 @@ class DraftCrudUseCase {
   }
 
   Future<Result<DraftOrder, MedusaError>> create({
-    required CreateDraftOrderReq payload,
-    Map<String, dynamic>? queryParameters,
+    required PostDraftOrdersReq payload,
+    String? fields,
   }) async {
     try {
-      final result = await _draftRepository.create(payload);
-      return Success(result);
+      final result = await _draftRepository.createDraftOrder(payload, fields: fields);
+      return Success(result.draftOrder);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,
@@ -112,22 +111,22 @@ class DraftCrudUseCase {
     }
   }
 
-  Future<Result<Order, MedusaError>> registerPayment({
-    required String id,
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final result = await _draftRepository.registerPayment(id);
-      return Success(result);
-    } on DioException catch (e) {
-      return Error(MedusaError.fromHttp(
-        status: e.response?.statusCode,
-        body: e.response?.data,
-        cause: e,
-      ));
-    } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
-    }
-  }
+  // Future<Result<Order, MedusaError>> registerPayment({
+  //   required String id,
+  //   Map<String, dynamic>? queryParameters,
+  // }) async {
+  //   try {
+  //     final result = await _draftRepository.registerPayment(id);
+  //     return Success(result);
+  //   } on DioException catch (e) {
+  //     return Error(MedusaError.fromHttp(
+  //       status: e.response?.statusCode,
+  //       body: e.response?.data,
+  //       cause: e,
+  //     ));
+  //   } catch (error) {
+  //     return Error(
+  //         MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+  //   }
+  // }
 }

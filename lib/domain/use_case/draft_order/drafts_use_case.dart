@@ -11,14 +11,16 @@ class DraftsUseCase {
   final MedusaAdminV2 _medusaAdminV2;
 
   DraftsUseCase(this._medusaAdminV2);
+
   static DraftsUseCase get instance => getIt<DraftsUseCase>();
 
-  Future<Result<DraftOrdersRes, MedusaError>> call({
-    Map<String, dynamic>? queryParameters,
+  Future<Result<DraftOrderListResponse, MedusaError>> call({
+    GetDraftOrdersQuery? queryParameters,
   }) async {
     try {
-      final result = await _draftOrderRepository.list(
-          queryParameters: queryParameters);
+      final result = await _draftOrderRepository.getDraftOrders(
+        queryParameters: queryParameters,
+      );
       return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
@@ -27,8 +29,7 @@ class DraftsUseCase {
         cause: e,
       ));
     } catch (error) {
-      return Error(
-          MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

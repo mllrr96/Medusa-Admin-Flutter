@@ -7,5 +7,5 @@ class GroupCrudState with _$GroupCrudState {
   const factory GroupCrudState.group(CustomerGroup group) = _Group;
   const factory GroupCrudState.groups(List<CustomerGroup> groups, int count) = _Groups;
   const factory GroupCrudState.deleted() = _Deleted;
-  const factory GroupCrudState.error(Failure failure) = _Error;
+  const factory GroupCrudState.error(MedusaError failure) = _Error;
 }

@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -6,35 +10,54 @@ import 'package:medusa_admin/core/error/medusa_error.dart';
 
 @lazySingleton
 class UpdateGroupUseCase {
-  static UpdateGroupUseCase get instance => getIt<UpdateGroupUseCase>();
-  CustomerGroupRepository get _customerGroupRepository =>
-      getIt<MedusaAdmin>().customerGroupRepository;
+  final MedusaAdminV2 _medusaAdmin;
 
-  Future<Result<CustomerGroup, MedusaError>> updateCustomerGroup(
-      {required String id,
-      required String name,
-      Map<String, dynamic>? metadata,
-      Map<String, dynamic>? queryParameters,
-      }) async {
+  UpdateGroupUseCase(this._medusaAdmin);
+
+  static UpdateGroupUseCase get instance => getIt<UpdateGroupUseCase>();
+
+  CustomerGroupsRepository get _customerGroupRepository => _medusaAdmin.customerGroups;
+
+  Future<Result<CustomerGroup, MedusaError>> updateCustomerGroup({
+    required String id,
+    required UpdateCustomerGroupReq payload,
+  }) async {
     try {
-      final result = await _customerGroupRepository.updateCustomerGroup(
-          queryParameters: queryParameters, id: id, name: name, metadata: metadata);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _customerGroupRepository.update(id, payload);
+      return Success(result.customerGroup);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<CustomerGroup, MedusaError>> createCustomerGroup(
-      {required String name,
-        Map<String, dynamic>? metadata,
-        Map<String, dynamic>? queryParameters,}) async {
+  Future<Result<CustomerGroup, MedusaError>> createCustomerGroup({
+    required CreateCustomerGroupReq payload,
+  }) async {
     try {
-      final result = await _customerGroupRepository.createCustomerGroup(
-          queryParameters: queryParameters, name: name, metadata: metadata);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _customerGroupRepository.create(payload);
+      return Success(result.customerGroup);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

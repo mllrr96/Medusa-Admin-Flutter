@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/discount/discount_crud_use_case.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 

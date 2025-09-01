@@ -6,5 +6,5 @@ class UploadFilesState with _$UploadFilesState {
   const factory UploadFilesState.uploading() = _Uploading;
   const factory UploadFilesState.deleted() = _Deleted;
   const factory UploadFilesState.uploaded(List<String> urls) = _Uploaded;
-  const factory UploadFilesState.error(Failure failure) = _Error;
+  const factory UploadFilesState.error(MedusaError failure) = _Error;
 }

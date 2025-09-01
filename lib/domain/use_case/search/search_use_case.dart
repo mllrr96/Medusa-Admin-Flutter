@@ -3,7 +3,9 @@ import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
-
+import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 @lazySingleton
 class SearchUseCase {
   ProductsRepository get _productsRepository =>
@@ -40,8 +42,18 @@ class SearchUseCase {
       final result = await _salesChannelRepository.retrieveAll(
           queryParams: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -52,8 +64,18 @@ class SearchUseCase {
       final result = await _tagRepository.retrieveProductTags(
           queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -64,8 +86,18 @@ class SearchUseCase {
       final result = await _productsRepository.retrieveAll(
           queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -76,8 +108,18 @@ class SearchUseCase {
       final result = await _giftCardRepository.retrieveGiftCards(
           queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -148,8 +190,18 @@ class SearchUseCase {
       final result = await _collectionRepository.retrieveAll(
           queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -172,8 +224,18 @@ class SearchUseCase {
       final result = await _draftOrderRepository.retrieveDraftOrders(
           queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
@@ -6,29 +10,50 @@ import 'package:medusa_admin/core/error/medusa_error.dart';
 
 @lazySingleton
 class GroupsUseCase {
-  static GroupsUseCase get instance => getIt<GroupsUseCase>();
-  CustomerGroupRepository get _customerGroupRepository =>
-      getIt<MedusaAdmin>().customerGroupRepository;
+  final MedusaAdminV2 _medusaAdmin;
 
-  Future<Result<RetrieveCustomerGroupsRes, MedusaError>> retrieveCustomerGroups(
+  GroupsUseCase(this._medusaAdmin);
+  static GroupsUseCase get instance => getIt<GroupsUseCase>();
+  CustomerGroupsRepository get _customerGroupRepository => _medusaAdmin.customerGroups;
+
+  Future<Result<CustomerGroupsListRes, MedusaError>> retrieveCustomerGroups(
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _customerGroupRepository.retrieveCustomerGroups(
+      final result = await _customerGroupRepository.list(
           queryParameters: queryParameters);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
-  Future<Result<DeleteCustomerGroupRes, MedusaError>> deleteCustomerGroup(
+  Future<Result<CustomerGroupsDeleteRes, MedusaError>> deleteCustomerGroup(
       {required String id, Map<String, dynamic>? queryParameters}) async {
     try {
-      final result = await _customerGroupRepository.deleteCustomerGroup(
-          queryParameters: queryParameters, id: id);
-      return Success(result!);
-    } catch (e) {
-      return Error(Failure.from(e));
+      final result = await _customerGroupRepository.delete(id);
+      return Success(result);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

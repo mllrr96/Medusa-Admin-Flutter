@@ -18,8 +18,18 @@ class OrdersFilterUseCase {
       final regions = await _regionsRepository.retrieveAll();
       final channels = await _salesChannelRepository.retrieveAll();
       return Success((regions!, channels!));
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

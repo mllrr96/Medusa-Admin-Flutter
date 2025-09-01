@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/extension/context_extension.dart';
 import 'package:medusa_admin/core/extension/copy_with_line_item.dart';
 import 'package:medusa_admin/data/models/select_products_req.dart';

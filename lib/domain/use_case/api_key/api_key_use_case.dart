@@ -106,22 +106,21 @@ class ApiKeyUseCase {
     }
   }
 
-  // TODO : handle this
-  Future<Result<Unit, MedusaError>> loadAllSalesChannels(String id,
-      {Map<String, dynamic>? queryParameters}) async {
-    try {
-      final result = await _apiKeyRepository.salesChannels(id, queryParameters ?? {});
-      return Success(unit);
-    } on DioException catch (e) {
-      return Error(MedusaError.fromHttp(
-        status: e.response?.statusCode,
-        body: e.response?.data,
-        cause: e,
-      ));
-    } catch (error) {
-      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
-    }
-  }
+  // Future<Result<Unit, MedusaError>> loadAllSalesChannels(String id,
+  //     {Map<String, dynamic>? queryParameters}) async {
+  //   try {
+  //     final result = await _apiKeyRepository.salesChannels(id, queryParameters ?? {});
+  //     return Success(unit);
+  //   } on DioException catch (e) {
+  //     return Error(MedusaError.fromHttp(
+  //       status: e.response?.statusCode,
+  //       body: e.response?.data,
+  //       cause: e,
+  //     ));
+  //   } catch (error) {
+  //     return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
+  //   }
+  // }
 
   Future<Result<ApiKey, MedusaError>> addSalesChannels(
       String id, List<String> salesChannelsIds,

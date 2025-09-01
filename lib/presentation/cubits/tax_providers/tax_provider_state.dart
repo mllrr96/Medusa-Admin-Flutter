@@ -5,5 +5,5 @@ class TaxProviderState with _$TaxProviderState {
   const factory TaxProviderState.initial() = _Initial;
   const factory TaxProviderState.loading() = _Loading;
   const factory TaxProviderState.taxProviders(List<TaxProvider> taxProviders) = _Loaded;
-  const factory TaxProviderState.error(Failure failure) = _Error;
+  const factory TaxProviderState.error(MedusaError failure) = _Error;
 }

@@ -9,5 +9,5 @@ class CategoryCrudState with _$CategoryCrudState {
   const factory CategoryCrudState.categories(
       List<ProductCategory> categories, int count) = _Categories;
   const factory CategoryCrudState.deleted() = _Deleted;
-  const factory CategoryCrudState.error(Failure failure) = _Error;
+  const factory CategoryCrudState.error(MedusaError failure) = _Error;
 }

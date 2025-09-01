@@ -6,5 +6,5 @@ class CurrenciesState with _$CurrenciesState {
   const factory CurrenciesState.loading() = _Loading;
   const factory CurrenciesState.currencies(
       List<Currency> currencies, int count) = _Currencies;
-  const factory CurrenciesState.error(Failure failure) = _Error;
+  const factory CurrenciesState.error(MedusaError failure) = _Error;
 }

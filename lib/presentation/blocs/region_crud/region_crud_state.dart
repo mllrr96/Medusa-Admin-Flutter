@@ -8,5 +8,5 @@ class RegionCrudState with _$RegionCrudState {
   const factory RegionCrudState.regions(List<Region> regions, int count) = _Regions;
   const factory RegionCrudState.fulfillmentOptions(List<FulfillmentOption> fulfillmentOptions) = _FulfillmentOptions;
   const factory RegionCrudState.deleted() = _Deleted;
-  const factory RegionCrudState.error(Failure failure) = _Error;
+  const factory RegionCrudState.error(MedusaError failure) = _Error;
 }

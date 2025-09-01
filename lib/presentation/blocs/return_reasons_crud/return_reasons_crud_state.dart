@@ -7,5 +7,5 @@ class ReturnReasonsCrudState with _$ReturnReasonsCrudState {
   const factory ReturnReasonsCrudState.returnReason(ReturnReason returnReason) = _ReturnReason;
   const factory ReturnReasonsCrudState.returnReasons(List<ReturnReason> returnReasons, int count) = _ReturnReasons;
   const factory ReturnReasonsCrudState.deleted() = _Deleted;
-  const factory ReturnReasonsCrudState.error(Failure failure) = _Error;
+  const factory ReturnReasonsCrudState.error(MedusaError failure) = _Error;
 }

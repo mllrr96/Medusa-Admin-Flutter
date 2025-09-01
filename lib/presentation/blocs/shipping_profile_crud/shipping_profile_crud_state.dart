@@ -9,5 +9,5 @@ class ShippingProfileCrudState with _$ShippingProfileCrudState {
   const factory ShippingProfileCrudState.shippingProfiles(
       List<ShippingProfile> shippingProfiles, int count) = _ShippingProfiles;
   const factory ShippingProfileCrudState.deleted() = _Deleted;
-  const factory ShippingProfileCrudState.error(Failure failure) = _Error;
+  const factory ShippingProfileCrudState.error(MedusaError failure) = _Error;
 }

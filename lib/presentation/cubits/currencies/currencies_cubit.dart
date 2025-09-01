@@ -2,11 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medusa_admin/core/di/di.dart';
-import 'package:medusa_admin/core/error/failure.dart';
+import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/domain/use_case/currency/currencies_use_case.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 
 part 'currencies_state.dart';
+
 part 'currencies_cubit.freezed.dart';
 
 @injectable
@@ -24,13 +25,13 @@ class CurrenciesCubit extends Cubit<CurrenciesState> {
       ...?queryParameters,
     });
     result.when(
-      (response) =>
-          emit(_Currencies(response.currencies ?? [], response.count ?? 0)),
-      (error) => emit(_Error(Failure.from(error))),
+      (response) => emit(_Currencies(response.currencies, response.count)),
+      (e) => emit(_Error(e)),
     );
   }
 
   final CurrenciesUseCase _useCase;
   static int pageSize = 10;
+
   static CurrenciesCubit get instance => getIt<CurrenciesCubit>();
 }

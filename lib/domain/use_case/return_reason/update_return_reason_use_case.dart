@@ -3,36 +3,58 @@ import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 @lazySingleton
 class UpdateReturnReasonUseCase {
-  ReturnReasonRepository get _returnReasonRepository =>
-      getIt<MedusaAdmin>().returnReasonRepository;
+  final MedusaAdminV2 _medusaAdmin;
 
-  static UpdateReturnReasonUseCase get instance =>
-      getIt<UpdateReturnReasonUseCase>();
+  UpdateReturnReasonUseCase(this._medusaAdmin);
 
-  Future<Result<ReturnReason, MedusaError>> create(
-      CreateReturnReasonReq userCreateReturnReasonReq) async {
+  ReturnReasonsRepository get _returnReasonRepository => _medusaAdmin.returnReasons;
+
+  static UpdateReturnReasonUseCase get instance => getIt<UpdateReturnReasonUseCase>();
+
+  Future<Result<ReturnReason, MedusaError>> create(CreateReturnReason createReturnReason) async {
     try {
-      final result = await _returnReasonRepository.create(
-          userCreateReturnReasonReq: userCreateReturnReasonReq);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      final result = await _returnReasonRepository.create(createReturnReason);
+      return Success(result.returnReason);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
   Future<Result<ReturnReason, MedusaError>> update({
     required String id,
-    required UpdateReturnReasonReq userUpdateReturnReasonReq,
+    required UpdateReturnReason updateReturnReason,
   }) async {
     try {
-      final result = await _returnReasonRepository.update(
-          id: id, userUpdateReturnReasonReq: userUpdateReturnReasonReq);
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      final result = await _returnReasonRepository.update(id, updateReturnReason);
+      return Success(result.returnReason);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

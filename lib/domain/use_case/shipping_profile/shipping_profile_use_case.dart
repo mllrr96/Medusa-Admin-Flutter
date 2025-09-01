@@ -4,7 +4,9 @@ import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../../core/di/di.dart';
-
+import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 @lazySingleton
 class ShippingProfileCrudUseCase {
   ShippingProfileRepository get _shippingProfileRepository =>
@@ -16,8 +18,18 @@ class ShippingProfileCrudUseCase {
       final result = await _shippingProfileRepository.create(
           userCreateShippingProfileReq: userCreateShippingProfileReq);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -29,8 +41,18 @@ class ShippingProfileCrudUseCase {
       final result = await _shippingProfileRepository.update(
           userUpdateShippingProfileReq: userUpdateShippingProfileReq, id: id);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -40,8 +62,18 @@ class ShippingProfileCrudUseCase {
       final result = await _shippingProfileRepository.retrieveAll(
           queryParams: queryParams);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -51,8 +83,18 @@ class ShippingProfileCrudUseCase {
       final result = await _shippingProfileRepository.retrieve(
           id: id, queryParams: queryParams);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -61,8 +103,18 @@ class ShippingProfileCrudUseCase {
     try {
       final result = await _shippingProfileRepository.delete(id: id);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }

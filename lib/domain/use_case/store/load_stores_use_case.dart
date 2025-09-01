@@ -3,26 +3,26 @@ import 'package:medusa_admin/core/error/medusa_error.dart';
 import 'package:medusa_admin/core/di/di.dart';
 import 'package:medusa_admin_dart_client/medusa_admin_dart_client_v2.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 @lazySingleton
-class RetrieveExportedOrdersUseCase {
-  BatchJobsRepository get _batchJobsRepository =>
-      getIt<MedusaAdmin>().batchJobsRepository;
+class LoadStoresUseCase {
+  final MedusaAdminV2 _medusaAdmin;
 
-  static RetrieveExportedOrdersUseCase get instance =>
-      getIt<RetrieveExportedOrdersUseCase>();
+  LoadStoresUseCase(this._medusaAdmin);
 
-  Future<Result<List<BatchJob>, MedusaError>> call(
-      {Map<String, dynamic>? queryParameters}) async {
+  StoreRepository get _storeRepository => _medusaAdmin.store;
+
+  static LoadStoresUseCase get instance => getIt<LoadStoresUseCase>();
+
+  Future<Result<StoreListRes, MedusaError>> call(
+    Map<String, dynamic>? query,
+  ) async {
     try {
-      final result = await _batchJobsRepository.retrieveBatchJobs(
-          queryParameters: queryParameters);
-      if (result != null) {
-        return Success(result.batchJobs ?? []);
-      } else {
-        return Error(
-            Failure.from('Error retrieving exported orders, unknown error'));
-      }
+      final result = await _storeRepository.list(query: query);
+      return Success(result);
     } on DioException catch (e) {
       return Error(MedusaError.fromHttp(
         status: e.response?.statusCode,

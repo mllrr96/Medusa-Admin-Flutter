@@ -8,6 +8,6 @@ class SalesChannelCrudState with _$SalesChannelCrudState {
       _SalesChannel;
   const factory SalesChannelCrudState.salesChannels(
       List<SalesChannel> salesChannels, int count) = _SalesChannels;
-  const factory SalesChannelCrudState.error(Failure failure) = _Error;
+  const factory SalesChannelCrudState.error(MedusaError failure) = _Error;
   const factory SalesChannelCrudState.deleted() = _Deleted;
 }

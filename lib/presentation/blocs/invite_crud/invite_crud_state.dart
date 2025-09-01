@@ -8,6 +8,6 @@ class InviteCrudState with _$InviteCrudState {
   const factory InviteCrudState.deleted() = _Deleted;
   const factory InviteCrudState.resent() = _Resent;
   const factory InviteCrudState.accepted() = _Accepted;
-  const factory InviteCrudState.error(Failure failure) = _Error;
+  const factory InviteCrudState.error(MedusaError failure) = _Error;
   const factory InviteCrudState.invites(List<Invite> invites) = _Invites;
 }

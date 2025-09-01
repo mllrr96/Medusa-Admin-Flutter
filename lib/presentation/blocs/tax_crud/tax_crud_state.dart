@@ -7,5 +7,5 @@ class TaxCrudState with _$TaxCrudState {
   const factory TaxCrudState.taxRate(TaxRate taxRate) = _TaxRate;
   const factory TaxCrudState.taxRates(List<TaxRate> taxRates, int count) = _TaxRates;
   const factory TaxCrudState.deleted() = _Deleted;
-  const factory TaxCrudState.error(Failure failure) = _Error;
+  const factory TaxCrudState.error(MedusaError failure) = _Error;
 }

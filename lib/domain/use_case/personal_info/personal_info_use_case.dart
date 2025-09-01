@@ -6,18 +6,31 @@ import 'package:multiple_result/multiple_result.dart';
 
 @lazySingleton
 class PersonalInfoCrudUseCase {
-  UserRepository get _userRepository => getIt<MedusaAdmin>().userRepository;
-  AuthRepository get _authRepository => getIt<MedusaAdmin>().authRepository;
+  final MedusaAdminV2 _medusaAdmin;
+
+  PersonalInfoCrudUseCase(this._medusaAdmin);
+  UsersRepository get _userRepository => _medusaAdmin.users;
+  AuthRepository get _authRepository =>  _medusaAdmin.auth;
 
   static PersonalInfoCrudUseCase get instance =>
       getIt<PersonalInfoCrudUseCase>();
 
   Future<Result<User, MedusaError>> currentUser() async {
     try {
-      final result = await _authRepository.getCurrentUser();
-      return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+      final result = await _authRepository.login();
+      return Success(result.user);
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -25,8 +38,18 @@ class PersonalInfoCrudUseCase {
     try {
       final result = await _userRepository.retrieve(id: id);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -36,8 +59,18 @@ class PersonalInfoCrudUseCase {
       final result =
           await _userRepository.retrieveAll(queryParameters: queryParameters);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -49,8 +82,18 @@ class PersonalInfoCrudUseCase {
       final result = await _userRepository.update(
           id: id, userUpdateUserReq: payload);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -61,8 +104,18 @@ class PersonalInfoCrudUseCase {
       final result =
           await _userRepository.create(userCreateUserReq: payload);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -73,8 +126,18 @@ class PersonalInfoCrudUseCase {
       final result = await _userRepository.resetPassword(
           userResetPasswordReq: payload);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -82,8 +145,18 @@ class PersonalInfoCrudUseCase {
     try {
       final result = await _userRepository.delete(id: id);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 
@@ -92,8 +165,18 @@ class PersonalInfoCrudUseCase {
     try {
       final result = await _userRepository.requestPasswordReset(email: email);
       return Success(result!);
-    } catch (error) {
-      return Error(Failure.from(error));
+    } on DioException catch (e) {
+      return Error(MedusaError.fromHttp(
+        status: e.response?.statusCode,
+        body: e.response?.data,
+        cause: e,
+      ));
+    } catch (error, stack) {
+      if (kDebugMode) {
+        log(error.toString());
+        log(stack.toString());
+      }
+      return Error(MedusaError(code: 'unknown', type: 'unknown', message: error.toString()));
     }
   }
 }
